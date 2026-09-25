@@ -1,0 +1,1 @@
+export { Sentence, insertSentence, batchInsertSentence } from './src/main/ets/model/Sentence';
