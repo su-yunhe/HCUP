@@ -1,0 +1,37 @@
+import { ImportDataList } from '../view/ImportDataList';
+
+@Builder
+export function ImportDataPageBuilder() {
+  ImportDataPage()
+}
+
+@ComponentV2
+export struct ImportDataPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack()
+
+  build() {
+    NavDestination() {
+      Scroll() {
+        ImportDataList()
+          .padding(16)
+      }
+      .align(Alignment.TopStart)
+      .width('100%')
+      .height('100%')
+      .edgeEffect(EdgeEffect.Spring)
+    }
+    .title($r('app.string.import_data'))
+    .menus([
+      {
+        value: "帮助",
+        icon: $r('app.media.ic_public_help'),
+        action: () => {
+          this.pageStack.pushPathByName('ImportDataHelpPage', null)
+        },
+      },
+    ])
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack
+    })
+  }
+}

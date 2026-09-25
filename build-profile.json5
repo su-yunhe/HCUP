@@ -1,0 +1,114 @@
+// Modified by Harmony Cup on 2026-09-25: remove local signing configuration.
+{
+  "app": {
+    "signingConfigs": [],
+    "products": [
+      {
+        "name": "default",
+        "targetSdkVersion": "6.0.1(21)",
+        "compatibleSdkVersion": "5.1.1(19)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": false
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "default",
+      "srcPath": "./products/default",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "srcPath": "./commons/utils"
+    },
+    {
+      "name": "uicomponents",
+      "srcPath": "./commons/uicomponents"
+    },
+    {
+      "name": "home",
+      "srcPath": "./features/home"
+    },
+    {
+      "name": "settings",
+      "srcPath": "./features/settings"
+    },
+    {
+      "name": "constants",
+      "srcPath": "./commons/constants"
+    },
+    {
+      "name": "classicpoem",
+      "srcPath": "./features/classicalliterature/classicpoem"
+    },
+    {
+      "name": "character",
+      "srcPath": "./features/chinese/character"
+    },
+    {
+      "name": "sentence",
+      "srcPath": "./features/classicalliterature/sentence"
+    },
+    {
+      "name": "bookmark",
+      "srcPath": "./features/bookmark"
+    },
+    {
+      "name": "worldcultureheritage",
+      "srcPath": "./features/china/worldcultureheritage"
+    },
+    {
+      "name": "expression",
+      "srcPath": "./features/chinese/expression"
+    },
+    {
+      "name": "idiom",
+      "srcPath": "./features/chinese/idiom"
+    },
+    {
+      "name": "antitheticalcouplet",
+      "srcPath": "./features/chinese/antitheticalcouplet"
+    },
+    {
+      "name": "knowledge",
+      "srcPath": "./features/chinese/knowledge"
+    },
+    {
+      "name": "quote",
+      "srcPath": "./features/chinese/quote"
+    },
+    {
+      "name": "color",
+      "srcPath": "./features/traditionalculture/color"
+    },
+    {
+      "name": "festival",
+      "srcPath": "./features/traditionalculture/festival"
+    },
+    {
+      "name": "solarterm",
+      "srcPath": "./features/traditionalculture/solarterm"
+    }
+  ]
+}
