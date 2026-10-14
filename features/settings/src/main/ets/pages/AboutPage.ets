@@ -1,5 +1,8 @@
-import { AppConst, ThemeConst } from 'constants';
+import { AppConst, Icon, ThemeConst } from 'constants';
 import { ContentText } from 'uicomponents';
+import { bundleManager } from '@kit.AbilityKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { hilog } from '@kit.PerformanceAnalysisKit';
 
 @Builder
 export function AboutPageBuilder() {
@@ -9,6 +12,7 @@ export function AboutPageBuilder() {
 @ComponentV2
 export struct AboutPage {
   @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local versionName: string = '';
   @Local desc: string = `
 『京墨文库』开源的中华文化阅读 APP。献给喜欢中华文字、文学、文化的人。
 
@@ -27,10 +31,44 @@ https://gitee.com/hefengbao/jingmo-for-HarmonyOS
 如果有人想要♥赞助♥本项目，可在公众号文章中赞赏👍。
   `;
 
+  aboutToAppear(): void {
+    // 每次进入页面都从已安装包读取版本名称，应用升级后自动显示新版本
+    try {
+      const bundleInfo = bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_DEFAULT);
+      this.versionName = bundleInfo.versionName;
+    } catch (error) {
+      const err = error as BusinessError;
+      hilog.error(0x0000, 'AboutPage', 'get bundleInfo failed, code: %{public}d, message: %{public}s',
+        err.code, err.message);
+    }
+  }
+
   build() {
     NavDestination() {
       Scroll() {
         Column() {
+          Column() {
+            Image(Icon.ic_app_icon)
+              .id('about_app_icon')
+              .width(80)
+              .height(80)
+              .objectFit(ImageFit.Cover)
+              .backgroundColor(Color.White)
+              .borderRadius(40)
+              .border({ width: 1, color: $r('sys.color.comp_divider') })
+              .clip(true)
+              .accessibilityText($r('app.string.app_icon_desc'))
+            if (this.versionName.length > 0) {
+              Text(this.versionName)
+                .id('about_version_name')
+                .margin({ top: 8 })
+                .fontSize(ThemeConst.FontSize_14)
+            }
+          }
+          .width('100%')
+          .alignItems(HorizontalAlign.Center)
+          .padding({ top: 24, bottom: 16 })
+
           ContentText({ text: '❤贺丰宝（hefengbao）设计和编码❤' })
           ContentText({ text: this.desc })
           ContentText({ text: '公众号：NowInLife' })
