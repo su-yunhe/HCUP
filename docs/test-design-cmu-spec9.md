@@ -3,10 +3,10 @@
 ## 1. 题目上下文
 
 - 题目 ID：cmu-spec9（悬浮歌词设置选项扩展）
-- Spec：`/Users/bress/Documents/code/SWE-OpenHarmony/specs/cmu-spec9.md`
+- Spec：题包 `SWE-OpenHarmony/specs/cmu-spec9.md`
 - `base_commit`：`dc94c44f2e6288dffd556f3ce311a834c2594af1`
 - `baseline_bundle`：`repo_bundles/cloudmusic-harmonyosnex-dc94c44f2e-base.bundle`
-- 工程路径：`/Users/bress/Documents/code/harmonycup-work/cmu-spec9`
+- 工程路径：`harmonycup-work/cmu-spec9`
 - 已确认的设备、登录、网络和数据前置条件：
   - 独立工程当前 HEAD 与 `base_commit` 一致，工作区存在未提交改动（新增 `FloatLyricsSettingsPage.ets`、修改 `Settings.ets`/`settings.ets`/`WindowUtils.ets`/`BottomBarComponent.ets`/`FloatingLyrics.ets`/`PlaySettingsPage.ets`/`SettingsPage.ets`/三份 `string.json`），已逐一核对 diff。
   - 本题功能为纯本地设置与窗口渲染，不依赖登录态和网络请求；但播放设置页/底部播放栏需要应用处于正常播放态（已有歌曲加载、`picUrl` 非空）才能展示双击封面交互。
