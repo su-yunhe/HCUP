@@ -1,9 +1,9 @@
 # spec/
 
-本目录只放**本题专属**内容。通用四阶段任务书不在这里，统一放在：
+本目录只放**本题专属**内容。通用四阶段任务书不在这里，统一放在（路径相对本工程）：
 
 ```
-/Users/bress/Documents/code/harmonycup-work/common/spec-harness/
+../common/spec-harness/
 ├── 0-analyze.md     阶段 0：验收矩阵 + 基线理解（不改代码）
 ├── 1-do.md          阶段 1：功能开发 + 自测
 ├── 2-submit.md      阶段 2：单题提交材料
@@ -14,7 +14,7 @@
 在本工程目录打开 Agent 会话，引用对应阶段的任务书即可，例如：
 
 ```
-@/Users/bress/Documents/code/harmonycup-work/common/spec-harness/1-do.md 完成这个任务
+@../common/spec-harness/1-do.md 完成这个任务
 ```
 
 ## 本目录文件
