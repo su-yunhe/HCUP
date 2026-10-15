@@ -3,7 +3,7 @@
 #   DIRTY       未提交的文件数
 #   AHEAD/BEHIND 相对团队远端同名分支领先/落后的提交数，"-" 表示尚未发布
 #   SINCE-BASE  基线 tag base/<名称> 之后的提交数
-# 用法: scripts/status.sh
+# 用法: common/scripts/status.sh
 set -u
 . "$(dirname "$0")/lib.sh"
 

@@ -1,7 +1,7 @@
 # 公共函数，由其他脚本 source，不单独执行。
 # 执行后当前目录切换到工作区根目录。
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT" || exit 1
 
 # 列出所有基线目录：根目录下含 .git（独立仓库为目录，worktree 为文件）的一级子目录

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # 同步 main（公共资源）和基线：先 pull --rebase 再 push。不带参数时同步全部，并补齐远端新增的基线。
 # 有未提交改动的目录会跳过，先 commit 再同步。
-# 用法: scripts/sync.sh [基线名...]
+# 用法: common/scripts/sync.sh [基线名...]
 set -u
 . "$(dirname "$0")/lib.sh"
 
@@ -14,7 +14,7 @@ if [ $# -eq 0 ]; then
   else
     { git pull -q --rebase origin main && git push -q origin main; } || failed="$failed main"
   fi
-  "$ROOT/scripts/setup.sh" || failed="$failed setup"
+  "$ROOT/common/scripts/setup.sh" || failed="$failed setup"
   set -- $(baselines)
 fi
 

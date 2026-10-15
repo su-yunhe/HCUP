@@ -2,11 +2,11 @@
 # 仅维护者执行：把根目录 main 和本地的独立基线仓库发布到团队远端。可重复执行。
 # 每个基线：推到同名分支，并打上 tag base/<名称>（取自 origin bundle 文件名里的 commit）。
 # 有未提交改动的仓库会跳过。
-# 用法: scripts/publish.sh <团队仓库地址> [基线名...]
+# 用法: common/scripts/publish.sh <团队仓库地址> [基线名...]
 set -u
 . "$(dirname "$0")/lib.sh"
 
-REMOTE=${1:?用法: scripts/publish.sh <团队仓库地址> [基线名...]}
+REMOTE=${1:?用法: common/scripts/publish.sh <团队仓库地址> [基线名...]}
 shift
 [ $# -gt 0 ] || set -- $(baselines)
 
