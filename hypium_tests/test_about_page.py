@@ -1,13 +1,14 @@
 """jm-spec35「关于页面展示应用图标和版本号」本地自测用例。
 
-依据 SWE-OpenHarmony/specs/jm-spec35.md 编写，不是官方评测用例。
+依据本工程 spec/requirement.md 编写，不是官方评测用例。
 
-运行：
-    cd SWE-OpenHarmony
-    PYTHONPATH=test-harness .venv/bin/python -m harness.runner \
-        --project ../harmonycup-work/jm-spec35
+运行（在本工程 logs/ 下执行，Hypium 生成的 reports/ 会落在这里）：
+    COMMON=/Users/bress/Documents/code/harmonycup-work/common
+    cd logs && PYTHONPATH="$COMMON/test-harness" "$COMMON/.venv/bin/python" -m harness.runner \
+        --project "$(cd .. && pwd)" --device <设备序列号>
 
-前置：应用已安装；用例会冷启动应用，必要时点击隐私确认“同意”，再从首页出发。
+前置：本题 HAP 已安装（同 bundleName 的其他题会互相覆盖，跑之前务必重装本题产物）；
+用例会冷启动应用，必要时点击隐私确认“同意”，再从首页出发。
 """
 from __future__ import annotations
 
