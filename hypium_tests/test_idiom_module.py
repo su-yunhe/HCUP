@@ -3,9 +3,10 @@
 运行前：安装本题工程构建出的 HAP（com.hefengbao.jingmo.hw），设备解锁。
 脚本自行冷启动应用并从首页开始操作，不依赖人工预置页面。
 
-运行：
-    cd /Users/bress/Documents/code/SWE-OpenHarmony
-    .venv/bin/python -m harness.runner --project ../harmonycup-work/jm-spec71 --device <设备序列号>
+运行（在本工程根目录执行；Hypium 生成的 reports/ 会落在 logs/ 下）：
+    COMMON="$(cd ../common && pwd)"
+    cd logs && PYTHONPATH="$COMMON/test-harness" "$COMMON/.venv/bin/python" -m harness.runner \
+        --project "$(cd .. && pwd)" --device <设备序列号>
 """
 from __future__ import annotations
 
@@ -15,7 +16,9 @@ import unittest
 
 from hypium import BY
 
-HARNESS_ROOT = '/Users/bress/Documents/code/SWE-OpenHarmony/test-harness'
+# 工作区公共测试框架：<工作区根>/common/test-harness，与本工程目录同级
+HARNESS_ROOT = os.path.normpath(os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), '..', '..', 'common', 'test-harness'))
 if HARNESS_ROOT not in sys.path:
     sys.path.insert(0, HARNESS_ROOT)
 
