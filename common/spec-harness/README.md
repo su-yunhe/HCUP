@@ -13,13 +13,13 @@
 
 ## 发给 Agent 的方式
 
-在**本题工程目录**中打开会话，引用任务书文件即可，例如：
+在**本题工程目录**中打开会话，用相对路径引用任务书文件即可，例如：
 
 ```
-@/Users/bress/Documents/code/harmonycup-work/common/spec-harness/1-do.md 完成这个任务
+@../common/spec-harness/1-do.md 完成这个任务
 ```
 
-任务书中所有"本工程 `spec/...`"都指会话所在工程的 `spec/` 目录。
+若 IDE 的 `@` 引用不识别相对路径，换成本机的绝对路径。任务书中所有"本工程 `spec/...`"都指会话所在工程的 `spec/` 目录。
 
 ## 每个工程 spec/ 目录的约定
 

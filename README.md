@@ -7,6 +7,8 @@
 
 所有题目同时可见、可同时编译，不需要来回 checkout。题目需求（Spec）、元数据和官方工具在赛题包 [SWE-OpenHarmony](https://gitcode.com/SMAT/SWE-OpenHarmony) 里，不在本仓库。
 
+**路径约定**：赛题包放在与本仓库同级的 `SWE-OpenHarmony/`。任务书、测试和文档里一律用相对路径：在题目目录里，公共资源是 `../common/`，赛题包是 `../../SWE-OpenHarmony/`。不要写本机绝对路径。
+
 ```
 harmonycup-work/          ← 分支 main
 ├── README.md
@@ -55,13 +57,15 @@ harmonycup-work/          ← 分支 main
 ## 首次加入
 
 ```bash
-git clone -b main git@github.com:su-yunhe/HCUP.git harmonycup-work
+git clone -b main git@github.com:su-yunhe/HCUP.git harmonycup-work   # 与 SWE-OpenHarmony/ 同级
 cd harmonycup-work
 common/scripts/setup.sh          # 为 25 个赛题分支建 worktree
 common/scripts/status.sh         # 确认 25 个目录都在
 ```
 
 每道题开工前，按赛题包 README 运行一次 `tools/prepare_baseline.py --task <题目ID> --project <本仓库>/<题目ID>`。
+
+自测用的 Python 环境 `common/.venv` 不进仓库，每台机器按 `common/test-harness/README.md` 建一次。
 
 ## 日常协作
 

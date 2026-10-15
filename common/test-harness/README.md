@@ -26,12 +26,12 @@ test-harness/
 
 ## 使用方式
 
-以下命令中 `COMMON=/Users/bress/Documents/code/harmonycup-work/common`。
+以下命令中 `COMMON` 指工作区的 `common/` 绝对路径，在题目工程目录里可用 `COMMON="$(cd ../common && pwd)"` 得到。
 需要 `hdc` 在 PATH 中（DevEco 的 `sdk/default/openharmony/toolchains`）。
 
-### 1. 环境（已就绪，无需重复）
+### 1. 环境（每台机器建一次）
 
-`$COMMON/.venv` 已按 `requirements.txt` 安装好。如需重建：
+`$COMMON/.venv` 不进仓库，按 `requirements.txt` 在本机创建：
 
 ```bash
 python3 -m venv "$COMMON/.venv"

@@ -24,7 +24,7 @@
 | 范围 | 用途 |
 | --- | --- |
 | 本工程目录 | 源码、`spec/`、`hypium_tests/`、`logs/` |
-| `/Users/bress/Documents/code/harmonycup-work/common/` | 通用任务书 `spec-harness/`、测试框架 `test-harness/`、Python 环境 `.venv/`；**只读，不得修改** |
+| `../common/`（相对本工程，即 `harmonycup-work/common/`） | 通用任务书 `spec-harness/`、测试框架 `test-harness/`、Python 环境 `.venv/`；**只读，不得修改** |
 | 公开资料 | 鸿蒙官方文档、ArkTS/ArkUI API 资料、与本赛题无关的通用技术资料 |
 
 检索到的页面若出现本应用的同功能实现，立即停止阅读并在产出中说明。
@@ -59,7 +59,7 @@
 6. **构建、安装本题 HAP，再跑自测**，全程留日志。命令均在本工程根目录执行：
 
    ```bash
-   COMMON=/Users/bress/Documents/code/harmonycup-work/common
+   COMMON="$(cd ../common && pwd)"
    mkdir -p logs
    hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon 2>&1 | tee logs/build.log
    hdc -t <设备序列号> install -r <本题HAP路径> 2>&1 | tee logs/install.log

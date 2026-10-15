@@ -16,7 +16,7 @@ Spec 里一句"显示历史记录"可能对应去重、排序、上限、点击�
 2. 不得访问题包目录（`SWE-OpenHarmony/`）；本题资料已复制到本工程 `spec/`。
 3. 不得访问其他赛题的工程目录（`harmonycup-work/` 下除本工程和 `common/` 之外的目录）。
 
-允许只读访问 `/Users/bress/Documents/code/harmonycup-work/common/`（通用任务书与测试框架），不得修改。
+允许只读访问 `../common/`（相对本工程，即 `harmonycup-work/common/`：通用任务书与测试框架），不得修改。
 
 分析阶段尤其容易踩第 1 条——"先看看别人怎么实现的"正是违规行为。
 需求有歧义时，列出多个假设并标注证据等级，交给我判断，不要去上游找答案。

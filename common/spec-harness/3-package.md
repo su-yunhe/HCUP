@@ -24,7 +24,7 @@
 
 ## 需要我提供的（留空的不要猜）
 
-- 团队级信息：`/Users/bress/Documents/code/harmonycup-work/common/spec-harness/team.yaml`
+- 团队级信息：`harmonycup-work/common/spec-harness/team.yaml`
   （其中 `submitted_tasks`、`attempted_not_submitted`、`zip_out` 三项本阶段必填）
 
 ## 你自己去取的
@@ -100,7 +100,7 @@
 
    ```bash
    cd <包根的父目录> && zip -r "<zip_out>" <包根目录名> -x '*/build/*' '*/oh_modules/*' '*/.hvigor/*'
-   cd /Users/bress/Documents/code/SWE-OpenHarmony
+   cd <题包目录 SWE-OpenHarmony，与 harmonycup-work 同级>
    .venv/bin/python tools/check_submission.py "<zip_out>"
    .venv/bin/python tools/submission_checksum.py "<zip_out>"
    ```

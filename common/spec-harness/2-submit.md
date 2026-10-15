@@ -9,10 +9,10 @@
 团队级文件（`solution.md`、根 `sources.md`、根 `README.md`、`system-config/`）与成果包打包不在本阶段，
 由 `3-package.md` 统一处理；本阶段只产出本题材料，以及供其汇总的片段文件。
 
-材料规格以赛题包的官方模板为准，开工前必须先读：
-- `/Users/bress/Documents/code/SWE-OpenHarmony/templates/submission-checklist.md`（材料清单）
-- `/Users/bress/Documents/code/SWE-OpenHarmony/templates/trace-index.md`（记录索引字段）
-- `/Users/bress/Documents/code/SWE-OpenHarmony/templates/submission.json`（任务清单模板）
+材料规格以赛题包的官方模板为准，开工前必须先读（题包 `SWE-OpenHarmony/` 与 `harmonycup-work/` 同级，相对本工程为 `../../SWE-OpenHarmony/`）：
+- `../../SWE-OpenHarmony/templates/submission-checklist.md`（材料清单）
+- `../../SWE-OpenHarmony/templates/trace-index.md`（记录索引字段）
+- `../../SWE-OpenHarmony/templates/submission.json`（任务清单模板）
 
 **访问范围限制**：
 
@@ -30,7 +30,7 @@
 
 ## 一、需要我提供的（留空的不要猜）
 
-- 团队级信息：`/Users/bress/Documents/code/harmonycup-work/common/spec-harness/team.yaml`
+- 团队级信息：`../common/spec-harness/team.yaml`（相对本工程）
 - 题目级信息：本工程 `spec/submit-input.yaml`
 
 两个文件中留空的字段一律视为未提供，在产出中标 `【待补充】`，不要推测。
