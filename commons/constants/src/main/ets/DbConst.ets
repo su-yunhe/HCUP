@@ -310,16 +310,30 @@ export class DbCRUDConst {
       ' join ' + DbTableConst.CLASSICALLITERATURE_WRITING_TABLE + ' as tbl' +
       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_WRITING + '\'' +
       ' order by b.id desc';
+  // 收藏夹列表：按 (model, bookmarkable_id) 去重取最大 id；过滤内容表中不存在的记录及未知 model；最新在前
   static readonly BOOKMARKS: string =
-    'select b.*, tbl1.body as chinese_antitheticalcouplet,' +
+    'select b.id, b.bookmarkable_id, b.bookmarkable_model,' +
+      ' tbl1.body as chinese_antitheticalcouplet,' +
       ' tbl2.character as chinese_character,' +
       ' tbl3.word as chinese_expression,' +
       ' tbl4.word as chinese_idiom,' +
       ' tbl5.content as chinese_knowledge,' +
       ' tbl6.content as chinese_quote,' +
       ' tbl7.title as classicalliterature_classicpoem,' +
-      ' tbl8.content as classicalliterature_sentence' +
-      ' from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+      ' tbl7.writer as classicalliterature_classicpoem_writer,' +
+      ' tbl8.content as classicalliterature_sentence,' +
+      ' tbl9.title as chinese_lyric,' +
+      ' tbl9.content as chinese_lyric_content,' +
+      ' tbl10.title as chinese_modernpoetry,' +
+      ' tbl10.content as chinese_modernpoetry_content,' +
+      ' tbl11.puzzle as chinese_riddle,' +
+      ' tbl12.riddle as chinese_wisecrack,' +
+      ' tbl13.content as chinese_proverb,' +
+      ' tbl14.title as classicalliterature_writing,' +
+      ' tbl14.author as classicalliterature_writing_author,' +
+      ' tbl15.name as classicalliterature_people' +
+      ' from (select max(id) as id, bookmarkable_id, bookmarkable_model from ' + DbTableConst.BOOKMARKS_TABLE +
+      ' group by bookmarkable_model, bookmarkable_id) as b' +
       ' left join ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE + ' as tbl1' +
       ' on b.bookmarkable_id = tbl1.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_ANTITHETICALCOUPLET + '\'' +
       ' left join ' + DbTableConst.CHINESE_CHARACTER_TABLE + ' as tbl2' +
@@ -337,5 +351,21 @@ export class DbCRUDConst {
       '\'' +
       ' left join ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE + ' as tbl8' +
       ' on b.bookmarkable_id = tbl8.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_SENTENCE + '\'' +
+      ' left join ' + DbTableConst.CHINESE_LYRIC_TABLE + ' as tbl9' +
+      ' on b.bookmarkable_id = tbl9.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_LYRIC + '\'' +
+      ' left join ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE + ' as tbl10' +
+      ' on b.bookmarkable_id = tbl10.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_MODERNPOETRY + '\'' +
+      ' left join ' + DbTableConst.CHINESE_RIDDLE_TABLE + ' as tbl11' +
+      ' on b.bookmarkable_id = tbl11.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_RIDDLE + '\'' +
+      ' left join ' + DbTableConst.CHINESE_WISECRACK_TABLE + ' as tbl12' +
+      ' on b.bookmarkable_id = tbl12.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_WISECRACK + '\'' +
+      ' left join ' + DbTableConst.CHINESE_PROVERB_TABLE + ' as tbl13' +
+      ' on b.bookmarkable_id = tbl13.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_PROVERB + '\'' +
+      ' left join ' + DbTableConst.CLASSICALLITERATURE_WRITING_TABLE + ' as tbl14' +
+      ' on b.bookmarkable_id = tbl14.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_WRITING + '\'' +
+      ' left join ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE + ' as tbl15' +
+      ' on b.bookmarkable_id = tbl15.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_PEOPLE + '\'' +
+      ' where coalesce(tbl1.id, tbl2.id, tbl3.id, tbl4.id, tbl5.id, tbl6.id, tbl7.id, tbl8.id,' +
+      ' tbl9.id, tbl10.id, tbl11.id, tbl12.id, tbl13.id, tbl14.id, tbl15.id) is not null' +
       ' order by b.id desc';
 }

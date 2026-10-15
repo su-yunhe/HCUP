@@ -17,17 +17,20 @@ export struct TopBar {
       CustomMenuItem({
         icon: Icon.ic_bookmark_border,
         pageStack: this.pageStack,
-        pathName: "BookmarkIndexPage"
+        pathName: "BookmarkIndexPage",
+        itemId: 'home_bookmark_entry'
       })
       CustomMenuItem({
         icon: Icon.ic_link,
         pageStack: this.pageStack,
-        pathName: "LinkIndexPage"
+        pathName: "LinkIndexPage",
+        itemId: 'home_link_entry'
       })
       CustomMenuItem({
         icon: Icon.ic_public_settings,
         pageStack: this.pageStack,
-        pathName: "SettingPage"
+        pathName: "SettingPage",
+        itemId: 'home_settings_entry'
       })
     }
     .width('100%')
@@ -42,6 +45,7 @@ struct CustomMenuItem {
   @Param @Require @Once pageStack: NavPathStack;
   @Param @Require icon: Resource;
   @Param @Require pathName: string;
+  @Param itemId: string = '';
 
   build() {
     Stack({ alignContent: Alignment.Center }) {
@@ -50,6 +54,7 @@ struct CustomMenuItem {
         .height($r('sys.float.titlebar_icon_height'))
         .fillColor($r('sys.color.icon'))
     }
+    .id(this.itemId)
     .padding(8)
     .margin({ right: $r('sys.float.titlebar_menu_margin_right') })
     .onClick(() => {

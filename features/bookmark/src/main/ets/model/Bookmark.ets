@@ -20,8 +20,8 @@ export class Bookmark {
 }
 
 export async function addBookmark(obj: Bookmark) {
+  // 不写入 id，主键走 autoincrement：新 id 恒大于库中已有 id，保证"最新在前"且同秒收藏不会互相覆盖
   const valuesBucket: relationalStore.ValuesBucket = {
-    'id': obj.id,
     'bookmarkable_id': obj.bookmarkable_id,
     'bookmarkable_model': obj.bookmarkable_model,
   }
