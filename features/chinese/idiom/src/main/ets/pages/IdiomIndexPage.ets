@@ -1,19 +1,184 @@
-@Component
-export struct MainPage {
-  @State message: string = 'Hello World';
+import { Icon, String, ThemeConst } from 'constants';
+import { Idiom, readRandomIdiom } from '../model/Idiom';
+import { isIdiomBookmarked, toggleIdiomBookmark } from '../model/IdiomBookmark';
+import { ensureIdiomData } from '../model/IdiomSeeder';
+import { IdiomView } from '../view/IdiomView';
+import { IdiomActionBar } from '../view/IdiomActionBar';
+import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
+
+@Builder
+export function IdiomIndexPageBuilder() {
+  IdiomIndexPage();
+}
+
+@ComponentV2
+export struct IdiomIndexPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local idiom: Idiom | null = null;
+  @Local loading: boolean = true;
+  @Local refreshing: boolean = false;
+  @Local bookmarked: boolean = false;
+  @Local toggling: boolean = false;
+  private loadToken: number = 0;
+  private inFlight: boolean = false;
+
+  aboutToAppear(): void {
+    this.load()
+  }
 
   build() {
-    Row() {
+    NavDestination() {
       Column() {
-        Text(this.message)
-          .fontSize($r('app.float.page_text_font_size'))
-          .fontWeight(FontWeight.Bold)
-          .onClick(() => {
-            this.message = 'Welcome';
-          })
+        Refresh({ refreshing: this.refreshing }) {
+          Scroll() {
+            Column() {
+              if (this.idiom) {
+                IdiomView({
+                  idiom: this.idiom,
+                  onOpenIdiom: (id: number) => {
+                    this.openDetail(id)
+                  }
+                })
+              } else if (this.loading) {
+                this.Placeholder('加载中…', true)
+              } else {
+                this.Placeholder('暂无成语数据，请在「设置 - 数据同步」中下载后重试', false)
+              }
+            }
+            .width('100%')
+            .onClick(() => {
+              const current = this.idiom
+              if (current) {
+                this.openDetail(current.id)
+              }
+            })
+          }
+          .width('100%')
+          .height('100%')
+          .edgeEffect(EdgeEffect.Spring)
+          .align(Alignment.TopStart)
+        }
+        .onRefreshing(() => {
+          this.load()
+        })
+        .layoutWeight(1)
+
+        IdiomActionBar({
+          bookmarked: this.bookmarked,
+          showSearch: true,
+          showRefresh: true,
+          actionEnabled: !this.loading,
+          onSearch: () => {
+            this.pageStack.pushPathByName('IdiomSearchPage', null)
+          },
+          onToggleBookmark: () => {
+            this.toggleBookmark()
+          },
+          onRefresh: () => {
+            this.load()
+          }
+        })
       }
       .width('100%')
+      .height('100%')
     }
-    .height('100%')
+    .title(String.chinese_idiom)
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack
+    })
+    .onShown(() => {
+      this.syncBookmarkState()
+    })
+  }
+
+  @Builder
+  Placeholder(message: string, showLoading: boolean) {
+    Column() {
+      if (showLoading) {
+        LoadingProgress()
+          .width(48)
+          .height(48)
+          .color(Color.Gray)
+      } else {
+        Image(Icon.ic_public_refresh)
+          .width(36)
+          .height(36)
+          .fillColor(Color.Gray)
+      }
+      Text(message)
+        .fontSize(ThemeConst.FontSize_14)
+        .fontColor(Color.Gray)
+        .margin({ top: 12 })
+        .textAlign(TextAlign.Center)
+    }
+    .width('100%')
+    .padding(48)
+    .justifyContent(FlexAlign.Center)
+  }
+
+  openDetail(id: number) {
+    this.pageStack.pushPathByName('IdiomDetailPage', id)
+  }
+
+  load() {
+    if (this.inFlight) {
+      this.refreshing = false
+      return
+    }
+    this.inFlight = true
+    this.loading = true
+    this.loadToken++
+    const token = this.loadToken
+    const context = this.getUIContext().getHostContext()
+    const task = context ? ensureIdiomData(context) : Promise.resolve()
+    task.then(() => {
+      return readRandomIdiom(PrefUtil.getChineseIdiomId())
+    }).then((value: Idiom | null) => {
+      this.inFlight = false
+      if (token !== this.loadToken) {
+        return
+      }
+      this.idiom = value
+      this.loading = false
+      this.refreshing = false
+      if (value) {
+        PrefUtil.saveChineseIdiomId(value.id)
+        this.syncBookmarkState()
+      } else {
+        this.bookmarked = false
+      }
+    }).catch((error: Object) => {
+      this.inFlight = false
+      this.loading = false
+      this.refreshing = false
+    })
+  }
+
+  syncBookmarkState() {
+    const current = this.idiom
+    if (!current) {
+      this.bookmarked = false
+      return
+    }
+    isIdiomBookmarked(current.id).then((value: boolean) => {
+      if (this.idiom && this.idiom.id === current.id) {
+        this.bookmarked = value
+      }
+    })
+  }
+
+  toggleBookmark() {
+    const current = this.idiom
+    if (!current || this.toggling) {
+      return
+    }
+    this.toggling = true
+    toggleIdiomBookmark(current.id).then((value: boolean) => {
+      this.toggling = false
+      if (this.idiom && this.idiom.id === current.id) {
+        this.bookmarked = value
+      }
+      this.getUIContext().getPromptAction().showToast({ message: value ? '收藏成功' : '已取消收藏' })
+    })
   }
 }

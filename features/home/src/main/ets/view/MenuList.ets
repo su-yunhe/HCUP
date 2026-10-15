@@ -55,6 +55,8 @@ export struct MenuList {
         GridItem() {
           Item({
             title: String.chinese_idiom
+          }).onClick(() => {
+            this.pageStack.pushPathByName('IdiomIndexPage', null)
           })
         }
 

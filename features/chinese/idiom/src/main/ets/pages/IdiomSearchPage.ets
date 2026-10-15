@@ -1,0 +1,201 @@
+import { String, ThemeConst } from 'constants';
+import { Idiom, searchIdioms } from '../model/Idiom';
+import { ensureIdiomData } from '../model/IdiomSeeder';
+
+const DEBOUNCE_DELAY: number = 300;
+
+@Builder
+export function IdiomSearchPageBuilder() {
+  IdiomSearchPage();
+}
+
+@ComponentV2
+export struct IdiomSearchPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local keyword: string = '';
+  @Local searching: boolean = false;
+  @Local searched: boolean = false;
+  @Local results: Idiom[] = [];
+  private searchToken: number = 0;
+  private timerId: number = -1;
+
+  aboutToDisappear(): void {
+    this.clearTimer()
+  }
+
+  build() {
+    NavDestination() {
+      Column() {
+        Search({ value: this.keyword, placeholder: '输入成语、拼音或首字母' })
+          .id('idiom_search_input')
+          .width('100%')
+          .margin({
+            left: 16,
+            top: 8,
+            right: 16,
+            bottom: 8
+          })
+          .searchButton(String.search)
+          .defaultFocus(true)
+          .onChange((value: string) => {
+            this.keyword = value
+            this.scheduleSearch()
+          })
+          .onSubmit((value: string) => {
+            this.keyword = value
+            this.clearTimer()
+            this.search()
+          })
+        if (this.searching) {
+          Column() {
+            LoadingProgress()
+              .width(48)
+              .height(48)
+              .color(Color.Gray)
+          }
+          .width('100%')
+          .padding(48)
+        } else if (this.results.length > 0) {
+          List() {
+            ForEach(this.results, (item: Idiom) => {
+              ListItem() {
+                ResultItem({
+                  idiom: item,
+                  action: () => {
+                    this.pageStack.pushPathByName('IdiomDetailPage', item.id)
+                  }
+                })
+              }
+            }, (item: Idiom) => item.id.toString())
+          }
+          .id('idiom_search_result')
+          .width('100%')
+          .layoutWeight(1)
+          .divider({ strokeWidth: 1, color: '#fff1f3f5' })
+          .edgeEffect(EdgeEffect.Spring)
+        } else {
+          Text(this.hintText())
+            .width('100%')
+            .padding(48)
+            .textAlign(TextAlign.Center)
+            .fontColor(Color.Gray)
+            .fontSize(ThemeConst.FontSize_14)
+        }
+      }
+      .width('100%')
+      .height('100%')
+    }
+    .title(String.chinese_idiom_search)
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack
+    })
+  }
+
+  hintText(): string {
+    if (this.keyword.trim().length === 0) {
+      return '输入关键字后开始搜索'
+    }
+    if (this.searched) {
+      return `未找到与「${this.keyword.trim()}」相关的成语`
+    }
+
+    return '输入关键字后开始搜索'
+  }
+
+  scheduleSearch() {
+    this.clearTimer()
+    if (this.keyword.trim().length === 0) {
+      this.searchToken++
+      this.results = []
+      this.searching = false
+      this.searched = false
+      return
+    }
+    this.timerId = setTimeout(() => {
+      this.timerId = -1
+      this.search()
+    }, DEBOUNCE_DELAY)
+  }
+
+  clearTimer() {
+    if (this.timerId !== -1) {
+      clearTimeout(this.timerId)
+      this.timerId = -1
+    }
+  }
+
+  search() {
+    const key = this.keyword.trim()
+    this.searchToken++
+    const token = this.searchToken
+    if (key.length === 0) {
+      this.results = []
+      this.searching = false
+      this.searched = false
+      return
+    }
+    this.searching = true
+    const context = this.getUIContext().getHostContext()
+    const task = context ? ensureIdiomData(context) : Promise.resolve()
+    task.then(() => {
+      return searchIdioms(key)
+    }).then((list: Idiom[]) => {
+      if (token !== this.searchToken) {
+        return
+      }
+      this.results = list
+      this.searching = false
+      this.searched = true
+    }).catch((error: Object) => {
+      if (token === this.searchToken) {
+        this.results = []
+        this.searching = false
+        this.searched = true
+      }
+    })
+  }
+}
+
+@ComponentV2
+struct ResultItem {
+  @Param @Require idiom: Idiom;
+  @Event action: () => void = () => {
+  };
+
+  build() {
+    Column() {
+      Text(this.idiom.word)
+        .width('100%')
+        .fontSize(18)
+      Text(this.idiom.pinyin)
+        .width('100%')
+        .fontSize(12)
+        .fontColor(Color.Gray)
+        .margin({ top: 4 })
+      if (this.idiom.explanation) {
+        Text(this.idiom.explanation)
+          .width('100%')
+          .fontSize(ThemeConst.FontSize_14)
+          .fontColor(Color.Gray)
+          .margin({ top: 4 })
+          .maxLines(2)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+      }
+    }
+    .width('100%')
+    .padding(16)
+    .alignItems(HorizontalAlign.Start)
+    .id(`idiom_result_${this.idiom.word}`)
+    .stateStyles({
+      normal: {
+        .backgroundColor(ThemeConst.BackGroundColor_Normal)
+      },
+      clicked: {
+        .backgroundColor(ThemeConst.BackGroundColor_Clicked)
+      }
+    })
+    .onClick(() => {
+      this.action()
+    })
+  }
+}

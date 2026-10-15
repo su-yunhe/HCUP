@@ -10,6 +10,24 @@ export struct TopBar {
         .fontSize(20)
         .fontWeight(FontWeight.Bold)
       Blank()
+      Image(Icon.ic_bookmark_border)
+        .id('home_bookmark')
+        .onClick(() => {
+          this.pageStack.pushPathByName("BookmarkIndexPage", null)
+        })
+        .width(36)
+        .height(36)
+        .padding(8)
+        .margin({ right: 8 })
+        .stateStyles({
+          normal: {
+            .backgroundColor(ThemeConst.BackGroundColor_Normal)
+          },
+          clicked: {
+            .backgroundColor(ThemeConst.BackGroundColor_Clicked)
+            .borderRadius(18)
+          }
+        })
       Image(Icon.ic_public_settings)
         .onClick(() => {
           this.pageStack.pushPathByName("SettingPage", null)

@@ -5,6 +5,7 @@ import Want from '@ohos.app.ability.Want';
 import window from '@ohos.window';
 import DbUtil from "utils/src/main/ets/data/DbUtil";
 import PrefUtil from "utils/src/main/ets/data/PrefUtil";
+import { ensureIdiomData } from 'chinese_idiom';
 
 const DOMAIN = 0x0000;
 
@@ -22,6 +23,7 @@ export default class EntryAbility extends UIAbility {
     // Main window is created, set main page for this ability
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
     DbUtil.init(this.context)
+    ensureIdiomData(this.context)
     windowStage.loadContent('pages/Index', (err) => {
       if (err.code) {
         hilog.error(DOMAIN, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err));

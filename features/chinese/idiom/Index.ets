@@ -1,8 +1,24 @@
-export { MainPage } from './src/main/ets/pages/MainPage';
+export { IdiomIndexPage, IdiomIndexPage as MainPage, IdiomIndexPageBuilder } from './src/main/ets/pages/IdiomIndexPage';
+
+export { IdiomDetailPage, IdiomDetailPageBuilder } from './src/main/ets/pages/IdiomDetailPage';
+
+export { IdiomSearchPage, IdiomSearchPageBuilder } from './src/main/ets/pages/IdiomSearchPage';
 
 export { Idiom,
   IdiomSource,
   IdiomQuote,
   IdiomExample,
   createIdiom,
-  readRandomIdiom } from './src/main/ets/model/Idiom';
+  readRandomIdiom,
+  readIdiomById,
+  readIdiomIdsByWords,
+  searchIdioms,
+  countIdioms } from './src/main/ets/model/Idiom';
+
+export { ensureIdiomData } from './src/main/ets/model/IdiomSeeder';
+
+export { isIdiomBookmarked,
+  addIdiomBookmark,
+  removeIdiomBookmark,
+  toggleIdiomBookmark,
+  readBookmarkedIdioms } from './src/main/ets/model/IdiomBookmark';

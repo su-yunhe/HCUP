@@ -7,6 +7,8 @@ export class String {
   static readonly chinese_character: Resource = $r('app.string.chinese_character');
   static readonly chinese_expression: Resource = $r('app.string.chinese_expression');
   static readonly chinese_idiom: Resource = $r('app.string.chinese_idiom');
+  static readonly chinese_idiom_detail: Resource = $r('app.string.chinese_idiom_detail');
+  static readonly chinese_idiom_search: Resource = $r('app.string.chinese_idiom_search');
   static readonly chinese_knowledge: Resource = $r('app.string.chinese_knowledge');
   static readonly chinese_lyric: Resource = $r('app.string.chinese_lyric');
   static readonly chinese_modernpoetry: Resource = $r('app.string.chinese_modernpoetry');
@@ -29,4 +31,7 @@ export class String {
   static readonly refresh: Resource = $r('app.string.refresh');
   static readonly settings: Resource = $r('app.string.settings');
   static readonly bookmark: Resource = $r('app.string.bookmark');
+  static readonly bookmark_add: Resource = $r('app.string.bookmark_add');
+  static readonly bookmarked: Resource = $r('app.string.bookmarked');
+  static readonly search: Resource = $r('app.string.search');
 }

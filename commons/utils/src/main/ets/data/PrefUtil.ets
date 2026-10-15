@@ -57,6 +57,22 @@ export class PrefUtil {
     return this.getNumber(PrefConst.CHINESE_IDIOM)
   }
 
+  saveChineseIdiomId(id: number) {
+    this.setNumber(PrefConst.CHINESE_IDIOM_ID, id)
+  }
+
+  getChineseIdiomId(): number {
+    return this.getNumber(PrefConst.CHINESE_IDIOM_ID)
+  }
+
+  saveChineseIdiomSeedVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_IDIOM_SEED_VERSION, version)
+  }
+
+  getChineseIdiomSeedVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_IDIOM_SEED_VERSION)
+  }
+
   saveChineseKnowledgeVersion(version: number) {
     this.setNumber(PrefConst.CHINESE_KNOWLEDGE, version)
   }

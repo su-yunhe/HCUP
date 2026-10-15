@@ -9,6 +9,30 @@ import { DbMigrationConst } from 'constants';
 export class DbUtil {
   objectiveRDB?: relationalStore.RdbStore;
   private logger: Logger = new Logger('RDBStoreUtil')
+  private initialized: boolean = false;
+  private waiters: Array<(store: relationalStore.RdbStore | undefined) => void> = [];
+
+  /**
+   * 等待数据库初始化（含建表迁移）完成。
+   * 初始化失败时 resolve undefined，由调用方决定如何提示。
+   */
+  ready(): Promise<relationalStore.RdbStore | undefined> {
+    if (this.initialized) {
+      return Promise.resolve(this.objectiveRDB)
+    }
+    return new Promise((resolve: (store: relationalStore.RdbStore | undefined) => void) => {
+      this.waiters.push(resolve)
+    })
+  }
+
+  private markReady() {
+    this.initialized = true
+    const waiters = this.waiters
+    this.waiters = []
+    waiters.forEach((resolve: (store: relationalStore.RdbStore | undefined) => void) => {
+      resolve(this.objectiveRDB)
+    })
+  }
 
   init(context: Context) {
 
@@ -20,12 +44,13 @@ export class DbUtil {
 
     relationalStore.getRdbStore(context, STORE_CONFIG,
       async (error: BusinessError, rdbStore: relationalStore.RdbStore) => {
-        this.objectiveRDB = rdbStore
-        let storeVersion: number = rdbStore.version;
         if (error) {
           this.logger.error(`Get RdbStore failed, code is ${error.code},message is ${error.message}`)
+          this.markReady()
           return;
         }
+        this.objectiveRDB = rdbStore
+        let storeVersion: number = rdbStore.version;
         this.logger.info('Get RdbStore successfully.')
 
         // 数据表迁移
@@ -111,6 +136,7 @@ export class DbUtil {
         }
 
         rdbStore.version = storeVersion
+        this.markReady()
       })
   }
 }
