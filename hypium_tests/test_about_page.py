@@ -2,8 +2,8 @@
 
 依据本工程 spec/requirement.md 编写，不是官方评测用例。
 
-运行（在本工程 logs/ 下执行，Hypium 生成的 reports/ 会落在这里）：
-    COMMON=/Users/bress/Documents/code/harmonycup-work/common
+运行（在本工程根目录执行；Hypium 生成的 reports/ 会落在 logs/ 下）：
+    COMMON="$(cd ../common && pwd)"
     cd logs && PYTHONPATH="$COMMON/test-harness" "$COMMON/.venv/bin/python" -m harness.runner \
         --project "$(cd .. && pwd)" --device <设备序列号>
 
