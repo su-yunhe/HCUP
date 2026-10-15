@@ -9,6 +9,7 @@ import { WebPageParam } from '../../common/entities/local/PageParams'
 import { DebugPage } from '../local/DebugPage'
 import { CommonSettingsCard } from '../../components/cards/SettingsCard'
 import { PlaySettingsPage } from './PlaySettingsPage'
+import { FloatLyricsSettingsPage } from './FloatLyricsSettingsPage'
 import { AboutPage } from './AboutPage'
 import { DonatePage } from './DonatePage'
 
@@ -79,6 +80,9 @@ export struct SettingsPage {
     }
     else if(name === 'PlaySettingsPage') {
       PlaySettingsPage()
+    }
+    else if(name === 'FloatLyricsSettingsPage') {
+      FloatLyricsSettingsPage()
     }
     else if(name === 'ApiSetPage') {
       ApiSetPage()

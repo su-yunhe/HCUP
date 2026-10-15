@@ -18,7 +18,7 @@ export async function initSettings() {
   // 并行处理无依赖的配置项
   await Promise.all([
     // API
-    handleSetting<string>(StorageConstants.API_URL, ''),
+    handleSetting<string>(StorageConstants.API_URL, 'http://172.24.16.249:3000'),
     // Default Index
     handleSetting<number>(StorageConstants.DEFAULT_PAGE_INDEX, 0),
     // Play Quality

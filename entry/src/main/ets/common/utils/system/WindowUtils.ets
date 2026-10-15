@@ -1,6 +1,8 @@
 import { display, window } from '@kit.ArkUI'
 import { LogUtil } from '@pura/harmony-utils'
 import Constants from '../../constants/Constants'
+import { StorageConstants } from '../../constants/StorageConstants'
+import { LyricStyle, LyricStyleItem } from '../../entities/local/Settings'
 
 const TAG = '[WindowUtils] '
 
@@ -42,6 +44,10 @@ class WindowUtils {
   }
 
   createLyricsFloatWindow(): void {
+    const style = AppStorage.get<LyricStyle>(StorageConstants.LYRIC_STYLE) ?? LyricStyleItem;
+    if (!style.enabled) {
+      return;
+    }
     let config: window.Configuration =
       { name: Constants.FLOAT_LYRICS_WIN_NAME, windowType: window.WindowType.TYPE_FLOAT, ctx: getContext(this) };
     window.createWindow(config, (err, data) => {
@@ -53,8 +59,14 @@ class WindowUtils {
       console.info('Succeeded in creating the floatWindow. Data: ' + JSON.stringify(data));
       win.setUIContent('pages/lyrics/FloatingLyrics');
       let displayW = display.getDefaultDisplaySync().width;
-      win.resize(displayW, 140);
-      win.moveWindowToGlobal(0, Constants.FLOAT_LYRICS_TOP_MARGIN);
+      let displayH = display.getDefaultDisplaySync().height;
+      let winW = Math.round(displayW * style.widthRatio);
+      win.resize(winW, 140);
+      let posX = Math.round(displayW * style.positionX);
+      let posY = style.positionY < 0
+        ? Constants.FLOAT_LYRICS_TOP_MARGIN
+        : Math.round(displayH * style.positionY);
+      win.moveWindowToGlobal(posX, posY);
       win.showWindow();
     });
   }

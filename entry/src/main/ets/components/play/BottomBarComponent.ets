@@ -9,6 +9,7 @@ import { ClickUtil } from "@pura/harmony-utils"
 import { PLAYMODE } from "../../common/model/Enum"
 import windowUtils from "../../common/utils/system/WindowUtils"
 import { window } from '@kit.ArkUI';
+import { LyricStyle, LyricStyleItem } from "../../common/entities/local/Settings"
 
 /**
  * 底部播控组件
@@ -33,6 +34,10 @@ export struct BottomBarComponent {
   }
 
   private handleDoubleClick = () => {
+    const style = AppStorage.get<LyricStyle>(StorageConstants.LYRIC_STYLE) ?? LyricStyleItem
+    if (!style.enabled) {
+      return
+    }
     try {
       let win: window.Window = window.findWindow(Constants.FLOAT_LYRICS_WIN_NAME)
       win.destroyWindow()

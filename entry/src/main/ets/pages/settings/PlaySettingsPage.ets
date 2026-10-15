@@ -5,6 +5,8 @@ import { SetPlayQuality } from "../../components/settings/SetPlayQuality"
 
 @Component
 export struct PlaySettingsPage {
+  @Consume('settingsPageInfos') settingsPageInfos: NavPathStack
+
   build() {
     NavDestination() {
       List({ space: 10 }) {
@@ -28,6 +30,25 @@ export struct PlaySettingsPage {
 
         ListItem() {
           SetLyricStyle()
+        }
+        .itemStyle()
+
+        ListItem() {
+          Row() {
+            Text($r('app.string.SET_FLOATLYRICS'))
+              .fontSize(Constants.FONT_SIZE_COMMON)
+              .fontWeight(FontWeight.Bold)
+            Image($r('app.media.ic_public_arrow_right'))
+              .width(16)
+              .fillColor($r('app.color.reverse'))
+          }
+          .width('100%')
+          .height(Constants.HEIGHT_SETTINGS_ITEM)
+          .justifyContent(FlexAlign.SpaceBetween)
+          .padding({ left: Constants.PADDING_EDGE_DEFAULT, right: Constants.PADDING_EDGE_DEFAULT })
+          .onClick(() => {
+            this.settingsPageInfos.pushPathByName('FloatLyricsSettingsPage', null)
+          })
         }
         .itemStyle()
       }
