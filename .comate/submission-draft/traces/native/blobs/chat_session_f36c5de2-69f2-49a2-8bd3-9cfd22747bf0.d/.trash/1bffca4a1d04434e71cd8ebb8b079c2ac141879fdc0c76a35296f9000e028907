@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+"""临时调试脚本（验证完删除）：hdc 驱动 + 控件树过滤。"""
+import json, subprocess, sys, time
+
+HDC = ['/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/hdc', '-t', '127.0.0.1:5555']
+BUNDLE = 'com.hefengbao.jingmo.hw'
+
+
+def sh(*args):
+    return subprocess.run(HDC + ['shell'] + list(args), capture_output=True, text=True).stdout
+
+
+def dump():
+    sh('uitest', 'dumpLayout', '-p', '/data/local/tmp/l.json')
+    subprocess.run(HDC + ['file', 'recv', '/data/local/tmp/l.json', '/tmp/jm_l.json'], capture_output=True)
+    return json.load(open('/tmp/jm_l.json'))
+
+
+def nodes(d):
+    out = []
+    def walk(n):
+        out.append(n.get('attributes', {}))
+        for c in n.get('children', []):
+            walk(c)
+    walk(d)
+    return out
+
+
+def center(b):
+    import re
+    x1, y1, x2, y2 = map(int, re.findall(r'-?\d+', b))
+    return (x1 + x2) // 2, (y1 + y2) // 2
+
+
+def find(key, val):
+    for a in nodes(dump()):
+        if a.get(key) == val:
+            return a
+    return None
+
+
+def click(key, val):
+    a = find(key, val)
+    if not a:
+        print('NOT FOUND', key, val); return
+    x, y = center(a

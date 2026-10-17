@@ -1,0 +1,189 @@
+<file>
+     1→import { Logger } from "utils";
+     2→import { relationalStore } from "@kit.ArkData";
+     3→import { DbConfigConst, DbCRUDConst, DbTableConst } from "constants";
+     4→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     5→
+     6→let logger: Logger = new Logger('Lyric');
+     7→
+     8→export class Lyric {
+     9→  id: number;
+    10→  title: string;
+    11→  writer: string;
+    12→  singer: string | null;
+    13→  content: string;
+    14→
+    15→  constructor(id: number, title: string, writer: string, singer: string | null, content: string) {
+    16→    this.id = id;
+    17→    this.title = title;
+    18→    this.writer = writer;
+    19→    this.singer = singer;
+    20→    this.content = content;
+    21→  }
+    22→}
+    23→
+    24→@Concurrent
+    25→export async function batchInsertLyric(context: Context, objs: Lyric[]): Promise<void> {
+    26→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+    27→  let logger: Logger = new Logger('Lyric#batchInsertLyric');
+    28→
+    29→  let valueBuckets: relationalStore.ValuesBucket[] = []
+    30→
+    31→  objs.forEach((obj: Lyric) => {
+    32→    valueBuckets.push(
+    33→      {
+    34→        'id': obj.id,
+    35→        'title': obj.title,
+    36→        'writer': obj.writer,
+    37→        'singer': obj.singer,
+    38→        'content': obj.content,
+    39→      }
+    40→    )
+    41→  })
+    42→
+    43→  try {
+    44→    await store.batchInsertWithConflictResolution(
+    45→      DbTableConst.CHINESE_LYRIC_TABLE,
+    46→      valueBuckets,
+    47→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    48→    ).then((value: number) => {
+    49→      logger.info(`insert rows = ${value}`)
+    50→    }).catch((err: BusinessError) => {
+    51→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    52→    })
+    53→  } catch (error) {
+    54→    const err = error as BusinessError;
+    55→    logger.error(`batchInsertLyric failed, code is ${err.code}, message is ${err.message}`);
+    56→  }
+    57→}
+    58→
+    59→@Concurrent
+    60→export async function batchInsertLyricFTS(context: Context, objs: Lyric[]): Promise<void> {
+    61→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+    62→  let logger: Logger = new Logger('Lyric#batchInsertLyricFTS');
+    63→
+    64→  let valuesBuckets: relationalStore.ValuesBucket[] = []
+    65→
+    66→  objs.forEach((obj: Lyric) => {
+    67→    valuesBuckets.push(
+    68→      {
+    69→        'id': obj.id,
+    70→        'title': obj.title,
+    71→        'content': obj.content,
+    72→      }
+    73→    )
+    74→  })
+    75→
+    76→  try {
+    77→    await store.batchInsertWithConflictResolution(
+    78→      DbTableConst.CHINESE_LYRIC_FTS_TABLE,
+    79→      valuesBuckets,
+    80→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    81→    ).then((value: number) => {
+    82→      logger.info(`insert rows = ${value}`)
+    83→    }).catch((err: BusinessError) => {
+    84→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    85→    })
+    86→  } catch (error) {
+    87→    const err = error as BusinessError;
+    88→    logger.error(`batchInsertLyricFTS failed, code is ${err.code}, message is ${err.message}`);
+    89→  }
+    90→}
+    91→
+    92→export async function getRandomLyric(): Promise<Lyric | undefined>{
+    93→  let obj: Lyric | undefined;
+    94→
+    95→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_LYRIC)
+    96→    .then((resultSet: relationalStore.ResultSet) => {
+    97→      try {
+    98→        while (resultSet.goToNextRow()) {
+    99→          obj = parse(resultSet)
+   100→        }
+   101→      } catch (error) {
+   102→        const err = error as BusinessError;
+   103→        logger.error(`getRandomLyric parse failed, code is ${err.code}, message is ${err.message}`);
+   104→      }
+   105→    }).catch((err: BusinessError) => {
+   106→      logger.error(`getRandomLyric failed, code is ${err.code}, message is ${err.message}`);
+   107→    })
+   108→
+   109→  return obj;
+   110→}
+   111→
+   112→export async function getLyric(id: number): Promise<Lyric | undefined>{
+   113→  let obj: Lyric | undefined;
+   114→
+   115→  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_LYRIC_TABLE);
+   116→  predicates.equalTo('id', id);
+   117→
+   118→  await DbUtil.objectiveRDB?.query(predicates)
+   119→    .then((resultSet: relationalStore.ResultSet) => {
+   120→      try {
+   121→        while (resultSet.goToNextRow()) {
+   122→          obj = parse(resultSet)
+   123→        }
+   124→      } catch (error) {
+   125→        const err = error as BusinessError;
+   126→        logger.error(`getLyric parse failed, code is ${err.code}, message is ${err.message}`);
+   127→      }
+   128→    }).catch((err: BusinessError) => {
+   129→      logger.error(`getLyric failed, code is ${err.code}, message is ${err.message}`);
+   130→    })
+   131→
+   132→  return obj;
+   133→}
+   134→
+   135→export async function  search(query: string): Promise<Lyric[]> {
+   136→  let objs: Lyric[] = [];
+   137→
+   138→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CHINESE_LYRIC, [`${query}`])
+   139→    .then((resultSet: relationalStore.ResultSet) => {
+   140→      try {
+   141→        while (resultSet.goToNextRow()) {
+   142→          objs.push(parse(resultSet))
+   143→        }
+   144→      } catch (error) {
+   145→        const err = error as BusinessError;
+   146→        logger.error(`searchLyric parse failed, code is ${err.code}, message is ${err.message}`);
+   147→      }
+   148→    }).catch((err: BusinessError) => {
+   149→      logger.error(`searchLyric failed, code is ${err.code}, message is ${err.message}`);
+   150→    })
+   151→
+   152→  return objs;
+   153→}
+   154→
+   155→export async function  getBookmarks(): Promise<Lyric[]> {
+   156→  let objs: Lyric[] = [];
+   157→
+   158→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CHINESE_LYRIC_BOOKMARKS)
+   159→    .then((resultSet: relationalStore.ResultSet) => {
+   160→      try {
+   161→        while (resultSet.goToNextRow()) {
+   162→          objs.push(parse(resultSet))
+   163→        }
+   164→      } catch (error) {
+   165→        const err = error as BusinessError;
+   166→        logger.error(`getBookmarks parse failed, code is ${err.code}, message is ${err.message}`);
+   167→      }
+   168→    }).catch((err: BusinessError) => {
+   169→      logger.error(`getBookmarks failed, code is ${err.code}, message is ${err.message}`);
+   170→    })
+   171→
+   172→  return objs;
+   173→}
+   174→
+   175→/**
+   176→ * @throws
+   177→ */
+   178→function parse(resultSet: relationalStore.ResultSet): Lyric{
+   179→  return new Lyric(
+   180→    resultSet.getLong(resultSet.getColumnIndex('id')),
+   181→    resultSet.getString(resultSet.getColumnIndex('title')),
+   182→    resultSet.getString(resultSet.getColumnIndex('writer')),
+   183→    resultSet.getString(resultSet.getColumnIndex('singer')),
+   184→    resultSet.getString(resultSet.getColumnIndex('content')),
+   185→  )
+   186→}
+</file>
+<metadata>The file has 186 lines in total.</metadata>

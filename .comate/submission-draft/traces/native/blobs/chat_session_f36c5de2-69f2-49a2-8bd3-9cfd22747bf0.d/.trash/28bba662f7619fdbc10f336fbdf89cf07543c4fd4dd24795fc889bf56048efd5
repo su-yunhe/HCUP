@@ -1,0 +1,33 @@
+import { DbCRUDConst, PrefConst, String } from 'constants';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+import { relationalStore } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { Logger } from 'utils';
+
+let logger: Logger = new Logger('BookmarkEntity');
+
+export class BookmarkEntity {
+  id: number;
+  bookmarkable_id: number;
+  bookmarkable_model: string;
+  chinese_antitheticalcouplet: string | null = null;
+  chinese_character: string | null = null;
+  chinese_expression: string | null = null;
+  chinese_idiom: string | null = null;
+  chinese_knowledge: string | null = null;
+  chinese_quote: string | null = null;
+  classicalliterature_classicpoem: string | null = null;
+  classicalliterature_classicpoem_writer: string | null = null;
+  classicalliterature_sentence: string | null = null;
+  chinese_lyric: string | null = null;
+  chinese_lyric_content: string | null = null;
+  chinese_modernpoetry: string | null = null;
+  chinese_modernpoetry_content: string | null = null;
+  chinese_riddle: string | null = null;
+  chinese_wisecrack: string | null = null;
+  chinese_proverb: string | null = null;
+  classicalliterature_writing: string | null = null;
+  classicalliterature_writing_author: string | null = null;
+  classicalliterature_people: string | null = null;
+
+  constructor(id: number, bookmarkable_id: number, bookmarkable_mo

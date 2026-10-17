@@ -1,0 +1,13 @@
+---
+name: jm-spec7 build & emulator environment
+description: How to build/install jm-spec7 (HarmonyCup 收藏夹 task) from CLI and what the local emulator can/cannot verify
+type: project
+---
+
+CLI build needs DevEco's bundled JBR, otherwise PackageHap fails with 00308018 "Unable to locate a Java Runtime":
+JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home, DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk, node from Contents/tools/node/bin, run `node Contents/tools/hvigor/bin/hvigorw.js ... assembleHap --no-daemon`. Output is unsigned HAP; `hdc install -r` works on emulator 127.0.0.1:5555 (bundle com.hefengbao.jingmo.hw).
+
+As of 2026-10-14 the emulator has content data only for 成语; 设置→同步数据 fails (emulator can't resolve host). Baseline tag: baseline-jm-spec7 → 264a375.
+
+**Why:** competition rules forbid fetching upstream; the app is offline-data, so only idiom flows can be run locally.
+**How to apply:** for lyric/poetry/riddle/wisecrack/classicpoem flows, ask user for an import data file or network before claiming runtime verification.

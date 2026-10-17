@@ -1,0 +1,8 @@
+## 场景二：经典诗文显示标题和作者
+
+### A10 在经典诗文详情页收藏
+- 来源：场景二 步骤 1。等级：`SPEC_EXPLICIT`（基线已具备）
+- 原子行为：在"经典诗文"内容页点收藏，收藏成功。
+- 可观察结果：toolbar 收藏图标变实心；`bookmarks` 新增 model=`classicalliterature_classicpoem`。
+- 入口：主页→`经典诗文`(ClassicPoemIndexPage，随机一篇，`classicpoem/.../IndexPage.ets:85` 有收藏按钮) 或 搜索→`ClassicPoemShowPage`（`ShowPage.ets:54-81`）。"详情页"指哪一个见 U8；两处都已可收藏，不需改。
+- 前置数据：`classicalliterature_classicpoem` 有数据（本地模拟器无）。用户动作：点 tool

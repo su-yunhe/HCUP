@@ -1,0 +1,10 @@
+### 4.3 各内容类型的收藏能力【代码实证】
+
+所有带收藏的模块写法一致：ViewModel 调 `bookmark` 模块的 `addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.X))` 后再 `getBookmark` 回读；页面用 `@Local bookmarked` 控制 NavDestination toolbar 项的文字（`添加收藏`/`取消收藏`）和图标（`ic_bookmark_border`/`ic_bookmark`），`hideItemValue: true`，**无 toast**。IndexPage（随机一条）与 ShowPage（详情）都有收藏按钮。
+
+| UI 名 | model 常量值 | 内容表 / 摘要候选字段 | ShowPage 路由 / 参数 | 收藏按钮位置 | 当前收藏页是否展示 |
+| --- | --- | --- | --- | --- | --- |
+| 歌词 | `chinese_lyric` | `chinese_lyric`: title, writer(可空), singer(可空), content | `LyricShowPage` / `ParamNumberId` | `lyric/.../ShowPage.ets:45-72` toolbar 第 1 项；IndexPage:63 第 1 项 | **否** |
+| 诗歌 | `chinese_modernpoetry` | `chinese_modernpoetry`: title, author, content | `ModernPoetryShowPage` | `poetry/.../ShowPage.ets:45` 第 1 项 | **否** |
+| 谜语 | `chinese_riddle` | `chinese_riddle`: puzzle, answer | `RiddleShowPage` | `riddle/.../ShowPage.ets:35-45` **第 2 项**（第 1 项是 显示/隐藏谜底） | **否** |
+| 歇后语 | `chinese_wisecrack` | `chinese_wisecrack`

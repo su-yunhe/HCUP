@@ -1,0 +1,181 @@
+<file>
+     1→import { relationalStore } from '@kit.ArkData';
+     2→import { BusinessError } from '@kit.BasicServicesKit';
+     3→import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
+     4→import { Logger } from 'utils';
+     5→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     6→
+     7→let logger: Logger = new Logger('Sentence');
+     8→
+     9→export class Sentence {
+    10→  id: number;
+    11→  content: string;
+    12→  from: string;
+    13→  poem_id: number | null;
+    14→
+    15→  constructor(
+    16→    id: number,
+    17→    content: string,
+    18→    from: string,
+    19→    poem_id: number | null
+    20→  ) {
+    21→    this.id = id;
+    22→    this.content = content;
+    23→    this.from = from;
+    24→    this.poem_id = poem_id;
+    25→  }
+    26→}
+    27→
+    28→export async function insertSentence(obj: Sentence) {
+    29→  const valuesBucket: relationalStore.ValuesBucket = {
+    30→    'id': obj.id,
+    31→    'content': obj.content,
+    32→    'from_txt': obj.from,
+    33→    'poem_id': obj.poem_id,
+    34→  }
+    35→
+    36→  DbUtil.objectiveRDB?.insert(
+    37→    DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE,
+    38→    valuesBucket,
+    39→    relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    40→  ).then((rowId: number) => {
+    41→    logger.info(`Insert is successful, rowId = ${rowId}`)
+    42→  }).catch((err: BusinessError) => {
+    43→    logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+    44→  })
+    45→}
+    46→
+    47→@Concurrent
+    48→export async function batchInsertSentence(context: Context, objs: Sentence[]): Promise<void> {
+    49→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+    50→  let logger: Logger = new Logger('Sentence#batchInsertSentence');
+    51→
+    52→  let valueBuckets: relationalStore.ValuesBucket[] = []
+    53→
+    54→  objs.forEach((obj: Sentence) => {
+    55→    valueBuckets.push(
+    56→      {
+    57→        'id': obj.id,
+    58→        'content': obj.content,
+    59→        'from_txt': obj.from,
+    60→        'poem_id': obj.poem_id,
+    61→      }
+    62→    )
+    63→  })
+    64→
+    65→  try {
+    66→    await store.batchInsertWithConflictResolution(
+    67→      DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE,
+    68→      valueBuckets,
+    69→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    70→    ).then((value: number) => {
+    71→      logger.info(`insert rows = ${value}`)
+    72→    }).catch((err: BusinessError) => {
+    73→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    74→    })
+    75→  } catch (error) {
+    76→    const err = error as BusinessError;
+    77→    logger.error(`batchInsertSentence failed, code is ${err.code}, message is ${err.message}`);
+    78→  }
+    79→}
+    80→
+    81→export async function getRandomSentence(): Promise<Sentence | undefined> {
+    82→  let obj: Sentence | undefined;
+    83→
+    84→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CLASSICALLITERATURE_SENTENCE)
+    85→    .then((resultSet: relationalStore.ResultSet) => {
+    86→      try {
+    87→        while (resultSet.goToNextRow()) {
+    88→          obj = parse(resultSet)
+    89→        }
+    90→        resultSet.close()
+    91→      } catch (error) {
+    92→        let err = error as BusinessError
+    93→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    94→      }
+    95→    }).catch((err: BusinessError) => {
+    96→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    97→    });
+    98→
+    99→  return obj;
+   100→}
+   101→
+   102→export async function getSentence(id: number): Promise<Sentence | undefined> {
+   103→  let obj: Sentence | undefined;
+   104→
+   105→  let predicates = new relationalStore.RdbPredicates(DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE)
+   106→  predicates.equalTo('id', id)
+   107→
+   108→  await DbUtil.objectiveRDB?.query(predicates)
+   109→    .then((resultSet: relationalStore.ResultSet) => {
+   110→      try {
+   111→        while (resultSet.goToNextRow()) {
+   112→          obj = parse(resultSet)
+   113→        }
+   114→      } catch (error) {
+   115→        let err = error as BusinessError
+   116→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   117→      }
+   118→    })
+   119→    .catch((err: BusinessError) => {
+   120→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   121→    })
+   122→
+   123→  return obj;
+   124→}
+   125→
+   126→export async function getBookmarks(): Promise<Sentence[]> {
+   127→  let objs: Sentence[] = [];
+   128→
+   129→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CLASSICALLITERATURE_SENTENCE_BOOKMARKS)
+   130→    .then((resultSet: relationalStore.ResultSet) => {
+   131→      try {
+   132→        while (resultSet.goToNextRow()) {
+   133→          objs.push(parse(resultSet))
+   134→        }
+   135→      } catch (error) {
+   136→        let err = error as BusinessError
+   137→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   138→      }
+   139→    })
+   140→    .catch((err: BusinessError) => {
+   141→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   142→    })
+   143→
+   144→  return objs;
+   145→}
+   146→
+   147→export async function search(query: string): Promise<Sentence[]> {
+   148→  let objs: Sentence[] = [];
+   149→
+   150→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CLASSICALLITERATURE_SENTENCE, [`%${query}%`])
+   151→    .then((resultSet: relationalStore.ResultSet) => {
+   152→      try {
+   153→        while (resultSet.goToNextRow()) {
+   154→          objs.push(parse(resultSet))
+   155→        }
+   156→      } catch (error) {
+   157→        let err = error as BusinessError
+   158→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   159→      }
+   160→    })
+   161→    .catch((err: BusinessError) => {
+   162→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   163→    })
+   164→
+   165→  return objs;
+   166→}
+   167→
+   168→/**
+   169→ * @throws
+   170→ */
+   171→function parse(resultSet: relationalStore.ResultSet): Sentence {
+   172→  return new Sentence(
+   173→    resultSet.getLong(resultSet.getColumnIndex('id')),
+   174→    resultSet.getString(resultSet.getColumnIndex('content')),
+   175→    resultSet.getString(resultSet.getColumnIndex('from_txt')),
+   176→    resultSet.getLong(resultSet.getColumnIndex('poem_id')),
+   177→  )
+   178→}
+</file>
+<metadata>The file has 178 lines in total.</metadata>

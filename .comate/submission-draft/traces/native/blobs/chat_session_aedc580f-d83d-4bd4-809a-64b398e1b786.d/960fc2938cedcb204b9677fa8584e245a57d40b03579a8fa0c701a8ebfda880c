@@ -1,0 +1,46 @@
+### 4.3 各内容类型的收藏能力【代码实证】
+
+所有带收藏的模块写法一致：ViewModel 调 `bookmark` 模块的 `addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.X))` 后再 `getBookmark` 回读；页面用 `@Local bookmarked` 控制 NavDestination toolbar 项的文字（`添加收藏`/`取消收藏`）和图标（`ic_bookmark_border`/`ic_bookmark`），`hideItemValue: true`，**无 toast**。IndexPage（随机一条）与 ShowPage（详情）都有收藏按钮。
+
+| UI 名 | model 常量值 | 内容表 / 摘要候选字段 | ShowPage 路由 / 参数 | 收藏按钮位置 | 当前收藏页是否展示 |
+| --- | --- | --- | --- | --- | --- |
+| 歌词 | `chinese_lyric` | `chinese_lyric`: title, writer(可空), singer(可空), content | `LyricShowPage` / `ParamNumberId` | `lyric/.../ShowPage.ets:45-72` toolbar 第 1 项；IndexPage:63 第 1 项 | **否** |
+| 诗歌 | `chinese_modernpoetry` | `chinese_modernpoetry`: title, author, content | `ModernPoetryShowPage` | `poetry/.../ShowPage.ets:45` 第 1 项 | **否** |
+| 谜语 | `chinese_riddle` | `chinese_riddle`: puzzle, answer | `RiddleShowPage` | `riddle/.../ShowPage.ets:35-45` **第 2 项**（第 1 项是 显示/隐藏谜底） | **否** |
+| 歇后语 | `chinese_wisecrack` | `chinese_wisecrack`: riddle, answer | `WisecrackShowPage` | `wisecrack/.../ShowPage.ets:34` 第 1 项 | **否** |
+| 谚语 | `chinese_proverb` | `chinese_proverb`: content | `ProverbShowPage` | `proverb/.../ShowPage.ets:34` | **否** |
+| 诗文 | `classicalliterature_writing` | `classicalliterature_writing`: title(**JSON 字符串**，模型 `Title: Clause{Content}`), author, dynasty | `WritingShowPage` | `writing/.../ShowPage.ets:47` | **否** |
+| 人物 | `classicalliterature_people` | `classicalliterature_people`: name, dynasty | `PeopleShowPage` | `people/.../ShowPage.ets:42` | **否** |
+| 经典诗文 | `classicalliterature_classicpoem` | `classicalliterature_classicpoem`: title, writer, dynasty | `ClassicPoemShowPage` | `classicpoem/.../ShowPage.ets:54-81`；IndexPage:85 | 是，**只显示 title，无作者**（`DbConst.ets:320`） |
+| 成语 | `chinese_idiom` | word | `IdiomShowPage` | `idiom/.../ShowPage.ets:51-78` | 是（word） |
+| 对联/汉字/词语/知识卡片/句子/诗文名句 | 见 PrefConst | body/character/word/content/content/content | 各自 ShowPage | — | 是 |
+| 绕口令 | `chinese_tonguetwister` | — | — | ShowPage/IndexPage **无收藏按钮**（grep 无 bookmark 调用） | 不适用 |
+
+所有 ShowPage 都在 `onReady` 里 `ctx.pathInfo.param as ParamNumberId` 按 id 查库（如 `lyric/.../ShowPage.ets:73-87`），所以收藏页只需传 `ParamNumberId(bookmarkable_id)` 即可复用。
+
+### 4.4 收藏 id 生成（基线缺陷，仅记录）
+
+`commons/utils/src/main/ets/DatetimeUtil.ets:1-13` `YmdHisToNumber()` 拼接 `${year}${month}${day}${hours}${minutes}${seconds}` **不补零**：
+
+1. 同一秒内收藏两条不同内容 → 主键相同 → `ON_CONFLICT_REPLACE` 覆盖前一条，前一条收藏丢失。
+2. 不同时刻可能产生相同数字（如 1 日 12:3:4 与 11 日 2:3:4 → 都可能拼成同一串），同样会覆盖。
+3. 位数不固定，`order by b.id desc` 不是严格的"最新在前"。
+
+另：页面在 `addBookmark` 的 Promise 返回前 `bookmarked` 仍为 undefined，快速连点两次会插入两行（不同秒时）→ 收藏页出现重复条目；`cancelBookmark` 会一次删掉全部匹配行【推断，未运行验证】。
+
+## 5. 可复用的既有实现
+
+- 收藏页现有的 "LEFT JOIN + 别名字段 + if/else 分支渲染 + `pushPathByName(<X>ShowPage, ParamNumberId)`" 模式，新增类型直接沿用最省改动，官方测试从主页收藏图标进入同一页面。
+- 各模块自己的 `<X>BookmarkPage` 已经定义了该类型的"摘要"写法，可作为收藏夹摘要字段的依据：
+  - 歌词 `lyric/.../BookmarkPage.ets:36-38`：`Text(item.title)` + `Text(item.content)`
+  - 诗歌 `poetry/.../BookmarkPage.ets:37-39`：`title` + `content`
+  - 谜语 `riddle/.../BookmarkPage.ets:37`：`puzzle`
+  - 歇后语 `wisecrack/.../BookmarkPage.ets:37`：`riddle`
+  - 谚语 `proverb/.../BookmarkPage.ets:37`：`content`
+  - 经典诗文 `classicpoem/.../BookmarkPage.ets:74,82`：`title` + `` `${dynasty}·${writer}` ``
+  - 诗文 `writing/.../BookmarkPage.ets:38-41`：`Title.Content` + `Author`
+  - 人物 `people/.../BookmarkPage.ets:22` 查询被注释掉，无可用实现
+- 字符串资源 `String.chinese_lyric` 等类型名已存在（`commons/constants/src/main/ets/String.ets:6-22`），可直接作为 BlockTitle。
+- `bookmark` 模块依赖只有 constants/utils/uicomponents（`features/bookmark/oh-package.json5`），各内容模块反向依赖 bookmark；收藏页**不能 import 内容模块的 model**（会循环依赖），只能像现在这样在 SQL 层 JOIN。
+
+<!-- PLACEHOLDER_BASELINE_5 -->

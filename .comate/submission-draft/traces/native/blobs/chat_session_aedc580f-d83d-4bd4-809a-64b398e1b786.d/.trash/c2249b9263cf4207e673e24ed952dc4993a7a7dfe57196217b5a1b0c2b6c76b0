@@ -1,0 +1,4 @@
+    # Invoking this skill logs a PostToolUse event with skillName=comate-session-ids,
+    # which pins the current conversation even when several sessions share the workspace.
+    marked = [e for e in events if e["skill"] == SKILL_NAME]
+    chosen = marked[-1] if marked else 

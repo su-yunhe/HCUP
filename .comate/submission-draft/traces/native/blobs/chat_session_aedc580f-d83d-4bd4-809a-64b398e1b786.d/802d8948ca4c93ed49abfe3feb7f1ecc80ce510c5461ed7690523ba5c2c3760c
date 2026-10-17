@@ -1,0 +1,50 @@
+## 场景二：经典诗文显示标题和作者
+
+### A10 在经典诗文详情页收藏
+- 来源：场景二 步骤 1。等级：`SPEC_EXPLICIT`（基线已具备）
+- 原子行为：在"经典诗文"内容页点收藏，收藏成功。
+- 可观察结果：toolbar 收藏图标变实心；`bookmarks` 新增 model=`classicalliterature_classicpoem`。
+- 入口：主页→`经典诗文`(ClassicPoemIndexPage，随机一篇，`classicpoem/.../IndexPage.ets:85` 有收藏按钮) 或 搜索→`ClassicPoemShowPage`（`ShowPage.ets:54-81`）。"详情页"指哪一个见 U8；两处都已可收藏，不需改。
+- 前置数据：`classicalliterature_classicpoem` 有数据（本地模拟器无）。用户动作：点 toolbar 第 1 项。返回结果：返回主页再进收藏页可见（A11）。
+- 边界：内容未加载时按钮 `DISABLED`（基线）；重复点击 = 收藏/取消切换。
+- 稳定选择器：系统 id `__NavdestinationField__ToolBar__MenuItem1__`。
+
+### A11 收藏页经典诗文条目显示标题和作者
+- 来源：场景二 步骤 2、3。等级：`SPEC_EXPLICIT`（标题+作者）+ `UNCONFIRMED_ASSUMPTION`（展示格式，U4）
+- 原子行为：经典诗文条目同时展示诗文标题和作者名称。
+- 可观察结果：同一条目内有 Text 精确等于 `title`，另有 Text 精确等于 `writer`（作者名）；类型名 Text `经典诗文`。
+- 入口：A1。前置：A10 已完成。用户动作：进入收藏页。UI 结果：如上。数据结果：查询需额外 JOIN 出 `writer`（基线只取 `title`，`DbConst.ets:320`）。返回结果：返回重进不变。
+- 边界：`writer` 为空串 → 不显示作者行（不显示 "null"/"·"）；标题过长 → 省略显示，不影响 dump 文本；`dynasty` 是否显示见 U4。
+- 稳定选择器：需补 `.id()`：`bookmark_item_classicalliterature_classicpoem_<id>`，内部 `..._title`、`..._author`。
+
+### A12 点击经典诗文条目跳转详情
+- 来源：场景二 步骤 4。等级：`SPEC_EXPLICIT`（基线已具备）
+- 原子行为：点条目进入 `ClassicPoemShowPage`，显示同一篇。
+- 可观察结果：标题 Text `经典诗文`；正文区标题与条目标题一致；收藏图标实心。
+- 其余维度同 A9。
+
+## 场景三：取消收藏后从收藏页消失
+
+### A13 收藏页显示已收藏成语
+- 来源：场景三 步骤 1。等级：`SPEC_EXPLICIT`（基线已具备，运行实证）
+- 可观察结果：类型名 `成语` + word，如 `精锐之师`。其余同 A7。
+
+### A14 进入成语详情页取消收藏
+- 来源：场景三 步骤 2。等级：`SPEC_EXPLICIT`（基线已具备，运行实证）
+- 原子行为：点成语条目 → `IdiomShowPage` → 点 toolbar 收藏（实心）→ 变空心。
+- 可观察结果：详情页标题 `成语`；toolbar 唯一项 `__NavdestinationField__ToolBar__MenuItem1__` 图标切换为空心（value 由 `取消收藏` 变 `添加收藏`，但 hideItemValue 使文字不出现在控件树）。数据结果：`bookmarks` 中该 id+model 行被删除。
+- 边界：快速连点两次 → 取消后又收藏（最终状态由点击次数奇偶决定）；取消后不返回直接再点 → 重新收藏，新 id。
+
+### A15 返回收藏页后条目消失
+- 来源：场景三 步骤 3。等级：`SPEC_EXPLICIT`（基线已具备，运行实证：取消"精锐之师"后返回，列表首条变为"终始若一"）
+- 原子行为：Back 回收藏页，被取消的条目不在列表中。
+- 可观察结果：列表中不存在 Text `精锐之师`（举例）；条目数 -1。
+- 返回结果：依赖 state==4 刷新（BN §4.1）。边界：重启应用后重进 → 仍不存在；在详情页取消后又重新收藏再返回 → 条目回来（A16）。
+
+### A16 取消与恢复的一致性（推导）
+- 来源：场景三 概述。等级：`REASONABLE_DERIVATION`
+- 原子行为：① 取消一条不影响其他收藏条目；② 对新增类型（歌词/诗歌/谜语/歇后语/经典诗文等）取消收藏后同样从收藏页消失；③ 取消后再收藏，条目重新出现且只出现一次。
+- 可观察结果：其余条目文字仍在；新增类型条目消失；重复收藏后仅一条。
+- 边界：从收藏页进入详情、取消、再收藏、再返回 → 条目应存在且不重复；不同类型相同 `bookmarkable_id`（如歌词 id=5 与成语 id=5）互不影响（取消按 id+model 删除）。
+
+<!-- PLACEHOLDER_ACC_4 -->

@@ -1,0 +1,1 @@
+SQL 里 `json_extract` 是否可用未验证 → 采用：SQL 查出原串，在 ArkTS 侧 `JSON.parse` 取 `Content`，解析失败时回退为原串；

@@ -1,0 +1,70 @@
+# test-harness：通用自测框架
+
+目标：为题包中的每道题提供**统一**的设备连接、环境校验、Hypium 封装和测试运行/报告方式；
+各题自己的测试点（断言逻辑）单独编写，放在各题的工作目录下，不属于本框架。
+
+本框架不是官方评测器，只用于本地自测，帮助在提交前用同款工具链（Hypium + hdc）
+验证功能，降低"本地通过、正式评测翻车"的概率。详见 `docs/development.md`
+"正式评测与自测模拟器配置"一节——本框架的环境校验正是照这张配置表做的。
+
+## 目录结构
+
+```
+test-harness/
+├── README.md                本文件
+├── requirements.txt         通用框架自身的 Python 依赖（Hypium 等）
+└── harness/                 通用库，与赛题无关
+    ├── __init__.py
+    ├── device.py             设备发现、选择、连接（封装 hdc / UiDriver.connect）
+    ├── env_check.py          环境校验：对照官方模拟器规格表，检查屏幕分辨率/dpi/系统版本
+    ├── driver.py             UiDriver 薄封装：带超时重试的查找/等待/断言辅助方法，require_precondition（前置条件不满足记为 skip）、slider_value
+    ├── window.py             按窗口名从 hidumper 读取 [x y w h]（悬浮窗等不在 UI 树里的窗口），含屏幕内可见比例计算
+    ├── app.py                应用生命周期与导航：restart_app（未实测）、click_text_path
+    ├── runner.py             测试运行器：发现并执行某道题目录下的测试文件，汇总报告
+    └── report.py             统一的结果报告：pass / fail / error / skip 分开统计，skip 不算通过
+```
+
+## 使用方式
+
+### 1. 环境准备（跟 docs/development.md 一致，一次性）
+
+```bash
+cd /Users/bress/Documents/code/SWE-OpenHarmony
+python3 -m venv .venv
+.venv/bin/python -m pip install -r test-harness/requirements.txt \
+    --index-url https://repo.huaweicloud.com/repository/pypi/simple
+```
+
+### 2. 启动模拟器并校验环境是否匹配官方规格
+
+在 DevEco Studio 中启动 Phone / PHEMU-FD00（Pura 90 Pro Max）/ API 23 模拟器后：
+
+```bash
+.venv/bin/python -m harness.env_check
+```
+
+会输出当前连接设备的系统版本、屏幕分辨率/dpi 是否与官方评测环境一致，不一致会给出明确告警
+（但不阻塞继续自测，因为"本地自测通过不代表正式测试通过"，环境校验只是降低偏差）。
+
+### 3. 跑某道题的测试
+
+每道题的测试文件约定放在该题工作目录下的 `hypium_tests/` 子目录，
+每个测试类继承 `harness.driver.HarnessTestCase`。运行：
+
+```bash
+.venv/bin/python -m harness.runner --project ../harmonycup-work/cmu-spec9 --device <设备序列号>
+```
+
+`runner` 会：
+1. 调用 `env_check` 做一次环境校验并记录在报告头部（不阻塞）
+2. 自动发现 `<project>/hypium_tests/test_*.py` 下的所有测试
+3. 执行并输出统一格式的通过/失败报告（终端 + 可选 JSON 文件）
+
+### 4. 给新题目写测试点
+
+只需要：
+1. 在该题工作目录下建 `hypium_tests/test_<场景>.py`
+2. 继承 `HarnessTestCase`（提供了 `self.driver`、`self.require_text()`、`self.find_or_fail()` 等通用辅助方法）
+3. 只写该题 spec 里描述的断言逻辑，不用关心设备连接、重试、报告格式
+
+参见 `../harmonycup-work/cmu-spec9/hypium_tests/` 下的示例（针对 `specs/cmu-spec9.md` 的三个场景）。

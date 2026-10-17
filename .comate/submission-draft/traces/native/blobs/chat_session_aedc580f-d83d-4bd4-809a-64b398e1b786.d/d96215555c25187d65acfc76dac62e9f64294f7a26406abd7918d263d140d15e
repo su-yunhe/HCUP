@@ -1,0 +1,75 @@
+Command executed successfully.
+Exit code: 1
+Output:
+=== features/classicalliterature/classicpoem
+features/classicalliterature/classicpoem/src/main/ets/viewmodel/ClassicPoemViewModel.ets:7:    return getBookmark(id, PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
+features/classicalliterature/classicpoem/src/main/ets/viewmodel/ClassicPoemViewModel.ets:17:    return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CLASSICALLITERATURE_CLASSICPOEM))
+features/classicalliterature/classicpoem/src/main/ets/viewmodel/ClassicPoemViewModel.ets:19:        return getBookmark(id, PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
+features/classicalliterature/classicpoem/src/main/ets/viewmodel/ClassicPoemViewModel.ets:33:    return cancelBookmark(id, PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
+features/classicalliterature/classicpoem/src/main/ets/pages/ShowPage.ets:2:import { AvoidAreaObserver, Icon, ParamNumberId, PrefConst, String } from 'constants';
+features/classicalliterature/classicpoem/src/main/ets/pages/ShowPage.ets:49:            this.pageStack.pushPathByName("ClassicPoemSnapshotPage", new ParamNumberId(this.classicPoem.id))
+features/classicalliterature/classicpoem/src/main/ets/pages/ShowPage.ets:84:      let param = ctx.pathInfo.param as ParamNumberId
+features/classicalliterature/classicpoem/src/main/ets/pages/ShowPage.ets:90:        getBookmark(param.id, PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
+=== features/classicalliterature/writing
+features/classicalliterature/writing/src/main/ets/viewmodel/WritingViewModel.ets:8:    return getBookmark(id, PrefConst.CLASSICALLITERATURE_WRITING)
+features/classicalliterature/writing/src/main/ets/viewmodel/WritingViewModel.ets:18:    return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CLASSICALLITERATURE_WRITING))
+features/classicalliterature/writing/src/main/ets/viewmodel/WritingViewModel.ets:20:        return getBookmark(id, PrefConst.CLASSICALLITERATURE_WRITING)
+features/classicalliterature/writing/src/main/ets/viewmodel/WritingViewModel.ets:34:    return cancelBookmark(id, PrefConst.CLASSICALLITERATURE_WRITING)
+features/classicalliterature/writing/src/main/ets/pages/ShowPage.ets:2:import { Icon, ParamNumberId, String } from 'constants';
+features/classicalliterature/writing/src/main/ets/pages/ShowPage.ets:42:            this.pageStack.pushPathByName("WritingSnapshotPage", new ParamNumberId(this.writing.Id))
+features/classicalliterature/writing/src/main/ets/pages/ShowPage.ets:77:      let param = ctx.pathInfo.param as ParamNumberId;
+=== features/classicalliterature/people
+features/classicalliterature/people/src/main/ets/viewmodel/PeopleViewModel.ets:8:    return getBookmark(id, PrefConst.CLASSICALLITERATURE_PEOPLE)
+features/classicalliterature/people/src/main/ets/viewmodel/PeopleViewModel.ets:18:    return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CLASSICALLITERATURE_PEOPLE))
+features/classicalliterature/people/src/main/ets/viewmodel/PeopleViewModel.ets:20:        return getBookmark(id, PrefConst.CLASSICALLITERATURE_PEOPLE)
+features/classicalliterature/people/src/main/ets/viewmodel/PeopleViewModel.ets:34:    return cancelBookmark(id, PrefConst.CLASSICALLITERATURE_PEOPLE)
+features/classicalliterature/people/src/main/ets/pages/ShowPage.ets:1:import { ParamNumberId, String } from 'constants';
+features/classicalliterature/people/src/main/ets/pages/ShowPage.ets:37:            this.pageStack.pushPathByName("PeopleSnapshotPage", new ParamNumberId(this.people.id))
+features/classicalliterature/people/src/main/ets/pages/ShowPage.ets:72:      let param = ctx.pathInfo.param as ParamNumberId
+=== features/classicalliterature/sentence
+features/classicalliterature/sentence/src/main/ets/viewmodel/SentenceViewModel.ets:7:    return getBookmark(id, PrefConst.CLASSICALLITERATURE_SENTENCE)
+features/classicalliterature/sentence/src/main/ets/viewmodel/SentenceViewModel.ets:17:    return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CLASSICALLITERATURE_SENTENCE))
+features/classicalliterature/sentence/src/main/ets/viewmodel/SentenceViewModel.ets:19:        return getBookmark(id, PrefConst.CLASSICALLITERATURE_SENTENCE)
+features/classicalliterature/sentence/src/main/ets/viewmodel/SentenceViewModel.ets:33:    return cancelBookmark(id, PrefConst.CLASSICALLITERATURE_SENTENCE)
+features/classicalliterature/sentence/src/main/ets/pages/ShowPage.ets:1:import { AvoidAreaObserver, Icon, ParamNumberId, String } from 'constants';
+features/classicalliterature/sentence/src/main/ets/pages/ShowPage.ets:48:            this.pageStack.pushPathByName("SentenceSnapshotPage", new ParamNumberId(this.sentence.id))
+features/classicalliterature/sentence/src/main/ets/pages/ShowPage.ets:83:      let param = ctx.pathInfo.param as ParamNumberId;
+=== features/chinese/proverb
+features/chinese/proverb/src/main/ets/viewmodel/ProverbViewModel.ets:8:    return getBookmark(id, PrefConst.CHINESE_PROVERB)
+features/chinese/proverb/src/main/ets/viewmodel/ProverbViewModel.ets:18:    return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CHINESE_PROVERB))
+features/chinese/proverb/src/main/ets/viewmodel/ProverbViewModel.ets:20:        return getBookmark(id, PrefConst.CHINESE_PROVERB)
+features/chinese/proverb/src/main/ets/viewmodel/ProverbViewModel.ets:34:    return cancelBookmark(id, PrefConst.CHINESE_PROVERB)
+features/chinese/proverb/src/main/ets/pages/ShowPage.ets:2:import { Icon, ParamNumberId, String } from 'constants';
+features/chinese/proverb/src/main/ets/pages/ShowPage.ets:64:      let param = ctx.pathInfo.param as ParamNumberId;
+=== features/chinese/wisecrack
+features/chinese/wisecrack/src/main/ets/viewmodel/WisecrackViewModel.ets:8:    return getBookmark(id, PrefConst.CHINESE_WISECRACK)
+features/chinese/wisecrack/src/main/ets/viewmodel/WisecrackViewModel.ets:18:    return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CHINESE_WISECRACK))
+features/chinese/wisecrack/src/main/ets/viewmodel/WisecrackViewModel.ets:20:        return getBookmark(id, PrefConst.CHINESE_WISECRACK)
+features/chinese/wisecrack/src/main/ets/viewmodel/WisecrackViewModel.ets:34:    return cancelBookmark(id, PrefConst.CHINESE_WISECRACK)
+features/chinese/wisecrack/src/main/ets/pages/ShowPage.ets:2:import { Icon, ParamNumberId, String } from 'constants';
+features/chinese/wisecrack/src/main/ets/pages/ShowPage.ets:64:      let param = ctx.pathInfo.param as ParamNumberId;
+=== features/chinese/riddle
+features/chinese/riddle/src/main/ets/viewmodel/RiddleViewModel.ets:8:    return getBookmark(id, PrefConst.CHINESE_RIDDLE)
+features/chinese/riddle/src/main/ets/viewmodel/RiddleViewModel.ets:18:    return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CHINESE_RIDDLE))
+features/chinese/riddle/src/main/ets/viewmodel/RiddleViewModel.ets:20:        return getBookmark(id, PrefConst.CHINESE_RIDDLE)
+features/chinese/riddle/src/main/ets/viewmodel/RiddleViewModel.ets:34:    return cancelBookmark(id, PrefConst.CHINESE_RIDDLE)
+features/chinese/riddle/src/main/ets/pages/ShowPage.ets:2:import { Icon, ParamNumberId, String } from 'constants';
+features/chinese/riddle/src/main/ets/pages/ShowPage.ets:72:      let param = ctx.pathInfo.param as ParamNumberId;
+=== features/chinese/lyric
+features/chinese/lyric/src/main/ets/viewmodel/LyricViewModel.ets:8:    return getBookmark(id, PrefConst.CHINESE_LYRIC)
+features/chinese/lyric/src/main/ets/viewmodel/LyricViewModel.ets:12:    return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CHINESE_LYRIC))
+features/chinese/lyric/src/main/ets/viewmodel/LyricViewModel.ets:14:        return getBookmark(id, PrefConst.CHINESE_LYRIC)
+features/chinese/lyric/src/main/ets/viewmodel/LyricViewModel.ets:28:    return cancelBookmark(id, PrefConst.CHINESE_LYRIC)
+features/chinese/lyric/src/main/ets/pages/ShowPage.ets:2:import { Icon, ParamNumberId, String } from 'constants';
+features/chinese/lyric/src/main/ets/pages/ShowPage.ets:40:            this.pageStack.pushPathByName("LyricSnapshotPage", new ParamNumberId(this.lyric.id))
+features/chinese/lyric/src/main/ets/pages/ShowPage.ets:75:      let param = ctx.pathInfo.param as ParamNumberId;
+=== features/chinese/poetry
+features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:8:    return getBookmark(id, PrefConst.CHINESE_MODERNPOETRY)
+features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:12:    return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CHINESE_MODERNPOETRY))
+features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:14:        return getBookmark(id, PrefConst.CHINESE_MODERNPOETRY)
+features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:28:    return cancelBookmark(id, PrefConst.CHINESE_MODERNPOETRY)
+features/chinese/poetry/src/main/ets/pages/ShowPage.ets:2:import { Icon, ParamNumberId, String } from 'constants';
+features/chinese/poetry/src/main/ets/pages/ShowPage.ets:40:            this.pageStack.pushPathByName("ModernPoetrySnapshotPage", new ParamNumberId(this.poetry.id))
+features/chinese/poetry/src/main/ets/pages/ShowPage.ets:75:      let param = ctx.pathInfo.param as ParamNumberId;
+=== features/chinese/tonguetwister
+zsh:1: no matches found: features/chinese/tonguetwister/src/main/ets/viewmodel/*.ets

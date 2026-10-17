@@ -1,0 +1,161 @@
+commit 82b38ff709e87bf900b70ef75dd3d61bc98b8b2b
+Author:     bress <1980039406@qq.com>
+AuthorDate: 2026-10-17T15:35:58+08:00
+Commit:     bress <1980039406@qq.com>
+CommitDate: 2026-10-17T15:35:58+08:00
+
+    q
+
+ .../task-books-at-264a375/0-analyze.md             |  83 -------------
+ .../code-snapshots/task-books-at-264a375/1-do.md   | 119 ------------------
+ .../task-books-at-264a375/2-submit.md              | 113 -----------------
+ .../task-books-at-264a375/3-package.md             | 138 ---------------------
+ 4 files changed, 453 deletions(-)
+
+commit 12945f290cb1e983f5c0c1b089e8581bef687dac
+Author:     bress <1980039406@qq.com>
+AuthorDate: 2026-10-17T15:30:41+08:00
+Commit:     bress <1980039406@qq.com>
+CommitDate: 2026-10-17T15:30:41+08:00
+
+    添加spec
+
+ .../task-books-at-264a375/0-analyze.md             |  83 +++++++++++++
+ .../code-snapshots/task-books-at-264a375/1-do.md   | 119 ++++++++++++++++++
+ .../task-books-at-264a375/2-submit.md              | 113 +++++++++++++++++
+ .../task-books-at-264a375/3-package.md             | 138 +++++++++++++++++++++
+ 4 files changed, 453 insertions(+)
+
+commit ff7a3c37256eea2ee430d2c0b8ee57a373141049
+Author:     bress <1980039406@qq.com>
+AuthorDate: 2026-10-15T20:56:20+08:00
+Commit:     bress <1980039406@qq.com>
+CommitDate: 2026-10-15T20:56:20+08:00
+
+    jm-spec7: spec/README.md 改用相对路径引用 common
+
+ spec/README.md | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+commit 671a8aa2f64c1d7a3e561fa0473f9b5de91dfad8
+Author:     bress <1980039406@qq.com>
+AuthorDate: 2026-10-15T20:47:06+08:00
+Commit:     bress <1980039406@qq.com>
+CommitDate: 2026-10-15T20:47:06+08:00
+
+    jm-spec7: 通用任务书移至 common/spec-harness，新增本题 spec/README.md 与 submit-input.yaml
+
+ spec/0-analyze.md      |  83 -----------------------------
+ spec/1-do.md           | 119 ------------------------------------------
+ spec/2-submit.md       | 113 ----------------------------------------
+ spec/3-package.md      | 138 -------------------------------------------------
+ spec/README.md         |  29 +++++++++++
+ spec/submit-input.yaml |   6 +++
+ 6 files changed, 35 insertions(+), 453 deletions(-)
+
+commit 572efb1b2160d34a7a1fdf88869acf6372dcd2be
+Author:     bress <1980039406@qq.com>
+AuthorDate: 2026-10-15T19:44:23+08:00
+Commit:     bress <1980039406@qq.com>
+CommitDate: 2026-10-15T19:44:23+08:00
+
+    feat: 收藏夹支持歌词/诗歌/谜语/歇后语等更多内容类型
+    
+    - 收藏列表 SQL 新增 7 类内容 JOIN，经典诗文增加作者；按 (model, id) 去重、过滤孤儿与未知类型、最新在前
+    - 收藏插入改为自增主键，避免时间戳 id 碰撞与排序错乱
+    - 收藏页按类型映射摘要与详情路由，经典诗文显示标题+作者
+    - 主页收藏入口、收藏列表与条目补稳定 id
+    - 新增 Hypium 自测与构建/安装/自测日志、spec 文档
+
+ .comate/specs/bookmark-more-types/doc.md           | 192 ++++
+ .comate/specs/bookmark-more-types/summary.md       |  33 +
+ .comate/specs/bookmark-more-types/tasks.md         |  47 +
+ commons/constants/src/main/ets/DbConst.ets         |  36 +-
+ features/bookmark/src/main/ets/model/Bookmark.ets  |   2 +-
+ .../bookmark/src/main/ets/model/BookmarkEntity.ets | 179 +++-
+ features/bookmark/src/main/ets/pages/IndexPage.ets | 129 +--
+ features/home/src/main/ets/view/TopBar.ets         |  11 +-
+ hypium_tests/__init__.py                           |   0
+ hypium_tests/test_bookmark.py                      | 273 ++++++
+ logs/build.log                                     | 584 ++++++++++++
+ logs/install.log                                   |   2 +
+ logs/selftest.json                                 |  72 ++
+ logs/selftest.log                                  | 999 +++++++++++++++++++++
+ 14 files changed, 2423 insertions(+), 136 deletions(-)
+
+commit fbf1e1744bd951fac4ad5e675bb23f22f878aace
+Author:     bress <1980039406@qq.com>
+AuthorDate: 2026-10-15T11:21:47+08:00
+Commit:     bress <1980039406@qq.com>
+CommitDate: 2026-10-15T11:21:47+08:00
+
+    docs: 新增收藏夹需求验收矩阵与基线记录
+    
+    - spec/acceptance.md：按 Spec 三个场景拆分 A1-A16 验收项，含八维度、边界穷举、
+      稳定选择器建议，以及已确认的 U1-U10 歧义决议与摘要字段表
+    - spec/baseline-notes.md：基线 tag、构建命令与告警清单、入口与数据模型现状、
+      可复用实现、缺失项、环境前置及配网后模拟器实测结果
+
+ spec/acceptance.md     | 287 +++++++++++++++++++++++++++++++++++++++++++++++++
+ spec/baseline-notes.md | 187 ++++++++++++++++++++++++++++++++
+ 2 files changed, 474 insertions(+)
+
+commit 264a375d83db8191c12b695a003e85a64676f21c
+Author:     bress <1980039406@qq.com>
+AuthorDate: 2026-10-14T21:26:43+08:00
+Commit:     bress <1980039406@qq.com>
+CommitDate: 2026-10-14T21:26:43+08:00
+
+    chore: 补充 spec 四步任务书与本题需求
+    
+    新增 spec/0-analyze.md、1-do.md、2-submit.md、3-package.md 四步任务书（分析/开发/单题材料/阶段打包），
+    以及本题需求 spec/requirement.md 与基线元数据 spec/metadata.json，使 Agent 无需访问题包目录。
+
+ spec/0-analyze.md   |  83 +++++++++++++++++++++++++++++++
+ spec/1-do.md        | 119 ++++++++++++++++++++++++++++++++++++++++++++
+ spec/2-submit.md    | 113 ++++++++++++++++++++++++++++++++++++++++++
+ spec/3-package.md   | 138 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ spec/metadata.json  |   4 ++
+ spec/requirement.md |  39 +++++++++++++++
+ 6 files changed, 496 insertions(+)
+
+commit 64ee6ee496c719870c85eb91afe18914cd080b67
+Author:     bress <1980039406@qq.com>
+AuthorDate: 2026-10-14T17:24:26+08:00
+Commit:     bress <1980039406@qq.com>
+CommitDate: 2026-10-14T17:24:26+08:00
+
+    chore: 记录 hvigor debug 构建重新生成的 BuildProfile.ets
+    
+    构建产物文件被上游纳入 git 跟踪，debug 构建将 BUILD_MODE_NAME/DEBUG 改为 debug/true，不含任何赛题功能实现。
+
+ commons/constants/BuildProfile.ets                        | 4 ++--
+ commons/data/BuildProfile.ets                             | 4 ++--
+ commons/uicomponents/BuildProfile.ets                     | 4 ++--
+ commons/utils/BuildProfile.ets                            | 4 ++--
+ features/bookmark/BuildProfile.ets                        | 4 ++--
+ features/china/worldcultureheritage/BuildProfile.ets      | 4 ++--
+ features/chinese/antitheticalcouplet/BuildProfile.ets     | 4 ++--
+ features/chinese/character/BuildProfile.ets               | 4 ++--
+ features/chinese/expression/BuildProfile.ets              | 4 ++--
+ features/chinese/idiom/BuildProfile.ets                   | 4 ++--
+ features/chinese/knowledge/BuildProfile.ets               | 4 ++--
+ features/chinese/lyric/BuildProfile.ets                   | 4 ++--
+ features/chinese/poetry/BuildProfile.ets                  | 4 ++--
+ features/chinese/proverb/BuildProfile.ets                 | 4 ++--
+ features/chinese/quote/BuildProfile.ets                   | 4 ++--
+ features/chinese/riddle/BuildProfile.ets                  | 4 ++--
+ features/chinese/tonguetwister/BuildProfile.ets           | 4 ++--
+ features/chinese/wisecrack/BuildProfile.ets               | 4 ++--
+ features/classicalliterature/classicpoem/BuildProfile.ets | 4 ++--
+ features/classicalliterature/people/BuildProfile.ets      | 4 ++--
+ features/classicalliterature/sentence/BuildProfile.ets    | 4 ++--
+ features/classicalliterature/writing/BuildProfile.ets     | 4 ++--
+ features/home/BuildProfile.ets                            | 4 ++--
+ features/link/BuildProfile.ets                            | 4 ++--
+ features/settings/BuildProfile.ets                        | 4 ++--
+ features/traditionalculture/calendar/BuildProfile.ets     | 4 ++--
+ features/traditionalculture/color/BuildProfile.ets        | 4 ++--
+ features/traditionalculture/festival/BuildProfile.ets     | 4 ++--
+ features/traditionalculture/solarterm/BuildProfile.ets    | 4 ++--
+ 29 files changed, 58 insertions(+), 58 deletions(-)

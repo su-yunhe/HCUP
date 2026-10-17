@@ -1,0 +1,157 @@
+<file>
+     1→import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
+     2→import { relationalStore } from '@kit.ArkData';
+     3→import { Logger } from 'utils';
+     4→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     5→
+     6→let logger: Logger = new Logger('Wisecrack');
+     7→
+     8→export class Wisecrack {
+     9→  id: number;
+    10→  riddle: string;
+    11→  answer: string;
+    12→  firstWord: string | null;
+    13→  firstLetter: string | null;
+    14→
+    15→  constructor(id: number, riddle: string, answer: string, firstWord: string | null, firstLetter: string | null) {
+    16→    this.id = id;
+    17→    this.riddle = riddle;
+    18→    this.answer = answer;
+    19→    this.firstWord = firstWord;
+    20→    this.firstLetter = firstLetter;
+    21→  }
+    22→}
+    23→
+    24→@Concurrent
+    25→export async function batchInsertWisecrack(context: Context, objs: Wisecrack[]): Promise<void> {
+    26→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+    27→  let logger: Logger = new Logger('Wisecrack#batchInsertWisecrack');
+    28→
+    29→  let valuesBuckets: relationalStore.ValuesBucket[] = []
+    30→
+    31→  objs.forEach((obj: Wisecrack) => {
+    32→    valuesBuckets.push(
+    33→      {
+    34→        'id': obj.id,
+    35→        'riddle': obj.riddle,
+    36→        'answer': obj.answer,
+    37→      }
+    38→    )
+    39→  })
+    40→
+    41→  try {
+    42→    await store.batchInsertWithConflictResolution(
+    43→      DbTableConst.CHINESE_WISECRACK_TABLE,
+    44→      valuesBuckets,
+    45→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    46→    ).then((value: number) => {
+    47→      logger.info(`insert rows = ${value}`)
+    48→    }).catch((err: BusinessError) => {
+    49→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    50→    })
+    51→  } catch (error) {
+    52→    const err = error as BusinessError;
+    53→    logger.error(`batchInsertWisecrack failed, code is ${err.code}, message is ${err.message}`);
+    54→  }
+    55→}
+    56→
+    57→export async function getRandomWisecrack(): Promise<Wisecrack | undefined> {
+    58→  let obj: Wisecrack | undefined;
+    59→
+    60→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_WISECRACK)
+    61→    .then((resultSet: relationalStore.ResultSet) => {
+    62→      try {
+    63→        while (resultSet.goToNextRow()) {
+    64→          obj = parse(resultSet)
+    65→        }
+    66→      } catch (error) {
+    67→        const err = error as BusinessError;
+    68→        logger.error(`getRandomWisecrack parse failed, code is ${err.code}, message is ${err.message}`);
+    69→      }
+    70→    })
+    71→    .catch((err: BusinessError) => {
+    72→      logger.error(`getRandomWisecrack failed, code is ${err.code}, message is ${err.message}`);
+    73→    })
+    74→
+    75→  return obj;
+    76→}
+    77→
+    78→export async function getWisecrack(id: number): Promise<Wisecrack | undefined> {
+    79→  let obj: Wisecrack | undefined;
+    80→  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_WISECRACK_TABLE)
+    81→  predicates.equalTo('id', id);
+    82→
+    83→  await DbUtil.objectiveRDB?.query(predicates)
+    84→    .then((resultSet: relationalStore.ResultSet) => {
+    85→      try {
+    86→        while (resultSet.goToNextRow()) {
+    87→          obj = parse(resultSet)
+    88→        }
+    89→      } catch (error) {
+    90→        const err = error as BusinessError;
+    91→        logger.error(`getWisecrack parse failed, code is ${err.code}, message is ${err.message}`);
+    92→      }
+    93→    })
+    94→    .catch((err: BusinessError) => {
+    95→      logger.error(`getWisecrack failed, code is ${err.code}, message is ${err.message}`);
+    96→    })
+    97→
+    98→  return obj;
+    99→}
+   100→
+   101→export async function search(query: string): Promise<Wisecrack[]> {
+   102→  let objs: Wisecrack[] = [];
+   103→
+   104→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CHINESE_WISECRACK, [`%${query}%`])
+   105→    .then((resultSet: relationalStore.ResultSet) => {
+   106→      try {
+   107→        while (resultSet.goToNextRow()) {
+   108→          objs.push(parse(resultSet))
+   109→        }
+   110→      } catch (error) {
+   111→        const err = error as BusinessError;
+   112→        logger.error(`search parse failed, code is ${err.code}, message is ${err.message}`);
+   113→      }
+   114→    })
+   115→    .catch((err: BusinessError) => {
+   116→      logger.error(`search failed, code is ${err.code}, message is ${err.message}`);
+   117→    })
+   118→  return objs;
+   119→}
+   120→
+   121→export async function getBookmarks(): Promise<Wisecrack[]> {
+   122→  let objs: Wisecrack[] = [];
+   123→
+   124→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CHINESE_WISECRACK_BOOKMARKS)
+   125→    .then((resultSet: relationalStore.ResultSet) => {
+   126→      try {
+   127→        while (resultSet.goToNextRow()) {
+   128→          objs.push(parse(resultSet))
+   129→        }
+   130→      } catch (error) {
+   131→        const err = error as BusinessError;
+   132→        logger.error(`getBookmarks parse failed, code is ${err.code}, message is ${err.message}`);
+   133→      }
+   134→    })
+   135→    .catch((err: BusinessError) => {
+   136→      logger.error(`getBookmarks failed, code is ${err.code}, message is ${err.message}`);
+   137→    })
+   138→  return objs;
+   139→}
+   140→
+   141→/**
+   142→ * @throws
+   143→ * @param resultSet
+   144→ * @returns
+   145→ */
+   146→function parse(resultSet: relationalStore.ResultSet): Wisecrack {
+   147→  return new Wisecrack(
+   148→    resultSet.getLong(resultSet.getColumnIndex('id')),
+   149→    resultSet.getString(resultSet.getColumnIndex('riddle')),
+   150→    resultSet.getString(resultSet.getColumnIndex('answer')),
+   151→    null,
+   152→    null
+   153→  )
+   154→}
+</file>
+<metadata>The file has 154 lines in total.</metadata>

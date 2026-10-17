@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+"""Print the current Comate session's engine sessionUuid and IDE sidebar session ID.
+
+Read-only: only reads the hook log and opens the IDE state DB with mode=ro.
+
+Usage: python3 session_ids.py <workspace_path> [--json]
+"""
+import json
+import os
+import sqlite3
+import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+SKILL_NAME = "comate-session-ids"
+HOOK_LOG = Path.home() / ".comate" / "builtin-hook-state" / "notify-dispatcher.log"
+TAIL_BYTES = 8 * 1024 * 1024  # the log grows large; recent entries are all we need
+RECENT_WINDOW_SEC = 30 * 60
+
+
+def storage_roots():
+    home = Path.home()
+    candidates = [
+        home / "Library" / "Application Support" / "Comate" / "User" / "workspaceStorage",  # macOS
+        home / ".config" / "Comate" / "User" / "workspaceStorage",  # Linux
+    ]
+    appdata = os.environ.get("APPDATA")
+    if appdata:
+        candidates.append(Path(appdata) / "Comate" / "User" / "workspaceStorage")  # Windows
+    return [p for p in candidates if p.is_dir()]
+
+
+def parse_time(s):
+    try:
+        return datetime.fromisoformat(s.replace("Z", "+00:00")).timestamp()
+    except (ValueError, AttributeError):
+        return None
+
+
+def read_hook_events(workspace):
+    """Return [(ts, conversationId, cwd, toolName, skillName)] for PostToolUse events in this workspace."""
+    if not HOOK_LOG.is_file():
+        return None
+    size = HOOK_LOG.stat().st_size
+    with HOOK_LOG.open("rb") as f:
+        if size > TAIL_BYTES:
+            f.seek(size - TAIL_BYTES)
+            f.readline()  # drop partial line
+        lines = f.read().decode("utf-8", errors="replace").splitlines()
+
+    events, cur = [], None
+    for line in lines:
+        try:
+            rec = json.loads(line)
+        except ValueError:
+            continue
+        msg, data = rec.get("message"), rec.get("data") or {}
+        if msg == "start" and data.get("event") == "PostToolUse" and data.get("conversationId"):
+            if cur:
+                events.append(cur)
+            cur = {"ts": parse_time(rec.get("time")), "id": data["conversationId"], "cwd": None,
+                   "tool": None, "skill": None}
+        elif cur and msg == "loadWatch":
+            cur["cwd"] = data.get("cwd")
+        elif cur and msg == "record":
+            cur["tool"], cur["skill"] = data.get("toolName"), data.get("skillName")
+    if cur:
+        events.append(cur)
+
+    ws = os.path.realpath(workspace)
+    return [e for e in events if e["cwd"] and os.path.realpath(e["cwd"]) == ws]
+
+
+def engine_session(workspace):
+    events = read_hook_events(workspace)
+    if events is None:
+        return {"error": f"hook log not found: {HOOK_LOG}"}
+    if not events:
+        return {"error": "no PostToolUse events for this workspace in the hook log"}
+
+    # Invoking this skill logs a PostToolUse event with skillName=comate-session-ids,
+    # which pins the current conversation even when several sessions share the workspace.
+    marked = [e for e in events if e["skill"] == SKILL_NAME]
+    chosen = marked[-1] if marked else events[-1]
+    now = time.time()
+    recent_ids = sorted({e["id"] for e in events if e["ts"] and now - e["ts"] < RECENT_WINDOW_SEC})
+    return {
+        "sessionU

@@ -1,0 +1,86 @@
+<file>
+     1→import { DbCRUDConst } from 'constants';
+     2→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     3→import { relationalStore } from '@kit.ArkData';
+     4→import { BusinessError } from '@kit.BasicServicesKit';
+     5→import { Logger } from 'utils';
+     6→
+     7→let logger: Logger = new Logger('BookmarkEntity');
+     8→
+     9→export class BookmarkEntity {
+    10→  id: number;
+    11→  bookmarkable_id: number;
+    12→  bookmarkable_model: string;
+    13→  chinese_antitheticalcouplet: string | null;
+    14→  chinese_character: string | null;
+    15→  chinese_expression: string | null;
+    16→  chinese_idiom: string | null;
+    17→  chinese_knowledge: string | null;
+    18→  chinese_quote: string | null;
+    19→  classicalliterature_classicpoem: string | null;
+    20→  classicalliterature_sentence: string | null;
+    21→
+    22→  constructor(
+    23→    id: number,
+    24→    bookmarkable_id: number,
+    25→    bookmarkable_model: string,
+    26→    chinese_antitheticalcouplet: string | null,
+    27→    chinese_character: string | null,
+    28→    chinese_expression: string | null,
+    29→    chinese_idiom: string | null,
+    30→    chinese_knowledge: string | null,
+    31→    chinese_quote: string | null,
+    32→    classicalliterature_classicpoem: string | null,
+    33→    classicalliterature_sentence: string | null
+    34→  ) {
+    35→    this.id = id;
+    36→    this.bookmarkable_id = bookmarkable_id;
+    37→    this.bookmarkable_model = bookmarkable_model;
+    38→    this.chinese_antitheticalcouplet = chinese_antitheticalcouplet;
+    39→    this.chinese_character = chinese_character;
+    40→    this.chinese_expression = chinese_expression;
+    41→    this.chinese_idiom = chinese_idiom;
+    42→    this.chinese_knowledge = chinese_knowledge;
+    43→    this.chinese_quote = chinese_quote;
+    44→    this.classicalliterature_classicpoem = classicalliterature_classicpoem;
+    45→    this.classicalliterature_sentence = classicalliterature_sentence;
+    46→  }
+    47→}
+    48→
+    49→export async function getEntities(): Promise<BookmarkEntity[]> {
+    50→  let objs: BookmarkEntity[] = [];
+    51→
+    52→  logger.info(`sql = ${DbCRUDConst.BOOKMARKS}`)
+    53→
+    54→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.BOOKMARKS)
+    55→    .then((resultSet: relationalStore.ResultSet) => {
+    56→      try {
+    57→        while (resultSet.goToNextRow()) {
+    58→          objs.push(new BookmarkEntity(
+    59→            resultSet.getLong(resultSet.getColumnIndex('id')),
+    60→            resultSet.getLong(resultSet.getColumnIndex('bookmarkable_id')),
+    61→            resultSet.getString(resultSet.getColumnIndex('bookmarkable_model')),
+    62→            resultSet.getString(resultSet.getColumnIndex('chinese_antitheticalcouplet')),
+    63→            resultSet.getString(resultSet.getColumnIndex('chinese_character')),
+    64→            resultSet.getString(resultSet.getColumnIndex('chinese_expression')),
+    65→            resultSet.getString(resultSet.getColumnIndex('chinese_idiom')),
+    66→            resultSet.getString(resultSet.getColumnIndex('chinese_knowledge')),
+    67→            resultSet.getString(resultSet.getColumnIndex('chinese_quote')),
+    68→            resultSet.getString(resultSet.getColumnIndex('classicalliterature_classicpoem')),
+    69→            resultSet.getString(resultSet.getColumnIndex('classicalliterature_sentence')),
+    70→          ))
+    71→        }
+    72→        resultSet.close()
+    73→      } catch (error) {
+    74→        let err = error as BusinessError;
+    75→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    76→      }
+    77→    })
+    78→    .catch((err: BusinessError) => {
+    79→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    80→    })
+    81→
+    82→  return objs;
+    83→}
+</file>
+<metadata>The file has 83 lines in total.</metadata>

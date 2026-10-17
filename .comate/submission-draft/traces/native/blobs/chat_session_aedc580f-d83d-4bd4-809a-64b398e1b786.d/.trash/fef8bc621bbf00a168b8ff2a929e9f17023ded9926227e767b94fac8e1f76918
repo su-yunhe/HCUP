@@ -1,0 +1,5 @@
+def engine_session(workspace, stamp):
+    if stamp is None:
+        return {"error": "missing --after <stamp>; run `session_ids.py --stamp` as a separate tool call first"}
+    events = read_hook_events(workspace)
+  

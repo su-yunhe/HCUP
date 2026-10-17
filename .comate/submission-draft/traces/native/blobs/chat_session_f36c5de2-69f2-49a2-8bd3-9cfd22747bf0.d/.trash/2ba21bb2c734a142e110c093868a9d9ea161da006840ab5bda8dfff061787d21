@@ -1,0 +1,10 @@
+## 4. 实现细节
+
+### 4.1 SQL：`DbCRUDConst.BOOKMARKS`
+
+```sql
+select b.id, b.bookmarkable_id, b.bookmarkable_model,
+  tbl1.body as chinese_antitheticalcouplet, tbl2.character as chinese_character,
+  tbl3.word as chinese_expression, tbl4.word as chinese_idiom,
+  tbl5.content as chinese_knowledge, tbl6.content as chinese_quote,
+  tbl7.

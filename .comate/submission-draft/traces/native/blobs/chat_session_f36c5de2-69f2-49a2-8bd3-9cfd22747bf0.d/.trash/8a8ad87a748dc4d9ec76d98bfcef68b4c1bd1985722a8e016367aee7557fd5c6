@@ -1,0 +1,42 @@
+## 4. 实现细节
+
+### 4.1 SQL：`DbCRUDConst.BOOKMARKS`
+
+```sql
+select b.id, b.bookmarkable_id, b.bookmarkable_model,
+  tbl1.body as chinese_antitheticalcouplet, tbl2.character as chinese_character,
+  tbl3.word as chinese_expression, tbl4.word as chinese_idiom,
+  tbl5.content as chinese_knowledge, tbl6.content as chinese_quote,
+  tbl7.title as classicalliterature_classicpoem, tbl7.writer as classicalliterature_classicpoem_writer,
+  tbl8.content as classicalliterature_sentence,
+  tbl9.title as chinese_lyric, tbl9.content as chinese_lyric_content,
+  tbl10.title as chinese_modernpoetry, tbl10.content as chinese_modernpoetry_content,
+  tbl11.puzzle as chinese_riddle,
+  tbl12.riddle as chinese_wisecrack,
+  tbl13.content as chinese_proverb,
+  tbl14.title as classicalliterature_writing, tbl14.author as classicalliterature_writing_author,
+  tbl15.name as classicalliterature_people
+from (select max(id) as id, bookmarkable_id, bookmarkable_model from bookmarks
+      group by bookmarkable_model, bookmarkable_id) as b
+left join chinese_antitheticalcouplet as tbl1 on b.bookmarkable_id = tbl1.id and b.bookmarkable_model = 'chinese_antitheticalcouplet'
+... (tbl2–tbl15 同样写法，model 取 PrefConst 常量)
+where coalesce(tbl1.id, tbl2.id, ..., tbl15.id) is not null
+order by b.id desc
+```
+
+- 去重（U9）：子查询按 `(model, bookmarkable_id)` 分组，`max(id)` 作为该组 id 与排序键。
+- 孤儿/未知 model 过滤：所有 JOIN 都没命中的行被 `where` 排除；用 `tblN.id` 判断，避免谜语 `puzzle` 为 null 时被误过滤。
+- 歇后语 `riddle` 列统一用别名 `chinese_wisecrack`，不与谜语混用（BN §8）。
+- 15 张内容表都在 `DbUtil` 迁移中创建（已核对 `DbUtil.ets:57/106/184/190` 等），不会因表不存在导致整条查询失败。
+
+### 4.2 `BookmarkEntity` 与展示项
+
+- `BookmarkEntity` 字段改为带默认值 `null` 的声明，构造函数只收 `id/bookmarkable_id/bookmarkable_model`，其余字段在 `getEntities` 中逐个赋值，新增 11 个字段（见 SQL 别名）。
+- 读列使用 `isColumnNull` 判空，空列得到 `null`，界面不会出现 "null"。
+- 新增：
+
+```ts
+export class BookmarkItem {
+  key: string; id: string;            // id = `bookmark_item_${model}_${bookmarkable_id}`
+  title: Resource;                    // 类型名，如 String.chinese_lyric
+  content: string | null;             //

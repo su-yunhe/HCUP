@@ -1,0 +1,151 @@
+<file>
+     1→import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
+     2→import relationalStore from '@ohos.data.relationalStore';
+     3→import { Logger } from 'utils';
+     4→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     5→
+     6→let logger: Logger = new Logger('Riddle');
+     7→
+     8→export class Riddle {
+     9→  id: number;
+    10→  puzzle: string;
+    11→  answer: string;
+    12→
+    13→  constructor(id: number, puzzle: string, answer: string) {
+    14→    this.id = id;
+    15→    this.puzzle = puzzle;
+    16→    this.answer = answer;
+    17→  }
+    18→}
+    19→
+    20→@Concurrent
+    21→export async function batchInsertRiddle(context: Context, objs: Riddle[]): Promise<void> {
+    22→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+    23→  let logger: Logger = new Logger('Riddle#batchInsertRiddle');
+    24→
+    25→  let valuesBuckets: relationalStore.ValuesBucket[] = []
+    26→
+    27→  objs.forEach((obj: Riddle) => {
+    28→    valuesBuckets.push(
+    29→      {
+    30→        'id': obj.id,
+    31→        'puzzle': obj.puzzle,
+    32→        'answer': obj.answer,
+    33→      }
+    34→    )
+    35→  })
+    36→
+    37→  try {
+    38→    await store.batchInsertWithConflictResolution(
+    39→      DbTableConst.CHINESE_RIDDLE_TABLE,
+    40→      valuesBuckets,
+    41→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    42→    ).then((value: number) => {
+    43→      logger.info(`insert rows = ${value}`)
+    44→    }).catch((err: BusinessError) => {
+    45→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    46→    })
+    47→  } catch (error) {
+    48→    const err = error as BusinessError;
+    49→    logger.error(`batchInsertRiddle failed, code is ${err.code}, message is ${err.message}`);
+    50→  }
+    51→}
+    52→
+    53→export async function getRandomRiddle(): Promise<Riddle | undefined> {
+    54→  let obj: Riddle | undefined;
+    55→
+    56→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_RIDDLE)
+    57→    .then((resultSet: relationalStore.ResultSet) => {
+    58→      try {
+    59→        while (resultSet.goToNextRow()) {
+    60→          obj = parse(resultSet)
+    61→        }
+    62→      } catch (error) {
+    63→        const err = error as BusinessError;
+    64→        logger.error(`getRandomRiddle parse failed, code is ${err.code}, message is ${err.message}`);
+    65→      }
+    66→    })
+    67→    .catch((err: BusinessError) => {
+    68→      logger.error(`getRandomRiddle failed, code is ${err.code}, message is ${err.message}`);
+    69→    })
+    70→
+    71→  return obj;
+    72→}
+    73→
+    74→export async function getRiddle(id: number): Promise<Riddle | undefined> {
+    75→  let obj: Riddle | undefined;
+    76→  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_RIDDLE_TABLE)
+    77→  predicates.equalTo('id', id);
+    78→
+    79→  await DbUtil.objectiveRDB?.query(predicates)
+    80→    .then((resultSet: relationalStore.ResultSet) => {
+    81→      try {
+    82→        while (resultSet.goToNextRow()) {
+    83→          obj = parse(resultSet)
+    84→        }
+    85→      } catch (error) {
+    86→        const err = error as BusinessError;
+    87→        logger.error(`getRiddle parse failed, code is ${err.code}, message is ${err.message}`);
+    88→      }
+    89→    })
+    90→    .catch((err: BusinessError) => {
+    91→      logger.error(`getRiddle failed, code is ${err.code}, message is ${err.message}`);
+    92→    })
+    93→
+    94→  return obj;
+    95→}
+    96→
+    97→export async function search(query: string): Promise<Riddle[]> {
+    98→  let objs: Riddle[] = [];
+    99→
+   100→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CHINESE_RIDDLE, [`%${query}%`])
+   101→    .then((resultSet: relationalStore.ResultSet) => {
+   102→      try {
+   103→        while (resultSet.goToNextRow()) {
+   104→          objs.push(parse(resultSet))
+   105→        }
+   106→      } catch (error) {
+   107→        const err = error as BusinessError;
+   108→        logger.error(`search parse failed, code is ${err.code}, message is ${err.message}`);
+   109→      }
+   110→    })
+   111→    .catch((err: BusinessError) => {
+   112→      logger.error(`search failed, code is ${err.code}, message is ${err.message}`);
+   113→    })
+   114→  return objs;
+   115→}
+   116→
+   117→export async function getBookmarks(): Promise<Riddle[]> {
+   118→  let objs: Riddle[] = [];
+   119→
+   120→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CHINESE_RIDDLE_BOOKMARKS)
+   121→    .then((resultSet: relationalStore.ResultSet) => {
+   122→      try {
+   123→        while (resultSet.goToNextRow()) {
+   124→          objs.push(parse(resultSet))
+   125→        }
+   126→      } catch (error) {
+   127→        const err = error as BusinessError;
+   128→        logger.error(`getBookmarks parse failed, code is ${err.code}, message is ${err.message}`);
+   129→      }
+   130→    })
+   131→    .catch((err: BusinessError) => {
+   132→      logger.error(`getBookmarks failed, code is ${err.code}, message is ${err.message}`);
+   133→    })
+   134→  return objs;
+   135→}
+   136→
+   137→/**
+   138→ * @throws
+   139→ * @param resultSet
+   140→ * @returns
+   141→ */
+   142→function parse(resultSet: relationalStore.ResultSet): Riddle {
+   143→  return new Riddle(
+   144→    resultSet.getLong(resultSet.getColumnIndex('id')),
+   145→    resultSet.getString(resultSet.getColumnIndex('puzzle')),
+   146→    resultSet.getString(resultSet.getColumnIndex('answer')),
+   147→  )
+   148→}
+</file>
+<metadata>The file has 148 lines in total.</metadata>

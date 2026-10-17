@@ -1,0 +1,113 @@
+import { AvoidAreaObserver, ParamNumberId, String, ThemeConst } from 'constants';
+import { Logger } from 'utils';
+import { BookmarkEntity, BookmarkItem, getEntities, toBookmarkItem } from '../model/BookmarkEntity';
+import { AppStorageV2, uiObserver } from '@kit.ArkUI';
+import { BlockTitle } from 'uicomponents';
+
+let logger: Logger = new Logger('BookmarkIndexPage')
+
+@Builder
+export function IndexPageBuilder() {
+  IndexPage();
+}
+
+@ComponentV2
+export struct IndexPage {
+  @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack();
+  @Local avoidAreaObserver: AvoidAreaObserver =
+    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
+  @Local items: BookmarkItem[] = [];
+
+  aboutToAppear(): void {
+    uiObserver.on('navDestinationUpdate', (info: uiObserver.NavDestinationInfo) => {
+      if (info.name == 'BookmarkIndexPage' && info.state == 4) {
+        getEntities().then((value: BookmarkEntity[]) => {
+          let items: BookmarkItem[] = [];
+          value.forEach((entity: BookmarkEntity) => {
+            let item = toBookmarkItem(entity);
+            if (item !== undefined) {
+              items.push(item);
+            }
+          });
+          logger.info(`entities count = ${value.length}, items count = ${items.length}`)
+          this.items = items;
+        })
+      }
+    });
+  }
+
+  aboutToDisappear() {
+    uiObserver.off('navDestinationUpdate');
+  }
+
+  build() {
+    NavDestination() {
+      List() {
+        Repeat<BookmarkItem>(this.items)
+          .each((repeatItem: RepeatItem<BookmarkItem>) => {
+            ListItem() {
+              Item({ item: repeatItem.item })
+                .onClick(() => {
+                  logger.info(`${repeatItem.item.id} clicked`);
+                  this.pageStack.pushPathByName(repeatItem.item.route,
+                    new ParamNumberId(repeatItem.item.bookmarkable_id))
+                })
+            }
+          })
+          .key((item: BookmarkItem) => item.key)
+      }
+      .id('bookmark_list')
+      .width('100%')
+      .height('100%')
+      .edgeEffect(EdgeEffect.Spring)
+      .align(Alignment.TopStart)
+      .divider(ThemeConst.ListDivider)
+      .padding({
+        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+      })
+    }
+    .title(String.bookmark)
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack;
+    })
+  }
+}
+
+@ComponentV2
+struct Item {
+  @Param @Require item: BookmarkItem;
+
+  build() {
+    Column() {
+      BlockTitle({ title: this.item.title })
+      if (this.item.content) {
+        Text(this.item.content)
+          .id(`${this.item.id}_title`)
+          .width('100%')
+          .padding(ThemeConst.P_X16_Y8)
+          .maxLines(2)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+      }
+      if (this.item.sub) {
+        Text(this.item.sub)
+          .id(`${this.item.id}_${this.item.subSuffix}`)
+          .width('100%')
+          .fontSize(14)
+          .padding(ThemeConst.P_X16_Y8)
+          .maxLines(2)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+      }
+    }
+    .id(this.item.id)
+    .width('100%')
+    .padding(ThemeConst.P_8)
+    .stateStyles({
+      normal: {
+        .backgroundColor(ThemeConst.BackGroundColor_Normal)
+      },
+      pressed: {
+        .backgroundColor(ThemeConst.BackGroundColor_Pressed)
+      }
+    })
+  }
+}

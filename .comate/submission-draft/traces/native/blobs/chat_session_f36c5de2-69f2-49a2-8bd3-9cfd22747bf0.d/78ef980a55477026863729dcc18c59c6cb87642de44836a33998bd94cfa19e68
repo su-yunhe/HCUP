@@ -1,0 +1,277 @@
+"""收藏夹支持更多内容类型 —— Hypium 自测（jm-spec7）。
+
+覆盖 spec/acceptance.md：A1 入口、A2–A6 新类型展示、A8 去重/排序/无空条目、A9/A12 跳转详情、
+A10–A11 经典诗文标题+作者、A13–A16 成语取消收藏、重启持久化、连续点击。
+
+运行（在题包根目录）：
+    PYTHONPATH=test-harness .venv/bin/python -m harness.runner --project <本工程路径>
+"""
+from __future__ import annotations
+
+import re
+
+from hypium import BY, MatchPattern
+
+from harness.driver import HarnessTestCase
+
+BUNDLE = "com.hefengbao.jingmo.hw"
+ENTRY_ID = "home_bookmark_entry"
+LIST_ID = "bookmark_list"
+PAGE_TITLE_ID = "__NavdestinationField__Text__MainTitle__"
+ITEM_RE = re.compile(r"^bookmark_item_(?P<model>[a-z_]+?)_(?P<bid>\d+)$")
+
+# (主页文字, model, 收藏按钮所在 toolbar 序号, 收藏夹中的类型名)
+LYRIC = ("歌词", "chinese_lyric", 1, "歌词")
+POETRY = ("诗歌", "chinese_modernpoetry", 1, "诗歌")
+RIDDLE = ("谜语", "chinese_riddle", 2, "谜语")
+WISECRACK = ("歇后语", "chinese_wisecrack", 1, "歇后语")
+PROVERB = ("谚语", "chinese_proverb", 1, "谚语")
+CLASSICPOEM = ("经典诗文", "classicalliterature_classicpoem", 1, "经典诗文")
+IDIOM = ("成语", "chinese_idiom", 1, "成语")
+WRITING = ("诗文", "classicalliterature_writing", 1, "诗文")
+# 人物：基线 People IndexPage/ShowPage 的收藏按钮均被注释掉，用户无法收藏，不做 UI 自测
+
+
+def toolbar_id(index: int) -> str:
+    return f"__NavdestinationField__ToolBar__MenuItem{index}__"
+
+
+def restart_app(driver, bundle: str, wait_time: float = 3) -> None:
+    """强制停止后冷启动。本应用需显式指定 Ability，harness.app.restart_app 不带 page_name 会失败。"""
+    driver.stop_app(bundle)
+    driver.start_app(bundle, "EntryAbility", wait_time=wait_time)
+
+
+class BookmarkTestBase(HarnessTestCase):
+    """导航与读取收藏夹的公共辅助方法。"""
+
+    # ---------- 导航 ----------
+    def on_home(self) -> bool:
+        return self.driver.find_component(BY.id(ENTRY_ID)) is not None
+
+    def go_home(self) -> None:
+        for _ in range(6):
+            if self.on_home():
+                return
+            self.driver.press_back()
+            self.driver.wait(1)
+        if not self.on_home():
+            restart_app(self.driver, BUNDLE, wait_time=3)
+        self.require_component(BY.id(ENTRY_ID), "回不到主页")
+
+    def open_bookmarks(self) -> list[str]:
+        self.go_home()
+        self.driver.click(BY.id(ENTRY_ID))
+        self.require_component(BY.id(LIST_ID), "收藏页列表 bookmark_list 未出现")
+        self.assertIn("收藏夹", self.page_titles(), "收藏页标题应为 收藏夹")
+        self.driver.wait(1.5)  # 等待 state==4 触发的异步查询完成
+        return self.item_ids()
+
+    def open_module(self, home_text: str) -> None:
+        self.go_home()
+        self.driver.click(self.require_component(BY.text(home_text), f"主页找不到 {home_text}"))
+        self.driver.wait(2.5)  # 随机内容异步加载，加载前收藏按钮为 DISABLED
+
+    def page_titles(self) -> list[str]:
+        comps = self.driver.find_all_components(BY.id(PAGE_TITLE_ID)) or []
+        return [c.getText() for c in comps]
+
+    # ---------- 收藏夹读取 ----------
+    def item_ids(self) -> list[str]:
+        comps = self.driver.find_all_components(BY.id(r"^bookmark_item_[a-z_]+?_\d+$", MatchPattern.REGEXP)) or []
+        comps = sorted(comps, key=lambda c: c.getBounds().top)
+        return [c.getId() for c in comps]
+
+    def item_text(self, item_id: str, suffix: str) -> str | None:
+        comp = self.driver.find_component(BY.id(f"{item_id}_{suffix}"))
+        return comp.getText() if comp is not None else None
+
+    def item_block_title(self, item_id: str) -> str | None:
+        """条目第一个 Text（BlockTitle 类型名）：取条目范围内、摘要 Text 之上的那个 Text。"""
+        col = self.driver.find_component(BY.id(item_id))
+        if col is None:
+            return None
+        b = col.getBounds()
+        texts = self.driver.find_all_components(BY.type("Text")) or []
+        inside = [t for t in texts
+                  if b.top <= t.getBounds().top < b.bottom and not (t.getId() or "").startswith(item_id)]
+        inside.sort(key=lambda t: t.getBounds().top)
+        return inside[0].getText() if inside else None
+
+    # ---------- 收藏动作 ----------
+    def bookmark_in_module(self, module: tuple, attempts: int = 3) -> str:
+        """在模块 IndexPage 收藏随机一条，返回收藏夹中新条目的 id（必须是第 1 条）。
+
+        随机条目可能本来就已收藏（点击即取消），此时重进换一条再试。
+        """
+        home_text, model, menu_index, _ = module
+        for _ in range(attempts):
+            before = set(self.open_bookmarks())
+            self.open_module(home_text)
+            button = self.driver.find_component(BY.id(toolbar_id(menu_index)))
+            self.require_precondition(button is not None and button.isEnabled(),
+                                      f"{home_text} 无内容数据，收藏按钮不可用")
+            self.driver.click(button)
+            self.driver.wait(1.5)
+            ids = self.open_bookmarks()
+            if ids and ids[0].startswith(f"bookmark_item_{model}_") and ids[0] not in before:
+                return ids[0]
+        self.fail(f"{home_text}：{attempts} 次尝试后收藏夹首条仍不是新收藏的 {model}")
+
+    def assert_summary(self, item_id: str, type_name: str, second: str | None) -> str:
+        title = self.item_text(item_id, "title")
+        self.assertTrue(title, f"{item_id} 缺少摘要 Text")
+        self.assertNotEqual(title, "null")
+        self.assertEqual(self.item_block_title(item_id), type_name, f"{item_id} 类型名应为 {type_name}")
+        if second:
+            sub = self.item_text(item_id, second)
+            self.assertTrue(sub, f"{item_id} 缺少 {second} Text")
+            self.assertNotEqual(sub, "null")
+        return title
+
+    def assert_jump(self, item_id: str, type_name: str, summary: str) -> None:
+        self.driver.click(BY.id(item_id))
+        self.driver.wait(2)
+        self.assertIn(type_name, self.page_titles(), f"点击 {item_id} 后详情页标题应为 {type_name}")
+        probe = summary.strip().splitlines()[0][:20]
+        self.require_component(BY.text(probe, MatchPattern.CONTAINS), f"详情页未显示 {probe!r}")
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        self.assertIn(item_id, self.item_ids(), "从详情返回收藏页后条目应仍在")
+
+
+class TestBookmarkEntry(BookmarkTestBase):
+    def test_01_entry_from_home(self):
+        """A1：冷启动后点主页收藏图标进入收藏夹，Back 回主页。"""
+        restart_app(self.driver, BUNDLE, wait_time=3)
+        self.open_bookmarks()
+        self.driver.press_back()
+        self.driver.wait(1)
+        self.assertTrue(self.on_home(), "Back 后应回到主页")
+
+
+class TestScenario1MoreTypes(BookmarkTestBase):
+    """场景一：歌词/诗歌/谜语/歇后语（+谚语）收藏后出现在收藏夹，最新在前，可跳转详情。"""
+
+    def _check(self, module: tuple, second: str | None):
+        item_id = self.bookmark_in_module(module)
+        summary = self.assert_summary(item_id, module[3], second)
+        self.assert_jump(item_id, module[3], summary)
+        return item_id
+
+    def test_01_lyric(self):
+        self._check(LYRIC, "content")
+
+    def test_02_poetry(self):
+        self._check(POETRY, "content")
+
+    def test_03_riddle(self):
+        self._check(RIDDLE, None)
+
+    def test_04_wisecrack(self):
+        self._check(WISECRACK, None)
+
+    def test_05_proverb(self):
+        self._check(PROVERB, None)
+
+    def test_06_mixed_order(self):
+        """A8：依次收藏 歌词、诗歌、谜语、歇后语 后，前 4 条依次为 歇后语、谜语、诗歌、歌词。"""
+        expected = []
+        for module in (LYRIC, POETRY, RIDDLE, WISECRACK):
+            expected.insert(0, self.bookmark_in_module(module))
+        ids = self.open_bookmarks()
+        self.assertEqual(ids[:4], expected, "前 4 条应按最新收藏在前排列")
+
+    def test_07_writing(self):
+        """A6 诗文（模拟器无数据时 skip）。"""
+        self._check(WRITING, "author")
+
+    def test_08_people(self):
+        """A6 人物（模拟器无数据时 skip）。"""
+        self._check(PEOPLE, None)
+
+
+class TestScenario2ClassicPoem(BookmarkTestBase):
+    def test_01_title_and_author(self):
+        """A10–A12：经典诗文条目展示标题与作者（独立 Text，不含朝代），点击进入详情。"""
+        item_id = self.bookmark_in_module(CLASSICPOEM)
+        title = self.assert_summary(item_id, "经典诗文", "author")
+        author = self.item_text(item_id, "author")
+        self.assertNotIn("·", author)
+        self.assertNotIn("【", author)
+        self.assert_jump(item_id, "经典诗文", title)
+
+
+class TestScenario3CancelIdiom(BookmarkTestBase):
+    def test_01_cancel_then_disappear(self):
+        """A13–A16：成语详情取消→再收藏→返回仅一条且首位；再取消→返回后消失，其他条目仍在。"""
+        ids = self.open_bookmarks()
+        idioms = [i for i in ids if i.startswith("bookmark_item_chinese_idiom_")]
+        if not idioms:
+            self.bookmark_in_module(IDIOM)
+            ids = self.open_bookmarks()
+            idioms = [i for i in ids if i.startswith("bookmark_item_chinese_idiom_")]
+        target = idioms[0]
+        word = self.assert_summary(target, "成语", None)
+
+        # 取消后立刻再收藏 → 返回：仅一条且排第一
+        self.driver.click(BY.id(target))
+        self.driver.wait(2)
+        self.assertIn("成语", self.page_titles())
+        self.require_component(BY.text(word, MatchPattern.CONTAINS), "成语详情未显示该成语")
+        self.driver.click(BY.id(toolbar_id(1)))
+        self.driver.wait(1.5)
+        self.driver.click(BY.id(toolbar_id(1)))
+        self.driver.wait(1.5)
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        ids = self.item_ids()
+        self.assertEqual(ids[0], target, "取消后再收藏的条目应排第一")
+        self.assertEqual(ids.count(target), 1, "条目不应重复")
+
+        # 再次取消 → 返回：消失，其他条目不受影响
+        others = [i for i in ids if i != target]
+        self.driver.click(BY.id(target))
+        self.driver.wait(2)
+        self.driver.click(BY.id(toolbar_id(1)))
+        self.driver.wait(1.5)
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        after = self.item_ids()
+        self.assertNotIn(target, after, "取消收藏后条目应从收藏夹消失")
+        self.assertTrue(set(others).issubset(set(after)), "其他收藏条目不应受影响")
+
+        # 返回主页后重进仍不存在
+        self.assertNotIn(target, self.open_bookmarks())
+
+
+class TestRobustness(BookmarkTestBase):
+    def test_01_restart_persistence(self):
+        """重启应用后收藏仍在，顺序不变。"""
+        before = self.open_bookmarks()
+        self.require_precondition(bool(before), "收藏夹为空")
+        restart_app(self.driver, BUNDLE, wait_time=3)
+        after = self.open_bookmarks()
+        n = min(len(before), len(after), 5)
+        self.assertEqual(after[:n], before[:n], "重启后收藏夹前几条应一致")
+
+    def test_02_rapid_double_click(self):
+        """快速连点收藏按钮：收藏夹不出现重复条目。"""
+        self.open_module(PROVERB[0])
+        button = self.driver.find_component(BY.id(toolbar_id(PROVERB[2])))
+        self.require_precondition(button is not None and button.isEnabled(), "谚语无数据")
+        self.driver.double_click(button)
+        self.driver.wait(2)
+        ids = self.open_bookmarks()
+        self.assertEqual(len(ids), len(set(ids)), f"收藏夹出现重复条目: {ids}")
+
+    def test_03_no_empty_items(self):
+        """A8：收藏夹中每个条目都有类型名和非空摘要，不显示 null。"""
+        ids = self.open_bookmarks()
+        self.require_precondition(bool(ids), "收藏夹为空")
+        for item_id in ids:
+            model = ITEM_RE.match(item_id).group("model")
+            self.assertIsNotNone(model)
+            title = self.item_text(item_id, "title")
+            self.assertTrue(title and title != "null", f"{item_id} 摘要为空或为 null")
+        self.go_home()

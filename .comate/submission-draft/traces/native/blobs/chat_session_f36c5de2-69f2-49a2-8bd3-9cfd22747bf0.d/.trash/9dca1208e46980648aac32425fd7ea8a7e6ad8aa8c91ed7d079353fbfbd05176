@@ -1,0 +1,13 @@
+# 收藏夹支持更多内容类型 任务计划
+
+- [ ] Task 1: 收藏插入改为自增主键
+    - 1.1: `Bookmark.ets` 的 `addBookmark` 去掉 valuesBucket 中的 `'id'`
+    - 1.2: 确认各模块 `new Bookmark(YmdHisToNumber(), ...)` 调用签名无需改动
+
+- [ ] Task 2: 重写收藏列表 SQL `DbCRUDConst.BOOKMARKS`
+    - 2.1: 子查询按 `(bookmarkable_model, bookmarkable_id)` 分组取 `max(id)` 去重
+    - 2.2: 新增 tbl9–tbl15 七张内容表 LEFT JOIN（歌词/诗歌/谜语/歇后语/谚语/诗文/人物）及别名字段
+    - 2.3: 经典诗文增加 `tbl7.writer as classicalliterature_classicpoem_writer`
+    - 2.4: `where coalesce(tbl1.id … tbl15.id) is not null` 过滤孤儿与未知 model；`order by b.id desc`
+
+- [ ] Task 3: 扩展 `BookmarkEnti

@@ -1,0 +1,251 @@
+<file>
+     1→import { relationalStore } from '@kit.ArkData';
+     2→import { BusinessError } from '@kit.BasicServicesKit';
+     3→import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
+     4→import { Logger } from 'utils';
+     5→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     6→import { JSON } from '@kit.ArkTS';
+     7→
+     8→let logger: Logger = new Logger('Idiom');
+     9→
+    10→export class Idiom {
+    11→  id: number;
+    12→  word: string;
+    13→  pinyin: string;
+    14→  abbr: string;
+    15→  explanation: string | null;
+    16→  source: IdiomSource | null;
+    17→  quote: IdiomQuote | null;
+    18→  example: IdiomExample | null;
+    19→  similar: string[] | null;
+    20→  opposite: string[] | null;
+    21→  usage: string | null;
+    22→  story: string[] | null;
+    23→  notice: string | null;
+    24→
+    25→  constructor(
+    26→    id: number,
+    27→    word: string,
+    28→    pinyin: string,
+    29→    abbr: string,
+    30→    explanation: string | null,
+    31→    source: IdiomSource | null,
+    32→    quote: IdiomQuote | null,
+    33→    example: IdiomExample | null,
+    34→    similar: string[] | null,
+    35→    opposite: string[] | null,
+    36→    usage: string | null,
+    37→    story: string[] | null,
+    38→    notice: string | null
+    39→  ) {
+    40→    this.id = id;
+    41→    this.word = word;
+    42→    this.pinyin = pinyin;
+    43→    this.abbr = abbr;
+    44→    this.explanation = explanation;
+    45→    this.source = source;
+    46→    this.quote = quote;
+    47→    this.example = example;
+    48→    this.similar = similar;
+    49→    this.opposite = opposite;
+    50→    this.usage = usage;
+    51→    this.story = story;
+    52→    this.notice = notice;
+    53→  }
+    54→}
+    55→
+    56→export class IdiomSource {
+    57→  text: string | null = null;
+    58→  book: string | null = null;
+    59→}
+    60→
+    61→export class IdiomQuote {
+    62→  text: string | null = null;
+    63→  book: string | null = null;
+    64→}
+    65→
+    66→export class IdiomExample {
+    67→  text: string | null = null;
+    68→  book: string | null = null;
+    69→}
+    70→
+    71→export async function insertIdiom(obj: Idiom) {
+    72→  const valuesBucket: relationalStore.ValuesBucket = {
+    73→    'id': obj.id,
+    74→    'word': obj.word,
+    75→    'pinyin': obj.pinyin,
+    76→    'abbr': obj.abbr,
+    77→    'explanation': obj.explanation,
+    78→    'source': JSON.stringify(obj.source),
+    79→    'quote': JSON.stringify(obj.quote),
+    80→    'example': JSON.stringify(obj.example),
+    81→    'similar': JSON.stringify(obj.similar),
+    82→    'opposite': JSON.stringify(obj.opposite),
+    83→    'usage': obj.usage,
+    84→    'story': JSON.stringify(obj.story),
+    85→    'notice': obj.notice,
+    86→  }
+    87→
+    88→  await DbUtil.objectiveRDB?.insert(
+    89→    DbTableConst.CHINESE_IDIOM_TABLE,
+    90→    valuesBucket,
+    91→    relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    92→  ).then((rowId: number) => {
+    93→    logger.info(`Insert is successful, rowId = ${rowId}`)
+    94→  }).catch((err: BusinessError) => {
+    95→    logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+    96→  })
+    97→}
+    98→
+    99→@Concurrent
+   100→export async function batchInsertIdiom(context: Context, objs: Idiom[]): Promise<void> {
+   101→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+   102→  let logger: Logger = new Logger('Idiom#batchInsertIdiom');
+   103→
+   104→  let valuesBuckets: relationalStore.ValuesBucket[] = []
+   105→
+   106→  objs.forEach((obj: Idiom) => {
+   107→    valuesBuckets.push(
+   108→      {
+   109→        'id': obj.id,
+   110→        'word': obj.word,
+   111→        'pinyin': obj.pinyin,
+   112→        'abbr': obj.abbr,
+   113→        'explanation': obj.explanation,
+   114→        'source': JSON.stringify(obj.source),
+   115→        'quote': JSON.stringify(obj.quote),
+   116→        'example': JSON.stringify(obj.example),
+   117→        'similar': JSON.stringify(obj.similar),
+   118→        'opposite': JSON.stringify(obj.opposite),
+   119→        'usage': obj.usage,
+   120→        'story': JSON.stringify(obj.story),
+   121→        'notice': obj.notice,
+   122→      }
+   123→    )
+   124→  })
+   125→
+   126→  try {
+   127→    await store.batchInsertWithConflictResolution(
+   128→      DbTableConst.CHINESE_IDIOM_TABLE,
+   129→      valuesBuckets,
+   130→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+   131→    ).then((value: number) => {
+   132→      logger.info(`insert rows = ${value}`)
+   133→    }).catch((err: BusinessError) => {
+   134→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+   135→    })
+   136→  } catch (error) {
+   137→    const err = error as BusinessError;
+   138→    logger.error(`batchInsertCharacter failed, code is ${err.code}, message is ${err.message}`);
+   139→  }
+   140→}
+   141→
+   142→export async function getRandomIdiom(): Promise<Idiom | undefined> {
+   143→  let obj: Idiom | undefined;
+   144→
+   145→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_IDIOM)
+   146→    .then((resultSet: relationalStore.ResultSet) => {
+   147→      try {
+   148→        while (resultSet.goToNextRow()) {
+   149→          obj = parse(resultSet)
+   150→        }
+   151→        resultSet.close()
+   152→      } catch (error) {
+   153→        let err = error as BusinessError
+   154→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   155→      }
+   156→    }).catch((err: BusinessError) => {
+   157→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   158→    });
+   159→
+   160→  return obj;
+   161→}
+   162→
+   163→export async function getIdiom(id: number): Promise<Idiom | undefined> {
+   164→  let obj: Idiom | undefined;
+   165→
+   166→  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_IDIOM_TABLE);
+   167→  predicates.equalTo('id', id);
+   168→
+   169→  await DbUtil.objectiveRDB?.query(predicates)
+   170→    .then((resultSet: relationalStore.ResultSet) => {
+   171→      try {
+   172→        while (resultSet.goToNextRow()) {
+   173→          obj = parse(resultSet)
+   174→        }
+   175→        resultSet.close()
+   176→      } catch (error) {
+   177→        let err = error as BusinessError
+   178→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   179→      }
+   180→    }).catch((err: BusinessError) => {
+   181→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   182→    });
+   183→
+   184→  return obj;
+   185→}
+   186→
+   187→export async function getBookmarks(): Promise<Idiom[]> {
+   188→  let objs: Idiom[] = [];
+   189→
+   190→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CHINESE_IDIOM_BOOKMARKS)
+   191→    .then((resultSet: relationalStore.ResultSet) => {
+   192→      try {
+   193→        while (resultSet.goToNextRow()) {
+   194→          objs.push(parse(resultSet));
+   195→        }
+   196→        resultSet.close()
+   197→      } catch (error) {
+   198→        let err = error as BusinessError
+   199→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   200→      }
+   201→    }).catch((err: BusinessError) => {
+   202→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   203→    });
+   204→
+   205→  return objs;
+   206→}
+   207→
+   208→export async function search(query: string): Promise<Idiom[]> {
+   209→  let objs: Idiom[] = [];
+   210→
+   211→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CHINESE_IDIOM, [`%${query}%`])
+   212→    .then((resultSet: relationalStore.ResultSet) => {
+   213→      try {
+   214→        while (resultSet.goToNextRow()) {
+   215→          objs.push(parse(resultSet));
+   216→        }
+   217→        resultSet.close()
+   218→      } catch (error) {
+   219→        let err = error as BusinessError
+   220→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   221→      }
+   222→    }).catch((err: BusinessError) => {
+   223→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   224→    });
+   225→
+   226→  return objs;
+   227→}
+   228→
+   229→/**
+   230→ * @throws
+   231→ */
+   232→function parse(resultSet: relationalStore.ResultSet): Idiom {
+   233→  return new Idiom(
+   234→    resultSet.getLong(resultSet.getColumnIndex('id')),
+   235→    resultSet.getString(resultSet.getColumnIndex('word')),
+   236→    resultSet.getString(resultSet.getColumnIndex('pinyin')),
+   237→    resultSet.getString(resultSet.getColumnIndex('abbr')),
+   238→    resultSet.getString(resultSet.getColumnIndex('explanation')),
+   239→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('source'))) as IdiomSource,
+   240→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('quote'))) as IdiomQuote,
+   241→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('example'))) as IdiomExample,
+   242→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('similar'))) as string[],
+   243→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('opposite'))) as string[],
+   244→    resultSet.getString(resultSet.getColumnIndex('usage')),
+   245→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('story'))) as string[],
+   246→    resultSet.getString(resultSet.getColumnIndex('notice')),
+   247→  )
+   248→}
+</file>
+<metadata>The file has 248 lines in total.</metadata>

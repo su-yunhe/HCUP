@@ -1,0 +1,1 @@
+   - `engine sessionUuid`：引擎会话 ID。`basis` 为 `skill-invocation event` 表示是用本次调用锁定的，可直接采信。若是 `latest event for workspace` 且有 `WARNING other sessions active`，说明无法唯一确定，要把候选列给用户。

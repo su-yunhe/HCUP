@@ -1,0 +1,375 @@
+<file>
+     1→import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
+     2→import { relationalStore } from '@kit.ArkData';
+     3→import { Logger } from 'utils';
+     4→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     5→
+     6→let logger: Logger = new Logger('Writing');
+     7→
+     8→export class Writing {
+     9→  Id: number;
+    10→  GroupIndex: number | null;
+    11→  Classes: string[] | null;
+    12→  Froms: string[] | null;
+    13→  Allusions: Allusion[] | null;
+    14→  Pictures: string[] | null;
+    15→  Dynasty: string;
+    16→  Author: string;
+    17→  AuthorId: number | null;
+    18→  AuthorDate: string | null;
+    19→  AuthorYears: string | null;
+    20→  AuthorPlace: string | null;
+    21→  Type: string;
+    22→  TypeDetail: string | null;
+    23→  Rhyme: string | null;
+    24→  FirstClauseRhyme: string | null;
+    25→  Title: Clause;
+    26→  SubTitle: Clause | null;
+    27→  TuneId: Tune | null;
+    28→  Preface: string | null;
+    29→  Clauses: Clause[];
+    30→  Note: string | null;
+    31→  Comments: Quote[] | null;
+    32→
+    33→  constructor(Id: number, GroupIndex: number | null, Classes: string[] | null, Froms: string[] | null,
+    34→    Allusions: Allusion[] | null, Pictures: string[] | null, Dynasty: string, Author: string, AuthorId: number | null,
+    35→    AuthorDate: string | null, AuthorYears: string | null, AuthorPlace: string | null, Type: string,
+    36→    TypeDetail: string | null, Rhyme: string | null, FirstClauseRhyme: string | null, Title: Clause,
+    37→    SubTitle: Clause | null, TuneId: Tune | null, Preface: string | null, Clauses: Clause[], Note: string | null,
+    38→    Comments: Quote[] | null) {
+    39→    this.Id = Id;
+    40→    this.GroupIndex = GroupIndex;
+    41→    this.Classes = Classes;
+    42→    this.Froms = Froms;
+    43→    this.Allusions = Allusions;
+    44→    this.Pictures = Pictures;
+    45→    this.Dynasty = Dynasty;
+    46→    this.Author = Author;
+    47→    this.AuthorId = AuthorId;
+    48→    this.AuthorDate = AuthorDate;
+    49→    this.AuthorYears = AuthorYears;
+    50→    this.AuthorPlace = AuthorPlace;
+    51→    this.Type = Type;
+    52→    this.TypeDetail = TypeDetail;
+    53→    this.Rhyme = Rhyme;
+    54→    this.FirstClauseRhyme = FirstClauseRhyme;
+    55→    this.Title = Title;
+    56→    this.SubTitle = SubTitle;
+    57→    this.TuneId = TuneId;
+    58→    this.Preface = Preface;
+    59→    this.Clauses = Clauses;
+    60→    this.Note = Note;
+    61→    this.Comments = Comments;
+    62→  }
+    63→}
+    64→
+    65→export class Allusion {
+    66→  AllusionIndex: number;
+    67→  AllusionKey: string;
+    68→  SentenceIndex: number;
+    69→
+    70→  constructor(AllusionIndex: number, AllusionKey: string, SentenceIndex: number) {
+    71→    this.AllusionIndex = AllusionIndex;
+    72→    this.AllusionKey = AllusionKey;
+    73→    this.SentenceIndex = SentenceIndex;
+    74→  }
+    75→}
+    76→
+    77→export class CharDict {
+    78→  OriginalChar: string;
+    79→  Comments: CharComment[];
+    80→
+    81→  constructor(OriginalChar: string, Comments: CharComment[]) {
+    82→    this.OriginalChar = OriginalChar;
+    83→    this.Comments = Comments;
+    84→  }
+    85→}
+    86→
+    87→export class CharComment {
+    88→  Character: string;
+    89→  Origin: string;
+    90→  Explains: Explain[];
+    91→
+    92→  constructor(Character: string, Origin: string, Explains: Explain[]) {
+    93→    this.Character = Character;
+    94→    this.Origin = Origin;
+    95→    this.Explains = Explains;
+    96→  }
+    97→}
+    98→
+    99→export class Explain {
+   100→  Type: string; // Example;Explain;Spell;KXSpell
+   101→  Content: string;
+   102→
+   103→  constructor(Type: string, Content: string) {
+   104→    this.Type = Type;
+   105→    this.Content = Content;
+   106→  }
+   107→}
+   108→
+   109→export class Clause {
+   110→  Content: string;
+   111→  Comments: Comment[] | null;
+   112→  BreakAfter: number | null;
+   113→
+   114→  constructor(Content: string, Comments: Comment[] | null, BreakAfter: number | null) {
+   115→    this.Content = Content;
+   116→    this.Comments = Comments;
+   117→    this.BreakAfter = BreakAfter;
+   118→  }
+   119→}
+   120→
+   121→export class Comment {
+   122→  Category: string | null;
+   123→  Content: string;
+   124→  Type: string;
+   125→  Index: number;
+   126→
+   127→  constructor(Category: string | null, Content: string, Type: string, Index: number) {
+   128→    this.Category = Category;
+   129→    this.Content = Content;
+   130→    this.Type = Type;
+   131→    this.Index = Index;
+   132→  }
+   133→}
+   134→
+   135→export class Quote {
+   136→  Book: string | null;
+   137→  Section: string | null;
+   138→  Content: string | null;
+   139→  IsComment: boolean = false;
+   140→  ReferrenceUrls: string[] | null;
+   141→
+   142→  constructor(Book: string | null, Section: string | null, Content: string | null, IsComment: boolean,
+   143→    ReferrenceUrls: string[] | null) {
+   144→    this.Book = Book;
+   145→    this.Section = Section;
+   146→    this.Content = Content;
+   147→    this.IsComment = IsComment;
+   148→    this.ReferrenceUrls = ReferrenceUrls;
+   149→  }
+   150→}
+   151→
+   152→export class Tune {
+   153→  Name: string | null;
+   154→  Id: number | null;
+   155→
+   156→  constructor(Name: string | null, Id: number | null) {
+   157→    this.Name = Name;
+   158→    this.Id = Id;
+   159→  }
+   160→}
+   161→
+   162→export class WordDict {
+   163→  Id: number;
+   164→  Text: string;
+   165→  CountInPoem: number;
+   166→  Traditional: string | null;
+   167→  Explains: string[];
+   168→  Categories: string[] | null;
+   169→  Spells: string | null;
+   170→  ContainsUnknownSpell: boolean;
+   171→
+   172→  constructor(Id: number, Text: string, CountInPoem: number, Traditional: string | null, Explains: string[],
+   173→    Categories: string[] | null, Spells: string | null, ContainsUnknownSpell: boolean) {
+   174→    this.Id = Id;
+   175→    this.Text = Text;
+   176→    this.CountInPoem = CountInPoem;
+   177→    this.Traditional = Traditional;
+   178→    this.Explains = Explains;
+   179→    this.Categories = Categories;
+   180→    this.Spells = Spells;
+   181→    this.ContainsUnknownSpell = ContainsUnknownSpell;
+   182→  }
+   183→}
+   184→
+   185→@Concurrent
+   186→export async function batchInsertWriting(context: Context, objs: Writing[]): Promise<void> {
+   187→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+   188→  let logger: Logger = new Logger('Writing#batchInsertWriting');
+   189→
+   190→  let valueBuckets: relationalStore.ValuesBucket[] = []
+   191→
+   192→  objs.forEach((obj: Writing) => {
+   193→    valueBuckets.push(
+   194→      {
+   195→        'id': obj.Id,
+   196→        'group_index': obj.GroupIndex,
+   197→        'classes': JSON.stringify(obj.Classes),
+   198→        'froms': JSON.stringify(obj.Froms),
+   199→        'allusions': JSON.stringify(obj.Allusions),
+   200→        'pictures': JSON.stringify(obj.Pictures),
+   201→        'dynasty': obj.Dynasty,
+   202→        'author': obj.Author,
+   203→        'author_id': obj.AuthorId,
+   204→        'author_date': obj.AuthorDate,
+   205→        'author_years': obj.AuthorYears,
+   206→        'author_place': obj.AuthorPlace,
+   207→        'type': obj.Type,
+   208→        'type_detail': obj.TypeDetail,
+   209→        'rhyme': obj.Rhyme,
+   210→        'first_clause_rhyme': obj.FirstClauseRhyme,
+   211→        'title': JSON.stringify(obj.Title),
+   212→        'subtitle': JSON.stringify(obj.SubTitle),
+   213→        'tune_id': JSON.stringify(obj.TuneId),
+   214→        'preface': obj.Preface,
+   215→        'clauses': JSON.stringify(obj.Clauses),
+   216→        'note': obj.Note,
+   217→        'comments': JSON.stringify(obj.Comments),
+   218→      }
+   219→    )
+   220→  })
+   221→
+   222→  try {
+   223→    await store.batchInsertWithConflictResolution(
+   224→      DbTableConst.CLASSICALLITERATURE_WRITING_TABLE,
+   225→      valueBuckets,
+   226→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+   227→    ).then((value: number) => {
+   228→      logger.info(`insert rows = ${value}`)
+   229→    }).catch((err: BusinessError) => {
+   230→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+   231→    })
+   232→  } catch (error) {
+   233→    const err = error as BusinessError;
+   234→    logger.error(`batchInsertCharacter failed, code is ${err.code}, message is ${err.message}`);
+   235→  }
+   236→}
+   237→
+   238→@Concurrent
+   239→export async function batchInsertWritingFTS(context: Context, objs: Writing[]): Promise<void> {
+   240→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+   241→  let logger: Logger = new Logger('Writing#batchInsertWritingFTS');
+   242→
+   243→  let valueBuckets: relationalStore.ValuesBucket[] = []
+   244→
+   245→  objs.forEach((obj: Writing) => {
+   246→    valueBuckets.push(
+   247→      {
+   248→        'id': obj.Id,
+   249→        'author': obj.Author,
+   250→        'title': obj.Title.Content,
+   251→        'content': obj.Clauses.map((item: Clause) => {
+   252→          return item.Content
+   253→        }).join(','),
+   254→      }
+   255→    )
+   256→  })
+   257→
+   258→  try {
+   259→    await store.batchInsertWithConflictResolution(
+   260→      DbTableConst.CLASSICALLITERATURE_WRITING_FTS_TABLE,
+   261→      valueBuckets,
+   262→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+   263→    ).then((value: number) => {
+   264→      logger.info(`insert rows = ${value}`)
+   265→    }).catch((err: BusinessError) => {
+   266→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+   267→    })
+   268→  } catch (error) {
+   269→    const err = error as BusinessError;
+   270→    logger.error(`batchInsertCharacter failed, code is ${err.code}, message is ${err.message}`);
+   271→  }
+   272→}
+   273→
+   274→export async function getWriting(id: number): Promise<Writing | undefined> {
+   275→  let obj: Writing | undefined;
+   276→
+   277→  let predicates = new relationalStore.RdbPredicates(DbTableConst.CLASSICALLITERATURE_WRITING_TABLE)
+   278→  predicates.equalTo('id', id)
+   279→
+   280→  await DbUtil.objectiveRDB?.query(predicates)
+   281→    .then((resultSet: relationalStore.ResultSet) => {
+   282→      try {
+   283→        while (resultSet.goToNextRow()) {
+   284→          obj = parse(resultSet)
+   285→        }
+   286→        resultSet.close()
+   287→      } catch (error) {
+   288→        let err = error as BusinessError
+   289→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   290→      }
+   291→    })
+   292→    .catch((err: BusinessError) => {
+   293→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   294→    })
+   295→
+   296→  return obj;
+   297→}
+   298→
+   299→export async function getBookmarks(): Promise<Writing[]> {
+   300→  let objs: Writing[] = [];
+   301→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CLASSICALLITERATURE_WRITING_BOOKMARKS)
+   302→    .then((resultSet: relationalStore.ResultSet) => {
+   303→      try {
+   304→        while (resultSet.goToNextRow()) {
+   305→          objs.push(parse(resultSet))
+   306→        }
+   307→        resultSet.close()
+   308→      } catch (error) {
+   309→        let err = error as BusinessError
+   310→        logger.error(`getBookmarks parse is failed, code is ${err.code},message is ${err.message}`)
+   311→      }
+   312→    })
+   313→    .catch((err: BusinessError) => {
+   314→      logger.error(`getBookmarks is failed, code is ${err.code},message is ${err.message}`)
+   315→    })
+   316→  return objs;
+   317→}
+   318→
+   319→/**
+   320→ * 参考：https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/batch-database-operations-guide
+   321→ * @param context
+   322→ * @param query
+   323→ * @returns
+   324→ */
+   325→@Concurrent
+   326→export async function search(context: Context, query: string): Promise<Array<relationalStore.ValuesBucket>> {
+   327→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+   328→  let logger: Logger = new Logger('Writing#search');
+   329→
+   330→  // 查询所有数据
+   331→  let resultSet = await store.querySql(DbCRUDConst.SEARCH_CLASSICALLITERATURE_WRITING, [`${query}`]);
+   332→  console.info(`Query data successfully! row count:${resultSet.rowCount}`);
+   333→  let index = 0;
+   334→  let result = new Array<relationalStore.ValuesBucket>(resultSet.rowCount);
+   335→  resultSet.goToFirstRow();
+   336→  do {
+   337→    result[index++] = resultSet.getRow();
+   338→  } while (resultSet.goToNextRow());
+   339→  resultSet.close();
+   340→  return result;
+   341→}
+   342→
+   343→/**
+   344→ * @throws
+   345→ */
+   346→function parse(resultSet: relationalStore.ResultSet): Writing {
+   347→  return new Writing(
+   348→    resultSet.getLong(resultSet.getColumnIndex('id')),
+   349→    resultSet.getLong(resultSet.getColumnIndex('group_index')),
+   350→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('classes'))) as string[],
+   351→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('froms'))) as string[],
+   352→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('allusions'))) as Allusion[],
+   353→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('pictures'))) as string[],
+   354→    resultSet.getString(resultSet.getColumnIndex('dynasty')),
+   355→    resultSet.getString(resultSet.getColumnIndex('author')),
+   356→    resultSet.getLong(resultSet.getColumnIndex('author_id')),
+   357→    resultSet.getString(resultSet.getColumnIndex('author_date')),
+   358→    resultSet.getString(resultSet.getColumnIndex('author_years')),
+   359→    resultSet.getString(resultSet.getColumnIndex('author_place')),
+   360→    resultSet.getString(resultSet.getColumnIndex('type')),
+   361→    resultSet.getString(resultSet.getColumnIndex('type_detail')),
+   362→    resultSet.getString(resultSet.getColumnIndex('rhyme')),
+   363→    resultSet.getString(resultSet.getColumnIndex('first_clause_rhyme')),
+   364→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('title'))) as Clause,
+   365→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('subtitle'))) as Clause,
+   366→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('tune_id'))) as Tune,
+   367→    resultSet.getString(resultSet.getColumnIndex('preface')),
+   368→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('clauses'))) as Clause[],
+   369→    resultSet.getString(resultSet.getColumnIndex('note')),
+   370→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('comments'))) as Quote[],
+   371→  )
+   372→}
+</file>
+<metadata>The file has 372 lines in total.</metadata>

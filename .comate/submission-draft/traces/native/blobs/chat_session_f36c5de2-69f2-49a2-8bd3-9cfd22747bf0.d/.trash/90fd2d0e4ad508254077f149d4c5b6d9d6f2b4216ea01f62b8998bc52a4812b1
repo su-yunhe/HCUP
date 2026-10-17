@@ -1,0 +1,99 @@
+import { DbCRUDConst, PrefConst, String } from 'constants';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+import { relationalStore } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { Logger } from 'utils';
+
+let logger: Logger = new Logger('BookmarkEntity');
+
+export class BookmarkEntity {
+  id: number;
+  bookmarkable_id: number;
+  bookmarkable_model: string;
+  chinese_antitheticalcouplet: string | null = null;
+  chinese_character: string | null = null;
+  chinese_expression: string | null = null;
+  chinese_idiom: string | null = null;
+  chinese_knowledge: string | null = null;
+  chinese_quote: string | null = null;
+  classicalliterature_classicpoem: string | null = null;
+  classicalliterature_classicpoem_writer: string | null = null;
+  classicalliterature_sentence: string | null = null;
+  chinese_lyric: string | null = null;
+  chinese_lyric_content: string | null = null;
+  chinese_modernpoetry: string | null = null;
+  chinese_modernpoetry_content: string | null = null;
+  chinese_riddle: string | null = null;
+  chinese_wisecrack: string | null = null;
+  chinese_proverb: string | null = null;
+  classicalliterature_writing: string | null = null;
+  classicalliterature_writing_author: string | null = null;
+  classicalliterature_people: string | null = null;
+
+  constructor(id: number, bookmarkable_id: number, bookmarkable_model: string) {
+    this.id = id;
+    this.bookmarkable_id = bookmarkable_id;
+    this.bookmarkable_model = bookmarkable_model;
+  }
+}
+
+/**
+ * 收藏夹列表中的一条展示项：类型名 + 摘要 + 可选副摘要 + 详情页路由。
+ */
+export class BookmarkItem {
+  key: string;
+  id: string;
+  title: Resource;
+  content: string | null;
+  sub: string | null;
+  subSuffix: string;
+  route: string;
+  bookmarkable_id: number;
+
+  constructor(entity: BookmarkEntity, title: Resource, content: string | null, route: string,
+    sub: string | null = null, subSuffix: string = '') {
+    this.key = `${entity.bookmarkable_model}_${entity.bookmarkable_id}_${entity.id}`;
+    this.id = `bookmark_item_${entity.bookmarkable_model}_${entity.bookmarkable_id}`;
+    this.title = title;
+    this.content = content;
+    this.sub = sub;
+    this.subSuffix = subSuffix;
+    this.route = route;
+    this.bookmarkable_id = entity.bookmarkable_id;
+  }
+}
+
+class WritingTitle {
+  Content: string = '';
+}
+
+function parseWritingTitle(raw: string | null): string | null {
+  if (raw == null) {
+    return null;
+  }
+  try {
+    let title = JSON.parse(raw) as WritingTitle;
+    return title?.Content ?? raw;
+  } catch (error) {
+    return raw;
+  }
+}
+
+export function toBookmarkItem(e: BookmarkEntity): BookmarkItem | undefined {
+  switch (e.bookmarkable_model) {
+    case PrefConst.CHINESE_ANTITHETICALCOUPLET:
+      return new BookmarkItem(e, String.chinese_antitheticalcouplet, e.chinese_antitheticalcouplet,
+        'AntitheticalCoupletShowPage');
+    case PrefConst.CHINESE_CHARACTER:
+      return new BookmarkItem(e, String.chinese_character, e.chinese_character, 'CharacterShowPage');
+    case PrefConst.CHINESE_EXPRESSION:
+      return new BookmarkItem(e, String.chinese_expression, e.chinese_expression, 'ExpressionShowPage');
+    case PrefConst.CHINESE_IDIOM:
+      return new BookmarkItem(e, String.chinese_idiom, e.chinese_idiom, 'IdiomShowPage');
+    case PrefConst.CHINESE_KNOWLEDGE:
+      return new BookmarkItem(e, String.chinese_knowledge, e.chinese_knowledge, 'KnowledgeShowPage');
+    case PrefConst.CHINESE_QUOTE:
+      return new BookmarkItem(e, String.chinese_quote, e.chinese_quote, 'QuoteShowPage');
+    case PrefConst.CLASSICALLITERATURE_CLASSICPOEM:
+      return new BookmarkItem(e, String.classicalliterature_classicpoem, e.classicalliterature_classicpoem,
+        'Classi

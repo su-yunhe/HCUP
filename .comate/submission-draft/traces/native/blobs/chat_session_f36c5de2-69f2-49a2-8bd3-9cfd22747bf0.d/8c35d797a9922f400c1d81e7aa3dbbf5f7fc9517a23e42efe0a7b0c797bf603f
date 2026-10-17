@@ -1,0 +1,18 @@
+      CustomMenuItem({
+        icon: Icon.ic_bookmark_border,
+        pageStack: this.pageStack,
+        pathName: "BookmarkIndexPage",
+        itemId: 'home_bookmark_entry'
+      })
+      CustomMenuItem({
+        icon: Icon.ic_link,
+        pageStack: this.pageStack,
+        pathName: "LinkIndexPage",
+        itemId: 'home_link_entry'
+      })
+      CustomMenuItem({
+        icon: Icon.ic_public_settings,
+        pageStack: this.pageStack,
+        pathName: "SettingPage",
+        itemId: 'home_settings_entry'
+      })

@@ -1,0 +1,268 @@
+Command executed successfully.
+Exit code: 0
+Output:
+<div align="center">
+<div align="center">
+<img src="./screenshot/logo.png" alt="Logo" height="200">
+</div>
+
+# 京墨文库（鸿蒙版）
+
+<div>
+<img alt="GitHub Release" src="https://img.shields.io/github/v/release/hefengbao/jingmo-for-HarmonyOS?display_name=release&style=for-the-badge">
+<img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/hefengbao/jingmo-for-HarmonyOS/total?style=for-the-badge">
+<img alt="License" src="https://img.shields.io/github/license/hefengbao/jingmo-for-HarmonyOS?style=for-the-badge">
+</div>
+
+</div>
+
+
+![](./screenshot/0.png)
+
+[京墨文库](https://github.com/hefengbao/jingmo) 开源的中华文化阅读 APP，诗（词）文（名句）、汉字、成语、词语、歇后语、绕口令、传统节日、传统色、节气、人物等。
+
+## 仓库
+
+Github:[https://github.com/hefengbao/jingmo-for-HarmonyOS](https://github.com/hefengbao/jingmo-for-HarmonyOS)
+
+Gitee:[https://gitee.com/hefengbao/jingmo-for-HarmonyOS](https://gitee.com/hefengbao/jingmo-for-HarmonyOS)
+
+## 赞助
+
+<div style=" display: flex;justify-content: space-between;">
+<img src="screenshot/wechatpay.png" style="width: 45%" alt="微信赞赏码">
+<img src="screenshot/alipay.jpg" style="width: 45%" alt="支付宝赞赏码">
+</div>
+
+## 第三方库
+
+日历 [https://ohpm.openharmony.cn/#/cn/detail/tyme4oh](https://ohpm.openharmony.cn/#/cn/detail/tyme4oh)
+
+## 参考
+
+### 架构
+
+参考官方入门教程 [应用架构设计基础——三层架构](https://developer.huawei.com/consumer/cn/codelabsPortal/carddetails/tutorials_Next-BasicArchitectureDesignPart2)
+搭建。
+
+### 资源
+
+[HarmonyOS图标库](https://developer.huawei.com/consumer/cn/design/harmonyos-icon/)
+（发现点击左边的分类导航（靠后的分类）后不能正常显示图标，重新刷新页面，拖动页面向下滚动到可以显示出来😓）
+
+## Github Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=hefengbao/jingmo-for-HarmonyOS&type=Date)](https://star-history.com/#hefengbao/jingmo-for-HarmonyOS&Date)commons:
+constants
+data
+uicomponents
+utils
+
+features:
+bookmark
+china
+chinese
+classicalliterature
+home
+link
+settings
+traditionalculture
+
+products:
+default
+features/bookmark:
+BuildProfile.ets
+Index.ets
+build
+build-profile.json5
+consumer-rules.txt
+hvigorfile.ts
+obfuscation-rules.txt
+oh-package-lock.json5
+oh-package.json5
+oh_modules
+src
+
+features/china:
+worldcultureheritage
+
+features/chinese:
+antitheticalcouplet
+character
+expression
+idiom
+knowledge
+lyric
+poetry
+proverb
+quote
+riddle
+tonguetwister
+wisecrack
+
+features/classicalliterature:
+classicpoem
+people
+sentence
+writing
+
+features/home:
+BuildProfile.ets
+Index.ets
+build
+build-profile.json5
+consumer-rules.txt
+hvigorfile.ts
+obfuscation-rules.txt
+oh-package-lock.json5
+oh-package.json5
+oh_modules
+src
+
+features/link:
+BuildProfile.ets
+Index.ets
+build
+build-profile.json5
+consumer-rules.txt
+hvigorfile.ts
+obfuscation-rules.txt
+oh-package-lock.json5
+oh-package.json5
+oh_modules
+src
+
+features/settings:
+BuildProfile.ets
+Index.ets
+build
+build-profile.json5
+consumer-rules.txt
+hvigorfile.ts
+obfuscation-rules.txt
+oh-package-lock.json5
+oh-package.json5
+oh_modules
+src
+
+features/traditionalculture:
+calendar
+color
+festival
+solarterm
+// Modified by Harmony Cup on 2026-09-25: remove local signing configuration.
+{
+  "app": {
+    "signingConfigs": [],
+    "products": [
+      {
+        "name": "default",
+        "targetSdkVersion": "6.0.1(21)",
+        "compatibleSdkVersion": "5.1.1(19)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": false
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "default",
+      "srcPath": "./products/default",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "utils",
+      "srcPath": "./commons/utils"
+    },
+    {
+      "name": "uicomponents",
+      "srcPath": "./commons/uicomponents"
+    },
+    {
+      "name": "home",
+      "srcPath": "./features/home"
+    },
+    {
+      "name": "settings",
+      "srcPath": "./features/settings"
+    },
+    {
+      "name": "constants",
+      "srcPath": "./commons/constants"
+    },
+    {
+      "name": "classicpoem",
+      "srcPath": "./features/classicalliterature/classicpoem"
+    },
+    {
+      "name": "character",
+      "srcPath": "./features/chinese/character"
+    },
+    {
+      "name": "sentence",
+      "srcPath": "./features/classicalliterature/sentence"
+    },
+    {
+      "name": "bookmark",
+      "srcPath": "./features/bookmark"
+    },
+    {
+      "name": "worldcultureheritage",
+      "srcPath": "./features/china/worldcultureheritage"
+    },
+ commons/constants/BuildProfile.ets                 |   4 +-
+ commons/data/BuildProfile.ets                      |   4 +-
+ commons/uicomponents/BuildProfile.ets              |   4 +-
+ commons/utils/BuildProfile.ets                     |   4 +-
+ features/bookmark/BuildProfile.ets                 |   4 +-
+ .../china/worldcultureheritage/BuildProfile.ets    |   4 +-
+ .../chinese/antitheticalcouplet/BuildProfile.ets   |   4 +-
+ features/chinese/character/BuildProfile.ets        |   4 +-
+ features/chinese/expression/BuildProfile.ets       |   4 +-
+ features/chinese/idiom/BuildProfile.ets            |   4 +-
+ features/chinese/knowledge/BuildProfile.ets        |   4 +-
+ features/chinese/lyric/BuildProfile.ets            |   4 +-
+ features/chinese/poetry/BuildProfile.ets           |   4 +-
+ features/chinese/proverb/BuildProfile.ets          |   4 +-
+ features/chinese/quote/BuildProfile.ets            |   4 +-
+ features/chinese/riddle/BuildProfile.ets           |   4 +-
+ features/chinese/tonguetwister/BuildProfile.ets    |   4 +-
+ features/chinese/wisecrack/BuildProfile.ets        |   4 +-
+ .../classicpoem/BuildProfile.ets                   |   4 +-
+ .../classicalliterature/people/BuildProfile.ets    |   4 +-
+ .../classicalliterature/sentence/BuildProfile.ets  |   4 +-
+ .../classicalliterature/writing/BuildProfile.ets   |   4 +-
+ features/home/BuildProfile.ets                     |   4 +-
+ features/link/BuildProfile.ets                     |   4 +-
+ features/settings/BuildProfile.ets                 |   4 +-
+ .../traditionalculture/calendar/BuildProfile.ets   |   4 +-
+ features/traditionalculture/color/BuildProfile.ets |   4 +-
+ .../traditionalculture/festival/BuildProfile.ets   |   4 +-
+ .../traditionalculture/solarterm/BuildProfile.ets  |   4 +-
+ spec/0-analyze.md                                  |  83 +++++++++++++
+ spec/1-do.md                                       | 119 ++++++++++++++++++
+ spec/2-submit.md                                   | 113 +++++++++++++++++
+ spec/3-package.md                                  | 138 +++++++++++++++++++++
+ spec/metadata.json                                 |   4 +
+ spec/requirement.md                                |  39 ++++++
+ 35 files changed, 554 insertions(+), 58 deletions(-)

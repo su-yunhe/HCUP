@@ -1,0 +1,20 @@
+def engine_session(workspace):
+    events = read_hook_events(workspace)
+    if events is None:
+        return {"error": f"hook log not found: {HOOK_LOG}"}
+    if not events:
+        return {"error": "no PostToolUse events for this workspace in the hook log"}
+
+    # Invoking this skill logs a PostToolUse event with skillName=comate-session-ids,
+    # which pins the current conversation even when several sessions share the workspace.
+    # Only trust a fresh marker: an old one may belong to another session that used the skill earlier.
+    now = time.time()
+    marked = [e for e in events if e["skill"] == SKILL_NAME and e["ts"] and now - e["ts"] < MARKER_MAX_AGE_SEC]
+    chosen = marked[-1] if marked else events[-1]
+    recent_ids = sorted({e["id"] for e in events if e["ts"] and now - e["ts"] < RECENT_WINDOW_SEC})
+    return {
+        "sessionUuid": chosen["id"],
+        "basis": "skill-invocation event" if marked else "latest event for workspace",
+        "eventTime": datetime.fromtimestamp(chosen["ts"], timezone.utc).isoformat() if chosen["ts"] else None,
+        "ageSec": round(now - chosen["ts"]) if chosen["ts"] else None,
+        "otherRecentIds": [i for i in recent_ids if i !=

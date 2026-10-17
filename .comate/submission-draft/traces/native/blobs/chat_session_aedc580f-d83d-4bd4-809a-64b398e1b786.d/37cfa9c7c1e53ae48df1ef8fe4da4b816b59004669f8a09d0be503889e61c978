@@ -1,0 +1,210 @@
+<file>
+     1→import { relationalStore } from '@kit.ArkData';
+     2→import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
+     3→import { Logger } from 'utils';
+     4→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     5→
+     6→let logger: Logger = new Logger('ModernPoetry');
+     7→
+     8→export class ModernPoetry {
+     9→  id: number;
+    10→  title: string;
+    11→  author: string;
+    12→  content: string;
+    13→  zhu: string | null;
+    14→  yi: string | null;
+    15→  shang: string | null;
+    16→  authorInfo: string | null;
+    17→
+    18→  constructor(id: number, title: string, author: string, content: string, zhu: string | null, yi: string | null,
+    19→    shang: string | null, authorInfo: string | null) {
+    20→    this.id = id;
+    21→    this.title = title;
+    22→    this.author = author;
+    23→    this.content = content;
+    24→    this.zhu = zhu;
+    25→    this.yi = yi;
+    26→    this.shang = shang;
+    27→    this.authorInfo = authorInfo;
+    28→  }
+    29→}
+    30→
+    31→@Concurrent
+    32→export async function batchInsertModernPoetry(context: Context, objs: ModernPoetry[]): Promise<void> {
+    33→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+    34→  let logger: Logger = new Logger('ModernPoetry#batchInsertModernPoetry');
+    35→
+    36→  let valueBuckets: relationalStore.ValuesBucket[] = []
+    37→
+    38→  objs.forEach((obj: ModernPoetry) => {
+    39→    valueBuckets.push(
+    40→      {
+    41→        'id': obj.id,
+    42→        'title': obj.title,
+    43→        'author': obj.author,
+    44→        'content': obj.content,
+    45→        'zhu': obj.zhu,
+    46→        'yi': obj.yi,
+    47→        'shang': obj.shang,
+    48→        'author_info': obj.authorInfo,
+    49→      }
+    50→    )
+    51→  })
+    52→
+    53→  try {
+    54→    await store.batchInsertWithConflictResolution(
+    55→      DbTableConst.CHINESE_MODERNPOETRY_TABLE,
+    56→      valueBuckets,
+    57→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    58→    ).then((value: number) => {
+    59→      logger.info(`insert rows = ${value}`)
+    60→    }).catch((err: BusinessError) => {
+    61→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    62→    })
+    63→  } catch (error) {
+    64→    const err = error as BusinessError;
+    65→    logger.error(`batchInsertModernPoetry failed, code is ${err.code}, message is ${err.message}`);
+    66→  }
+    67→}
+    68→
+    69→@Concurrent
+    70→export async function batchInsertModernPoetryFTS(context: Context, objs: ModernPoetry[]): Promise<void> {
+    71→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+    72→  let logger: Logger = new Logger('ModernPoetry#batchInsertModernPoetryFTS');
+    73→
+    74→  let valuesBuckets: relationalStore.ValuesBucket[] = []
+    75→
+    76→  objs.forEach((obj: ModernPoetry) => {
+    77→    valuesBuckets.push(
+    78→      {
+    79→        'id': obj.id,
+    80→        'title': obj.title,
+    81→        'author': obj.author,
+    82→        'content': obj.content,
+    83→      }
+    84→    )
+    85→  })
+    86→
+    87→  try {
+    88→    await store.batchInsertWithConflictResolution(
+    89→      DbTableConst.CHINESE_MODERNPOETRY_FTS_TABLE,
+    90→      valuesBuckets,
+    91→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    92→    ).then((value: number) => {
+    93→      logger.info(`insert rows = ${value}`)
+    94→    }).catch((err: BusinessError) => {
+    95→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+    96→    })
+    97→  } catch (error) {
+    98→    const err = error as BusinessError;
+    99→    logger.error(`batchInsertModernPoetryFTS failed, code is ${err.code}, message is ${err.message}`);
+   100→  }
+   101→}
+   102→
+   103→export async function getRandomPoetry(): Promise<ModernPoetry | undefined> {
+   104→  let obj: ModernPoetry | undefined;
+   105→
+   106→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_MODERNPOETRY)
+   107→    .then((resultSet: relationalStore.ResultSet) => {
+   108→      try {
+   109→        while (resultSet.goToNextRow()) {
+   110→          obj = parse(resultSet);
+   111→        }
+   112→        resultSet.close();
+   113→      } catch (error) {
+   114→        const err = error as BusinessError;
+   115→        logger.error(`getRandomPoetry parse failed, code is ${err.code}, message is ${err.message}`);
+   116→      }
+   117→    })
+   118→    .catch((err: BusinessError) => {
+   119→      logger.error(`getRandomPoetry failed, code is ${err.code}, message is ${err.message}`);
+   120→    })
+   121→
+   122→  return obj;
+   123→}
+   124→
+   125→export async function getPoetry(id: number): Promise<ModernPoetry | undefined> {
+   126→  let obj: ModernPoetry | undefined;
+   127→  let predicates = new relationalStore.RdbPredicates(DbTableConst.CHINESE_MODERNPOETRY_TABLE);
+   128→  predicates.equalTo('id', id);
+   129→
+   130→  await DbUtil.objectiveRDB?.query(predicates)
+   131→    .then((resultSet: relationalStore.ResultSet) => {
+   132→      try {
+   133→        while (resultSet.goToNextRow()) {
+   134→          obj = parse(resultSet);
+   135→        }
+   136→        resultSet.close();
+   137→      } catch (error) {
+   138→        const err = error as BusinessError;
+   139→        logger.error(`getRandomPoetry parse failed, code is ${err.code}, message is ${err.message}`);
+   140→      }
+   141→    })
+   142→    .catch((err: BusinessError) => {
+   143→      logger.error(`getRandomPoetry failed, code is ${err.code}, message is ${err.message}`);
+   144→    })
+   145→
+   146→  return obj;
+   147→}
+   148→
+   149→export async function search(query: string): Promise<ModernPoetry[]> {
+   150→  let objs: ModernPoetry[] = [];
+   151→
+   152→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CHINESE_MODERNPOETRY, [`${query}`])
+   153→    .then((resultSet: relationalStore.ResultSet) => {
+   154→      try {
+   155→        while (resultSet.goToNextRow()) {
+   156→          objs.push(parse(resultSet));
+   157→        }
+   158→        resultSet.close();
+   159→      } catch (error) {
+   160→        const err = error as BusinessError;
+   161→        logger.error(`getRandomPoetry parse failed, code is ${err.code}, message is ${err.message}`);
+   162→      }
+   163→    })
+   164→    .catch((err: BusinessError) => {
+   165→      logger.error(`getRandomPoetry failed, code is ${err.code}, message is ${err.message}`);
+   166→    })
+   167→
+   168→  return objs;
+   169→}
+   170→
+   171→export async function getBookmarks(): Promise<ModernPoetry[]> {
+   172→  let objs: ModernPoetry[] = [];
+   173→
+   174→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CHINESE_MODERNPOETRY_BOOKMARKS)
+   175→    .then((resultSet: relationalStore.ResultSet) => {
+   176→      try {
+   177→        while (resultSet.goToNextRow()) {
+   178→          objs.push(parse(resultSet));
+   179→        }
+   180→        resultSet.close();
+   181→      } catch (error) {
+   182→        const err = error as BusinessError;
+   183→        logger.error(`getRandomPoetry parse failed, code is ${err.code}, message is ${err.message}`);
+   184→      }
+   185→    })
+   186→    .catch((err: BusinessError) => {
+   187→      logger.error(`getRandomPoetry failed, code is ${err.code}, message is ${err.message}`);
+   188→    })
+   189→
+   190→  return objs;
+   191→}
+   192→
+   193→/**
+   194→ * @throws
+   195→ */
+   196→function parse(resultSet: relationalStore.ResultSet): ModernPoetry {
+   197→  return new ModernPoetry(
+   198→    resultSet.getLong(resultSet.getColumnIndex('id')),
+   199→    resultSet.getString(resultSet.getColumnIndex('title')),
+   200→    resultSet.getString(resultSet.getColumnIndex('author')),
+   201→    resultSet.getString(resultSet.getColumnIndex('content')),
+   202→    resultSet.getString(resultSet.getColumnIndex('zhu')),
+   203→    resultSet.getString(resultSet.getColumnIndex('yi')),
+   204→    resultSet.getString(resultSet.getColumnIndex('shang')),
+   205→    resultSet.getString(resultSet.getColumnIndex('author_info')),
+   206→  )
+   207→}
+</file>
+<metadata>The file has 207 lines in total.</metadata>

@@ -1,0 +1,41 @@
+# 基线现状记录（完善收藏夹支持更多内容类型）
+
+标注约定：【代码实证】= 读代码得出并给出 `文件:行号`；【运行实证】= 在模拟器上实际操作观察到；【推断】= 未验证的推测。
+
+## 1. 基线快照标识
+
+| 项 | 值 |
+| --- | --- |
+| metadata `base_commit` | `b2e40f69dde450852d977c9555a9b12d59508c0d` |
+| 当前 HEAD | `264a375d83db8191c12b695a003e85a64676f21c`（base 之上仅有 BuildProfile.ets 重新生成 + spec 文档，无业务代码差异，`git diff b2e40f6 HEAD --stat` 已核对） |
+| git tag | `baseline-jm-spec7` → `264a375`（题目 ID 按工程目录名取 `jm-spec7`，如官方 ID 不同请告知） |
+| 分支 | `dev`，工作区干净 |
+
+## 2. 构建基线状态
+
+构建命令（命令行，需显式指定 DevEco 自带 JBR，否则 PackageHap 报 `00308018 Unable to locate a Java Runtime`）：
+
+```bash
+export JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home
+export DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk
+export PATH=$JAVA_HOME/bin:/Applications/DevEco-Studio.app/Contents/tools/node/bin:$PATH
+H=/Applications/DevEco-Studio.app/Contents/tools/hvigor/bin/hvigorw.js
+node $H clean --no-daemon
+node $H --mode module -p module=default@default -p product=default -p buildMode=debug assembleHap --no-daemon
+```
+
+结果【运行实证】：`BUILD SUCCESSFUL`（clean 后全量约 11s），产物 `products/default/build/default/outputs/default/default-default-unsigned.hap`。
+
+已有告警清单（clean 全量构建，用于后续对比是否引入新告警）：
+
+| 类别 | 数量 | 说明 |
+| --- | --- | --- |
+| ArkTS:WARN `Function may throw exceptions. Special handling is required.` | 27 | 各 model 中 `JSON.parse` 等调用，如 `Lyric.ets:26/61`、`ModernPoetry.ets:33/71`、`ClassicPoem.ets:93/138`、`Writing.ets:187/240/327/331/335/337/338/339` 等 |
+| ArkTS:WARN `The current component id "image" is duplicate ...` | 8 | 各 SnapshotPage.ets 的 `.id("image")` 重复 |
+| ArkTS:WARN `WRITE_IMAGEVIDEO` 权限提示 | 1 | `commons/uicomponents/.../SnapshotComponent.ets:258` |
+| 资源冲突 `'app_name' / 'page_text_font_size' / 'page_show' / 'settings' conflict` | 多条 | 多模块同名 string 资源 |
+| `No signingConfig found for product default` | 1 | 题包已移除签名，产物为 unsigned |
+
+ArkTS:WARN 合计 36 条。完整日志在本机 `/tmp/jm-spec7-baseline-build.keep.log`（临时文件，不入库）。
+
+安装【运行实证

@@ -1,0 +1,20 @@
+"""Print the current Comate session's engine sessionUuid and IDE sidebar session ID.
+
+Read-only: only reads the hook log and opens the IDE state DB with mode=ro.
+
+Usage: python3 session_ids.py <workspace_path> [--json]
+"""
+import json
+import os
+import sqlite3
+import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+SKILL_NAME = "comate-session-ids"
+HOOK_LOG = Path.home() / ".comate" / "builtin-hook-state" / "notify-dispatcher.log"
+TAIL_BYTES = 8 * 1024 * 1024  # the log grows large; recent entries are all we need
+RECENT_WINDOW_SEC = 30 * 60
+MARKER_MAX_AGE_SEC = 10 * 60

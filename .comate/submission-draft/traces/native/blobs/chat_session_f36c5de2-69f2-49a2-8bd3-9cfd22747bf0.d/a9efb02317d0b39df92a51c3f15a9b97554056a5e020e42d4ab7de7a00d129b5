@@ -1,0 +1,4 @@
+export async function addBookmark(obj: Bookmark) {
+  const valuesBucket: relationalStore.ValuesBucket = {
+    'id': obj.id,
+    'bookmarkable_id': obj.bookmarkable_id,

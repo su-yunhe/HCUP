@@ -1,0 +1,118 @@
+<file>
+     1→import { relationalStore } from '@kit.ArkData';
+     2→import { BusinessError } from '@kit.BasicServicesKit';
+     3→import { DbTableConst } from 'constants';
+     4→import { Logger } from 'utils';
+     5→
+     6→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     7→
+     8→let logger: Logger = new Logger('BookmarkModel')
+     9→
+    10→export class Bookmark {
+    11→  id: number;
+    12→  bookmarkable_id: number;
+    13→  bookmarkable_model: string;
+    14→
+    15→  constructor(id: number, bookmarkable_id: number, bookmarkable_model: string) {
+    16→    this.id = id;
+    17→    this.bookmarkable_id = bookmarkable_id;
+    18→    this.bookmarkable_model = bookmarkable_model;
+    19→  }
+    20→}
+    21→
+    22→export async function addBookmark(obj: Bookmark) {
+    23→  const valuesBucket: relationalStore.ValuesBucket = {
+    24→    'id': obj.id,
+    25→    'bookmarkable_id': obj.bookmarkable_id,
+    26→    'bookmarkable_model': obj.bookmarkable_model,
+    27→  }
+    28→
+    29→  await DbUtil.objectiveRDB?.insert(
+    30→    DbTableConst.BOOKMARKS_TABLE,
+    31→    valuesBucket,
+    32→    relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    33→  ).then((rowId: number) => {
+    34→    logger.info(`Insert is successful, rowId = ${rowId}`)
+    35→  }).catch((err: BusinessError) => {
+    36→    logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+    37→  })
+    38→}
+    39→
+    40→export async function cancelBookmark(bookmarkable_id: number, bookmarkable_model: string): Promise<number | undefined> {
+    41→  let predicates = new relationalStore.RdbPredicates(DbTableConst.BOOKMARKS_TABLE);
+    42→  predicates.equalTo('bookmarkable_id', bookmarkable_id);
+    43→  predicates.equalTo('bookmarkable_model', bookmarkable_model);
+    44→
+    45→  let id: number | undefined
+    46→
+    47→  await DbUtil.objectiveRDB?.delete(predicates)
+    48→    .then((rowId: number) => {
+    49→      id = rowId
+    50→      logger.info(`Delete is successful, rowId = ${rowId}`)
+    51→    })
+    52→    .catch((err: BusinessError) => {
+    53→      logger.error(`Delete is failed, code is ${err.code},message is ${err.message}`)
+    54→    })
+    55→
+    56→  return id;
+    57→}
+    58→
+    59→export async function getBookmark(bookmarkable_id: number, bookmarkable_model: string): Promise<Bookmark | undefined> {
+    60→  let predicates = new relationalStore.RdbPredicates(DbTableConst.BOOKMARKS_TABLE);
+    61→  predicates.equalTo('bookmarkable_id', bookmarkable_id);
+    62→  predicates.equalTo('bookmarkable_model', bookmarkable_model);
+    63→
+    64→  let bookmark: Bookmark | undefined
+    65→
+    66→  await DbUtil.objectiveRDB?.query(predicates).then((resultSet: relationalStore.ResultSet) => {
+    67→    try {
+    68→      while (resultSet.goToNextRow()) {
+    69→        bookmark = parse(resultSet)
+    70→      }
+    71→      resultSet.close()
+    72→    } catch (error) {
+    73→      let err = error as BusinessError
+    74→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    75→    }
+    76→  }).catch((err: BusinessError) => {
+    77→    logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    78→  });
+    79→
+    80→  return bookmark;
+    81→}
+    82→
+    83→
+    84→export async function getBookmarks(): Promise<Bookmark[]> {
+    85→  let predicates = new relationalStore.RdbPredicates(DbTableConst.BOOKMARKS_TABLE);
+    86→
+    87→  let objs: Bookmark[] = [];
+    88→
+    89→  await DbUtil.objectiveRDB?.query(predicates).then((resultSet: relationalStore.ResultSet) => {
+    90→    try {
+    91→      while (resultSet.goToNextRow()) {
+    92→        objs.push(parse(resultSet))
+    93→      }
+    94→      resultSet.close()
+    95→    } catch (error) {
+    96→      let err = error as BusinessError
+    97→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    98→    }
+    99→  }).catch((err: BusinessError) => {
+   100→    logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   101→  });
+   102→
+   103→  return objs;
+   104→}
+   105→
+   106→/**
+   107→ * @throws
+   108→ */
+   109→function parse(resultSet: relationalStore.ResultSet): Bookmark {
+   110→  return new Bookmark(
+   111→    resultSet.getLong(resultSet.getColumnIndex('id')),
+   112→    resultSet.getLong(resultSet.getColumnIndex('bookmarkable_id')),
+   113→    resultSet.getString(resultSet.getColumnIndex('bookmarkable_model')),
+   114→  )
+   115→}
+</file>
+<metadata>The file has 115 lines in total.</metadata>

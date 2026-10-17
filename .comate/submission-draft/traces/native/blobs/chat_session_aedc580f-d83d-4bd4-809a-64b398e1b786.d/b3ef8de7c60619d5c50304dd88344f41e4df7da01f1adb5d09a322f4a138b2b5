@@ -1,0 +1,390 @@
+Command executed successfully.
+Exit code: 0
+Output:
+     1	import { relationalStore } from '@kit.ArkData';
+     2	import { PrefConst } from './PrefConst';
+     3	
+     4	export class DbConfigConst {
+     5	  static readonly STORE_CONFIG: relationalStore.StoreConfig = {
+     6	    name: 'jingmo.db',
+     7	    securityLevel: relationalStore.SecurityLevel.S1,
+     8	    tokenizer: relationalStore.Tokenizer.ICU_TOKENIZER
+     9	  };
+    10	}
+    11	
+    12	export class DbTableConst {
+    13	  static readonly BOOKMARKS_TABLE: string = 'bookmarks';
+    14	  static readonly CHINA_WORLDCULTUREHERITAGE_TABLE: string = "china_worldcultureheritage";
+    15	  static readonly CHINESE_ANTITHETICALCOUPLET_TABLE: string = "chinese_antitheticalcouplet";
+    16	  static readonly CHINESE_CHARACTER_TABLE: string = "chinese_character";
+    17	  static readonly CHINESE_EXPRESSION_TABLE: string = "chinese_expression";
+    18	  static readonly CHINESE_IDIOM_TABLE: string = "chinese_idiom";
+    19	  static readonly CHINESE_KNOWLEDGE_TABLE: string = "chinese_knowledge";
+    20	  //static readonly CHINESE_KNOWLEDGE_FTS_TABLE: string = "chinese_knowledge_fts";
+    21	  static readonly CHINESE_LYRIC_TABLE: string = "chinese_lyric";
+    22	  static readonly CHINESE_LYRIC_FTS_TABLE: string = "chinese_lyric_fts";
+    23	  static readonly CHINESE_MODERNPOETRY_TABLE: string = "chinese_modernpoetry";
+    24	  static readonly CHINESE_MODERNPOETRY_FTS_TABLE: string = "chinese_modernpoetry_fts";
+    25	  static readonly CHINESE_PROVERB_TABLE: string = "chinese_proverb";
+    26	  static readonly CHINESE_QUOTE_TABLE: string = "chinese_quote";
+    27	  //static readonly CHINESE_QUOTE_FTS_TABLE: string = "chinese_quote_fts";
+    28	  static readonly CHINESE_RIDDLE_TABLE: string = "chinese_riddle";
+    29	  static readonly CHINESE_TONGUETWISTER_TABLE: string = "chinese_tonguetwister";
+    30	  static readonly CHINESE_WISECRACK_TABLE: string = "chinese_wisecrack";
+    31	  static readonly CLASSICALLITERATURE_CLASSICPOEM_TABLE: string = 'classicalliterature_classicpoem';
+    32	  static readonly CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE: string = 'classicalliterature_classicpoem_fts';
+    33	  static readonly CLASSICALLITERATURE_PEOPLE_TABLE: string = "classicalliterature_people";
+    34	  static readonly CLASSICALLITERATURE_SENTENCE_TABLE: string = "classicalliterature_sentence";
+    35	  //static readonly CLASSICALLITERATURE_SENTENCE_FTS_TABLE: string = "classicalliterature_sentence_fts";
+    36	  static readonly CLASSICALLITERATURE_WRITING_TABLE: string = "classicalliterature_writing";
+    37	  static readonly CLASSICALLITERATURE_WRITING_FTS_TABLE: string = "classicalliterature_writing_fts";
+    38	}
+    39	
+    40	// 为了保证平稳升级，所有的修改、删除操作都通过 SQL 语句完成,即不更改以前版本的 SQL 语句
+    41	export class DbMigrationConst {
+    42	  // Version 1
+    43	  static readonly CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE: string =
+    44	    'create table if not exists ' + DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE +
+    45	      ' (id integer primary key autoincrement not null, type text not null, name text not null, year text not null, ' +
+    46	      'year2 text, level text not null, address text not null, image text not null, content text not null)';
+    47	  static readonly CREATE_CLASSICALLITERATURE_CLASSICPOEM_TABLE: string =
+    48	    'create table if not exists ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+    49	      ' (id integer primary key autoincrement not null, dynasty text not null, writer text not null,' +
+    50	      ' writer_introduction text, title text not null, subtitle text, preface text, content text not null,' +
+    51	      ' annotation text, translation text, creative_background text, explain text, comment text, collection text,' +
+    52	      ' category text )';
+    53	  static readonly CREATE_CLASSICALLITERATURE_SENTENCE_TABLE: string =
+    54	    'create table if not exists ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+    55	      ' (id integer primary key autoincrement not null, content text not null, from_txt text not null, poem_id integer)';
+    56	  static readonly CREATE_CHINESE_ANTITHETICALCOUPLET_TABLE: string =
+    57	    'create table if not exists ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
+    58	      ' (id integer primary key autoincrement not null, body text not null, description text, image text)';
+    59	  static readonly CREATE_CHINESE_CHARACTER_TABLE: string =
+    60	    'create table if not exists ' + DbTableConst.CHINESE_CHARACTER_TABLE +
+    61	      ' (id integer primary key autoincrement not null, character text not null, character2 text, pinyin text not null, ' +
+    62	      'radical text, stroke integer, wubi text, explanations text, explanations2 text)';
+    63	  static readonly CREATE_CHINESE_EXPRESSION_TABLE: string =
+    64	    'create table if not exists ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+    65	      ' (id integer not null primary key autoincrement, word text not null, pinyin text not null, explanation text, ' +
+    66	      'example text, source text, quote text, similar text, opposite text, usage text, story text, notice text, ' +
+    67	      'spelling text)';
+    68	  static readonly CREATE_CHINESE_IDIOM_TABLE: string =
+    69	    'create table if not exists ' + DbTableConst.CHINESE_IDIOM_TABLE +
+    70	      ' (id integer not null primary key autoincrement, word text not null, pinyin text not null, abbr text not null,  ' +
+    71	      'explanation text, example text, source text, quote text, similar text, opposite text, usage text, story text, ' +
+    72	      'notice text, spelling text)';
+    73	  static readonly CREATE_CHINESE_KNOWLEDGE_TABLE: string =
+    74	    'create table if not exists ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+    75	      ' (id integer primary key autoincrement not null, content text not null, label text not null, url text)';
+    76	  static readonly CREATE_CHINESE_MODERNPOETRY_TABLE: string =
+    77	    'create table if not exists ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE +
+    78	      ' (id integer primary key autoincrement not null, title text not null, author text not null, ' +
+    79	      'content text not null, zhu text, yi text, shang text, author_info text)';
+    80	  static readonly CREATE_CHINESE_QUOTE_TABLE: string =
+    81	    'create table if not exists ' + DbTableConst.CHINESE_QUOTE_TABLE +
+    82	      ' (id integer primary key autoincrement not null, content text not null, author text, from_txt text not null)';
+    83	  static readonly CREATE_BOOKMARKS_TABLE: string =
+    84	    'create table if not exists ' + DbTableConst.BOOKMARKS_TABLE +
+    85	      ' (id integer primary key autoincrement not null, bookmarkable_id integer, bookmarkable_model text)';
+    86	  // Version 2
+    87	  static readonly CREATE_CHINESE_LYRIC_TABLE: string =
+    88	    'create table if not exists ' + DbTableConst.CHINESE_LYRIC_TABLE +
+    89	      ' (id integer primary key autoincrement not null, title text not null, writer text, ' +
+    90	      'singer text, content text not null)';
+    91	  static readonly CREATE_CHINESE_LYRIC_FTS_TABLE =
+    92	    'CREATE VIRTUAL TABLE IF NOT EXISTS ' + DbTableConst.CHINESE_LYRIC_FTS_TABLE +
+    93	      ' USING fts4(id, title, content, tokenize=icu zh_CN)';
+    94	  static readonly CREATE_CHINESE_MODERNPOETRY_FTS_TABLE: string =
+    95	    'CREATE VIRTUAL TABLE IF NOT EXISTS ' + DbTableConst.CHINESE_MODERNPOETRY_FTS_TABLE +
+    96	      ' USING fts4(id, author, title, content, tokenize=icu zh_CN)';
+    97	  static readonly CREATE_CHINESE_PROVERB_TABLE: string =
+    98	    'create table if not exists ' + DbTableConst.CHINESE_PROVERB_TABLE +
+    99	      ' (id integer primary key autoincrement not null, content text not null, tags text)';
+   100	  static readonly CREATE_CHINESE_RIDDLE_TABLE: string =
+   101	    'create table if not exists ' + DbTableConst.CHINESE_RIDDLE_TABLE +
+   102	      ' (id integer primary key autoincrement not null, puzzle text, answer text)';
+   103	  static readonly CREATE_CHINESE_TONGUETWISTER_TABLE: string =
+   104	    'create table if not exists ' + DbTableConst.CHINESE_TONGUETWISTER_TABLE +
+   105	      ' (id integer primary key autoincrement not null, title text not null, content text not null, content2 text)';
+   106	  static readonly CREATE_CHINESE_WISECRACK_TABLE: string =
+   107	    'create table if not exists ' + DbTableConst.CHINESE_WISECRACK_TABLE +
+   108	      ' (id integer primary key autoincrement not null, riddle text not null, answer text not null, ' +
+   109	      'first_letter text, first_word text)';
+   110	  static readonly CREATE_CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE =
+   111	    'CREATE VIRTUAL TABLE IF NOT EXISTS ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE +
+   112	      ' USING fts4(id, writer, title, content, tokenize=icu zh_CN)';
+   113	  static readonly CREATE_CLASSICALLITERATURE_PEOPLE_TABLE: string =
+   114	    'create table if not exists ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE +
+   115	      ' (id integer primary key autoincrement not null, name text not null, birth_year text, ' +
+   116	      'birthday text, death_year text, deathday text, dynasty text, aliases text, titles text, ' +
+   117	      'hometown text, details text)';
+   118	  static readonly CREATE_CLASSICALLITERATURE_WRITING_TABLE =
+   119	    'create table if not exists ' + DbTableConst.CLASSICALLITERATURE_WRITING_TABLE + '' +
+   120	      ' (id integer primary key autoincrement not null, group_index integer, classes text, froms text, ' +
+   121	      'allusions text, pictures text, dynasty text, author text, author_id integer, author_date text, ' +
+   122	      'author_years text, author_place text, type text, type_detail text, rhyme text, rank integer, ' +
+   123	      'first_clause_rhyme text, title text, subtitle text, tune_id text, preface text, ' +
+   124	      'clauses text not null, note text, comments text)';
+   125	  static readonly CREATE_CLASSICALLITERATURE_WRITING_FTS_TABLE =
+   126	    'CREATE VIRTUAL TABLE IF NOT EXISTS ' + DbTableConst.CLASSICALLITERATURE_WRITING_FTS_TABLE +
+   127	      ' USING fts4(id, author, title, content, tokenize=icu zh_CN)';
+   128	}
+   129	
+   130	export class DbCRUDConst {
+   131	  static readonly READ_CHINA_WORLDCULTUREHERITAGE: string =
+   132	    'select * from ' + DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE +
+   133	      'where id = ? limit 1';
+   134	  static readonly READ_RANDOM_CHINESE_ANTITHETICALCOUPLET: string =
+   135	    'select * from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
+   136	      ' where id = (select id from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
+   137	      ' order by random() limit 1) limit 1';
+   138	  static readonly SEARCH_CHINESE_ANTITHETICALCOUPLET: string =
+   139	    'select * from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
+   140	      ' where body like ?';
+   141	  static readonly CHINESE_ANTITHETICALCOUPLETI_BOOKMARKS: string =
+   142	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   143	      ' join ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE + ' as tbl' +
+   144	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_ANTITHETICALCOUPLET + '\'' +
+   145	      ' order by b.id desc';
+   146	  static readonly READ_RANDOM_CHINESE_CHARACTER: string =
+   147	    'select * from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
+   148	      ' where id = (select id from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
+   149	      ' order by random() limit 1) limit 1';
+   150	  static readonly CHINESE_CHARACTER_BOOKMARKS: string =
+   151	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   152	      ' join ' + DbTableConst.CHINESE_CHARACTER_TABLE + ' as tbl' +
+   153	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_CHARACTER + '\'' +
+   154	      ' order by b.id desc';
+   155	  static readonly READ_RANDOM_CHINESE_EXPRESSION: string =
+   156	    'select * from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+   157	      ' where id = (select id from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+   158	      ' order by random() limit 1) limit 1';
+   159	  static readonly SEARCH_CHINESE_EXPRESSION: string =
+   160	    'select * from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+   161	      ' where word like ?';
+   162	  static readonly CHINESE_EXPRESSION_BOOKMARKS: string =
+   163	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   164	      ' join ' + DbTableConst.CHINESE_EXPRESSION_TABLE + ' as tbl' +
+   165	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_EXPRESSION + '\'' +
+   166	      ' order by b.id desc';
+   167	  static readonly READ_RANDOM_CHINESE_IDIOM: string =
+   168	    'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+   169	      ' where id = (select id from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+   170	      ' order by random() limit 1) limit 1';
+   171	  static readonly SEARCH_CHINESE_IDIOM: string =
+   172	    'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+   173	      ' where word like ?';
+   174	  static readonly CHINESE_IDIOM_BOOKMARKS: string =
+   175	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   176	      ' join ' + DbTableConst.CHINESE_IDIOM_TABLE + ' as tbl' +
+   177	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_IDIOM + '\'' +
+   178	      ' order by b.id desc';
+   179	  static readonly READ_RANDOM_CHINESE_KNOWLEDGE: string =
+   180	    'select * from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+   181	      ' where id = (select id from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+   182	      ' order by random() limit 1) limit 1';
+   183	  static readonly SEARCH_CHINESE_KNOWLEDGE: string =
+   184	    'select * from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+   185	      ' where content like ?';
+   186	  static readonly CHINESE_KNOWLEDGE_BOOKMARKS: string =
+   187	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   188	      ' join ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE + ' as tbl' +
+   189	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_KNOWLEDGE + '\'' +
+   190	      ' order by b.id desc';
+   191	  static readonly READ_RANDOM_CHINESE_LYRIC: string =
+   192	    'select * from ' + DbTableConst.CHINESE_LYRIC_TABLE +
+   193	      ' where id = (select id from ' + DbTableConst.CHINESE_LYRIC_TABLE +
+   194	      ' order by random() limit 1) limit 1';
+   195	  static readonly SEARCH_CHINESE_LYRIC: string =
+   196	    'select tbl.* from ' + DbTableConst.CHINESE_LYRIC_TABLE + ' as tbl' +
+   197	      ' join ' + DbTableConst.CHINESE_LYRIC_FTS_TABLE + ' as v' +
+   198	      ' on tbl.id = v.id where ' + DbTableConst.CHINESE_LYRIC_FTS_TABLE + ' match ?';
+   199	  static readonly CHINESE_LYRIC_BOOKMARKS: string =
+   200	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   201	      ' join ' + DbTableConst.CHINESE_LYRIC_TABLE + ' as tbl' +
+   202	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_LYRIC + '\'' +
+   203	      ' order by b.id desc';
+   204	  static readonly READ_RANDOM_CHINESE_MODERNPOETRY: string =
+   205	    'select * from ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE +
+   206	      ' where id = (select id from ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE +
+   207	      ' order by random() limit 1) limit 1';
+   208	  static readonly SEARCH_CHINESE_MODERNPOETRY: string =
+   209	    'select tbl.* from ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE + ' as tbl' +
+   210	      ' join ' + DbTableConst.CHINESE_MODERNPOETRY_FTS_TABLE + ' as v' +
+   211	      ' on tbl.id = v.id where ' + DbTableConst.CHINESE_MODERNPOETRY_FTS_TABLE + ' match ?';
+   212	  static readonly CHINESE_MODERNPOETRY_BOOKMARKS: string =
+   213	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   214	      ' join ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE + ' as tbl' +
+   215	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_MODERNPOETRY + '\'' +
+   216	      ' order by b.id desc';
+   217	  static readonly READ_RANDOM_CHINESE_PROVERB: string =
+   218	    'select * from ' + DbTableConst.CHINESE_PROVERB_TABLE +
+   219	      ' where id = (select id from ' + DbTableConst.CHINESE_PROVERB_TABLE +
+   220	      ' order by random() limit 1) limit 1';
+   221	  static readonly SEARCH_CHINESE_PROVERB: string =
+   222	    'select * from ' + DbTableConst.CHINESE_PROVERB_TABLE +
+   223	      ' where content like ?';
+   224	  static readonly CHINESE_PROVERB_BOOKMARKS: string =
+   225	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   226	      ' join ' + DbTableConst.CHINESE_PROVERB_TABLE + ' as tbl' +
+   227	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_PROVERB + '\'' +
+   228	      ' order by b.id desc';
+   229	  static readonly READ_RANDOM_CHINESE_QUOTE: string =
+   230	    'select * from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+   231	      ' where id = (select id from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+   232	      ' order by random() limit 1) limit 1';
+   233	  static readonly SEARCH_CHINESE_QUOTE: string =
+   234	    'select * from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+   235	      ' where content like ?';
+   236	  static readonly CHINESE_QUOTE_BOOKMARKS: string =
+   237	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   238	      ' join ' + DbTableConst.CHINESE_QUOTE_TABLE + ' as tbl' +
+   239	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_QUOTE + '\'' +
+   240	      ' order by b.id desc';
+   241	  static readonly READ_RANDOM_CHINESE_RIDDLE: string =
+   242	    'select * from ' + DbTableConst.CHINESE_RIDDLE_TABLE +
+   243	      ' where id = (select id from ' + DbTableConst.CHINESE_RIDDLE_TABLE +
+   244	      ' order by random() limit 1) limit 1';
+   245	  static readonly SEARCH_CHINESE_RIDDLE: string =
+   246	    'select * from ' + DbTableConst.CHINESE_RIDDLE_TABLE +
+   247	      ' where puzzle like ?';
+   248	  static readonly CHINESE_RIDDLE_BOOKMARKS: string =
+   249	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   250	      ' join ' + DbTableConst.CHINESE_RIDDLE_TABLE + ' as tbl' +
+   251	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_RIDDLE + '\'' +
+   252	      ' order by b.id desc';
+   253	  static readonly CHINESE_TONGUETWISTER_LIST: string =
+   254	    'select * from ' + DbTableConst.CHINESE_TONGUETWISTER_TABLE;
+   255	  static readonly READ_RANDOM_CHINESE_WISECRACK: string =
+   256	    'select * from ' + DbTableConst.CHINESE_WISECRACK_TABLE +
+   257	      ' where id = (select id from ' + DbTableConst.CHINESE_WISECRACK_TABLE +
+   258	      ' order by random() limit 1) limit 1';
+   259	  static readonly SEARCH_CHINESE_WISECRACK: string =
+   260	    'select * from ' + DbTableConst.CHINESE_WISECRACK_TABLE +
+   261	      ' where riddle like ?';
+   262	  static readonly CHINESE_WISECRACK_BOOKMARKS: string =
+   263	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   264	      ' join ' + DbTableConst.CHINESE_WISECRACK_TABLE + ' as tbl' +
+   265	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_WISECRACK + '\'' +
+   266	      ' order by b.id desc';
+   267	  static readonly INSERT_CLASSICALLITERATURE_CLASSICPOEM_FTS: string =
+   268	    'INSERT INTO ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE +
+   269	      ' (id, writer, title, content) SELECT id, writer, title, content FROM ' +
+   270	    DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE;
+   271	  static readonly READ_RANDOM_CLASSICALLITERATURE_CLASSICPOEM: string =
+   272	    'select * from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+   273	      ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+   274	      ' order by random() limit 1) limit 1';
+   275	  static readonly SEARCH_CLASSICALLITERATURE_CLASSICPOEM: string =
+   276	    'select tbl.* from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl' +
+   277	      ' join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' as v' +
+   278	      ' on tbl.id = v.id where ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' match ?';
+   279	  static readonly CLASSICALLITERATURE_CLASSICPOEM_BOOKMARKS: string =
+   280	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   281	      ' join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl' +
+   282	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_CLASSICPOEM +
+   283	      '\'' +
+   284	      ' order by b.id desc';
+   285	  static readonly READ_RANDOM_CLASSICALLITERATURE_PEOPLE: string =
+   286	    'select * from ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE +
+   287	      ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE +
+   288	      ' order by random() limit 1) limit 1';
+   289	  static readonly SEARCH_CLASSICALLITERATURE_PEOPLE: string =
+   290	    'select * from ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE +
+   291	      ' where name like ?';
+   292	  static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE: string =
+   293	    'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+   294	      ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+   295	      ' order by random() limit 1) limit 1';
+   296	  static readonly SEARCH_CLASSICALLITERATURE_SENTENCE: string =
+   297	    'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+   298	      ' where content like ?';
+   299	  static readonly CLASSICALLITERATURE_SENTENCE_BOOKMARKS: string =
+   300	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   301	      ' join ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE + ' as tbl' +
+   302	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_SENTENCE + '\'' +
+   303	      ' order by b.id desc';
+   304	  static readonly SEARCH_CLASSICALLITERATURE_WRITING: string =
+   305	    'select tbl.* from ' + DbTableConst.CLASSICALLITERATURE_WRITING_TABLE + ' as tbl' +
+   306	      ' join ' + DbTableConst.CLASSICALLITERATURE_WRITING_FTS_TABLE + ' as v' +
+   307	      ' on tbl.id = v.id where ' + DbTableConst.CLASSICALLITERATURE_WRITING_FTS_TABLE + ' match ? limit 100';
+   308	  static readonly CLASSICALLITERATURE_WRITING_BOOKMARKS: string =
+   309	    'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   310	      ' join ' + DbTableConst.CLASSICALLITERATURE_WRITING_TABLE + ' as tbl' +
+   311	      ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_WRITING + '\'' +
+   312	      ' order by b.id desc';
+   313	  static readonly BOOKMARKS: string =
+   314	    'select b.*, tbl1.body as chinese_antitheticalcouplet,' +
+   315	      ' tbl2.character as chinese_character,' +
+   316	      ' tbl3.word as chinese_expression,' +
+   317	      ' tbl4.word as chinese_idiom,' +
+   318	      ' tbl5.content as chinese_knowledge,' +
+   319	      ' tbl6.content as chinese_quote,' +
+   320	      ' tbl7.title as classicalliterature_classicpoem,' +
+   321	      ' tbl8.content as classicalliterature_sentence' +
+   322	      ' from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+   323	      ' left join ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE + ' as tbl1' +
+   324	      ' on b.bookmarkable_id = tbl1.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_ANTITHETICALCOUPLET + '\'' +
+   325	      ' left join ' + DbTableConst.CHINESE_CHARACTER_TABLE + ' as tbl2' +
+   326	      ' on b.bookmarkable_id = tbl2.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_CHARACTER + '\'' +
+   327	      ' left join ' + DbTableConst.CHINESE_EXPRESSION_TABLE + ' as tbl3' +
+   328	      ' on b.bookmarkable_id = tbl3.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_EXPRESSION + '\'' +
+   329	      ' left join ' + DbTableConst.CHINESE_IDIOM_TABLE + ' as tbl4' +
+   330	      ' on b.bookmarkable_id = tbl4.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_IDIOM + '\'' +
+   331	      ' left join ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE + ' as tbl5' +
+   332	      ' on b.bookmarkable_id = tbl5.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_KNOWLEDGE + '\'' +
+   333	      ' left join ' + DbTableConst.CHINESE_QUOTE_TABLE + ' as tbl6' +
+   334	      ' on b.bookmarkable_id = tbl6.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_QUOTE + '\'' +
+   335	      ' left join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl7' +
+   336	      ' on b.bookmarkable_id = tbl7.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_CLASSICPOEM +
+   337	      '\'' +
+   338	      ' left join ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE + ' as tbl8' +
+   339	      ' on b.bookmarkable_id = tbl8.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_SENTENCE + '\'' +
+   340	      ' order by b.id desc';
+   341	}commons/constants/src/main/ets/String.ets:6:  static readonly chinese_antitheticalcouplet: Resource = $r('app.string.chinese_antitheticalcouplet');
+commons/constants/src/main/ets/String.ets:7:  static readonly chinese_character: Resource = $r('app.string.chinese_character');
+commons/constants/src/main/ets/String.ets:8:  static readonly chinese_expression: Resource = $r('app.string.chinese_expression');
+commons/constants/src/main/ets/String.ets:9:  static readonly chinese_idiom: Resource = $r('app.string.chinese_idiom');
+commons/constants/src/main/ets/String.ets:10:  static readonly chinese_knowledge: Resource = $r('app.string.chinese_knowledge');
+commons/constants/src/main/ets/String.ets:11:  static readonly chinese_lyric: Resource = $r('app.string.chinese_lyric');
+commons/constants/src/main/ets/String.ets:12:  static readonly chinese_modernpoetry: Resource = $r('app.string.chinese_modernpoetry');
+commons/constants/src/main/ets/String.ets:13:  static readonly chinese_proverb: Resource = $r('app.string.chinese_proverb');
+commons/constants/src/main/ets/String.ets:14:  static readonly chinese_quote: Resource = $r('app.string.chinese_quote');
+commons/constants/src/main/ets/String.ets:15:  static readonly chinese_riddle: Resource = $r('app.string.chinese_riddle');
+commons/constants/src/main/ets/String.ets:16:  static readonly chinese_tonguetwister: Resource = $r('app.string.chinese_tonguetwister');
+commons/constants/src/main/ets/String.ets:17:  static readonly chinese_wisecrack: Resource = $r('app.string.chinese_wisecrack');
+commons/constants/src/main/ets/String.ets:19:  static readonly classicalliterature_classicpoem: Resource = $r('app.string.classicalliterature_classicpoem');
+commons/constants/src/main/ets/String.ets:20:  static readonly classicalliterature_people: Resource = $r('app.string.classicalliterature_people');
+commons/constants/src/main/ets/String.ets:21:  static readonly classicalliterature_sentence: Resource = $r('app.string.classicalliterature_sentence');
+commons/constants/src/main/ets/String.ets:22:  static readonly classicalliterature_writing: Resource = $r('app.string.classicalliterature_writing');
+commons/constants/src/main/ets/String.ets:29:  static readonly add_bookmark: Resource = $r('app.string.add_bookmark');
+commons/constants/src/main/ets/String.ets:30:  static readonly bookmark: Resource = $r('app.string.bookmark');
+commons/constants/src/main/ets/String.ets:32:  static readonly cancel_bookmark: Resource = $r('app.string.cancel_bookmark');
+./products/default/src/main/resources/base/element/string.json
+./commons/constants/src/main/resources/base/element/string.json
+./commons/uicomponents/src/main/resources/base/element/string.json
+./commons/data/src/main/resources/base/element/string.json
+./features/settings/src/main/resources/base/element/string.json
+./features/classicalliterature/sentence/src/main/resources/base/element/string.json
+./features/classicalliterature/people/src/main/resources/base/element/string.json
+./features/classicalliterature/writing/src/main/resources/base/element/string.json
+./features/bookmark/src/main/resources/base/element/string.json
+./features/traditionalculture/calendar/src/main/resources/base/element/string.json
+./features/traditionalculture/color/src/main/resources/base/element/string.json
+./features/traditionalculture/solarterm/src/main/resources/base/element/string.json
+./features/traditionalculture/festival/src/main/resources/base/element/string.json
+./features/china/worldcultureheritage/src/main/resources/base/element/string.json
+./features/link/src/main/resources/base/element/string.json
+./features/chinese/proverb/src/main/resources/base/element/string.json
+./features/chinese/quote/src/main/resources/base/element/string.json
+./features/chinese/lyric/src/main/resources/base/element/string.json
+./features/chinese/character/src/main/resources/base/element/string.json
+./features/chinese/riddle/src/main/resources/base/element/string.json
+./features/chinese/wisecrack/src/main/resources/base/element/string.json
+./features/chinese/poetry/src/main/resources/base/element/string.json
+./features/chinese/knowledge/src/main/resources/base/element/string.json
+./features/chinese/tonguetwister/src/main/resources/base/element/string.json
+./features/chinese/idiom/src/main/resources/base/element/string.json
+./features/chinese/expression/src/main/resources/base/element/string.json
+./features/chinese/antitheticalcouplet/src/main/resources/base/element/string.json
+./AppScope/resources/base/element/string.json

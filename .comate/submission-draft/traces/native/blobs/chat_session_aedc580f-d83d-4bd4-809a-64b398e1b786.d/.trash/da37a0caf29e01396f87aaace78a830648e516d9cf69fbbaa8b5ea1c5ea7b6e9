@@ -1,0 +1,40 @@
+---
+name: comate-session-ids
+description: 查询当前 Comate 会话的两个标识：引擎 sessionUuid（hook 日志里的 conversationId）和 IDE 侧边栏会话 ID（Spec 模式的 specSessionId，形如 1791984936543-xxxx）。当用户问"这个会话的 sessionUuid / 会话 ID / conversationId / 侧边栏会话 ID / 标签页 ID 是什么"、提交材料或 trace 需要填会话 ID、要核对某阶段对应哪个会话时使用。即使用户只说"查一下当前会话 id"也应触发。一条只读脚本命令即可得到结果，不要去全盘 grep 或翻 History/chatEditingSessions。
+---
+
+# 查询当前会话 ID
+
+调用本 skill 这一步本身会在 hook 日志里留下一条带 `skillName=comate-session-ids` 的记录，脚本靠它锁定"当前会话"，即使同一工作区里同时开着多个会话也不会认错。所以请直接运行脚本，不需要先做任何探索。
+
+## 步骤
+
+1. 运行（把工作区换成当前工作区的绝对路径；不要依赖 shell 的 cwd，Agent 的 cwd 可能是 `/`）：
+
+   ```bash
+   python3 ~/.comate/skills/comate-session-ids/scripts/session_ids.py "<工作区绝对路径>"
+   ```
+
+   需要结构化结果时加 `--json`。脚本只读：读取 hook 日志，用 `mode=ro` 打开 IDE 状态库，不写任何文件。
+
+2. 按输出回答用户：
+   - `engine sessionUuid`：引擎会话 ID。`basis` 为 `skill-invocation event` 表示是用本次调用锁定的，可直接采信。若是 `latest event for workspace` 且有 `WARNING other sessions active`，说明无法唯一确定，要把候选列给用户。
+   - `sidebar session ID`：IDE 侧边栏会话 ID，取状态为 `generating`（正在运行）且唯一的那条，并附带标题，方便用户核对。
+   - 说明依据来源（下文"数据来源"），一句话即可。
+
+## 结果不完整时
+
+- `sidebar session ID: UNDETERMINED`：同时有多个或没有 `generating` 会话。把脚本列出的候选（ID、状态、更新时间、标题）给用户，按标题和时间让用户确认，不要自己挑。
+- `sidebar ... NOT FOUND` 或候选里没有当前会话：侧边栏表 `comateAgentEditor.session.*` 只记录 **Spec 模式**会话；普通 Agent 会话通常没有这条记录。如实告诉用户"未找到 Spec 会话记录"。普通会话的侧边栏 ID 是否等于引擎 sessionUuid **未经验证**，不要把两者说成同一个值。
+- `engine ... NOT FOUND`：hook 日志不存在或没有该工作区的记录（可能 hook 未启用或日志轮转）。告知用户即可，不要转而全盘搜索。
+
+## 数据来源（供解释与排错）
+
+| 值 | 位置 | 识别方式 |
+| --- | --- | --- |
+| 引擎 sessionUuid | `~/.comate/builtin-hook-state/notify-dispatcher.log`（JSON 行） | 每次工具调用后有 `start`（含 `event=PostToolUse`、`conversationId`）→ `loadWatch`（含 `cwd`）→ `record`（含 `toolName`/`skillName`）三条；按 `cwd` 过滤工作区 |
+| 侧边栏会话 ID | `<IDE 用户目录>/workspaceStorage/<hash>/state.vscdb`，表 `ItemTable`，key `comateAgentEditor.session.<id>` | `<hash>` 目录下 `workspace.json` 的 `folder` 指向当前工作区；value 是 JSON，含 `sessionId`、`title`、`iconStatus`、`updatedAt` |
+
+IDE 用户目录：macOS `~/Library/Application Support/Comate/User`，Linux `~/.config/Comate/User`，Windows `%APPDATA%\Comate\User`。
+
+不要把 `User/

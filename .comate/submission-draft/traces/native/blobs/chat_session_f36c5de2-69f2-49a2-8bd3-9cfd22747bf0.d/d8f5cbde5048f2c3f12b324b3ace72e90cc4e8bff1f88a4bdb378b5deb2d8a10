@@ -1,0 +1,10 @@
+  @Param @Require pathName: string;
+
+  build() {
+    Stack({ alignContent: Alignment.Center }) {
+      Image(this.icon)
+        .width($r('sys.float.titlebar_icon_width'))
+        .height($r('sys.float.titlebar_icon_height'))
+        .fillColor($r('sys.color.icon'))
+    }
+    .padding(8)

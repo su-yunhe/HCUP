@@ -1,0 +1,64 @@
+Command executed successfully.
+Exit code: 0
+Output:
+exit=1
+A1：冷启动后点主页收藏图标进入收藏夹，Back 回主页。 ... [2026-10-15 11:43:15,665] [8417992448] [DeviceTest] [INFO] [init DeccVariable cur case object]
+重启应用后收藏仍在，顺序不变。 ... [2026-10-15 11:43:16,451] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+快速连点收藏按钮：收藏夹不出现重复条目。 ... [2026-10-15 11:43:25,578] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+A8：收藏夹中每个条目都有类型名和非空摘要，不显示 null。 ... [2026-10-15 11:43:33,200] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+test_01_lyric (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_01_lyric) ... [2026-10-15 11:43:40,873] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+test_02_poetry (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_02_poetry) ... [2026-10-15 11:43:48,456] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+test_03_riddle (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_03_riddle) ... [2026-10-15 11:43:56,048] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+test_04_wisecrack (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_04_wisecrack) ... [2026-10-15 11:44:03,593] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+test_05_proverb (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_05_proverb) ... [2026-10-15 11:44:11,190] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+A8：依次收藏 歌词、诗歌、谜语、歇后语 后，前 4 条依次为 歇后语、谜语、诗歌、歌词。 ... [2026-10-15 11:44:18,790] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+A6 诗文（模拟器无数据时 skip）。 ... [2026-10-15 11:44:26,360] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+A6 人物（模拟器无数据时 skip）。 ... [2026-10-15 11:44:33,918] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+A10–A12：经典诗文条目展示标题与作者（独立 Text，不含朝代），点击进入详情。 ... [2026-10-15 11:44:41,516] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+A13–A16：成语详情取消→再收藏→返回仅一条且首位；再取消→返回后消失，其他条目仍在。 ... [2026-10-15 11:44:49,062] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.id('home_bookmark_entry'))</div>]
+ERROR: test_01_entry_from_home (hypium_tests.test_bookmark.TestBookmarkEntry.test_01_entry_from_home)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_01_restart_persistence (hypium_tests.test_bookmark.TestRobustness.test_01_restart_persistence)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_02_rapid_double_click (hypium_tests.test_bookmark.TestRobustness.test_02_rapid_double_click)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_03_no_empty_items (hypium_tests.test_bookmark.TestRobustness.test_03_no_empty_items)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_01_lyric (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_01_lyric)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_02_poetry (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_02_poetry)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_03_riddle (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_03_riddle)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_04_wisecrack (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_04_wisecrack)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_05_proverb (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_05_proverb)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_06_mixed_order (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_06_mixed_order)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_07_writing (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_07_writing)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_08_people (hypium_tests.test_bookmark.TestScenario1MoreTypes.test_08_people)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_01_title_and_author (hypium_tests.test_bookmark.TestScenario2ClassicPoem.test_01_title_and_author)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+ERROR: test_01_cancel_then_disappear (hypium_tests.test_bookmark.TestScenario3CancelIdiom.test_01_cancel_then_disappear)
+ValueError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+测试用例: 14  通过: 0  失败: 14  跳过(未验证): 0
+  ✗ test_01_entry_from_home (hypium_tests.test_bookmark.TestBookmarkEntry.test_01_entry_from_home) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+  ✗ test_01_restart_persistence (hypium_tests.test_bookmark.TestRobustness.test_01_restart_persistence) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one
+  ✗ test_02_rapid_double_click (hypium_tests.test_bookmark.TestRobustness.test_02_rapid_double_click) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [com.hefengbao.jingmo.hw], please specify one

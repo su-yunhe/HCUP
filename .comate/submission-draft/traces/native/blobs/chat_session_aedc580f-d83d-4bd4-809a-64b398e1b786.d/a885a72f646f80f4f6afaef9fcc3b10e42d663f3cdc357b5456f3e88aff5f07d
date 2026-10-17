@@ -1,0 +1,101 @@
+<file>
+     1→import { ClassicPoem, getClassicPoem } from '../model/ClassicPoem';
+     2→import { AvoidAreaObserver, Icon, ParamNumberId, PrefConst, String } from 'constants';
+     3→import { ClassicPoemView } from '../view/ContentView';
+     4→import { AppStorageV2 } from '@kit.ArkUI';
+     5→import { Bookmark, getBookmark } from 'bookmark';
+     6→import { BusinessError } from '@kit.BasicServicesKit';
+     7→import { Logger } from 'utils';
+     8→import ClassicPoemViewModel from '../viewmodel/ClassicPoemViewModel';
+     9→
+    10→let logger: Logger = new Logger('ClassicPoemShowPage');
+    11→
+    12→@Builder
+    13→export function ShowPageBuilder() {
+    14→  ShowPage();
+    15→}
+    16→
+    17→@ComponentV2
+    18→export struct ShowPage {
+    19→  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+    20→  @Local avoidAreaObserver: AvoidAreaObserver =
+    21→    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
+    22→  @Local classicPoem: ClassicPoem | undefined;
+    23→  @Local bookmarked: Bookmark | undefined;
+    24→
+    25→  build() {
+    26→    NavDestination() {
+    27→      Scroll() {
+    28→        if (this.classicPoem) {
+    29→          ClassicPoemView({
+    30→            classicPoem: this.classicPoem
+    31→          })
+    32→        }
+    33→      }
+    34→      .width('100%')
+    35→      .height('100%')
+    36→      .edgeEffect(EdgeEffect.Spring)
+    37→      .align(Alignment.TopStart)
+    38→      .padding({
+    39→        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+    40→      })
+    41→    }
+    42→    .title(String.classicalliterature_classicpoem)
+    43→    .menus([
+    44→      {
+    45→        value: String.snapshot,
+    46→        icon: Icon.ic_public_picture,
+    47→        action: (() => {
+    48→          if (this.classicPoem) {
+    49→            this.pageStack.pushPathByName("ClassicPoemSnapshotPage", new ParamNumberId(this.classicPoem.id))
+    50→          }
+    51→        })
+    52→      },
+    53→    ])
+    54→    .toolbarConfiguration([
+    55→      {
+    56→        "value": this.bookmarked ? String.cancel_bookmark : String.add_bookmark,
+    57→        "icon": this.bookmarked ? Icon.ic_bookmark : Icon.ic_bookmark_border,
+    58→        "action": () => {
+    59→          if (this.bookmarked) {
+    60→            ClassicPoemViewModel.cancelBookmark(this.classicPoem?.id)
+    61→              .then(() => {
+    62→                this.bookmarked = undefined;
+    63→              })
+    64→              .catch((error: BusinessError) => {
+    65→                logger.error(`cancel bookmark failed, code = ${error.code}, message = ${error.message}`)
+    66→              })
+    67→          } else {
+    68→            ClassicPoemViewModel.addBookmark(this.classicPoem?.id)
+    69→              .then((value: Bookmark | undefined) => {
+    70→                this.bookmarked = value
+    71→              })
+    72→              .catch((error: BusinessError) => {
+    73→                logger.error(`add bookmark failed, code = ${error.code}, message = ${error.message}`)
+    74→              })
+    75→          }
+    76→        },
+    77→        status: this.classicPoem ? ToolbarItemStatus.NORMAL : ToolbarItemStatus.DISABLED
+    78→      },
+    79→    ], {
+    80→      "hideItemValue": true
+    81→    })
+    82→    .onReady((ctx: NavDestinationContext) => {
+    83→      this.pageStack = ctx.pathStack
+    84→      let param = ctx.pathInfo.param as ParamNumberId
+    85→      if (param) {
+    86→        getClassicPoem(param.id)
+    87→          .then((value: ClassicPoem | undefined) => {
+    88→            this.classicPoem = value
+    89→          })
+    90→        getBookmark(param.id, PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
+    91→          .then((value: Bookmark | undefined) => {
+    92→            this.bookmarked = value;
+    93→          })
+    94→      }
+    95→    })
+    96→  }
+    97→}
+    98→
+</file>
+<metadata>The file has 98 lines in total.</metadata>

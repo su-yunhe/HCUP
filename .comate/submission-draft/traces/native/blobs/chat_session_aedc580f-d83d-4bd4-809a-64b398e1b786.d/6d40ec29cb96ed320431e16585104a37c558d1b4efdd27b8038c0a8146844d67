@@ -1,0 +1,18 @@
+def main():
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    workspace = args[0] if args else os.getcwd()
+    result = {"workspace": os.path.realpath(workspace),
+              "engine": engine_session(workspace),
+              "sidebar": sidebar_sessions(workspace)}
+    if "--json" in sys.argv:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    eng, side = result["engine"], result["sidebar"]
+    print(f"workspace: {result['workspace']}")
+    if "error" in eng:
+        print(f"engine sessionUuid: NOT FOUND ({eng['error']})")
+    else:
+        print(f"engine sessionUuid: {eng['sessionUuid']}  [{eng['basis']}, {eng['ageSec']}s ago]")
+        if eng["otherRecentIds"]:
+            print(f"  WARNING other sessions active in this workspace (last 30 min): {eng['otherRecentIds']}")

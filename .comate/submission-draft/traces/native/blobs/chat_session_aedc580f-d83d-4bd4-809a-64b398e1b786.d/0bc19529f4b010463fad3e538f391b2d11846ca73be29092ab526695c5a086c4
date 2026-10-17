@@ -1,0 +1,49 @@
+## 3. Spec 描述的入口当前在哪
+
+| 项 | 现状 |
+| --- | --- |
+| 主页 | `features/home/src/main/ets/pages/HomePage.ets:45` `Navigation(this.pageStack)`，`TopBar` + `MenuList` |
+| 收藏入口按钮 | `features/home/src/main/ets/view/TopBar.ets:17-21`，`CustomMenuItem({ icon: Icon.ic_bookmark_border, pathName: "BookmarkIndexPage" })`，点击 `TopBar.ets:56` `pushPathByName(this.pathName, null)` |
+| 入口位置 | 【代码实证+运行实证】**在主页右上角**，不是 Spec 说的"左上角"：左侧是 `Text('京墨文库')`，`Blank()` 之后依次是 收藏 / 链接 / 设置 三个图标。模拟器坐标：收藏 Stack `[720,164][860,304]`、链接 `[916,..][1056,..]`、设置 `[1112,..][1252,..]`。三个图标均无文字、无 `.id()` |
+| 路由名 | `BookmarkIndexPage`（`features/bookmark/src/main/resources/base/profile/route_map.json`，builder `IndexPageBuilder`） |
+| 页面文件 | `features/bookmark/src/main/ets/pages/IndexPage.ets` |
+| 页面标题 | `.title(String.bookmark)`（`IndexPage.ets:128`）→ 资源 `bookmark` = **"收藏夹"**（`commons/constants/src/main/resources/base/element/string.json`）。运行时 TitleBar 文字 `收藏夹`，id `__NavdestinationField__Text__MainTitle__` |
+
+各内容模块入口（主页 `features/home/src/main/ets/view/MenuList.ets`，均为 `pushPathByName('<X>IndexPage', null)`）：
+
+| 主页文字 | 路由 | MenuList 行 | 主页坐标（模拟器） |
+| --- | --- | --- | --- |
+| 经典诗文 | ClassicPoemIndexPage | 22 | [56,557][626,735] |
+| 诗文 | WritingIndexPage | 30 | [682,557][1252,735] |
+| 诗文名句 | SentenceIndexPage | 38 | [56,791][626,969] |
+| 人物 | PeopleIndexPage | 46 | [682,791][1252,969] |
+| 成语 | IdiomIndexPage | 78 | [56,1428][626,1606] |
+| 歇后语 | WisecrackIndexPage | 86 | [682,1428][1252,1606] |
+| 谚语 | ProverbIndexPage | 94 | [56,1662][626,1840] |
+| 谜语 | RiddleIndexPage | 102 | [682,1662][1252,1840] |
+| 歌词 | LyricIndexPage | 126 | [56,2130][626,2308] |
+| 诗歌 | ModernPoetryIndexPage | 142 | [56,2364][626,2542] |
+
+注意：主页同时存在分组标题 "古诗文"（`MenuList.ets:12`），Spec 中的"古诗文"在 UI 上是分组名，不是一个可点击模块。
+
+## 4. 相关现状
+
+### 4.1 收藏页（`features/bookmark/src/main/ets/pages/IndexPage.ets`）
+
+- 状态：`@ComponentV2`，`@Local entities: BookmarkEntity[]`（:19）。
+- 刷新：`aboutToAppear` 注册 `uiObserver.on('navDestinationUpdate')`，当 `info.name == 'BookmarkIndexPage' && info.state == 4`（ON_WILL_SHOW）时调用 `getEntities()` 重新查库（:21-30）。【运行实证】从详情页取消收藏后返回，列表即时刷新。
+- 列表：`List` + `Repeat<BookmarkEntity>`，`.key(item => \`${item.id}\`)`（:38-117）。**无空状态提示**：无收藏时页面空白。
+- 渲染分支 `if/else if` 只覆盖 8 种 `bookmarkable_model`（:42-114）：对联、汉字、词语、成语、知识卡片、句子、经典诗文、诗文名句。其他 model 的记录 **ListItem 为空**（不渲染内容但仍占一个 ListItem，带 divider）。
+- 条目组件 `Item`（:135-160）：`BlockTitle({ title: model })`（类型名，如"成语"）+ `Text(content)`（`maxLines(2)`、省略号）。只有 **一个** 摘要字段，没有作者字段。
+- 点击：`pushPathByName('<X>ShowPage', new ParamNumberId(bookmarkable_id))`。
+- 无任何 `.id()`。
+
+### 4.2 数据模型与存储
+
+- 表 `bookmarks`（`commons/constants/src/main/ets/DbConst.ets:13`），建表 `DbConst.ets:83-85`：`id integer primary key autoincrement, bookmarkable_id integer, bookmarkable_model text`。只存 id + 类型，**不存标题/摘要快照**。
+- DAO：`features/bookmark/src/main/ets/model/Bookmark.ets`：`addBookmark`（:22，`ON_CONFLICT_REPLACE`）、`cancelBookmark(id, model)`（:40，按 id+model 删除所有匹配行）、`getBookmark`（:59）、`getBookmarks`（:84）。模块导出 `features/bookmark/Index.ets`。
+- 列表查询：`DbCRUDConst.BOOKMARKS`（`DbConst.ets:313-340`），`bookmarks` LEFT JOIN 8 张内容表，按 `b.id desc`。实体 `BookmarkEntity`（`features/bookmark/src/main/ets/model/BookmarkEntity.ets:9-47`）字段与 SQL 别名一一对应，`getEntities()`（:49）。
+- 类型常量：`commons/constants/src/main/ets/PrefConst.ets:6-23`。
+- 数据库：RDB `jingmo.db`（`DbConst.ets:6`），`DbUtil.objectiveRDB`（`commons/utils/src/main/ets/data/DbUtil.ets`）。
+
+<!-- PLACEHOLDER_BASELINE_4 -->

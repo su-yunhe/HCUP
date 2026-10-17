@@ -1,0 +1,91 @@
+# 基线现状记录（完善收藏夹支持更多内容类型）
+
+标注约定：【代码实证】= 读代码得出并给出 `文件:行号`；【运行实证】= 在模拟器上实际操作观察到；【推断】= 未验证的推测。
+
+## 1. 基线快照标识
+
+| 项 | 值 |
+| --- | --- |
+| metadata `base_commit` | `b2e40f69dde450852d977c9555a9b12d59508c0d` |
+| 当前 HEAD | `264a375d83db8191c12b695a003e85a64676f21c`（base 之上仅有 BuildProfile.ets 重新生成 + spec 文档，无业务代码差异，`git diff b2e40f6 HEAD --stat` 已核对） |
+| git tag | `baseline-jm-spec7` → `264a375`（题目 ID 按工程目录名取 `jm-spec7`，如官方 ID 不同请告知） |
+| 分支 | `dev`，工作区干净 |
+
+## 2. 构建基线状态
+
+构建命令（命令行，需显式指定 DevEco 自带 JBR，否则 PackageHap 报 `00308018 Unable to locate a Java Runtime`）：
+
+```bash
+export JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home
+export DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk
+export PATH=$JAVA_HOME/bin:/Applications/DevEco-Studio.app/Contents/tools/node/bin:$PATH
+H=/Applications/DevEco-Studio.app/Contents/tools/hvigor/bin/hvigorw.js
+node $H clean --no-daemon
+node $H --mode module -p module=default@default -p product=default -p buildMode=debug assembleHap --no-daemon
+```
+
+结果【运行实证】：`BUILD SUCCESSFUL`（clean 后全量约 11s），产物 `products/default/build/default/outputs/default/default-default-unsigned.hap`。
+
+已有告警清单（clean 全量构建，用于后续对比是否引入新告警）：
+
+| 类别 | 数量 | 说明 |
+| --- | --- | --- |
+| ArkTS:WARN `Function may throw exceptions. Special handling is required.` | 27 | 各 model 中 `JSON.parse` 等调用，如 `Lyric.ets:26/61`、`ModernPoetry.ets:33/71`、`ClassicPoem.ets:93/138`、`Writing.ets:187/240/327/331/335/337/338/339` 等 |
+| ArkTS:WARN `The current component id "image" is duplicate ...` | 8 | 各 SnapshotPage.ets 的 `.id("image")` 重复 |
+| ArkTS:WARN `WRITE_IMAGEVIDEO` 权限提示 | 1 | `commons/uicomponents/.../SnapshotComponent.ets:258` |
+| 资源冲突 `'app_name' / 'page_text_font_size' / 'page_show' / 'settings' conflict` | 多条 | 多模块同名 string 资源 |
+| `No signingConfig found for product default` | 1 | 题包已移除签名，产物为 unsigned |
+
+ArkTS:WARN 合计 36 条。完整日志在本机 `/tmp/jm-spec7-baseline-build.keep.log`（临时文件，不入库）。
+
+安装【运行实证】：`hdc list targets` → `127.0.0.1:5555`（模拟器，`const.product.model=emulator`）；`hdc install -r <unsigned.hap>` → `install bundle successfully`。bundleName `com.hefengbao.jingmo.hw`（`AppScope/app.json5:3`），Ability `EntryAbility`。
+
+## 3. Spec 描述的入口当前在哪
+
+| 项 | 现状 |
+| --- | --- |
+| 主页 | `features/home/src/main/ets/pages/HomePage.ets:45` `Navigation(this.pageStack)`，`TopBar` + `MenuList` |
+| 收藏入口按钮 | `features/home/src/main/ets/view/TopBar.ets:17-21`，`CustomMenuItem({ icon: Icon.ic_bookmark_border, pathName: "BookmarkIndexPage" })`，点击 `TopBar.ets:56` `pushPathByName(this.pathName, null)` |
+| 入口位置 | 【代码实证+运行实证】**在主页右上角**，不是 Spec 说的"左上角"：左侧是 `Text('京墨文库')`，`Blank()` 之后依次是 收藏 / 链接 / 设置 三个图标。模拟器坐标：收藏 Stack `[720,164][860,304]`、链接 `[916,..][1056,..]`、设置 `[1112,..][1252,..]`。三个图标均无文字、无 `.id()` |
+| 路由名 | `BookmarkIndexPage`（`features/bookmark/src/main/resources/base/profile/route_map.json`，builder `IndexPageBuilder`） |
+| 页面文件 | `features/bookmark/src/main/ets/pages/IndexPage.ets` |
+| 页面标题 | `.title(String.bookmark)`（`IndexPage.ets:128`）→ 资源 `bookmark` = **"收藏夹"**（`commons/constants/src/main/resources/base/element/string.json`）。运行时 TitleBar 文字 `收藏夹`，id `__NavdestinationField__Text__MainTitle__` |
+
+各内容模块入口（主页 `features/home/src/main/ets/view/MenuList.ets`，均为 `pushPathByName('<X>IndexPage', null)`）：
+
+| 主页文字 | 路由 | MenuList 行 | 主页坐标（模拟器） |
+| --- | --- | --- | --- |
+| 经典诗文 | ClassicPoemIndexPage | 22 | [56,557][626,735] |
+| 诗文 | WritingIndexPage | 30 | [682,557][1252,735] |
+| 诗文名句 | SentenceIndexPage | 38 | [56,791][626,969] |
+| 人物 | PeopleIndexPage | 46 | [682,791][1252,969] |
+| 成语 | IdiomIndexPage | 78 | [56,1428][626,1606] |
+| 歇后语 | WisecrackIndexPage | 86 | [682,1428][1252,1606] |
+| 谚语 | ProverbIndexPage | 94 | [56,1662][626,1840] |
+| 谜语 | RiddleIndexPage | 102 | [682,1662][1252,1840] |
+| 歌词 | LyricIndexPage | 126 | [56,2130][626,2308] |
+| 诗歌 | ModernPoetryIndexPage | 142 | [56,2364][626,2542] |
+
+注意：主页同时存在分组标题 "古诗文"（`MenuList.ets:12`），Spec 中的"古诗文"在 UI 上是分组名，不是一个可点击模块。
+
+## 4. 相关现状
+
+### 4.1 收藏页（`features/bookmark/src/main/ets/pages/IndexPage.ets`）
+
+- 状态：`@ComponentV2`，`@Local entities: BookmarkEntity[]`（:19）。
+- 刷新：`aboutToAppear` 注册 `uiObserver.on('navDestinationUpdate')`，当 `info.name == 'BookmarkIndexPage' && info.state == 4`（ON_WILL_SHOW）时调用 `getEntities()` 重新查库（:21-30）。【运行实证】从详情页取消收藏后返回，列表即时刷新。
+- 列表：`List` + `Repeat<BookmarkEntity>`，`.key(item => \`${item.id}\`)`（:38-117）。**无空状态提示**：无收藏时页面空白。
+- 渲染分支 `if/else if` 只覆盖 8 种 `bookmarkable_model`（:42-114）：对联、汉字、词语、成语、知识卡片、句子、经典诗文、诗文名句。其他 model 的记录 **ListItem 为空**（不渲染内容但仍占一个 ListItem，带 divider）。
+- 条目组件 `Item`（:135-160）：`BlockTitle({ title: model })`（类型名，如"成语"）+ `Text(content)`（`maxLines(2)`、省略号）。只有 **一个** 摘要字段，没有作者字段。
+- 点击：`pushPathByName('<X>ShowPage', new ParamNumberId(bookmarkable_id))`。
+- 无任何 `.id()`。
+
+### 4.2 数据模型与存储
+
+- 表 `bookmarks`（`commons/constants/src/main/ets/DbConst.ets:13`），建表 `DbConst.ets:83-85`：`id integer primary key autoincrement, bookmarkable_id integer, bookmarkable_model text`。只存 id + 类型，**不存标题/摘要快照**。
+- DAO：`features/bookmark/src/main/ets/model/Bookmark.ets`：`addBookmark`（:22，`ON_CONFLICT_REPLACE`）、`cancelBookmark(id, model)`（:40，按 id+model 删除所有匹配行）、`getBookmark`（:59）、`getBookmarks`（:84）。模块导出 `features/bookmark/Index.ets`。
+- 列表查询：`DbCRUDConst.BOOKMARKS`（`DbConst.ets:313-340`），`bookmarks` LEFT JOIN 8 张内容表，按 `b.id desc`。实体 `BookmarkEntity`（`features/bookmark/src/main/ets/model/BookmarkEntity.ets:9-47`）字段与 SQL 别名一一对应，`getEntities()`（:49）。
+- 类型常量：`commons/constants/src/main/ets/PrefConst.ets:6-23`。
+- 数据库：RDB `jingmo.db`（`DbConst.ets:6`），`DbUtil.objectiveRDB`（`commons/utils/src/main/ets/data/DbUtil.ets`）。
+
+<!-- PLACEHOLDER_BASELINE_4 -->

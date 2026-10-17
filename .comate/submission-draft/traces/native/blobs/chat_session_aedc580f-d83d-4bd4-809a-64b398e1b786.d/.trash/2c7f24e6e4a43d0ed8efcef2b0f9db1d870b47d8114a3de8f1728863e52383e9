@@ -1,0 +1,47 @@
+---
+name: comate-session-ids
+description: 查询当前 Comate 会话的两个标识：引擎 sessionUuid（hook 日志里的 conversationId）和 IDE 侧边栏会话 ID（Spec 模式的 specSessionId，形如 1791984936543-xxxx）。当用户问"这个会话的 sessionUuid / 会话 ID / conversationId / 侧边栏会话 ID / 标签页 ID 是什么"、提交材料或 trace 需要填会话 ID、要核对某阶段对应哪个会话时使用。即使用户只说"查一下当前会话 id"也应触发。两条只读脚本命令即可得到结果，不要去全盘 grep 或翻 History/chatEditingSessions。
+---
+
+# 查询当前会话 ID
+
+## 为什么要分两步
+
+引擎 sessionUuid 只能从 hook 日志里拿：每次工具调用**结束后**，日志会写一条带 `conversationId` 和会话 `cwd` 的 PostToolUse 记录。一条命令执行时看不到它自己的记录，所以：
+
+1. 第一步跑一个打时间戳的命令，它结束后日志里就有一条"本会话"的记录；
+2. 第二步找"时间戳之后、本工作区的第一条记录"，那就是第一步的记录，ID 一定属于当前会话。
+
+不要改成"取该工作区最近一条记录"：同一工作区开着别的会话时，最近一条往往是别人的，这正是旧版的 bug。用斜杠命令（`/comate-session-ids`）加载本 skill 时不产生工具调用，同样不能依赖"调用 skill 的记录"。
+
+## 步骤
+
+两步必须是**两次独立的工具调用**，不要用 `&&`、`;` 合成一条，也不要并行。
+
+1. 打时间戳：
+
+   ```bash
+   python3 ~/.comate/skills/comate-session-ids/scripts/session_ids.py --stamp
+   ```
+
+   输出一个整数，比如 `1792229799425`。
+
+2. 紧接着查询（工作区用绝对路径；Agent 的 cwd 可能是 `/`，不要依赖它）：
+
+   ```bash
+   python3 ~/.comate/skills/comate-session-ids/scripts/session_ids.py "<工作区绝对路径>" --after <上一步的整数>
+   ```
+
+   需要结构化结果时加 `--json`。脚本只读：读 hook 日志，用 `mode=ro` 打开 IDE 状态库，不写任何文件。
+
+3. 按输出回答用户：
+   - `engine sessionUuid`：正常情况下 `hook entry` 在时间戳后几秒内，可直接采信。若出现 `WARNING other sessions logged tool calls in the same window`，说明同一时刻别的会话也在调用工具，把候选列给用户；也可以重做一遍两步，通常就不再冲突。
+   - `sidebar session ID`：取状态为 `generating`（正在运行）且唯一的那条，附带标题方便用户核对。
+   - 一句话说明依据来源（见下文"数据来源"）。
+
+## 结果不完整时
+
+- `engine ... NOT FOUND (no PostToolUse entry ... after the stamp)`：hook 可能写得慢，再执行一次第 2 步（不用重新打戳）。还是没有就如实告诉用户，不要改用其他办法猜。
+- `engine ... NOT FOUND (hook log not found)`：本机没有启用这个 hook，告知用户即可。
+- `sidebar session ID: UNDETERMINED`：同时有多个或没有 `generating` 会话。把列出的候选（ID、状态、更新时间、标题）给用户，按标题让用户确认，不要自己挑。
+- `sidebar ... NOT FOUND`，或候选里没有当前会话：这张表只记录 **Spec 模式**会话，普通 Agent 会话通常没有记录。如实说"未找到 Spec

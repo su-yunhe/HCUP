@@ -1,0 +1,19 @@
+      ' on b.bookmarkable_id = tbl8.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_SENTENCE + '\'' +
+      ' left join ' + DbTableConst.CHINESE_LYRIC_TABLE + ' as tbl9' +
+      ' on b.bookmarkable_id = tbl9.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_LYRIC + '\'' +
+      ' left join ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE + ' as tbl10' +
+      ' on b.bookmarkable_id = tbl10.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_MODERNPOETRY + '\'' +
+      ' left join ' + DbTableConst.CHINESE_RIDDLE_TABLE + ' as tbl11' +
+      ' on b.bookmarkable_id = tbl11.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_RIDDLE + '\'' +
+      ' left join ' + DbTableConst.CHINESE_WISECRACK_TABLE + ' as tbl12' +
+      ' on b.bookmarkable_id = tbl12.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_WISECRACK + '\'' +
+      ' left join ' + DbTableConst.CHINESE_PROVERB_TABLE + ' as tbl13' +
+      ' on b.bookmarkable_id = tbl13.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_PROVERB + '\'' +
+      ' left join ' + DbTableConst.CLASSICALLITERATURE_WRITING_TABLE + ' as tbl14' +
+      ' on b.bookmarkable_id = tbl14.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_WRITING + '\'' +
+      ' left join ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE + ' as tbl15' +
+      ' on b.bookmarkable_id = tbl15.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_PEOPLE + '\'' +
+      ' where coalesce(tbl1.id, tbl2.id, tbl3.id, tbl4.id, tbl5.id, tbl6.id, tbl7.id, tbl8.id,' +
+      ' tbl9.id, tbl10.id, tbl11.id, tbl12.id, tbl13.id, tbl14.id, tbl15.id) is not null' +
+      ' order by b.id desc';
+}

@@ -1,0 +1,9 @@
+# 收藏夹支持更多内容类型 —— 完成总结
+
+## 改动
+
+| 文件 | 内容 |
+| --- | --- |
+| `commons/constants/src/main/ets/DbConst.ets` | `DbCRUDConst.BOOKMARKS` 重写：子查询按 `(model, bookmarkable_id)` 去重取 `max(id)`；新增 歌词/诗歌/谜语/歇后语/谚语/诗文/人物 7 张表 JOIN；经典诗文多取 `writer`；`where coalesce(tblN.id) is not null` 过滤孤儿与未知 model；`order by b.id desc` |
+| `features/bookmark/src/main/ets/model/Bookmark.ets` | `addBookmark` 不再写入 `id`，主键走 autoincrement |
+| `features/bookm

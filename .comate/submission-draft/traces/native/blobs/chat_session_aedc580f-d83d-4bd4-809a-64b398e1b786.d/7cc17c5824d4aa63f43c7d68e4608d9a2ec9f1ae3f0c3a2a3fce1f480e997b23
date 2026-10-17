@@ -1,0 +1,32 @@
+{
+  "routerMap": [
+    {
+      "name": "SentenceBookmarkPage",
+      "pageSourceFile": "src/main/ets/pages/BookmarkPage.ets",
+      "buildFunction": "BookmarkPageBuilder"
+    },
+    {
+      "name": "SentenceIndexPage",
+      "pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+      "buildFunction": "IndexPageBuilder",
+      "data": {
+        "description": "Sentence Index Page"
+      }
+    },
+    {
+      "name": "SentenceSearchPage",
+      "pageSourceFile": "src/main/ets/pages/SearchPage.ets",
+      "buildFunction": "SearchPageBuilder"
+    },
+    {
+      "name": "SentenceShowPage",
+      "pageSourceFile": "src/main/ets/pages/ShowPage.ets",
+      "buildFunction": "ShowPageBuilder"
+    },
+    {
+      "name": "SentenceSnapshotPage",
+      "pageSourceFile": "src/main/ets/pages/SnapshotPage.ets",
+      "buildFunction": "SnapshotPageBuilder"
+    }
+  ]
+}

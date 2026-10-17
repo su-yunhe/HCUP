@@ -1,0 +1,47 @@
+# 收藏夹支持更多内容类型 任务计划
+
+- [x] Task 1: 收藏插入改为自增主键
+    - 1.1: `Bookmark.ets` 的 `addBookmark` 去掉 valuesBucket 中的 `'id'`
+    - 1.2: 确认各模块 `new Bookmark(YmdHisToNumber(), ...)` 调用签名无需改动
+
+- [x] Task 2: 重写收藏列表 SQL `DbCRUDConst.BOOKMARKS`
+    - 2.1: 子查询按 `(bookmarkable_model, bookmarkable_id)` 分组取 `max(id)` 去重
+    - 2.2: 新增 tbl9–tbl15 七张内容表 LEFT JOIN（歌词/诗歌/谜语/歇后语/谚语/诗文/人物）及别名字段
+    - 2.3: 经典诗文增加 `tbl7.writer as classicalliterature_classicpoem_writer`
+    - 2.4: `where coalesce(tbl1.id … tbl15.id) is not null` 过滤孤儿与未知 model；`order by b.id desc`
+
+- [x] Task 3: 扩展 `BookmarkEntity` 与展示项映射
+    - 3.1: `BookmarkEntity` 字段默认 null，构造函数只收 id/bookmarkable_id/bookmarkable_model，新增 11 个字段
+    - 3.2: `getEntities` 用 `isColumnNull` 判空读取全部列
+    - 3.3: 新增 `BookmarkItem` 类与 `toBookmarkItem`，按 doc 映射表覆盖 15 类，未知 model 返回 undefined
+    - 3.4: 诗文 title JSON 解析（`WritingTitle`），失败回退原串
+
+- [x] Task 4: 改造收藏页 `IndexPage.ets`
+    - 4.1: `@Local items: BookmarkItem[]`，state==4 时查询并映射、过滤 undefined
+    - 4.2: Repeat 单一分支渲染，点击 `pushPathByName(route, new ParamNumberId(bookmarkable_id))`，key 用 `item.key`
+    - 4.3: `Item` 组件：BlockTitle + 摘要 Text + 可选副摘要 Text，空值不渲染，样式沿用基线
+    - 4.4: 补 `.id()`：`bookmark_list`、`bookmark_item_<model>_<id>`、`_title`、`_content`/`_author`
+
+- [ ] Task 5: 主页入口补稳定 id
+    - 5.1: `TopBar.ets` 的 `CustomMenuItem` 增加 `itemId` 参数并 `.id()`
+    - 5.2: 三个图标传入 `home_bookmark_entry` / `home_link_entry` / `home_settings_entry`
+
+- [ ] Task 6: 构建、安装与冷启动验证
+    - 6.1: 按 BN §2 命令构建，日志写入 `logs/build.log`
+    - 6.2: 与基线 36 条 ArkTS:WARN 对比，修复新增告警或编译错误
+    - 6.3: `hdc install -r` 安装，日志 `logs/install.log`；冷启动并手动进入收藏页确认不崩溃、已有收藏正确展示
+
+- [ ] Task 7: 编写 Hypium 自测 `hypium_tests/test_bookmark.py`
+    - 7.1: 公共辅助：冷启动、回主页、主页滚动查找模块入口、收藏页条目读取（按 id 前缀/顺序）
+    - 7.2: 用例 A1 入口、场景一（歌词/诗歌/谜语/歇后语/谚语 收藏→首条→摘要→跳转详情）
+    - 7.3: 场景二（经典诗文 标题+作者、跳转）
+    - 7.4: 场景三（成语 取消→再收藏→仅一条且首位→再取消→消失，其他条目不受影响）
+    - 7.5: 重启持久化、连续点击无重复条目、无空条目；诗文/人物无数据时 `require_precondition` 记 skip
+
+- [ ] Task 8: 运行自测并修复
+    - 8.1: 在题包根目录执行 runner，报告写入 `logs/selftest.json` / `logs/selftest.log`
+    - 8.2: 失败用例逐个定位修复（代码或脚本），重跑直至全部通过
+
+- [ ] Task 9: 交付清理
+    - 9.1: 还原构建产生的 `BuildProfile.ets` 噪声，确认 `git status` 只剩真实改动
+    - 9.2: 整理已知问题与未覆盖项（诗文/人物数据未同步、空收藏未自动化等），供 `2-submit.md` 使用

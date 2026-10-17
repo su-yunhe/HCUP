@@ -1,0 +1,303 @@
+Found 100 matches
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:
+  Line 1: import { addBookmark, Bookmark, cancelBookmark, getBookmark } from 'bookmark';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:
+  Line 7:   getBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:
+  Line 8:     return getBookmark(id, PrefConst.CHINESE_MODERNPOETRY)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:
+  Line 11:   addBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:
+  Line 12:     return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CHINESE_MODERNPOETRY))
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:
+  Line 14:         return getBookmark(id, PrefConst.CHINESE_MODERNPOETRY)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:
+  Line 27:   cancelBookmark(id: number): Promise<number | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/viewmodel/PoetryViewModel.ets:
+  Line 28:     return cancelBookmark(id, PrefConst.CHINESE_MODERNPOETRY)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/pages/IndexPage.ets:
+  Line 75:             KnowledgeViewModel.cancelBookmark(this.knowledge?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/pages/IndexPage.ets:
+  Line 83:             KnowledgeViewModel.addBookmark(this.knowledge?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/pages/IndexPage.ets:
+  Line 113:         KnowledgeViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/pages/ShowPage.ets:
+  Line 57:             KnowledgeViewModel.cancelBookmark(this.knowledge?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/pages/ShowPage.ets:
+  Line 65:             KnowledgeViewModel.addBookmark(this.knowledge?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/pages/ShowPage.ets:
+  Line 87:         KnowledgeViewModel.getBookmark(param.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/pages/ShowPage.ets:
+  Line 51:             PoetryViewModel.cancelBookmark(this.poetry?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/pages/ShowPage.ets:
+  Line 59:             PoetryViewModel.addBookmark(this.poetry?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/pages/ShowPage.ets:
+  Line 81:             PoetryViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/pages/IndexPage.ets:
+  Line 66:             ExpressionViewModel.cancelBookmark(this.expression?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/pages/IndexPage.ets:
+  Line 74:             ExpressionViewModel.addBookmark(this.expression?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/pages/IndexPage.ets:
+  Line 104:         ExpressionViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/pages/IndexPage.ets:
+  Line 69:             PoetryViewModel.cancelBookmark(this.poetry?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/pages/IndexPage.ets:
+  Line 77:             PoetryViewModel.addBookmark(this.poetry?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/pages/IndexPage.ets:
+  Line 107:         PoetryViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/pages/IndexPage.ets:
+  Line 77:             AntitheticalCoupletViewModel.cancelBookmark(this.antitheticalCouplet?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/pages/IndexPage.ets:
+  Line 85:             AntitheticalCoupletViewModel.addBookmark(this.antitheticalCouplet?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/pages/IndexPage.ets:
+  Line 115:         AntitheticalCoupletViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/viewmodel/KnowledgeViewModel.ets:
+  Line 1: import { addBookmark, Bookmark, cancelBookmark, getBookmark } from 'bookmark';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/viewmodel/KnowledgeViewModel.ets:
+  Line 6:   getBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/viewmodel/KnowledgeViewModel.ets:
+  Line 7:     return getBookmark(id, PrefConst.CHINESE_KNOWLEDGE)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/viewmodel/KnowledgeViewModel.ets:
+  Line 16:   addBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/viewmodel/KnowledgeViewModel.ets:
+  Line 17:     return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CHINESE_KNOWLEDGE))
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/viewmodel/KnowledgeViewModel.ets:
+  Line 19:         return getBookmark(id, PrefConst.CHINESE_KNOWLEDGE)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/viewmodel/KnowledgeViewModel.ets:
+  Line 32:   cancelBookmark(id: number): Promise<number | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/knowledge/src/main/ets/viewmodel/KnowledgeViewModel.ets:
+  Line 33:     return cancelBookmark(id, PrefConst.CHINESE_KNOWLEDGE)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/pages/ShowPage.ets:
+  Line 46:             ExpressionViewModel.cancelBookmark(this.expression?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/pages/ShowPage.ets:
+  Line 54:             ExpressionViewModel.addBookmark(this.expression?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/pages/ShowPage.ets:
+  Line 76:         ExpressionViewModel.getBookmark(param.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/pages/ShowPage.ets:
+  Line 59:             AntitheticalCoupletViewModel.cancelBookmark(this.antitheticalCouplet?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/pages/ShowPage.ets:
+  Line 67:             AntitheticalCoupletViewModel.addBookmark(this.antitheticalCouplet?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/pages/ShowPage.ets:
+  Line 88:         AntitheticalCoupletViewModel.getBookmark(param.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/viewmodel/ExpressionViewModel.ets:
+  Line 1: import { addBookmark, Bookmark, cancelBookmark, getBookmark } from 'bookmark';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/viewmodel/ExpressionViewModel.ets:
+  Line 6:   getBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/viewmodel/ExpressionViewModel.ets:
+  Line 7:     return getBookmark(id, PrefConst.CHINESE_EXPRESSION)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/viewmodel/ExpressionViewModel.ets:
+  Line 16:   addBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/viewmodel/ExpressionViewModel.ets:
+  Line 17:     return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CHINESE_EXPRESSION))
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/viewmodel/ExpressionViewModel.ets:
+  Line 19:         return getBookmark(id, PrefConst.CHINESE_EXPRESSION)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/viewmodel/ExpressionViewModel.ets:
+  Line 32:   cancelBookmark(id: number): Promise<number | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/expression/src/main/ets/viewmodel/ExpressionViewModel.ets:
+  Line 33:     return cancelBookmark(id, PrefConst.CHINESE_EXPRESSION)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/pages/IndexPage.ets:
+  Line 76:             IdiomViewModel.cancelBookmark(this.idiom?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/pages/IndexPage.ets:
+  Line 84:             IdiomViewModel.addBookmark(this.idiom?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/pages/IndexPage.ets:
+  Line 114:         IdiomViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/viewmodel/AntitheticalCoupletViewModel.ets:
+  Line 1: import { addBookmark, Bookmark, cancelBookmark, getBookmark } from 'bookmark';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/viewmodel/AntitheticalCoupletViewModel.ets:
+  Line 6:   getBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/viewmodel/AntitheticalCoupletViewModel.ets:
+  Line 7:     return getBookmark(id, PrefConst.CHINESE_ANTITHETICALCOUPLET)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/viewmodel/AntitheticalCoupletViewModel.ets:
+  Line 10:   addBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/viewmodel/AntitheticalCoupletViewModel.ets:
+  Line 11:     return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CHINESE_ANTITHETICALCOUPLET))
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/viewmodel/AntitheticalCoupletViewModel.ets:
+  Line 13:         return getBookmark(id, PrefConst.CHINESE_ANTITHETICALCOUPLET)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/viewmodel/AntitheticalCoupletViewModel.ets:
+  Line 26:   cancelBookmark(id: number): Promise<number | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/antitheticalcouplet/src/main/ets/viewmodel/AntitheticalCoupletViewModel.ets:
+  Line 27:     return cancelBookmark(id, PrefConst.CHINESE_ANTITHETICALCOUPLET)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/viewmodel/IdiomViewModel.ets:
+  Line 1: import { addBookmark, Bookmark, cancelBookmark, getBookmark } from 'bookmark';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/viewmodel/IdiomViewModel.ets:
+  Line 6:   getBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/viewmodel/IdiomViewModel.ets:
+  Line 7:     return getBookmark(id, PrefConst.CHINESE_IDIOM)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/viewmodel/IdiomViewModel.ets:
+  Line 16:   addBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/viewmodel/IdiomViewModel.ets:
+  Line 17:     return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CHINESE_IDIOM))
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/viewmodel/IdiomViewModel.ets:
+  Line 19:         return getBookmark(id, PrefConst.CHINESE_IDIOM)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/viewmodel/IdiomViewModel.ets:
+  Line 32:   cancelBookmark(id: number): Promise<number | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/viewmodel/IdiomViewModel.ets:
+  Line 33:     return cancelBookmark(id, PrefConst.CHINESE_IDIOM)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/pages/ShowPage.ets:
+  Line 57:             IdiomViewModel.cancelBookmark(this.idiom?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/pages/ShowPage.ets:
+  Line 65:             IdiomViewModel.addBookmark(this.idiom?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/pages/ShowPage.ets:
+  Line 86:         IdiomViewModel.getBookmark(param.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/character/src/main/ets/pages/IndexPage.ets:
+  Line 94:             CharacterViewModel.cancelBookmark(this.character?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/character/src/main/ets/pages/IndexPage.ets:
+  Line 102:             CharacterViewModel.addBookmark(this.character?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/character/src/main/ets/pages/IndexPage.ets:
+  Line 132:         CharacterViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/lyric/src/main/ets/pages/IndexPage.ets:
+  Line 69:             LyricViewModel.cancelBookmark(this.lyric?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/lyric/src/main/ets/pages/IndexPage.ets:
+  Line 77:             LyricViewModel.addBookmark(this.lyric?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/lyric/src/main/ets/pages/IndexPage.ets:
+  Line 107:         LyricViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/riddle/src/main/ets/pages/IndexPage.ets:
+  Line 68:             RiddleViewModel.cancelBookmark(this.riddle?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/riddle/src/main/ets/pages/IndexPage.ets:
+  Line 76:             RiddleViewModel.addBookmark(this.riddle?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/riddle/src/main/ets/pages/IndexPage.ets:
+  Line 107:         RiddleViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/proverb/src/main/ets/pages/IndexPage.ets:
+  Line 60:             ProverbViewModel.cancelBookmark(this.proverb?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/proverb/src/main/ets/pages/IndexPage.ets:
+  Line 68:             ProverbViewModel.addBookmark(this.proverb?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/proverb/src/main/ets/pages/IndexPage.ets:
+  Line 98:         ProverbViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/pages/IndexPage.ets:
+  Line 77:             QuoteViewModel.cancelBookmark(this.quote?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/pages/IndexPage.ets:
+  Line 85:             QuoteViewModel.addBookmark(this.quote?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/pages/IndexPage.ets:
+  Line 115:         QuoteViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/wisecrack/src/main/ets/pages/IndexPage.ets:
+  Line 60:             WisecrackViewModel.cancelBookmark(this.wisecrack?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/wisecrack/src/main/ets/pages/IndexPage.ets:
+  Line 68:             WisecrackViewModel.addBookmark(this.wisecrack?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/wisecrack/src/main/ets/pages/IndexPage.ets:
+  Line 98:         WisecrackViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/pages/ShowPage.ets:
+  Line 57:             QuoteViewModel.cancelBookmark(this.quote?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/pages/ShowPage.ets:
+  Line 65:             QuoteViewModel.addBookmark(this.quote?.id)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/pages/ShowPage.ets:
+  Line 86:         QuoteViewModel.getBookmark(param.id).then((value: Bookmark | undefined) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/viewmodel/QuoteViewModel.ets:
+  Line 1: import { addBookmark, Bookmark, cancelBookmark, getBookmark } from 'bookmark';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/viewmodel/QuoteViewModel.ets:
+  Line 6:   getBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/viewmodel/QuoteViewModel.ets:
+  Line 7:     return getBookmark(id, PrefConst.CHINESE_QUOTE)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/viewmodel/QuoteViewModel.ets:
+  Line 16:   addBookmark(id: number): Promise<Bookmark | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/viewmodel/QuoteViewModel.ets:
+  Line 17:     return addBookmark(new Bookmark(YmdHisToNumber(), id, PrefConst.CHINESE_QUOTE))
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/viewmodel/QuoteViewModel.ets:
+  Line 19:         return getBookmark(id, PrefConst.CHINESE_QUOTE)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/viewmodel/QuoteViewModel.ets:
+  Line 32:   cancelBookmark(id: number): Promise<number | undefined> {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/quote/src/main/ets/viewmodel/QuoteViewModel.ets:
+  Line 33:     return cancelBookmark(id, PrefConst.CHINESE_QUOTE)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/wisecrack/src/main/ets/pages/ShowPage.ets:
+  Line 40:             WisecrackViewModel.cancelBookmark(this.wisecrack?.id)
+
+(Results are truncated. Consider using a more specific pattern.)

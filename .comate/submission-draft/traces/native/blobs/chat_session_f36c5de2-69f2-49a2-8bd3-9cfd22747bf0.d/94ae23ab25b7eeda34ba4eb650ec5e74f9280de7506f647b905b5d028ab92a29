@@ -1,0 +1,180 @@
+import { DbCRUDConst, PrefConst, String } from 'constants';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+import { relationalStore } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { Logger } from 'utils';
+
+let logger: Logger = new Logger('BookmarkEntity');
+
+export class BookmarkEntity {
+  id: number;
+  bookmarkable_id: number;
+  bookmarkable_model: string;
+  chinese_antitheticalcouplet: string | null = null;
+  chinese_character: string | null = null;
+  chinese_expression: string | null = null;
+  chinese_idiom: string | null = null;
+  chinese_knowledge: string | null = null;
+  chinese_quote: string | null = null;
+  classicalliterature_classicpoem: string | null = null;
+  classicalliterature_classicpoem_writer: string | null = null;
+  classicalliterature_sentence: string | null = null;
+  chinese_lyric: string | null = null;
+  chinese_lyric_content: string | null = null;
+  chinese_modernpoetry: string | null = null;
+  chinese_modernpoetry_content: string | null = null;
+  chinese_riddle: string | null = null;
+  chinese_wisecrack: string | null = null;
+  chinese_proverb: string | null = null;
+  classicalliterature_writing: string | null = null;
+  classicalliterature_writing_author: string | null = null;
+  classicalliterature_people: string | null = null;
+
+  constructor(id: number, bookmarkable_id: number, bookmarkable_model: string) {
+    this.id = id;
+    this.bookmarkable_id = bookmarkable_id;
+    this.bookmarkable_model = bookmarkable_model;
+  }
+}
+
+/**
+ * 收藏夹列表中的一条展示项：类型名 + 摘要 + 可选副摘要 + 详情页路由。
+ */
+export class BookmarkItem {
+  key: string;
+  id: string;
+  title: Resource;
+  content: string | null;
+  sub: string | null;
+  subSuffix: string;
+  route: string;
+  bookmarkable_id: number;
+
+  constructor(entity: BookmarkEntity, title: Resource, content: string | null, route: string,
+    sub: string | null = null, subSuffix: string = '') {
+    this.key = `${entity.bookmarkable_model}_${entity.bookmarkable_id}_${entity.id}`;
+    this.id = `bookmark_item_${entity.bookmarkable_model}_${entity.bookmarkable_id}`;
+    this.title = title;
+    this.content = content;
+    this.sub = sub;
+    this.subSuffix = subSuffix;
+    this.route = route;
+    this.bookmarkable_id = entity.bookmarkable_id;
+  }
+}
+
+class WritingTitle {
+  Content: string = '';
+}
+
+function parseWritingTitle(raw: string | null): string | null {
+  if (raw == null) {
+    return null;
+  }
+  try {
+    let title = JSON.parse(raw) as WritingTitle;
+    return title?.Content ?? raw;
+  } catch (error) {
+    return raw;
+  }
+}
+
+export function toBookmarkItem(e: BookmarkEntity): BookmarkItem | undefined {
+  switch (e.bookmarkable_model) {
+    case PrefConst.CHINESE_ANTITHETICALCOUPLET:
+      return new BookmarkItem(e, String.chinese_antitheticalcouplet, e.chinese_antitheticalcouplet,
+        'AntitheticalCoupletShowPage');
+    case PrefConst.CHINESE_CHARACTER:
+      return new BookmarkItem(e, String.chinese_character, e.chinese_character, 'CharacterShowPage');
+    case PrefConst.CHINESE_EXPRESSION:
+      return new BookmarkItem(e, String.chinese_expression, e.chinese_expression, 'ExpressionShowPage');
+    case PrefConst.CHINESE_IDIOM:
+      return new BookmarkItem(e, String.chinese_idiom, e.chinese_idiom, 'IdiomShowPage');
+    case PrefConst.CHINESE_KNOWLEDGE:
+      return new BookmarkItem(e, String.chinese_knowledge, e.chinese_knowledge, 'KnowledgeShowPage');
+    case PrefConst.CHINESE_QUOTE:
+      return new BookmarkItem(e, String.chinese_quote, e.chinese_quote, 'QuoteShowPage');
+    case PrefConst.CLASSICALLITERATURE_CLASSICPOEM:
+      return new BookmarkItem(e, String.classicalliterature_classicpoem, e.classicalliterature_classicpoem,
+        'ClassicPoemShowPage', e.classicalliterature_classicpoem_writer, 'author');
+    case PrefConst.CLASSICALLITERATURE_SENTENCE:
+      return new BookmarkItem(e, String.classicalliterature_sentence, e.classicalliterature_sentence,
+        'SentenceShowPage');
+    case PrefConst.CHINESE_LYRIC:
+      return new BookmarkItem(e, String.chinese_lyric, e.chinese_lyric, 'LyricShowPage',
+        e.chinese_lyric_content, 'content');
+    case PrefConst.CHINESE_MODERNPOETRY:
+      return new BookmarkItem(e, String.chinese_modernpoetry, e.chinese_modernpoetry, 'ModernPoetryShowPage',
+        e.chinese_modernpoetry_content, 'content');
+    case PrefConst.CHINESE_RIDDLE:
+      return new BookmarkItem(e, String.chinese_riddle, e.chinese_riddle, 'RiddleShowPage');
+    case PrefConst.CHINESE_WISECRACK:
+      return new BookmarkItem(e, String.chinese_wisecrack, e.chinese_wisecrack, 'WisecrackShowPage');
+    case PrefConst.CHINESE_PROVERB:
+      return new BookmarkItem(e, String.chinese_proverb, e.chinese_proverb, 'ProverbShowPage');
+    case PrefConst.CLASSICALLITERATURE_WRITING:
+      return new BookmarkItem(e, String.classicalliterature_writing, parseWritingTitle(e.classicalliterature_writing),
+        'WritingShowPage', e.classicalliterature_writing_author, 'author');
+    case PrefConst.CLASSICALLITERATURE_PEOPLE:
+      return new BookmarkItem(e, String.classicalliterature_people, e.classicalliterature_people, 'PeopleShowPage');
+    default:
+      return undefined;
+  }
+}
+
+/**
+ * @throws
+ */
+function getNullableString(resultSet: relationalStore.ResultSet, column: string): string | null {
+  let index = resultSet.getColumnIndex(column);
+  return resultSet.isColumnNull(index) ? null : resultSet.getString(index);
+}
+
+export async function getEntities(): Promise<BookmarkEntity[]> {
+  let objs: BookmarkEntity[] = [];
+
+  logger.info(`sql = ${DbCRUDConst.BOOKMARKS}`)
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.BOOKMARKS)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          let obj = new BookmarkEntity(
+            resultSet.getLong(resultSet.getColumnIndex('id')),
+            resultSet.getLong(resultSet.getColumnIndex('bookmarkable_id')),
+            resultSet.getString(resultSet.getColumnIndex('bookmarkable_model')),
+          );
+          obj.chinese_antitheticalcouplet = getNullableString(resultSet, 'chinese_antitheticalcouplet');
+          obj.chinese_character = getNullableString(resultSet, 'chinese_character');
+          obj.chinese_expression = getNullableString(resultSet, 'chinese_expression');
+          obj.chinese_idiom = getNullableString(resultSet, 'chinese_idiom');
+          obj.chinese_knowledge = getNullableString(resultSet, 'chinese_knowledge');
+          obj.chinese_quote = getNullableString(resultSet, 'chinese_quote');
+          obj.classicalliterature_classicpoem = getNullableString(resultSet, 'classicalliterature_classicpoem');
+          obj.classicalliterature_classicpoem_writer =
+            getNullableString(resultSet, 'classicalliterature_classicpoem_writer');
+          obj.classicalliterature_sentence = getNullableString(resultSet, 'classicalliterature_sentence');
+          obj.chinese_lyric = getNullableString(resultSet, 'chinese_lyric');
+          obj.chinese_lyric_content = getNullableString(resultSet, 'chinese_lyric_content');
+          obj.chinese_modernpoetry = getNullableString(resultSet, 'chinese_modernpoetry');
+          obj.chinese_modernpoetry_content = getNullableString(resultSet, 'chinese_modernpoetry_content');
+          obj.chinese_riddle = getNullableString(resultSet, 'chinese_riddle');
+          obj.chinese_wisecrack = getNullableString(resultSet, 'chinese_wisecrack');
+          obj.chinese_proverb = getNullableString(resultSet, 'chinese_proverb');
+          obj.classicalliterature_writing = getNullableString(resultSet, 'classicalliterature_writing');
+          obj.classicalliterature_writing_author = getNullableString(resultSet, 'classicalliterature_writing_author');
+          obj.classicalliterature_people = getNullableString(resultSet, 'classicalliterature_people');
+          objs.push(obj);
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError;
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    })
+    .catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    })
+
+  return objs;
+}

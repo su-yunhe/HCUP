@@ -1,0 +1,1 @@
+调用本 skill 这一步本身会在 hook 日志里留下一条带 `skillName=comate-session-ids` 的记录，脚本靠它锁定"当前会话"，即使同一工作区里同时开着多个会话也不会认错。所以请直接运行脚本，不需要先做任何探索。在子 Agent 里调用时，hook 记录用的是主会话的 conversationId（已实测），结果仍是主会话的 ID。

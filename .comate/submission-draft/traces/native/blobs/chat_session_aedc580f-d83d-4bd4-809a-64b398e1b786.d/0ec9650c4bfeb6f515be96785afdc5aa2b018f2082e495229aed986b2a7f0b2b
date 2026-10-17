@@ -1,0 +1,305 @@
+<file>
+     1→import { relationalStore } from '@kit.ArkData';
+     2→import { BusinessError } from '@kit.BasicServicesKit';
+     3→import { DbConfigConst, DbCRUDConst, DbTableConst } from 'constants';
+     4→import { Logger } from 'utils';
+     5→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     6→
+     7→let logger: Logger = new Logger('ClassicPoem');
+     8→
+     9→export class ClassicPoem {
+    10→  id: number;
+    11→  dynasty: string; // 朝代
+    12→  writer: string; // 作者
+    13→  writer_introduction: string | null; // 作者简介
+    14→  title: string; // 标题
+    15→  subtitle: string | null; // 副标题
+    16→  preface: string | null; // 序言
+    17→  content: string; // 内容
+    18→  annotation: string | null; // 注释
+    19→  translation: string | null; // 译文
+    20→  creative_background: string | null; // 创作背景
+    21→  explain: string | null; // 赏析
+    22→  comment: string | null; // 点评
+    23→  collection: string; // 合集
+    24→  category: string | null; // 分类
+    25→
+    26→  constructor(
+    27→    id: number,
+    28→    dynasty: string,
+    29→    writer: string,
+    30→    writer_introduction: string,
+    31→    title: string,
+    32→    subtitle: string | null,
+    33→    preface: string | null,
+    34→    content: string,
+    35→    annotation: string | null,
+    36→    translation: string | null,
+    37→    creative_background: string | null,
+    38→    explain: string | null,
+    39→    comment: string | null,
+    40→    collection: string,
+    41→    category: string | null
+    42→  ) {
+    43→    this.id = id;
+    44→    this.dynasty = dynasty;
+    45→    this.writer = writer;
+    46→    this.writer_introduction = writer_introduction;
+    47→    this.title = title;
+    48→    this.subtitle = subtitle;
+    49→    this.preface = preface;
+    50→    this.content = content;
+    51→    this.annotation = annotation;
+    52→    this.translation = translation;
+    53→    this.creative_background = creative_background;
+    54→    this.explain = explain;
+    55→    this.comment = comment;
+    56→    this.collection = collection;
+    57→    this.category = category
+    58→  }
+    59→}
+    60→
+    61→export async function insertClassicPoem(obj: ClassicPoem) {
+    62→  const valuesBucket: relationalStore.ValuesBucket = {
+    63→    'id': obj.id,
+    64→    'dynasty': obj.dynasty,
+    65→    'writer': obj.writer,
+    66→    'writer_introduction': obj.writer_introduction,
+    67→    'title': obj.title,
+    68→    'subtitle': obj.subtitle,
+    69→    'preface': obj.preface,
+    70→    'content': obj.content,
+    71→    'annotation': obj.annotation,
+    72→    'translation': obj.translation,
+    73→    'creative_background': obj.creative_background,
+    74→    'explain': obj.explain,
+    75→    'comment': obj.comment,
+    76→    'collection': obj.collection,
+    77→    'category': obj.category,
+    78→  }
+    79→
+    80→  DbUtil.objectiveRDB?.insert(
+    81→    DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE,
+    82→    valuesBucket,
+    83→    relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    84→  ).then((rowId: number) => {
+    85→    logger.info(`Insert is successful, rowId = ${rowId}`)
+    86→  }).catch((err: BusinessError) => {
+    87→    logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+    88→  })
+    89→}
+    90→
+    91→@Concurrent
+    92→export async function batchInsertClassicPoem(context: Context, objs: ClassicPoem[]): Promise<void> {
+    93→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+    94→  let logger: Logger = new Logger('ClassicPoem#batchInsertClassicPoem');
+    95→
+    96→  let valuesBuckets: relationalStore.ValuesBucket[] = []
+    97→
+    98→  objs.forEach((obj: ClassicPoem) => {
+    99→    valuesBuckets.push(
+   100→      {
+   101→        'id': obj.id,
+   102→        'dynasty': obj.dynasty,
+   103→        'writer': obj.writer,
+   104→        'writer_introduction': obj.writer_introduction,
+   105→        'title': obj.title,
+   106→        'subtitle': obj.subtitle,
+   107→        'preface': obj.preface,
+   108→        'content': obj.content,
+   109→        'annotation': obj.annotation,
+   110→        'translation': obj.translation,
+   111→        'creative_background': obj.creative_background,
+   112→        'explain': obj.explain,
+   113→        'comment': obj.comment,
+   114→        'collection': obj.collection,
+   115→        'category': obj.category,
+   116→      }
+   117→    )
+   118→  })
+   119→
+   120→  try {
+   121→    await store.batchInsertWithConflictResolution(
+   122→      DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE,
+   123→      valuesBuckets,
+   124→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+   125→    ).then((value: number) => {
+   126→      logger.info(`insert rows = ${value}`)
+   127→    }).catch((err: BusinessError) => {
+   128→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+   129→    })
+   130→  } catch (error) {
+   131→    const err = error as BusinessError;
+   132→    logger.error(`batchInsertClassicPoem failed, code is ${err.code}, message is ${err.message}`);
+   133→  }
+   134→}
+   135→
+   136→@Concurrent
+   137→export async function batchInsertClassicPoemFTS(context: Context, objs: ClassicPoem[]): Promise<void> {
+   138→  let store: relationalStore.RdbStore = await relationalStore.getRdbStore(context, DbConfigConst.STORE_CONFIG);
+   139→  let logger: Logger = new Logger('ClassicPoem#batchInsertClassicPoemFTS');
+   140→
+   141→  let valuesBuckets: relationalStore.ValuesBucket[] = []
+   142→
+   143→  objs.forEach((obj: ClassicPoem) => {
+   144→    valuesBuckets.push(
+   145→      {
+   146→        'id': obj.id,
+   147→        'writer': obj.writer,
+   148→        'title': obj.title,
+   149→        'content': obj.content,
+   150→      }
+   151→    )
+   152→  })
+   153→
+   154→  try {
+   155→    await store.batchInsertWithConflictResolution(
+   156→      DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE,
+   157→      valuesBuckets,
+   158→      relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+   159→    ).then((value: number) => {
+   160→      logger.info(`insert rows = ${value}`)
+   161→    }).catch((err: BusinessError) => {
+   162→      logger.error(`batchInsertWithConflictResolution failed, code is ${err.code}, message is ${err.message}`);
+   163→    })
+   164→  } catch (error) {
+   165→    const err = error as BusinessError;
+   166→    logger.error(`batchInsertClassicPoemFTS failed, code is ${err.code}, message is ${err.message}`);
+   167→  }
+   168→}
+   169→
+   170→export async function getRandomClassicPoem(): Promise<ClassicPoem | undefined> {
+   171→  let obj: ClassicPoem | undefined;
+   172→
+   173→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CLASSICALLITERATURE_CLASSICPOEM)
+   174→    .then((resultSet: relationalStore.ResultSet) => {
+   175→      try {
+   176→        while (resultSet.goToNextRow()) {
+   177→          obj = parse(resultSet)
+   178→        }
+   179→        resultSet.close()
+   180→      } catch (error) {
+   181→        let err = error as BusinessError
+   182→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   183→      }
+   184→    }).catch((err: BusinessError) => {
+   185→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   186→    });
+   187→
+   188→  return obj;
+   189→}
+   190→
+   191→export async function getClassicPoem(id: number): Promise<ClassicPoem | undefined> {
+   192→  let obj: ClassicPoem | undefined;
+   193→
+   194→  let predicates = new relationalStore.RdbPredicates(DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE)
+   195→  predicates.equalTo('id', id)
+   196→
+   197→  await DbUtil.objectiveRDB?.query(predicates)
+   198→    .then((resultSet: relationalStore.ResultSet) => {
+   199→      try {
+   200→        while (resultSet.goToNextRow()) {
+   201→          obj = parse(resultSet)
+   202→        }
+   203→        resultSet.close()
+   204→      } catch (error) {
+   205→        let err = error as BusinessError
+   206→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   207→      }
+   208→    }).catch((err: BusinessError) => {
+   209→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   210→    });
+   211→
+   212→  return obj;
+   213→}
+   214→
+   215→export async function getBookmarks(): Promise<ClassicPoem[]> {
+   216→  let objs: ClassicPoem[] = [];
+   217→
+   218→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.CLASSICALLITERATURE_CLASSICPOEM_BOOKMARKS)
+   219→    .then((resultSet: relationalStore.ResultSet) => {
+   220→      try {
+   221→        while (resultSet.goToNextRow()) {
+   222→          objs.push(parse(resultSet))
+   223→        }
+   224→        resultSet.close()
+   225→      } catch (error) {
+   226→        let err = error as BusinessError
+   227→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   228→      }
+   229→    })
+   230→    .catch((err: BusinessError) => {
+   231→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   232→    });
+   233→  return objs;
+   234→}
+   235→
+   236→export async function search(query: string): Promise<ClassicPoem[]> {
+   237→  let objs: ClassicPoem[] = [];
+   238→
+   239→  logger.info(`查询：${query}`)
+   240→  /*//, [`'${query}'`]
+   241→    await DbUtil.objectiveRDB?.querySql("select * from classicalliterature_classicpoem tbl join  classicalliterature_classicpoem_fts v on tbl.id = v.id where classicalliterature_classicpoem_fts match ?", [query])
+   242→      .then((resultSet: relationalStore.ResultSet) => {
+   243→        try {
+   244→          while (resultSet.goToNextRow()) {
+   245→            logger.info(`id：${resultSet.getString(resultSet.getColumnIndex('id'))}`)
+   246→            logger.info(`title：${resultSet.getString(resultSet.getColumnIndex('title'))}`)
+   247→            logger.info(`content：${resultSet.getString(resultSet.getColumnIndex('content'))}`)
+   248→            //objs.push(parse(resultSet))
+   249→          }
+   250→          logger.info('这里还好！！！')
+   251→          resultSet.close()
+   252→        } catch (error) {
+   253→          let err = error as BusinessError
+   254→          logger.error(`！！Query is failed, code is ${err.code},message is ${err.message}`)
+   255→        }
+   256→      }).catch(() => {
+   257→        // TODO: Implement error handling.
+   258→      })*/
+   259→
+   260→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.SEARCH_CLASSICALLITERATURE_CLASSICPOEM, [query])
+   261→    .then((resultSet: relationalStore.ResultSet) => {
+   262→      try {
+   263→        while (resultSet.goToNextRow()) {
+   264→          logger.info(resultSet.getString(resultSet.getColumnIndex('title')))
+   265→          objs.push(parse(resultSet))
+   266→        }
+   267→        logger.info('有点搞！！！')
+   268→        resultSet.close()
+   269→      } catch (error) {
+   270→        let err = error as BusinessError
+   271→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   272→      }
+   273→    })
+   274→    .catch((err: BusinessError) => {
+   275→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   276→    });
+   277→  logger.info(`结果：${objs.length}`)
+   278→  return objs;
+   279→}
+   280→
+   281→/**
+   282→ * @throws
+   283→ */
+   284→function parse(resultSet: relationalStore.ResultSet): ClassicPoem {
+   285→  return new ClassicPoem(
+   286→    resultSet.getLong(resultSet.getColumnIndex('id')),
+   287→    resultSet.getString(resultSet.getColumnIndex('dynasty')),
+   288→    resultSet.getString(resultSet.getColumnIndex('writer')),
+   289→    resultSet.getString(resultSet.getColumnIndex('writer_introduction')),
+   290→    resultSet.getString(resultSet.getColumnIndex('title')),
+   291→    resultSet.getString(resultSet.getColumnIndex('subtitle')),
+   292→    resultSet.getString(resultSet.getColumnIndex('preface')),
+   293→    resultSet.getString(resultSet.getColumnIndex('content')),
+   294→    resultSet.getString(resultSet.getColumnIndex('annotation')),
+   295→    resultSet.getString(resultSet.getColumnIndex('translation')),
+   296→    resultSet.getString(resultSet.getColumnIndex('creative_background')),
+   297→    resultSet.getString(resultSet.getColumnIndex('explain')),
+   298→    resultSet.getString(resultSet.getColumnIndex('comment')),
+   299→    resultSet.getString(resultSet.getColumnIndex('collection')),
+   300→    resultSet.getString(resultSet.getColumnIndex('category')),
+   301→  )
+   302→}
+</file>
+<metadata>The file has 302 lines in total.</metadata>

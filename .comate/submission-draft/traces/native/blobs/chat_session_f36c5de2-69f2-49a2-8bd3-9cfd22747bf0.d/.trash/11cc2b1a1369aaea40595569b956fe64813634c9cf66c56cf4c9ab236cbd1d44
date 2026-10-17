@@ -1,0 +1,36 @@
+        self.assertIn(item_id, self.item_ids(), "从详情返回收藏页后条目应仍在")
+
+
+class TestBookmarkEntry(BookmarkTestBase):
+    def test_01_entry_from_home(self):
+        """A1：冷启动后点主页收藏图标进入收藏夹，Back 回主页。"""
+        restart_app(self.driver, BUNDLE, wait_time=3)
+        self.open_bookmarks()
+        self.driver.press_back()
+        self.driver.wait(1)
+        self.assertTrue(self.on_home(), "Back 后应回到主页")
+
+
+class TestScenario1MoreTypes(BookmarkTestBase):
+    """场景一：歌词/诗歌/谜语/歇后语（+谚语）收藏后出现在收藏夹，最新在前，可跳转详情。"""
+
+    def _check(self, module: tuple, second: str | None):
+        item_id = self.bookmark_in_module(module)
+        summary = self.assert_summary(item_id, module[3], second)
+        self.assert_jump(item_id, module[3], summary)
+        return item_id
+
+    def test_01_lyric(self):
+        self._check(LYRIC, "content")
+
+    def test_02_poetry(self):
+        self._check(POETRY, "content")
+
+    def test_03_riddle(self):
+        self._check(RIDDLE, None)
+
+    def test_04_wisecrack(self):
+        self._check(WISECRACK, None)
+
+    def test_05_proverb(self):
+        se

@@ -1,0 +1,21 @@
+## 4. 实现细节
+
+### 4.1 SQL：`DbCRUDConst.BOOKMARKS`
+
+```sql
+select b.id, b.bookmarkable_id, b.bookmarkable_model,
+  tbl1.body as chinese_antitheticalcouplet, tbl2.character as chinese_character,
+  tbl3.word as chinese_expression, tbl4.word as chinese_idiom,
+  tbl5.content as chinese_knowledge, tbl6.content as chinese_quote,
+  tbl7.title as classicalliterature_classicpoem, tbl7.writer as classicalliterature_classicpoem_writer,
+  tbl8.content as classicalliterature_sentence,
+  tbl9.title as chinese_lyric, tbl9.content as chinese_lyric_content,
+  tbl10.title as chinese_modernpoetry, tbl10.content as chinese_modernpoetry_content,
+  tbl11.puzzle as chinese_riddle,
+  tbl12.riddle as chinese_wisecrack,
+  tbl13.content as chinese_proverb,
+  tbl14.title as classicalliterature_writing, tbl14.author as classicalliterature_writing_author,
+  tbl15.name as classicalliterature_people
+from (select max(id) as id, bookmarkable_id, bookmarkable_model from bookmarks
+      group by bookmarkable_model, bookmarkable_id) as b
+left join chinese

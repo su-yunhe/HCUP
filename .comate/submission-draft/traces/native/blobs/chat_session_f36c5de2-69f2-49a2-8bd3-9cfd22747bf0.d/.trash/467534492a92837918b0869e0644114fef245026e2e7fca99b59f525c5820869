@@ -1,0 +1,109 @@
+        self.assertIn(item_id, self.item_ids(), "从详情返回收藏页后条目应仍在")
+
+
+class TestBookmarkEntry(BookmarkTestBase):
+    def test_01_entry_from_home(self):
+        """A1：冷启动后点主页收藏图标进入收藏夹，Back 回主页。"""
+        restart_app(self.driver, BUNDLE, wait_time=3)
+        self.open_bookmarks()
+        self.driver.press_back()
+        self.driver.wait(1)
+        self.assertTrue(self.on_home(), "Back 后应回到主页")
+
+
+class TestScenario1MoreTypes(BookmarkTestBase):
+    """场景一：歌词/诗歌/谜语/歇后语（+谚语）收藏后出现在收藏夹，最新在前，可跳转详情。"""
+
+    def _check(self, module: tuple, second: str | None):
+        item_id = self.bookmark_in_module(module)
+        summary = self.assert_summary(item_id, module[3], second)
+        self.assert_jump(item_id, module[3], summary)
+        return item_id
+
+    def test_01_lyric(self):
+        self._check(LYRIC, "content")
+
+    def test_02_poetry(self):
+        self._check(POETRY, "content")
+
+    def test_03_riddle(self):
+        self._check(RIDDLE, None)
+
+    def test_04_wisecrack(self):
+        self._check(WISECRACK, None)
+
+    def test_05_proverb(self):
+        self._check(PROVERB, None)
+
+    def test_06_mixed_order(self):
+        """A8：依次收藏 歌词、诗歌、谜语、歇后语 后，前 4 条依次为 歇后语、谜语、诗歌、歌词。"""
+        expected = []
+        for module in (LYRIC, POETRY, RIDDLE, WISECRACK):
+            expected.insert(0, self.bookmark_in_module(module))
+        ids = self.open_bookmarks()
+        self.assertEqual(ids[:4], expected, "前 4 条应按最新收藏在前排列")
+
+    def test_07_writing(self):
+        """A6 诗文（模拟器无数据时 skip）。"""
+        self._check(WRITING, "author")
+
+    def test_08_people(self):
+        """A6 人物（模拟器无数据时 skip）。"""
+        self._check(PEOPLE, None)
+
+
+class TestScenario2ClassicPoem(BookmarkTestBase):
+    def test_01_title_and_author(self):
+        """A10–A12：经典诗文条目展示标题与作者（独立 Text，不含朝代），点击进入详情。"""
+        item_id = self.bookmark_in_module(CLASSICPOEM)
+        title = self.assert_summary(item_id, "经典诗文", "author")
+        author = self.item_text(item_id, "author")
+        self.assertNotIn("·", author)
+        self.assertNotIn("【", author)
+        self.assert_jump(item_id, "经典诗文", title)
+
+
+class TestScenario3CancelIdiom(BookmarkTestBase):
+    def test_01_cancel_then_disappear(self):
+        """A13–A16：成语详情取消→再收藏→返回仅一条且首位；再取消→返回后消失，其他条目仍在。"""
+        ids = self.open_bookmarks()
+        idioms = [i for i in ids if i.startswith("bookmark_item_chinese_idiom_")]
+        if not idioms:
+            self.bookmark_in_module(IDIOM)
+            ids = self.open_bookmarks()
+            idioms = [i for i in ids if i.startswith("bookmark_item_chinese_idiom_")]
+        target = idioms[0]
+        word = self.assert_summary(target, "成语", None)
+
+        # 取消后立刻再收藏 → 返回：仅一条且排第一
+        self.driver.click(BY.id(target))
+        self.driver.wait(2)
+        self.assertIn("成语", self.page_titles())
+        self.require_component(BY.text(word, MatchPattern.CONTAINS), "成语详情未显示该成语")
+        self.driver.click(BY.id(toolbar_id(1)))
+        self.driver.wait(1.5)
+        self.driver.click(BY.id(toolbar_id(1)))
+        self.driver.wait(1.5)
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        ids = self.item_ids()
+        self.assertEqual(ids[0], target, "取消后再收藏的条目应排第一")
+        self.assertEqual(ids.count(target), 1, "条目不应重复")
+
+        # 再次取消 → 返回：消失，其他条目不受影响
+        others = [i for i in ids if i != target]
+        self.driver.click(BY.id(target))
+        self.driver.wait(2)
+        self.driver.click(BY.id(toolbar_id(1)))
+        self.driver.wait(1.5)
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        after = self.item_ids()
+        self.assertNotIn(target, after, "取消收藏后条目应从收藏夹消失")
+        self.assertTrue(set(others).issubset(set(after)), "其他收藏条目不应受影响")
+
+        # 返回主页后重进仍不存在
+        self.assertNotIn(target, self.open_bookmarks())
+
+
+class TestRobust

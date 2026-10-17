@@ -1,0 +1,12 @@
+```
+[内容页 bookmarked=undefined] --点收藏--> addBookmark(INSERT，不传 id，主键自增) --resolve--> getBookmark --> [bookmarked=Bookmark, 图标实心]
+[内容页 bookmarked=Bookmark]  --点收藏--> cancelBookmark(DELETE by id+model) --resolve--> [bookmarked=undefined, 图标空心]
+[收藏页] --navDestinationUpdate state==4(即将显示)--> getEntities(LEFT JOIN + 按 (model,bookmarkable_id) 去重 + 过滤 JOIN 不到内容的行 + 最新在前) --> entities 整体替换 --> 列表重绘
+```
+
+要求：
+- 收藏页数据**只**来自查询结果，不允许在别处"先改 UI 后补数据"；每次进入/返回收藏页都重新查询（基线已如此，保持）。
+- 内容页按钮状态以 DB 回读结果为准（基线 `addBookmark` 后 `getBookmark` 回读，保持）。
+- 无 loading 态：查询期间列表保持旧数据，查询结束整体替换。
+- 去重（U9）：同一 `(bookmarkable_model, bookmarkable_id)` 只出一条，取该组最大的 `id`。
+- 排序（U5）：按"组内最大 id"降序。新插入走自增，id 一定大于库中现有最大值，所以新收藏一定排第一。

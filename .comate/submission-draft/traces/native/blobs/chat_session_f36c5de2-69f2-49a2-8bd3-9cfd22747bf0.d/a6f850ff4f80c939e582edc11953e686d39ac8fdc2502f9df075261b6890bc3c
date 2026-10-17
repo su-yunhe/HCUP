@@ -1,0 +1,12 @@
+  @Param @Require pathName: string;
+  @Param itemId: string = '';
+
+  build() {
+    Stack({ alignContent: Alignment.Center }) {
+      Image(this.icon)
+        .width($r('sys.float.titlebar_icon_width'))
+        .height($r('sys.float.titlebar_icon_height'))
+        .fillColor($r('sys.color.icon'))
+    }
+    .id(this.itemId)
+    .padding(8)

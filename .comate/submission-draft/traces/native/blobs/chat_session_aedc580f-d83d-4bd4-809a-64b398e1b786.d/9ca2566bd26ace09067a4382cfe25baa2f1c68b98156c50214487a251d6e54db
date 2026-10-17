@@ -1,0 +1,6 @@
+    # Invoking this skill logs a PostToolUse event with skillName=comate-session-ids,
+    # which pins the current conversation even when several sessions share the workspace.
+    # Only trust a fresh marker: an old one may belong to another session that used the skill earlier.
+    now = time.time()
+    marked = [e for e in events if e["skill"] == SKILL_NAME and e["ts"] and now - e["ts"] < MARKER_MAX_AGE_SEC]
+    chosen = marked[-1] if marked else events[-1]

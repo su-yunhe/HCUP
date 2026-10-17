@@ -1,0 +1,191 @@
+<agent_id>Explore_12041654</agent_id>
+<return>
+<anthinking>
+Now let me gather all the information I've found and compile a comprehensive report. Let me also check if there are any view models or components in the bookmark feature:
+
+1. **Features/bookmark module:**
+  - Page: [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/pages/IndexPage.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/pages/IndexPage.ets)
+  - Models: [`Bookmark.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/model/Bookmark.ets) and [`BookmarkEntity.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/model/BookmarkEntity.ets)
+  - Module config: [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/module.json5`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/module.json5)
+  - Route map: [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/resources/base/profile/route_map.json`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/resources/base/profile/route_map.json)
+  - Index.ets exports
+
+2. **Navigation from home:**
+- TopBar.ets in home feature contains the bookmark button at top left
+- Uses `pushPathByName("BookmarkIndexPage", null)`
+
+3. **Data model:**
+- Using RDB (relational database) with table name "bookmarks"
+- Type is encoded in `bookmarkable_model` field as string constants
+
+4. **Content types shown:**
+- chinese_antitheticalcouplet, chinese_character, chinese_expression, chinese_idiom, chinese_knowledge, chinese_quote, classicalliterature_classicpoem, classicalliterature_sentence
+
+5. **Refresh behavior:**
+- Uses uiObserver with 'navDestinationUpdate' event to refresh on page show
+
+Let me compile all the details with exact file paths and line numbers.
+</thinking>
+
+Now I have a comprehensive understanding of the bookmark feature. Let me compile the detailed findings:
+
+## 收藏 (Bookmark) Feature End-to-End Analysis
+
+### 1. **Features/Bookmark Module - Structure & UI**
+
+**Main page location:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/pages/IndexPage.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/pages/IndexPage.ets)
+
+**UI rendering:**
+- Renders a **List** component (line 38) with **Repeat** for items (line 39)
+- **No tabs** — single unified list view of all bookmarked items across all content types
+- Page title: `.title(String.bookmark)` (line 128)
+- List divider enabled: `.divider(ThemeConst.ListDivider)` (line 123)
+- **No explicit `.id()` set** on major components (List, ListItem, Column don't have IDs)
+
+**List item rendering:**
+- Each item is a **ListItem** containing an **Item component** (lines 41-115)
+- **Item component** (lines 136-160):
+  - Shows **BlockTitle** (model/category label) + **Text** (content preview)
+  - `Text(this.content)` displays content with `.maxLines(2)` and ellipsis overflow (lines 143-147)
+  - Fields shown: model name (as category) + content text (no separate author field visible in Item)
+  
+**Supported content types** (8 types currently):
+```
+- PrefConst.CHINESE_ANTITHETICALCOUPLET → displays chinese_antitheticalcouplet.body
+- PrefConst.CHINESE_CHARACTER → displays chinese_character.character
+- PrefConst.CHINESE_EXPRESSION → displays chinese_expression.word
+- PrefConst.CHINESE_IDIOM → displays chinese_idiom.word
+- PrefConst.CHINESE_KNOWLEDGE → displays chinese_knowledge.content
+- PrefConst.CHINESE_QUOTE → displays chinese_quote.content
+- PrefConst.CLASSICALLITERATURE_CLASSICPOEM → displays classicalliterature_classicpoem.title
+- PrefConst.CLASSICALLITERATURE_SENTENCE → displays classicalliterature_sentence.content
+```
+
+**Navigation on click** (lines 42-114):
+- Uses `.onClick()` and `pushPathByName()` with route names:
+  - `'AntitheticalCoupletShowPage'` (line 49)
+  - `'CharacterShowPage'` (line 58)
+  - `'ExpressionShowPage'` (line 68)
+  - `'IdiomShowPage'` (line 77)
+  - `'KnowledgeShowPage'` (line 85)
+  - `'QuoteShowPage'` (line 94)
+  - `'ClassicPoemShowPage'` (line 102)
+  - `'SentenceShowPage'` (line 111)
+- Parameters: `new ParamNumberId(repeatItem.item.bookmarkable_id)` (passes only the content ID)
+
+**Routing config:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/resources/base/profile/route_map.json`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/resources/base/profile/route_map.json)
+```json
+"name": "BookmarkIndexPage",
+"pageSourceFile": "src/main/ets/pages/IndexPage.ets",
+"buildFunction": "IndexPageBuilder"
+```
+
+**Module exports:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/Index.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/Index.ets)
+```typescript
+export { addBookmark, cancelBookmark, getBookmark, Bookmark } from './src/main/ets/model/Bookmark';
+```
+
+**Module config:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/module.json5`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/module.json5) (line 10)
+```json
+"routerMap": "$profile:route_map"
+```
+
+---
+
+### 2. **Data Model & Storage (Database)**
+
+**Data models:**
+
+1. **Bookmark.ets** ([`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/model/Bookmark.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/model/Bookmark.ets)):
+- 3-column model (lines 11-13):
+  ```typescript
+  id: number;
+  bookmarkable_id: number;
+  bookmarkable_model: string;
+  ```
+- Stores only ID and model type, **NOT** content snapshot
+
+2. **BookmarkEntity.ets** ([`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/model/BookmarkEntity.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/model/BookmarkEntity.ets)):
+- **Denormalized view entity** with all content fields (lines 9-46):
+  ```typescript
+  id, bookmarkable_id, bookmarkable_model,
+  chinese_antitheticalcouplet, chinese_character, chinese_expression,
+  chinese_idiom, chinese_knowledge, chinese_quote,
+  classicalliterature_classicpoem, classicalliterature_sentence
+  ```
+- Used for displaying bookmarks with content snapshot (stores title/text, not full record)
+
+**Database table:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets)
+
+- **Table name:** `"bookmarks"` (line 13)
+- **DB file:** `'jingmo.db'` (line 6)
+- **CREATE statement** (lines 83-85):
+  ```sql
+  create table if not exists bookmarks
+    (id integer primary key autoincrement not null, 
+     bookmarkable_id integer, 
+     bookmarkable_model text)
+  ```
+- **Version:** v1 (created at version 1, line 42 comment)
+
+**Content type encoding** — used as string values in `bookmarkable_model` column:
+- From [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/PrefConst.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/PrefConst.ets):
+```typescript
+CHINESE_ANTITHETICALCOUPLET: 'chinese_antitheticalcouplet'
+CHINESE_CHARACTER: 'chinese_character'
+CHINESE_EXPRESSION: 'chinese_expression'
+CHINESE_IDIOM: 'chinese_idiom'
+CHINESE_KNOWLEDGE: 'chinese_knowledge'
+CHINESE_QUOTE: 'chinese_quote'
+CLASSICALLITERATURE_CLASSICPOEM: 'classicalliterature_classicpoem'
+CLASSICALLITERATURE_SENTENCE: 'classicalliterature_sentence'
+```
+
+**DAO/Repository functions** ([`Bookmark.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/model/Bookmark.ets)):
+
+- **addBookmark()** (line 22): Inserts with `ConflictResolution.ON_CONFLICT_REPLACE`
+- **cancelBookmark(id, model)** (line 40): Deletes by matching bookmarkable_id and bookmarkable_model
+- **getBookmark(id, model)** (line 59): Returns single Bookmark or undefined
+- **getBookmarks()** (line 84): Returns all bookmarks
+
+**Data retrieval for display** ([`BookmarkEntity.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/ets/model/BookmarkEntity.ets), line 54):
+```typescript
+DbCRUDConst.BOOKMARKS (complex LEFT JOIN SQL, lines 313-340 in DbConst.ets)
+```
+Joins bookmarks table with 8 content tables to fetch display text:
+```sql
+select b.*, tbl1.body as chinese_antitheticalcouplet,
+       tbl2.character as chinese_character,
+       tbl3.word as chinese_expression,
+       tbl4.word as chinese_idiom,
+       tbl5.content as chinese_knowledge,
+       tbl6.content as chinese_quote,
+       tbl7.title as classicalliterature_classicpoem,
+       tbl8.content as classicalliterature_sentence
+from bookmarks as b
+left join chinese_antitheticalcouplet as tbl1 on ...
+```
+
+---
+
+### 3. **Constants Related to Collections**
+
+**Route names** — Already listed above under Navigation; defined in individual feature's [`route_map.json`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/bookmark/src/main/resources/base/profile/route_map.json)
+
+**Content type constants:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/PrefConst.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/PrefConst.ets) (lines 7-23, 20)
+
+**Display strings:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/String.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/String.ets)
+- Line 30: `static readonly bookmark: Resource = $r('app.string.bookmark');`
+- Line 29: `static readonly add_bookmark: Resource = $r('app.string.add_bookmark');`
+- Line 32: `static readonly cancel_bookmark: Resource = $r('app.string.cancel_bookmark');`
+
+---
+
+### 4. **Entry from Home Page - "主页左上角" (Top Left Corner)**
+
+**Home page file:** [`/Users/bress/Doc...truncated
+</return>
+
+You can use agent_id: Explore_12041654 to resume the agent later if needed for follow-up work.
+The result returned by the agent is not visible to the user.
+If you want to show the user the result, you should send a text message back to the user, including all key conclusions and necessary details.

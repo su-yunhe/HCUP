@@ -1,0 +1,116 @@
+<file>
+     1→import { Bookmark } from 'bookmark';
+     2→import { Icon, ParamNumberId, String } from 'constants';
+     3→import { Logger } from 'utils';
+     4→import { Lyric } from '../model/Lyric';
+     5→import { LyricView } from '../view/LyricView';
+     6→import LyricViewModel from '../viewmodel/LyricViewModel';
+     7→
+     8→let logger: Logger = new Logger('LyricIndexPage');
+     9→
+    10→@Builder
+    11→export function IndexPageBuilder() {
+    12→  IndexPage();
+    13→}
+    14→
+    15→@ComponentV2
+    16→export struct IndexPage {
+    17→  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+    18→  @Local lyric: Lyric | undefined;
+    19→  @Local bookmarked: Bookmark | undefined;
+    20→
+    21→  aboutToAppear(): void {
+    22→    this.refresh()
+    23→  }
+    24→
+    25→  build() {
+    26→    NavDestination() {
+    27→      Scroll() {
+    28→        if (this.lyric){
+    29→          LyricView({lyric:this.lyric})
+    30→        }
+    31→      }
+    32→      .width('100%')
+    33→      .height('100%')
+    34→      .edgeEffect(EdgeEffect.Spring)
+    35→      .align(Alignment.TopStart)
+    36→    }
+    37→    .title(String.chinese_lyric)
+    38→    .menus([
+    39→      {
+    40→        value: String.bookmark,
+    41→        icon: Icon.ic_bookmark_border,
+    42→        action: (() => {
+    43→          this.pageStack.pushPathByName("LyricBookmarkPage", null)
+    44→        })
+    45→      },
+    46→      {
+    47→        value: String.snapshot,
+    48→        icon: Icon.ic_public_picture,
+    49→        action: (() => {
+    50→          if (this.lyric) {
+    51→            this.pageStack.pushPathByName("LyricSnapshotPage", new ParamNumberId(this.lyric.id))
+    52→          }
+    53→        })
+    54→      },
+    55→      {
+    56→        value: String.search,
+    57→        icon: Icon.ic_public_search,
+    58→        action: (() => {
+    59→          this.pageStack.pushPathByName("LyricSearchPage", null)
+    60→        })
+    61→      }
+    62→    ])
+    63→    .toolbarConfiguration([
+    64→      {
+    65→        "value": this.bookmarked ? String.cancel_bookmark : String.add_bookmark,
+    66→        "icon": this.bookmarked ? Icon.ic_bookmark : Icon.ic_bookmark_border,
+    67→        "action": () => {
+    68→          if (this.bookmarked) {
+    69→            LyricViewModel.cancelBookmark(this.lyric?.id)
+    70→              .then(() => {
+    71→                this.bookmarked = undefined;
+    72→              })
+    73→              .catch((error: BusinessError) => {
+    74→                logger.error(`cancel bookmark failed, code = ${error.code}, message = ${error.message}`)
+    75→              })
+    76→          } else {
+    77→            LyricViewModel.addBookmark(this.lyric?.id)
+    78→              .then((value: Bookmark | undefined) => {
+    79→                this.bookmarked = value
+    80→              })
+    81→              .catch((error: BusinessError) => {
+    82→                logger.error(`add bookmark failed, code = ${error.code}, message = ${error.message}`)
+    83→              })
+    84→          }
+    85→        },
+    86→        status: this.lyric ? ToolbarItemStatus.NORMAL : ToolbarItemStatus.DISABLED
+    87→      },
+    88→      {
+    89→        "value": String.refresh,
+    90→        "icon": Icon.ic_public_refresh,
+    91→        "action": () => {
+    92→          this.refresh()
+    93→        }
+    94→      }
+    95→    ], {
+    96→      "hideItemValue": true
+    97→    })
+    98→    .onReady((ctx: NavDestinationContext) => {
+    99→      this.pageStack = ctx.pathStack
+   100→    })
+   101→  }
+   102→
+   103→  refresh(){
+   104→    LyricViewModel.getRandomLyric().then((value: Lyric | undefined) => {
+   105→      this.lyric = value;
+   106→      if (value) {
+   107→        LyricViewModel.getBookmark(value.id).then((value: Bookmark | undefined) => {
+   108→          this.bookmarked = value;
+   109→        })
+   110→      }
+   111→    })
+   112→  }
+   113→}
+</file>
+<metadata>The file has 113 lines in total.</metadata>

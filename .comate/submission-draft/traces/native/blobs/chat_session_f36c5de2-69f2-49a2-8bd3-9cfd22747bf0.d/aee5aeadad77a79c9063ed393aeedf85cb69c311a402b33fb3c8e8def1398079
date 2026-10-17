@@ -1,0 +1,483 @@
+Found 33 matches
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 13:   static readonly BOOKMARKS_TABLE: string = 'bookmarks';
+  Line 14:   static readonly CHINA_WORLDCULTUREHERITAGE_TABLE: string = "china_worldcultureheritage";
+  Line 15:   static readonly CHINESE_ANTITHETICALCOUPLET_TABLE: string = "chinese_antitheticalcouplet";
+  Line 16:   static readonly CHINESE_CHARACTER_TABLE: string = "chinese_character";
+  Line 17:   static readonly CHINESE_EXPRESSION_TABLE: string = "chinese_expression";
+  Line 18:   static readonly CHINESE_IDIOM_TABLE: string = "chinese_idiom";
+  Line 19:   static readonly CHINESE_KNOWLEDGE_TABLE: string = "chinese_knowledge";
+  Line 20:   //static readonly CHINESE_KNOWLEDGE_FTS_TABLE: string = "chinese_knowledge_fts";
+  Line 21:   static readonly CHINESE_LYRIC_TABLE: string = "chinese_lyric";
+  Line 22:   static readonly CHINESE_LYRIC_FTS_TABLE: string = "chinese_lyric_fts";
+  Line 23:   static readonly CHINESE_MODERNPOETRY_TABLE: string = "chinese_modernpoetry";
+  Line 24:   static readonly CHINESE_MODERNPOETRY_FTS_TABLE: string = "chinese_modernpoetry_fts";
+  Line 25:   static readonly CHINESE_PROVERB_TABLE: string = "chinese_proverb";
+  Line 26:   static readonly CHINESE_QUOTE_TABLE: string = "chinese_quote";
+  Line 27:   //static readonly CHINESE_QUOTE_FTS_TABLE: string = "chinese_quote_fts";
+  Line 28:   static readonly CHINESE_RIDDLE_TABLE: string = "chinese_riddle";
+  Line 29:   static readonly CHINESE_TONGUETWISTER_TABLE: string = "chinese_tonguetwister";
+  Line 30:   static readonly CHINESE_WISECRACK_TABLE: string = "chinese_wisecrack";
+  Line 31:   static readonly CLASSICALLITERATURE_CLASSICPOEM_TABLE: string = 'classicalliterature_classicpoem';
+  Line 32:   static readonly CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE: string = 'classicalliterature_classicpoem_fts';
+  Line 33:   static readonly CLASSICALLITERATURE_PEOPLE_TABLE: string = "classicalliterature_people";
+  Line 34:   static readonly CLASSICALLITERATURE_SENTENCE_TABLE: string = "classicalliterature_sentence";
+  Line 35:   //static readonly CLASSICALLITERATURE_SENTENCE_FTS_TABLE: string = "classicalliterature_sentence_fts";
+  Line 36:   static readonly CLASSICALLITERATURE_WRITING_TABLE: string = "classicalliterature_writing";
+  Line 37:   static readonly CLASSICALLITERATURE_WRITING_FTS_TABLE: string = "classicalliterature_writing_fts";
+  Line 38: }
+  Line 39: 
+  Line 40: // 为了保证平稳升级，所有的修改、删除操作都通过 SQL 语句完成,即不更改以前版本的 SQL 语句
+  Line 41: export class DbMigrationConst {
+  Line 42:   // Version 1
+  Line 43:   static readonly CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 83:   static readonly CREATE_BOOKMARKS_TABLE: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 84:     'create table if not exists ' + DbTableConst.BOOKMARKS_TABLE +
+  Line 85:       ' (id integer primary key autoincrement not null, bookmarkable_id integer, bookmarkable_model text)';
+  Line 86:   // Version 2
+  Line 87:   static readonly CREATE_CHINESE_LYRIC_TABLE: string =
+  Line 88:     'create table if not exists ' + DbTableConst.CHINESE_LYRIC_TABLE +
+  Line 89:       ' (id integer primary key autoincrement not null, title text not null, writer text, ' +
+  Line 90:       'singer text, content text not null)';
+  Line 91:   static readonly CREATE_CHINESE_LYRIC_FTS_TABLE =
+  Line 92:     'CREATE VIRTUAL TABLE IF NOT EXISTS ' + DbTableConst.CHINESE_LYRIC_FTS_TABLE +
+  Line 93:       ' USING fts4(id, title, content, tokenize=icu zh_CN)';
+  Line 94:   static readonly CREATE_CHINESE_MODERNPOETRY_FTS_TABLE: string =
+  Line 95:     'CREATE VIRTUAL TABLE IF NOT EXISTS ' + DbTableConst.CHINESE_MODERNPOETRY_FTS_TABLE +
+  Line 96:       ' USING fts4(id, author, title, content, tokenize=icu zh_CN)';
+  Line 97:   static readonly CREATE_CHINESE_PROVERB_TABLE: string =
+  Line 98:     'create table if not exists ' + DbTableConst.CHINESE_PROVERB_TABLE +
+  Line 99:       ' (id integer primary key autoincrement not null, content text not null, tags text)';
+  Line 100:   static readonly CREATE_CHINESE_RIDDLE_TABLE: string =
+  Line 101:     'create table if not exists ' + DbTableConst.CHINESE_RIDDLE_TABLE +
+  Line 102:       ' (id integer primary key autoincrement not null, puzzle text, answer text)';
+  Line 103:   static readonly CREATE_CHINESE_TONGUETWISTER_TABLE: string =
+  Line 104:     'create table if not exists ' + DbTableConst.CHINESE_TONGUETWISTER_TABLE +
+  Line 105:       ' (id integer primary key autoincrement not null, title text not null, content text not null, content2 text)';
+  Line 106:   static readonly CREATE_CHINESE_WISECRACK_TABLE: string =
+  Line 107:     'create table if not exists ' + DbTableConst.CHINESE_WISECRACK_TABLE +
+  Line 108:       ' (id integer primary key autoincrement not null, riddle text not null, answer text not null, ' +
+  Line 109:       'first_letter text, first_word text)';
+  Line 110:   static readonly CREATE_CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE =
+  Line 111:     'CREATE VIRTUAL TABLE IF NOT EXISTS ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE +
+  Line 112:       ' USING fts4(id, writer, title, content, tokenize=icu zh_CN)';
+  Line 113:   static readonly CREATE_CLASSICALLITERATURE_PEOPLE_TABLE: string =
+  Line 114:     'create table if not exists ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE +
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 141:   static readonly CHINESE_ANTITHETICALCOUPLETI_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 142:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 143:       ' join ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE + ' as tbl' +
+  Line 144:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_ANTITHETICALCOUPLET + '\'' +
+  Line 145:       ' order by b.id desc';
+  Line 146:   static readonly READ_RANDOM_CHINESE_CHARACTER: string =
+  Line 147:     'select * from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
+  Line 148:       ' where id = (select id from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
+  Line 149:       ' order by random() limit 1) limit 1';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 143:       ' join ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE + ' as tbl' +
+  Line 144:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_ANTITHETICALCOUPLET + '\'' +
+  Line 145:       ' order by b.id desc';
+  Line 146:   static readonly READ_RANDOM_CHINESE_CHARACTER: string =
+  Line 147:     'select * from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
+  Line 148:       ' where id = (select id from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
+  Line 149:       ' order by random() limit 1) limit 1';
+  Line 150:   static readonly CHINESE_CHARACTER_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 151:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 152:       ' join ' + DbTableConst.CHINESE_CHARACTER_TABLE + ' as tbl' +
+  Line 153:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_CHARACTER + '\'' +
+  Line 154:       ' order by b.id desc';
+  Line 155:   static readonly READ_RANDOM_CHINESE_EXPRESSION: string =
+  Line 156:     'select * from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+  Line 157:       ' where id = (select id from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+  Line 158:       ' order by random() limit 1) limit 1';
+  Line 159:   static readonly SEARCH_CHINESE_EXPRESSION: string =
+  Line 160:     'select * from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+  Line 161:       ' where word like ?';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 152:       ' join ' + DbTableConst.CHINESE_CHARACTER_TABLE + ' as tbl' +
+  Line 153:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_CHARACTER + '\'' +
+  Line 154:       ' order by b.id desc';
+  Line 155:   static readonly READ_RANDOM_CHINESE_EXPRESSION: string =
+  Line 156:     'select * from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+  Line 157:       ' where id = (select id from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+  Line 158:       ' order by random() limit 1) limit 1';
+  Line 159:   static readonly SEARCH_CHINESE_EXPRESSION: string =
+  Line 160:     'select * from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+  Line 161:       ' where word like ?';
+  Line 162:   static readonly CHINESE_EXPRESSION_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 163:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 164:       ' join ' + DbTableConst.CHINESE_EXPRESSION_TABLE + ' as tbl' +
+  Line 165:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_EXPRESSION + '\'' +
+  Line 166:       ' order by b.id desc';
+  Line 167:   static readonly READ_RANDOM_CHINESE_IDIOM: string =
+  Line 168:     'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+  Line 169:       ' where id = (select id from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+  Line 170:       ' order by random() limit 1) limit 1';
+  Line 171:   static readonly SEARCH_CHINESE_IDIOM: string =
+  Line 172:     'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+  Line 173:       ' where word like ?';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 164:       ' join ' + DbTableConst.CHINESE_EXPRESSION_TABLE + ' as tbl' +
+  Line 165:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_EXPRESSION + '\'' +
+  Line 166:       ' order by b.id desc';
+  Line 167:   static readonly READ_RANDOM_CHINESE_IDIOM: string =
+  Line 168:     'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+  Line 169:       ' where id = (select id from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+  Line 170:       ' order by random() limit 1) limit 1';
+  Line 171:   static readonly SEARCH_CHINESE_IDIOM: string =
+  Line 172:     'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+  Line 173:       ' where word like ?';
+  Line 174:   static readonly CHINESE_IDIOM_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 175:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 176:       ' join ' + DbTableConst.CHINESE_IDIOM_TABLE + ' as tbl' +
+  Line 177:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_IDIOM + '\'' +
+  Line 178:       ' order by b.id desc';
+  Line 179:   static readonly READ_RANDOM_CHINESE_KNOWLEDGE: string =
+  Line 180:     'select * from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+  Line 181:       ' where id = (select id from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+  Line 182:       ' order by random() limit 1) limit 1';
+  Line 183:   static readonly SEARCH_CHINESE_KNOWLEDGE: string =
+  Line 184:     'select * from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+  Line 185:       ' where content like ?';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 176:       ' join ' + DbTableConst.CHINESE_IDIOM_TABLE + ' as tbl' +
+  Line 177:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_IDIOM + '\'' +
+  Line 178:       ' order by b.id desc';
+  Line 179:   static readonly READ_RANDOM_CHINESE_KNOWLEDGE: string =
+  Line 180:     'select * from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+  Line 181:       ' where id = (select id from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+  Line 182:       ' order by random() limit 1) limit 1';
+  Line 183:   static readonly SEARCH_CHINESE_KNOWLEDGE: string =
+  Line 184:     'select * from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+  Line 185:       ' where content like ?';
+  Line 186:   static readonly CHINESE_KNOWLEDGE_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 187:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 188:       ' join ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE + ' as tbl' +
+  Line 189:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_KNOWLEDGE + '\'' +
+  Line 190:       ' order by b.id desc';
+  Line 191:   static readonly READ_RANDOM_CHINESE_LYRIC: string =
+  Line 192:     'select * from ' + DbTableConst.CHINESE_LYRIC_TABLE +
+  Line 193:       ' where id = (select id from ' + DbTableConst.CHINESE_LYRIC_TABLE +
+  Line 194:       ' order by random() limit 1) limit 1';
+  Line 195:   static readonly SEARCH_CHINESE_LYRIC: string =
+  Line 196:     'select tbl.* from ' + DbTableConst.CHINESE_LYRIC_TABLE + ' as tbl' +
+  Line 197:       ' join ' + DbTableConst.CHINESE_LYRIC_FTS_TABLE + ' as v' +
+  Line 198:       ' on tbl.id = v.id where ' + DbTableConst.CHINESE_LYRIC_FTS_TABLE + ' match ?';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 188:       ' join ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE + ' as tbl' +
+  Line 189:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_KNOWLEDGE + '\'' +
+  Line 190:       ' order by b.id desc';
+  Line 191:   static readonly READ_RANDOM_CHINESE_LYRIC: string =
+  Line 192:     'select * from ' + DbTableConst.CHINESE_LYRIC_TABLE +
+  Line 193:       ' where id = (select id from ' + DbTableConst.CHINESE_LYRIC_TABLE +
+  Line 194:       ' order by random() limit 1) limit 1';
+  Line 195:   static readonly SEARCH_CHINESE_LYRIC: string =
+  Line 196:     'select tbl.* from ' + DbTableConst.CHINESE_LYRIC_TABLE + ' as tbl' +
+  Line 197:       ' join ' + DbTableConst.CHINESE_LYRIC_FTS_TABLE + ' as v' +
+  Line 198:       ' on tbl.id = v.id where ' + DbTableConst.CHINESE_LYRIC_FTS_TABLE + ' match ?';
+  Line 199:   static readonly CHINESE_LYRIC_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 200:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 201:       ' join ' + DbTableConst.CHINESE_LYRIC_TABLE + ' as tbl' +
+  Line 202:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_LYRIC + '\'' +
+  Line 203:       ' order by b.id desc';
+  Line 204:   static readonly READ_RANDOM_CHINESE_MODERNPOETRY: string =
+  Line 205:     'select * from ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE +
+  Line 206:       ' where id = (select id from ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE +
+  Line 207:       ' order by random() limit 1) limit 1';
+  Line 208:   static readonly SEARCH_CHINESE_MODERNPOETRY: string =
+  Line 209:     'select tbl.* from ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE + ' as tbl' +
+  Line 210:       ' join ' + DbTableConst.CHINESE_MODERNPOETRY_FTS_TABLE + ' as v' +
+  Line 211:       ' on tbl.id = v.id where ' + DbTableConst.CHINESE_MODERNPOETRY_FTS_TABLE + ' match ?';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 201:       ' join ' + DbTableConst.CHINESE_LYRIC_TABLE + ' as tbl' +
+  Line 202:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_LYRIC + '\'' +
+  Line 203:       ' order by b.id desc';
+  Line 204:   static readonly READ_RANDOM_CHINESE_MODERNPOETRY: string =
+  Line 205:     'select * from ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE +
+  Line 206:       ' where id = (select id from ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE +
+  Line 207:       ' order by random() limit 1) limit 1';
+  Line 208:   static readonly SEARCH_CHINESE_MODERNPOETRY: string =
+  Line 209:     'select tbl.* from ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE + ' as tbl' +
+  Line 210:       ' join ' + DbTableConst.CHINESE_MODERNPOETRY_FTS_TABLE + ' as v' +
+  Line 211:       ' on tbl.id = v.id where ' + DbTableConst.CHINESE_MODERNPOETRY_FTS_TABLE + ' match ?';
+  Line 212:   static readonly CHINESE_MODERNPOETRY_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 213:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 214:       ' join ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE + ' as tbl' +
+  Line 215:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_MODERNPOETRY + '\'' +
+  Line 216:       ' order by b.id desc';
+  Line 217:   static readonly READ_RANDOM_CHINESE_PROVERB: string =
+  Line 218:     'select * from ' + DbTableConst.CHINESE_PROVERB_TABLE +
+  Line 219:       ' where id = (select id from ' + DbTableConst.CHINESE_PROVERB_TABLE +
+  Line 220:       ' order by random() limit 1) limit 1';
+  Line 221:   static readonly SEARCH_CHINESE_PROVERB: string =
+  Line 222:     'select * from ' + DbTableConst.CHINESE_PROVERB_TABLE +
+  Line 223:       ' where content like ?';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 214:       ' join ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE + ' as tbl' +
+  Line 215:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_MODERNPOETRY + '\'' +
+  Line 216:       ' order by b.id desc';
+  Line 217:   static readonly READ_RANDOM_CHINESE_PROVERB: string =
+  Line 218:     'select * from ' + DbTableConst.CHINESE_PROVERB_TABLE +
+  Line 219:       ' where id = (select id from ' + DbTableConst.CHINESE_PROVERB_TABLE +
+  Line 220:       ' order by random() limit 1) limit 1';
+  Line 221:   static readonly SEARCH_CHINESE_PROVERB: string =
+  Line 222:     'select * from ' + DbTableConst.CHINESE_PROVERB_TABLE +
+  Line 223:       ' where content like ?';
+  Line 224:   static readonly CHINESE_PROVERB_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 225:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 226:       ' join ' + DbTableConst.CHINESE_PROVERB_TABLE + ' as tbl' +
+  Line 227:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_PROVERB + '\'' +
+  Line 228:       ' order by b.id desc';
+  Line 229:   static readonly READ_RANDOM_CHINESE_QUOTE: string =
+  Line 230:     'select * from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+  Line 231:       ' where id = (select id from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+  Line 232:       ' order by random() limit 1) limit 1';
+  Line 233:   static readonly SEARCH_CHINESE_QUOTE: string =
+  Line 234:     'select * from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+  Line 235:       ' where content like ?';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 226:       ' join ' + DbTableConst.CHINESE_PROVERB_TABLE + ' as tbl' +
+  Line 227:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_PROVERB + '\'' +
+  Line 228:       ' order by b.id desc';
+  Line 229:   static readonly READ_RANDOM_CHINESE_QUOTE: string =
+  Line 230:     'select * from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+  Line 231:       ' where id = (select id from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+  Line 232:       ' order by random() limit 1) limit 1';
+  Line 233:   static readonly SEARCH_CHINESE_QUOTE: string =
+  Line 234:     'select * from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+  Line 235:       ' where content like ?';
+  Line 236:   static readonly CHINESE_QUOTE_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 237:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 238:       ' join ' + DbTableConst.CHINESE_QUOTE_TABLE + ' as tbl' +
+  Line 239:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_QUOTE + '\'' +
+  Line 240:       ' order by b.id desc';
+  Line 241:   static readonly READ_RANDOM_CHINESE_RIDDLE: string =
+  Line 242:     'select * from ' + DbTableConst.CHINESE_RIDDLE_TABLE +
+  Line 243:       ' where id = (select id from ' + DbTableConst.CHINESE_RIDDLE_TABLE +
+  Line 244:       ' order by random() limit 1) limit 1';
+  Line 245:   static readonly SEARCH_CHINESE_RIDDLE: string =
+  Line 246:     'select * from ' + DbTableConst.CHINESE_RIDDLE_TABLE +
+  Line 247:       ' where puzzle like ?';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 238:       ' join ' + DbTableConst.CHINESE_QUOTE_TABLE + ' as tbl' +
+  Line 239:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_QUOTE + '\'' +
+  Line 240:       ' order by b.id desc';
+  Line 241:   static readonly READ_RANDOM_CHINESE_RIDDLE: string =
+  Line 242:     'select * from ' + DbTableConst.CHINESE_RIDDLE_TABLE +
+  Line 243:       ' where id = (select id from ' + DbTableConst.CHINESE_RIDDLE_TABLE +
+  Line 244:       ' order by random() limit 1) limit 1';
+  Line 245:   static readonly SEARCH_CHINESE_RIDDLE: string =
+  Line 246:     'select * from ' + DbTableConst.CHINESE_RIDDLE_TABLE +
+  Line 247:       ' where puzzle like ?';
+  Line 248:   static readonly CHINESE_RIDDLE_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 249:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 250:       ' join ' + DbTableConst.CHINESE_RIDDLE_TABLE + ' as tbl' +
+  Line 251:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_RIDDLE + '\'' +
+  Line 252:       ' order by b.id desc';
+  Line 253:   static readonly CHINESE_TONGUETWISTER_LIST: string =
+  Line 254:     'select * from ' + DbTableConst.CHINESE_TONGUETWISTER_TABLE;
+  Line 255:   static readonly READ_RANDOM_CHINESE_WISECRACK: string =
+  Line 256:     'select * from ' + DbTableConst.CHINESE_WISECRACK_TABLE +
+  Line 257:       ' where id = (select id from ' + DbTableConst.CHINESE_WISECRACK_TABLE +
+  Line 258:       ' order by random() limit 1) limit 1';
+  Line 259:   static readonly SEARCH_CHINESE_WISECRACK: string =
+  Line 260:     'select * from ' + DbTableConst.CHINESE_WISECRACK_TABLE +
+  Line 261:       ' where riddle like ?';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 250:       ' join ' + DbTableConst.CHINESE_RIDDLE_TABLE + ' as tbl' +
+  Line 251:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_RIDDLE + '\'' +
+  Line 252:       ' order by b.id desc';
+  Line 253:   static readonly CHINESE_TONGUETWISTER_LIST: string =
+  Line 254:     'select * from ' + DbTableConst.CHINESE_TONGUETWISTER_TABLE;
+  Line 255:   static readonly READ_RANDOM_CHINESE_WISECRACK: string =
+  Line 256:     'select * from ' + DbTableConst.CHINESE_WISECRACK_TABLE +
+  Line 257:       ' where id = (select id from ' + DbTableConst.CHINESE_WISECRACK_TABLE +
+  Line 258:       ' order by random() limit 1) limit 1';
+  Line 259:   static readonly SEARCH_CHINESE_WISECRACK: string =
+  Line 260:     'select * from ' + DbTableConst.CHINESE_WISECRACK_TABLE +
+  Line 261:       ' where riddle like ?';
+  Line 262:   static readonly CHINESE_WISECRACK_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 263:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 264:       ' join ' + DbTableConst.CHINESE_WISECRACK_TABLE + ' as tbl' +
+  Line 265:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_WISECRACK + '\'' +
+  Line 266:       ' order by b.id desc';
+  Line 267:   static readonly INSERT_CLASSICALLITERATURE_CLASSICPOEM_FTS: string =
+  Line 268:     'INSERT INTO ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE +
+  Line 269:       ' (id, writer, title, content) SELECT id, writer, title, content FROM ' +
+  Line 270:     DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE;
+  Line 271:   static readonly READ_RANDOM_CLASSICALLITERATURE_CLASSICPOEM: string =
+  Line 272:     'select * from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+  Line 273:       ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+  Line 274:       ' order by random() limit 1) limit 1';
+  Line 275:   static readonly SEARCH_CLASSICALLITERATURE_CLASSICPOEM: string =
+  Line 276:     'select tbl.* from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl' +
+  Line 277:       ' join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' as v' +
+  Line 278:       ' on tbl.id = v.id where ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' match ?';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 264:       ' join ' + DbTableConst.CHINESE_WISECRACK_TABLE + ' as tbl' +
+  Line 265:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_WISECRACK + '\'' +
+  Line 266:       ' order by b.id desc';
+  Line 267:   static readonly INSERT_CLASSICALLITERATURE_CLASSICPOEM_FTS: string =
+  Line 268:     'INSERT INTO ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE +
+  Line 269:       ' (id, writer, title, content) SELECT id, writer, title, content FROM ' +
+  Line 270:     DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE;
+  Line 271:   static readonly READ_RANDOM_CLASSICALLITERATURE_CLASSICPOEM: string =
+  Line 272:     'select * from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+  Line 273:       ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+  Line 274:       ' order by random() limit 1) limit 1';
+  Line 275:   static readonly SEARCH_CLASSICALLITERATURE_CLASSICPOEM: string =
+  Line 276:     'select tbl.* from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl' +
+  Line 277:       ' join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' as v' +
+  Line 278:       ' on tbl.id = v.id where ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE + ' match ?';
+  Line 279:   static readonly CLASSICALLITERATURE_CLASSICPOEM_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 280:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 281:       ' join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl' +
+  Line 282:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_CLASSICPOEM +
+  Line 283:       '\'' +
+  Line 284:       ' order by b.id desc';
+  Line 285:   static readonly READ_RANDOM_CLASSICALLITERATURE_PEOPLE: string =
+  Line 286:     'select * from ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE +
+  Line 287:       ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE +
+  Line 288:       ' order by random() limit 1) limit 1';
+  Line 289:   static readonly SEARCH_CLASSICALLITERATURE_PEOPLE: string =
+  Line 290:     'select * from ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE +
+  Line 291:       ' where name like ?';
+  Line 292:   static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE: string =
+  Line 293:     'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+  Line 294:       ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+  Line 295:       ' order by random() limit 1) limit 1';
+  Line 296:   static readonly SEARCH_CLASSICALLITERATURE_SENTENCE: string =
+  Line 297:     'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+  Line 298:       ' where content like ?';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 281:       ' join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl' +
+  Line 282:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_CLASSICPOEM +
+  Line 283:       '\'' +
+  Line 284:       ' order by b.id desc';
+  Line 285:   static readonly READ_RANDOM_CLASSICALLITERATURE_PEOPLE: string =
+  Line 286:     'select * from ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE +
+  Line 287:       ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE +
+  Line 288:       ' order by random() limit 1) limit 1';
+  Line 289:   static readonly SEARCH_CLASSICALLITERATURE_PEOPLE: string =
+  Line 290:     'select * from ' + DbTableConst.CLASSICALLITERATURE_PEOPLE_TABLE +
+  Line 291:       ' where name like ?';
+  Line 292:   static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE: string =
+  Line 293:     'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+  Line 294:       ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+  Line 295:       ' order by random() limit 1) limit 1';
+  Line 296:   static readonly SEARCH_CLASSICALLITERATURE_SENTENCE: string =
+  Line 297:     'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+  Line 298:       ' where content like ?';
+  Line 299:   static readonly CLASSICALLITERATURE_SENTENCE_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 300:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 301:       ' join ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE + ' as tbl' +
+  Line 302:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_SENTENCE + '\'' +
+  Line 303:       ' order by b.id desc';
+  Line 304:   static readonly SEARCH_CLASSICALLITERATURE_WRITING: string =
+  Line 305:     'select tbl.* from ' + DbTableConst.CLASSICALLITERATURE_WRITING_TABLE + ' as tbl' +
+  Line 306:       ' join ' + DbTableConst.CLASSICALLITERATURE_WRITING_FTS_TABLE + ' as v' +
+  Line 307:       ' on tbl.id = v.id where ' + DbTableConst.CLASSICALLITERATURE_WRITING_FTS_TABLE + ' match ? limit 100';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 301:       ' join ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE + ' as tbl' +
+  Line 302:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_SENTENCE + '\'' +
+  Line 303:       ' order by b.id desc';
+  Line 304:   static readonly SEARCH_CLASSICALLITERATURE_WRITING: string =
+  Line 305:     'select tbl.* from ' + DbTableConst.CLASSICALLITERATURE_WRITING_TABLE + ' as tbl' +
+  Line 306:       ' join ' + DbTableConst.CLASSICALLITERATURE_WRITING_FTS_TABLE + ' as v' +
+  Line 307:       ' on tbl.id = v.id where ' + DbTableConst.CLASSICALLITERATURE_WRITING_FTS_TABLE + ' match ? limit 100';
+  Line 308:   static readonly CLASSICALLITERATURE_WRITING_BOOKMARKS: string =
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 309:     'select tbl.* from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 310:       ' join ' + DbTableConst.CLASSICALLITERATURE_WRITING_TABLE + ' as tbl' +
+  Line 311:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_WRITING + '\'' +
+  Line 312:       ' order by b.id desc';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 310:       ' join ' + DbTableConst.CLASSICALLITERATURE_WRITING_TABLE + ' as tbl' +
+  Line 311:       ' on b.bookmarkable_id = tbl.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_WRITING + '\'' +
+  Line 312:       ' order by b.id desc';
+  Line 313:   static readonly BOOKMARKS: string =
+  Line 314:     'select b.*, tbl1.body as chinese_antitheticalcouplet,' +
+  Line 315:       ' tbl2.character as chinese_character,' +
+  Line 316:       ' tbl3.word as chinese_expression,' +
+  Line 317:       ' tbl4.word as chinese_idiom,' +
+  Line 318:       ' tbl5.content as chinese_knowledge,' +
+  Line 319:       ' tbl6.content as chinese_quote,' +
+  Line 320:       ' tbl7.title as classicalliterature_classicpoem,' +
+  Line 321:       ' tbl8.content as classicalliterature_sentence' +
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/commons/constants/src/main/ets/DbConst.ets:
+  Line 314:     'select b.*, tbl1.body as chinese_antitheticalcouplet,' +
+  Line 315:       ' tbl2.character as chinese_character,' +
+  Line 316:       ' tbl3.word as chinese_expression,' +
+  Line 317:       ' tbl4.word as chinese_idiom,' +
+  Line 318:       ' tbl5.content as chinese_knowledge,' +
+  Line 319:       ' tbl6.content as chinese_quote,' +
+  Line 320:       ' tbl7.title as classicalliterature_classicpoem,' +
+  Line 321:       ' tbl8.content as classicalliterature_sentence' +
+  Line 322:       ' from ' + DbTableConst.BOOKMARKS_TABLE + ' as b' +
+  Line 323:       ' left join ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE + ' as tbl1' +
+  Line 324:       ' on b.bookmarkable_id = tbl1.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_ANTITHETICALCOUPLET + '\'' +
+  Line 325:       ' left join ' + DbTableConst.CHINESE_CHARACTER_TABLE + ' as tbl2' +
+  Line 326:       ' on b.bookmarkable_id = tbl2.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_CHARACTER + '\'' +
+  Line 327:       ' left join ' + DbTableConst.CHINESE_EXPRESSION_TABLE + ' as tbl3' +
+  Line 328:       ' on b.bookmarkable_id = tbl3.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_EXPRESSION + '\'' +
+  Line 329:       ' left join ' + DbTableConst.CHINESE_IDIOM_TABLE + ' as tbl4' +
+  Line 330:       ' on b.bookmarkable_id = tbl4.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_IDIOM + '\'' +
+  Line 331:       ' left join ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE + ' as tbl5' +
+  Line 332:       ' on b.bookmarkable_id = tbl5.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_KNOWLEDGE + '\'' +
+  Line 333:       ' left join ' + DbTableConst.CHINESE_QUOTE_TABLE + ' as tbl6' +
+  Line 334:       ' on b.bookmarkable_id = tbl6.id and b.bookmarkable_model = \'' + PrefConst.CHINESE_QUOTE + '\'' +
+  Line 335:       ' left join ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' as tbl7' +
+  Line 336:       ' on b.bookmarkable_id = tbl7.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_CLASSICPOEM +
+  Line 337:       '\'' +
+  Line 338:       ' left join ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE + ' as tbl8' +
+  Line 339:       ' on b.bookmarkable_id = tbl8.id and b.bookmarkable_model = \'' + PrefConst.CLASSICALLITERATURE_SENTENCE + '\'' +
+  Line 340:       ' order by b.id desc';
+  Line 341: }

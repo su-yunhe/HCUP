@@ -1,0 +1,11 @@
+"""Print the current Comate session's engine sessionUuid and IDE sidebar session ID.
+
+Read-only: only reads the hook log and opens the IDE state DB with mode=ro.
+
+Usage (two separate tool calls, in this order):
+  python3 session_ids.py --stamp                      # prints a stamp, e.g. 1792229464123
+  python3 session_ids.py <workspace_path> --after <stamp> [--json]
+
+Why two steps: a command's own PostToolUse hook entry is written only after the command
+finishes, so a single run cannot see itself. The first call's entry is written right after it
+returns; the second call looks for the first entry

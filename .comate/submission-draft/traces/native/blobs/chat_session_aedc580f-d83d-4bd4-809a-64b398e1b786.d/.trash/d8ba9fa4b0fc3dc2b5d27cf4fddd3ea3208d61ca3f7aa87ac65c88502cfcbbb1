@@ -1,0 +1,16 @@
+def main():
+    argv = sys.argv[1:]
+    if "--stamp" in argv:
+        # Step 1: emit a stamp. This call's PostToolUse entry is what step 2 looks for.
+        print(int(time.time() * 1000))
+        return
+
+    stamp = None
+    if "--after" in argv:
+        i = argv.index("--after")
+        try:
+            stamp = int(argv[i + 1]) / 1000
+        except (IndexError, ValueError):
+            sys.exit("--after needs the integer printed by --stamp")
+        del argv[i:i + 2]
+    args = 

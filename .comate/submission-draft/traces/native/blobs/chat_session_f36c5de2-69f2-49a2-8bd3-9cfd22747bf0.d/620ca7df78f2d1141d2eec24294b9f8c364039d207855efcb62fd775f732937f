@@ -1,0 +1,76 @@
+Found 25 matches
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 25:   Title: Clause;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 26:   SubTitle: Clause | null;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 36:     TypeDetail: string | null, Rhyme: string | null, FirstClauseRhyme: string | null, Title: Clause,
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 37:     SubTitle: Clause | null, TuneId: Tune | null, Preface: string | null, Clauses: Clause[], Note: string | null,
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 55:     this.Title = Title;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 56:     this.SubTitle = SubTitle;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 101:   Content: string;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 103:   constructor(Type: string, Content: string) {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 105:     this.Content = Content;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 109: export class Clause {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 110:   Content: string;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 114:   constructor(Content: string, Comments: Comment[] | null, BreakAfter: number | null) {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 115:     this.Content = Content;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 123:   Content: string;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 127:   constructor(Category: string | null, Content: string, Type: string, Index: number) {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 129:     this.Content = Content;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 138:   Content: string | null;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 142:   constructor(Book: string | null, Section: string | null, Content: string | null, IsComment: boolean,
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 146:     this.Content = Content;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 211:         'title': JSON.stringify(obj.Title),
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 212:         'subtitle': JSON.stringify(obj.SubTitle),
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 250:         'title': obj.Title.Content,
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 252:           return item.Content
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 364:     JSON.parse(resultSet.getString(resultSet.getColumnIndex('title'))) as Clause,
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/classicalliterature/writing/src/main/ets/model/Writing.ets:
+  Line 365:     JSON.parse(resultSet.getString(resultSet.getColumnIndex('subtitle'))) as Clause,

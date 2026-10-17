@@ -1,0 +1,2 @@
+7. **刷新时机**：依赖 `navDestinationUpdate` state==4；如果测试在返回后立即断言，查询是异步的，可能需要等待【推断】。
+8. **空 ListItem 不可见**：不支持的类型渲染成 0 高度 ListItem，uitest dump 中不出现【运行实证】，但截图上会叠成粗分割线。实现后这些类型变成可见条目；不支持的 model 应直接跳过，不要再生成空 ListItem。

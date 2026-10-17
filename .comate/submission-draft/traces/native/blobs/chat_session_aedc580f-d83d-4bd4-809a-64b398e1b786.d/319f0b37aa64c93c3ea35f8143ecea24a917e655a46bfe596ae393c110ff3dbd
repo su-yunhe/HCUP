@@ -1,0 +1,32 @@
+def main():
+    argv = sys.argv[1:]
+    if "--stamp" in argv:
+        # Step 1: emit a stamp. This call's PostToolUse entry is what step 2 looks for.
+        print(int(time.time() * 1000))
+        return
+
+    stamp = None
+    if "--after" in argv:
+        i = argv.index("--after")
+        try:
+            stamp = int(argv[i + 1]) / 1000
+        except (IndexError, ValueError):
+            sys.exit("--after needs the integer printed by --stamp")
+        del argv[i:i + 2]
+    args = [a for a in argv if not a.startswith("--")]
+    workspace = args[0] if args else os.getcwd()
+    result = {"workspace": os.path.realpath(workspace),
+              "engine": engine_session(workspace, stamp),
+              "sidebar": sidebar_sessions(workspace)}
+    if "--json" in argv:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    eng, side = result["engine"], result["sidebar"]
+    print(f"workspace: {result['workspace']}")
+    if "error" in eng:
+        print(f"engine sessionUuid: NOT FOUND ({eng['error']})")
+    else:
+        print(f"engine sessionUuid: {eng['sessionUuid']}  [hook entry {eng['lagSec']}s after stamp]")
+        if eng["ambiguous"]:
+            print(f"  WARNING other sessions logged tool calls in the same window: {eng['otherIdsInWindow']}")

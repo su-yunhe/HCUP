@@ -1,0 +1,163 @@
+<file>
+     1→import { Item, Title } from './Menu';
+     2→import { String } from 'constants';
+     3→
+     4→@ComponentV2
+     5→export struct MenuList {
+     6→  @Param @Require @Once pageStack: NavPathStack;
+     7→
+     8→  build() {
+     9→    Grid() {
+    10→      GridItem() {
+    11→        Title({
+    12→          title: String.classicalliterature
+    13→        })
+    14→      }
+    15→      .columnStart(0)
+    16→      .columnEnd(1)
+    17→
+    18→      GridItem() {
+    19→        Item({
+    20→          title: String.classicalliterature_classicpoem
+    21→        }).onClick(() => {
+    22→          this.pageStack.pushPathByName('ClassicPoemIndexPage', null)
+    23→        })
+    24→      }
+    25→
+    26→      GridItem() {
+    27→        Item({
+    28→          title: String.classicalliterature_writing
+    29→        }).onClick(() => {
+    30→          this.pageStack.pushPathByName('WritingIndexPage', null)
+    31→        })
+    32→      }
+    33→
+    34→      GridItem() {
+    35→        Item({
+    36→          title: String.classicalliterature_sentence
+    37→        }).onClick(() => {
+    38→          this.pageStack.pushPathByName('SentenceIndexPage', null)
+    39→        })
+    40→      }
+    41→
+    42→      GridItem() {
+    43→        Item({
+    44→          title: String.classicalliterature_people
+    45→        }).onClick(() => {
+    46→          this.pageStack.pushPathByName('PeopleIndexPage', null)
+    47→        })
+    48→      }
+    49→
+    50→      GridItem() {
+    51→        Title({
+    52→          title: String.chinese
+    53→        })
+    54→      }
+    55→      .columnStart(0)
+    56→      .columnEnd(1)
+    57→
+    58→      GridItem() {
+    59→        Item({
+    60→          title: String.chinese_character
+    61→        }).onClick(() => [
+    62→          this.pageStack.pushPathByName('CharacterIndexPage', null)
+    63→        ])
+    64→      }
+    65→
+    66→      GridItem() {
+    67→        Item({
+    68→          title: String.chinese_expression
+    69→        }).onClick(() => [
+    70→          this.pageStack.pushPathByName('ExpressionIndexPage', null)
+    71→        ])
+    72→      }
+    73→
+    74→      GridItem() {
+    75→        Item({
+    76→          title: String.chinese_idiom
+    77→        }).onClick(() => [
+    78→          this.pageStack.pushPathByName('IdiomIndexPage', null)
+    79→        ])
+    80→      }
+    81→
+    82→      GridItem() {
+    83→        Item({
+    84→          title: String.chinese_wisecrack
+    85→        }).onClick(() => [
+    86→          this.pageStack.pushPathByName('WisecrackIndexPage', null)
+    87→        ])
+    88→      }
+    89→
+    90→      GridItem() {
+    91→        Item({
+    92→          title: String.chinese_proverb
+    93→        }).onClick(() => [
+    94→          this.pageStack.pushPathByName('ProverbIndexPage', null)
+    95→        ])
+    96→      }
+    97→
+    98→      GridItem() {
+    99→        Item({
+   100→          title: String.chinese_riddle
+   101→        }).onClick(() => [
+   102→          this.pageStack.pushPathByName('RiddleIndexPage', null)
+   103→        ])
+   104→      }
+   105→
+   106→      GridItem() {
+   107→        Item({
+   108→          title: String.chinese_tonguetwister
+   109→        }).onClick(() => [
+   110→          this.pageStack.pushPathByName('TongueTwisterIndexPage', null)
+   111→        ])
+   112→      }
+   113→
+   114→      GridItem() {
+   115→        Item({
+   116→          title: String.chinese_antitheticalcouplet
+   117→        }).onClick(() => [
+   118→          this.pageStack.pushPathByName('AntitheticalCoupletIndexPage', null)
+   119→        ])
+   120→      }
+   121→
+   122→      GridItem() {
+   123→        Item({
+   124→          title: String.chinese_lyric
+   125→        }).onClick(() => [
+   126→          this.pageStack.pushPathByName('LyricIndexPage', null)
+   127→        ])
+   128→      }
+   129→
+   130→      GridItem() {
+   131→        Item({
+   132→          title: String.chinese_quote
+   133→        }).onClick(() => [
+   134→          this.pageStack.pushPathByName('QuoteIndexPage', null)
+   135→        ])
+   136→      }
+   137→
+   138→      GridItem() {
+   139→        Item({
+   140→          title: String.chinese_modernpoetry
+   141→        }).onClick(() => [
+   142→          this.pageStack.pushPathByName('ModernPoetryIndexPage', null)
+   143→        ])
+   144→      }
+   145→
+   146→      GridItem() {
+   147→        Item({
+   148→          title: String.chinese_knowledge
+   149→        }).onClick(() => [
+   150→          this.pageStack.pushPathByName('KnowledgeIndexPage', null)
+   151→        ])
+   152→      }
+   153→
+   154→      GridItem() {
+   155→        Title({
+   156→          title: String.traditionalculture
+   157→        })
+   158→      }
+   159→      .columnStart(0)
+   160→      .columnEnd(1)
+</file>
+<metadata>The file has 216 lines in total.</metadata>

@@ -1,0 +1,36 @@
+- 3-3 `返回"收藏"页面，该成语条目已从列表中移除。`
+
+## 歧义澄清决议（已确认）
+
+U1–U10 已由你逐条确认，原"待确认"项按下表执行；详细理由见文末决议表。
+
+| 编号 | 决议 |
+| --- | --- |
+| U1 | 保持基线：入口仍是主页右上第 1 个图标，标题仍为 `收藏夹` |
+| U2 | 新增 歌词/诗歌/谜语/歇后语 + 谚语/诗文/人物（所有有收藏按钮但未展示的类型）；绕口令无收藏按钮，不加 |
+| U3 | 摘要沿用各模块自己 `<X>BookmarkPage` 的写法（字段见下方"摘要字段表"） |
+| U4 | 经典诗文作者为单独 Text，文字 = `writer` |
+| U5 | 改为稳定的"最新在前" |
+| U6 | 空收藏保持空白，不加文案 |
+| U7 | 保留类型名 BlockTitle |
+| U8 | 经典诗文 IndexPage、ShowPage 两条收藏路径都纳入验收 |
+| U9 | 查询层去重 |
+| U10 | 收藏插入不再用 `YmdHisToNumber()` 作为主键；具体采用**不传 id、走自增**（理由见决议表） |
+
+### 摘要字段表（U3 + U4 落地）
+
+每个字段单独一个 Text，文字精确等于数据库原值；可空字段为空时不渲染该 Text，不显示 "null"。
+
+| 类型名（BlockTitle） | model | 摘要 Text（依次） | 依据 |
+| --- | --- | --- | --- |
+| 歌词 | `chinese_lyric` | `title`、`content` | `lyric/.../BookmarkPage.ets:36-38` |
+| 诗歌 | `chinese_modernpoetry` | `title`、`content` | `poetry/.../BookmarkPage.ets:37-39` |
+| 谜语 | `chinese_riddle` | `puzzle` | `riddle/.../BookmarkPage.ets:37` |
+| 歇后语 | `chinese_wisecrack` | `riddle` | `wisecrack/.../BookmarkPage.ets:37` |
+| 谚语 | `chinese_proverb` | `content` | `proverb/.../BookmarkPage.ets:37` |
+| 诗文 | `classicalliterature_writing` | `Title.Content`（title 列 JSON 解析）、`author` | `writing/.../BookmarkPage.ets:38-41` |
+| 人物 | `classicalliterature_people` | `name` | 模块 BookmarkPage 的条目是空 Column（`people/.../BookmarkPage.ets:42-44`），无可沿用写法；取 PeopleView 第一行 `Name`（`people/.../view/PeopleView.ets:10`），属 `REASONABLE_DERIVATION` |
+| 经典诗文 | `classicalliterature_classicpoem` | `title`、`writer` | 标题沿用基线；作者按 U4 单独 Text = `writer`，不拼接朝代（模块页的 `${dynasty}·${writer}` 不采用） |
+| 其余 6 类（对联/汉字/词语/成语/知识卡片/句子/诗文名句） | 见 BN §4.3 | 保持基线单个 Text 不变 | 回归，A7 |
+
+注：上一版 U3 推荐里写的"诗歌 title+author"与模块实际写法不符，以本表为准（诗歌模块收藏页展示的是 `title` + `content`）。

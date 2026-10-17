@@ -1,0 +1,21 @@
+## 3. Spec 描述的入口当前在哪
+
+| 项 | 现状 |
+| --- | --- |
+| 主页 | `features/home/src/main/ets/pages/HomePage.ets:45` `Navigation(this.pageStack)`，`TopBar` + `MenuList` |
+| 收藏入口按钮 | `features/home/src/main/ets/view/TopBar.ets:17-21`，`CustomMenuItem({ icon: Icon.ic_bookmark_border, pathName: "BookmarkIndexPage" })`，点击 `TopBar.ets:56` `pushPathByName(this.pathName, null)` |
+| 入口位置 | 【代码实证+运行实证】**在主页右上角**，不是 Spec 说的"左上角"：左侧是 `Text('京墨文库')`，`Blank()` 之后依次是 收藏 / 链接 / 设置 三个图标。模拟器坐标：收藏 Stack `[720,164][860,304]`、链接 `[916,..][1056,..]`、设置 `[1112,..][1252,..]`。三个图标均无文字、无 `.id()` |
+| 路由名 | `BookmarkIndexPage`（`features/bookmark/src/main/resources/base/profile/route_map.json`，builder `IndexPageBuilder`） |
+| 页面文件 | `features/bookmark/src/main/ets/pages/IndexPage.ets` |
+| 页面标题 | `.title(String.bookmark)`（`IndexPage.ets:128`）→ 资源 `bookmark` = **"收藏夹"**（`commons/constants/src/main/resources/base/element/string.json`）。运行时 TitleBar 文字 `收藏夹`，id `__NavdestinationField__Text__MainTitle__` |
+
+各内容模块入口（主页 `features/home/src/main/ets/view/MenuList.ets`，均为 `pushPathByName('<X>IndexPage', null)`）：
+
+| 主页文字 | 路由 | MenuList 行 | 主页坐标（模拟器） |
+| --- | --- | --- | --- |
+| 经典诗文 | ClassicPoemIndexPage | 22 | [56,557][626,735] |
+| 诗文 | WritingIndexPage | 30 | [682,557][1252,735] |
+| 诗文名句 | SentenceIndexPage | 38 | [56,791][626,969] |
+| 人物 | PeopleIndexPage | 46 | [682,791][1252,969] |
+| 成语 | IdiomIndexPage | 78 | [56,1428][626,1606] |
+| 歇后语 | WisecrackIndexPage | 86 | [682,1428][1

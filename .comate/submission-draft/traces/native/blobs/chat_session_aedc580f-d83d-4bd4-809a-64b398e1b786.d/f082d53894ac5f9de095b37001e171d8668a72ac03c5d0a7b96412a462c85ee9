@@ -1,0 +1,214 @@
+<agent_id>Explore_12041784</agent_id>
+<return>
+Based on my thorough analysis of the HarmonyOS ArkTS project, here is the comprehensive report for each specified feature module:
+
+---
+
+## 1. **IDIOM (成语)**
+
+### 1.1 Module Identity
+- **UI-visible name:** 成语 (Idiom)
+- **Module.json5:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/module.json5`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/module.json5) (line 3)
+- Module name: `idiom`
+- **Route entry from home:** Via home NavDestination navigation
+- **Route name:** `IdiomIndexPage` (route_map.json@LINE[9])
+
+### 1.2 List & Detail Pages
+- **List page:** `/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/pages/IndexPage.ets`
+- **Detail page:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/pages/ShowPage.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/pages/ShowPage.ets)
+- **Route names:**
+- Detail: `IdiomShowPage`
+- Parameters: `ParamNumberId` with `idiom.id` (ShowPage.ets@LINE[46])
+- Data retrieval: By ID via `getIdiom(param.id)` (ShowPage.ets@LINE[83])
+
+### 1.3 Collect Button (收藏)
+- **Icon:** `Icon.ic_bookmark` / `Icon.ic_bookmark_border` (ShowPage.ets@LINE[54])
+- **Text label:** `String.add_bookmark` / `String.cancel_bookmark` (ShowPage.ets@LINE[53])
+- **Handler code:** (ShowPage.ets@LINE[55-72])
+  ```ets
+  if (this.bookmarked) {
+    IdiomViewModel.cancelBookmark(this.idiom?.id)
+      .then(() => { this.bookmarked = undefined; })
+  } else {
+    IdiomViewModel.addBookmark(this.idiom?.id)
+      .then((value: Bookmark | undefined) => { this.bookmarked = value })
+  }
+  ```
+- **DAO functions:** `IdiomViewModel.addBookmark()`, `IdiomViewModel.cancelBookmark()` (IdiomViewModel.ets@LINE[16-34])
+  - Calls shared `addBookmark()`, `cancelBookmark()` from `bookmark` module (Bookmark.ets@LINE[22-57])
+- **Persisted data:** Type `Bookmark` with `bookmarkable_id` (content id), `bookmarkable_model` = `PrefConst.CHINESE_IDIOM` (IdiomViewModel.ets@LINE[17])
+- **State toggle & display:**
+  - State toggled via `this.bookmarked` property (local @Local)
+  - Icon changes: `ic_bookmark_border` → `ic_bookmark` when bookmarked (ShowPage.ets@LINE[54])
+  - Toast: Not visible in code, uses toolbar icon change only
+
+### 1.4 Data Model Fields
+**File:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/model/Idiom.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/idiom/src/main/ets/model/Idiom.ets)
+
+Class `Idiom` (lines 10-54):
+- `id: number`
+- `word: string`
+- `pinyin: string`
+- `abbr: string`
+- `explanation: string | null`
+- `source: IdiomSource | null` (nested object with `text`, `book`)
+- `quote: IdiomQuote | null` (nested object with `text`, `book`)
+- `example: IdiomExample | null` (nested object with `text`, `book`)
+- `similar: string[] | null`
+- `opposite: string[] | null`
+- `usage: string | null`
+- `story: string[] | null`
+- `notice: string | null`
+
+### 1.5 Database Source
+- **Type:** Bundled rawfile SQLite DB
+- **Table:** `chinese_idiom` (DbTableConst.CHINESE_IDIOM_TABLE @ DbConst.ets@LINE[18])
+- **Schema:** (DbMigrationConst @ DbConst.ets@LINE[68-72])
+  ```sql
+  id, word, pinyin, abbr, explanation, example, source, quote, similar, opposite, usage, story, notice, spelling
+  ```
+
+---
+
+## 2. **LYRIC (歌词)**
+
+### 2.1 Module Identity
+- **UI-visible name:** 歌词 (Lyric)
+- **Module.json5:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/lyric/src/main/module.json5`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/lyric/src/main/module.json5) (line 3)
+- **Route name:** `LyricIndexPage` (route_map.json@LINE[9])
+
+### 2.2 List & Detail Pages
+- **List page:** `/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/lyric/src/main/ets/pages/IndexPage.ets`
+- **Detail page:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/lyric/src/main/ets/pages/ShowPage.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/lyric/src/main/ets/pages/ShowPage.ets)
+- **Route name:** `LyricShowPage`
+- **Parameters:** `ParamNumberId` with lyric.id (ShowPage.ets@LINE[40])
+- **Data retrieval:** By ID via `LyricViewModel.getLyric(param.id)` (ShowPage.ets@LINE[78])
+
+### 2.3 Collect Button
+- **Icon:** `Icon.ic_bookmark` / `Icon.ic_bookmark_border` (ShowPage.ets@LINE[48])
+- **Text:** `String.add_bookmark` / `String.cancel_bookmark`
+- **Handler:** (ShowPage.ets@LINE[49-66])
+  ```ets
+  if (this.bookmarked) {
+    LyricViewModel.cancelBookmark(this.lyric?.id)
+      .then(() => { this.bookmarked = undefined; })
+  } else {
+    LyricViewModel.addBookmark(this.lyric?.id)
+      .then((value: Bookmark | undefined) => { this.bookmarked = value })
+  }
+  ```
+- **DAO:** `LyricViewModel.addBookmark()`, `LyricViewModel.cancelBookmark()` (LyricViewModel.ets@LINE[11-28])
+  - Passes `PrefConst.CHINESE_LYRIC` as model type
+- **Persisted:** Bookmark with `bookmarkable_id` = lyric.id, `bookmarkable_model` = `'chinese_lyric'`
+- **State display:** Icon changes from border to filled
+
+### 2.4 Data Model
+**File:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/lyric/src/main/ets/model/Lyric.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/lyric/src/main/ets/model/Lyric.ets)
+
+Class `Lyric` (lines 8-22):
+- `id: number`
+- `title: string`
+- `writer: string`
+- `singer: string | null`
+- `content: string`
+
+### 2.5 Database
+- **Table:** `chinese_lyric` (DbTableConst.CHINESE_LYRIC_TABLE @ DbConst.ets@LINE[21])
+- **Schema:** (DbMigrationConst @ DbConst.ets@LINE[87-90])
+  ```sql
+  id, title, writer, singer, content
+  ```
+- **FTS table:** `chinese_lyric_fts` for full-text search
+
+---
+
+## 3. **POETRY (诗歌)** [Modern Poetry]
+
+### 3.1 Module Identity
+- **UI-visible name:** 诗歌 (Modern Poetry) 
+- **Module.json5:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/module.json5`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/module.json5) (line 3)
+- **Route name:** `ModernPoetryIndexPage` (route_map.json@LINE[9])
+
+### 3.2 List & Detail Pages
+- **List:** `/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/pages/IndexPage.ets`
+- **Detail:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/pages/ShowPage.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/pages/ShowPage.ets)
+- **Route name:** `ModernPoetryShowPage`
+- **Parameters:** `ParamNumberId` with poetry.id (ShowPage.ets@LINE[40])
+- **Data retrieval:** `PoetryViewModel.getPoetry(param.id)` (ShowPage.ets@LINE[78])
+
+### 3.3 Collect Button
+- **Icon:** `Icon.ic_bookmark` / `Icon.ic_bookmark_border` (ShowPage.ets@LINE[48])
+- **Handler:** (ShowPage.ets@LINE[49-66])
+  ```ets
+  if (this.bookmarked) {
+    PoetryViewModel.cancelBookmark(this.poetry?.id)
+      .then(() => { this.bookmarked = undefined; })
+  } else {
+    PoetryViewModel.addBookmark(this.poetry?.id)
+      .then((value: Bookmark | undefined) => { this.bookmarked = value })
+  }
+  ```
+- **DAO:** `PoetryViewModel.addBookmark()` uses `PrefConst.CHINESE_MODERNPOETRY` (PoetryViewModel.ets@LINE[11-12])
+- **Persisted:** Bookmark with `bookmarkable_model` = `'chinese_modernpoetry'`
+- **State display:** Icon toggle
+
+### 3.4 Data Model
+**File:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/model/ModernPoetry.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/poetry/src/main/ets/model/ModernPoetry.ets)
+
+Class `ModernPoetry` (lines 8-29):
+- `id: number`
+- `title: string`
+- `author: string`
+- `content: string`
+- `zhu: string | null` (annotation/commentary)
+- `yi: string | null` (translation/meaning)
+- `shang: string | null` (appreciation)
+- `authorInfo: string | null`
+
+### 3.5 Database
+- **Table:** `chinese_modernpoetry` (DbTableConst.CHINESE_MODERNPOETRY_TABLE @ DbConst.ets@LINE[23])
+- **Schema:** (DbMigrationConst @ DbConst.ets@LINE[76-79])
+  ```sql
+  id, title, author, content, zhu, yi, shang, author_info
+  ```
+- **FTS table:** `chinese_modernpoetry_fts`
+
+---
+
+## 4. **RIDDLE (谜语)**
+
+### 4.1 Module Identity
+- **UI-visible name:** 谜语 (Riddle)
+- **Module.json5:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/riddle/src/main/module.json5`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/riddle/src/main/module.json5) (line 3)
+- **Route name:** `RiddleIndexPage` (route_map.json@LINE[9])
+
+### 4.2 List & Detail Pages
+- **List:** `/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/riddle/src/main/ets/pages/IndexPage.ets`
+- **Detail:** [`/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/riddle/src/main/ets/pages/ShowPage.ets`](/Users/bress/Documents/code/harmonycup-work/jm-spec7/features/chinese/riddle/src/main/ets/pages/ShowPage.ets)
+- **Route name:** `RiddleShowPage`
+- **Parameters:** `ParamNumberId` with riddle.id (ShowPage.ets@LINE[40])
+- **Data retrieval:** `RiddleViewModel.getRiddle(param.id)` (ShowPage.ets@LINE[75])
+
+### 4.3 Collect Button
+- **Icon:** `Icon.ic_bookmark` / `Icon.ic_bookmark_border` (ShowPage.ets@LINE[45])
+- **Text:** `String.add_bookmark` / `String.cancel_bookmark`
+- **Handler:** (ShowPage.ets@LINE[46-63])
+  ```ets
+  if (this.bookmarked) {
+    RiddleViewModel.cancelBookmark(this.riddle?.id)
+      .then(() => { this.bookmarked = undefined; })
+  } else {
+    RiddleViewModel.addBookmark(this.riddle?.id)
+      .then((value: Bookmark | undefined) => { this.bookmarked = value })
+  }
+  ```
+- **DAO:** `RiddleViewModel.addBookmark()` with `PrefConst.CHINESE_RIDDLE` (RiddleViewModel.ets@LINE[17])
+- **Persisted:** Bookmark with `bookmarkable_model` = `'chinese_riddle'`
+
+### 4.4 Data Model
+**File:** [`/Users/bress/Documents/code/harmonycup...truncated
+</return>
+
+You can use agent_id: Explore_12041784 to resume the agent later if needed for follow-up work.
+The result returned by the agent is not visible to the user.
+If you want to show the user the result, you should send a text message back to the user, including all key conclusions and necessary details.

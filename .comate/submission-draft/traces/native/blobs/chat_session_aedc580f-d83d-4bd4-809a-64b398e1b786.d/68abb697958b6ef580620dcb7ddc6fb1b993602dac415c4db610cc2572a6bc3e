@@ -1,0 +1,164 @@
+<file>
+     1→import { AvoidAreaObserver, ParamNumberId, PrefConst, String, ThemeConst } from 'constants';
+     2→import { Logger } from 'utils';
+     3→import { BookmarkEntity, getEntities } from '../model/BookmarkEntity';
+     4→import { AppStorageV2, uiObserver } from '@kit.ArkUI';
+     5→import { BlockTitle } from 'uicomponents';
+     6→
+     7→let logger: Logger = new Logger('BookmarkIndexPage')
+     8→
+     9→@Builder
+    10→export function IndexPageBuilder() {
+    11→  IndexPage();
+    12→}
+    13→
+    14→@ComponentV2
+    15→export struct IndexPage {
+    16→  @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack();
+    17→  @Local avoidAreaObserver: AvoidAreaObserver =
+    18→    AppStorageV2.connect<AvoidAreaObserver>(AvoidAreaObserver, () => new AvoidAreaObserver())!;
+    19→  @Local entities: BookmarkEntity[] = [];
+    20→
+    21→  aboutToAppear(): void {
+    22→    uiObserver.on('navDestinationUpdate', (info: uiObserver.NavDestinationInfo) => {
+    23→      if (info.name == 'BookmarkIndexPage' && info.state == 4) {
+    24→        getEntities().then((value: BookmarkEntity[]) => {
+    25→          logger.info(`entities count = ${value.length}`)
+    26→          this.entities = value;
+    27→        })
+    28→      }
+    29→    });
+    30→  }
+    31→
+    32→  aboutToDisappear() {
+    33→    uiObserver.off('navDestinationUpdate');
+    34→  }
+    35→
+    36→  build() {
+    37→    NavDestination() {
+    38→      List() {
+    39→        Repeat<BookmarkEntity>(this.entities)
+    40→          .each((repeatItem: RepeatItem<BookmarkEntity>) => {
+    41→            ListItem() {
+    42→              if (repeatItem.item.bookmarkable_model == PrefConst.CHINESE_ANTITHETICALCOUPLET) {
+    43→                Item({
+    44→                  model: String.chinese_antitheticalcouplet,
+    45→                  content: repeatItem.item.chinese_antitheticalcouplet
+    46→                })
+    47→                  .onClick(() => {
+    48→                    logger.info(`chinese_antitheticalcouplet clicked`);
+    49→                    this.pageStack.pushPathByName('AntitheticalCoupletShowPage',
+    50→                      new ParamNumberId(repeatItem.item.bookmarkable_id))
+    51→                  })
+    52→              } else if (repeatItem.item.bookmarkable_model == PrefConst.CHINESE_CHARACTER) {
+    53→                Item({
+    54→                  model: String.chinese_character,
+    55→                  content: repeatItem.item.chinese_character
+    56→                })
+    57→                  .onClick(() => {
+    58→                    this.pageStack.pushPathByName('CharacterShowPage',
+    59→                      new ParamNumberId(repeatItem.item.bookmarkable_id))
+    60→                  })
+    61→              } else if (repeatItem.item.bookmarkable_model == PrefConst.CHINESE_EXPRESSION) {
+    62→                Item({
+    63→                  model: String.chinese_expression,
+    64→                  content: repeatItem.item.chinese_expression
+    65→                })
+    66→                  .onClick(() => {
+    67→                    logger.info(`chinese_expression clicked`);
+    68→                    this.pageStack.pushPathByName('ExpressionShowPage',
+    69→                      new ParamNumberId(repeatItem.item.bookmarkable_id))
+    70→                  })
+    71→              } else if (repeatItem.item.bookmarkable_model == PrefConst.CHINESE_IDIOM) {
+    72→                Item({
+    73→                  model: String.chinese_idiom,
+    74→                  content: repeatItem.item.chinese_idiom
+    75→                })
+    76→                  .onClick(() => {
+    77→                    this.pageStack.pushPathByName('IdiomShowPage', new ParamNumberId(repeatItem.item.bookmarkable_id))
+    78→                  })
+    79→              } else if (repeatItem.item.bookmarkable_model == PrefConst.CHINESE_KNOWLEDGE) {
+    80→                Item({
+    81→                  model: String.chinese_knowledge,
+    82→                  content: repeatItem.item.chinese_knowledge
+    83→                })
+    84→                  .onClick(() => {
+    85→                    this.pageStack.pushPathByName('KnowledgeShowPage',
+    86→                      new ParamNumberId(repeatItem.item.bookmarkable_id))
+    87→                  })
+    88→              } else if (repeatItem.item.bookmarkable_model == PrefConst.CHINESE_QUOTE) {
+    89→                Item({
+    90→                  model: String.chinese_quote,
+    91→                  content: repeatItem.item.chinese_quote
+    92→                })
+    93→                  .onClick(() => {
+    94→                    this.pageStack.pushPathByName('QuoteShowPage', new ParamNumberId(repeatItem.item.bookmarkable_id))
+    95→                  })
+    96→              } else if (repeatItem.item.bookmarkable_model == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
+    97→                Item({
+    98→                  model: String.classicalliterature_classicpoem,
+    99→                  content: repeatItem.item.classicalliterature_classicpoem
+   100→                })
+   101→                  .onClick(() => {
+   102→                    this.pageStack.pushPathByName('ClassicPoemShowPage',
+   103→                      new ParamNumberId(repeatItem.item.bookmarkable_id))
+   104→                  })
+   105→              } else if (repeatItem.item.bookmarkable_model == PrefConst.CLASSICALLITERATURE_SENTENCE) {
+   106→                Item({
+   107→                  model: String.classicalliterature_sentence,
+   108→                  content: repeatItem.item.classicalliterature_sentence
+   109→                })
+   110→                  .onClick(() => {
+   111→                    this.pageStack.pushPathByName('SentenceShowPage',
+   112→                      new ParamNumberId(repeatItem.item.bookmarkable_id))
+   113→                  })
+   114→              }
+   115→            }
+   116→          })
+   117→          .key((item: BookmarkEntity) => `${item.id}`)
+   118→      }
+   119→      .width('100%')
+   120→      .height('100%')
+   121→      .edgeEffect(EdgeEffect.Spring)
+   122→      .align(Alignment.TopStart)
+   123→      .divider(ThemeConst.ListDivider)
+   124→      .padding({
+   125→        bottom: this.avoidAreaObserver.navigation?.bottomRect.height
+   126→      })
+   127→    }
+   128→    .title(String.bookmark)
+   129→    .onReady((ctx: NavDestinationContext) => {
+   130→      this.pageStack = ctx.pathStack;
+   131→    })
+   132→  }
+   133→}
+   134→
+   135→@ComponentV2
+   136→struct Item {
+   137→  @Param @Require model: Resource;
+   138→  @Param @Require content: string | null;
+   139→
+   140→  build() {
+   141→    Column() {
+   142→      BlockTitle({ title: this.model })
+   143→      Text(this.content)
+   144→        .width('100%')
+   145→        .padding(ThemeConst.P_X16_Y8)
+   146→        .maxLines(2)
+   147→        .textOverflow({ overflow: TextOverflow.Ellipsis })
+   148→    }
+   149→    .width('100%')
+   150→    .padding(ThemeConst.P_8)
+   151→    .stateStyles({
+   152→      normal: {
+   153→        .backgroundColor(ThemeConst.BackGroundColor_Normal)
+   154→      },
+   155→      pressed: {
+   156→        .backgroundColor(ThemeConst.BackGroundColor_Pressed)
+   157→      }
+   158→    })
+   159→  }
+   160→}
+   161→
+</file>
+<metadata>The file has 161 lines in total.</metadata>

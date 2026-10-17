@@ -1,0 +1,21 @@
+---
+name: comate-session-ids
+description: 查询当前 Comate 会话的两个标识：引擎 sessionUuid（hook 日志里的 conversationId）和 IDE 侧边栏会话 ID（Spec 模式的 specSessionId，形如 1791984936543-xxxx）。当用户问"这个会话的 sessionUuid / 会话 ID / conversationId / 侧边栏会话 ID / 标签页 ID 是什么"、提交材料或 trace 需要填会话 ID、要核对某阶段对应哪个会话时使用。即使用户只说"查一下当前会话 id"也应触发。一条只读脚本命令即可得到结果，不要去全盘 grep 或翻 History/chatEditingSessions。
+---
+
+# 查询当前会话 ID
+
+调用本 skill 这一步本身会在 hook 日志里留下一条带 `skillName=comate-session-ids` 的记录，脚本靠它锁定"当前会话"，即使同一工作区里同时开着多个会话也不会认错。所以请直接运行脚本，不需要先做任何探索。
+
+## 步骤
+
+1. 运行（把工作区换成当前工作区的绝对路径；不要依赖 shell 的 cwd，Agent 的 cwd 可能是 `/`）：
+
+   ```bash
+   python3 ~/.comate/skills/comate-session-ids/scripts/session_ids.py "<工作区绝对路径>"
+   ```
+
+   需要结构化结果时加 `--json`。脚本只读：读取 hook 日志，用 `mode=ro` 打开 IDE 状态库，不写任何文件。
+
+2. 按输出回答用户：
+   - `engine sessionUuid`：引擎会话 ID。`basis` 为 `skill-invocation event` 表示是用本次调用锁定的，可直接采信。若是 `latest event for workspace` 且有 `WARNING other sessions active`，说明无法

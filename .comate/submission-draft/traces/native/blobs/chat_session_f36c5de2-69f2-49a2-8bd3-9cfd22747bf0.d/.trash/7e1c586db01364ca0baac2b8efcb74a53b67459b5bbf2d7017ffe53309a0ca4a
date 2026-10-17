@@ -1,0 +1,26 @@
+# 收藏夹支持更多内容类型 —— 完成总结
+
+## 改动
+
+| 文件 | 内容 |
+| --- | --- |
+| `commons/constants/src/main/ets/DbConst.ets` | `DbCRUDConst.BOOKMARKS` 重写：子查询按 `(model, bookmarkable_id)` 去重取 `max(id)`；新增 歌词/诗歌/谜语/歇后语/谚语/诗文/人物 7 张表 JOIN；经典诗文多取 `writer`；`where coalesce(tblN.id) is not null` 过滤孤儿与未知 model；`order by b.id desc` |
+| `features/bookmark/src/main/ets/model/Bookmark.ets` | `addBookmark` 不再写入 `id`，主键走 autoincrement |
+| `features/bookmark/src/main/ets/model/BookmarkEntity.ets` | 实体新增 11 个字段，`isColumnNull` 判空；新增 `BookmarkItem` / `toBookmarkItem`（15 类 → 类型名、摘要、副摘要、路由）；诗文 title JSON 解析失败时回退原串 |
+| `features/bookmark/src/main/ets/pages/IndexPage.ets` | 单一分支渲染展示项，跳过未知 model；补 `.id()`：`bookmark_list`、`bookmark_item_<model>_<id>`、`_title`、`_content`/`_author` |
+| `features/home/src/main/ets/view/TopBar.ets` | 三个图标补 `.id()`：`home_bookmark_entry` / `home_link_entry` / `home_settings_entry` |
+| `hypium_tests/test_bookmark.py`（+ `__init__.py`） | 13 个 Hypium 用例 |
+| `logs/` | `build.log`、`install.log`、`selftest.log`、`selftest.json` |
+
+入口位置、页面标题 `收藏夹`、路由名和原有 8 类的展示文字都没有变。
+
+## 验证
+
+- 构建：clean 全量 `BUILD SUCCESSFUL`，ArkTS:WARN 36 条，和基线一样，改动文件没有产生新告警。
+- 安装 / 冷启动：`install bundle successfully`，进入收藏页正常，没有崩溃。
+- 自测：13 个用例中 12 个通过、1 个跳过、0 个失败（`logs/selftest.log`）。覆盖 A1 入口；歌词/诗歌/谜语/歇后语/谚语 收藏后排第一、摘要正确、能跳转详情、返回后条目仍在；混合顺序（最新在前）；经典诗文显示标题和作者且作者不含朝代，能跳转详情；成语 取消→再收藏→只有一条且排第一→再取消→消失，其他条目不受影响，重进后仍不存在；重启后收藏还在；连续点击后没有重复条目；没有空条目或 "null"。
+- SQL 语义：在内存 SQLite 中按同样结构验证了去重、过滤孤儿和未知 model、谜语 puzzle 为 null 的行保留，以及显式插入大 id 后自增 id 接着往上排。设备日志里新收藏的 rowId 是 `20261015105741`，比库中旧 id 都大，所以排在最前。
+
+## 已知问题与未覆盖项（交 2-submit 用）
+
+1. **人物**：基线 People 的 IndexPage 和 Show

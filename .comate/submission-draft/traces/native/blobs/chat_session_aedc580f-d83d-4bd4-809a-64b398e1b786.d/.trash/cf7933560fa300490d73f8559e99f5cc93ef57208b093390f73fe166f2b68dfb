@@ -1,0 +1,10 @@
+---
+name: comate-session-ids
+description: 查询当前 Comate 会话的两个标识：引擎 sessionUuid（hook 日志里的 conversationId）和 IDE 侧边栏会话 ID（Spec 模式的 specSessionId，形如 1791984936543-xxxx）。当用户问"这个会话的 sessionUuid / 会话 ID / conversationId / 侧边栏会话 ID / 标签页 ID 是什么"、提交材料或 trace 需要填会话 ID、要核对某阶段对应哪个会话时使用。即使用户只说"查一下当前会话 id"也应触发。两条只读脚本命令即可得到结果，不要去全盘 grep 或翻 History/chatEditingSessions。
+---
+
+# 查询当前会话 ID
+
+## 为什么要分两步
+
+引擎 sessionUuid 只能从 hook 日志里拿：

@@ -1,0 +1,25 @@
+def engine_session(workspace, stamp):
+    if stamp is None:
+        return {"error": "missing --after <stamp>; run `session_ids.py --stamp` as a separate tool call first"}
+    events = read_hook_events(workspace)
+    if events is None:
+        return {"error": f"hook log not found: {HOOK_LOG}"}
+
+    # The --stamp call is a run_command; its PostToolUse entry is the first one for this
+    # workspace logged after the stamp. Never fall back to "latest entry": that is how
+    # another session's ID gets reported.
+    after = [e for e in events if e["ts"] and stamp <= e["ts"] <= stamp + MATCH_WINDOW_SEC]
+    cmd = [e for e in after if e["tool"] in (None, "run_command")]
+    if not cmd:
+        return {"error": "no PostToolUse entry for this workspace after the stamp "
+                         "(hook may be slow or disabled); retry step 2 once, then report not found"}
+    chosen = cmd[0]
+    near = {e["id"] for e in after if abs(e["ts"] - chosen["ts"]) <= AMBIGUITY_WINDOW_SEC}
+    others = sorted(near - {chosen["id"]})
+    return {
+        "sessionUuid": chosen["id"],
+        "ambiguous": bool(others),
+        "eventTime": datetime.fromtimestamp(chosen["ts"], timezone.utc).isoformat(),
+        "lagSec": round(chosen["ts"] - stamp, 1),
+        "otherIdsInWindow": others,
+    }

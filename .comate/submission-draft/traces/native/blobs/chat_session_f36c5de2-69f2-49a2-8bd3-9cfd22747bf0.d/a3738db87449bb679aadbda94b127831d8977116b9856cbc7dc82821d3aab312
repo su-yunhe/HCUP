@@ -1,0 +1,15 @@
+---
+name: jm-spec7 build & emulator environment
+description: How to build/install/self-test jm-spec7 (HarmonyCup 收藏夹 task) from CLI and what the local emulator can/cannot verify
+type: project
+---
+
+CLI build needs DevEco's bundled JBR, otherwise PackageHap fails with 00308018 "Unable to locate a Java Runtime":
+JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home, DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk, node from Contents/tools/node/bin, run `node Contents/tools/hvigor/bin/hvigorw.js ... assembleHap --no-daemon`. Output is unsigned HAP; `hdc install -r` works on emulator 127.0.0.1:5555 (bundle com.hefengbao.jingmo.hw). hdc lives in Contents/sdk/default/openharmony/toolchains (not on PATH by default; harness runner needs it on PATH).
+
+User (2026-10-15) allowed read-only access to /Users/bress/Documents/code/SWE-OpenHarmony/test-harness and its .venv ONLY for running self-tests; never read other problems there (README mentions cmu-spec9 examples — off-limits). harness.app.restart_app fails for this app ("Fail to get main ability"); pass "EntryAbility" explicitly.
+
+Emulator data as of 2026-10-15: 经典诗文, 歌词, 诗歌, 谚语, 谜语, 歇后语, 成语, 人物 synced. NOT synced: 诗文 (1.6M rows). Baseline tag: baseline-jm-spec7 → 264a375.
+
+**Why:** competition rules forbid fetching upstream / other problems; app is offline-data so flows need synced content.
+**How to apply:** before claiming runtime verification of a content type, confirm its data is synced; ask before touching anything else under SWE-OpenHarmony/.

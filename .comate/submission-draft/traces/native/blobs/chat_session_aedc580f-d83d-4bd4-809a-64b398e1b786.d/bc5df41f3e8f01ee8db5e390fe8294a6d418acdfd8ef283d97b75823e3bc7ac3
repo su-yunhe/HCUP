@@ -1,0 +1,44 @@
+## 场景一：收藏夹展示更多类型
+
+### A1 从主页进入收藏页
+- 来源：场景一 步骤 2；场景二 步骤 2；场景三 步骤 1。等级：`SPEC_EXPLICIT`（位置"左上角"与基线不符，见 U1）
+- 原子行为：点主页收藏图标，打开收藏页。
+- 可观察结果：出现 TitleBar，标题 Text `收藏夹`；NavDestination 名 `BookmarkIndexPage`。
+- 入口：主页 TopBar 第 1 个图标（基线在右上）。前置数据：无。用户动作：单击。UI 结果：收藏页显示。数据结果：触发一次 `getEntities()` 查询。返回结果：Back 回主页，主页无变化。
+- 边界：快速连点图标 → 可能 push 两个收藏页（基线行为，Back 两次才回主页；不建议改，Spec 未要求）；重启应用后重进 → 同样可进入。
+- 稳定选择器：基线无。需在实现时补 `.id()`：主页收藏图标 `home_bookmark_entry`、收藏页列表 `bookmark_list`。
+
+### A2 歌词收藏后在收藏页展示
+- 来源：场景一 步骤 1、3。等级：`SPEC_EXPLICIT`
+- 原子行为：在歌词页收藏一条歌词，收藏页出现该歌词条目，带类型名和摘要。
+- 可观察结果：收藏页存在一个条目，类型名 Text `歌词`，摘要 Text = 该歌词 `title`（另一 Text 为 `content` 前两行，摘要字段见 U3）。
+- 入口：主页→`歌词`(LyricIndexPage，随机一条) 或 搜索→LyricShowPage。前置数据：`chinese_lyric` 表有数据（本地模拟器无，BN §7）。用户动作：点 toolbar 第 1 项（收藏）→ 返回主页 → 进收藏页。
+- UI 结果：内容页图标变实心；收藏页出现条目。数据结果：`bookmarks` 新增 `(bookmarkable_id=lyric.id, bookmarkable_model='chinese_lyric')`。返回结果：返回收藏页时重新查询，条目仍在。
+- 边界：`writer`/`singer` 可空 → 不能显示 "null"；内容很长 → 两行省略，dump 中仍是全文；重启应用后重进 → 仍在（RDB 持久化）。
+- 稳定选择器：需补 `.id()`：条目 `bookmark_item_chinese_lyric_<id>`（建议格式，下同）。
+
+### A3 诗歌收藏后在收藏页展示
+- 来源：场景一 步骤 1、3。等级：`SPEC_EXPLICIT`
+- 原子行为：收藏一首诗歌（现代诗），收藏页出现条目。
+- 可观察结果：类型名 Text `诗歌`；摘要 Text = `title`，作者 Text = `author`（U3）。
+- 入口：主页→`诗歌`(ModernPoetryIndexPage)。前置数据：`chinese_modernpoetry` 有数据。用户动作/UI/数据/返回：同 A2，model=`chinese_modernpoetry`。
+- 边界：同 A2。注意类型名"诗歌"与主页网格文字同名，断言前确认当前页标题为 `收藏夹`。
+- 稳定选择器：需补 `.id()`：`bookmark_item_chinese_modernpoetry_<id>`。
+
+### A4 谜语收藏后在收藏页展示
+- 来源：场景一 步骤 1、3。等级：`SPEC_EXPLICIT`
+- 原子行为：收藏一条谜语，收藏页出现条目。
+- 可观察结果：类型名 Text `谜语`；摘要 Text = `puzzle`（谜面）。不展示 `answer`（谜底）——与谜语页默认隐藏谜底一致（U3）。
+- 入口：主页→`谜语`。用户动作：谜语页 toolbar **第 2 项**是收藏（第 1 项是 显示/隐藏谜底，BN §4.3）。数据：model=`chinese_riddle`。其余同 A2。
+- 边界：`puzzle`/`answer` 列可空（建表无 not null，`DbConst.ets:100-102`）→ 摘要为空时不能渲染 "null"。
+- 稳定选择器：需补 `.id()`：`bookmark_item_chinese_riddle_<id>`。
+
+### A5 歇后语收藏后在收藏页展示
+- 来源：场景一 步骤 1、3。等级：`SPEC_EXPLICIT`
+- 原子行为：收藏一条歇后语，收藏页出现条目。
+- 可观察结果：类型名 Text `歇后语`；摘要 Text = `riddle`（前半句）。是否同时展示 `answer` 见 U3。
+- 入口：主页→`歇后语`。数据：model=`chinese_wisecrack`。其余同 A2。
+- 边界：SQL 别名不能与 `chinese_riddle` 混用（字段名 `riddle` 易混，BN §8）。
+- 稳定选择器：需补 `.id()`：`bookmark_item_chinese_wisecrack_<id>`。
+
+<!-- PLACEHOLDER_ACC_2 -->
