@@ -1,1 +1,1 @@
-export { ClassicPoem, createClassicPoem, readRandomClassicPoem } from './src/main/ets/model/ClassicPoem';
+export { ClassicPoem, createClassicPoem, readClassicPoem, readRandomClassicPoem } from './src/main/ets/model/ClassicPoem';

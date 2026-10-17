@@ -10,9 +10,11 @@ export struct ClassicPoemView {
     Column() {
       Text(this.classicPoem.title)
         .padding(ThemeConst.P_X16_Y8)
+        .id('poem_detail_title')
       Text(`【${this.classicPoem.dynasty}】${this.classicPoem.writer}`)
         .padding(ThemeConst.P_X16_Y8)
         .fontSize(ThemeConst.FontSize_14)
+        .id('poem_detail_writer_dynasty')
       if (this.classicPoem.preface) {
         Text(this.classicPoem.preface)
           .fontSize(ThemeConst.FontSize_14)
@@ -22,6 +24,7 @@ export struct ClassicPoemView {
       Text(this.classicPoem.content)
         .padding(ThemeConst.P_X16_Y8)
         .lineHeight(24)
+        .id('poem_detail_content')
       if (this.classicPoem.annotation) {
         BoldTitle({ text: '注释' })
         Content({ text: this.classicPoem.annotation })

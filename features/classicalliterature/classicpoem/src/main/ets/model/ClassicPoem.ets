@@ -109,6 +109,27 @@ export async function readRandomClassicPoem(): Promise<ClassicPoem | null> {
   return obj;
 }
 
+export async function readClassicPoem(id: number): Promise<ClassicPoem | null> {
+  let obj: ClassicPoem | null = null
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_CLASSICALLITERATURE_CLASSICPOEM, [id])
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return obj;
+}
+
 /**
  * @throws
  */

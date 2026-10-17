@@ -1,0 +1,142 @@
+"""场景四："查看原文"入口与诗词详情页。
+
+依赖 fixtures/jm_sentence_poem_link.json 已导入设备（见 make_fixture.py）。每条名句的期望由该文件决定：
+poem_id 指向存在的诗词 → 显示入口；poem_id 为 null/0/不存在的诗词 → 不显示入口。
+"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.sentence_helpers import (
+    FROM_PATTERN, K_BOOKMARK, K_CONTENT, K_DETAIL, K_FROM, K_HOME_MENU, K_INDEX, K_ORIGINAL, K_POEM, K_POEM_CONTENT,
+    K_POEM_TITLE, K_POEM_WRITER, MISSING_POEM_ID, SentenceTestCase, is_linked, load_fixture,
+)
+
+MAX_REFRESH = 80
+
+
+class TestScenario4Original(SentenceTestCase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        cls.fixture = load_fixture()
+
+    def expected(self, sentence: tuple[str, str]) -> int | None:
+        return self.fixture.get(sentence)
+
+    def refresh_until(self, predicate) -> tuple[str, str] | None:
+        sentence = self.current()
+        for _ in range(MAX_REFRESH):
+            if predicate(self.expected(sentence)):
+                return sentence
+            sentence = self.refresh()
+        return None
+
+    def assert_original_matches(self, sentence: tuple[str, str]) -> None:
+        poem_id = self.expected(sentence)
+        self.driver.wait(0.8)
+        entry = self.driver.find_component(BY.key(K_ORIGINAL))
+        text_entry = self.driver.find_component(BY.text("查看原文"))
+        if is_linked(poem_id):
+            self.assertIsNotNone(entry, f"关联诗词 {poem_id} 的名句应显示“查看原文”: {sentence}")
+            self.assertIsNotNone(text_entry)
+            self.assertGreater(entry.getBounds().top, self.require_key(K_FROM, "缺少出处").getBounds().top,
+                               "“查看原文”应在出处之后")
+        else:
+            self.assertIsNone(entry, f"poem_id={poem_id} 的名句不应显示“查看原文”: {sentence}")
+            self.assertIsNone(text_entry)
+
+    def open_original_and_check(self, sentence: tuple[str, str]) -> None:
+        content, source = sentence
+        self.driver.click(self.require_key(K_ORIGINAL, "缺少“查看原文”"))
+        self.require_key(K_POEM, "未跳转到诗词详情页")
+        writer, title = FROM_PATTERN.match(source).groups()
+        self.assertEqual(self.text_of(K_POEM_TITLE), title, "诗词标题与出处不符")
+        self.assertEqual(self.wait_title(title), title, "诗词详情页导航标题应为诗名")
+        writer_dynasty = self.text_of(K_POEM_WRITER)
+        self.assertIn(writer, writer_dynasty, "缺少作者")
+        self.assertRegex(writer_dynasty, r"^【.+】", "缺少朝代")
+        self.assertTrue(self.text_of(K_POEM_CONTENT).strip(), "缺少正文")
+        self.assertIsNone(self.driver.find_component(BY.key(K_CONTENT)), "跳转后不应仍停留在名句页")
+        self.assertIsNone(self.driver.find_component(BY.key(K_ORIGINAL)))
+
+    def test_01_index_entry_presence(self):
+        """A20/A22/A23：首页仅在名句关联了存在的诗词时显示"查看原文"。"""
+        self.enter_index()
+        seen = {"linked": 0, "null": 0, "missing": 0}
+        sentence = self.current()
+        for _ in range(MAX_REFRESH):
+            self.assert_original_matches(sentence)
+            poem_id = self.expected(sentence)
+            if is_linked(poem_id):
+                seen["linked"] += 1
+            elif poem_id == MISSING_POEM_ID:
+                seen["missing"] += 1
+            else:
+                seen["null"] += 1
+            if all(seen.values()):
+                break
+            sentence = self.refresh()
+        self.require_precondition(seen["linked"] > 0, f"{MAX_REFRESH} 次刷新未遇到关联诗词的名句")
+        self.require_precondition(seen["null"] > 0 and seen["missing"] > 0, f"未覆盖全部情形: {seen}")
+
+    def test_02_index_open_original_and_back(self):
+        """A24/A25/A26：首页点击"查看原文"跳转到所属诗词详情，返回后仍是同一条名句；循环不累积栈深。"""
+        self.enter_index()
+        sentence = self.refresh_until(is_linked)
+        self.require_precondition(sentence is not None, "未遇到关联诗词的名句")
+        bookmark_label = self.label_of(K_BOOKMARK)
+        for _ in range(3):
+            self.open_original_and_check(sentence)
+            self.back()
+            self.require_key(K_INDEX, "返回后未回到名句首页")
+            self.assertEqual(self.current(), sentence, "返回后名句变化")
+            self.require_key(K_ORIGINAL, "返回后“查看原文”消失")
+            self.assertEqual(self.label_of(K_BOOKMARK), bookmark_label, "返回后收藏态变化")
+        # 标题栏返回同样回到名句页
+        self.open_original_and_check(sentence)
+        self.title_back()
+        self.assertEqual(self.current(), sentence)
+        self.back()
+        self.require_key(K_HOME_MENU, "栈深累积：返回一次应回到主页")
+
+    def test_03_detail_open_original_and_back(self):
+        """A21/A24/A26：收藏夹进入的名句详情页同样展示"查看原文"，跳转后返回仍是同一条。"""
+        self.enter_index()
+        self.clear_bookmarks()
+        sentence = self.refresh_until(is_linked)
+        self.require_precondition(sentence is not None, "未遇到关联诗词的名句")
+        self.driver.click(self.require_key(K_BOOKMARK, "缺少收藏按钮"))
+        self.wait_label(K_BOOKMARK, "已收藏")
+        self.open_bookmarks()
+        self.driver.click(self.bookmark_items()[0])
+        self.require_key(K_DETAIL, "未进入名句详情页")
+        self.assertEqual(self.text_of(K_CONTENT), sentence[0])
+        self.assert_original_matches(sentence)
+        self.open_original_and_check(sentence)
+        self.back()
+        self.require_key(K_DETAIL, "返回后应回到名句详情页")
+        self.assertEqual(self.current(), sentence)
+        self.back()
+        self.back()
+        self.require_key(K_INDEX, "应回到名句首页")
+        self.clear_bookmarks()
+
+    def test_04_detail_no_entry_when_unlinked(self):
+        """A22/A23：未关联（或关联的诗词不存在）的名句在详情页也不显示入口。"""
+        self.enter_index()
+        self.clear_bookmarks()
+        sentence = self.refresh_until(lambda p: p == MISSING_POEM_ID)
+        self.require_precondition(sentence is not None, "未遇到 poem_id 指向不存在诗词的名句")
+        self.assert_original_matches(sentence)
+        self.driver.click(self.require_key(K_BOOKMARK, "缺少收藏按钮"))
+        self.wait_label(K_BOOKMARK, "已收藏")
+        self.open_bookmarks()
+        self.driver.click(self.bookmark_items()[0])
+        self.require_key(K_DETAIL, "未进入名句详情页")
+        self.assertEqual(self.current(), sentence)
+        self.assert_original_matches(sentence)
+        self.back()
+        self.back()
+        self.clear_bookmarks()

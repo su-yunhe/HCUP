@@ -27,8 +27,14 @@ export struct MenuList {
         GridItem() {
           Item({
             title: String.classicalliterature_sentence
+          }).onClick(() => {
+            // 主页是栈底，已有页面入栈说明已经跳转过（快速连点）
+            if (this.pageStack.size() === 0) {
+              this.pageStack.pushPathByName('SentenceIndexPage', null)
+            }
           })
         }
+        .id('home_menu_sentence')
 
         GridItem() {
           Title({
