@@ -35,7 +35,19 @@
 
 两个文件中留空的字段一律视为未提供，在产出中标 `【待补充】`，不要推测。
 
-## 二、你自己去取的（不要问我）
+## 二、本次需要整理的会话（我每次填写后再交给你）
+
+严格只整理下表所列会话，范围见要求 5。
+
+| 引擎 sessionUuid | IDE 侧边栏会话 ID（可选） | 用途（可选，如 实现/测试设计/修复） |
+| --- | --- | --- |
+|  |  |  |
+|  |  |  |
+|  |  |  |
+
+表中 sessionUuid 全部为空时，不得自行检索会话补全，`traces/` 与会话相关字段全部标 `【待补充】`，并在交付说明中提醒我补填。
+
+## 三、你自己去取的（不要问我）
 
 | 信息 | 来源 |
 | --- | --- |
@@ -44,8 +56,8 @@
 | 改动清单、`final.diff`、二进制大小与 SHA-256 | 本工程 git 状态 |
 | bundleName、入口 Ability | `AppScope/app.json5`、entry 模块的 `src/main/module.json5` |
 | 依赖与锁文件、构建命令、产物路径 | `oh-package.json5`、`oh-package-lock.json5`、`build-profile.json5` |
-| 会话 ID、轨迹文件路径 | `~/.comate-engine/store/comate_chat_sessions.jsonl`（按本工程绝对路径与题目 ID 反查） |
-| Agent、模型 ID、effort、token 用量、生效规则 | 会话明细 `chat_session_<uuid>` 的 `payload.model` / `payload.agent` / `agentInfo` / `tokenUsage` / `appliedRuleNames` |
+| 轨迹文件路径、会话元信息 | `~/.comate-engine/store/comate_chat_sessions.jsonl` 中**仅限**上文第二节所列 sessionUuid 的记录（只按 ID 取，不按工程路径或题目 ID 搜索） |
+| Agent、模型 ID、effort、token 用量、生效规则 | 第二节所列会话的明细 `chat_session_<uuid>` 的 `payload.model` / `payload.agent` / `agentInfo` / `tokenUsage` / `appliedRuleNames` |
 | 客户端与扩展版本 | `/Applications/Comate.app/Contents/Resources/app/product.json`、扩展 `package.json` |
 | 任务书版本 | `common/spec-harness`：若为 git 仓库记 `git -C <common> rev-parse HEAD`，否则记四个任务书文件的 SHA-256 |
 | 本题历史任务书 | 本工程 `spec/history/`（若存在） |
@@ -64,7 +76,7 @@
 | `sources.fragment.md` | 本题的随包基线声明与额外来源，供汇总进根 `sources.md` |
 | `solution.fragment.md` | 本题完成情况、未完成项、已知问题、AI 参与环节，供汇总进 `solution.md` |
 | `submission.json.fragment` | 本题在任务清单中的 JSON 片段 |
-| `traces/` | 本题会话原生明细 + 过滤后的索引行 + Markdown 副本 + 代码改动快照 |
+| `traces/` | 第二节所列会话的原生明细 + 过滤后的索引行 + Markdown 副本 + 代码改动快照 |
 | `logs/` | 从本工程 `logs/` 复制；缺失则明确告诉我需要补跑哪条命令 |
 
 最后输出两份清单：**仍需我补充的字段**，以及**你已自动填入的事实及其出处**。
@@ -81,10 +93,14 @@
    再比对关键文件与工程一致。校验结果写进交付说明。
 3. **二进制资源单列**。diff 存不住内容，需另列文件路径、大小、SHA-256；若复制自基线自带资源，注明同源以免被当作外部素材。
 4. **diff 不含构建噪声**。生成前确认 `git status` 只剩真实改动（`BuildProfile.ets` 等构建生成文件先还原）。
-5. **轨迹只摘本题**。按工程路径和题目 ID 两个维度各查一遍（测试设计类会话的工作区可能是赛题包目录，容易漏）；
-   禁止整盘打包 `~/.comate-engine/store/`，规则不允许提交整个客户端数据库和无关私人会话。
+5. **轨迹只整理我指定的会话**。范围严格等于上文第二节我填写的会话表：
+   - 禁止按工程路径、题目 ID、时间或其他条件自行检索、补充会话，即使认为某会话"相关"也不得纳入；
+   - 表中的 ID 在 `comate_chat_sessions.jsonl` 或 `chat_session_<uuid>` 中找不到时，如实报告并标 `【待补充】`，不得用其他会话替代；
+   - 若发现疑似遗漏的会话，只在交付说明中提示我，由我决定是否加入表中；
+   - 禁止整盘打包 `~/.comate-engine/store/`，规则不允许提交整个客户端数据库和无关私人会话。
 6. **会话 ID 要写两个**：引擎 `sessionUuid` 与 IDE 侧边栏会话 ID，并说明对应关系。
-7. **失败与重试必须保留**，不能只留成功记录。
+   `sessionUuid` 取自会话表；侧边栏 ID 优先取表中填写的值，未提供时只可从该会话自身记录中核实，仍无法核实则标 `【待补充】`。
+7. **失败与重试必须保留**：会话表内会话的失败与重试过程要完整保留，不能只留成功记录。
 8. **任务书版本要记录**：`trace-index.md` 中注明本题实际使用的 `common/spec-harness` 版本，
    以及 `spec/history/` 中的历史任务书（若存在）。
 9. **路径规范**：`submission.json` 的三个路径字段填成果包内相对路径、用 `/` 分隔，后两项必须是文件路径。
