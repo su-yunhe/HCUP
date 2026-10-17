@@ -1,0 +1,298 @@
+import { relationalStore } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { DbCRUDConst, DbTableConst } from 'constants';
+import { Logger } from 'utils';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+import { JSON } from '@kit.ArkTS';
+
+let logger: Logger = new Logger('Idiom');
+
+export class Idiom {
+  id: number;
+  word: string;
+  pinyin: string;
+  abbr: string;
+  explanation: string | null;
+  source: IdiomSource | null;
+  quote: IdiomQuote | null;
+  example: IdiomExample | null;
+  similar: string[] | null;
+  opposite: string[] | null;
+  usage: string | null;
+  story: string[] | null;
+  notice: string | null;
+
+  constructor(
+    id: number,
+    word: string,
+    pinyin: string,
+    abbr: string,
+    explanation: string | null,
+    source: IdiomSource | null,
+    quote: IdiomQuote | null,
+    example: IdiomExample | null,
+    similar: string[] | null,
+    opposite: string[] | null,
+    usage: string | null,
+    story: string[] | null,
+    notice: string | null
+  ) {
+    this.id = id;
+    this.word = word;
+    this.pinyin = pinyin;
+    this.abbr = abbr;
+    this.explanation = explanation;
+    this.source = source;
+    this.quote = quote;
+    this.example = example;
+    this.similar = similar;
+    this.opposite = opposite;
+    this.usage = usage;
+    this.story = story;
+    this.notice = notice;
+  }
+}
+
+export class IdiomSource {
+  text: string | null = null;
+  book: string | null = null;
+}
+
+export class IdiomQuote {
+  text: string | null = null;
+  book: string | null = null;
+}
+
+export class IdiomExample {
+  text: string | null = null;
+  book: string | null = null;
+}
+
+export async function createIdiom(obj: Idiom) {
+  const valuesBucket: relationalStore.ValuesBucket = {
+    'id': obj.id,
+    'word': obj.word,
+    'pinyin': obj.pinyin,
+    'abbr': obj.abbr,
+    'explanation': obj.explanation,
+    'source': JSON.stringify(obj.source),
+    'quote': JSON.stringify(obj.quote),
+    'example': JSON.stringify(obj.example),
+    'similar': JSON.stringify(obj.similar),
+    'opposite': JSON.stringify(obj.opposite),
+    'usage': obj.usage,
+    'story': JSON.stringify(obj.story),
+    'notice': obj.notice,
+  }
+
+  DbUtil.objectiveRDB?.insert(
+    DbTableConst.CHINESE_IDIOM_TABLE,
+    valuesBucket,
+    relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+  ).then((rowId: number) => {
+    logger.info(`Insert is successful, rowId = ${rowId}`)
+  }).catch((err: BusinessError) => {
+    logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+  })
+}
+
+export async function readRandomIdiom(excludeId: number = 0): Promise<Idiom | null> {
+  const store = await DbUtil.ready()
+  if (!store) {
+    return null
+  }
+
+  let obj: Idiom | null = null
+  if (excludeId > 0) {
+    obj = await querySingle(store, DbCRUDConst.READ_RANDOM_CHINESE_IDIOM_EXCLUDE, [excludeId])
+  }
+  if (!obj) {
+    obj = await querySingle(store, DbCRUDConst.READ_RANDOM_CHINESE_IDIOM, [])
+  }
+
+  return obj;
+}
+
+export async function readIdiomById(id: number): Promise<Idiom | null> {
+  const store = await DbUtil.ready()
+  if (!store || id <= 0) {
+    return null
+  }
+
+  return querySingle(store, DbCRUDConst.READ_CHINESE_IDIOM_BY_ID, [id])
+}
+
+export async function countIdioms(): Promise<number> {
+  const store = await DbUtil.ready()
+  if (!store) {
+    return 0
+  }
+
+  let count = 0
+  try {
+    const resultSet = await store.querySql(DbCRUDConst.COUNT_CHINESE_IDIOM)
+    if (resultSet.goToFirstRow()) {
+      count = resultSet.getLong(resultSet.getColumnIndex('count'))
+    }
+    resultSet.close()
+  } catch (error) {
+    const err = error as BusinessError
+    logger.error(`Count is failed, code is ${err.code},message is ${err.message}`)
+  }
+
+  return count
+}
+
+/**
+ * 查询给定成语词对应的 id，用于判断近义词/反义词能否跳转。
+ */
+export async function readIdiomIdsByWords(words: string[]): Promise<Map<string, number>> {
+  const result: Map<string, number> = new Map()
+  const store = await DbUtil.ready()
+  if (!store || words.length === 0) {
+    return result
+  }
+
+  const placeholders: string[] = words.map(() => '?')
+  const sql = `select id, word from ${DbTableConst.CHINESE_IDIOM_TABLE} where word in (${placeholders.join(',')})`
+  try {
+    const resultSet = await store.querySql(sql, words)
+    while (resultSet.goToNextRow()) {
+      result.set(
+        resultSet.getString(resultSet.getColumnIndex('word')),
+        resultSet.getLong(resultSet.getColumnIndex('id'))
+      )
+    }
+    resultSet.close()
+  } catch (error) {
+    const err = error as BusinessError
+    logger.error(`Query words is failed, code is ${err.code},message is ${err.message}`)
+  }
+
+  return result
+}
+
+export async function searchIdioms(keyword: string, limit: number = 100): Promise<Idiom[]> {
+  const list: Idiom[] = []
+  const key = keyword.trim()
+  const store = await DbUtil.ready()
+  if (!store || key.length === 0) {
+    return list
+  }
+
+  const escaped = escapeLike(key)
+  const args: Array<relationalStore.ValueType> =
+    [`%${escaped}%`, `%${escaped}%`, `%${escaped}%`, key, `${escaped}%`, limit]
+  try {
+    const resultSet = await store.querySql(DbCRUDConst.SEARCH_CHINESE_IDIOM, args)
+    while (resultSet.goToNextRow()) {
+      list.push(parse(resultSet))
+    }
+    resultSet.close()
+  } catch (error) {
+    const err = error as BusinessError
+    logger.error(`Search is failed, code is ${err.code},message is ${err.message}`)
+  }
+
+  return list
+}
+
+function escapeLike(keyword: string): string {
+  let escaped = ''
+  for (let i = 0; i < keyword.length; i++) {
+    const ch = keyword.charAt(i)
+    if (ch === '\\' || ch === '%' || ch === '_') {
+      escaped += '\\'
+    }
+    escaped += ch
+  }
+
+  return escaped
+}
+
+async function querySingle(
+  store: relationalStore.RdbStore,
+  sql: string,
+  args: Array<relationalStore.ValueType>
+): Promise<Idiom | null> {
+  let obj: Idiom | null = null
+  try {
+    const resultSet = await store.querySql(sql, args)
+    if (resultSet.goToFirstRow()) {
+      obj = parse(resultSet)
+    }
+    resultSet.close()
+  } catch (error) {
+    const err = error as BusinessError
+    logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+  }
+
+  return obj
+}
+
+function parse(resultSet: relationalStore.ResultSet): Idiom {
+    resultSet.getLong(resultSet.getColumnIndex('id')),
+    getNullableString(resultSet, 'word') ?? '',
+    getNullableString(resultSet, 'pinyin') ?? '',
+    getNullableString(resultSet, 'abbr') ?? '',
+    getNullableString(resultSet, 'explanation'),
+    parseSource(getNullableString(resultSet, 'source')),
+    parseQuote(getNullableString(resultSet, 'quote')),
+    parseExample(getNullableString(resultSet, 'example')),
+    parseStringArray(getNullableString(resultSet, 'similar')),
+    parseStringArray(getNullableString(resultSet, 'opposite')),
+    getNullableString(resultSet, 'usage'),
+    parseStringArray(getNullableString(resultSet, 'story')),
+    getNullableString(resultSet, 'notice'),
+  )
+}
+
+function getNullableString(resultSet: relationalStore.ResultSet, column: string): string | null {
+  try {
+    const index = resultSet.getColumnIndex(column)
+    if (index < 0 || resultSet.isColumnNull(index)) {
+      return null
+    }
+    const value = resultSet.getString(index)
+    return value.length === 0 ? null : value
+  } catch (error) {
+    return null
+  }
+}
+
+function parseJson(text: string | null): Object | null {
+  if (text === null || text === 'null' || text === 'undefined') {
+    return null
+  }
+  try {
+    const value: Object | null | undefined = JSON.parse(text)
+    return value ?? null
+  } catch (error) {
+    logger.error(`Parse json failed, text = ${text}`)
+    return null
+  }
+}
+
+function parseSource(text: string | null): IdiomSource | null {
+  const value = parseJson(text)
+  return value === null ? null : value as IdiomSource
+}
+
+function parseQuote(text: string | null): IdiomQuote | null {
+  const value = parseJson(text)
+  return value === null ? null : value as IdiomQuote
+}
+
+function parseExample(text: string | null): IdiomExample | null {
+  const value = parseJson(text)
+  return value === null ? null : value as IdiomExample
+}
+
+function parseStringArray(text: string | null): string[] | null {
+  const value = parseJson(text)
+  if (value === null) {
+    return null
+  }
+  const list = value as string[]
+  return list.length === 0 ? null : list
+}

@@ -1,0 +1,67 @@
+function parse(resultSet: relationalStore.ResultSet): Idiom {
+  return new Idiom(
+    resultSet.getLong(resultSet.getColumnIndex('id')),
+    getNullableString(resultSet, 'word') ?? '',
+    getNullableString(resultSet, 'pinyin') ?? '',
+    getNullableString(resultSet, 'abbr') ?? '',
+    getNullableString(resultSet, 'explanation'),
+    parseSource(getNullableString(resultSet, 'source')),
+    parseQuote(getNullableString(resultSet, 'quote')),
+    parseExample(getNullableString(resultSet, 'example')),
+    parseStringArray(getNullableString(resultSet, 'similar')),
+    parseStringArray(getNullableString(resultSet, 'opposite')),
+    getNullableString(resultSet, 'usage'),
+    parseStringArray(getNullableString(resultSet, 'story')),
+    getNullableString(resultSet, 'notice'),
+  )
+}
+
+function getNullableString(resultSet: relationalStore.ResultSet, column: string): string | null {
+  try {
+    const index = resultSet.getColumnIndex(column)
+    if (index < 0 || resultSet.isColumnNull(index)) {
+      return null
+    }
+    const value = resultSet.getString(index)
+    return value.length === 0 ? null : value
+  } catch (error) {
+    return null
+  }
+}
+
+function parseJson(text: string | null): Object | null {
+  if (text === null || text === 'null' || text === 'undefined') {
+    return null
+  }
+  try {
+    const value: Object | null | undefined = JSON.parse(text)
+    return value ?? null
+  } catch (error) {
+    logger.error(`Parse json failed, text = ${text}`)
+    return null
+  }
+}
+
+function parseSource(text: string | null): IdiomSource | null {
+  const value = parseJson(text)
+  return value === null ? null : value as IdiomSource
+}
+
+function parseQuote(text: string | null): IdiomQuote | null {
+  const value = parseJson(text)
+  return value === null ? null : value as IdiomQuote
+}
+
+function parseExample(text: string | null): IdiomExample | null {
+  const value = parseJson(text)
+  return value === null ? null : value as IdiomExample
+}
+
+function parseStringArray(text: string | null): string[] | null {
+  const value = parseJson(text)
+  if (value === null) {
+    return null
+  }
+  const list = value as string[]
+  return list.length === 0 ? null : list
+}

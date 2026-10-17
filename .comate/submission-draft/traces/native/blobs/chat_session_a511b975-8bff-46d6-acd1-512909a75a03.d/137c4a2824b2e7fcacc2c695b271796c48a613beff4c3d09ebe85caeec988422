@@ -1,0 +1,11 @@
+    def current_word(self) -> str:
+        component = self.find_or_none(BY.key('idiom_word'), timeout=3)
+        for _ in range(6):
+            if component is not None:
+                break
+            self.driver.swipe('DOWN', distance=60)
+            self.driver.wait(0.3)
+            component = self.find_or_none(BY.key('idiom_word'), timeout=1)
+        if component is None:
+            self.fail('页面未展示成语')
+        return component.getText()

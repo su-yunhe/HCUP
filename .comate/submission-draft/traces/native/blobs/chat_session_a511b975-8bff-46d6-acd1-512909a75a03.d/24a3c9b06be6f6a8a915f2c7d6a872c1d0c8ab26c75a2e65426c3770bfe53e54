@@ -1,0 +1,166 @@
+import { relationalStore } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { JSON, util } from '@kit.ArkTS';
+import { DbTableConst } from 'constants';
+import { Logger } from 'utils';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
+import { countIdioms, IdiomExample, IdiomQuote, IdiomSource } from './Idiom';
+
+const SEED_VERSION: number = 5;
+const SEED_DIR: string = 'chinese_idiom_seed';
+
+let logger: Logger = new Logger('IdiomSeeder');
+
+class SeedManifest {
+  version: number = 0;
+  total: number = 0;
+  files: string[] = [];
+}
+
+class SeedIdiom {
+  id: number = 0;
+  word: string = '';
+  pinyin: string = '';
+  abbr: string = '';
+  explanation?: string;
+  source?: IdiomSource;
+  quote?: IdiomQuote;
+  example?: IdiomExample;
+  similar?: string[];
+  opposite?: string[];
+  usage?: string;
+  story?: string[];
+  notice?: string;
+}
+
+let dataReady: Promise<void> | null = null;
+
+/**
+ * 保证成语数据可用：等待数据库建表完成，并在首次使用时把内置成语数据写入数据库。
+ * 返回的 Promise 在「数据库中已有成语数据」时 resolve，剩余数据在后台继续导入。
+ */
+export function ensureIdiomData(context: Context): Promise<void> {
+  if (!dataReady) {
+    dataReady = new Promise((resolve: () => void) => {
+      seed(context, resolve).catch((error: Object) => {
+        logger.error(`Seed idiom failed, error = ${error}`)
+        dataReady = null
+        resolve()
+      })
+    })
+  }
+
+  return dataReady
+}
+
+async function seed(context: Context, usable: () => void) {
+  const store = await DbUtil.ready()
+  if (!store) {
+    usable()
+    return
+  }
+
+  const count = await countIdioms()
+  if (PrefUtil.getChineseIdiomSeedVersion() >= SEED_VERSION && count > 0) {
+    usable()
+    return
+  }
+
+  const manifest = await readManifest(context)
+  if (!manifest || manifest.files.length === 0) {
+    usable()
+    return
+  }
+  if (count >= manifest.total) {
+    PrefUtil.saveChineseIdiomSeedVersion(SEED_VERSION)
+    usable()
+    return
+  }
+
+  logger.info(`Start seeding idioms, local count = ${count}, total = ${manifest.total}`)
+  for (let i = 0; i < manifest.files.length; i++) {
+    await insertFile(store, context, manifest.files[i])
+    if (i === 0) {
+      usable()
+    }
+  }
+  PrefUtil.saveChineseIdiomSeedVersion(SEED_VERSION)
+  logger.info(`Seeding idioms finished, count = ${await countIdioms()}`)
+  usable()
+}
+
+async function readManifest(context: Context): Promise<SeedManifest | null> {
+  const text = await readRawFile(context, 'manifest.json')
+  if (text === null) {
+    return null
+  }
+  try {
+    return JSON.parse(text) as SeedManifest
+  } catch (error) {
+    logger.error(`Parse manifest failed, error = ${error}`)
+    return null
+  }
+}
+
+async function insertFile(store: relationalStore.RdbStore, context: Context, fileName: string) {
+  const text = await readRawFile(context, fileName)
+  if (text === null) {
+    return
+  }
+
+  let rows: SeedIdiom[] = []
+  try {
+    rows = JSON.parse(text) as SeedIdiom[]
+  } catch (error) {
+    logger.error(`Parse ${fileName} failed, error = ${error}`)
+    return
+  }
+
+  const buckets: Array<relationalStore.ValuesBucket> = rows.map((row: SeedIdiom) => toBucket(row))
+  try {
+    await store.batchInsertWithConflictResolution(
+      DbTableConst.CHINESE_IDIOM_TABLE,
+      buckets,
+      relationalStore.ConflictResolution.ON_CONFLICT_IGNORE
+    )
+  } catch (error) {
+    const err = error as BusinessError
+    logger.error(`Insert ${fileName} failed, code is ${err.code}, message is ${err.message}`)
+  }
+}
+
+function toBucket(row: SeedIdiom): relationalStore.ValuesBucket {
+  const bucket: relationalStore.ValuesBucket = {
+    'id': row.id,
+    'word': row.word,
+    'pinyin': row.pinyin,
+    'abbr': row.abbr,
+    'explanation': row.explanation ?? null,
+    'source': stringify(row.source),
+    'quote': stringify(row.quote),
+    'example': stringify(row.example),
+    'similar': stringify(row.similar),
+    'opposite': stringify(row.opposite),
+    'usage': row.usage ?? null,
+    'story': stringify(row.story),
+    'notice': row.notice ?? null,
+  }
+
+  return bucket
+}
+
+function stringify(value: Object | undefined): string {
+  return value === undefined || value === null ? 'null' : JSON.stringify(value)
+}
+
+async function readRawFile(context: Context, fileName: string): Promise<string | null> {
+  try {
+    const bytes = await context.resourceManager.getRawFileContent(`${SEED_DIR}/${fileName}`)
+    return util.TextDecoder.create('utf-8').decodeToString(bytes)
+  } catch (error) {
+    const err = error as BusinessError
+    logger.error(`Read ${fileName} failed, code is ${err.code}, message is ${err.message}`)
+    return null
+  }
+}

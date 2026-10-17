@@ -1,0 +1,12 @@
+        self.require_text(DETAIL_TITLE, '未进入成语详情页')
+        self.scroll_require(BY.text('近义词'), '详情页未展示近义词标签组')
+        self.scroll_require(BY.text('反义词'), '详情页未展示反义词标签组')
+
+        tag = self.scroll_require(BY.key('idiom_tag_一箭双雕'), '未找到近义词「一箭双雕」标签')
+        self.driver.click(tag)
+        self.driver.wait(1.5)
+        self.assertEqual('一箭双雕', self.current_word(), '点击近义词未跳转到该成语详情页')
+        self.require_text('释义', '跳转后的详情页未展示释义')
+        self.scroll_require(BY.text('近义词'), '跳转后的详情页未展示近义词标签组')
+
+        tag2 = self.scroll_require(BY.key('idiom_tag_一举两得'), '跳转后的详情页未找到可点击近义词')

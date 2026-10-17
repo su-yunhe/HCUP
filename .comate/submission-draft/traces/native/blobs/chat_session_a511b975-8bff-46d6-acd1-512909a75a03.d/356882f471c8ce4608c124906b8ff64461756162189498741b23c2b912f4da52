@@ -1,0 +1,27 @@
+import { String } from 'constants';
+
+@Builder
+export function IdiomIndexPageBuilder() {
+  IdiomIndexPage();
+}
+
+@ComponentV2
+export struct IdiomIndexPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+
+  build() {
+    NavDestination() {
+      Column() {
+        Text(String.chinese_idiom)
+          .width('100%')
+          .padding(16)
+      }
+      .width('100%')
+      .height('100%')
+    }
+    .title(String.chinese_idiom)
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack;
+    })
+  }
+}

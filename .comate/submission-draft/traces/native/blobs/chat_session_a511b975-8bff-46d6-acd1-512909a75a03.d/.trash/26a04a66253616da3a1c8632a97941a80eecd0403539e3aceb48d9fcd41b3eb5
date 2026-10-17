@@ -1,0 +1,17 @@
+import { relationalStore } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { DbCRUDConst, DbModelConst, DbTableConst } from 'constants';
+import { Logger } from 'utils';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+import { Idiom, parseIdiom } from './Idiom';
+
+let logger: Logger = new Logger('IdiomBookmark');
+
+export async function isIdiomBookmarked(id: number): Promise<boolean> {
+  const store = await DbUtil.ready()
+  if (!store || id <= 0) {
+    return false
+  }
+
+  let bookmarked = false
+  tr

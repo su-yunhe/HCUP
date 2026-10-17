@@ -1,0 +1,17 @@
+import { Icon, String, ThemeConst } from 'constants';
+
+/**
+ * 成语页面底部操作栏：搜索、收藏/已收藏、刷新。
+ */
+@ComponentV2
+export struct IdiomActionBar {
+  @Param @Require bookmarked: boolean;
+  @Param showSearch: boolean = false;
+  @Param showRefresh: boolean = false;
+  @Param enabled: boolean = true;
+  @Event onSearch: () => void = () => {
+  };
+  @Event onToggleBookmark: () => void = () => {
+  };
+  @Event onRefresh: () => void = () => {
+  }

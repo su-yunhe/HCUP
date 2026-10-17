@@ -1,0 +1,67 @@
+import { String, ThemeConst } from 'constants';
+import { Idiom, searchIdioms } from '../model/Idiom';
+import { ensureIdiomData } from '../model/IdiomSeeder';
+
+const DEBOUNCE_DELAY: number = 300;
+
+@Builder
+export function IdiomSearchPageBuilder() {
+  IdiomSearchPage();
+}
+
+@ComponentV2
+export struct IdiomSearchPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local keyword: string = '';
+  @Local searching: boolean = false;
+  @Local searched: boolean = false;
+  @Local results: Idiom[] = [];
+  private searchToken: number = 0;
+  private timerId: number = -1;
+
+  aboutToDisappear(): void {
+    this.clearTimer()
+  }
+
+  build() {
+    NavDestination() {
+      Column() {
+        Search({ value: this.keyword, placeholder: '输入成语、拼音或首字母' })
+          .id('idiom_search_input')
+          .width('100%')
+          .margin({
+            left: 16,
+            top: 8,
+            right: 16,
+            bottom: 8
+          })
+          .searchButton(String.search)
+          .defaultFocus(true)
+          .onChange((value: string) => {
+            this.keyword = value
+            this.scheduleSearch()
+          })
+          .onSubmit((value: string) => {
+            this.keyword = value
+            this.clearTimer()
+            this.search()
+          })
+        if (this.searching) {
+          Column() {
+            LoadingProgress()
+              .width(48)
+              .height(48)
+              .color(Color.Gray)
+          }
+          .width('100%')
+          .padding(48)
+        } else if (this.results.length > 0) {
+          List() {
+            ForEach(this.results, (item: Idiom) => {
+              ListItem() {
+                ResultItem({
+                  idiom: item,
+                  action: () => {
+                    this.pageStack.pushPathByName('IdiomDetailPage', item.id)
+                  }
+     

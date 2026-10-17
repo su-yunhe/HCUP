@@ -1,0 +1,15 @@
+import { String, ThemeConst } from 'constants';
+import { Idiom, readIdiomById } from '../model/Idiom';
+import { isIdiomBookmarked, toggleIdiomBookmark } from '../model/IdiomBookmark';
+import { ensureIdiomData } from '../model/IdiomSeeder';
+import { IdiomView } from '../view/IdiomView';
+import { IdiomActionBar } from '../view/IdiomActionBar';
+
+@Builder
+export function IdiomDetailPageBuilder() {
+  IdiomDetailPage();
+}
+
+@ComponentV2
+export struct IdiomDetailPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathSta

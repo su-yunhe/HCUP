@@ -1,0 +1,110 @@
+import { String, ThemeConst } from 'constants';
+import { ensureIdiomData, Idiom, readBookmarkedIdioms } from 'chinese_idiom';
+
+@Builder
+export function BookmarkIndexPageBuilder() {
+  BookmarkIndexPage();
+}
+
+@ComponentV2
+export struct BookmarkIndexPage {
+  @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack()
+  @Local idioms: Idiom[] = [];
+  @Local loading: boolean = true;
+
+  build() {
+    NavDestination() {
+      List() {
+        if (this.idioms.length === 0) {
+          ListItem() {
+            Text(this.loading ? '加载中…' : '暂无收藏')
+              .width('100%')
+              .padding(48)
+              .textAlign(TextAlign.Center)
+              .fontColor(Color.Gray)
+              .fontSize(ThemeConst.FontSize_14)
+          }
+        }
+        ForEach(this.idioms, (item: Idiom) => {
+          ListItem() {
+            BookmarkItem({
+              idiom: item,
+              action: () => {
+                this.pageStack.pushPathByName('IdiomDetailPage', item.id)
+              }
+            })
+          }
+        }, (item: Idiom) => item.id.toString())
+      }
+      .id('bookmark_list')
+      .width('100%')
+      .height('100%')
+      .divider({ strokeWidth: 1, color: '#fff1f3f5' })
+      .edgeEffect(EdgeEffect.Spring)
+    }
+    .title(String.bookmark)
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack;
+      this.load()
+    })
+    .onShown(() => {
+      this.load()
+    })
+  }
+
+  load() {
+    const context = this.getUIContext().getHostContext()
+    const task = context ? ensureIdiomData(context) : Promise.resolve()
+    task.then(() => {
+      return readBookmarkedIdioms()
+    }).then((list: Idiom[]) => {
+      this.idioms = list
+      this.loading = false
+    }).catch((error: Object) => {
+      this.loading = false
+    })
+  }
+}
+
+@ComponentV2
+struct BookmarkItem {
+  @Param @Require idiom: Idiom;
+  @Event action: () => void = () => {
+  };
+
+  build() {
+    Column() {
+      Text(this.idiom.word)
+        .width('100%')
+        .fontSize(18)
+      Text(this.idiom.pinyin)
+        .width('100%')
+        .fontSize(12)
+        .fontColor(Color.Gray)
+        .margin({ top: 4 })
+      if (this.idiom.explanation) {
+        Text(this.idiom.explanation)
+          .width('100%')
+          .fontSize(ThemeConst.FontSize_14)
+          .fontColor(Color.Gray)
+          .margin({ top: 4 })
+          .maxLines(2)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+      }
+    }
+    .width('100%')
+    .padding(16)
+    .alignItems(HorizontalAlign.Start)
+    .stateStyles({
+      normal: {
+        .backgroundColor(ThemeConst.BackGroundColor_Normal)
+      },
+      clicked: {
+        .backgroundColor(ThemeConst.BackGroundColor_Clicked)
+      }
+    })
+    .onClick(() => {
+      this.action()
+    })
+  }
+}

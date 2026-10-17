@@ -1,0 +1,359 @@
+Command executed successfully.
+Exit code: 0
+Output:
+{
+  "string": [
+    {
+      "name": "app_name",
+      "value": "京墨文库"
+    },
+    {
+      "name": "china",
+      "value": "中国"
+    },
+    {
+      "name": "china_worldcultureheritage",
+      "value": "世界遗产名录"
+    },
+    {
+      "name": "chinese",
+      "value": "现代汉语"
+    },
+    {
+      "name": "chinese_antitheticalcouplet",
+      "value": "对联"
+    },
+    {
+      "name": "chinese_character",
+      "value": "汉字"
+    },
+    {
+      "name": "chinese_expression",
+      "value": "词语"
+    },
+    {
+      "name": "chinese_idiom",
+      "value": "成语"
+    },
+    {
+      "name": "chinese_knowledge",
+      "value": "知识卡片"
+    },
+    {
+      "name": "chinese_lyric",
+      "value": "歌词"
+    },
+    {
+      "name": "chinese_modernpoetry",
+      "value": "诗歌"
+    },
+    {
+      "name": "chinese_proverb",
+      "value": "谚语"
+    },
+    {
+      "name": "chinese_quote",
+      "value": "句子"
+    },
+    {
+      "name": "chinese_riddle",
+      "value": "谜语"
+    },
+    {
+      "name": "chinese_tonguetwister",
+      "value": "绕口令"
+    },
+    {
+      "name": "chinese_wisecrack",
+      "value": "歇后语"
+    },
+    {
+      "name": "classicalliterature",
+      "value": "古诗文"
+    },
+    {
+      "name": "classicalliterature_classicpoem",
+      "value": "经典诗文"
+    },
+    {
+      "name": "classicalliterature_people",
+      "value": "人物"
+    },
+    {
+      "name": "classicalliterature_sentence",
+      "value": "诗文名句"
+    },
+    {
+      "name": "classicalliterature_writing",
+      "value": "诗文"
+    },
+    {
+      "name": "traditionalculture",
+      "value": "传统文化"
+    },
+    {
+      "name": "traditionalculture_calendar",
+      "value": "老黄历"
+    },
+    {
+      "name": "traditionalculture_color",
+      "value": "传统色"
+    },
+    {
+      "name": "traditionalculture_festival",
+      "value": "节日"
+    },
+    {
+      "name": "traditionalculture_solarterm",
+      "value": "节气"
+    },
+    {
+      "name": "http_error_message",
+      "value": "网络请求失败，请稍后尝试！"
+    },
+    {
+      "name": "refresh",
+      "value": "刷新"
+    },
+    {
+      "name": "settings",
+      "value": "设置"
+    },
+    {
+      "name": "bookmark",
+      "value": "收藏夹"
+    }
+  ]
+}
+ic_bookmark.svg
+ic_bookmark_border.svg
+ic_public_cloud_download.svg
+ic_public_delete.svg
+ic_public_download.svg
+ic_public_folder.svg
+ic_public_refresh.svg
+ic_public_search.svg
+ic_public_settings.svg
+ic_public_todo.svg
+ic_public_todo_filled.svg
+import { preferences } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { Logger } from '../log/Logger';
+import { PrefConst } from 'constants';
+
+export class PrefUtil {
+  preference?: preferences.Preferences;
+  logger: Logger = new Logger('PrefUtil');
+
+  init(context: Context) {
+    let options: preferences.Options = { name: PrefConst.PREF_NAME, storageType: preferences.StorageType.GSKV };
+    try {
+      this.preference = preferences.getPreferencesSync(context, options);
+    } catch (error) {
+      let err = error as BusinessError
+      this.logger.error(`Init pref failed, code = ${err.code}, messge = ${err.message}`)
+    }
+  }
+
+  saveChinaWorldCulturalHeritageVersion(version: number) {
+    this.setNumber(PrefConst.CHINA_WORLDCULTUREHERITAGE, version)
+  }
+
+  getChinaWorldCulturalHeritageVersion(): number {
+    return this.getNumber(PrefConst.CHINA_WORLDCULTUREHERITAGE)
+  }
+
+  saveChineseAntitheticalCoupletVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_ANTITHETICALCOUPLET, version)
+  }
+
+  getChineseAntitheticalCoupletVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_ANTITHETICALCOUPLET)
+  }
+
+  saveChineseCharacterVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_CHARACTER, version)
+  }
+
+  getChineseCharacterVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_CHARACTER)
+  }
+
+  saveChineseExpressionVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_EXPRESSION, version)
+  }
+
+  getChineseExpressionVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_EXPRESSION)
+  }
+
+  saveChineseIdiomVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_IDIOM, version)
+  }
+
+  getChineseIdiomVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_IDIOM)
+  }
+
+  saveChineseKnowledgeVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_KNOWLEDGE, version)
+  }
+
+  getChineseKnowledgeVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_KNOWLEDGE)
+  }
+
+  saveChineseQuoteVersion(version: number) {
+    this.setNumber(PrefConst.CHINESE_QUOTE, version)
+  }
+
+  getChineseQuoteVersion(): number {
+    return this.getNumber(PrefConst.CHINESE_QUOTE)
+  }
+
+  saveClassicalLiteratureClassicPoemVersion(version: number) {
+    this.setNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM, version)
+  }
+
+  getClassicalLiteratureClassicPoemVersion(): number {
+    return this.getNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
+  }
+
+  saveClassicalLiteratureSentenceVersion(version: number) {
+    this.setNumber(PrefConst.CLASSICALLITERATURE_SENTENCE, version)
+  }
+
+  getClassicalLiteratureSentenceVersion(): number {
+    return this.getNumber(PrefConst.CLASSICALLITERATURE_SENTENCE)
+  }
+
+  private setNumber(key: string, data: number) {
+    try {
+      this.preference?.putSync(key, data)
+    } catch (error) {
+      let err = error as BusinessError
+      this.logger.error(`save data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
+    }
+  }
+
+  private getNumber(key: string, defaultValue: number = 0): number {
+    let value = 0
+    try {
+      value = this.preference?.getSync(key, defaultValue) as number
+    } catch (error) {
+      let err = error as BusinessError
+      this.logger.error(`get data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
+    }
+
+    return value;
+  }
+}
+
+export default new PrefUtil()export class PrefConst {
+  static readonly PREF_NAME: string = "jingmo_pref";
+  static readonly CLASSICALLITERATURE_CLASSICPOEM: string = "classicalliterature_classicpoem";
+  static readonly CLASSICALLITERATURE_WRITING: string = "classicalliterature_writing";
+  static readonly CLASSICALLITERATURE_SENTENCE: string = "classicalliterature_sentence";
+  static readonly CLASSICALLITERATURE_PEOPLE: string = "classicalliterature_people";
+  static readonly CHINESE_CHARACTER: string = "chinese_character";
+  static readonly CHINESE_EXPRESSION: string = "chinese_expression";
+  static readonly CHINESE_IDIOM: string = "chinese_idiom";
+  static readonly CHINESE_WISECRACK: string = "chinese_wisecrack";
+  static readonly CHINESE_RIDDLE: string = "chinese_riddle";
+  static readonly CHINESE_PROVERB: string = "chinese_proverb";
+  static readonly CHINESE_TONGUETWISTER: string = "chinese_tonguetwister";
+  static readonly CHINESE_ANTITHETICALCOUPLET: string = "chinese_antitheticalcouplet";
+  static readonly CHINESE_LYRIC: string = "chinese_lyric";
+  static readonly CHINESE_KNOWLEDGE: string = "chinese_knowledge";
+  static readonly CHINESE_QUOTE: string = "chinese_quote";
+  static readonly CHINESE_MODERNPOETRY: string = "chinese_modernpoetry";
+  static readonly CHINA_WORLDCULTUREHERITAGE: string = "china_worldcultureheritage";
+  static readonly CLASSICALLITERATURE_CLASSICPOEM_ID: string = "classicalliterature_classicpoem_id";
+  static readonly CLASSICALLITERATURE_WRITING_ID: string = "classicalliterature_writing_id";
+  static readonly CLASSICALLITERATURE_SENTENCE_ID: string = "classicalliterature_sentence_id";
+  static readonly CLASSICALLITERATURE_PEOPLE_ID: string = "classicalliterature_people_id";
+  static readonly CHINESE_CHARACTER_ID: string = "chinese_character_id";
+  static readonly CHINESE_EXPRESSION_ID: string = "chinese_expression_id";
+  static readonly CHINESE_IDIOM_ID: string = "chinese_idiom_id";
+  static readonly CHINESE_WISECRACK_ID: string = "chinese_wisecrack_id";
+  static readonly CHINESE_RIDDLE_ID: string = "chinese_riddle_id";
+  static readonly CHINESE_PROVERB_ID: string = "chinese_proverb_id";
+  static readonly CHINESE_TONGUETWISTER_ID: string = "chinese_tonguetwister_id";
+  static readonly CHINESE_ANTITHETICALCOUPLET_ID: string = "chinese_antitheticalcouplet_id";
+  static readonly CHINESE_LYRIC_ID: string = "chinese_lyric_id";
+  static readonly CHINESE_KNOWLEDGE_ID: string = "chinese_knowledge_id";
+  static readonly CHINESE_QUOTE_ID: string = "chinese_quote_id";
+  static readonly CHINESE_MODERNPOETRY_ID: string = "chinese_modernpoetry_id";
+  static readonly CHINA_WORLDCULTUREHERITAG_ID: string = "china_worldcultureheritage_id";
+}export { BlockTitle } from './src/main/ets/components/BlockComponent';
+
+export { BoldTitle, Content } from './src/main/ets/components/ContentComponent';
+import { ThemeConst } from 'constants';
+
+@ComponentV2
+export struct BlockTitle {
+  @Param @Require @Once title: string | Resource = '其他'
+
+  build() {
+    Text(this.title)
+      .width('100%')
+      .padding({
+        left: 16,
+        top: 8,
+        right: 16,
+        bottom: 8
+      })
+      .fontColor(ThemeConst.FontColor_BlockTitle)
+      .fontSize(ThemeConst.FontSize_BlockTitle)
+  }
+}import { ThemeConst } from 'constants';
+
+@ComponentV2
+export struct BoldTitle {
+  @Param @Require @Once text: string
+
+  build() {
+    Text(this.text)
+      .fontWeight(FontWeight.Bold)
+      .padding(ThemeConst.P_X16_Y8)
+      .width('100%')
+      .textAlign(TextAlign.Start)
+  }
+}
+
+@ComponentV2
+export struct Content {
+  @Param @Require text: string
+
+  build() {
+    Text(this.text)
+      .padding(ThemeConst.P_X16_Y8)
+      .width('100%')
+      .lineHeight(24)
+  }
+}export { httpRequestGet, ResponseResult, DataWrapper } from './src/main/ets/network/HttpUtil';
+
+export { Logger } from './src/main/ets/log/Logger';{
+  "module": {
+    "name": "bookmark",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet",
+      "2in1"
+    ],
+    "routerMap": "$profile:route_map"
+  }
+}
+export { BookmarkIndexPage as BookmarkIndex } from './src/main/ets/pages/BookmarkIndexPage';
+{
+  "name": "uicomponents",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "Index.ets",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "constants": "file:../constants"
+  }
+}

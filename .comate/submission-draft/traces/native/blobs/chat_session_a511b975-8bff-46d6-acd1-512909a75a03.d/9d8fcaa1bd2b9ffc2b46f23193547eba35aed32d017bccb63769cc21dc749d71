@@ -1,0 +1,5 @@
+  static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE: string =
+    'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+      ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+      ' order by random() limit 1) limit 1';
+}

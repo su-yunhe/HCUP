@@ -1,0 +1,116 @@
+# 2026 AI辅助研发创新大赛（鸿蒙杯）赛题包
+
+本题包包含 **25 道赛题、21 个工程基线和 1 个 Hypium 测试示例**。
+
+赛题的工程基线来自开源项目。请根据各题的需求说明（Spec），在指定基线上完成开发任务。功能是否完成，以官方测试结果为准。开源许可和署名信息见[基线许可说明](docs/baseline-licenses.md)。
+
+[赛题仓库](https://gitcode.com/SMAT/SWE-OpenHarmony) · [赛事网站、章程与通知](http://swe-openharmony.tech/) · 官方邮箱：**harmonycup@163.com**
+
+报名方式、赛程安排、评分办法和完整赛事规则请查阅[赛事网站](http://swe-openharmony.tech/)。
+
+## 参赛须知
+
+- 每道作答的赛题都须使用 AI 辅助研发，也允许参赛者自行分析、编写和调试代码。请从开始作答起，保存原始 AI 会话、工具调用和人工修改记录。
+- 请为每道题建立独立的工程目录，并使用该题的需求说明、元数据（metadata）和指定基线。作答时不得访问或使用其他赛题的工程基线，也不得检索来源项目中与本题相关的修复提交、Issue、补丁或其副本。
+- 可以查阅合法公开的资料，以及与赛题无关的开源代码；使用时须如实说明来源。具体要求以[赛事规则](http://swe-openharmony.tech/#rules)及章程为准。
+- 题包中的测试示例仅用于演示 Hypium 的使用方法，不参与正式评分。通过示例不代表已完成赛题。正式评分用例不随题包提供。
+
+## 1. 获取题目与基线
+
+| 位置 | 用途 |
+| --- | --- |
+| `specs/<题目ID>.md` | 赛题需求说明 |
+| `metadata/<题目ID>.json` | 基线提交号 `base_commit` 和基线文件路径 `baseline_bundle` |
+| `repo_bundles/` | 固定工程快照，不含上游 Git 历史 |
+| `examples/jm-spec7/` | Hypium 测试示例 |
+| `templates/` | 成果提交、来源说明和过程记录模板 |
+
+通过 Git 克隆赛题仓库后，请在题包根目录执行以下命令，下载完整的工程基线：
+
+```bash
+git lfs install
+git lfs pull
+```
+
+完整发布包包含工程基线文件（bundle），但仓库网页的“下载源码 ZIP”可能只包含 LFS 指针，未包含实际基线内容。请使用同一题包中的需求说明、元数据、基线和工具。各文件的大小和 SHA-256 校验值见 `release-manifest.json`。
+
+根据本题 metadata 指定的基线文件和提交号，将工程克隆到题包以外的独立目录。以 `jm-spec7` 为例：
+
+```bash
+git clone --branch base repo_bundles/jingmo-for-harmonyos-b2e40f69dd-base.bundle ../harmonycup-work/jm-spec7
+git -C ../harmonycup-work/jm-spec7 checkout --detach b2e40f69dde450852d977c9555a9b12d59508c0d
+```
+
+使用 Agent 解题时，请在本题的独立工程目录中运行，并只向其提供本题资料和工程，不要提供整个题包或其他赛题的工程。
+
+## 2. 准备环境并构建
+
+使用 DevEco Studio 6.1.0、HarmonyOS 6.1.0 / API 23 SDK 和 Python 3.10+。Node.js、OHPM、Hvigor、hdc 优先使用 DevEco 随附版本。
+
+**检出指定基线后，请先运行基线准备脚本，再修改代码或切换提交（HEAD）。** 该脚本用于处理已知的构建兼容问题，不会实现赛题要求的功能。以下命令均在题包根目录执行；作答其他题目时，请相应修改 `--task` 和 `--project` 参数。
+
+macOS：
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r tools/requirements-build.txt
+.venv/bin/python tools/prepare_baseline.py --task jm-spec7 --project ../harmonycup-work/jm-spec7
+```
+
+Windows PowerShell：
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r tools/requirements-build.txt
+.\.venv\Scripts\python.exe tools/prepare_baseline.py --task jm-spec7 --project ..\harmonycup-work\jm-spec7
+```
+
+准备完成后，在 DevEco Studio 中打开工程，同步依赖并构建。如果使用命令行，请将 DevEco 随附工具的目录加入 `PATH`，并设置以下环境变量：
+
+| 环境变量 | macOS 默认安装路径 | Windows |
+| --- | --- | --- |
+| `DEVECO_SDK_HOME` | `/Applications/DevEco-Studio.app/Contents/sdk` | DevEco 安装目录下的 `sdk` |
+| `JAVA_HOME` | `/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home` | DevEco 安装目录下的 `jbr` |
+
+然后**切换到克隆的工程目录**执行：
+
+```bash
+ohpm install --all
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon
+```
+
+Windows 可使用对应的 `ohpm.bat` 和 `hvigorw.bat`。请保留准备脚本的输出、生成的配置和依赖锁文件，并在提交材料中说明。环境安装、模拟器配置、应用签名和基线准备的详细步骤见[开发与自测指南](docs/development.md)，基线构建情况见[基线构建说明](docs/baseline-build-validation.md)。
+
+## 3. 运行测试示例
+
+在题包根目录执行以下命令，安装 Hypium：
+
+```bash
+.venv/bin/python -m pip install -r requirements.txt --index-url https://repo.huaweicloud.com/repository/pypi/simple
+```
+
+Windows 将 `.venv/bin/python` 替换为 `.\.venv\Scripts\python.exe`。Hypium 版本为 `6.1.0.210`。
+
+启动模拟器，安装构建好的 `jm-spec7` 应用。完成首次启动时的隐私确认和引导，手动进入“收藏夹”页面，然后运行：
+
+```bash
+hdc list targets
+.venv/bin/python examples/jm-spec7/test_favorites_navigation.py --device <设备序列号>
+```
+
+请将 `<设备序列号>` 替换为实际设备序列号。示例通过时会输出 `Ran 1 test` 和 `OK`。运行前的准备要求见[示例说明](examples/jm-spec7/README.md)。正式评测使用 Pura 90 Pro Max 模拟器，API 为 23，屏幕参数为 1308 × 2880 / 560 dpi。Windows 和 macOS 上的配置方法见[开发指南](docs/development.md#正式评测与自测模拟器配置)。
+
+## 4. 整理并提交成果
+
+每道提交的赛题都须提供独立、完整的工程，包含源码、资源、依赖配置和锁文件，不能只提交 HAP 或截图。请填写[提交清单模板](templates/submission.json)，保留全部 25 道题的条目。未完成的题目标记为 `not_completed`，提交了工程的题目标记为 `submitted`；`submitted` 仅表示已提交，不表示通过测试。
+
+请按[材料清单](templates/submission-checklist.md)整理开发方案、来源说明、工具配置、代码差异和原始过程记录，填写方法见[模板说明](templates/README.md)。打包前，请停止本次提交涉及的代码修改和 AI 任务，保存代码与记录。打包后，在题包根目录运行以下命令，检查 ZIP 结构并计算校验值：
+
+```bash
+python3 tools/check_submission.py '成果包.zip'
+python3 tools/submission_checksum.py '成果包.zip'
+```
+
+Windows 用户请将 `python3` 替换为 `py -3`。结构检查通过不代表功能测试通过，也不代表官方已收到提交材料。
+
+提交方式、邮件模板，以及材料冻结和更新要求，见赛事网站的[成果提交](http://swe-openharmony.tech/#submission)栏目。

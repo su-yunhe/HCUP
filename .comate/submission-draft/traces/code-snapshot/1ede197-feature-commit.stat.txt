@@ -1,0 +1,92 @@
+commit 1ede197a3846b9961dd09a3a94011ea16c80895a
+Author: bress <1980039406@qq.com>
+Date: 2026-10-15T19:45:52+08:00
+
+feat(idiom): 完成成语模块首屏随机展示、收藏、详情、搜索与近反义词跳转
+
+jm-spec71 四个场景的实现：
+
+- 路由与入口：成语模块补齐 route_map.json 与 module.json5 的 routerMap，
+  注册 IdiomIndexPage/IdiomDetailPage/IdiomSearchPage；首页「成语」入口接入
+  pushPathByName；TopBar 增加收藏夹入口；修正 bookmark 模块 route_map.json
+  的 routeMap -> routerMap 键名错误。
+- 数据可用性：新增 IdiomSeeder 与内置成语种子数据（rawfile 分片，49639 条），
+  启动后台导入，使用远端原始 id + ON_CONFLICT_IGNORE，与「设置-数据同步」
+  写入的数据一致且不重复；DbUtil 新增 ready() 等待建表完成，消除启动竞态。
+- 数据访问层：Idiom.parse 对 NULL/空串/非法 JSON 容错；新增排除上次 id 的随机
+  查询、按 id 查询、按词批量查 id、模糊搜索（word/pinyin/abbr，通配符转义，
+  精确与前缀优先）、计数；新增 IdiomBookmark 基于既有 bookmarks 表实现
+  查/增/删/切换/列表。
+- 页面：共享组件 IdiomView（成语名、拼音、释义、出处、例句、用法、名著引用、
+  成语故事、注意、近义词/反义词标签）与底部操作栏；首页随机展示 + 下拉刷新 +
+  搜索/收藏/刷新，返回后只同步收藏状态不重新随机；详情页支持标签链式跳转与
+  逐级返回；搜索页防抖 + 回车即搜；收藏夹页展示已收藏成语。
+
+验证：ohpm install --all + hvigorw assembleHap 构建通过；hypium_tests 下 5 条
+自测用例（四个场景 + 重启后收藏持久化）在 API 23 模拟器全部通过；官方示例
+examples/jm-spec7 亦通过。
+
+内置种子数据来源：本应用公开数据接口 chinese_idiom_v5_*.json（版本 v5），
+仅做字段裁剪与分片。
+
+
+ .comate/specs/idiom-random-home/doc.md             | 172 ++++++++++++++++
+ .comate/specs/idiom-random-home/summary.md         |  29 +++
+ .comate/specs/idiom-random-home/tasks.md           |  67 +++++++
+ commons/constants/Index.ets                        |   2 +-
+ commons/constants/src/main/ets/DbConst.ets         |  28 +++
+ commons/constants/src/main/ets/PrefConst.ets       |   1 +
+ commons/constants/src/main/ets/String.ets          |   5 +
+ .../src/main/resources/base/element/string.json    |  20 ++
+ commons/utils/src/main/ets/data/DbUtil.ets         |  30 ++-
+ commons/utils/src/main/ets/data/PrefUtil.ets       |  16 ++
+ features/bookmark/BuildProfile.ets                 |  17 ++
+ features/bookmark/Index.ets                        |   4 +-
+ features/bookmark/oh-package-lock.json5            |  34 +++-
+ features/bookmark/oh-package.json5                 |   4 +-
+ .../src/main/ets/pages/BookmarkIndexPage.ets       |  93 ++++++++-
+ .../src/main/resources/base/profile/route_map.json |   4 +-
+ features/chinese/idiom/Index.ets                   |  20 +-
+ features/chinese/idiom/oh-package-lock.json5       |  10 +
+ features/chinese/idiom/oh-package.json5            |   1 +
+ .../chinese/idiom/src/main/ets/model/Idiom.ets     | 222 ++++++++++++++++++---
+ .../idiom/src/main/ets/model/IdiomBookmark.ets     | 103 ++++++++++
+ .../idiom/src/main/ets/model/IdiomSeeder.ets       | 166 +++++++++++++++
+ .../idiom/src/main/ets/pages/IdiomDetailPage.ets   | 115 +++++++++++
+ .../idiom/src/main/ets/pages/IdiomIndexPage.ets    | 187 ++++++++++++++++-
+ .../idiom/src/main/ets/pages/IdiomSearchPage.ets   | 201 +++++++++++++++++++
+ .../idiom/src/main/ets/view/IdiomActionBar.ets     | 107 ++++++++++
+ .../chinese/idiom/src/main/ets/view/IdiomView.ets  | 195 ++++++++++++++++++
+ features/chinese/idiom/src/main/module.json5       |   3 +-
+ .../src/main/resources/base/profile/route_map.json |  28 +++
+ .../rawfile/chinese_idiom_seed/manifest.json       |  26 +++
+ .../rawfile/chinese_idiom_seed/part_01.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_02.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_03.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_04.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_05.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_06.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_07.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_08.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_09.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_10.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_11.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_12.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_13.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_14.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_15.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_16.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_17.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_18.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_19.json        |   1 +
+ .../rawfile/chinese_idiom_seed/part_20.json        |   1 +
+ features/home/oh-package-lock.json5                |  17 +-
+ features/home/oh-package.json5                     |   2 +
+ features/home/src/main/ets/view/MenuList.ets       |   2 +
+ features/home/src/main/ets/view/TopBar.ets         |  18 ++
+ features/settings/oh-package-lock.json5            |   5 +-
+ hypium_tests/test_idiom_module.py                  | 200 +++++++++++++++++++
+ products/default/oh-package-lock.json5             |  19 +-
+ products/default/oh-package.json5                  |   1 +
+ .../src/main/ets/entryability/EntryAbility.ets     |   2 +
+ 59 files changed, 2140 insertions(+), 56 deletions(-)

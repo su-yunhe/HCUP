@@ -1,0 +1,152 @@
+"""jm-spec71 成语模块自测：覆盖 spec 的四个场景。
+
+运行前：安装本题工程构建出的 HAP（com.hefengbao.jingmo.hw），设备解锁。
+脚本自行冷启动应用并从首页开始操作，不依赖人工预置页面。
+
+运行：
+    cd /Users/bress/Documents/code/SWE-OpenHarmony
+    .venv/bin/python -m harness.runner --project ../harmonycup-work/jm-spec71 --device <设备序列号>
+"""
+from __future__ import annotations
+
+import os
+import sys
+import unittest
+
+from hypium import BY
+
+HARNESS_ROOT = '/Users/bress/Documents/code/SWE-OpenHarmony/test-harness'
+if HARNESS_ROOT not in sys.path:
+    sys.path.insert(0, HARNESS_ROOT)
+
+from harness.driver import HarnessTestCase  # noqa: E402
+
+BUNDLE = 'com.hefengbao.jingmo.hw'
+ABILITY = 'EntryAbility'
+HOME_TITLE = '京墨文库'
+IDIOM_ENTRY = '成语'
+IDIOM_TITLE = '成语'
+DETAIL_TITLE = '成语详情'
+SEARCH_TITLE = '搜索成语'
+
+
+class IdiomModuleTest(HarnessTestCase):
+    def setUp(self) -> None:
+        driver = self.driver
+        driver.stop_app(BUNDLE)
+        driver.start_app(BUNDLE, ABILITY)
+        driver.wait(4)
+        self.require_text(HOME_TITLE, '应用首页未出现')
+
+    def open_idiom_home(self):
+        entry = self.require_text(IDIOM_ENTRY, '首页未找到「成语」模块入口')
+        self.driver.click(entry)
+        self.driver.wait(1.5)
+        return self.require_component(BY.key('idiom_word'), '成语首页未展示成语')
+
+    def current_word(self) -> str:
+        return self.require_component(BY.key('idiom_word'), '页面未展示成语').getText()
+
+    def test_scenario1_random_idiom_on_home(self):
+        """场景一：进入成语首页展示随机成语，刷新/重进后展示另一条。"""
+        first = self.open_idiom_home()
+        self.assertTrue(first.getText().strip(), '成语名称为空')
+        self.require_component(BY.key('idiom_pinyin'), '成语首页未展示拼音')
+        self.require_text('释义', '成语首页未展示释义')
+
+        first_word = first.getText()
+        self.driver.click(self.require_component(BY.key('idiom_action_refresh'), '未找到刷新按钮'))
+        self.driver.wait(1.5)
+        second_word = self.current_word()
+        self.assertNotEqual(first_word, second_word, '刷新后展示的成语未变化')
+
+        # 返回首页再次进入，应再换一条
+        self.driver.press_back()
+        self.require_text(HOME_TITLE, '返回后未回到应用首页')
+        self.open_idiom_home()
+        third_word = self.current_word()
+        self.assertNotEqual(second_word, third_word, '重新进入后展示的成语未变化')
+
+    def test_scenario2_bookmark_and_detail(self):
+        """场景二：收藏当前成语，进入详情页查看完整信息，返回后收藏状态保持。"""
+        word = self.open_idiom_home().getText()
+        bookmark = self.require_component(BY.key('idiom_action_bookmark'), '未找到收藏按钮')
+        if self.find_or_none(BY.text('已收藏'), timeout=1) is not None:
+            self.driver.click(bookmark)
+            self.driver.wait(1)
+        self.driver.click(self.require_component(BY.key('idiom_action_bookmark'), '未找到收藏按钮'))
+        self.driver.wait(1.5)
+        self.require_text('已收藏', '点击收藏后按钮未变为已收藏状态')
+
+        self.driver.click(self.require_component(BY.key('idiom_word'), '未找到成语内容区'))
+        self.driver.wait(1.5)
+        self.require_text(DETAIL_TITLE, '点击成语内容未进入成语详情页')
+        self.assertEqual(word, self.current_word(), '详情页展示的成语与首页不一致')
+        self.require_text('出处', '详情页未展示出处')
+        self.require_text('例句', '详情页未展示例句')
+        self.require_text('已收藏', '详情页未同步收藏状态')
+
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        self.assertEqual(word, self.current_word(), '返回首页后成语发生变化')
+        self.require_text('已收藏', '返回首页后收藏状态未保持')
+
+        # 收藏夹中可见
+        self.driver.press_back()
+        self.require_text(HOME_TITLE, '返回后未回到应用首页')
+        self.driver.click(self.require_component(BY.key('home_bookmark'), '首页未找到收藏夹入口'))
+        self.driver.wait(1.5)
+        self.require_text('收藏夹', '未进入收藏夹页面')
+        self.require_text(word, '收藏夹中未看到已收藏的成语')
+
+    def test_scenario3_search(self):
+        """场景三：搜索「一石二鸟」，结果列表包含匹配条目。"""
+        self.open_idiom_home()
+        self.driver.click(self.require_component(BY.key('idiom_action_search'), '未找到搜索按钮'))
+        self.driver.wait(1.5)
+        self.require_text(SEARCH_TITLE, '未进入搜索页面')
+        search_box = self.require_component(BY.key('idiom_search_input'), '搜索页未找到搜索框')
+        self.driver.input_text(search_box, '一石二鸟')
+        self.driver.wait(2.5)
+        self.require_component(BY.key('idiom_search_result'), '搜索结果列表未出现')
+        self.require_text('一石二鸟', '搜索结果中未包含「一石二鸟」')
+
+        self.driver.click(self.require_component(BY.key('idiom_result_一石二鸟'), '搜索结果中未包含「一石二鸟」条目'))
+        self.driver.wait(1.5)
+        self.require_text(DETAIL_TITLE, '点击搜索结果未进入成语详情页')
+        self.assertEqual('一石二鸟', self.current_word(), '详情页展示的成语与搜索结果不一致')
+
+    def test_scenario4_similar_word_navigation(self):
+        """场景四：详情页展示近义词/反义词标签，点击可跳到该成语自己的详情页。"""
+        self.open_idiom_home()
+        self.driver.click(self.require_component(BY.key('idiom_action_search'), '未找到搜索按钮'))
+        self.driver.wait(1.5)
+        search_box = self.require_component(BY.key('idiom_search_input'), '搜索页未找到搜索框')
+        self.driver.input_text(search_box, '一石二鸟')
+        self.driver.wait(2.5)
+        self.driver.click(self.require_text('一石二鸟', '搜索结果中未包含「一石二鸟」'))
+        self.driver.wait(1.5)
+        self.require_text(DETAIL_TITLE, '未进入成语详情页')
+        self.require_text('近义词', '详情页未展示近义词标签组')
+        self.require_text('反义词', '详情页未展示反义词标签组')
+
+        tag = self.require_component(BY.key('idiom_tag_一箭双雕'), '未找到近义词「一箭双雕」标签')
+        self.driver.click(tag)
+        self.driver.wait(1.5)
+        self.assertEqual('一箭双雕', self.current_word(), '点击近义词未跳转到该成语详情页')
+        self.require_text('释义', '跳转后的详情页未展示释义')
+        self.require_text('近义词', '跳转后的详情页未展示近义词标签组')
+
+        tag2 = self.require_component(BY.key('idiom_tag_一举两得'), '跳转后的详情页未找到可点击近义词')
+        self.driver.click(tag2)
+        self.driver.wait(1.5)
+        self.assertEqual('一举两得', self.current_word(), '二次点击近义词未继续跳转')
+
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        self.assertEqual('一箭双雕', self.current_word(), '返回未逐级回退到上一条成语详情')
+
+
+if __name__ == '__main__':
+    IdiomModuleTest.device_sn = os.environ.get('HDC_DEVICE')
+    unittest.main(verbosity=2)

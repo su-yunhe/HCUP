@@ -1,0 +1,3 @@
+function escapeLike(keyword: string): string {
+  return keyword.replace(/\\/g, '\\\\').replace(/%/g, '\\%').replace(/_/g, '\\_')
+}

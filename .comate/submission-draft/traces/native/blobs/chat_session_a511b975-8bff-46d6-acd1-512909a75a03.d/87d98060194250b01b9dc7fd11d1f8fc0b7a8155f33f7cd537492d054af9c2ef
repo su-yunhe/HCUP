@@ -1,0 +1,6 @@
+export function parseIdiom(resultSet: relationalStore.ResultSet): Idiom {
+  return parse(resultSet)
+}
+
+function parse(resultSet: relationalStore.ResultSet): Idiom {
+  return new Idiom(

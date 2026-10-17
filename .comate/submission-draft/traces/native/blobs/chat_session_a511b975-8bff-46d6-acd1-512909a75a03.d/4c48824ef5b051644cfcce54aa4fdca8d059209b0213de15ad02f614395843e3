@@ -1,0 +1,103 @@
+import { relationalStore } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { DbCRUDConst, DbModelConst, DbTableConst } from 'constants';
+import { Logger } from 'utils';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+import { Idiom, parseIdiom } from './Idiom';
+
+let logger: Logger = new Logger('IdiomBookmark');
+
+export async function isIdiomBookmarked(id: number): Promise<boolean> {
+  const store = await DbUtil.ready()
+  if (!store || id <= 0) {
+    return false
+  }
+
+  let bookmarked = false
+  try {
+    const resultSet = await store.querySql(DbCRUDConst.COUNT_BOOKMARK, [DbModelConst.CHINESE_IDIOM, id])
+    if (resultSet.goToFirstRow()) {
+      bookmarked = resultSet.getLong(resultSet.getColumnIndex('count')) > 0
+    }
+    resultSet.close()
+  } catch (error) {
+    const err = error as BusinessError
+    logger.error(`Query bookmark failed, code is ${err.code}, message is ${err.message}`)
+  }
+
+  return bookmarked
+}
+
+export async function addIdiomBookmark(id: number): Promise<boolean> {
+  const store = await DbUtil.ready()
+  if (!store || id <= 0) {
+    return false
+  }
+  if (await isIdiomBookmarked(id)) {
+    return true
+  }
+
+  const valuesBucket: relationalStore.ValuesBucket = {
+    'bookmarkable_id': id,
+    'bookmarkable_model': DbModelConst.CHINESE_IDIOM,
+  }
+  try {
+    await store.insert(DbTableConst.BOOKMARKS_TABLE, valuesBucket)
+    return true
+  } catch (error) {
+    const err = error as BusinessError
+    logger.error(`Add bookmark failed, code is ${err.code}, message is ${err.message}`)
+    return false
+  }
+}
+
+export async function removeIdiomBookmark(id: number): Promise<boolean> {
+  const store = await DbUtil.ready()
+  if (!store || id <= 0) {
+    return false
+  }
+
+  try {
+    await store.executeSql(DbCRUDConst.DELETE_BOOKMARK, [DbModelConst.CHINESE_IDIOM, id])
+    return true
+  } catch (error) {
+    const err = error as BusinessError
+    logger.error(`Remove bookmark failed, code is ${err.code}, message is ${err.message}`)
+    return false
+  }
+}
+
+/**
+ * 切换收藏状态，返回切换后的状态。
+ */
+export async function toggleIdiomBookmark(id: number): Promise<boolean> {
+  if (await isIdiomBookmarked(id)) {
+    await removeIdiomBookmark(id)
+    return false
+  }
+
+  await addIdiomBookmark(id)
+  return await isIdiomBookmarked(id)
+}
+
+export async function readBookmarkedIdioms(): Promise<Idiom[]> {
+  const list: Idiom[] = []
+  const store = await DbUtil.ready()
+  if (!store) {
+    return list
+  }
+
+  try {
+    const resultSet =
+      await store.querySql(DbCRUDConst.READ_BOOKMARKED_CHINESE_IDIOM, [DbModelConst.CHINESE_IDIOM])
+    while (resultSet.goToNextRow()) {
+      list.push(parseIdiom(resultSet))
+    }
+    resultSet.close()
+  } catch (error) {
+    const err = error as BusinessError
+    logger.error(`Query bookmarked idioms failed, code is ${err.code}, message is ${err.message}`)
+  }
+
+  return list
+}

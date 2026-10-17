@@ -1,0 +1,70 @@
+import { relationalStore } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { JSON, util } from '@kit.ArkTS';
+import { DbTableConst } from 'constants';
+import { Logger } from 'utils';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
+import { countIdioms, IdiomExample, IdiomQuote, IdiomSource } from './Idiom';
+
+const SEED_VERSION: number = 5;
+const SEED_DIR: string = 'chinese_idiom_seed';
+
+let logger: Logger = new Logger('IdiomSeeder');
+
+class SeedManifest {
+  version: number = 0;
+  total: number = 0;
+  files: string[] = [];
+}
+
+class SeedIdiom {
+  id: number = 0;
+  word: string = '';
+  pinyin: string = '';
+  abbr: string = '';
+  explanation?: string;
+  source?: IdiomSource;
+  quote?: IdiomQuote;
+  example?: IdiomExample;
+  similar?: string[];
+  opposite?: string[];
+  usage?: string;
+  story?: string[];
+  notice?: string;
+}
+
+let dataReady: Promise<void> | null = null;
+
+/**
+ * 保证成语数据可用：等待数据库建表完成，并在首次使用时把内置成语数据写入数据库。
+ * 返回的 Promise 在「数据库中已有成语数据」时 resolve，剩余数据在后台继续导入。
+ */
+export function ensureIdiomData(context: Context): Promise<void> {
+  if (!dataReady) {
+    dataReady = new Promise((resolve: () => void) => {
+      seed(context, resolve).catch((error: Object) => {
+        logger.error(`Seed idiom failed, error = ${error}`)
+        dataReady = null
+        resolve()
+      })
+    })
+  }
+
+  return dataReady
+}
+
+async function seed(context: Context, usable: () => void) {
+  const store = await DbUtil.ready()
+  if (!store) {
+    usable()
+    return
+  }
+
+  const count = await countIdioms()
+  if (PrefUtil.getChineseIdiomSeedVersion() >= SEED_VERSION && count > 0) {
+    usable()
+    return
+  }
+
+  const m

@@ -1,0 +1,40 @@
+## 五、数据流
+
+```
+EntryAbility.onWindowStageCreate → DbUtil.init → (建表) → markReady
+                                 → ensureIdiomReady(context) → rawfile 种子 → batchInsert(IGNORE) → pref 记录版本
+首页 MenuList「成语」→ IdiomIndexPage → await ensureIdiomReady → readRandomIdiom(排除上次 id) → IdiomView
+  ├ 收藏按钮 → toggleIdiomBookmark → bookmarks 表 → 按钮文案「已收藏」
+  ├ 内容区 → IdiomDetailPage(id) → readIdiomById → IdiomView → 近/反义词标签 → IdiomDetailPage(新 id) …
+  ├ 搜索 → IdiomSearchPage → searchIdioms(k) → List → IdiomDetailPage(id)
+  └ 刷新/下拉 → readRandomIdiom(排除当前 id)
+首页 TopBar 收藏图标 → BookmarkIndexPage → readBookmarkedIdioms → IdiomDetailPage(id)
+返回 → onShown → isIdiomBookmarked 同步按钮状态
+```
+
+## 六、边界条件
+
+| 场景 | 处理 |
+| --- | --- |
+| DB 未就绪 / 种子导入中 | 页面 Loading，等待 `ensureIdiomReady` |
+| 种子导入失败且未同步 | 空数据提示，不崩溃；下次进入重试 |
+| 已通过"设置"同步全量数据 | 种子 `IGNORE` 不覆盖；id 一致无重复 |
+| 表内仅 1 条 | 排除查询为空时回退普通随机 |
+| 快速重复点刷新 / 收藏 | `loading` / `toggling` 标志忽略重入 |
+| 收藏后进入详情再取消，返回首页 | `onShown` 重新查询，状态一致 |
+| 搜索空串 / 纯空格 / 含 `%` `_` | 空串不查询；通配符转义 |
+| 标签词不在词库 | 灰色样式 + Toast，不跳转 |
+| JSON 字段 NULL / 非法 | `parse` 返回 null，对应分节隐藏或"暂无" |
+| 例句中的 `～` | 替换为成语本身 |
+
+## 七、预期结果
+
+- 场景一：主页点"成语"进入标题为"成语"的页面，显示成语名、拼音、释义等；点"刷新"/下拉/返回再进入/重启，均显示与上次不同的成语。
+- 场景二：点"收藏"→ Toast"收藏成功"，按钮变"已收藏"；点内容区进入"成语详情"，含出处、例句等；返回后仍为同一成语且"已收藏"；重启后收藏仍在，收藏夹可见。
+- 场景三：点"搜索"进入搜索页，输入"一石二鸟"后列表出现"一石二鸟"条目（精确匹配排第一）。
+- 场景四：详情页在释义、出处（名著引用、成语故事）后显示"近义词""反义词"标签；点"一箭双雕"跳到其详情页，可继续点其标签链式浏览，返回逐级回退。
+
+## 八、验证方式
+
+- `ohpm install --all` + `hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon` 构建通过。
+- 在已连接模拟器（127.0.0.1:5555）安装 HAP，用 Hypium 编写本地自测脚本（放在本题工作目录 `hypium_tests/`，不进入提交工程源码）覆盖四个场景及返回/重进/重复点击。

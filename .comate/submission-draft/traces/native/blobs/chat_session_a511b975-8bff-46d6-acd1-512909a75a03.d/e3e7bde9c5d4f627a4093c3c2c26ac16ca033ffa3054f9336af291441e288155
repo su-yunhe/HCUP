@@ -1,0 +1,7 @@
+        if (error) {
+          this.logger.error(`Get RdbStore failed, code is ${error.code},message is ${error.message}`)
+          this.markReady()
+          return;
+        }
+        this.objectiveRDB = rdbStore
+        let storeVersion: number = rdbStore.version;

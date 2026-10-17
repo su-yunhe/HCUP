@@ -1,0 +1,31 @@
+    def test_scenario2b_bookmark_persists_after_restart(self):
+        """收藏在应用重启后保持，并可从收藏夹取消。"""
+        word = self.open_idiom_home().getText()
+        if self.find_or_none(BY.text('已收藏'), timeout=1) is None:
+            self.driver.click(self.require_component(BY.key('idiom_action_bookmark'), '未找到收藏按钮'))
+            self.driver.wait(1.5)
+            self.require_text('已收藏', '点击收藏后按钮未变为已收藏状态')
+
+        self.driver.stop_app(BUNDLE)
+        self.driver.start_app(BUNDLE, ABILITY)
+        self.driver.wait(4)
+        self.require_text(HOME_TITLE, '重启后未回到应用首页')
+        self.driver.click(self.require_component(BY.key('home_bookmark'), '首页未找到收藏夹入口'))
+        self.driver.wait(1.5)
+        self.require_text(word, '重启后收藏夹中丢失了已收藏的成语')
+
+        self.driver.click(self.require_text(word, '收藏夹中未找到该成语'))
+        self.driver.wait(1.5)
+        self.require_text(DETAIL_TITLE, '从收藏夹未进入成语详情页')
+        self.require_text('已收藏', '从收藏夹进入的详情页未显示已收藏')
+        self.driver.click(self.require_component(BY.key('idiom_action_bookmark'), '详情页未找到收藏按钮'))
+        self.driver.wait(1.5)
+        self.require_text('收藏', '取消收藏后按钮未恢复为未收藏状态')
+
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        self.require_text('收藏夹', '返回后未回到收藏夹页面')
+        self.assertIsNone(self.find_or_none(BY.text(word), timeout=3), '取消收藏后收藏夹仍显示该成语')
+
+    def test_scenario3_search(self):
+        """场景三：搜索「一石二鸟」，结果列表包含匹配条目。"""

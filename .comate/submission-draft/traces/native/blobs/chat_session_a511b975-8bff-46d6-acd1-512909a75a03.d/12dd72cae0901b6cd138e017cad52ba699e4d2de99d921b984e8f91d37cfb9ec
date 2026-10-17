@@ -1,0 +1,65 @@
+export function parseIdiomRow(resultSet: relationalStore.ResultSet): Idiom {
+  return parse(resultSet)
+}
+
+function parse(resultSet: relationalStore.ResultSet): Idiom {
+  return new Idiom(
+    resultSet.getLong(resultSet.getColumnIndex('id')),
+    resultSet.getString(resultSet.getColumnIndex('word')),
+    getNullableString(resultSet, 'pinyin') ?? '',
+    getNullableString(resultSet, 'abbr') ?? '',
+    getNullableString(resultSet, 'explanation'),
+    parseJsonObject<IdiomSource>(resultSet, 'source'),
+    parseJsonObject<IdiomQuote>(resultSet, 'quote'),
+    parseJsonObject<IdiomExample>(resultSet, 'example'),
+    parseJsonArray(resultSet, 'similar'),
+    parseJsonArray(resultSet, 'opposite'),
+    getNullableString(resultSet, 'usage'),
+    parseJsonArray(resultSet, 'story'),
+    getNullableString(resultSet, 'notice'),
+  )
+}
+
+function getNullableString(resultSet: relationalStore.ResultSet, column: string): string | null {
+  try {
+    const index = resultSet.getColumnIndex(column)
+    if (index < 0 || resultSet.isColumnNull(index)) {
+      return null
+    }
+    const value = resultSet.getString(index)
+    return value.length === 0 ? null : value
+  } catch (error) {
+    return null
+  }
+}
+
+function parseJsonObject<T>(resultSet: relationalStore.ResultSet, column: string): T | null {
+  const text = getNullableString(resultSet, column)
+  if (text === null || text === 'null') {
+    return null
+  }
+  try {
+    const value = JSON.parse(text) as T
+    return value ?? null
+  } catch (error) {
+    logger.error(`Parse ${column} failed`)
+    return null
+  }
+}
+
+function parseJsonArray(resultSet: relationalStore.ResultSet, column: string): string[] | null {
+  const text = getNullableString(resultSet, column)
+  if (text === null || text === 'null') {
+    return null
+  }
+  try {
+    const value = JSON.parse(text) as string[]
+    if (!value || value.length === 0) {
+      return null
+    }
+    return value
+  } catch (error) {
+    logger.error(`Parse ${column} failed`)
+    return null
+  }
+}

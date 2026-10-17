@@ -1,0 +1,33 @@
+  static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE: string =
+    'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+      ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+      ' order by random() limit 1) limit 1';
+  // 随机一条成语，排除指定 id，避免连续两次展示同一条
+  static readonly READ_RANDOM_CHINESE_IDIOM_EXCLUDE: string =
+    'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+      ' where id = (select id from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+      ' where id != ? order by random() limit 1) limit 1';
+  static readonly READ_CHINESE_IDIOM_BY_ID: string =
+    'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE + ' where id = ? limit 1';
+  static readonly COUNT_CHINESE_IDIOM: string =
+    'select count(*) as count from ' + DbTableConst.CHINESE_IDIOM_TABLE;
+  // 搜索成语：成语、拼音、首字母缩写模糊匹配，精确匹配与前缀匹配优先
+  static readonly SEARCH_CHINESE_IDIOM: string =
+    'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+      " where word like ? escape '\\' or pinyin like ? escape '\\' or abbr like ? escape '\\'" +
+      ' order by case when word = ? then 0 when word like ? escape ' + "'\\'" + ' then 1 else 2 end,' +
+      ' length(word), id limit ?';
+  static readonly COUNT_BOOKMARK: string =
+    'select count(*) as count from ' + DbTableConst.BOOKMARKS_TABLE +
+      ' where bookmarkable_model = ? and bookmarkable_id = ?';
+  static readonly DELETE_BOOKMARK: string =
+    'delete from ' + DbTableConst.BOOKMARKS_TABLE +
+      ' where bookmarkable_model = ? and bookmarkable_id = ?';
+  static readonly READ_BOOKMARKED_CHINESE_IDIOM: string =
+    'select i.* from ' + DbTableConst.BOOKMARKS_TABLE + ' b inner join ' + DbTableConst.CHINESE_IDIOM_TABLE +
+      ' i on i.id = b.bookmarkable_id where b.bookmarkable_model = ? order by b.id desc';
+}
+
+export class DbModelConst {
+  static readonly CHINESE_IDIOM: string = 'chinese_idiom';
+}

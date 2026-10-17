@@ -1,0 +1,18 @@
+"""jm-spec71 成语模块自测：覆盖 spec 的四个场景。
+
+运行前：安装本题工程构建出的 HAP（com.hefengbao.jingmo.hw），设备解锁。
+脚本自行冷启动应用并从首页开始操作，不依赖人工预置页面。
+
+运行：
+    cd /Users/bress/Documents/code/SWE-OpenHarmony
+    .venv/bin/python -m harness.runner --project ../harmonycup-work/jm-spec71 --device <设备序列号>
+"""
+from __future__ import annotations
+
+import os
+import sys
+import unittest
+
+from hypium import BY
+
+HARN

@@ -1,0 +1,334 @@
+<agent_id>Explore_11963040</agent_id>
+<return>
+I've completed a comprehensive exploration of the HarmonyOS Harmony Cup project. Here are my detailed findings:
+
+---
+
+## 1. Overall Project Structure
+
+**Workspace layout:**
+- `/Users/bress/Documents/code/harmonycup-work/jm-spec71/products/default` — main app product
+- `/Users/bress/Documents/code/harmonycup-work/jm-spec71/features/` — feature modules organized by domain:
+  - `features/home/` — home page & module navigation
+  - `features/settings/` — settings
+  - `features/bookmark/` — favorites/collection system
+  - `features/classicalliterature/classicpoem/` and `classicalliterature/sentence/`
+  - `features/chinese/idiom/`, `expression/`, `antitheticalcouplet/`, `quote/`, `knowledge/`, `character/`
+  - `features/traditionalculture/color/`, `festival/`, `solarterm/`
+  - `features/china/worldcultureheritage/`
+- `/Users/bress/Documents/code/harmonycup-work/jm-spec71/commons/` — shared utilities:
+  - `commons/constants/` — constants, strings, DB schema
+  - `commons/utils/` — utilities (DbUtil, Logger, HttpUtil)
+  - `commons/uicomponents/` — shared UI components
+
+**Dependencies (products/default/oh-package.json5@LINE[1..14]):**
+```json
+{
+  "name": "default",
+  "dependencies": {
+    "home": "file:../../features/home",
+    "utils": "file:../../commons/utils"
+  }
+}
+```
+
+**Dependencies (features/chinese/idiom/oh-package.json5@LINE[1..12]):**
+```json
+{
+  "name": "chinese_idiom",
+  "dependencies": {
+    "constants": "file:../../../commons/constants",
+    "utils": "file:../../../commons/utils"
+  }
+}
+```
+
+---
+
+## 2. Home Page Navigation & Module Entry
+
+**Home page structure** (`features/home/src/main/ets/pages/HomePage.ets@LINE[1..20]`):
+```typescript
+@ComponentV2
+export struct HomePage {
+  @Provider('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+
+  build() {
+    Navigation(this.pageStack) {
+      Column() {
+        TopBar({ pageStack: this.pageStack })
+        MenuList({ pageStack: this.pageStack })
+      }
+    }
+    .mode(NavigationMode.Stack)
+    .titleMode(NavigationTitleMode.Mini)
+    .hideTitleBar(true)
+    .hideToolBar(true)
+  }
+}
+```
+
+**Menu entry for 成语 (idiom)** (`features/home/src/main/ets/view/MenuList.ets@LINE[55..59]`):
+```typescript
+GridItem() {
+  Item({
+    title: String.chinese_idiom
+  })
+}
+```
+
+**ISSUE:** The idiom entry does NOT have `.onClick()` handler. It should be:
+```typescript
+GridItem() {
+  Item({
+    title: String.chinese_idiom
+  }).onClick(() => {
+    this.pageStack.pushPathByName('IdiomIndexPage', null)
+  })
+}
+```
+
+**Navigation pattern used:** `NavPathStack.pushPathByName(routeName, params)`
+- Route names are registered in feature modules' route_map.json files
+- The idiom module is **missing** route_map.json (needs to be added)
+
+**Example route_map.json** (`features/classicalliterature/classicpoem/src/main/resources/base/profile/route_map.json@LINE[1..12]`):
+```json
+{
+  "routerMap": [
+    {
+      "name": "ClassicPoemIndexPage",
+      "pageSourceFile": "src/main/ets/pages/ClassicPoemIndexPage.ets",
+      "buildFunction": "ClassicPoemIndexPageBuilder",
+      "data": {
+        "description": "ClassicPoem Index Page"
+      }
+    }
+  ]
+}
+```
+
+---
+
+## 3. Complete Idiom Module File Structure
+
+**All files in idiom module:**
+```
+features/chinese/idiom/
+├── Index.ets                                      (exports)
+├── BuildProfile.ets
+├── oh-package.json5                              (dependencies: constants, utils)
+├── oh-package-lock.json5
+├── build-profile.json5
+├── hvigorfile.ts
+├── obfuscation-rules.txt
+├── consumer-rules.txt
+├── src/main/
+│   ├── ets/
+│   │   ├── model/
+│   │   │   └── Idiom.ets                          (Idiom class, IdiomSource, IdiomQuote, IdiomExample)
+│   │   └── pages/
+│   │       └── IdiomIndexPage.ets                 (PLACEHOLDER - "Hello World")
+│   ├── module.json5
+│   └── resources/base/element/
+│       ├── string.json                            (resource strings)
+│       └── float.json                             (font sizes)
+└── src/ohosTest/ & src/test/                      (test files)
+```
+
+**MISSING FILE:** No `route_map.json` in `src/main/resources/base/profile/`
+
+---
+
+## 4. Idiom Data Model & Database Schema
+
+**Idiom class** (`features/chinese/idiom/src/main/ets/model/Idiom.ets@LINE[10..54]`):
+```typescript
+export class Idiom {
+  id: number;
+  word: string;                    // 成语词汇
+  pinyin: string;                  // 拼音
+  abbr: string;                    // 缩写
+  explanation: string | null;      // 释义 (解释)
+  source: IdiomSource | null;      // 出处 (source.text + source.book)
+  quote: IdiomQuote | null;        // 名著引用
+  example: IdiomExample | null;    // 例句
+  similar: string[] | null;        // 近义词 (array of strings)
+  opposite: string[] | null;       // 反义词 (array of strings)
+  usage: string | null;            // 用法
+  story: string[] | null;          // 成语故事 (array of strings)
+  notice: string | null;           // 注意
+}
+
+export class IdiomSource {
+  text: string | null = null;      // 出处文本
+  book: string | null = null;      // 出处书籍
+}
+
+export class IdiomQuote {
+  text: string | null = null;      // 引用文本
+  book: string | null = null;      // 引用书籍
+}
+
+export class IdiomExample {
+  text: string | null = null;      // 例句文本
+  book: string | null = null;      // 例句出处书籍
+}
+```
+
+**Database table schema** (`commons/constants/src/main/ets/DbConst.ets@LINE[11, 55..59]`):
+```typescript
+static readonly CHINESE_IDIOM_TABLE: string = "chinese_idiom";
+
+static readonly CREATE_CHINESE_IDIOM_TABLE: string =
+  'create table if not exists ' + DbTableConst.CHINESE_IDIOM_TABLE +
+    ' (id integer not null primary key autoincrement, word text not null, pinyin text not null, abbr text not null,  ' +
+    'explanation text, example text, source text, quote text, similar text, opposite text, usage text, story text, ' +
+    'notice text, spelling text)';
+```
+
+**Note:** Database columns are stored as JSON strings for nested objects (source, quote, example, similar, opposite, story).
+
+**Random query** (`commons/constants/src/main/ets/DbConst.ets@LINE[91..94]`):
+```typescript
+static readonly READ_RANDOM_CHINESE_IDIOM: string =
+  'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+    ' where id = (select id from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+    ' order by random() limit 1) limit 1';
+```
+
+**DAO functions** (`features/chinese/idiom/src/main/ets/model/Idiom.ets@LINE[71..118]`):
+```typescript
+export async function createIdiom(obj: Idiom) {
+  // Inserts Idiom into database with ON_CONFLICT_REPLACE
+  const valuesBucket: relationalStore.ValuesBucket = { ... };
+  DbUtil.objectiveRDB?.insert(DbTableConst.CHINESE_IDIOM_TABLE, valuesBucket, ...);
+}
+
+export async function readRandomIdiom(): Promise<Idiom | null> {
+  // Returns random Idiom from database
+  // Uses DbCRUDConst.READ_RANDOM_CHINESE_IDIOM
+  // Returns parsed Idiom object or null
+}
+
+function parse(resultSet: relationalStore.ResultSet): Idiom {
+  // Parses ResultSet row into Idiom object
+  // JSON.parse() used for source, quote, example, similar, opposite, story fields
+}
+```
+
+---
+
+## 5. Favorites/Collection System
+
+**Bookmark model** (`features/bookmark/src/main/ets/model/Bookmark.ets@LINE[1..5]`):
+```typescript
+export class bookmark {
+  id: number = 0;
+  bookmarkable_id: number = 0;              // references idiom.id
+  bookmarkable_model: string = '';          // model name (e.g., 'Idiom', 'ClassicPoem', 'Quote')
+}
+```
+
+**Bookmark table schema** (`commons/constants/src/main/ets/DbConst.ets@LINE[70..72]`):
+```typescript
+static readonly CREATE_BOOKMARKS_TABLE: string =
+  'create table if not exists ' + DbTableConst.BOOKMARKS_TABLE +
+    ' (id integer primary key autoincrement not null, bookmarkable_id integer, bookmarkable_model text)';
+```
+
+**Bookmark page** (`features/bookmark/src/main/ets/pages/BookmarkIndexPage.ets@LINE[1..21]`):
+```typescript
+@ComponentV2
+export struct BookmarkIndexPage {
+  @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack()
+
+  build() {
+    NavDestination() {
+      // EMPTY - PLACEHOLDER (no implementation)
+    }
+    .title(String.bookmark)
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack;
+    })
+  }
+}
+```
+
+**Status:** Bookmark collection system exists but is **not implemented** on the bookmark page. Favorite button needs to be added to idiom home page UI.
+
+---
+
+## 6. Similar Module Implementations (Patterns to Follow)
+
+### ClassicPoem (full reference implementation)
+**Index Page** (`features/classicalliterature/classicpoem/src/main/ets/pages/ClassicPoemIndexPage.ets@LINE[1..56]`):
+```typescript
+@Builder
+export function ClassicPoemIndexPageBuilder() {
+  ClassicPoemIndexPage();
+}
+
+@ComponentV2
+export struct ClassicPoemIndexPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local classicPoem: ClassicPoem | null = null;
+
+  aboutToAppear(): void {
+    this.refresh()
+  }
+
+  refresh() {
+    readRandomClassicPoem().then((value: ClassicPoem | null) => {
+      this.classicPoem = value
+    })
+  }
+
+  build() {
+    NavDestination() {
+      Scroll() {
+        if (this.classicPoem) {
+          ClassicPoemView({ classicPoem: this.classicPoem })
+        }
+      }
+      .width('100%')
+      .height('100%')
+      .edgeEffect(EdgeEffect.Spring)
+      .align(Alignment.TopStart)
+    }
+    .title(String.classicalliterature_classicpoem)
+    .toolbarConfiguration([
+      {
+        "value": String.refresh,
+        "icon": Icon.ic_public_refresh,
+        "action": () => {
+          this.refresh()
+        }
+      }
+    ], {
+      "hideItemValue": true
+    })
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack
+    })
+  }
+}
+```
+
+**View component** (`features/classicalliterature/classicpoem/src/main/ets/view/ClassicPoemView.ets@LINE[1..47]`):
+```typescript
+@ComponentV2
+export struct ClassicPoemView {
+  @Param @Require classicPoem: ClassicPoem;
+
+  build() {
+    Column() {
+      Text(this.classicPoem.title)
+        .padding(ThemeConst.P_X16_Y8)
+      Text(`【${this.classicPoem.dynasty}】${this.classicPoem.writer}`)
+...truncated
+</return>
+
+You can use agent_id: Explore_11963040 to resume the agent later if needed for follow-up work.
+The result returned by the agent is not visible to the user.
+If you want to show the user the result, you should send a text message back to the user, including all key conclusions and necessary details.

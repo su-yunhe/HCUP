@@ -1,0 +1,123 @@
+<file>
+     1→import { IdiomExample, IdiomQuote, IdiomSource } from 'chinese_idiom';
+     2→import { relationalStore } from '@kit.ArkData';
+     3→import { BusinessError } from '@kit.BasicServicesKit';
+     4→import { DbCRUDConst, DbTableConst } from 'constants';
+     5→import { Logger } from 'utils';
+     6→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     7→import { JSON } from '@kit.ArkTS';
+     8→
+     9→let logger: Logger = new Logger('Expression');
+    10→
+    11→export class Expression {
+    12→  id: number;
+    13→  word: string;
+    14→  pinyin: string;
+    15→  explanation: string | null;
+    16→  source: IdiomSource | null;
+    17→  quote: IdiomQuote | null;
+    18→  example: IdiomExample | null;
+    19→  similar: string[] | null;
+    20→  opposite: string[] | null;
+    21→  usage: string | null;
+    22→  story: string[] | null;
+    23→  notice: string | null;
+    24→
+    25→  constructor(
+    26→    id: number,
+    27→    word: string,
+    28→    pinyin: string,
+    29→    explanation: string | null,
+    30→    source: IdiomSource | null,
+    31→    quote: IdiomQuote | null,
+    32→    example: IdiomExample | null,
+    33→    similar: string[] | null,
+    34→    opposite: string[] | null,
+    35→    usage: string | null,
+    36→    story: string[] | null,
+    37→    notice: string | null
+    38→  ) {
+    39→    this.id = id;
+    40→    this.word = word;
+    41→    this.pinyin = pinyin;
+    42→    this.explanation = explanation;
+    43→    this.source = source;
+    44→    this.quote = quote;
+    45→    this.example = example;
+    46→    this.similar = similar;
+    47→    this.opposite = opposite;
+    48→    this.usage = usage;
+    49→    this.story = story;
+    50→    this.notice = notice;
+    51→  }
+    52→}
+    53→
+    54→export async function createExpression(obj: Expression) {
+    55→  const valuesBucket: relationalStore.ValuesBucket = {
+    56→    'id': obj.id,
+    57→    'word': obj.word,
+    58→    'pinyin': obj.pinyin,
+    59→    'explanation': obj.explanation,
+    60→    'source': JSON.stringify(obj.source),
+    61→    'quote': JSON.stringify(obj.quote),
+    62→    'example': JSON.stringify(obj.example),
+    63→    'similar': JSON.stringify(obj.similar),
+    64→    'opposite': JSON.stringify(obj.opposite),
+    65→    'usage': obj.usage,
+    66→    'story': JSON.stringify(obj.story),
+    67→    'notice': obj.notice,
+    68→  }
+    69→
+    70→  DbUtil.objectiveRDB?.insert(
+    71→    DbTableConst.CHINESE_EXPRESSION_TABLE,
+    72→    valuesBucket,
+    73→    relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    74→  ).then((rowId: number) => {
+    75→    logger.info(`Insert is successful, rowId = ${rowId}`)
+    76→  }).catch((err: BusinessError) => {
+    77→    logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+    78→  })
+    79→}
+    80→
+    81→export async function readRandomClassicPoem(): Promise<Expression | null> {
+    82→  let obj: Expression | null = null
+    83→
+    84→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_EXPRESSION)
+    85→    .then((resultSet: relationalStore.ResultSet) => {
+    86→      try {
+    87→        while (resultSet.goToNextRow()) {
+    88→          obj = parse(resultSet)
+    89→        }
+    90→        resultSet.close()
+    91→      } catch (error) {
+    92→        let err = error as BusinessError
+    93→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    94→      }
+    95→    }).catch((err: BusinessError) => {
+    96→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    97→    });
+    98→
+    99→  return obj;
+   100→}
+   101→
+   102→/**
+   103→ * @throws
+   104→ */
+   105→function parse(resultSet: relationalStore.ResultSet): Expression {
+   106→  return new Expression(
+   107→    resultSet.getLong(resultSet.getColumnIndex('id')),
+   108→    resultSet.getString(resultSet.getColumnIndex('word')),
+   109→    resultSet.getString(resultSet.getColumnIndex('pinyin')),
+   110→    resultSet.getString(resultSet.getColumnIndex('explanation')),
+   111→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('source'))) as IdiomSource,
+   112→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('quote'))) as IdiomQuote,
+   113→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('example'))) as IdiomExample,
+   114→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('similar'))) as string[],
+   115→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('opposite'))) as string[],
+   116→    resultSet.getString(resultSet.getColumnIndex('usage')),
+   117→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('story'))) as string[],
+   118→    resultSet.getString(resultSet.getColumnIndex('notice')),
+   119→  )
+   120→}
+</file>
+<metadata>The file has 120 lines in total.</metadata>

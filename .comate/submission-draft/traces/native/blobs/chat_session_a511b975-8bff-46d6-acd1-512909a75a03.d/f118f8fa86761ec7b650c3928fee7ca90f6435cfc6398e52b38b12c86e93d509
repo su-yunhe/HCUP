@@ -1,0 +1,107 @@
+import { Icon, String, ThemeConst } from 'constants';
+
+/**
+ * 成语页面底部操作栏：搜索、收藏/已收藏、刷新。
+ */
+@ComponentV2
+export struct IdiomActionBar {
+  @Param @Require bookmarked: boolean;
+  @Param showSearch: boolean = false;
+  @Param showRefresh: boolean = false;
+  @Param actionEnabled: boolean = true;
+  @Event onSearch: () => void = () => {
+  };
+  @Event onToggleBookmark: () => void = () => {
+  };
+  @Event onRefresh: () => void = () => {
+  };
+
+  build() {
+    Row() {
+      if (this.showSearch) {
+        ActionButton({
+          buttonId: 'idiom_action_search',
+          icon: Icon.ic_public_search,
+          label: String.search,
+          highlight: false,
+          action: () => {
+            this.onSearch()
+          }
+        })
+      }
+      ActionButton({
+        buttonId: 'idiom_action_bookmark',
+        icon: this.bookmarked ? Icon.ic_bookmark : Icon.ic_bookmark_border,
+        label: this.bookmarked ? String.bookmarked : String.bookmark_add,
+        highlight: this.bookmarked,
+        action: () => {
+          if (this.actionEnabled) {
+            this.onToggleBookmark()
+          }
+        }
+      })
+      if (this.showRefresh) {
+        ActionButton({
+          buttonId: 'idiom_action_refresh',
+          icon: Icon.ic_public_refresh,
+          label: String.refresh,
+          highlight: false,
+          action: () => {
+            if (this.actionEnabled) {
+              this.onRefresh()
+            }
+          }
+        })
+      }
+    }
+    .width('100%')
+    .height(56)
+    .justifyContent(FlexAlign.SpaceAround)
+    .alignItems(VerticalAlign.Center)
+    .border({ width: { top: 1 }, color: '#fff1f3f5' })
+    .backgroundColor(ThemeConst.BackGroundColor_Normal)
+  }
+}
+
+@ComponentV2
+struct ActionButton {
+  @Param @Require buttonId: string;
+  @Param @Require icon: Resource;
+  @Param @Require label: Resource;
+  @Param highlight: boolean = false;
+  @Event action: () => void = () => {
+  };
+
+  build() {
+    Row() {
+      Image(this.icon)
+        .width(20)
+        .height(20)
+        .fillColor(this.highlight ? '#ff3d6dd8' : Color.Black)
+      Text(this.label)
+        .fontSize(ThemeConst.FontSize_14)
+        .fontColor(this.highlight ? '#ff3d6dd8' : Color.Black)
+        .margin({ left: 6 })
+    }
+    .id(this.id)
+    .padding({
+      left: 16,
+      top: 8,
+      right: 16,
+      bottom: 8
+    })
+    .borderRadius(18)
+    .alignItems(VerticalAlign.Center)
+    .stateStyles({
+      normal: {
+        .backgroundColor(ThemeConst.BackGroundColor_Normal)
+      },
+      clicked: {
+        .backgroundColor(ThemeConst.BackGroundColor_Clicked)
+      }
+    })
+    .onClick(() => {
+      this.action()
+    })
+  }
+}

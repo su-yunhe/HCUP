@@ -1,0 +1,12 @@
+    def current_word(self) -> str:
+        return self.require_component(BY.key('idiom_word'), '页面未展示成语').getText()
+
+    def scroll_require(self, by, message: str, attempts: int = 8):
+        """页面内容较长时，边向上滑动边查找目标组件。"""
+        for _ in range(attempts):
+            component = self.find_or_none(by, timeout=1)
+            if component is not None:
+                return component
+            self.driver.swipe(UiParam.UP, distance=40)
+            self.driver.wait(0.4)
+        self.fail(message)

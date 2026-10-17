@@ -1,0 +1,8 @@
+# 成语模块实施总结（idiom-random-home）
+
+需求：`SWE-OpenHarmony/specs/jm-spec71.md`（4 个场景）。基线 `3eb576cf2f`，已先执行官方 `prepare_baseline.py`。
+10 个任务全部完成，构建通过，5 条 Hypium 自测用例在 Pura 模拟器（127.0.0.1:5555）全部 OK，官方示例 `examples/jm-spec7` 亦通过。
+
+## 做了什么
+
+**路由与入口**：成语模块补齐 `route_map.json`（`IdiomIndexPage` / `IdiomDetailP

@@ -1,0 +1,2 @@
+      const param: Object | undefined = ctx.pathInfo.param
+      this.idiomId = typeof param === 'number' ? param as number : 0

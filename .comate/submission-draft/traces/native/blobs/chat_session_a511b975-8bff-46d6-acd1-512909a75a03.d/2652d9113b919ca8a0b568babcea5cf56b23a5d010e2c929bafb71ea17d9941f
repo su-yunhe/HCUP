@@ -1,0 +1,142 @@
+<file>
+     1→import { relationalStore } from '@kit.ArkData';
+     2→import { BusinessError } from '@kit.BasicServicesKit';
+     3→import { DbCRUDConst, DbTableConst } from 'constants';
+     4→import { Logger } from 'utils';
+     5→import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     6→import { JSON } from '@kit.ArkTS';
+     7→
+     8→let logger: Logger = new Logger('Idiom');
+     9→
+    10→export class Idiom {
+    11→  id: number;
+    12→  word: string;
+    13→  pinyin: string;
+    14→  abbr: string;
+    15→  explanation: string | null;
+    16→  source: IdiomSource | null;
+    17→  quote: IdiomQuote | null;
+    18→  example: IdiomExample | null;
+    19→  similar: string[] | null;
+    20→  opposite: string[] | null;
+    21→  usage: string | null;
+    22→  story: string[] | null;
+    23→  notice: string | null;
+    24→
+    25→  constructor(
+    26→    id: number,
+    27→    word: string,
+    28→    pinyin: string,
+    29→    abbr: string,
+    30→    explanation: string | null,
+    31→    source: IdiomSource | null,
+    32→    quote: IdiomQuote | null,
+    33→    example: IdiomExample | null,
+    34→    similar: string[] | null,
+    35→    opposite: string[] | null,
+    36→    usage: string | null,
+    37→    story: string[] | null,
+    38→    notice: string | null
+    39→  ) {
+    40→    this.id = id;
+    41→    this.word = word;
+    42→    this.pinyin = pinyin;
+    43→    this.abbr = abbr;
+    44→    this.explanation = explanation;
+    45→    this.source = source;
+    46→    this.quote = quote;
+    47→    this.example = example;
+    48→    this.similar = similar;
+    49→    this.opposite = opposite;
+    50→    this.usage = usage;
+    51→    this.story = story;
+    52→    this.notice = notice;
+    53→  }
+    54→}
+    55→
+    56→export class IdiomSource {
+    57→  text: string | null = null;
+    58→  book: string | null = null;
+    59→}
+    60→
+    61→export class IdiomQuote {
+    62→  text: string | null = null;
+    63→  book: string | null = null;
+    64→}
+    65→
+    66→export class IdiomExample {
+    67→  text: string | null = null;
+    68→  book: string | null = null;
+    69→}
+    70→
+    71→export async function createIdiom(obj: Idiom) {
+    72→  const valuesBucket: relationalStore.ValuesBucket = {
+    73→    'id': obj.id,
+    74→    'word': obj.word,
+    75→    'pinyin': obj.pinyin,
+    76→    'abbr': obj.abbr,
+    77→    'explanation': obj.explanation,
+    78→    'source': JSON.stringify(obj.source),
+    79→    'quote': JSON.stringify(obj.quote),
+    80→    'example': JSON.stringify(obj.example),
+    81→    'similar': JSON.stringify(obj.similar),
+    82→    'opposite': JSON.stringify(obj.opposite),
+    83→    'usage': obj.usage,
+    84→    'story': JSON.stringify(obj.story),
+    85→    'notice': obj.notice,
+    86→  }
+    87→
+    88→  DbUtil.objectiveRDB?.insert(
+    89→    DbTableConst.CHINESE_IDIOM_TABLE,
+    90→    valuesBucket,
+    91→    relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    92→  ).then((rowId: number) => {
+    93→    logger.info(`Insert is successful, rowId = ${rowId}`)
+    94→  }).catch((err: BusinessError) => {
+    95→    logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+    96→  })
+    97→}
+    98→
+    99→export async function readRandomIdiom(): Promise<Idiom | null> {
+   100→  let obj: Idiom | null = null
+   101→
+   102→  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CHINESE_IDIOM)
+   103→    .then((resultSet: relationalStore.ResultSet) => {
+   104→      try {
+   105→        while (resultSet.goToNextRow()) {
+   106→          obj = parse(resultSet)
+   107→        }
+   108→        resultSet.close()
+   109→      } catch (error) {
+   110→        let err = error as BusinessError
+   111→        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   112→      }
+   113→    }).catch((err: BusinessError) => {
+   114→      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+   115→    });
+   116→
+   117→  return obj;
+   118→}
+   119→
+   120→/**
+   121→ * @throws
+   122→ */
+   123→function parse(resultSet: relationalStore.ResultSet): Idiom {
+   124→  return new Idiom(
+   125→    resultSet.getLong(resultSet.getColumnIndex('id')),
+   126→    resultSet.getString(resultSet.getColumnIndex('word')),
+   127→    resultSet.getString(resultSet.getColumnIndex('pinyin')),
+   128→    resultSet.getString(resultSet.getColumnIndex('abbr')),
+   129→    resultSet.getString(resultSet.getColumnIndex('explanation')),
+   130→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('source'))) as IdiomSource,
+   131→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('quote'))) as IdiomQuote,
+   132→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('example'))) as IdiomExample,
+   133→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('similar'))) as string[],
+   134→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('opposite'))) as string[],
+   135→    resultSet.getString(resultSet.getColumnIndex('usage')),
+   136→    JSON.parse(resultSet.getString(resultSet.getColumnIndex('story'))) as string[],
+   137→    resultSet.getString(resultSet.getColumnIndex('notice')),
+   138→  )
+   139→}
+</file>
+<metadata>The file has 139 lines in total.</metadata>

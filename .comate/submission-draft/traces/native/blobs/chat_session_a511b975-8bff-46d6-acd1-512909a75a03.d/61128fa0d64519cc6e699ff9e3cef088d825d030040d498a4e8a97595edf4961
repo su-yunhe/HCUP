@@ -1,0 +1,67 @@
+# 成语模块（首屏随机 / 收藏 / 详情 / 搜索 / 近反义词跳转）实施计划
+
+- [x] Task 1: 打通成语模块路由与首页入口（可运行最小闭环）
+    - 1.1: 新增 `features/chinese/idiom/src/main/resources/base/profile/route_map.json`，注册 `IdiomIndexPage` / `IdiomDetailPage` / `IdiomSearchPage` 及 Builder 函数名
+    - 1.2: `features/chinese/idiom/src/main/module.json5` 增加 `"routerMap": "$profile:route_map"`
+    - 1.3: 重写 `IdiomIndexPage.ets` 为 NavDestination 骨架（标题"成语"、`@Builder IdiomIndexPageBuilder`、`@Consumer NavPathStack`），暂显占位文本
+    - 1.4: `features/chinese/idiom/Index.ets` 导出页面 Builder 与 struct，保留现有 `MainPage` 兼容导出
+    - 1.5: `features/home/oh-package.json5` 增加 `chinese_idiom` 依赖；`MenuList.ets` 成语 GridItem 增加 `onClick → pushPathByName('IdiomIndexPage', null)`
+    - 1.6: `ohpm install --all` + `hvigorw assembleHap` 构建验证，确认首页可进入成语页
+
+- [x] Task 2: 完善数据库就绪机制与成语数据访问层
+    - 2.1: `commons/utils/src/main/ets/data/DbUtil.ets` 增加 `ready(): Promise<RdbStore | undefined>` 与就绪通知（迁移完成或出错后 resolve）
+    - 2.2: `commons/constants/src/main/ets/DbConst.ets` 的 `DbCRUDConst` 增加成语按 id 查询、排除上次 id 的随机查询、关键词搜索、按 word 批量查 id、计数 SQL
+    - 2.3: `commons/constants/src/main/ets/PrefConst.ets` 增加 `CHINESE_IDIOM_SEED_VERSION`；`PrefUtil.ets` 增加成语上次展示 id 与种子版本的读写方法
+    - 2.4: `features/chinese/idiom/src/main/ets/model/Idiom.ets`：`parse` 对 NULL/空串/非法 JSON 容错；新增 `readRandomIdiom(excludeId)`、`readIdiomById`、`readIdiomIdsByWords`、`searchIdioms`、`countIdioms`
+    - 2.5: 构建验证
+
+- [x] Task 3: 生成并接入内置种子数据，保证离线可用
+    - 3.1: 从本应用公开数据接口筛选种子集（有成语故事或反义词的条目 + 近/反义词闭包），按 id 排序切分为 `part_*.json`，生成 `manifest.json`，写入 `features/chinese/idiom/src/main/resources/rawfile/chinese_idiom_seed/`
+    - 3.2: 新增 `model/IdiomSeeder.ets`：`ensureIdiomReady(context)` 单例 Promise，等待 DB 就绪 → 读 rawfile → `batchInsertWithConflictResolution(ON_CONFLICT_IGNORE)` → 记录种子版本
+    - 3.3: `products/default/oh-package.json5` 增加 `chinese_idiom` 依赖；`EntryAbility.ets` 在 `DbUtil.init` 后调用 `ensureIdiomReady` 预热
+    - 3.4: 构建 + 安装到模拟器，确认成语表有数据、重复启动不重复插入
+
+- [x] Task 4: 实现成语收藏数据层
+    - 4.1: `DbConst.ets` 增加 bookmarks 表按 model+id 的存在性查询、删除、联表列表 SQL
+    - 4.2: 新增 `features/chinese/idiom/src/main/ets/model/IdiomBookmark.ets`：`isIdiomBookmarked`、`addIdiomBookmark`（先判重）、`removeIdiomBookmark`、`toggleIdiomBookmark`、`readBookmarkedIdioms`
+    - 4.3: `features/chinese/idiom/Index.ets` 导出收藏 API 与模型常量；`oh-package.json5` 增加 `uicomponents` 依赖
+    - 4.4: 构建验证
+
+- [ ] Task 5: 实现共享展示组件 IdiomView 与底部操作栏
+    - 5.1: 新增 `view/IdiomView.ets`：成语名、拼音、释义、出处、例句（`～` 替换为成语）、用法、名著引用、成语故事、注意分节渲染
+    - 5.2: `IdiomView` 增加"近义词""反义词"标签组，`aboutToAppear` + `@Monitor('idiom')` 时通过 `readIdiomIdsByWords` 解析可跳转词
+    - 5.3: 标签交互：词库中存在则可点击并回调 `onOpenIdiom(id)`，不存在则置灰并 Toast 提示
+    - 5.4: 新增 `view/IdiomActionBar.ets`：搜索 / 收藏（已收藏）/ 刷新按钮，图标与文案按设计稿
+    - 5.5: 构建验证
+
+- [ ] Task 6: 完成成语首页（场景一、场景二首页侧）
+    - 6.1: `IdiomIndexPage` 接入 `ensureIdiomReady` + `readRandomIdiom(排除上次 id)`，保存本次 id 到 Preferences
+    - 6.2: 加载中 / 空数据 / 正常三态渲染，`Refresh` 下拉刷新 + 刷新按钮，并发与重复点击保护
+    - 6.3: 收藏按钮接入 `toggleIdiomBookmark`，Toast 反馈，`onShown` 同步收藏状态（不重新随机）
+    - 6.4: 内容区点击 `pushPathByName('IdiomDetailPage', id)`，搜索按钮 push 搜索页
+    - 6.5: 构建 + 真机/模拟器手动验证随机、刷新、返回保持
+
+- [ ] Task 7: 实现成语详情页（场景二、场景四）
+    - 7.1: 新增 `pages/IdiomDetailPage.ets`：`onReady` 取路由参数 id → `readIdiomById`，标题"成语详情"
+    - 7.2: 复用 `IdiomView` 展示完整信息，底部收藏按钮，`onShown` 同步收藏状态
+    - 7.3: 近/反义词标签点击 push 新的 `IdiomDetailPage`，支持链式关联浏览与逐级返回
+    - 7.4: id 缺失或查不到时显示"未找到该成语"
+    - 7.5: 构建 + 手动验证跳转链路
+
+- [ ] Task 8: 实现成语搜索页（场景三）
+    - 8.1: 新增 `pages/IdiomSearchPage.ets`：Search 组件、默认聚焦、搜索按钮，标题"搜索成语"
+    - 8.2: `onChange` 300ms 防抖 + `onSubmit` 立即搜索，token 丢弃过期结果，`aboutToDisappear` 清理定时器
+    - 8.3: 结果 List 渲染（成语名、拼音、释义），点击进入详情；空关键词 / 搜索中 / 无结果三态提示
+    - 8.4: 构建 + 验证搜索"一石二鸟"命中且精确匹配置顶
+
+- [ ] Task 9: 完成收藏夹页面与首页入口
+    - 9.1: 修正 `features/bookmark/src/main/resources/base/profile/route_map.json` 键名为 `routerMap`
+    - 9.2: `features/bookmark/oh-package.json5` 增加 `chinese_idiom`、`utils` 依赖；`BookmarkIndexPage` 渲染已收藏成语 List，空态提示，点击进详情，`onShown` 重载
+    - 9.3: `features/home` 增加 `bookmark` 依赖；`TopBar.ets` 新增收藏夹图标入口
+    - 9.4: 构建验证收藏夹可达、收藏项可见
+
+- [ ] Task 10: 整体联调与自测
+    - 10.1: 全量构建并安装到模拟器，完成隐私确认与引导
+    - 10.2: 在本题工作目录 `hypium_tests/` 编写覆盖四个场景的 Hypium 脚本（入口、随机刷新、收藏持久化与返回保持、搜索命中、近反义词跳转）
+    - 10.3: 运行自测脚本，修复暴露的问题并回归
+    - 10.4: 确认 `oh-package-lock.json5` 等依赖锁文件已更新并纳入工程

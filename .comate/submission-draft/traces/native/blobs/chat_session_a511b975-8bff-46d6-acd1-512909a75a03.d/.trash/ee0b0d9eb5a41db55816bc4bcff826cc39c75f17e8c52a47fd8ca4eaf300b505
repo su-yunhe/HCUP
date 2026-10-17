@@ -1,0 +1,43 @@
+import { String, ThemeConst } from 'constants';
+import { Idiom, readIdiomById } from '../model/Idiom';
+import { isIdiomBookmarked, toggleIdiomBookmark } from '../model/IdiomBookmark';
+import { ensureIdiomData } from '../model/IdiomSeeder';
+import { IdiomView } from '../view/IdiomView';
+import { IdiomActionBar } from '../view/IdiomActionBar';
+
+@Builder
+export function IdiomDetailPageBuilder() {
+  IdiomDetailPage();
+}
+
+@ComponentV2
+export struct IdiomDetailPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local idiom: Idiom | null = null;
+  @Local loading: boolean = true;
+  @Local bookmarked: boolean = false;
+  @Local toggling: boolean = false;
+  private idiomId: number = 0;
+
+  build() {
+    NavDestination() {
+      Column() {
+        Scroll() {
+          Column() {
+            if (this.idiom) {
+              IdiomView({
+                idiom: this.idiom,
+                onOpenIdiom: (id: number) => {
+                  this.pageStack.pushPathByName('IdiomDetailPage', id)
+                }
+              })
+            } else {
+              Text(this.loading ? '加载中…' : '未找到该成语')
+                .width('100%')
+                .padding(48)
+                .textAlign(TextAlign.Center)
+                .fontColor(Color.Gray)
+                .fontSize(ThemeConst.FontSize_14)
+            }
+          }
+          .width

@@ -1,0 +1,5 @@
+export class DbUtil {
+  objectiveRDB?: relationalStore.RdbStore;
+  private logger: Logger = new Logger('RDBStoreUtil')
+
+  init(context: Context) {

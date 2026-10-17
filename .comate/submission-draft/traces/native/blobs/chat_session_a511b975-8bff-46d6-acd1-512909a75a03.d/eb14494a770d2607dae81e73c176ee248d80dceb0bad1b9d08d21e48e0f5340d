@@ -1,0 +1,35 @@
+      if (this.showSearch) {
+        ActionButton({
+          buttonId: 'idiom_action_search',
+          icon: Icon.ic_public_search,
+          label: String.search,
+          highlight: false,
+          action: () => {
+            this.onSearch()
+          }
+        })
+      }
+      ActionButton({
+        buttonId: 'idiom_action_bookmark',
+        icon: this.bookmarked ? Icon.ic_bookmark : Icon.ic_bookmark_border,
+        label: this.bookmarked ? String.bookmarked : String.bookmark_add,
+        highlight: this.bookmarked,
+        action: () => {
+          if (this.actionEnabled) {
+            this.onToggleBookmark()
+          }
+        }
+      })
+      if (this.showRefresh) {
+        ActionButton({
+          buttonId: 'idiom_action_refresh',
+          icon: Icon.ic_public_refresh,
+          label: String.refresh,
+          highlight: false,
+          action: () => {
+            if (this.actionEnabled) {
+              this.onRefresh()
+            }
+          }
+        })
+      }

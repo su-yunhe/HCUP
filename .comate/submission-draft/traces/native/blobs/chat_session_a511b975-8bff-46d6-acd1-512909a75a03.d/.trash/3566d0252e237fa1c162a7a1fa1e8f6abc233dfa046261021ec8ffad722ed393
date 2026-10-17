@@ -1,0 +1,32 @@
+function parse(resultSet: relationalStore.ResultSet): Idiom {
+  return new Idiom(
+    resultSet.getLong(resultSet.getColumnIndex('id')),
+    getNullableString(resultSet, 'word') ?? '',
+    getNullableString(resultSet, 'pinyin') ?? '',
+    getNullableString(resultSet, 'abbr') ?? '',
+    getNullableString(resultSet, 'explanation'),
+    parseSource(getNullableString(resultSet, 'source')),
+    parseQuote(getNullableString(resultSet, 'quote')),
+    parseExample(getNullableString(resultSet, 'example')),
+    parseStringArray(getNullableString(resultSet, 'similar')),
+    parseStringArray(getNullableString(resultSet, 'opposite')),
+    getNullableString(resultSet, 'usage'),
+    parseStringArray(getNullableString(resultSet, 'story')),
+    getNullableString(resultSet, 'notice'),
+  )
+}
+
+function getNullableString(resultSet: relationalStore.ResultSet, column: string): string | null {
+  try {
+    const index = resultSet.getColumnIndex(column)
+    if (index < 0 || resultSet.isColumnNull(index)) {
+      return null
+    }
+    const value = resultSet.getString(index)
+    return value.length === 0 ? null : value
+  } catch (error) {
+    return null
+  }
+}
+
+function parseJson(text: 

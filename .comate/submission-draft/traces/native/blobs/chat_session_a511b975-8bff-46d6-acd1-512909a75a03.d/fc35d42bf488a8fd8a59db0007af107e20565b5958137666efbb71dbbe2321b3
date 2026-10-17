@@ -1,0 +1,90 @@
+# 成语模块：首屏随机展示 / 收藏 / 详情 / 搜索 / 近反义词关联浏览
+
+需求来源：`SWE-OpenHarmony/specs/jm-spec71.md`（4 个场景）。基线已执行 `prepare_baseline.py`（成语/知识/语录 Index.ets 导出路径修正、锁文件更新），本需求在其上开发。
+
+## 一、现状分析（基线）
+
+| 位置 | 现状 | 问题 |
+| --- | --- | --- |
+| `features/home/src/main/ets/view/MenuList.ets:55` | "成语" GridItem 无 onClick | 入口不可用 |
+| `features/chinese/idiom/src/main/ets/pages/IdiomIndexPage.ets` | 仅 Hello World 占位（struct 名 MainPage） | 无任何功能 |
+| `features/chinese/idiom/src/main/module.json5` | 无 routerMap，无 `route_map.json` | 无法 `pushPathByName` |
+| `features/chinese/idiom/src/main/ets/model/Idiom.ets` | 仅 `createIdiom`、`readRandomIdiom`；`parse` 对 NULL/空串 JSON.parse 会抛异常 | 缺按 id/词查询、搜索、收藏 |
+| `commons/utils/src/main/ets/data/DbUtil.ets` | `getRdbStore` 回调式初始化，页面可能在建表完成前查询 | 无"就绪"等待机制 |
+| `features/bookmark` | `BookmarkIndexPage` 空页面；`route_map.json` 键名写成 `routeMap`；未被任何模块依赖 | 收藏夹不可达、无内容 |
+| `features/home/src/main/ets/view/TopBar.ets` | 仅设置图标 | 无收藏夹入口 |
+| 数据 | `chinese_idiom` 表初始为空，只能在"设置→同步/导入"中从网络或文件导入（49639 条） | 新装应用进入成语页无数据，搜索"一石二鸟"必然失败 |
+
+## 二、总体方案
+
+1. **数据保障（内置种子数据）**：在成语模块 `rawfile/chinese_idiom_seed/` 内置从本应用自身公开数据接口（`NetworkConst.BASE_URL1` 的 `chinese_idiom_v5_*.json`）筛选出的约 1.5 万条成语，首次启动时批量写入 `chinese_idiom` 表（使用远端原始 id，`ON_CONFLICT_IGNORE`），与"设置→同步数据"写入的数据完全一致、不会重复。
+   - 筛选规则：有"成语故事"或"反义词"的成语（11004 条，覆盖常用成语）+ 其近义词/反义词在全量库中可解析词条的**闭包**（迭代至不动点，约 14.9k 条，≈8.9MB，按 id 排序切分为每 2000 条一个文件）。保证种子库内任一成语的近/反义词标签，只要全量库中存在，种子库中也存在，近反义词跳转链路不断。
+   - 一石二鸟(869) → 一箭双雕(915)/一举两得(44) 等均包含在内。
+2. **DB 就绪等待**：`DbUtil` 增加 `ready(): Promise<RdbStore | undefined>`，在建表迁移完成后 resolve；成语所有查询先 `await` 就绪 + 种子导入完成。
+3. **路由**：成语模块新增 `route_map.json`，注册 `IdiomIndexPage`、`IdiomDetailPage`、`IdiomSearchPage`；收藏夹 `route_map.json` 键名修正为 `routerMap`。所有页面沿用现有 `NavDestination + @Consumer('NavPathStack')` 模式。
+4. **页面**：
+   - `IdiomIndexPage`（标题"成语"）：随机成语内联完整展示 + 底部操作栏【搜索】【收藏/已收藏】【刷新】，支持下拉刷新；点击内容区进入详情。
+   - `IdiomDetailPage`（标题"成语详情"）：按 id 展示完整信息 + 底部【收藏/已收藏】。
+   - `IdiomSearchPage`（标题"搜索成语"）：Search 输入框，输入即搜（300ms 防抖）+ 回车/搜索按钮立即搜，结果 List，点击进详情。
+   - `BookmarkIndexPage`（标题"收藏夹"）：列出已收藏成语，点击进详情；首页 TopBar 新增收藏图标入口。
+5. **共享展示组件 `IdiomView`**：成语名、拼音、释义、出处、例句、用法、名著引用、成语故事、注意、近义词标签组、反义词标签组；首页与详情页共用。标签点击：词库中存在 → push 该成语的 `IdiomDetailPage`；不存在 → 置灰样式，点击 Toast 提示"词库中暂未收录"。
+
+## 三、受影响文件
+
+| 类型 | 绝对路径（根：`/Users/bress/Documents/code/harmonycup-work/jm-spec71`） | 内容 |
+| --- | --- | --- |
+| 修改 | `commons/utils/src/main/ets/data/DbUtil.ets` | 新增 `ready()`；迁移结束后统一 resolve |
+| 修改 | `commons/utils/src/main/ets/data/PrefUtil.ets` | 新增 `saveChineseIdiomId/getChineseIdiomId`（上次展示 id）、`saveChineseIdiomSeedVersion/getChineseIdiomSeedVersion` |
+| 修改 | `commons/constants/src/main/ets/PrefConst.ets` | 新增 `CHINESE_IDIOM_SEED_VERSION`（复用已有 `CHINESE_IDIOM_ID`） |
+| 修改 | `commons/constants/src/main/ets/DbConst.ets` | `DbCRUDConst` 新增成语按 id/排除随机/搜索、收藏增删查 SQL |
+| 修改 | `features/chinese/idiom/src/main/ets/model/Idiom.ets` | 健壮 `parse`；新增 `readRandomIdiom(excludeId)`、`readIdiomById`、`readIdiomIdsByWords`、`searchIdioms`、`countIdioms` |
+| 新增 | `features/chinese/idiom/src/main/ets/model/IdiomBookmark.ets` | `isIdiomBookmarked`、`addIdiomBookmark`、`removeIdiomBookmark`、`toggleIdiomBookmark`、`readBookmarkedIdioms` |
+| 新增 | `features/chinese/idiom/src/main/ets/model/IdiomSeeder.ets` | `ensureIdiomReady(context)`：单例 Promise，DB 就绪 + 种子导入 |
+| 新增 | `features/chinese/idiom/src/main/resources/rawfile/chinese_idiom_seed/manifest.json`、`part_*.json` | 种子数据 |
+| 新增 | `features/chinese/idiom/src/main/ets/view/IdiomView.ets`、`view/IdiomActionBar.ets` | 共享展示组件、底部操作按钮 |
+| 重写 | `features/chinese/idiom/src/main/ets/pages/IdiomIndexPage.ets` | 成语首页 |
+| 新增 | `features/chinese/idiom/src/main/ets/pages/IdiomDetailPage.ets`、`IdiomSearchPage.ets` | 详情页、搜索页 |
+| 新增/修改 | `features/chinese/idiom/src/main/resources/base/profile/route_map.json`、`module.json5` | 路由注册 |
+| 修改 | `features/chinese/idiom/Index.ets`、`oh-package.json5` | 导出新 API；新增 `uicomponents` 依赖 |
+| 修改 | `features/bookmark/...`：`BookmarkIndexPage.ets`、`route_map.json`、`oh-package.json5`、`Index.ets` | 收藏夹列表；依赖 `chinese_idiom`、`utils` |
+| 修改 | `features/home/src/main/ets/view/MenuList.ets`、`TopBar.ets`、`oh-package.json5` | 成语入口 onClick；收藏夹图标；依赖 `bookmark` |
+| 修改 | `products/default/src/main/ets/entryability/EntryAbility.ets`、`oh-package.json5` | 启动即后台预导入种子（依赖 `chinese_idiom`） |
+| 更新 | 各模块 `oh-package-lock.json5` | `ohpm install --all` 重新生成 |
+
+## 四、实现细节
+
+### 4.1 DbUtil 就绪
+
+```ts
+private store?: relationalStore.RdbStore; private initialized = false;
+private waiters: Array<(s: relationalStore.RdbStore | undefined) => void> = [];
+ready(): Promise<relationalStore.RdbStore | undefined> {
+  if (this.initialized) return Promise.resolve(this.objectiveRDB);
+  return new Promise((resolve) => { this.waiters.push(resolve) });
+}
+// init 回调：error 或迁移结束（rdbStore.version 赋值后）调用 markReady()
+```
+
+### 4.2 种子导入 `ensureIdiomReady(context)`
+
+```ts
+let readyPromise: Promise<void> | null = null;
+export function ensureIdiomReady(context: Context): Promise<void> {
+  if (!readyPromise) readyPromise = doSeed(context).catch(() => { readyPromise = null });
+  return readyPromise;
+}
+async function doSeed(context) {
+  const store = await DbUtil.ready(); if (!store) return;
+  if (PrefUtil.getChineseIdiomSeedVersion() >= SEED_VERSION && await countIdioms() > 0) return;
+  manifest = JSON.parse(decode(await context.resourceManager.getRawFileContent('chinese_idiom_seed/manifest.json')))
+  for (file of manifest.files) {
+    rows = JSON.parse(decode(await getRawFileContent(`chinese_idiom_seed/${file}`)))
+    await store.batchInsertWithConflictResolution(CHINESE_IDIOM_TABLE, rows.map(toBucket),
+      relationalStore.ConflictResolution.ON_CONFLICT_IGNORE)   // API 18+，工程 compatibleSdk=19
+  }
+  PrefUtil.saveChineseIdiomSeedVersion(SEED_VERSION)
+}
+```
+`toBucket` 与 `createIdiom` 存储格式一致（JSON 字段 `null` 存为 `"null"`）。失败只记日志，不阻塞页面（页面显示空数据提示）。EntryAbility 在 `DbUtil.init` 后立即调用，页面进入时再次 `await`（同一 Promise）。
+
+<!-- APPEND_POINT_2 -->

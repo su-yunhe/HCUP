@@ -1,0 +1,545 @@
+<file>
+     1→import { BusinessError } from '@kit.BasicServicesKit';
+     2→import { DataWrapper, Logger } from 'utils';
+     3→import { Icon, PrefConst, String, ThemeConst } from 'constants';
+     4→import DatasetViewModel from '../viewmodel/DatasetViewModel';
+     5→import Dataset from '../model/Dataset';
+     6→import { WorldCulturalHeritage } from 'china_worldcultureheritage';
+     7→import { AntitheticalCouplet } from 'chinese_antitheticalcouplet';
+     8→import { Character } from 'chinese_character';
+     9→import { Expression } from 'chinese_expression';
+    10→import { Idiom } from 'chinese_idiom';
+    11→import { Knowledge } from 'chinese_knowledge';
+    12→import { Quote } from 'chinese_quote';
+    13→import { ClassicPoem } from 'classicalliterature_classicpoem';
+    14→import { Sentence } from 'classicalliterature_sentence';
+    15→import { BlockTitle } from 'uicomponents';
+    16→import PrefUtil from 'utils/src/main/ets/data/PrefUtil';
+    17→
+    18→let logger: Logger = new Logger('SyncData');
+    19→
+    20→@ComponentV2
+    21→export struct SyncDataList {
+    22→  @Param @Require @Once dataset: Dataset[]
+    23→  @Local classicalliteratureClassicpoemLocalVersion: number = PrefUtil.getClassicalLiteratureClassicPoemVersion();
+    24→  @Local classicalliteratureClassicpoemRemoteVersion: number = 0;
+    25→  @Local classicalliteratureClassicpoemTotal: number = 0;
+    26→  @Local classicalliteratureClassicpoemCount: number = 0;
+    27→  @Local classicalliteratureClassicpoemLoading: boolean = false;
+    28→  @Local classicalliteratureClassicpoemLoadingError: string | null = null;
+    29→  @Local classicalliteratureSentenceLocalVersion: number = PrefUtil.getClassicalLiteratureSentenceVersion();
+    30→  @Local classicalliteratureSentenceRemoteVersion: number = 0;
+    31→  @Local classicalliteratureSentenceTotal: number = 0;
+    32→  @Local classicalliteratureSentenceCount: number = 0;
+    33→  @Local classicalliteratureSentenceLoading: boolean = false;
+    34→  @Local classicalliteratureSentenceLoadingError: string | null = null;
+    35→  @Local chineseAntitheticalCoupletLocalVersion: number = PrefUtil.getChineseAntitheticalCoupletVersion();
+    36→  @Local chineseAntitheticalCoupletRemoteVersion: number = 0;
+    37→  @Local chineseAntitheticalCoupletTotal: number = 0;
+    38→  @Local chineseAntitheticalCoupletCount: number = 0;
+    39→  @Local chineseAntitheticalCoupletLoading: boolean = false;
+    40→  @Local chineseAntitheticalCoupletLoadingError: string | null = null;
+    41→  @Local chineseCharacterLocalVersion: number = PrefUtil.getChineseCharacterVersion();
+    42→  @Local chineseCharacterRemoteVersion: number = 0;
+    43→  @Local chineseCharacterTotal: number = 0;
+    44→  @Local chineseCharacterCount: number = 0;
+    45→  @Local chineseCharacterLoading: boolean = false;
+    46→  @Local chineseCharacterLoadingError: string | null = null;
+    47→  @Local chineseExpressionLocalVersion: number = PrefUtil.getChineseExpressionVersion();
+    48→  @Local chineseExpressionRemoteVersion: number = 0;
+    49→  @Local chineseExpressionTotal: number = 0;
+    50→  @Local chineseExpressionCount: number = 0;
+    51→  @Local chineseExpressionLoading: boolean = false;
+    52→  @Local chineseExpressionLoadingError: string | null = null;
+    53→  @Local chineseIdiomLocalVersion: number = PrefUtil.getChineseIdiomVersion();
+    54→  @Local chineseIdiomRemoteVersion: number = 0;
+    55→  @Local chineseIdiomTotal: number = 0;
+    56→  @Local chineseIdiomCount: number = 0;
+    57→  @Local chineseIdiomLoading: boolean = false;
+    58→  @Local chineseIdiomLoadingError: string | null = null;
+    59→  @Local chineseKnowledgeLocalVersion: number = PrefUtil.getChineseKnowledgeVersion();
+    60→  @Local chineseKnowledgeRemoteVersion: number = 0;
+    61→  @Local chineseKnowledgeTotal: number = 0;
+    62→  @Local chineseKnowledgeCount: number = 0;
+    63→  @Local chineseKnowledgeLoading: boolean = false;
+    64→  @Local chineseKnowledgeLoadingError: string | null = null;
+    65→  @Local chineseQuoteLocalVersion: number = PrefUtil.getChineseQuoteVersion();
+    66→  @Local chineseQuoteRemoteVersion: number = 0;
+    67→  @Local chineseQuoteTotal: number = 0;
+    68→  @Local chineseQuoteCount: number = 0;
+    69→  @Local chineseQuoteLoading: boolean = false;
+    70→  @Local chineseQuoteLoadingError: string | null = null;
+    71→  @Local chinaWorldCulturalHeritageLocalVersion: number = PrefUtil.getChinaWorldCulturalHeritageVersion();
+    72→  @Local chinaWorldCulturalHeritageRemoteVersion: number = 0;
+    73→  @Local chinaWorldCulturalHeritageTotal: number = 0;
+    74→  @Local chinaWorldCulturalHeritageCount: number = 0;
+    75→  @Local chinaWorldCulturalHeritageLoading: boolean = false;
+    76→  @Local chinaWorldCulturalHeritageLoadingError: string | null = null;
+    77→  observer = (key: string) => {
+    78→    if (key == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
+    79→      this.classicalliteratureClassicpoemLocalVersion = PrefUtil.getClassicalLiteratureClassicPoemVersion();
+    80→    } else if (key == PrefConst.CLASSICALLITERATURE_SENTENCE) {
+    81→      this.classicalliteratureSentenceLocalVersion = PrefUtil.getClassicalLiteratureSentenceVersion()
+    82→    } else if (key == PrefConst.CHINESE_ANTITHETICALCOUPLET) {
+    83→      this.chineseAntitheticalCoupletLocalVersion = PrefUtil.getChineseAntitheticalCoupletVersion()
+    84→    } else if (key == PrefConst.CHINESE_CHARACTER) {
+    85→      this.chineseCharacterLocalVersion = PrefUtil.getChineseCharacterVersion()
+    86→    } else if (key == PrefConst.CHINESE_EXPRESSION) {
+    87→      this.chineseExpressionLocalVersion = PrefUtil.getChineseExpressionVersion()
+    88→    } else if (key == PrefConst.CHINESE_IDIOM) {
+    89→      this.chineseIdiomLocalVersion = PrefUtil.getChineseIdiomVersion()
+    90→    } else if (key == PrefConst.CHINESE_KNOWLEDGE) {
+    91→      this.chineseKnowledgeLocalVersion = PrefUtil.getChineseKnowledgeVersion()
+    92→    } else if (key == PrefConst.CHINESE_QUOTE) {
+    93→      this.chineseQuoteLocalVersion = PrefUtil.getChineseQuoteVersion()
+    94→    } else if (key == PrefConst.CHINA_WORLDCULTUREHERITAGE) {
+    95→      this.chinaWorldCulturalHeritageLocalVersion = PrefUtil.getChinaWorldCulturalHeritageVersion()
+    96→    }
+    97→  }
+    98→
+    99→  aboutToAppear(): void {
+   100→    this.dataset.forEach((item: Dataset) => {
+   101→      if (item.name == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
+   102→        this.classicalliteratureClassicpoemRemoteVersion = item.version;
+   103→        this.classicalliteratureClassicpoemTotal = item.count;
+   104→      } else if (item.name == PrefConst.CLASSICALLITERATURE_SENTENCE) {
+   105→        this.classicalliteratureSentenceRemoteVersion = item.version;
+   106→        this.classicalliteratureSentenceTotal = item.count;
+   107→      } else if (item.name == PrefConst.CHINESE_ANTITHETICALCOUPLET) {
+   108→        this.chineseAntitheticalCoupletRemoteVersion = item.version;
+   109→        this.chineseAntitheticalCoupletTotal = item.count;
+   110→      } else if (item.name == PrefConst.CHINESE_CHARACTER) {
+   111→        this.chineseCharacterRemoteVersion = item.version;
+   112→        this.chineseCharacterTotal = item.count;
+   113→      } else if (item.name == PrefConst.CHINESE_EXPRESSION) {
+   114→        this.chineseExpressionRemoteVersion = item.version;
+   115→        this.chineseExpressionTotal = item.count;
+   116→      } else if (item.name == PrefConst.CHINESE_IDIOM) {
+   117→        this.chineseIdiomRemoteVersion = item.version;
+   118→        this.chineseIdiomTotal = item.count;
+   119→      } else if (item.name == PrefConst.CHINESE_KNOWLEDGE) {
+   120→        this.chineseKnowledgeRemoteVersion = item.version;
+   121→        this.chineseKnowledgeTotal = item.count;
+   122→      } else if (item.name == PrefConst.CHINESE_QUOTE) {
+   123→        this.chineseQuoteRemoteVersion = item.version;
+   124→        this.chineseQuoteTotal = item.count;
+   125→      } else if (item.name == PrefConst.CHINA_WORLDCULTUREHERITAGE) {
+   126→        this.chinaWorldCulturalHeritageRemoteVersion = item.version;
+   127→        this.chinaWorldCulturalHeritageTotal = item.count;
+   128→      }
+   129→    })
+   130→    try {
+   131→      PrefUtil.preference?.on('change', this.observer)
+   132→    } catch (error) {
+   133→      logger.error(`preference add change observer error = ${error}`);
+   134→    }
+   135→  }
+   136→
+   137→  aboutToRecycle(): void {
+   138→    try {
+   139→      PrefUtil.preference?.off('change', this.observer)
+   140→    } catch (error) {
+   141→      logger.error(`preference off change observer error = ${error}`);
+   142→    }
+   143→  }
+   144→
+   145→  build() {
+   146→    Column() {
+   147→      BlockTitle({ title: String.classicalliterature })
+   148→      Item({
+   149→        title: String.classicalliterature_classicpoem,
+   150→        remoteVersion: this.classicalliteratureClassicpoemRemoteVersion,
+   151→        localVersion: this.classicalliteratureClassicpoemLocalVersion,
+   152→        total: this.classicalliteratureClassicpoemTotal,
+   153→        progress: this.classicalliteratureClassicpoemCount,
+   154→        loading: this.classicalliteratureClassicpoemLoading,
+   155→        error: this.classicalliteratureClassicpoemLoadingError,
+   156→        clickEvent: (): void => {
+   157→          this.syncClassicalLiteratureClassicPoem(1)
+   158→        }
+   159→      })
+   160→      Item({
+   161→        title: String.classicalliterature_sentence,
+   162→        remoteVersion: this.classicalliteratureSentenceRemoteVersion,
+   163→        localVersion: this.classicalliteratureSentenceLocalVersion,
+   164→        total: this.classicalliteratureSentenceTotal,
+   165→        progress: this.classicalliteratureSentenceCount,
+   166→        loading: this.classicalliteratureSentenceLoading,
+   167→        error: this.classicalliteratureSentenceLoadingError,
+   168→        clickEvent: (): void => {
+   169→          this.syncClassicalLiteratureSentence(1)
+   170→        }
+   171→      })
+   172→      BlockTitle({ title: String.chinese })
+   173→      Item({
+   174→        title: String.chinese_antitheticalcouplet,
+   175→        remoteVersion: this.chineseAntitheticalCoupletRemoteVersion,
+   176→        localVersion: this.chineseAntitheticalCoupletLocalVersion,
+   177→        total: this.chineseAntitheticalCoupletTotal,
+   178→        progress: this.chineseAntitheticalCoupletCount,
+   179→        loading: this.chineseAntitheticalCoupletLoading,
+   180→        error: this.chineseAntitheticalCoupletLoadingError,
+   181→        clickEvent: (): void => {
+   182→          this.syncChineseAntitheticalCouplet(1)
+   183→        }
+   184→      })
+   185→      Item({
+   186→        title: String.chinese_character,
+   187→        remoteVersion: this.chineseCharacterRemoteVersion,
+   188→        localVersion: this.chineseCharacterLocalVersion,
+   189→        total: this.chineseCharacterTotal,
+   190→        progress: this.chineseCharacterCount,
+   191→        loading: this.chineseCharacterLoading,
+   192→        error: this.chineseCharacterLoadingError,
+   193→        clickEvent: (): void => {
+   194→          this.syncChineseCharacter(1)
+   195→        }
+   196→      })
+   197→      Item({
+   198→        title: String.chinese_expression,
+   199→        remoteVersion: this.chineseExpressionRemoteVersion,
+   200→        localVersion: this.chineseExpressionLocalVersion,
+   201→        total: this.chineseExpressionTotal,
+   202→        progress: this.chineseExpressionCount,
+   203→        loading: this.chineseExpressionLoading,
+   204→        error: this.chineseExpressionLoadingError,
+   205→        clickEvent: (): void => {
+   206→          this.syncChineseExpression(1)
+   207→        }
+   208→      })
+   209→      Item({
+   210→        title: String.chinese_idiom,
+   211→        remoteVersion: this.chineseIdiomRemoteVersion,
+   212→        localVersion: this.chineseIdiomLocalVersion,
+   213→        total: this.chineseIdiomTotal,
+   214→        progress: this.chineseIdiomCount,
+   215→        loading: this.chineseIdiomLoading,
+   216→        error: this.chineseIdiomLoadingError,
+   217→        clickEvent: (): void => {
+   218→          this.syncChineseIdiom(1)
+   219→        }
+   220→      })
+   221→      Item({
+   222→        title: String.chinese_knowledge,
+   223→        remoteVersion: this.chineseKnowledgeRemoteVersion,
+   224→        localVersion: this.chineseKnowledgeLocalVersion,
+   225→        total: this.chineseKnowledgeTotal,
+   226→        progress: this.chineseKnowledgeCount,
+   227→        loading: this.chineseKnowledgeLoading,
+   228→        error: this.chineseKnowledgeLoadingError,
+   229→        clickEvent: (): void => {
+   230→          this.syncChineseKnowledge(1)
+   231→        }
+   232→      })
+   233→      Item({
+   234→        title: String.chinese_quote,
+   235→        remoteVersion: this.chineseQuoteRemoteVersion,
+   236→        localVersion: this.chineseQuoteLocalVersion,
+   237→        total: this.chineseQuoteTotal,
+   238→        progress: this.chineseQuoteCount,
+   239→        loading: this.chineseQuoteLoading,
+   240→        error: this.chineseQuoteLoadingError,
+   241→        clickEvent: (): void => {
+   242→          this.syncChineseQuote(1)
+   243→        }
+   244→      })
+   245→      BlockTitle({ title: String.china })
+   246→      Item({
+   247→        title: String.china_worldcultureheritage,
+   248→        remoteVersion: this.chinaWorldCulturalHeritageRemoteVersion,
+   249→        localVersion: this.chinaWorldCulturalHeritageLocalVersion,
+   250→        total: this.chinaWorldCulturalHeritageTotal,
+   251→        progress: this.chinaWorldCulturalHeritageCount,
+   252→        loading: this.chinaWorldCulturalHeritageLoading,
+   253→        error: this.chinaWorldCulturalHeritageLoadingError,
+   254→        clickEvent: (): void => {
+   255→          this.syncChinaWorldCulturalHeritage(1)
+   256→        }
+   257→      })
+   258→    }
+   259→    .width('100%')
+   260→  }
+   261→
+   262→  syncClassicalLiteratureClassicPoem(page: number) {
+   263→    this.classicalliteratureClassicpoemLoading = true;
+   264→    DatasetViewModel.getClassicalLiteratureClassicPoemList(this.classicalliteratureClassicpoemRemoteVersion, page)
+   265→      .then((wrapper: DataWrapper<ClassicPoem>) => {
+   266→        wrapper.data.map((obj: ClassicPoem) => {
+   267→          DatasetViewModel.insertClassicalLiteratureClassicPoemToDb(obj);
+   268→          this.classicalliteratureClassicpoemCount++;
+   269→        })
+   270→        if (wrapper.next_page) {
+   271→          this.syncClassicalLiteratureClassicPoem(wrapper.next_page);
+   272→        }
+   273→        if (!wrapper.next_page) {
+   274→          PrefUtil.saveClassicalLiteratureClassicPoemVersion(this.classicalliteratureClassicpoemRemoteVersion)
+   275→          this.classicalliteratureClassicpoemLoading = false;
+   276→        }
+   277→      }).catch((error: BusinessError) => {
+   278→      this.classicalliteratureClassicpoemLoadingError = `code = ${error.code}, msg = ${error.message}`;
+   279→      logger.error(`syncClassicalLiteratureClassicPoem, code = ${error.code}, msg = ${error.message}`);
+   280→      this.classicalliteratureClassicpoemLoading = false;
+   281→    })
+   282→  }
+   283→
+   284→  syncClassicalLiteratureSentence(page: number) {
+   285→    this.classicalliteratureSentenceLoading = true;
+   286→    DatasetViewModel.getClassicalLiteratureSentenceList(this.classicalliteratureSentenceRemoteVersion, page)
+   287→      .then((wrapper: DataWrapper<Sentence>) => {
+   288→        wrapper.data.map((obj: Sentence) => {
+   289→          DatasetViewModel.insertClassicalLiteratureSentenceToDb(obj);
+   290→          this.classicalliteratureSentenceCount++;
+   291→        })
+   292→        if (wrapper.next_page) {
+   293→          this.syncClassicalLiteratureSentence(wrapper.next_page);
+   294→        }
+   295→        if (!wrapper.next_page) {
+   296→          PrefUtil.saveClassicalLiteratureSentenceVersion(this.classicalliteratureSentenceRemoteVersion)
+   297→          this.classicalliteratureSentenceLoading = false;
+   298→        }
+   299→      }).catch((error: BusinessError) => {
+   300→      this.classicalliteratureSentenceLoadingError = `code = ${error.code}, msg = ${error.message}`;
+   301→      logger.error(`syncClassicalLiteratureSentence, code = ${error.code}, msg = ${error.message}`);
+   302→      this.classicalliteratureSentenceLoading = false;
+   303→    })
+   304→  }
+   305→
+   306→  syncChineseAntitheticalCouplet(page: number) {
+   307→    this.chineseAntitheticalCoupletLoading = true;
+   308→    DatasetViewModel.getChineseAntitheticalCoupletList(this.chineseAntitheticalCoupletRemoteVersion, page)
+   309→      .then((wrapper: DataWrapper<AntitheticalCouplet>) => {
+   310→        wrapper.data.map((obj: AntitheticalCouplet) => {
+   311→          DatasetViewModel.insertChineseAntitheticalCoupletToDb(obj)
+   312→          this.chineseAntitheticalCoupletCount++;
+   313→        })
+   314→        if (wrapper.next_page) {
+   315→          this.syncChineseAntitheticalCouplet(wrapper.next_page);
+   316→        }
+   317→        if (!wrapper.next_page) {
+   318→          PrefUtil.saveChineseAntitheticalCoupletVersion(this.chineseAntitheticalCoupletRemoteVersion)
+   319→          this.chineseAntitheticalCoupletLoading = false;
+   320→        }
+   321→      }).catch((error: BusinessError) => {
+   322→      this.chineseAntitheticalCoupletLoadingError = `code = ${error.code}, msg = ${error.message}`;
+   323→      logger.error(`syncChineseAntitheticalCouplet, code = ${error.code}, msg = ${error.message}`);
+   324→      this.chineseAntitheticalCoupletLoading = false;
+   325→    })
+   326→  }
+   327→
+   328→  syncChineseCharacter(page: number) {
+   329→    this.chineseCharacterLoading = true;
+   330→    DatasetViewModel.getChineseCharacterList(this.chineseCharacterRemoteVersion, page)
+   331→      .then((wrapper: DataWrapper<Character>) => {
+   332→        wrapper.data.map((obj: Character) => {
+   333→          DatasetViewModel.insertChineseCharacterToDb(obj)
+   334→          this.chineseCharacterCount++;
+   335→        })
+   336→        if (wrapper.next_page) {
+   337→          this.syncChineseCharacter(wrapper.next_page);
+   338→        }
+   339→        if (!wrapper.next_page) {
+   340→          PrefUtil.saveChineseCharacterVersion(this.chineseCharacterRemoteVersion)
+   341→          this.chineseCharacterLoading = false;
+   342→        }
+   343→      }).catch((error: BusinessError) => {
+   344→      this.chineseCharacterLoadingError = `code = ${error.code}, msg = ${error.message}`;
+   345→      logger.error(`syncChineseCharacter, code = ${error.code}, msg = ${error.message}`);
+   346→      this.chineseCharacterLoading = false;
+   347→    })
+   348→  }
+   349→
+   350→  syncChineseExpression(page: number) {
+   351→    this.chineseExpressionLoading = true;
+   352→    DatasetViewModel.getChineseExpressionList(this.chineseExpressionRemoteVersion, page)
+   353→      .then((wrapper: DataWrapper<Expression>) => {
+   354→        wrapper.data.map((obj: Expression) => {
+   355→          DatasetViewModel.insertChineseExpressionToDb(obj)
+   356→          this.chineseExpressionCount++;
+   357→        })
+   358→        if (wrapper.next_page) {
+   359→          this.syncChineseExpression(wrapper.next_page);
+   360→        }
+   361→        if (!wrapper.next_page) {
+   362→          PrefUtil.saveChineseExpressionVersion(this.chineseExpressionRemoteVersion)
+   363→          this.chineseExpressionLoading = false;
+   364→        }
+   365→      }).catch((error: BusinessError) => {
+   366→      this.chineseExpressionLoadingError = `code = ${error.code}, msg = ${error.message}`;
+   367→      logger.error(`syncChineseExpression, code = ${error.code}, msg = ${error.message}`);
+   368→      this.chineseExpressionLoading = false;
+   369→    })
+   370→  }
+   371→
+   372→  syncChineseIdiom(page: number) {
+   373→    this.chineseIdiomLoading = true;
+   374→    DatasetViewModel.getChineseIdiomList(this.chineseIdiomRemoteVersion, page)
+   375→      .then((wrapper: DataWrapper<Idiom>) => {
+   376→        wrapper.data.map((obj: Idiom) => {
+   377→          DatasetViewModel.insertChineseIdiomToDb(obj)
+   378→          this.chineseIdiomCount++;
+   379→        })
+   380→        if (wrapper.next_page) {
+   381→          this.syncChineseIdiom(wrapper.next_page);
+   382→        }
+   383→        if (!wrapper.next_page) {
+   384→          PrefUtil.saveChineseIdiomVersion(this.chineseIdiomRemoteVersion)
+   385→          this.chineseIdiomLoading = false;
+   386→        }
+   387→      }).catch((error: BusinessError) => {
+   388→      this.chineseIdiomLoadingError = `code = ${error.code}, msg = ${error.message}`;
+   389→      logger.error(`syncChineseIdiom, code = ${error.code}, msg = ${error.message}`);
+   390→      this.chineseIdiomLoading = false;
+   391→    })
+   392→  }
+   393→
+   394→  syncChineseKnowledge(page: number) {
+   395→    this.chineseKnowledgeLoading = true;
+   396→    DatasetViewModel.getChineseKnowledgeList(this.chineseKnowledgeRemoteVersion, page)
+   397→      .then((wrapper: DataWrapper<Knowledge>) => {
+   398→        wrapper.data.map((obj: Knowledge) => {
+   399→          DatasetViewModel.insertChineseKnowledgeToDb(obj)
+   400→          this.chineseKnowledgeCount++;
+   401→        })
+   402→        if (wrapper.next_page) {
+   403→          this.syncChineseKnowledge(wrapper.next_page);
+   404→        }
+   405→        if (!wrapper.next_page) {
+   406→          PrefUtil.saveChineseKnowledgeVersion(this.chineseKnowledgeRemoteVersion)
+   407→          this.chineseKnowledgeLoading = false;
+   408→        }
+   409→      }).catch((error: BusinessError) => {
+   410→      this.chineseKnowledgeLoadingError = `code = ${error.code}, msg = ${error.message}`;
+   411→      logger.error(`syncChineseKnowledge, code = ${error.code}, msg = ${error.message}`);
+   412→      this.chineseKnowledgeLoading = false;
+   413→    })
+   414→  }
+   415→
+   416→  syncChineseQuote(page: number) {
+   417→    this.chineseQuoteLoading = true;
+   418→    DatasetViewModel.getChineseQuoteList(this.chineseQuoteRemoteVersion, page)
+   419→      .then((wrapper: DataWrapper<Quote>) => {
+   420→        wrapper.data.map((obj: Quote) => {
+   421→          DatasetViewModel.insertChineseQuoteToDb(obj)
+   422→          this.chineseQuoteCount++;
+   423→        })
+   424→        if (wrapper.next_page) {
+   425→          this.syncChineseQuote(wrapper.next_page);
+   426→        }
+   427→        if (!wrapper.next_page) {
+   428→          PrefUtil.saveChineseQuoteVersion(this.chineseQuoteRemoteVersion)
+   429→          this.chineseQuoteLoading = false;
+   430→        }
+   431→      }).catch((error: BusinessError) => {
+   432→      this.chineseQuoteLoadingError = `code = ${error.code}, msg = ${error.message}`;
+   433→      logger.error(`syncChineseQuote, code = ${error.code}, msg = ${error.message}`);
+   434→      this.chineseQuoteLoading = false;
+   435→    })
+   436→  }
+   437→
+   438→  syncChinaWorldCulturalHeritage(page: number) {
+   439→    this.chinaWorldCulturalHeritageLoading = true;
+   440→    DatasetViewModel.getChinaWorldCulturalHeritageList(this.chinaWorldCulturalHeritageRemoteVersion, page)
+   441→      .then((wrapper: DataWrapper<WorldCulturalHeritage>) => {
+   442→        wrapper.data.map((obj: WorldCulturalHeritage) => {
+   443→          DatasetViewModel.insertChinaWorldCulturalHeritageToDb(obj)
+   444→          this.chinaWorldCulturalHeritageCount++;
+   445→        })
+   446→        if (wrapper.next_page) {
+   447→          this.syncChinaWorldCulturalHeritage(wrapper.next_page);
+   448→        }
+   449→        if (!wrapper.next_page) {
+   450→          PrefUtil.saveChinaWorldCulturalHeritageVersion(this.chinaWorldCulturalHeritageRemoteVersion)
+   451→          this.chinaWorldCulturalHeritageLoading = false;
+   452→        }
+   453→      }).catch((error: BusinessError) => {
+   454→      this.chinaWorldCulturalHeritageLoadingError = `code = ${error.code}, msg = ${error.message}`;
+   455→      logger.error(`syncChinaWorldCulturalHeritage, code = ${error.code}, msg = ${error.message}`);
+   456→      this.chinaWorldCulturalHeritageLoading = false;
+   457→    })
+   458→  }
+   459→}
+   460→
+   461→@Preview
+   462→@ComponentV2
+   463→struct Item {
+   464→  @Param @Require @Once title: string | Resource;
+   465→  @Param @Require @Once remoteVersion: number;
+   466→  @Param @Require localVersion: number;
+   467→  @Param @Require @Once total: number;
+   468→  @Param @Require progress: number;
+   469→  @Param @Require loading: boolean;
+   470→  @Param @Require error: string | null;
+   471→  @Event clickEvent: () => void = () => {
+   472→  };
+   473→
+   474→  build() {
+   475→    Column() {
+   476→      Row() {
+   477→        Column() {
+   478→          Text(this.title)
+   479→          Text(this.total.toString())
+   480→            .fontSize(ThemeConst.FontSize_14)
+   481→            .fontColor(Color.Gray)
+   482→            .margin({ top: 8 })
+   483→        }
+   484→        .alignItems(HorizontalAlign.Start)
+   485→
+   486→        Blank()
+   487→        if (this.loading) {
+   488→          Progress({ value: this.progress, total: this.total, type: ProgressType.Ring })
+   489→            .width(24)
+   490→            .height(24)
+   491→            .color(Color.Black)
+   492→            .margin({ right: 16 })
+   493→        }
+   494→        if (this.remoteVersion > 0 && this.localVersion == this.remoteVersion) {
+   495→          Image(Icon.ic_public_todo_filled)
+   496→            .height(20)
+   497→            .width(20)
+   498→            .margin({ right: 16 })
+   499→        } else {
+   500→          Image(Icon.ic_public_todo)
+   501→            .height(20)
+   502→            .width(20)
+   503→            .margin({ right: 16 })
+   504→        }
+   505→        if (this.loading) {
+   506→          LoadingProgress()
+   507→            .width(36)
+   508→            .height(36)
+   509→            .color(Color.Black)
+   510→        } else {
+   511→          Image(Icon.ic_public_cloud_download)
+   512→            .height(36)
+   513→            .width(36)
+   514→            .padding(8)
+   515→            .stateStyles({
+   516→              normal: {
+   517→                .backgroundColor(ThemeConst.BackGroundColor_Normal)
+   518→              },
+   519→              clicked: {
+   520→                .backgroundColor(ThemeConst.BackGroundColor_Clicked)
+   521→                .borderRadius(18)
+   522→              }
+   523→            })
+   524→            .onClick(() => {
+   525→              this.clickEvent()
+   526→            })
+   527→        }
+   528→      }
+   529→      .width('100%')
+   530→      .padding(16)
+   531→      .alignItems(VerticalAlign.Center)
+   532→
+   533→      if (this.error) {
+   534→        Text(this.error)
+   535→          .width('100%')
+   536→          .padding(ThemeConst.P_X16_Y8)
+   537→          .textAlign(TextAlign.Start)
+   538→          .fontColor(Color.Red)
+   539→      }
+   540→    }
+   541→  }
+   542→}
+</file>
+<metadata>The file has 542 lines in total.</metadata>

@@ -1,0 +1,249 @@
+<file>
+     1→import { BusinessError } from '@kit.BasicServicesKit';
+     2→import Dataset from '../model/Dataset';
+     3→import { DataWrapper, httpRequestGet, Logger, ResponseResult } from 'utils';
+     4→import { NetworkConst } from 'constants';
+     5→import { createWorldCulturalHeritage, WorldCulturalHeritage } from 'china_worldcultureheritage';
+     6→import { AntitheticalCouplet, createAntitheticalCouplet } from 'chinese_antitheticalcouplet';
+     7→import { Character, createCharacter } from 'chinese_character';
+     8→import { createExpression, Expression } from 'chinese_expression';
+     9→import { createIdiom, Idiom } from 'chinese_idiom';
+    10→import { createKnowledge, Knowledge } from 'chinese_knowledge';
+    11→import { createQuote, Quote, } from 'chinese_quote';
+    12→import { ClassicPoem, createClassicPoem } from 'classicalliterature_classicpoem';
+    13→import { createSentence, Sentence } from 'classicalliterature_sentence';
+    14→
+    15→class DatasetViewModel {
+    16→  private logger: Logger = new Logger('DatasetViewModel');
+    17→
+    18→  getDatasetList(): Promise<Dataset[]> {
+    19→    return new Promise((resolve: Function, reject: Function) => {
+    20→      let url = `${NetworkConst.BASE_URL1}${NetworkConst.DATASET}.json`;
+    21→      httpRequestGet(url).then((result: ResponseResult) => {
+    22→        if (result.msg === null) {
+    23→          resolve(JSON.parse(result.data as string) as Dataset[])
+    24→        } else {
+    25→          this.logger.error(result.msg)
+    26→          reject(result.msg)
+    27→        }
+    28→      }).catch((error: string) => {
+    29→        this.logger.error(error)
+    30→        reject(error)
+    31→      })
+    32→    })
+    33→  }
+    34→
+    35→  getClassicalLiteratureClassicPoemList(version: number, page: number): Promise<DataWrapper<ClassicPoem>> {
+    36→    return new Promise((resolve: Function, reject: Function) => {
+    37→      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CLASSICALLITERATURE_CLASSICPOEM}_v${version}_${page}.json`;
+    38→      httpRequestGet(url).then((result: ResponseResult) => {
+    39→        if (result.msg === null) {
+    40→          let wrapper: DataWrapper<ClassicPoem> = JSON.parse(result.data as string)
+    41→          resolve(wrapper)
+    42→        } else {
+    43→          reject(result.msg)
+    44→        }
+    45→      }).catch((error: string) => {
+    46→        this.logger.error(`getClassicalLiteratureClassicPoemList failed, error = ${error}`)
+    47→        reject(error)
+    48→      })
+    49→    })
+    50→  }
+    51→
+    52→  async insertClassicalLiteratureClassicPoemToDb(obj: ClassicPoem) {
+    53→    await createClassicPoem(obj).catch((error: BusinessError) => {
+    54→      this.logger.error(`insertClassicalLiteratureClassicPoemToDb error, code = :${error.code}, message = ${error.message}`)
+    55→    })
+    56→  }
+    57→
+    58→  getClassicalLiteratureSentenceList(version: number, page: number): Promise<DataWrapper<Sentence>> {
+    59→    return new Promise((resolve: Function, reject: Function) => {
+    60→      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CLASSICALLITERATURE_SENTENCE}_v${version}_${page}.json`;
+    61→      httpRequestGet(url).then((result: ResponseResult) => {
+    62→        if (result.msg === null) {
+    63→          let wrapper: DataWrapper<Sentence> = JSON.parse(result.data as string)
+    64→          resolve(wrapper)
+    65→        } else {
+    66→          reject(result.msg)
+    67→        }
+    68→      }).catch((error: string) => {
+    69→        this.logger.error(`getClassicalLiteratureSentenceList failed, error = ${error}`)
+    70→        reject(error)
+    71→      })
+    72→    })
+    73→  }
+    74→
+    75→  async insertClassicalLiteratureSentenceToDb(obj: Sentence) {
+    76→    await createSentence(obj).catch((error: BusinessError) => {
+    77→      this.logger.error(`insertClassicalLiteratureSentenceToDb error, code = :${error.code}, message = ${error.message}`)
+    78→    })
+    79→  }
+    80→
+    81→  getChineseAntitheticalCoupletList(version: number, page: number): Promise<DataWrapper<AntitheticalCouplet>> {
+    82→    return new Promise((resolve: Function, reject: Function) => {
+    83→      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CHINESE_ANTITHETICALCOUPLET}_v${version}_${page}.json`;
+    84→      httpRequestGet(url).then((result: ResponseResult) => {
+    85→        if (result.msg === null) {
+    86→          let wrapper: DataWrapper<AntitheticalCouplet> = JSON.parse(result.data as string)
+    87→          resolve(wrapper)
+    88→        } else {
+    89→          reject(result.msg)
+    90→        }
+    91→      }).catch((error: string) => {
+    92→        this.logger.error(`getChineseAntitheticalCoupletList failed, error = ${error}`)
+    93→        reject(error)
+    94→      })
+    95→    })
+    96→  }
+    97→
+    98→  async insertChineseAntitheticalCoupletToDb(obj: AntitheticalCouplet) {
+    99→    await createAntitheticalCouplet(obj).catch((error: BusinessError) => {
+   100→      this.logger.error(`insertChineseAntitheticalCoupletToDb error, code = :${error.code}, message = ${error.message}`)
+   101→    })
+   102→  }
+   103→
+   104→  getChineseCharacterList(version: number, page: number): Promise<DataWrapper<Character>> {
+   105→    return new Promise((resolve: Function, reject: Function) => {
+   106→      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CHINESE_CHARACTER}_v${version}_${page}.json`;
+   107→      httpRequestGet(url).then((result: ResponseResult) => {
+   108→        if (result.msg === null) {
+   109→          let wrapper: DataWrapper<Character> = JSON.parse(result.data as string)
+   110→          resolve(wrapper)
+   111→        } else {
+   112→          reject(result.msg)
+   113→        }
+   114→      }).catch((error: string) => {
+   115→        this.logger.error(`getChineseCharacterList failed, error = ${error}`)
+   116→        reject(error)
+   117→      })
+   118→    })
+   119→  }
+   120→
+   121→  async insertChineseCharacterToDb(obj: Character) {
+   122→    await createCharacter(obj).catch((error: BusinessError) => {
+   123→      this.logger.error(`insertChineseCharacterToDb error, code = :${error.code}, message = ${error.message}`)
+   124→    })
+   125→  }
+   126→
+   127→  getChineseExpressionList(version: number, page: number): Promise<DataWrapper<Expression>> {
+   128→    return new Promise((resolve: Function, reject: Function) => {
+   129→      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CHINESE_EXPRESSION}_v${version}_${page}.json`;
+   130→      httpRequestGet(url).then((result: ResponseResult) => {
+   131→        if (result.msg === null) {
+   132→          let wrapper: DataWrapper<Expression> = JSON.parse(result.data as string)
+   133→          resolve(wrapper)
+   134→        } else {
+   135→          reject(result.msg)
+   136→        }
+   137→      }).catch((error: string) => {
+   138→        this.logger.error(`getChineseExpressionList failed, error = ${error}`)
+   139→        reject(error)
+   140→      })
+   141→    })
+   142→  }
+   143→
+   144→  async insertChineseExpressionToDb(obj: Expression) {
+   145→    await createExpression(obj).catch((error: BusinessError) => {
+   146→      this.logger.error(`insertChineseExpressionToDb error, code = :${error.code}, message = ${error.message}`)
+   147→    })
+   148→  }
+   149→
+   150→  getChineseIdiomList(version: number, page: number): Promise<DataWrapper<Idiom>> {
+   151→    return new Promise((resolve: Function, reject: Function) => {
+   152→      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CHINESE_IDIOM}_v${version}_${page}.json`;
+   153→      httpRequestGet(url).then((result: ResponseResult) => {
+   154→        if (result.msg === null) {
+   155→          let wrapper: DataWrapper<Idiom> = JSON.parse(result.data as string)
+   156→          resolve(wrapper)
+   157→        } else {
+   158→          reject(result.msg)
+   159→        }
+   160→      }).catch((error: string) => {
+   161→        this.logger.error(`getChineseIdiomList failed, error = ${error}`)
+   162→        reject(error)
+   163→      })
+   164→    })
+   165→  }
+   166→
+   167→  async insertChineseIdiomToDb(obj: Idiom) {
+   168→    await createIdiom(obj).catch((error: BusinessError) => {
+   169→      this.logger.error(`insertChineseIdiomToDb error, code = :${error.code}, message = ${error.message}`)
+   170→    })
+   171→  }
+   172→
+   173→  getChineseKnowledgeList(version: number, page: number): Promise<DataWrapper<Knowledge>> {
+   174→    return new Promise((resolve: Function, reject: Function) => {
+   175→      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CHINESE_KNOWLEDGE}_v${version}_${page}.json`;
+   176→      httpRequestGet(url).then((result: ResponseResult) => {
+   177→        if (result.msg === null) {
+   178→          let wrapper: DataWrapper<Knowledge> = JSON.parse(result.data as string)
+   179→          resolve(wrapper)
+   180→        } else {
+   181→          reject(result.msg)
+   182→        }
+   183→      }).catch((error: string) => {
+   184→        this.logger.error(`getChineseKnowledgeList failed, error = ${error}`)
+   185→        reject(error)
+   186→      })
+   187→    })
+   188→  }
+   189→
+   190→  async insertChineseKnowledgeToDb(obj: Knowledge) {
+   191→    await createKnowledge(obj).catch((error: BusinessError) => {
+   192→      this.logger.error(`insertChineseKnowledgeToDb error, code = :${error.code}, message = ${error.message}`)
+   193→    })
+   194→  }
+   195→
+   196→  getChineseQuoteList(version: number, page: number): Promise<DataWrapper<Quote>> {
+   197→    return new Promise((resolve: Function, reject: Function) => {
+   198→      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CHINESE_QUOTE}_v${version}_${page}.json`;
+   199→      httpRequestGet(url).then((result: ResponseResult) => {
+   200→        if (result.msg === null) {
+   201→          let wrapper: DataWrapper<Quote> = JSON.parse(result.data as string)
+   202→          resolve(wrapper)
+   203→        } else {
+   204→          reject(result.msg)
+   205→        }
+   206→      }).catch((error: string) => {
+   207→        this.logger.error(`getChineseQuoteList failed, error = ${error}`)
+   208→        reject(error)
+   209→      })
+   210→    })
+   211→  }
+   212→
+   213→  async insertChineseQuoteToDb(obj: Quote) {
+   214→    await createQuote(obj).catch((error: BusinessError) => {
+   215→      this.logger.error(`insertChineseQuoteToDb error, code = :${error.code}, message = ${error.message}`)
+   216→    })
+   217→  }
+   218→
+   219→  getChinaWorldCulturalHeritageList(version: number, page: number): Promise<DataWrapper<WorldCulturalHeritage>> {
+   220→    return new Promise((resolve: Function, reject: Function) => {
+   221→      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CHINA_WORLDCULTUREHERITAGE}_v${version}_${page}.json`;
+   222→      httpRequestGet(url).then((result: ResponseResult) => {
+   223→        if (result.msg === null) {
+   224→          let wrapper: DataWrapper<WorldCulturalHeritage> = JSON.parse(result.data as string)
+   225→          resolve(wrapper)
+   226→        } else {
+   227→          reject(result.msg)
+   228→        }
+   229→      }).catch((error: string) => {
+   230→        this.logger.error(`getChinaWorldCulturalHeritageList failed, error = ${error}`)
+   231→        reject(error)
+   232→      })
+   233→    })
+   234→  }
+   235→
+   236→  async insertChinaWorldCulturalHeritageToDb(obj: WorldCulturalHeritage) {
+   237→    await createWorldCulturalHeritage(obj).catch((error: BusinessError) => {
+   238→      this.logger.error(`insertChinaWorldCulturalHeritageToDb error, code = :${error.code}, message = ${error.message}`)
+   239→    })
+   240→  }
+   241→}
+   242→
+   243→
+   244→let datasetViewModel = new DatasetViewModel()
+   245→
+   246→export default datasetViewModel as DatasetViewModel
+</file>
+<metadata>The file has 246 lines in total.</metadata>

@@ -1,0 +1,11 @@
+# 成语模块：首屏随机展示 / 收藏 / 详情 / 搜索 / 近反义词关联浏览
+
+需求来源：`SWE-OpenHarmony/specs/jm-spec71.md`（4 个场景）。基线已执行 `prepare_baseline.py`（成语/知识/语录 Index.ets 导出路径修正、锁文件更新），本需求在其上开发。
+
+## 一、现状分析（基线）
+
+| 位置 | 现状 | 问题 |
+| --- | --- | --- |
+| `features/home/src/main/ets/view/MenuList.ets:55` | "成语" GridItem 无 onClick | 入口不可用 |
+| `features/chinese/idiom/src/main/ets/pages/IdiomIndexPage.ets` | 仅 Hello World 占位（struct 名 MainPage） | 无任何功能 |
+| `features/chinese/idiom/src/main/module.json5` | 无 r

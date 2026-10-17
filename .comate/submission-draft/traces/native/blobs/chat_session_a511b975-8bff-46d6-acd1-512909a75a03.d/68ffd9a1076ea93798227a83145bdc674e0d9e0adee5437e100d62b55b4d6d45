@@ -1,0 +1,12 @@
+function escapeLike(keyword: string): string {
+  let escaped = ''
+  for (let i = 0; i < keyword.length; i++) {
+    const ch = keyword.charAt(i)
+    if (ch === '\\' || ch === '%' || ch === '_') {
+      escaped += '\\'
+    }
+    escaped += ch
+  }
+
+  return escaped
+}

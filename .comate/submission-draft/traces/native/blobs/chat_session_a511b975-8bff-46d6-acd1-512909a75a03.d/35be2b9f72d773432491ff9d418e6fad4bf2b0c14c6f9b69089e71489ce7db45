@@ -1,0 +1,115 @@
+import { String, ThemeConst } from 'constants';
+import { Idiom, readIdiomById } from '../model/Idiom';
+import { isIdiomBookmarked, toggleIdiomBookmark } from '../model/IdiomBookmark';
+import { ensureIdiomData } from '../model/IdiomSeeder';
+import { IdiomView } from '../view/IdiomView';
+import { IdiomActionBar } from '../view/IdiomActionBar';
+
+@Builder
+export function IdiomDetailPageBuilder() {
+  IdiomDetailPage();
+}
+
+@ComponentV2
+export struct IdiomDetailPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local idiom: Idiom | null = null;
+  @Local loading: boolean = true;
+  @Local bookmarked: boolean = false;
+  @Local toggling: boolean = false;
+  private idiomId: number = 0;
+
+  build() {
+    NavDestination() {
+      Column() {
+        Scroll() {
+          Column() {
+            if (this.idiom) {
+              IdiomView({
+                idiom: this.idiom,
+                onOpenIdiom: (id: number) => {
+                  this.pageStack.pushPathByName('IdiomDetailPage', id)
+                }
+              })
+            } else {
+              Text(this.loading ? '加载中…' : '未找到该成语')
+                .width('100%')
+                .padding(48)
+                .textAlign(TextAlign.Center)
+                .fontColor(Color.Gray)
+                .fontSize(ThemeConst.FontSize_14)
+            }
+          }
+          .width('100%')
+        }
+        .width('100%')
+        .height('100%')
+        .edgeEffect(EdgeEffect.Spring)
+        .align(Alignment.TopStart)
+        .layoutWeight(1)
+
+        IdiomActionBar({
+          bookmarked: this.bookmarked,
+          showSearch: false,
+          showRefresh: false,
+          actionEnabled: this.idiom !== null,
+          onToggleBookmark: () => {
+            this.toggleBookmark()
+          }
+        })
+      }
+      .width('100%')
+      .height('100%')
+    }
+    .title(String.chinese_idiom_detail)
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack
+      const param: Object | undefined = ctx.pathInfo.param
+      this.idiomId = typeof param === 'number' ? param as number : 0
+      this.load()
+    })
+    .onShown(() => {
+      this.syncBookmarkState()
+    })
+  }
+
+  load() {
+    if (this.idiomId <= 0) {
+      this.loading = false
+      return
+    }
+    this.loading = true
+    const context = this.getUIContext().getHostContext()
+    const task = context ? ensureIdiomData(context) : Promise.resolve()
+    task.then(() => {
+      return readIdiomById(this.idiomId)
+    }).then((value: Idiom | null) => {
+      this.idiom = value
+      this.loading = false
+      this.syncBookmarkState()
+    }).catch((error: Object) => {
+      this.loading = false
+    })
+  }
+
+  syncBookmarkState() {
+    if (this.idiomId <= 0) {
+      return
+    }
+    isIdiomBookmarked(this.idiomId).then((value: boolean) => {
+      this.bookmarked = value
+    })
+  }
+
+  toggleBookmark() {
+    if (this.idiomId <= 0 || !this.idiom || this.toggling) {
+      return
+    }
+    this.toggling = true
+    toggleIdiomBookmark(this.idiomId).then((value: boolean) => {
+      this.toggling = false
+      this.bookmarked = value
+      this.getUIContext().getPromptAction().showToast({ message: value ? '收藏成功' : '已取消收藏' })
+    })
+  }
+}

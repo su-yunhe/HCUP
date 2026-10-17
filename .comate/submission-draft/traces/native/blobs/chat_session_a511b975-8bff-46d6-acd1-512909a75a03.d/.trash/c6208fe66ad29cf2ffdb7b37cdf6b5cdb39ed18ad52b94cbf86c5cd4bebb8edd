@@ -1,0 +1,49 @@
+import { promptAction } from '@kit.ArkUI';
+import { ThemeConst } from 'constants';
+import { BoldTitle } from 'uicomponents';
+import { Idiom, IdiomExample, IdiomQuote, IdiomSource, readIdiomIdsByWords } from '../model/Idiom';
+
+@ComponentV2
+export struct IdiomView {
+  @Param @Require idiom: Idiom;
+  @Event onOpenIdiom: (id: number) => void = () => {
+  };
+  @Local linkedIds: Map<string, number> = new Map();
+
+  aboutToAppear(): void {
+    this.loadLinks()
+  }
+
+  @Monitor('idiom')
+  onIdiomChange() {
+    this.linkedIds = new Map()
+    this.loadLinks()
+  }
+
+  loadLinks() {
+    const words: string[] = relatedWords(this.idiom)
+    if (words.length === 0) {
+      return
+    }
+    readIdiomIdsByWords(words).then((ids: Map<string, number>) => {
+      this.linkedIds = ids
+    })
+  }
+
+  build() {
+    Column() {
+      Text(this.idiom.word)
+        .id('idiom_word')
+        .width('100%')
+        .padding(ThemeConst.P_X16_Y8)
+        .fontSize(28)
+        .fontWeight(FontWeight.Bold)
+      Text(this.idiom.pinyin)
+        .id('idiom_pinyin')
+        .width('100%')
+        .padding(ThemeConst.P_X16_Y8)
+        .fontSize(14)
+        .fontColor(Color.Gray)
+      BoldTitle({ text: '释义' })
+      Text(this.idiom.explanation ?? '暂无')
+        .id

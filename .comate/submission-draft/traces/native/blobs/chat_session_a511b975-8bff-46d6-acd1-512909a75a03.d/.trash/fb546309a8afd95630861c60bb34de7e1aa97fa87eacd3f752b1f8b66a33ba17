@@ -1,0 +1,14 @@
+      if (this.showSearch) {
+        ActionButton({
+          id: 'idiom_action_search',
+          icon: Icon.ic_public_search,
+          label: String.search,
+          highlight: false,
+          action: () => {
+            this.onSearch()
+          }
+        })
+      }
+      ActionButton({
+        id: 'idiom_action_bookmark',
+        icon: this.bookm

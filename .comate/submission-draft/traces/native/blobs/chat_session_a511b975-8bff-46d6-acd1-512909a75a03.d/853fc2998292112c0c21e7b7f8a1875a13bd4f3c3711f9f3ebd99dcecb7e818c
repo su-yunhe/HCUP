@@ -1,0 +1,1 @@
+export { ClassicPoem, createClassicPoem, readRandomClassicPoem } from './src/main/ets/model/ClassicPoem';

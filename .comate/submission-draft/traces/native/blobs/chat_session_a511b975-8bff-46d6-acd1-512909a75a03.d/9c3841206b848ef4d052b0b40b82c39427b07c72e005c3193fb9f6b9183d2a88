@@ -1,0 +1,4 @@
+        self.require_component(BY.key('idiom_search_result'), '搜索结果列表未出现')
+        self.require_text('一石二鸟', '搜索结果中未包含「一石二鸟」')
+
+        self.driver.click(self.require_text('一石二鸟', '搜索结果中未包含「一石二鸟」'))

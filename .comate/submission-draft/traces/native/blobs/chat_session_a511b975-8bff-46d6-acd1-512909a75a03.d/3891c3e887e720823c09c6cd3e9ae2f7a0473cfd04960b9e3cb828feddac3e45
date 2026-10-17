@@ -1,0 +1,33 @@
+Command executed successfully.
+Exit code: 0
+Output:
+test_scenario1_random_idiom_on_home (__main__.IdiomModuleTest.test_scenario1_random_idiom_on_home)
+场景一：进入成语首页展示随机成语，刷新/重进后展示另一条。 ... [2026-10-14 15:13:23,306] [8417992448] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'event_name': 'TestTaskDebug', 'user_id': 'hypium_b65a7c23bff84675eaacedd9419d791f', 'event_id': '907001003', 'updated_at': datetime.datetime(2026, 1 ... (32 characters truncated) ... ated_at': datetime.datetime(2026, 10, 14, 15, 13, 19, 105465), 'uploaded': 0, 'product_name': 'xDevice', 'product_version': '6.1.0.210', 'extras': {}}, {'event_name': 'AppInfo', 'user_id': 'hypium_b65a7c23bff84675eaacedd9419d791f', 'event_id': '907001004', 'updated_at': datetime.datetime(2026, 10, 14, ... (66 characters truncated) ... , 15, 13, 23, 923108), 'uploaded': 0, 'product_name': 'xDevice', 'product_version': '6.1.0.210', 'extras': {'bundle_name': 'com.hefengbao.jingmo.hw'}}]]]
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'event_name': 'TestTaskDebug', 'user_id': 'hypium_b65a7c23bff84675eaacedd9419d791f', 'event_id': '907001003', 'updated_at': datetime.datetime(2026, 1 ... (32 characters truncated) ... ated_at': datetime.datetime(2026, 10, 14, 15, 13, 19, 105465), 'uploaded': 0, 'product_name': 'xDevice', 'product_version': '6.1.0.210', 'extras': {}}, {'event_name': 'AppInfo', 'user_id': 'hypium_b65a7c23bff84675eaacedd9419d791f', 'event_id': '907001004', 'updated_at': datetime.datetime(2026, 10, 14, ... (66 characters truncated) ... , 15, 13, 23, 923108), 'uploaded': 0, 'product_name': 'xDevice', 'product_version': '6.1.0.210', 'extras': {'bundle_name': 'com.hefengbao.jingmo.hw'}}]]]
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'event_name': 'TestTaskDebug', 'user_id': 'hypium_b65a7c23bff84675eaacedd9419d791f', 'event_id': '907001003', 'updated_at': datetime.datetime(2026, 1 ... (32 characters truncated) ... ated_at': datetime.datetime(2026, 10, 14, 15, 13, 19, 105465), 'uploaded': 0, 'product_name': 'xDevice', 'product_version': '6.1.0.210', 'extras': {}}, {'event_name': 'AppInfo', 'user_id': 'hypium_b65a7c23bff84675eaacedd9419d791f', 'event_id': '907001004', 'updated_at': datetime.datetime(2026, 10, 14, ... (66 characters truncated) ... , 15, 13, 23, 923108), 'uploaded': 0, 'product_name': 'xDevice', 'product_version': '6.1.0.210', 'extras': {'bundle_name': 'com.hefengbao.jingmo.hw'}}]]]
+[SQL: SELECT eventdata.id, eventdata.event_id, eventdata.event_name, eventdata.user_id, eventdata.product_name, eventdata.product_version, eventdata.uploaded, eventdata.extras, eventdata.created_at, eventdata.updated_at 
+FROM eventdata 
+WHERE eventdata.created_at <= ? AND eventdata.uploaded = ?]
+[parameters: [{}]]]
+ok
+test_scenario2_bookmark_and_detail (__main__.IdiomModuleTest.test_scenario2_bookmark_and_detail)
+场景二：收藏当前成语，进入详情页查看完整信息，返回后收藏状态保持。 ... [2026-10-14 15:13:36,183] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, com.hefengbao.jingmo.hw)</div>]
+ok
+test_scenario2b_bookmark_persists_after_restart (__main__.IdiomModuleTest.test_scenario2b_bookmark_persists_after_restart)
+收藏在应用重启后保持，并可从收藏夹取消。 ... [2026-10-14 15:13:52,367] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, com.hefengbao.jingmo.hw)</div>]
+ok
+test_scenario3_search (__main__.IdiomModuleTest.test_scenario3_search)
+场景三：搜索「一石二鸟」，结果列表包含匹配条目。 ... [2026-10-14 15:14:18,736] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, com.hefengbao.jingmo.hw)</div>]
+ok
+test_scenario4_similar_word_navigation (__main__.IdiomModuleTest.test_scenario4_similar_word_navigation)
+场景四：详情页展示近义词/反义词标签，点击可跳到该成语自己的详情页。 ... [2026-10-14 15:14:35,211] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, com.hefengbao.jingmo.hw)</div>]
+ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 104.674s
+
+OK

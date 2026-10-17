@@ -1,0 +1,12 @@
+### 4.3 数据访问（全部参数化查询）
+
+- 随机且不同于上一次：`select * from chinese_idiom where id = (select id from chinese_idiom where id != ? order by random() limit 1)`；若结果为空（表内仅 1 条）回退到原 `READ_RANDOM_CHINESE_IDIOM`。上次展示 id 存 `PrefUtil`（`chinese_idiom_id`），覆盖"刷新"、"返回后重新进入"、"重启应用后进入"三种情况。
+- 按 id：`select * from chinese_idiom where id = ? limit 1`。
+- 标签解析：`select id, word from chinese_idiom where word in (?,?,…)` → `Map<string, number>`。
+- 搜索：关键词 `trim()`，转义 `\ % _`，`word like %k% or abbr like %k% or pinyin like %k% escape '\'`，排序 `case when word = k then 0 when word like k% then 1 else 2 end, length(word), id`，`limit 100`。
+- 收藏（`bookmarks` 表，`bookmarkable_model = 'chinese_idiom'`）：存在性 `count(*)`；添加前先判重，避免重复行；取消删除全部匹配行；列表 `select i.* from bookmarks b join chinese_idiom i on i.id = b.bookmarkable_id where b.bookmarkable_model = ? order by b.id desc`。
+- `parse` 健壮化：JSON 列为 NULL/空串/非法时返回 null，不抛异常。
+
+### 4.4 IdiomView（`@ComponentV2`）
+
+- `@Param @Require idiom: Idiom`；`@Event onOpenIdiom: (id: number) => void`；`@Local linkedIds: Map<stri

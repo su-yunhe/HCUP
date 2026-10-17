@@ -1,0 +1,2 @@
+    def current_word(self) -> str:
+        return self.require_component(BY.key('idiom_word'), '页面未展示成语').getText()

@@ -1,0 +1,6 @@
+  // 搜索成语：成语、拼音、首字母缩写模糊匹配，精确匹配与前缀匹配优先
+  static readonly SEARCH_CHINESE_IDIOM: string =
+    `select * from ${DbTableConst.CHINESE_IDIOM_TABLE}` +
+      ` where word like ? escape '\\' or pinyin like ? escape '\\' or abbr like ? escape '\\'` +
+      ` order by case when word = ? then 0 when word like ? escape '\\' then 1 else 2 end,` +
+      ` length(word), id limit ?`;

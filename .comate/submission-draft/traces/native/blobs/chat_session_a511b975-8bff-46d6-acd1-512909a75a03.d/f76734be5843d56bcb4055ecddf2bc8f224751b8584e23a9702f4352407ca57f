@@ -1,0 +1,169 @@
+# 开发与自测指南
+
+[返回题包首页](../README.md)
+
+除特别说明外，本文中的命令均在题包根目录执行。
+
+## 获取工程基线
+
+### 下载完整的工程基线
+
+工程基线文件 `repo_bundles/*.bundle` 使用 Git LFS 存储。克隆赛题仓库并安装 Git LFS 后，在题包根目录执行：
+
+```bash
+git lfs install
+git lfs pull
+```
+
+下载完成后，再按下文步骤克隆工程。仓库网页的“下载源码 ZIP”可能只包含 LFS 指针，不能将其作为基线文件使用。请通过 Git 和 Git LFS 下载，或使用包含完整 bundle 文件的发布包。提交成果时，仍须按[材料清单](../templates/submission-checklist.md)将完整工程打包为 ZIP。
+
+题包中的 `release-manifest.json` 列出了各文件的大小和 SHA-256 校验值。请使用同一题包中的需求说明、元数据、基线和工具。检出基线和生成代码差异时，以本题 metadata 中的 `base_commit` 为准，不要使用旧题包或上游仓库的提交号。
+
+以 `jm-spec7` 为例，`metadata/jm-spec7.json` 中的 `baseline_bundle` 指定了基线文件路径。请将工程克隆到题包以外的独立目录，并为每道题单独建立工作目录。使用 Agent 时，只向其提供本题资料和工程，避免访问其他赛题的基线：
+
+```bash
+git clone --branch base repo_bundles/jingmo-for-harmonyos-b2e40f69dd-base.bundle ../harmonycup-work/jm-spec7
+git -C ../harmonycup-work/jm-spec7 checkout --detach b2e40f69dde450852d977c9555a9b12d59508c0d
+```
+
+请使用随包提供的工程基线解题。本题来源项目中与本题相关的修复提交、合并请求、Issue 及补丁属于受保护内容，参赛者和 AI 系统均不得访问。发布快照已清理旧签名配置和历史构建产物，不包含上游 Git 历史；各工程保留原有源码、资源及已有的许可证和版权声明。补充许可原文见[基线许可说明](baseline-licenses.md)。开发工具、依赖和构建环境应按本题工程配置及赛事技术通知准备。
+
+### 开始解题前：准备基线并构建
+
+**检出指定的 `base_commit` 后，请先运行基线准备脚本，再安装工程依赖并构建。** 部分基线直接构建时会遇到依赖下载失败（404）或编译错误，脚本会处理下表列出的已知问题。该脚本不会实现赛题功能，也不会添加测试数据、占位页面或占位资源。
+
+在赛题包根目录执行以下命令（以刚克隆的 `../harmonycup-work/jm-spec7` 为例；其他题目替换 `--task` 和 `--project`）：
+
+Windows PowerShell：
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r tools/requirements-build.txt
+.\.venv\Scripts\python.exe tools/prepare_baseline.py --task jm-spec7 --project ..\harmonycup-work\jm-spec7
+```
+
+macOS：
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r tools/requirements-build.txt
+.venv/bin/python tools/prepare_baseline.py --task jm-spec7 --project ../harmonycup-work/jm-spec7
+```
+
+如果已有 `.venv`，无需重复创建，后续的 Hypium 依赖也可安装在同一环境中。脚本需要 Git 和 Python 3.10 及以上版本，`--project` 参数须指向克隆后的工程根目录。添加 `--dry-run` 可预览修改，不写入文件。
+
+脚本会核对题目和基线提交号，并只处理指定文件。如果这些文件已有其他修改，脚本会停止，避免覆盖参赛者的代码。准备脚本可以在同一基线上重复运行，但须在自行提交代码或切换提交（HEAD）之前完成。
+
+| 范围 | 脚本处理 |
+| --- | --- |
+| 全部题目 | 基线已移除旧签名配置；脚本确保工程可按无签名方式构建，并保留原有 SDK 声明 |
+| `cm-spec26`、`cml-spec28` | 将 `ibest-ui-v2` 固定为已验证的 `1.1.3`，移除锁定失效 `1.1.0` 的锁文件，随后由 OHPM 重新生成 |
+| `jm-spec71` | 修正成语、知识、语录三个模块的已有页面导出路径 |
+
+请将脚本输出保存到本题的运行记录中，并在提交工程中保留脚本修改的配置、源码以及重新生成的锁文件。在 `build.md` 和 `trace-index.md` 中注明已执行基线准备。这些操作属于环境准备，不代表已完成赛题。
+
+准备完成后，在 DevEco Studio 中打开工程并同步依赖、构建。也可将 DevEco 随附的 Node.js、OHPM 和 Hvigor 可执行文件目录加入 PATH，设置 `DEVECO_SDK_HOME` 为 DevEco 的 `sdk` 目录、`JAVA_HOME` 为 JDK 根目录（Windows 通常为 DevEco 安装目录下的 `jbr`，macOS 为 `DevEco-Studio.app/Contents/jbr/Contents/Home`），在工程目录执行：
+
+```bash
+ohpm install --all
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon
+```
+
+Windows 可使用对应的 `ohpm.bat` 和 `hvigorw.bat`。SDK 使用下文的 HarmonyOS 6.1.0 / API 23。各题目使用仓库根目录作为 DevEco 工程目录；准备脚本输出的 `project_root` 给出实际构建目录。生成的无签名 HAP 位于相应应用模块的 `build/default/outputs/default/` 下，可用 `hdc -t <设备序列号> install <HAP路径>` 安装。
+
+随包 **21 个基线均已构建验证，覆盖 25 道题**。构建成功不代表题目功能已完成，环境及结果见[基线构建说明](baseline-build-validation.md)。
+
+## 开发与自测环境
+
+Windows 和 macOS 均可用于开发、构建，以及连接设备运行 Hypium 自测。正式成绩由技术委员会在统一评测环境中计算，**正式评测使用 Pura 90 Pro Max 模拟器，系统为 HarmonyOS 6.1.0（API 23）**，具体配置见下表。队伍自行准备电脑、设备、账号和工具，不要求安装 Docker。
+
+| 项目 | 要求或参考配置 |
+| --- | --- |
+| 开发工具 | 推荐 DevEco Studio 6.1.0，安装与电脑系统、架构对应的版本 |
+| SDK | HarmonyOS 6.1.0（API 23）；本地参考 SDK 包版本 6.1.0.105 |
+| Python | 3.10 及以上 |
+| Hypium | 6.1.0.210，通过本包 requirements.txt 安装 |
+| Node.js / OHPM / Hvigor | 优先使用 DevEco 随附工具；本地参考版本分别为 18.20.1 / 6.1.1.830 / 6.23.6 |
+| hdc | 使用 DevEco 随附版本；本地参考版本 3.2.0c |
+
+表中的参考版本用于帮助配置开发环境，正式功能评测使用下述统一环境。赛事不限定 Agent 或模型；工程插件和依赖请按各题配置核对。
+
+Windows 使用 64 位 Windows 10 或 11；macOS 使用对应 DevEco 安装包支持的版本。安装条件见[华为 DevEco Studio 说明](https://developer.huawei.com/consumer/cn/deveco-studio/)。
+
+### 正式评测与自测模拟器配置
+
+正式评测采用下表中的 Pura 90 Pro Max 模拟器配置。请按相同的系统版本和屏幕参数配置自测环境。
+
+| 参数 | 正式评测配置 |
+| --- | --- |
+| 模拟器机型 | Pura 90 Pro Max |
+| 设备类型 / 配置型号 | Phone（手机） / PHEMU-FD00 |
+| 系统 | HarmonyOS 6.1.0，API 23；镜像软件版本 6.1.0.115 |
+| 屏幕 | 1308 × 2880，560 dpi，6.9 英寸 |
+| CPU 架构 / 宿主平台 | ARM64（Apple Silicon Mac） |
+
+在 DevEco Studio 的 Device Manager 中创建或选择 Phone 模拟器，选择 API 23 镜像，核对上述屏幕参数后启动。模拟器实例名称可自行设置。创建步骤见[华为模拟器文档](https://developer.huawei.com/consumer/cn/doc/HarmonyOS-Guides/ide-emulator-create)。
+
+- Windows x86 电脑使用对应的 x86_64 模拟器镜像。
+- Apple Silicon Mac 使用 ARM64 模拟器镜像。
+- Intel Mac 可用于开发，但新版本地模拟器存在架构限制；需准备受支持的 HarmonyOS 真机进行调试和自测，参见[华为模拟器支持说明](https://developer.huawei.com/consumer/cn/doc/doccenter-tools-faq/faqs-simulator-9)。
+
+含原生库（.so）的工程须检查目标设备架构，不能直接混用 ARM64 与 x86_64 库；正式评测须支持上述 ARM64 环境。本地自测通过不代表正式测试通过。正式评测统一使用上述设备配置，其他运行限制见赛事技术通知。
+
+### 模拟器与签名
+
+使用模拟器进行常规应用调试和 Hypium 自测时，可直接构建并安装未签名 HAP，无需申请调试签名证书。使用真机调试时需要配置相应的调试签名，参见[华为开发入门说明](https://developer.huawei.com/consumer/cn/develop-novice-guide/)。涉及特定 Kit 的签名要求时，以该 Kit 的开发指南为准。
+
+发布快照已清理 `build-profile.json5` 中的旧 `signingConfigs` 及对应产品的 `signingConfig` 引用，移除其中原作者的签名密码、证书和密钥库本机路径；bundle 中也不保留这些内容的上游 Git 历史。基线准备脚本也会检查并清理这些配置，无需使用原作者的签名材料。
+
+测试示例只检查从收藏夹返回首页的操作，在未完成赛题的基线上也能通过。它不参与正式评分，通过示例不代表已完成赛题。
+
+### 安装 Hypium
+
+在赛题包根目录执行。使用独立 Python 环境可避免影响已有安装；本机已经安装对应版本的，可以直接使用原环境。
+
+Windows PowerShell（需已安装 Python 并可使用 py 命令）：
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt --index-url https://repo.huaweicloud.com/repository/pypi/simple
+.\.venv\Scripts\python.exe -c "from hypium import UiDriver, BY; from importlib.metadata import version; print(version('hypium'))"
+```
+
+macOS 终端：
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt --index-url https://repo.huaweicloud.com/repository/pypi/simple
+.venv/bin/python -c "from hypium import UiDriver, BY; from importlib.metadata import version; print(version('hypium'))"
+```
+
+安装验证命令应输出 `6.1.0.210`，且不出现导入错误。将 DevEco SDK 中 `openharmony/toolchains` 目录加入 PATH，确认终端能够运行 `hdc`。路径以本机 SDK 安装位置为准。
+
+### 运行测试示例
+
+先启动模拟器，构建并安装待测应用；应用须处于示例说明要求的初始状态。
+
+```bash
+hdc list targets
+```
+
+Windows PowerShell：
+
+```powershell
+.\.venv\Scripts\python.exe examples/jm-spec7/test_favorites_navigation.py --device <设备序列号>
+```
+
+macOS：
+
+```bash
+.venv/bin/python examples/jm-spec7/test_favorites_navigation.py --device <设备序列号>
+```
+
+将 `<设备序列号>` 替换为 `hdc list targets` 输出的实际值，执行时不保留尖括号。单设备可以省略 `--device`；多设备必须指定。应用安装、初始状态和结果判定见[示例说明](../examples/jm-spec7/README.md)。该示例用于演示 Hypium 的使用方法，不参与正式评分。
+
+## 依赖与构建说明
+
+保留工程源码、资源、模块配置、依赖清单和锁文件。新增或修改依赖须说明版本、来源和安装方法；第三方内容须符合其许可证要求。工程依赖仍在各项目原有配置中维护，根目录 requirements.txt 仅用于 Hypium 示例。
+
+构建不得依赖参赛电脑的绝对路径、未提交文件或本地缓存。不提交账号密码、API 密钥、个人签名私钥或证书密码。说明项目构建步骤、产物位置、应用标识、启动入口，以及必要的网络服务、登录状态、权限和初始化步骤。官方评测时不会替参赛队伍修改赛题功能代码。

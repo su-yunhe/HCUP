@@ -1,0 +1,32 @@
+# 成语模块：首屏随机展示 / 收藏 / 详情 / 搜索 / 近反义词关联浏览
+
+需求来源：`SWE-OpenHarmony/specs/jm-spec71.md`（4 个场景）。基线已执行 `prepare_baseline.py`（成语/知识/语录 Index.ets 导出路径修正、锁文件更新），本需求在其上开发。
+
+## 一、现状分析（基线）
+
+| 位置 | 现状 | 问题 |
+| --- | --- | --- |
+| `features/home/src/main/ets/view/MenuList.ets:55` | "成语" GridItem 无 onClick | 入口不可用 |
+| `features/chinese/idiom/src/main/ets/pages/IdiomIndexPage.ets` | 仅 Hello World 占位（struct 名 MainPage） | 无任何功能 |
+| `features/chinese/idiom/src/main/module.json5` | 无 routerMap，无 `route_map.json` | 无法 `pushPathByName` |
+| `features/chinese/idiom/src/main/ets/model/Idiom.ets` | 仅 `createIdiom`、`readRandomIdiom`；`parse` 对 NULL/空串 JSON.parse 会抛异常 | 缺按 id/词查询、搜索、收藏 |
+| `commons/utils/src/main/ets/data/DbUtil.ets` | `getRdbStore` 回调式初始化，页面可能在建表完成前查询 | 无"就绪"等待机制 |
+| `features/bookmark` | `BookmarkIndexPage` 空页面；`route_map.json` 键名写成 `routeMap`；未被任何模块依赖 | 收藏夹不可达、无内容 |
+| `features/home/src/main/ets/view/TopBar.ets` | 仅设置图标 | 无收藏夹入口 |
+| 数据 | `chinese_idiom` 表初始为空，只能在"设置→同步/导入"中从网络或文件导入（49639 条） | 新装应用进入成语页无数据，搜索"一石二鸟"必然失败 |
+
+## 二、总体方案
+
+1. **数据保障（内置种子数据）**：在成语模块 `rawfile/chinese_idiom_seed/` 内置从本应用自身公开数据接口（`NetworkConst.BASE_URL1` 的 `chinese_idiom_v5_*.json`）筛选出的约 1.5 万条成语，首次启动时批量写入 `chinese_idiom` 表（使用远端原始 id，`ON_CONFLICT_IGNORE`），与"设置→同步数据"写入的数据完全一致、不会重复。
+   - 筛选规则：有"成语故事"或"反义词"的成语（11004 条，覆盖常用成语）+ 其近义词/反义词在全量库中可解析词条的**闭包**（迭代至不动点，约 14.9k 条，≈8.9MB，按 id 排序切分为每 2000 条一个文件）。保证种子库内任一成语的近/反义词标签，只要全量库中存在，种子库中也存在，近反义词跳转链路不断。
+   - 一石二鸟(869) → 一箭双雕(915)/一举两得(44) 等均包含在内。
+2. **DB 就绪等待**：`DbUtil` 增加 `ready(): Promise<RdbStore | undefined>`，在建表迁移完成后 resolve；成语所有查询先 `await` 就绪 + 种子导入完成。
+3. **路由**：成语模块新增 `route_map.json`，注册 `IdiomIndexPage`、`IdiomDetailPage`、`IdiomSearchPage`；收藏夹 `route_map.json` 键名修正为 `routerMap`。所有页面沿用现有 `NavDestination + @Consumer('NavPathStack')` 模式。
+4. **页面**：
+   - `IdiomIndexPage`（标题"成语"）：随机成语内联完整展示 + 底部操作栏【搜索】【收藏/已收藏】【刷新】，支持下拉刷新；点击内容区进入详情。
+   - `IdiomDetailPage`（标题"成语详情"）：按 id 展示完整信息 + 底部【收藏/已收藏】。
+   - `IdiomSearchPage`（标题"搜索成语"）：Search 输入框，输入即搜（300ms 防抖）+ 回车/搜索按钮立即搜，结果 List，点击进详情。
+   - `BookmarkIndexPage`（标题"收藏夹"）：列出已收藏成语，点击进详情；首页 TopBar 新增收藏图标入口。
+5. **共享展示组件 `IdiomView`**：成语名、拼音、释义、出处、例句、用法、名著引用、成语故事、注意、近义词标签组、反义词标签组；首页与详情页共用。标签点击：词库中存在 → push 该成语的 `IdiomDetailPage`；不存在 → 置灰样式，点击 Toast 提示"词库中暂未收录"。
+
+<!-- APPEND_POINT_1 -->

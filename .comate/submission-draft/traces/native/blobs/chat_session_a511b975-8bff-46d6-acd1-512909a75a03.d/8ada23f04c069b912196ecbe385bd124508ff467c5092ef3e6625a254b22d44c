@@ -1,0 +1,33 @@
+  load() {
+    if (this.inFlight) {
+      this.refreshing = false
+      return
+    }
+    this.inFlight = true
+    this.loading = true
+    this.loadToken++
+    const token = this.loadToken
+    const context = this.getUIContext().getHostContext()
+    const task = context ? ensureIdiomData(context) : Promise.resolve()
+    task.then(() => {
+      return readRandomIdiom(PrefUtil.getChineseIdiomId())
+    }).then((value: Idiom | null) => {
+      this.inFlight = false
+      if (token !== this.loadToken) {
+        return
+      }
+      this.idiom = value
+      this.loading = false
+      this.refreshing = false
+      if (value) {
+        PrefUtil.saveChineseIdiomId(value.id)
+        this.syncBookmarkState()
+      } else {
+        this.bookmarked = false
+      }
+    }).catch((error: Object) => {
+      this.inFlight = false
+      this.loading = false
+      this.refreshing = false
+    })
+  }
