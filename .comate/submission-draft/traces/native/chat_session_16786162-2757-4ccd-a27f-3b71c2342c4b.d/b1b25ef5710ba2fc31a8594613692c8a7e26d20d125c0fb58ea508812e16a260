@@ -1,0 +1,3 @@
+        self.assertTrue(fm.wait_gone(self.driver, "player_slider"))
+        self.assertEqual(fm.bottom_song(self.driver), song)
+        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))

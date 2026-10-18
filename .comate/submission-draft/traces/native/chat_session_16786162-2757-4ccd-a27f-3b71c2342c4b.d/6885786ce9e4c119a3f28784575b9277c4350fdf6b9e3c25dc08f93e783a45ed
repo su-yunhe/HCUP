@@ -1,0 +1,113 @@
+<file>
+   140→  /**
+   141→   * 私人FM 下一首：队列中已有下一首直接播放，否则续拉推荐
+   142→   */
+   143→  async next(source: string = 'user') {
+   144→    if (!this.active) return
+   145→    const index = PlayQueueUtils.currentQueueIndex
+   146→    LogUtil.info(TAG + `next(${source}): index ${index}, length ${PlayQueueUtils.getQueueLength()}, fetching ${this.fetching != null}`)
+   147→    if (index + 1 < PlayQueueUtils.getQueueLength()) {
+   148→      this.play(index + 1)
+   149→      return
+   150→    }
+   151→    if (this.loading) return
+   152→
+   153→    const seq = this.reqSeq
+   154→    this.setLoading(true)
+   155→    const ok = await this.fetchMore()
+   156→    if (seq != this.reqSeq) return
+   157→    this.setLoading(false)
+   158→    const current = PlayQueueUtils.currentQueueIndex
+   159→    if (ok && current + 1 < PlayQueueUtils.getQueueLength()) {
+   160→      this.play(current + 1)
+   161→    } else {
+   162→      ToastUtil.showToast('获取推荐歌曲失败')
+   163→    }
+   164→  }
+   165→
+   166→  /**
+   167→   * 私人FM 中歌曲播放失败（如无播放地址），连续失败超过上限则停止
+   168→   */
+   169→  onPlayFailed() {
+   170→    this.notifyPlaySettled()
+   171→    this.playFailCount++
+   172→    if (this.playFailCount >= MAX_PLAY_FAIL) {
+   173→      this.playFailCount = 0
+   174→      ToastUtil.showToast('获取推荐歌曲失败')
+   175→      return
+   176→    }
+   177→    this.next('fail')
+   178→  }
+   179→
+   180→  onPlayStarted(songId: number) {
+   181→    this.playFailCount = 0
+   182→    this.startedSongId = songId
+   183→    this.completedSongId = 0
+   184→    this.notifyPlaySettled()
+   185→  }
+   186→
+   187→  /**
+   188→   * 歌曲播放完成：实测同一首歌会连续收到两次 completed，只处理一次，否则会跳过下一首
+   189→   */
+   190→  onCompleted() {
+   191→    if (this.startedSongId != 0 && this.startedSongId == this.completedSongId) {
+   192→      LogUtil.info(TAG + 'ignore repeated completed: ' + this.startedSongId)
+   193→      return
+   194→    }
+   195→    this.completedSongId = this.startedSongId
+   196→    this.next('complete')
+   197→  }
+   198→
+   199→  /**
+   200→   * 不喜欢当前歌曲：上报服务端、加入本地黑名单，并切到下一首
+   201→   */
+   202→  async dislike() {
+   203→    if (!this.active || this.dislikeInFlight) return
+   204→    const index = PlayQueueUtils.currentQueueIndex
+   205→    const current = PlayQueueUtils.getQueueElement(index)
+   206→    if (!current) return
+   207→    const sid = current.song.id
+   208→    this.dislikeInFlight = true
+   209→    const report: Promise<boolean> = trashFM(sid).catch((e: Error) => {
+   210→      LogUtil.error(TAG + '不喜欢上报失败: ' + JSON.stringify(e))
+   211→      return false
+   212→    })
+   213→    if (!this.blacklist.includes(sid)) {
+   214→      this.blacklist.push(sid)
+   215→    }
+   216→    // 队列中尚未播放的同一首歌也移除
+   217→    const queue = PlayQueueUtils.getQueue()
+   218→    const filtered = queue.filter((item: PlayQueue, i: number) => i <= index || item.song.id != sid)
+   219→    if (filtered.length != queue.length) {
+   220→      PlayQueueUtils.replaceQueue(filtered, index)
+   221→    }
+   222→    this.persist()
+   223→    try {
+   224→      // 新歌真正开始播放（或播放失败）前，再点“不喜欢”都忽略
+   225→      const settled = this.waitPlaySettled(DISLIKE_LOCK_TIMEOUT)
+   226→      await this.next('dislike')
+   227→      if (PlayQueueUtils.currentQueueIndex != index) {
+   228→        await settled
+   229→      }
+   230→      await report
+   231→    } finally {
+   232→      this.dislikeInFlight = false
+   233→    }
+   234→  }
+   235→
+   236→  /**
+   237→   * 等待下一次 onPlayStarted / onPlayFailed，超时也返回
+   238→   */
+   239→  private waitPlaySettled(timeout: number): Promise<void> {
+   240→    return new Promise<void>((resolve: () => void) => {
+   241→      let timer: number = -1
+   242→      const done = (): void => {
+   243→        clearTimeout(timer)
+   244→        if (this.playSettled === done) this.playSettled = null
+   245→        resolve()
+   246→      }
+   247→      timer = setTimeout(done, timeout)
+   248→      this.playSettled = done
+   249→    })
+</file>
+<metadata>The file has 475 lines in total.</metadata>

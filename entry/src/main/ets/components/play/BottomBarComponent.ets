@@ -22,6 +22,7 @@ export struct BottomBarComponent {
   @StorageProp(StorageConstants.PIC_URL) picUrl: string = ''
   @StorageProp(StorageConstants.PLAY_TIME) time: number = 0
   @StorageProp('player-currentLyric') currentLyric: string = ''
+  @StorageProp(StorageConstants.FM_ACTIVE) isFMActive: boolean = false
   @State isShow: boolean = false
   @Consume('pageInfos') pageInfos: NavPathStack
 
@@ -31,7 +32,20 @@ export struct BottomBarComponent {
       else { Image(this.picUrl + '?param=512y512').songImg() }
 
       Column({ space: 5 }) {
-        Text(this.song.name).textStyle(16).fontWeight(FontWeight.Medium)
+        Row() {
+          Text(this.song.name).textStyle(16).fontWeight(FontWeight.Medium).id('bottom_bar_song_name')
+          if(this.isFMActive) {
+            Text('私人FM')
+              .id('fm_badge_bottom')
+              .fontSize(10)
+              .fontColor($r('app.color.app_red'))
+              .border({ width: 1, color: $r('app.color.app_red'), radius: 4 })
+              .padding({ left: 4, right: 4, top: 1, bottom: 1 })
+              .margin({ right: 10 })
+              .flexShrink(0)
+          }
+        }
+        .width('100%')
         if(!this.currentLyric || this.currentLyric === '暂无歌词') {
           Text(this.artists).textStyle(12).textOverflow({ overflow: TextOverflow.MARQUEE }).layoutWeight(1).fontColor(Color.Gray)
         }
@@ -47,6 +61,7 @@ export struct BottomBarComponent {
     }
     .justifyContent(FlexAlign.SpaceBetween)
     .width('100%')
+    .id('bottom_bar')
     .borderRadius(Constants.RADIUS_CARD)
     .backgroundColor($r('app.color.main'))
     .height(Constants.HEIGHT_MINI)
@@ -78,6 +93,7 @@ struct ControlButtons {
     Row({ space: 10 }) {
       // Last
       Image($r('app.media.ic_public_play_last')).buttonImgStyle()
+        .id('bottom_bar_prev_btn')
         .fillColor($r('app.color.app_red'))
         .onClick(() => {
           playPre()
@@ -86,12 +102,14 @@ struct ControlButtons {
       // Play & Pause
       if (!this.isPaused) {
         Image($r('app.media.ic_public_pause_norm')).buttonImgStyle()
+          .id('bottom_bar_pause_btn')
           .fillColor($r('app.color.app_red'))
           .onClick(() => {
             pauseMusic()
           })
       } else {
         Image($r('app.media.ic_public_play_norm')).buttonImgStyle()
+          .id('bottom_bar_play_btn')
           .fillColor($r('app.color.app_red'))
           .onClick(() => {
           if(!this.isPlaying) playQueue(playQueueUtils.currentQueueIndex)
@@ -101,12 +119,13 @@ struct ControlButtons {
 
       // Next
       Image($r('app.media.ic_public_play_next')).buttonImgStyle()
+        .id('bottom_bar_next_btn')
         .fillColor($r('app.color.app_red'))
         .onClick(() => {
           playNext()
         })
 
-      PlayQueueButton({ imgWidth: 25, imgColor: $r('app.color.app_red') })
+      PlayQueueButton({ imgWidth: 25, imgColor: $r('app.color.app_red'), btnId: 'bottom_bar_queue_btn' })
     }
   }
 }

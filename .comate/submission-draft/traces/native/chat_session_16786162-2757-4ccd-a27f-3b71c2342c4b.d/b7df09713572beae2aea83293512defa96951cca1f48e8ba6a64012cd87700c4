@@ -1,0 +1,9 @@
+# hilog 中的请求日志（songApi.ets 在发出请求前打印）
+LOG_E1 = "Request personal fm"
+LOG_E2 = "Request fm trash"
+
+
+def log_count(driver, pattern: str) -> int:
+    """应用日志域 0x1010 中包含 pattern 的行数，用来统计真实发出的网络请求。"""
+    out = driver.shell("hilog -x -D 0x1010")
+    return sum(1 for line in out.splitlines() if pattern in line)

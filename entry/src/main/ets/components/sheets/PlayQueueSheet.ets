@@ -2,6 +2,7 @@ import { DialogUtil, EmitterUtil, LogUtil, ToastUtil } from "@pura/harmony-utils
 import { PlayQueue } from "../../common/entities/PlayQueue"
 import { playQueue } from "../../common/functions/play/playControl"
 import PlayQueueUtils from "../../common/utils/play/PlayQueueUtils"
+import FMUtils from "../../common/utils/play/FMUtils"
 import { LoopModeButton } from "../buttons/play/LoopModeButton"
 import { LazyData } from '@pie/lazy-data';
 import { setHeartMode } from "../../api/songApi"
@@ -22,6 +23,7 @@ export struct PlayQueueSheet {
   @StorageProp(StorageConstants.PLAY_MODE) playmode: number = 1
   @StorageProp(StorageConstants.USER_PLAYLISTS) playLists: Array<PlayList> = []
   @StorageProp(StorageConstants.BREAKPOINT) breakpoint: string = 'sm'
+  @StorageProp(StorageConstants.FM_ACTIVE) isFMActive: boolean = false
   @State isLoading: boolean = false
   @Link isShow: boolean
   @State dataSource: LazyData<PlayQueue> = new LazyData()
@@ -53,11 +55,12 @@ export struct PlayQueueSheet {
               Span('播放列表').fontSize(Constants.FONT_SIZE_TITLE).fontColor(Color.Gray).fontWeight(FontWeight.Bold)
               Span(`  (${this.queue.length})`).fontSize(Constants.FONT_SIZE_COMMON).fontColor(Color.Gray)
             }
+            .id('queue_title')
 
             LoopModeButton({ imgWidth: Constants.SIZE_ICON_BUTTON_BAR, btnWidth: Constants.SIZE_ICON_BUTTON_BAR })
 
             // HeartMode Button
-            if(this.queue.length > 0 && this.playmode == 1) {
+            if(!this.isFMActive && this.queue.length > 0 && this.playmode == 1) {
               Button() {
                 Image($r('app.media.ic_heart_filled')).width(Constants.SIZE_ICON_BUTTON_BAR - 5).fillColor($r('app.color.reverse'))
               }
@@ -81,18 +84,45 @@ export struct PlayQueueSheet {
               this.scrollToCurrent()
             })
 
-            Button({ type: ButtonType.Circle }) {
-              Image($r('app.media.ic_public_delete_filled')).width(Constants.SIZE_ICON_BUTTON_BAR_SMALL).fillColor(Color.Gray)
+            if(!this.isFMActive) {
+              Button({ type: ButtonType.Circle }) {
+                Image($r('app.media.ic_public_delete_filled')).width(Constants.SIZE_ICON_BUTTON_BAR_SMALL).fillColor(Color.Gray)
+              }
+              .backgroundColor(Color.Transparent)
+              .id('queue_clean_btn')
+              .onClick(() => {
+                this.cleanPlayQueue()
+              })
             }
-            .backgroundColor(Color.Transparent)
-            .onClick(() => {
-              this.cleanPlayQueue()
-            })
           }
         }
         .padding({ left: 5, right: 5 })
         .width('100%')
         .justifyContent(FlexAlign.SpaceBetween)
+
+        // 私人FM 提示与退出按钮
+        if(this.isFMActive) {
+          Row() {
+            Text('正在播放私人FM')
+              .id('fm_queue_tip')
+              .fontSize(Constants.FONT_SIZE_COMMON)
+              .fontColor($r('app.color.app_red'))
+              .fontWeight(FontWeight.Medium)
+            Button('退出FM')
+              .id('fm_exit_btn')
+              .fontSize(Constants.FONT_SIZE_COMMON - 2)
+              .fontColor(Color.White)
+              .backgroundColor($r('app.color.app_red'))
+              .height(30)
+              .padding({ left: 12, right: 12 })
+              .onClick(() => {
+                this.exitFM()
+              })
+          }
+          .padding({ left: 5, right: 5 })
+          .width('100%')
+          .justifyContent(FlexAlign.SpaceBetween)
+        }
 
         List({ scroller: this.scroller, space: 20 }) {
           LazyForEach(this.dataSource, (item: PlayQueue, index) => {
@@ -107,6 +137,7 @@ export struct PlayQueueSheet {
         }
         .lanes(this.breakpoint == 'sm' ? 1 : 2)
         .divider({ color: Color.Gray, strokeWidth: 0.1 })
+        .id('queue_list')
         .width('100%')
         .height('100%')
         .layoutWeight(1)
@@ -130,6 +161,7 @@ export struct PlayQueueSheet {
     Row({ space: 5 }) {
       Column({ space: 5 }) {
         Text(`${item.song.name}`)
+          .id(`queue_item_${index}`)
           .fontSize(16)
           .fontWeight(FontWeight.Medium)
           .fontColor(this.currentQueueIndex == index ? $r('app.color.app_red') : $r('app.color.reverse'))
@@ -167,8 +199,8 @@ export struct PlayQueueSheet {
         } else return
       })
 
-      // 从播放列表中删除
-      if(this.currentQueueIndex != index) {
+      // 从播放列表中删除（私人FM 中不可删除）
+      if(!this.isFMActive && this.currentQueueIndex != index) {
         Button({ type: ButtonType.Circle }) {
           Image($r('app.media.ic_public_cancel')).width(20).fillColor(Color.Gray)
         }
@@ -188,6 +220,16 @@ export struct PlayQueueSheet {
 
   private scrollToCurrent(animation: boolean = true) {
     this.scroller.scrollToIndex(this.currentQueueIndex, animation, ScrollAlign.START)
+  }
+
+  /**
+   * 退出私人FM，面板保持打开并刷新为手动播放列表
+   */
+  private async exitFM() {
+    await FMUtils.exit()
+    this.dataSource.setData(PlayQueueUtils.getQueue())
+    this.dataSource.notifyDataReload()
+    this.scrollToCurrent(false)
   }
 
   private cleanPlayQueue() {

@@ -1,0 +1,2 @@
+    # 底部栏也可能显示同名歌曲，取最靠上的（搜索结果列表里的）
+    target = min(driver.find_all_components(BY.text(name)), key=lambda c: c.getBounds().top)

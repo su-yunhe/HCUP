@@ -14,6 +14,7 @@ import { getLikeList } from "../../../api/songApi"
 import { PersonalListItem } from "../../entities/Personalized"
 import { pauseMusic, playQueue } from "../play/playControl"
 import RelationalStoreUtils from "../../utils/data/RelationalStoreUtils"
+import FMUtils from "../../utils/play/FMUtils"
 
 /**
  * App初始化
@@ -24,6 +25,7 @@ export async function appInit() {
   AppStorage.setOrCreate(StorageConstants.APP_LOADING, true)
   await initSettings()
   await initPlayQueue()
+  await FMUtils.init()
   loadSavedSong()
   initPermission()
   initLocalData()

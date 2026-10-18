@@ -9,6 +9,7 @@ export struct PlayQueueButton {
   @State isShow: boolean = false
   @State imgWidth: number = 30
   @State imgColor: Color | ResourceStr = $r('app.color.reverse')
+  btnId: string = ''
 
   build() {
     Button(){
@@ -17,6 +18,7 @@ export struct PlayQueueButton {
         .fillColor(this.imgColor)
         .draggable(false)
     }
+    .id(this.btnId)
     .stateEffect(false)
     .backgroundColor(Color.Transparent)
     .onClick(() => { this.isShow = !this.isShow })

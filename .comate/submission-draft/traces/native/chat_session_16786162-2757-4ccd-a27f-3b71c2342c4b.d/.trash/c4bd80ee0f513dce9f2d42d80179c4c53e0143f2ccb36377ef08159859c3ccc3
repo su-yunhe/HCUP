@@ -1,0 +1,15 @@
+"""场景一：发现页私人FM卡片、进入私人FM、标识。"""
+from __future__ import annotations
+
+import time
+
+from hypium import BY
+
+from harness.driver import HarnessTestCase
+from hypium_tests import fm_helpers as fm
+
+
+class TestFMEntry(HarnessTestCase):
+
+    def test_01_card_visible_without_scroll(self):
+        """A1-A4：冷启动后发现页第 1 张卡片就是私人FM，无需横滑，文案精确。"""

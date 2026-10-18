@@ -1,0 +1,45 @@
+            .backgroundColor(Color.Transparent)
+            .onClick(() => {
+              this.scrollToCurrent()
+            })
+
+            if(!this.isFMActive) {
+              Button({ type: ButtonType.Circle }) {
+                Image($r('app.media.ic_public_delete_filled')).width(Constants.SIZE_ICON_BUTTON_BAR_SMALL).fillColor(Color.Gray)
+              }
+              .backgroundColor(Color.Transparent)
+              .onClick(() => {
+                this.cleanPlayQueue()
+              })
+            }
+          }
+        }
+        .padding({ left: 5, right: 5 })
+        .width('100%')
+        .justifyContent(FlexAlign.SpaceBetween)
+
+        // 私人FM 提示与退出按钮
+        if(this.isFMActive) {
+          Row() {
+            Text('正在播放私人FM')
+              .id('fm_queue_tip')
+              .fontSize(Constants.FONT_SIZE_COMMON)
+              .fontColor($r('app.color.app_red'))
+              .fontWeight(FontWeight.Medium)
+            Button('退出FM')
+              .id('fm_exit_btn')
+              .fontSize(Constants.FONT_SIZE_COMMON - 2)
+              .fontColor(Color.White)
+              .backgroundColor($r('app.color.app_red'))
+              .height(30)
+              .padding({ left: 12, right: 12 })
+              .onClick(() => {
+                this.exitFM()
+              })
+          }
+          .padding({ left: 5, right: 5 })
+          .width('100%')
+          .justifyContent(FlexAlign.SpaceBetween)
+        }
+
+        List({ scroller: this.scroller, space: 20 }) {

@@ -1,0 +1,8 @@
+def log_count(driver, pattern: str) -> int:
+    """应用日志域 0x1010 中包含 pattern 的行数，用来统计真实发出的网络请求。"""
+    out = driver.shell("hilog -x -D 0x1010")
+    return sum(1 for line in out.splitlines() if pattern in line)
+
+
+def e1_ops(driver, pattern: str = LOG_E1) -> int:
+    """推荐请求的“操作次数”：请求行数减去过滤后

@@ -1,0 +1,179 @@
+<file>
+     1→import { Explore } from '../components/main/Explore'
+     2→import { BottomBarComponent } from '../components/play/BottomBarComponent';
+     3→import Constants from '../common/constants/Constants';
+     4→import { SettingsPage } from './settings/SettingsPage';
+     5→import { CachedPage } from './CachedPage';
+     6→import { CloudPage } from './CloudPage';
+     7→import { DailyListPage } from './DailyListPage';
+     8→import { SearchPage } from './SearchPage';
+     9→import { PlayListPage } from './PlayListPage';
+    10→import { PlayListPageParam, WebPageParam } from '../common/entities/PageParams';
+    11→import { LoginPage } from './login/LoginPage';
+    12→import { QrCodeLogin } from './login/QrCodeLogin';
+    13→import { WebLogin } from './login/WebLogin';
+    14→import { WebPage } from './WebPage';
+    15→import { UserPlayLists } from '../components/main/UserPlayLists';
+    16→import { Me } from '../components/main/Me';
+    17→import { StorageConstants } from '../common/constants/StorageConstants';
+    18→import { WarrantyDialog } from '../components/dialog/WarrantyDialog';
+    19→import { TopListPage } from './TopListPage';
+    20→import PreferencesUtils from '../common/utils/data/PreferencesUtils';
+    21→import { DebugPage } from './DebugPage';
+    22→import BreakpointUtils from '../common/utils/system/BreakpointUtils';
+    23→
+    24→@Entry
+    25→@Component
+    26→struct Index {
+    27→  @Provide('pageInfos') pageInfos: NavPathStack = new NavPathStack()
+    28→
+    29→  tabController: TabsController = new TabsController()
+    30→
+    31→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    32→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    33→  @StorageProp(StorageConstants.BREAKPOINT) breakpoint: string = 'sm'
+    34→  @StorageProp(StorageConstants.DEFAULT_PAGE_INDEX) index: number = 0
+    35→  @State tabCurrentIndex: number = 0
+    36→
+    37→  private getMenuItems(): NavigationMenuItem[] {
+    38→    let items: NavigationMenuItem[] = []
+    39→    if(this.index == 0 || this.index == 1) {
+    40→      items.push({
+    41→        value: 'Search',
+    42→        icon: $r('app.media.ic_public_search_filled'),
+    43→        action: () => {
+    44→          this.pageInfos.clear()
+    45→          this.pageInfos.pushPathByName('SearchPage', null, true)
+    46→        }
+    47→      })
+    48→    }
+    49→    // if(this.index == 1) {
+    50→    //   items.unshift({
+    51→    //     value: 'Add',
+    52→    //     icon: $r('app.media.ic_public_add_filled'),
+    53→    //     action: () => {
+    54→    //       this.addPlayListController.open()
+    55→    //     }
+    56→    //   })
+    57→    // }
+    58→    return items
+    59→  }
+    60→
+    61→  async aboutToAppear(): Promise<void> {
+    62→    BreakpointUtils.register()
+    63→    setTimeout(() => {
+    64→      this.tabCurrentIndex = this.index
+    65→    }, 1)
+    66→    const isFirstLaunch = await PreferencesUtils.getPreferenceValue<boolean>(StorageConstants.USER_PREF, 'isFirstLaunch', true)
+    67→    if(isFirstLaunch) {
+    68→      PreferencesUtils.putPreferenceValue(StorageConstants.USER_PREF, 'isFirstLaunch', false)
+    69→    }
+    70→  }
+    71→
+    72→  aboutToDisappear(): void {
+    73→    BreakpointUtils.unregister()
+    74→  }
+    75→
+    76→  async build() {
+    77→    Navigation(this.pageInfos) {
+    78→      Stack({ alignContent: Alignment.Bottom }) {
+    79→        Tabs({ controller: this.tabController, index: this.tabCurrentIndex }) {
+    80→          TabContent() { Explore() }
+    81→          TabContent() { UserPlayLists() }
+    82→          TabContent() { Me() }
+    83→        }
+    84→        .height('100%')
+    85→        .width('100%')
+    86→        .barHeight(0)
+    87→        .edgeEffect(EdgeEffect.None)
+    88→        .animationDuration(300)
+    89→        .onAnimationStart((from, target) => {
+    90→          this.index = target
+    91→        })
+    92→
+    93→        BottomBarComponent()
+    94→          .padding({ left: Constants.PADDING_EDGE_DEFAULT, right: Constants.PADDING_EDGE_DEFAULT, bottom: px2vp(this.bottomRectHeight) + 35 })
+    95→          .backgroundColor(Color.Transparent)
+    96→      }
+    97→    }
+    98→    .height('100%')
+    99→    .width('100%')
+   100→    .navBarWidth('50%')
+   101→    .navBarPosition(NavBarPosition.Start)
+   102→    .mode(this.breakpoint == 'lg' ? NavigationMode.Split : NavigationMode.Stack)
+   103→    .titleMode(NavigationTitleMode.Mini)
+   104→    .title(this.index == 0 ? '发现' : this.index == 1 ? '歌单' : '我的')
+   105→    .menus(this.getMenuItems())
+   106→    .hideBackButton(true)
+   107→    .backgroundColor($r('app.color.background'))
+   108→    .navDestination(this.PageMap)
+   109→    .toolbarConfiguration(this.ToolBar(), { backgroundBlurStyle: BlurStyle.Regular, barStyle: BarStyle.STACK, backgroundColor: Color.Transparent })
+   110→  }
+   111→
+   112→  @Builder PageMap(name: string, param: Object) {
+   113→    if(name === 'SettingsPage') {
+   114→      SettingsPage()
+   115→    }
+   116→    else if(name === 'CachedPage') {
+   117→      CachedPage()
+   118→    }
+   119→    else if(name === 'CloudPage') {
+   120→      CloudPage()
+   121→    }
+   122→    else if(name === 'DailyListPage') {
+   123→      DailyListPage()
+   124→    }
+   125→    else if(name === 'SearchPage') {
+   126→      SearchPage()
+   127→    }
+   128→    else if(name === 'PLayListPage') {
+   129→      PlayListPage({ param: param as PlayListPageParam })
+   130→    }
+   131→    else if(name === 'LoginPage') {
+   132→      LoginPage()
+   133→    }
+   134→    else if(name === 'QrCodeLogin') {
+   135→      QrCodeLogin()
+   136→    }
+   137→    else if(name === 'WebLogin') {
+   138→      WebLogin()
+   139→    }
+   140→    else if(name === 'WebPage') {
+   141→      WebPage({ param: param as WebPageParam })
+   142→    }
+   143→    else if(name == 'TopListPage') {
+   144→      TopListPage()
+   145→    }
+   146→    else if(name == 'DebugPage') {
+   147→      DebugPage()
+   148→    }
+   149→  }
+   150→
+   151→  @Builder ToolBar() {
+   152→    Row() {
+   153→      this.ToolBarItem(0, $r('app.media.ic_gallery_discover'), $r('app.media.ic_gallery_discover_filled'), '发现')
+   154→      this.ToolBarItem(1, $r('app.media.ic_public_drawer'), $r('app.media.ic_public_drawer_filled'),'歌单')
+   155→      this.ToolBarItem(2, $r('app.media.ic_public_contacts'), $r('app.media.ic_public_contacts_filled'), '我的')
+   156→    }
+   157→    .backgroundColor(Color.Transparent)
+   158→    .justifyContent(FlexAlign.SpaceEvenly)
+   159→    .width('100%')
+   160→  }
+   161→
+   162→  @Builder ToolBarItem(index: number, icon: ResourceStr, activeIcon: ResourceStr, text: string) {
+   163→    Column({ space: 3 }) {
+   164→      Image(this.index == index ? activeIcon : icon)
+   165→        .width(Constants.SIZE_ICON_BUTTON_BAR)
+   166→        .fillColor(this.index == index ? $r('app.color.app_red') : Color.Gray)
+   167→      Text(text)
+   168→        .fontSize(Constants.FONT_SIZE_BAR)
+   169→        .fontColor(this.index == index ? $r('app.color.app_red') : Color.Gray)
+   170→    }
+   171→    .layoutWeight(1)
+   172→    .onClick(() => {
+   173→      this.tabController.changeIndex(index)
+   174→    })
+   175→  }
+   176→}
+</file>
+<metadata>The file has 176 lines in total.</metadata>

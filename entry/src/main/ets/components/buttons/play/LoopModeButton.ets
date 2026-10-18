@@ -6,6 +6,7 @@ export struct LoopModeButton {
   @State imgWidth: number = 30
   @State btnWidth: number = 30
   @State imgColor: Color | ResourceStr = $r('app.color.reverse')
+  btnId: string = ''
 
 
   build() {
@@ -13,18 +14,22 @@ export struct LoopModeButton {
     if(this.cycleMode == 0) {
       Button() { Image($r('app.media.ic_public_order_play')).image(this.imgWidth).fillColor(this.imgColor) }
       .button(this.btnWidth)
+      .id(this.btnId)
       .onClick(() => { changeCycleMode(1) })
     } else if(this.cycleMode == 1) {
       Button() { Image($r('app.media.ic_public_single_cycle')).image(this.imgWidth).fillColor(this.imgColor) }
       .button(this.btnWidth)
+      .id(this.btnId)
       .onClick(() => { changeCycleMode(2) })
     } else if(this.cycleMode == 2) {
       Button() { Image($r('app.media.ic_public_list_cycle')).image(this.imgWidth).fillColor(this.imgColor) }
       .button(this.btnWidth)
+      .id(this.btnId)
       .onClick(() => { changeCycleMode(3) })
     } else {
       Button() { Image($r('app.media.ic_public_random')).image(this.imgWidth - 5).fillColor(this.imgColor) }
       .button(this.btnWidth)
+      .id(this.btnId)
       .onClick(() => { changeCycleMode(0) })
     }
   }

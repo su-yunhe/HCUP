@@ -1,0 +1,178 @@
+<file>
+     1→import { LogUtil, ToastUtil } from '@pura/harmony-utils'
+     2→import ContinuousTask from './ContinuousTask'
+     3→import AVSessionUtils from './AVSessionUtils'
+     4→import { completeDo } from '../../functions/play/playControl'
+     5→import LyricUtils from './LyricUtils'
+     6→import { audio } from '@kit.AudioKit'
+     7→import { StorageConstants } from '../../constants/StorageConstants'
+     8→import { media } from '@kit.MediaKit'
+     9→import { BusinessError } from '@kit.BasicServicesKit'
+    10→
+    11→const TAG = '[AVPlayerUtils] '
+    12→
+    13→class AVPlayerUtils {
+    14→  private avPlayer: media.AVPlayer | null = null
+    15→  private updateAvSession: number = 0
+    16→  private audioManager = audio.getAudioManager()
+    17→  private audioSessionManager: audio.AudioSessionManager = this.audioManager.getSessionManager()
+    18→
+    19→  async init() {
+    20→    if (!this.avPlayer) {
+    21→      this.avPlayer = await media.createAVPlayer()
+    22→      this.setCallback(this.avPlayer)
+    23→    }
+    24→    return this.avPlayer
+    25→  }
+    26→
+    27→  async reset() {
+    28→    await this.avPlayer?.reset()
+    29→  }
+    30→
+    31→  async release() {
+    32→    await this.avPlayer?.release()
+    33→    this.avPlayer?.off('stateChange')
+    34→    this.avPlayer?.off('error')
+    35→    this.avPlayer?.off('timeUpdate')
+    36→  }
+    37→
+    38→  async setUrl(url: string) {
+    39→    await this.reset()
+    40→    const avPlayer = await this.init()
+    41→    avPlayer.url = url
+    42→  }
+    43→
+    44→  async setFdSrc(url: media.AVFileDescriptor) {
+    45→    const avPlayer = await this.init()
+    46→    avPlayer.fdSrc = url
+    47→  }
+    48→
+    49→  async play() {
+    50→    const avPlayer = await this.init()
+    51→    try {
+    52→      await this.setAudioSession()
+    53→      LyricUtils.startInterval()
+    54→      ContinuousTask.startTask()
+    55→      avPlayer.play()
+    56→      AVSessionUtils.playState(avPlayer.currentTime)
+    57→      this.updateAvSession = setInterval(() => {
+    58→        if (avPlayer.state === 'playing') {
+    59→          AVSessionUtils.playState(avPlayer.currentTime)
+    60→        }
+    61→      }, 1000)
+    62→      avPlayer.on('timeUpdate', (time: number) => {
+    63→        AppStorage.setOrCreate(StorageConstants.PLAY_TIME, time)
+    64→      })
+    65→    } catch (e) {
+    66→      LogUtil.error(TAG + '播放错误: ' + e.message)
+    67→    }
+    68→  }
+    69→
+    70→  async stop() {
+    71→    const avPlayer = await this.init()
+    72→    this.clearInterval()
+    73→    await avPlayer.stop()
+    74→    ContinuousTask.stopTask()
+    75→  }
+    76→
+    77→  async pause() {
+    78→    const avPlayer = await this.init()
+    79→    this.clearInterval()
+    80→    await avPlayer.pause()
+    81→  }
+    82→
+    83→  async seek(time: number) {
+    84→    const avPlayer = await this.init()
+    85→    avPlayer.seek(time)
+    86→    AVSessionUtils.playState(time)
+    87→  }
+    88→
+    89→  private clearInterval() {
+    90→    clearInterval(this.updateAvSession)
+    91→    LyricUtils.endInterval()
+    92→  }
+    93→
+    94→  private setCallback(avPlayer: media.AVPlayer) {
+    95→    avPlayer.on('error', (err: BusinessError) => {
+    96→      LogUtil.error(TAG + `Invoke avPlayer failed, code is ${err.code}, message is ${err.message}`)
+    97→      avPlayer.reset()
+    98→    })
+    99→    avPlayer.on('audioOutputDeviceChangeWithInfo', async(changeInfo: audio.AudioStreamDeviceChangeInfo) => {
+   100→      if (changeInfo.changeReason == audio.AudioStreamDeviceChangeReason.REASON_OLD_DEVICE_UNAVAILABLE) {
+   101→        this.pause()
+   102→      }
+   103→    })
+   104→    avPlayer.on('audioInterrupt', async(interruptEvent: audio.InterruptEvent) => {
+   105→      if (interruptEvent.forceType === audio.InterruptForceType.INTERRUPT_FORCE) {
+   106→        switch (interruptEvent.hintType) {
+   107→          case audio.InterruptHint.INTERRUPT_HINT_PAUSE:
+   108→            this.pause()
+   109→            break
+   110→          case audio.InterruptHint.INTERRUPT_HINT_STOP:
+   111→            this.pause()
+   112→            break
+   113→          default:
+   114→            break
+   115→        }
+   116→      } else if (interruptEvent.forceType === audio.InterruptForceType.INTERRUPT_SHARE) {
+   117→        switch (interruptEvent.hintType) {
+   118→          case audio.InterruptHint.INTERRUPT_HINT_RESUME:
+   119→            this.play()
+   120→            break
+   121→          default:
+   122→            break
+   123→        }
+   124→      }
+   125→    })
+   126→    avPlayer.on('stateChange', async (state: string) => {
+   127→      switch (state) {
+   128→        case 'idle':
+   129→          this.clearInterval()
+   130→          AVSessionUtils.deactive()
+   131→          break
+   132→        case 'initialized':
+   133→          avPlayer.audioRendererInfo = {
+   134→            usage: audio.StreamUsage.STREAM_USAGE_MUSIC,
+   135→            rendererFlags: 0
+   136→          }
+   137→          avPlayer.prepare()
+   138→          break
+   139→        case 'prepared':
+   140→          await this.play()
+   141→          break
+   142→        case 'playing':
+   143→          AppStorage.setOrCreate('player-isplaying', true)
+   144→          AppStorage.setOrCreate('player-ispaused', false)
+   145→          break
+   146→        case 'paused':
+   147→          this.clearInterval()
+   148→          ContinuousTask.stopTask()
+   149→          AppStorage.setOrCreate('player-ispaused', true)
+   150→          AVSessionUtils.pauseState(this.avPlayer!.currentTime)
+   151→          break
+   152→        case 'completed':
+   153→          this.clearInterval()
+   154→          AppStorage.setOrCreate('player-ispaused', true)
+   155→          ContinuousTask.stopTask()
+   156→          completeDo()
+   157→          break
+   158→      }
+   159→    })
+   160→  }
+   161→
+   162→  async setAudioSession() {
+   163→    const isMixWithOthers = await AppStorage.get(StorageConstants.MIX_WITH_OTHERS) as boolean
+   164→    const strategy: audio.AudioSessionStrategy = {
+   165→      concurrencyMode: isMixWithOthers ?
+   166→      audio.AudioConcurrencyMode.CONCURRENCY_MIX_WITH_OTHERS :
+   167→      audio.AudioConcurrencyMode.CONCURRENCY_DEFAULT
+   168→    }
+   169→    await this.audioSessionManager.activateAudioSession(strategy)
+   170→  }
+   171→}
+   172→
+   173→const avPlayerUtils = new AVPlayerUtils()
+   174→export default avPlayerUtils as AVPlayerUtils
+   175→
+</file>
+<metadata>The file has 175 lines in total.</metadata>

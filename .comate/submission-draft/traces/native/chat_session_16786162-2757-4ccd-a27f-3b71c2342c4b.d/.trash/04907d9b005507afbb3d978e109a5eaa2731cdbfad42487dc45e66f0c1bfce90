@@ -1,0 +1,9 @@
+@Builder function ContentButton(firText:string, secText:string, imgUrl:ResourceStr, onClick?: () => void, showDate: boolean = false, idPrefix: string = '') {
+  Stack({ alignContent: Alignment.Center }) {
+    Column() {
+      Text(`${firText}`)
+        .id(idPrefix ? `${idPrefix}_title` : '')
+        .width('100%')
+        .textStyle(Constants.FONT_SIZE_TITLE + 3, true)
+        .padding(Constants.PADDING_EDGE_DEFAULT)
+        .

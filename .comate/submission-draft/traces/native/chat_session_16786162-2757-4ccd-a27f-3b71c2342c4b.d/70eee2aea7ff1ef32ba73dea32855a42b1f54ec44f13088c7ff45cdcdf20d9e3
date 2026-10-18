@@ -1,0 +1,5 @@
+    if (!this.active) {
+      this.backupQueue = PlayQueueUtils.getQueue().slice()
+      this.backupIndex = PlayQueueUtils.currentQueueIndex
+      this.setActive(true)
+    }

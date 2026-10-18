@@ -1,0 +1,4 @@
+        self.assertTrue(fm.find(self.driver, "fm_mode_familiar").isSelected(), "重启后模式应保持为熟悉")
+        # 恢复默认
+        self.driver.click(fm.find(self.driver, "fm_mode_default"))
+        time.sleep(3)

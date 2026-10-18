@@ -1,0 +1,20 @@
+## 2. 网络状态机（REASONABLE_DERIVATION；带 Ux 的分支取决于第 4 节的决定）
+
+状态变量（建议）：`fmActive`（是否处于 FM）、`fmMode`、`fmLoading`（E1 在途）、`dislikeInFlight`（E2 在途）、`manualBackup`（进入 FM 前的手动队列和 index）、`fmReqSeq`（请求序号，用来丢弃过期响应）。
+
+```mermaid
+stateDiagram-v2
+    [*] --> NORMAL
+    NORMAL --> FM_ENTERING: 点击卡片 / 发 E1
+    FM_ENTERING --> FM_ACTIVE: E1 成功 / 备份手动队列, 播放第1首
+    FM_ENTERING --> FM_ACTIVE: E1 失败且选方案B(U3) / 空FM队列 + 提示
+    FM_ENTERING --> NORMAL: E1 失败且选方案A(U3)
+    FM_ACTIVE --> FM_FETCHING: 队尾时 播完/下一首/不喜欢 / 发 E1
+    FM_FETCHING --> FM_ACTIVE: E1 结束(成功追加并播放 / 失败提示)
+    FM_ACTIVE --> FM_RELOADING: 选择不同模式 / 发 E1(mode)
+    FM_RELOADING --> FM_ACTIVE: E1 结束(成功替换队列 / 失败回退模式 U14)
+    FM_ACTIVE --> NORMAL: 退出FM / 不发FM请求, 还原手动队列
+    FM_ENTERING --> NORMAL: 退出FM / 作废在途 E1
+    FM_FETCHING --> NORMAL: 退出FM / 作废在途 E1
+    FM_RELOADING --> NORMAL: 退出FM / 作废在途 E1
+```

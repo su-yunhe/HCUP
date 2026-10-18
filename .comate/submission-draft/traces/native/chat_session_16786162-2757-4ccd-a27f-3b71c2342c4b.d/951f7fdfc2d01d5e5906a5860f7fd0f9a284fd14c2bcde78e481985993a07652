@@ -1,0 +1,4 @@
+export async function playPre() {
+  let isLogged: boolean | undefined = await AppStorage.get(StorageConstants.IS_LOGGED)
+  let cycleMode = await getCycleMode()
+  if(PlayQueueUtils.pre()) {

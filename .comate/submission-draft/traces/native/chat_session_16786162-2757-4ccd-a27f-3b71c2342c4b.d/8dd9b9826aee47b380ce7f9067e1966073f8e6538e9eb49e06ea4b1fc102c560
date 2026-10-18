@@ -1,0 +1,48 @@
+Command executed successfully.
+Exit code: 0
+Output:
+.[2026-10-18 17:00:09,813] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, cc.chenlvin.cloudmusic)</div>]
+F[2026-10-18 17:00:39,653] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('queue_title'))</div>]
+======================================================================
+FAIL: test_05_auto_next_ignores_cycle_mode (hypium_tests.test_04_persist.TestFMPersist.test_05_auto_next_ignores_cycle_mode)
+A14：依次切换四种循环模式（顺序/单曲/列表循环/随机），FM 中播完都切到另一首推荐。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+    self.assert_auto_next()
+    self.assertLessEqual(fm.e1_ops_since(self.driver, mark), 1,
+                         "播完续播不应重复发推荐请求" + fm.fm_log_since(self.driver, mark))
+AssertionError: 2 not less than or equal to 1 : 播完续播不应重复发推荐请求
+17:00:33.926   404   404 I A01010/Cloud Music: [FMUtils] Prefetch personal fm: index 0, time 162189, duration 167112
+17:00:33.928   404   404 I A01010/Cloud Music: [Song API - songApi] Request personal fm: http://10.0.2.2:3000/personal_fm?timestamp=1792314033928
+17:00:34.087   404   404 I A01010/Cloud Music: [FMUtils] fetch more: 1 new songs
+17:00:38.886   404   404 I A01010/Cloud Music: [FMUtils] next: index 0, length 2, fetching false
+17:00:39.299   404   404 I A01010/Cloud Music: [FMUtils] next: index 1, length 2, fetching false
+17:00:39.299   404   404 I A01010/Cloud Music: [Song API - songApi] Request personal fm: http://10.0.2.2:3000/personal_fm?timestamp=1792314039299
+17:00:39.475   404   404 I A01010/Cloud Music: [FMUtils] fetch more: 1 new songs
+----------------------------------------------------------------------
+Ran 2 tests in 58.932s
+FAILED (failures=1)
+.[2026-10-18 17:01:13,228] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, cc.chenlvin.cloudmusic)</div>]
+F[2026-10-18 17:02:05,663] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('queue_title'))</div>]
+======================================================================
+FAIL: test_05_auto_next_ignores_cycle_mode (hypium_tests.test_04_persist.TestFMPersist.test_05_auto_next_ignores_cycle_mode)
+A14：依次切换四种循环模式（顺序/单曲/列表循环/随机），FM 中播完都切到另一首推荐。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+    self.assert_auto_next()
+    self.assertLessEqual(fm.e1_ops_since(self.driver, mark), 1,
+                         "播完续播不应重复发推荐请求" + fm.fm_log_since(self.driver, mark))
+AssertionError: 2 not less than or equal to 1 : 播完续播不应重复发推荐请求
+17:01:59.099  3906  3906 I A01010/Cloud Music: [FMUtils] Prefetch personal fm: index 0, time 155475, duration 160862
+17:01:59.099  3906  3906 I A01010/Cloud Music: [Song API - songApi] Request personal fm: http://10.0.2.2:3000/personal_fm?timestamp=1792314119099
+17:01:59.337  3906  3906 I A01010/Cloud Music: [FMUtils] fetch more: 1 new songs
+17:02:04.526  3906  3906 I A01010/Cloud Music: [FMUtils] next: index 0, length 2, fetching false
+17:02:04.694  3906  3906 I A01010/Cloud Music: [FMUtils] next: index 1, length 2, fetching false
+17:02:04.695  3906  3906 I A01010/Cloud Music: [Song API - songApi] Request personal fm: http://10.0.2.2:3000/personal_fm?timestamp=1792314124695
+17:02:04.979  3906  3906 I A01010/Cloud Music: [FMUtils] Retry personal fm: all songs filtered
+17:02:04.979  3906  3906 I A01010/Cloud Music: [Song API - songApi] Request personal fm: http://10.0.2.2:3000/personal_fm?timestamp=1792314124979
+17:02:05.119  3906  3906 I A01010/Cloud Music: [FMUtils] fetch more: 1 new songs
+17:02:05.561  3906  3906 E A01010/Cloud Music: [AVPlayerUtils] Invoke avPlayer failed, code is 5400102, message is Operate Not Permit: current state is not idle, unsupport set url
+----------------------------------------------------------------------
+Ran 2 tests in 85.032s
+FAILED (failures=1)

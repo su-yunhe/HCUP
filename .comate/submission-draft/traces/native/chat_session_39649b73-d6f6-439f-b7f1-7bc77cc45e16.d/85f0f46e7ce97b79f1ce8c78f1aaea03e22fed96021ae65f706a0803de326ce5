@@ -1,0 +1,131 @@
+# 验收矩阵：私人FM（cmu-spec34）
+
+依据：`spec/requirement.md`（四个场景）+ 基线实测（`spec/baseline-notes.md`）。本文件只做拆解，不含实现。
+
+证据等级：`SPEC_EXPLICIT`（Spec 明文）／`REASONABLE_DERIVATION`（由 Spec 或基线结构合理推出）／`UNCONFIRMED_ASSUMPTION`（Spec 没写、需要你拍板，汇总见第 4 节）。
+八个维度缩写：入口／前置／动作／UI／数据／网络／返回／边界。选择器一栏里的 id 都是**建议值**，基线全部缺失，标“需补 `.id()`”。
+
+## 0. Spec 原文文案（逐字，实现时不得改写）
+
+| 文案 | 出处 | 用在哪里 |
+| --- | --- | --- |
+| `发现` | 场景一概述/步骤1 | 已有页面（`Index.ets:104` 标题、`:153` Tab） |
+| `私人FM` | 场景一 1/2/4，场景二概述，场景三 1，场景四 4 | 推荐卡片标题、底部播放栏标识、播放页标识 |
+| `播放列表` | 场景二 1 | 已有面板（`PlayQueueSheet.ets:53`，与数量拼在同一 Text 里） |
+| `正在播放私人FM` | 场景二 2 | 播放列表面板顶部提示 |
+| `退出FM` | 场景二 2/3 | 播放列表面板按钮 |
+| `默认` `熟悉` `探索` | 场景三 2/3 | 模式菜单三个选项 |
+| `不喜欢` | 场景四 2 | 播放页播放控制区按钮 |
+
+Spec 没有给出的文案（卡片副标题、加载中/失败提示、当前模式显示文字）一律按 `UNCONFIRMED_ASSUMPTION` 处理，并且**不能包含**上表里的完整文案，以免选择器歧义（例如失败提示不要写成“私人FM加载失败”）。
+
+## 1. 接口（REASONABLE_DERIVATION，来源：NeteaseCloudMusicApi 公开接口的一般认知，本地无服务端，**未验证**）
+
+| 编号 | 用途 | 建议请求 |
+| --- | --- | --- |
+| E1 | 拉取私人FM推荐（一次返回少量歌曲） | 默认：`/personal_fm`；按模式：`/personal/fm/mode?mode=DEFAULT\|FAMILIAR\|EXPLORE`；都要带 `timestamp=`（基线缓存问题见 baseline-notes 第 8 节第 7 条） |
+| E2 | 不喜欢 / 加入黑名单 | `/fm_trash?id=<songId>&timestamp=` |
+| E3 | 播放所需（已有） | `/song/url/v1`、`/song/detail`、歌词接口，经 `playMusicByUrl` 发出 |
+
+模式映射：`默认`→DEFAULT，`熟悉`→FAMILIAR，`探索`→EXPLORE。E1 的响应字段（`artists/album/duration` 还是 `ar/al/dt`）没有验证，解析时两种都要兼容。
+
+## 2. 网络状态机（REASONABLE_DERIVATION；带 Ux 的分支取决于第 4 节的决定）
+
+状态变量（建议）：`fmActive`（是否处于 FM）、`fmMode`、`fmLoading`（E1 在途）、`dislikeInFlight`（E2 在途）、`manualBackup`（进入 FM 前的手动队列和 index）、`fmReqSeq`（请求序号，用来丢弃过期响应）。
+
+```mermaid
+stateDiagram-v2
+    [*] --> NORMAL
+    NORMAL --> FM_ENTERING: 点击卡片 / 发 E1
+    FM_ENTERING --> FM_ACTIVE: E1 成功 / 备份手动队列, 播放第1首
+    FM_ENTERING --> FM_ACTIVE: E1 失败且选方案B(U3) / 空FM队列 + 提示
+    FM_ENTERING --> NORMAL: E1 失败且选方案A(U3)
+    FM_ACTIVE --> FM_FETCHING: 队尾时 播完/下一首/不喜欢 / 发 E1
+    FM_FETCHING --> FM_ACTIVE: E1 结束(成功追加并播放 / 失败提示)
+    FM_ACTIVE --> FM_RELOADING: 选择不同模式 / 发 E1(mode)
+    FM_RELOADING --> FM_ACTIVE: E1 结束(成功替换队列 / 失败回退模式 U14)
+    FM_ACTIVE --> NORMAL: 退出FM / 不发FM请求, 还原手动队列
+    FM_ENTERING --> NORMAL: 退出FM / 作废在途 E1
+    FM_FETCHING --> NORMAL: 退出FM / 作废在途 E1
+    FM_RELOADING --> NORMAL: 退出FM / 作废在途 E1
+```
+
+| # | 当前状态 | 用户动作 / 事件 | 是否发请求 | loading 绑定 | 成功后 | 失败后 |
+| --- | --- | --- | --- | --- | --- | --- |
+| T1 | NORMAL | 点击 `私人FM` 卡片 | 在点击回调里**同步发出** E1(fmMode) | 发出前 `fmLoading=true`，`finally` 置 false，一次请求对应一次 loading | 备份手动队列 → FM 队列=结果（过滤黑名单）→ `fmActive=true` → `playQueue(0)`（发 E3） | U3 |
+| T2 | `fmLoading=true` | 再点卡片 / 快速连点 | **不发** | 不变 | — | — |
+| T3 | FM_ACTIVE | 点击卡片 | 不发（U5） | — | 暂停中则继续播放 | — |
+| T4 | FM_ACTIVE | 当前歌播放完成（`completed`） | 不是队尾：只发 E3；是队尾：发 E1 | E1 期间 `fmLoading=true` | 追加结果，播放新一首 | 提示，停在当前歌，不自动重试 |
+| T5 | FM_ACTIVE | 点 `下一首`（底部栏/播放页/播控中心） | 同 T4 | 同 T4 | 同 T4 | 同 T4 |
+| T6 | FM_ACTIVE | 点 `不喜欢` | 发 E2(当前歌 id)；是队尾时同时发 E1 | `dislikeInFlight=true`，E2 结束且新歌开始后释放 | 黑名单加入该 id，播下一首 | E2 失败：U17；E1 失败：同 T4 |
+| T7 | `dislikeInFlight=true` | 再点 `不喜欢` | **不发** | 不变 | — | — |
+| T8 | FM_ACTIVE | 点播放页 `私人FM` 标识 | 不发 | — | 弹出模式菜单 | — |
+| T9 | 菜单打开 | 取消 / 点外部 / 返回键 | **不发** | — | 模式不变 | — |
+| T10 | 菜单打开 | 选中当前已选的模式 | 不发（U13） | — | 关闭菜单 | — |
+| T11 | 菜单打开 | 选中其他模式 M | 发 E1(M) | `fmLoading=true`，期间模式项不可点 | `fmMode=M` 并持久化，FM 队列替换为结果，`playQueue(0)`，手动备份不动 | U14 |
+| T12 | `fmLoading=true` | 再选模式 | **不发** | 不变 | — | — |
+| T13 | 任一 FM 状态 | 点 `退出FM` | **不发 E1/E2**；是否发 E3 取决于 U8 | `fmReqSeq++`，在途 E1 的响应直接丢弃 | 还原手动队列和 index，`fmActive=false`，持久化 | — |
+| T14 | 任一 FM 状态 | 其他入口替换队列（播放歌单/每日推荐/心动/单曲播放） | 不发 FM 请求 | `fmReqSeq++` | 按 U10 处理 | — |
+| T15 | 冷启动 | — | **不自动发** E1（与基线 `loadSavedSong` 只恢复显示、不自动播放一致） | — | 按 U15 恢复 FM 状态 | — |
+
+不变式：任何时刻最多一个 E1 在途、最多一个 E2 在途；E1 响应只在 `seq` 等于当前 `fmReqSeq` 时生效；不允许“先改 UI，之后再补请求”——T1/T6/T11 的请求必须在同一个点击回调里发出。
+
+## 3. 验收项
+
+### 场景一：进入私人FM、连续收听、标识
+
+#### A1 发现页显示“私人FM”推荐卡片
+- 来源：场景一-1｜证据：SPEC_EXPLICIT
+- 原子行为：发现页推荐卡片区出现标题为 `私人FM` 的卡片。
+- 可观察：发现页存在 text 精确等于 `私人FM` 的组件（卡片主标题，独立 Text）。
+- 入口：冷启动 → 默认 Tab `发现`｜前置：无（是否要求 API/登录见 A3）｜动作：无
+- UI：卡片样式与其他推荐卡一致（`ContentButton`）｜数据：不适用（纯展示）｜网络：进入页面时**不**为卡片发 FM 请求
+- 返回：从子页面返回、切 Tab 回来后卡片仍在｜边界：无数据不适用（卡片是静态入口）；重启后仍在
+- 选择器：`fm_card`（需补 `.id()`），标题 Text `fm_card_title`（需补）
+
+#### A2 卡片无需横滑即可见
+- 来源：场景一-1“看到”｜证据：REASONABLE_DERIVATION
+- 原子行为：卡片位于横向列表的可视区域（373vp 宽只能完整显示 1 张卡），建议放在第 1 位。
+- 可观察：冷启动后不滑动就能在 UI 树中找到 `私人FM` 并点击成功。
+- 入口：同 A1｜前置：API 可用（4 张卡）和不可用（只剩本地曲库）两种情况都要满足｜动作：无
+- UI：卡片 bounds 落在屏幕内｜数据/网络：不适用（布局要求）｜返回：同 A1｜边界：大屏断点下也要可见
+- 选择器：`fm_card`
+
+#### A3 卡片显示不依赖 API/登录状态
+- 来源：无（Spec 没写前置条件）｜证据：UNCONFIRMED_ASSUMPTION → U1
+- 原子行为：`VALID_API_URL=false` 或未登录时卡片仍然显示（与 `本地曲库` 一样放在 `if(this.validApiUrl)` 之外）。
+- 可观察：全新安装、不配置 API 时发现页能找到 `私人FM`。
+- 入口/动作：同 A1｜前置：无 API、无登录｜UI：卡片显示｜数据/网络：不适用｜返回/边界：配置 API 后依然显示
+- 选择器：`fm_card`
+
+#### A4 卡片副标题
+- 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U2
+- 原子行为：`ContentButton` 必须有副标题，Spec 没有给文案。
+- 可观察：副标题 Text 存在且不等于 `私人FM`。其余维度：不适用（纯文案）。
+- 选择器：`fm_card_subtitle`（需补）
+
+#### A5 点击卡片发起推荐请求并进入私人FM模式
+- 来源：场景一-2“点击…开始收听”｜证据：SPEC_EXPLICIT（进入模式）+ REASONABLE_DERIVATION（请求时机）
+- 原子行为：点击卡片在同一回调中发出 E1（当前模式，默认 `默认`），进入 FM 状态（T1）。
+- 可观察：hilog 出现 E1 URL；`fmActive=true`；底部栏出现 `私人FM` 标识（A16）。
+- 入口：发现页｜前置：成功分支需要服务端+登录（本地无，见 baseline 第 7 节）｜动作：单击卡片
+- UI：加载期间有 loading 或提示（文案见 U3）｜数据：`fmActive`、`fmMode` 写入状态｜网络：恰好 1 次 E1
+- 返回：不适用（不跳页面，见 A7）｜边界：连点见 A8；失败见 A11；已在 FM 见 A9
+- 选择器：`fm_card`；状态断言靠 `fm_badge_bottom`
+
+#### A6 自动加载并播放第一首推荐歌曲
+- 来源：场景一-2“播放器自动加载第一首推荐歌曲”｜证据：SPEC_EXPLICIT
+- 原子行为：E1 成功后把结果变成 FM 队列，自动播放第 0 首。
+- 可观察：底部栏歌名 = E1 返回的第一首歌名；`player-isplaying=true`；播放列表面板里第一项高亮。
+- 入口：A5 之后｜前置：服务端+登录｜动作：无（自动）
+- UI：底部栏歌名/歌手/封面更新｜数据：`PlayQueueUtils.queue` = FM 歌曲，`currentQueueIndex=0`，`saveCurrentSongInfo` 写入｜网络：E3（url/detail/歌词）
+- 返回：收起/打开播放页歌曲不变｜边界：E1 返回空数组 → 按失败处理（U3）；返回的歌全部在黑名单 → 再拉一次或按空处理；第一首无播放地址 → 走基线 `playNext` 逻辑，FM 下应跳到下一首推荐
+- 选择器：`bottom_bar_song_name`（需补）
+
+#### A7 点击卡片后是否自动打开播放页
+- 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U4
+- 原子行为：推荐不自动打开（与心动歌单卡片一致），停留在发现页。
+- 可观察：点击后仍能看到发现页和底部栏。其余维度：同 A5。
+- 选择器：`fm_card`、`bottom_bar`（需补）
+
+PLACEHOLDER_ITEMS_S1B

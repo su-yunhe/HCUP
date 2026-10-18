@@ -1,0 +1,200 @@
+<file>
+     1→import { LogUtil } from "@pura/harmony-utils"
+     2→import { StorageConstants } from "../common/constants/StorageConstants"
+     3→import { HeartMode } from "../common/entities/HeartMode"
+     4→import { DailyListSongs } from "../common/entities/PlayListSongs"
+     5→import { PlayQueue } from "../common/entities/PlayQueue"
+     6→import { SongDetail } from "../common/entities/SongDetail"
+     7→import { QualityType } from "../common/entities/SongDownload"
+     8→import { SongPlay } from "../common/entities/SongPlay"
+     9→import { Song, SongsData } from "../common/entities/SongsResult"
+    10→import { User } from "../common/entities/User"
+    11→import { getArtists } from "../common/functions/common/convert"
+    12→import { getApiUrl } from "../common/functions/common/get"
+    13→import PlayQueueUtils from "../common/utils/play/PlayQueueUtils"
+    14→import { HttpRequest } from "../common/utils/request/HttpRequestUtils"
+    15→import { DailySongRes } from "./playListApi"
+    16→
+    17→const TAG = '[Song API - songApi] '
+    18→
+    19→export interface SearchReturn {
+    20→  list: Array<Song>
+    21→  hasMore: boolean
+    22→  songCount: number
+    23→}
+    24→/**
+    25→ * 搜素歌曲列表
+    26→ * @param searchKeyword 搜索词
+    27→ * @returns SearchReturn
+    28→ */
+    29→export async function searchSongs(searchKeyword: string, offset: number, limit: number = 30): Promise<SearchReturn> {
+    30→  let list:Array<Song> = new Array()
+    31→  let hasMore:boolean = false
+    32→  let songCount:number = 0
+    33→
+    34→  const rootUrl = await getApiUrl()
+    35→  const url:string = `${rootUrl}/search?keywords=${encodeURIComponent(searchKeyword)}&limit=${limit}&offset=${offset}`
+    36→  const request = new HttpRequest(url)
+    37→  await request.Request().then((data) => {
+    38→    const dataGot: SongsData = data.result as SongsData
+    39→    hasMore = dataGot.result.hasMore
+    40→    songCount = dataGot.result.songCount
+    41→    list = dataGot.result.songs
+    42→  })
+    43→  let searchReturn:SearchReturn = {
+    44→    list: list,
+    45→    hasMore: hasMore,
+    46→    songCount: songCount
+    47→  }
+    48→
+    49→  return searchReturn;
+    50→}
+    51→
+    52→/**
+    53→ * 获取歌曲播放Url
+    54→ */
+    55→export async function getSongUrl(songId: number, quality:QualityType, isLogged:boolean): Promise<SongPlay> {
+    56→  const rootUrl = await getApiUrl()
+    57→  const url:string = `${rootUrl}/song/url/v1?id=${songId}&level=${quality}`
+    58→  const request = new HttpRequest(url)
+    59→  try {
+    60→    const data = await request.Request()
+    61→    if(data.result["code"] == 200) {
+    62→      const dataGot: SongPlay = data.result as SongPlay
+    63→      return dataGot
+    64→    } else {
+    65→      throw new Error(`${data.result["code"]} - ${data.result["message"]}`)
+    66→    }
+    67→  } catch (e) {
+    68→    LogUtil.error(TAG + '获取播放url失败: ' + e)
+    69→    throw new Error(e)
+    70→  }
+    71→}
+    72→
+    73→/**
+    74→ * 获取歌曲图片Url
+    75→ * @param song 歌曲类
+    76→ * @returns string 歌曲Url
+    77→ */
+    78→export async function getSongPicUrl(songId: number): Promise<string> {
+    79→  const rootUrl = await getApiUrl()
+    80→  const url: string = `${rootUrl}/song/detail?ids=${songId}`
+    81→  const request = new HttpRequest(url)
+    82→  try {
+    83→    const data = await request.Request()
+    84→    const dataGot: SongDetail = data.result as SongDetail
+    85→    const songPicUrl = dataGot.songs[0].al.picUrl
+    86→    return songPicUrl
+    87→  } catch (e) {
+    88→    LogUtil.error(TAG + 'Error fetching song picUrl:', JSON.stringify(e))
+    89→    throw new Error(e)
+    90→  }
+    91→}
+    92→
+    93→/**
+    94→ * 获取每日推荐歌单
+    95→ * @param useCookie
+    96→ * @returns
+    97→ */
+    98→export async function getDailySongs(useCookie: boolean = true): Promise<Array<DailySongRes>> {
+    99→  let list:Array<DailySongRes> = []
+   100→  const rootUrl = await getApiUrl()
+   101→  const url: string = `${rootUrl}/recommend/songs`
+   102→  const request = new HttpRequest(url)
+   103→  await request.RequestInStream(useCookie).then((data) => {
+   104→    const dataGot: DailyListSongs = data.result as DailyListSongs
+   105→    if(dataGot.data) {
+   106→      for (let song of dataGot.data.dailySongs) {
+   107→        list.push({
+   108→          song: {
+   109→            id: song.id,
+   110→            name: song.name,
+   111→            artists: song.ar,
+   112→            duration: song.dt,
+   113→            alias: [],
+   114→            fee: song.fee
+   115→          },
+   116→          reason: song.reason,
+   117→          picUrl: song.al.picUrl
+   118→        })
+   119→      }
+   120→    }
+   121→  })
+   122→  return list
+   123→}
+   124→
+   125→/**
+   126→ * 获取喜欢列表(songId 数组)
+   127→ * @param uid
+   128→ * @returns
+   129→ */
+   130→export async function getLikeList(): Promise<string[]> {
+   131→  let user = await AppStorage.get(StorageConstants.USER) as User
+   132→  let list:Array<string> = []
+   133→  const rootUrl = await getApiUrl()
+   134→  const url: string = `${rootUrl}/likelist?uid=${user.data.account.id}&timestamp=${new Date().getTime()}`
+   135→  const request = new HttpRequest(url)
+   136→  try {
+   137→    const data = await request.RequestInStream()
+   138→    const dataGot: string[] = data.result['ids'] as string[]
+   139→    list = dataGot
+   140→  } catch (e) {
+   141→
+   142→  } finally {
+   143→    AppStorage.setOrCreate(StorageConstants.USER_LIKELIST, list)
+   144→    return list
+   145→  }
+   146→}
+   147→
+   148→/**
+   149→ * 喜欢歌曲
+   150→ * @param songId
+   151→ * @returns
+   152→ */
+   153→export async function likeMusic(sid: number): Promise<boolean> {
+   154→  let code = -1
+   155→  const rootUrl = await getApiUrl()
+   156→  const url: string = `${rootUrl}/like?id=${sid}&timestamp=${new Date().getTime()}`
+   157→  const request = new HttpRequest(url)
+   158→  await request.Request().then((data) => {
+   159→    code = data.result['code'] as number
+   160→  })
+   161→  return code == 200 ? true : false
+   162→}
+   163→
+   164→/**
+   165→ * 心动模式
+   166→ * @param id - 歌曲id
+   167→ * @param pid - 歌单id
+   168→ */
+   169→export async function setHeartMode(id: number, pid: number): Promise<void> {
+   170→  let queue: Array<PlayQueue> = []
+   171→  let tempSong: Song
+   172→  const rootUrl = await getApiUrl()
+   173→  const url: string = `${rootUrl}/playmode/intelligence/list?id=${id}&pid=${pid}`
+   174→  const request = new HttpRequest(url)
+   175→  let data = await request.RequestInStream()
+   176→  let dataGot = data.result as HeartMode
+   177→  for(let item of dataGot.data) {
+   178→    let artists = await getArtists(item.songInfo.ar)
+   179→    tempSong = {
+   180→      id: item.songInfo.id,
+   181→      name: item.songInfo.name,
+   182→      artists: item.songInfo.ar,
+   183→      duration: item.songInfo.dt,
+   184→      alias: [],
+   185→      fee: item.songInfo.fee
+   186→    }
+   187→    queue.push({
+   188→      playmode: 1,
+   189→      song: tempSong,
+   190→      artists: artists,
+   191→      fileName: '',
+   192→      picUrl: item.songInfo.al.picUrl ?? $r('app.media.ic_public_music')
+   193→    })
+   194→  }
+   195→  await PlayQueueUtils.cleanQueue()
+   196→  await PlayQueueUtils.queueAdd_array(queue)
+   197→}
+</file>
+<metadata>The file has 197 lines in total.</metadata>

@@ -1,0 +1,228 @@
+<file>
+     1→/**
+     2→ * 存储常量
+     3→ */
+     4→export class StorageConstants {
+     5→  /**
+     6→   * App 信息
+     7→   * @description AppStorage
+     8→   */
+     9→  static readonly APP_INFO: string = 'AppInfo'
+    10→  /**
+    11→   * 初始化应用
+    12→   * @description AppStorage
+    13→   */
+    14→  static readonly APP_LOADING: string = 'isAppLoading'
+    15→  /**
+    16→   * Current Breakpoint
+    17→   * @description AppStorage
+    18→   */
+    19→  static readonly BREAKPOINT: string = 'currentBreakpoint'
+    20→  /**
+    21→   * API URL 是否有效
+    22→   * @description AppStorage
+    23→   */
+    24→  static readonly VALID_API_URL: string = 'isValidApiUrl'
+    25→  /**
+    26→   * 设备类型
+    27→   * @description AppStorage
+    28→   */
+    29→  static readonly DEVICE_TYPE: string = 'deviceType'
+    30→  /**
+    31→   * Vip类型
+    32→   * @description AppStorage
+    33→   */
+    34→  static readonly VIP_TYPE: string = 'vipType'
+    35→  /**
+    36→   * Cookie 有效性
+    37→   * @description AppStorage
+    38→   */
+    39→  static readonly VALID_COOKIE: string = 'isValidCookie'
+    40→  /**
+    41→   * Is Logged
+    42→   * @description AppStorage
+    43→   */
+    44→  static readonly IS_LOGGED: string = 'isLogged'
+    45→  /**
+    46→   * 是否为本地文件 - boolean
+    47→   * @description AppStorage
+    48→   */
+    49→  static readonly PLAY_IS_LOCALFILE: string = 'play-is-localfile'
+    50→  /**
+    51→   * 倒计时时间 - number
+    52→   * @description AppStorage
+    53→   */
+    54→  static readonly PLAY_COUNTDOWN: string = 'play-countdown'
+    55→  /**
+    56→   * 倒计时是否工作 - boolean
+    57→   * @description AppStorage
+    58→   */
+    59→  static readonly PLAY_COUNTDOWN_WORKING: string = 'play-countdown-working'
+    60→  /**
+    61→   * timer(IntervalID) - number
+    62→   * @description AppStorage
+    63→   */
+    64→  static readonly PLAY_COUNTDOWN_TIMER: string = 'play-countdown-timer'
+    65→  /**
+    66→   * 用户喜欢的音乐歌单
+    67→   * @description AppStorage
+    68→   */
+    69→  static readonly PLAYLIST_LIKED: string = 'playlist-liked'
+    70→  /**
+    71→   * 播放器是否正在播放
+    72→   * @description AppStorage
+    73→   */
+    74→  static readonly IS_PLAYING: string = 'player-isplaying'
+    75→  /**
+    76→   * 播放器是否暂停
+    77→   * @description AppStorage
+    78→   */
+    79→  static readonly IS_PAUSED: string = 'player-ispaused'
+    80→  /**
+    81→   * 播放模式
+    82→   * @description AppStorage
+    83→   */
+    84→  static readonly PLAY_MODE: string = 'player-mode'
+    85→  /**
+    86→   * 歌曲文件名
+    87→   * @description AppStorage
+    88→   */
+    89→  static readonly PLAY_FILE_NAME: string = 'player-fileName'
+    90→  /**
+    91→   * 歌曲SongClass
+    92→   * @description AppStorage
+    93→   */
+    94→  static readonly PLAY_SONG: string = 'player-song'
+    95→  /**
+    96→   * 歌曲艺术家
+    97→   * @description AppStorage
+    98→   */
+    99→  static readonly PLAY_ARTISTS: string = 'player-artists'
+   100→  /**
+   101→   * 当前播放的时间
+   102→   * @description AppStorage
+   103→   */
+   104→  static readonly PLAY_TIME: string = 'player-time'
+   105→  /**
+   106→   * 歌曲封面Url
+   107→   * @description AppStorage
+   108→   */
+   109→  static readonly PIC_URL: string = 'player-picurl'
+   110→  /**
+   111→   * 是否喜欢当前歌曲
+   112→   * @description AppStorage
+   113→   */
+   114→  static readonly ISLIKED: string = 'player-isLiked'
+   115→  /**
+   116→   * 用户喜欢的音乐列表 string[]
+   117→   * @description AppStorage
+   118→   */
+   119→  static readonly USER_LIKELIST: string = 'user-likelist'
+   120→  /**
+   121→   * 是否有正在进行的播放任务
+   122→   * (如 添加整个歌单至播放列表)
+   123→   * @description AppStorage
+   124→   */
+   125→  static readonly IS_PLAYER_LOADING: string = 'isPlayerLoading'
+   126→  /**
+   127→   * 是否正在迁移数据
+   128→   * @description AppStorage
+   129→   */
+   130→  static readonly IS_MIGRATING_LOCALFILES: string = 'isMigratingLocalFiles'
+   131→  /**
+   132→   * 上一次播放的歌单数据
+   133→   * @description AppStorage
+   134→   */
+   135→  static readonly LAST_PLAYED_LIST: string = 'lastPlayedList'
+   136→
+   137→
+   138→
+   139→  /**
+   140→   * 用户信息
+   141→   * @description Preference
+   142→   */
+   143→  static readonly USER_PREF: string = 'UserPreference'
+   144→  /**
+   145→   * 设置信息
+   146→   * @description Preference
+   147→   */
+   148→  static readonly SET_PERF: string = 'Settings'
+   149→  /**
+   150→   * 播放信息
+   151→   * @description Preference
+   152→   */
+   153→  static readonly QUEUE_PREF: string = 'Play'
+   154→
+   155→
+   156→
+   157→  /**
+   158→   * Cookie
+   159→   * @description AppStorage & Preference
+   160→   */
+   161→  static readonly COOKIE: string = 'cookie'
+   162→  /**
+   163→   * 用户信息
+   164→   * @description AppStorage & Preference
+   165→   */
+   166→  static readonly USER: string = 'user'
+   167→  /**
+   168→   * 用户歌单
+   169→   * @description AppStorage & Preference
+   170→   */
+   171→  static readonly USER_PLAYLISTS: string = 'userPlayLists'
+   172→  /**
+   173→   * 用户歌单
+   174→   * @description AppStorage & Preference
+   175→   */
+   176→  static readonly TOPLISTS: string = 'topLists'
+   177→  /**
+   178→   * 循环模式
+   179→   * @description AppStorage & Preference
+   180→   */
+   181→  static readonly CYCLE_MODE: string = 'cycleMode'
+   182→  /**
+   183→   * 默认页面index
+   184→   * @description AppStorage & Preference
+   185→   */
+   186→  static readonly DEFAULT_PAGE_INDEX: string = 'defaultPageIndex'
+   187→  /**
+   188→   * 播放品质
+   189→   * @description AppStorage & Preference
+   190→   */
+   191→  static readonly PLAY_QUALITY: string = 'playQuality'
+   192→  /**
+   193→   * 是否启用公共Cookie
+   194→   * @description AppStorage & Preference
+   195→   */
+   196→  static readonly USE_PUBLIC_COOKIE: string = 'usePublicCookie'
+   197→  /**
+   198→   * 历史搜索记录
+   199→   * @description AppStorage & Preference
+   200→   */
+   201→  static readonly SEARCH_HISTORY: string = 'searchHistory'
+   202→  /**
+   203→   * 和其他应用同时播放
+   204→   * @description AppStorage & Preference
+   205→   */
+   206→  static readonly MIX_WITH_OTHERS: string = 'mixWithOthers'
+   207→  /**
+   208→   * 自定义API Url & Cookie
+   209→   * @description AppStorage & Preference
+   210→   */
+   211→  static readonly API_URL: string = 'apiUrl'
+   212→  static readonly CUSTOM_COOKIE: string = 'customCookie'
+   213→  static readonly IS_CUSTOM_COOKIE: string = 'isCustomCookie'
+   214→  /**
+   215→   * 点击歌曲卡片时的操作
+   216→   * 0 - 单击弹出菜单, 1 - 单击播放单曲长按弹出菜单
+   217→   * @description AppStorage & Preference
+   218→   */
+   219→  static readonly SONG_CLICK_ACTION: string = 'songClickAction'
+   220→  /**
+   221→   * 个性化推荐歌单
+   222→   * @description AppStorage & Preference
+   223→   */
+   224→  static readonly PERSONALIZED_LIST: string = 'personalizedList'
+   225→}
+</file>
+<metadata>The file has 225 lines in total.</metadata>

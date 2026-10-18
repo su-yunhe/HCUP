@@ -1,0 +1,9 @@
+def click_key(driver, key: str, timeout: float = 10):
+    c = wait_key(driver, key, timeout)
+    if c is None:
+        raise AssertionError(f"未找到组件 id={key}")
+    driver.click(c)
+    return c
+
+
+def rapid_tap(driver, component, ti

@@ -1,0 +1,10 @@
+  private play(index: number) {
+    if (!this.player) {
+      LogUtil.error(TAG + '播放控制未注册')
+      return
+    }
+    this.player.play(index)
+  }
+
+  /**
+   * 播放进度更新：当前歌是队尾且临近结束时预取下一首（每

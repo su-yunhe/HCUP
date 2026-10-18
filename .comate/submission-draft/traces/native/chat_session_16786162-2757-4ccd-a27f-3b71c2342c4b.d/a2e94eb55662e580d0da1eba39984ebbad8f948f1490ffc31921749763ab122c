@@ -1,0 +1,4 @@
+        fm.launch(self.driver)
+        fm.exit_fm_if_needed(self.driver)
+        old = fm.bottom_song(self.driver)
+        fm.click_key(self.driver, "fm_card")

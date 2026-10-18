@@ -1,0 +1,141 @@
+<file>
+     1→import { PasteboardUtil, ToastUtil } from "@pura/harmony-utils"
+     2→import Constants from "../../common/constants/Constants"
+     3→import { MsgConstants } from "../../common/constants/MsgConstants"
+     4→import { StorageConstants } from "../../common/constants/StorageConstants"
+     5→import { Song, SongClass } from "../../common/entities/SongsResult"
+     6→import { changeDuration } from "../../common/functions/common/convert"
+     7→import { likeThisSong } from "../../common/functions/play/songLike"
+     8→import { DownloadDialog } from "../dialog/DownloadDialog"
+     9→import { SetPlayQuality } from "../settings/SetPlayQuality"
+    10→
+    11→@Component
+    12→export struct PlayerActionSheet {
+    13→  @Link isShow: boolean
+    14→  @Link isShowTimer: boolean
+    15→  @Link isShowAddSheet: boolean
+    16→  @StorageProp(StorageConstants.PLAY_SONG) song: Song = SongClass
+    17→  @StorageProp(StorageConstants.PLAY_ARTISTS) artists: string = ''
+    18→  @StorageProp(StorageConstants.PIC_URL) picUrl: string = ''
+    19→  @StorageProp(StorageConstants.PLAY_MODE) playmode: number = 1
+    20→  @StorageProp(StorageConstants.ISLIKED) isLiked: boolean = false
+    21→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    22→  private dialogController: CustomDialogController = new CustomDialogController({
+    23→    builder: DownloadDialog({
+    24→      song: this.song,
+    25→      picUrl: this.picUrl,
+    26→      artists: this.artists,
+    27→      duration: changeDuration(this.song.duration)
+    28→    }),
+    29→  })
+    30→
+    31→  build() {
+    32→    Column() {
+    33→      Text(this.song.name)
+    34→        .maxLines(1)
+    35→        .textOverflow({ overflow: TextOverflow.Ellipsis })
+    36→        .fontWeight(FontWeight.Bold)
+    37→        .fontSize(Constants.FONT_SIZE_TITLE)
+    38→        .width('70%')
+    39→        .textAlign(TextAlign.Start)
+    40→        .alignSelf(ItemAlign.Start)
+    41→
+    42→      SetPlayQuality().padding(10)
+    43→      Divider()
+    44→      Scroll() {
+    45→        Column({ space: 10 }) {
+    46→          if (this.song.id != 0) {
+    47→            this.Item(this.isLiked ? $r('app.media.ic_public_favor') : $r('app.media.ic_public_favor_filled'),
+    48→              this.isLiked ? '取消喜欢该歌曲' : '喜欢该歌曲', () => {
+    49→                this.isShow = false
+    50→                likeThisSong()
+    51→              })
+    52→            this.Item($r('app.media.ic_playlist_add_icon'), '添加到歌单', () => {
+    53→              this.isShow = false
+    54→              setTimeout(() => {
+    55→                this.isShowAddSheet = true
+    56→              }, 300)
+    57→            }, 24)
+    58→            this.Item($r('app.media.ic_arrow_down_o_icon'), '缓存到本地', () => {
+    59→              this.isShow = false
+    60→              this.dialogController.open()
+    61→            }, 21)
+    62→          }
+    63→          this.Item($r('app.media.ic_timer_icon'), '定时关闭', () => {
+    64→            this.isShow = false
+    65→            setTimeout(() => {
+    66→              this.isShowTimer = true
+    67→            }, 300)
+    68→          }, 24)
+    69→          this.Item($r('app.media.ic_music_fill'), `复制歌曲名: ${this.song.name}`, () => {
+    70→            this.isShow = false
+    71→            setTimeout(() => {
+    72→              PasteboardUtil.setDataText(this.song.name)
+    73→              ToastUtil.showToast('已复制歌曲名至剪贴板')
+    74→            }, 300)
+    75→          })
+    76→          this.Item($r('app.media.ic_user_portrait'), `复制歌手名: ${this.artists}`, () => {
+    77→            this.isShow = false
+    78→            setTimeout(() => {
+    79→              PasteboardUtil.setDataText(this.artists)
+    80→              ToastUtil.showToast('已复制歌手名至剪贴板')
+    81→            }, 300)
+    82→          })
+    83→          this.Item($r('app.media.ic_public_share_filled'), `分享`, () => {
+    84→            this.isShow = false
+    85→            setTimeout(() => {
+    86→              ToastUtil.showToast(MsgConstants.DEVELOPING)
+    87→            }, 300)
+    88→          })
+    89→          Column().height(px2vp(this.bottomRectHeight)).width('100%')
+    90→        }
+    91→        .height('auto')
+    92→      }
+    93→      .scrollable(ScrollDirection.Vertical)
+    94→      .padding({ top: 10 })
+    95→      .scrollBar(BarState.Off)
+    96→      .edgeEffect(EdgeEffect.Spring)
+    97→      .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
+    98→      .height('100%')
+    99→      .width('100%')
+   100→      .layoutWeight(1)
+   101→      .align(Alignment.Top)
+   102→    }
+   103→    .height('100%')
+   104→    .padding({
+   105→      left:  Constants.PADDING_EDGE_TEXT,
+   106→      right: Constants.PADDING_EDGE_TEXT,
+   107→      top: Constants.PADDING_EDGE_TEXT
+   108→    })
+   109→  }
+   110→
+   111→  @Builder Item(icon: ResourceStr, name: string, action: () => void, size: number = 20) {
+   112→    Button() {
+   113→      Row({ space: 10 }) {
+   114→        Column() {
+   115→          Image(icon)
+   116→            .fillColor($r('app.color.reverse'))
+   117→            .height(size)
+   118→            .width(size)
+   119→        }
+   120→        .width(25)
+   121→        .justifyContent(FlexAlign.Center)
+   122→        Text(name)
+   123→          .fontColor($r('app.color.reverse'))
+   124→          .fontSize(Constants.FONT_SIZE_COMMON + 2)
+   125→          .fontWeight(FontWeight.Medium)
+   126→          .layoutWeight(1)
+   127→          .textAlign(TextAlign.Start)
+   128→          .maxLines(2)
+   129→          .textOverflow({ overflow: TextOverflow.Ellipsis })
+   130→      }
+   131→    }
+   132→    .width('100%')
+   133→    .backgroundColor(Color.Transparent)
+   134→    .padding(Constants.PADDING_EDGE_DEFAULT)
+   135→    .onClick(action)
+   136→  }
+   137→}
+   138→
+</file>
+<metadata>The file has 138 lines in total.</metadata>

@@ -1,0 +1,9 @@
+    song_menu(driver, SONG_A, "单曲播放")
+    song_menu(driver, SONG_B, "添加到下一首")
+    # 返回发现页（键盘可能还开着，最多返回 3 次；搜索页的“搜索”按钮消失即已返回）
+    for _ in range(3):
+        if driver.find_component(BY.text("搜索")) is None:
+            break
+        close_overlay(driver)
+    if driver.find_component(BY.text("搜索")) is not None:
+        raise AssertionError("未能返回发现页")

@@ -1,0 +1,5 @@
+        # 弹窗标题和确认按钮文字都是“确认”，按钮在下方
+        confirms = driver.find_all_components(BY.text("确认")) or []
+        if not confirms:
+            raise AssertionError("未找到清空播放列表确认按钮")
+        driver.click(max(confirms, key=lambda c: c.getBounds().top))

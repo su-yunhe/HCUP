@@ -1,0 +1,6 @@
+## 1. 接口（已用本地 NeteaseCloudMusicApi 实测，**未登录**；详见 baseline-notes 第 9 节）
+
+| 编号 | 用途 | 请求 | 实测结果 |
+| --- | --- | --- | --- |
+| E1 | 拉取私人FM推荐 | 默认：`/personal_fm`；按模式：`/personal/fm/mode?mode=DEFAULT\|FAMILIAR\|EXPLORE`；必须带不同的 `timestamp=` | 未登录也返回 200，**每次 1 首**；不带 timestamp 时服务端返回完全相同的内容 |
+| E2 | 不喜欢 / 加入黑名单 | `/fm_trash?id=<songId>&timestamp=` | 未登录：HTTP 301 + `{"msg":"需

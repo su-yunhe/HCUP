@@ -1,0 +1,8 @@
+  private play(index: number) {
+    if (!this.player) {
+      LogUtil.error(TAG + '播放控制未注册')
+      return
+    }
+    this.player.play(index)
+    this.prefetch()
+  }

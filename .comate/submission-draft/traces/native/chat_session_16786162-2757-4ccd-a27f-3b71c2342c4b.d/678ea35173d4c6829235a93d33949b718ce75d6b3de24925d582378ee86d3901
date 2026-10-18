@@ -1,0 +1,6 @@
+        mark = fm.mark(self.driver)
+        card = fm.find(self.driver, "fm_card")
+        for _ in range(3):
+            self.driver.click(card)
+            time.sleep(0.15)
+        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom"))

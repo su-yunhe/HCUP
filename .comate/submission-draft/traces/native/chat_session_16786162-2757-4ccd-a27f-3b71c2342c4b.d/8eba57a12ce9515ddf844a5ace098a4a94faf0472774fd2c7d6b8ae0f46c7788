@@ -1,0 +1,3 @@
+  // 私人FM 中忽略循环模式，自动播放下一首推荐
+  if(FMUtils.active) {
+    FMUtils.onCompleted()

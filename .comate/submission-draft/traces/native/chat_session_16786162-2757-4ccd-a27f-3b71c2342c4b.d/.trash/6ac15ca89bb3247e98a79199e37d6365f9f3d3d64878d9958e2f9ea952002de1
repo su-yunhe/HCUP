@@ -1,0 +1,7 @@
+  @State imgColor: Color | ResourceStr = $r('app.color.reverse')
+  btnId: string = ''
+
+
+  build() {
+    // 0-顺序播放, 1-单曲循环, 2-顺序循环, 3-随机播放
+    if(this.cycl

@@ -1,0 +1,148 @@
+<file>
+     1→import { EmitterUtil, LogUtil, ToastUtil } from '@pura/harmony-utils'
+     2→import { EmitterConstants } from '../../constants/EmitterConstants'
+     3→import { StorageConstants } from '../../constants/StorageConstants'
+     4→import { PlayQueue } from '../../entities/PlayQueue'
+     5→import { Song, SongClass } from '../../entities/SongsResult'
+     6→import PreferencesUtils from '../data/PreferencesUtils'
+     7→
+     8→/**
+     9→ * 播放列表工具
+    10→ */
+    11→const TAG = '[PlayQueueUtils] '
+    12→const pref = StorageConstants.QUEUE_PREF
+    13→
+    14→class PlayQueueUtils {
+    15→  queue:Array<PlayQueue> = []
+    16→  currentQueueIndex: number = -1
+    17→
+    18→  getQueueLength(): number {
+    19→    return this.queue.length
+    20→  }
+    21→
+    22→  /**
+    23→   * 初始化播放列表
+    24→   */
+    25→  async init() {
+    26→    try {
+    27→      this.currentQueueIndex = -1
+    28→      let gotQueue = await PreferencesUtils.getPreferenceValue<Array<PlayQueue>>(pref, 'queue', this.queue)
+    29→      let circleMode = await PreferencesUtils.getPreferenceValue<number>(pref, 'cycleMode', 0)
+    30→      this.queue = gotQueue
+    31→      AppStorage.setOrCreate('currentQueueIndex',this.currentQueueIndex)
+    32→      AppStorage.setOrCreate('PlayQueue',this.queue)
+    33→      AppStorage.setOrCreate('cycleMode', circleMode)
+    34→    } catch (e) {
+    35→      LogUtil.error(TAG + '初始化播放列表 init playqueue error: ' + e.message())
+    36→    }
+    37→  }
+    38→
+    39→  /**
+    40→   * 同步存储
+    41→   */
+    42→  private async syncQueueToStorage() {
+    43→    try {
+    44→      AppStorage.setOrCreate('PlayQueue', this.queue)
+    45→      await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
+    46→    } catch (e) {
+    47→      LogUtil.error(TAG + 'Error while syncQueueToStorage: ' + e.message)
+    48→    }
+    49→  }
+    50→
+    51→  /**
+    52→   * 添加歌曲至播放列表
+    53→   */
+    54→  async queueAdd(playmode:number, song:Song = SongClass, artists: string = '', fileName: string = '', picUrl: string | ResourceStr = '') {
+    55→    try {
+    56→      this.queue.splice(this.currentQueueIndex + 1 , 0 ,{
+    57→        playmode: playmode,
+    58→        song: song,
+    59→        artists: artists,
+    60→        fileName: fileName,
+    61→        picUrl: picUrl
+    62→      })
+    63→      await this.syncQueueToStorage()
+    64→    } catch (e) {
+    65→      LogUtil.error(TAG + '添加失败 add queue element error: ' + e.message())
+    66→    }
+    67→  }
+    68→
+    69→  async queueAdd_array(queue:Array<PlayQueue>) {
+    70→    try {
+    71→      this.queue = this.queue.concat(queue)
+    72→      AppStorage.setOrCreate('PlayQueue', this.queue)
+    73→      await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
+    74→      EmitterUtil.post(EmitterConstants.EMITTER_REFRESH_PLAYQUEUE, () => {})
+    75→    } catch (e) {
+    76→      LogUtil.error(TAG + 'Error while queueAdd_array: ' + e.message)
+    77→    }
+    78→  }
+    79→
+    80→  /**
+    81→   * 从播放列表中删除指定位置歌曲
+    82→   */
+    83→  async queueDelete(index:number) {
+    84→    try {
+    85→      this.queue.splice(index,1)
+    86→      AppStorage.setOrCreate('PlayQueue',this.queue)
+    87→      await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
+    88→      if(index < this.currentQueueIndex) {
+    89→        this.setIndex(this.currentQueueIndex - 1)
+    90→      }
+    91→    } catch (e) {
+    92→      LogUtil.error(TAG + '删除失败 delete queue element error: ' + e.message())
+    93→    }
+    94→  }
+    95→
+    96→  pre(): boolean {
+    97→    if(this.currentQueueIndex > 0) {
+    98→      this.setIndex(this.currentQueueIndex - 1)
+    99→      return true // true 表示有上一首歌曲，并且移动currentQueueIndex
+   100→    }
+   101→    else return false
+   102→  }
+   103→
+   104→  next(): boolean {
+   105→		if(this.currentQueueIndex < (this.queue.length - 1)) {
+   106→      this.setIndex(this.currentQueueIndex + 1)
+   107→      return true
+   108→    }
+   109→    else return false
+   110→	}
+   111→
+   112→  getQueueElement(index:number): PlayQueue {
+   113→    return this.queue[index]
+   114→  }
+   115→
+   116→  getQueue(): Array<PlayQueue> {
+   117→    return this.queue
+   118→  }
+   119→
+   120→  getCurrentSong(): Song {
+   121→    try {
+   122→      if(this.queue[this.currentQueueIndex]) {
+   123→        return this.queue[this.currentQueueIndex].song
+   124→      } else return SongClass
+   125→    } catch (e) {
+   126→      return SongClass
+   127→    }
+   128→  }
+   129→
+   130→  async cleanQueue() {
+   131→    this.queue = []
+   132→    this.currentQueueIndex = -1
+   133→    AppStorage.setOrCreate('PlayQueue',this.queue)
+   134→    AppStorage.setOrCreate('currentQueueIndex',this.currentQueueIndex)
+   135→    await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
+   136→  }
+   137→
+   138→  async setIndex(index: number) {
+   139→    this.currentQueueIndex = index
+   140→    AppStorage.setOrCreate('currentQueueIndex',this.currentQueueIndex)
+   141→  }
+   142→}
+   143→
+   144→const playQueueUtils:PlayQueueUtils = new PlayQueueUtils()
+   145→export default playQueueUtils as PlayQueueUtils
+</file>
+<metadata>The file has 145 lines in total.</metadata>

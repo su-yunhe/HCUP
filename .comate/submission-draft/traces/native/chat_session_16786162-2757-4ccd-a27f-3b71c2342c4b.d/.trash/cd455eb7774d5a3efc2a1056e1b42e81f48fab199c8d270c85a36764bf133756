@@ -1,0 +1,14 @@
+        fm.launch(self.driver)
+        fm.exit_fm_if_needed(self.driver)
+        card = fm.find(self.driver, "fm_card")
+        for _ in range(3):
+            self.driver.click(card)
+            time.sleep(0.15)
+        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom"))
+        fm.wait_song_change(self.driver, None)
+        time.sleep(3)
+        fm.open_queue_from_bottom(self.driver)
+        names = fm.queue_names(self.driver)
+        self.assertGreaterEqual(len(names), 1)
+        count = fm.queue_count(self.driver)
+   

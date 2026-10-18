@@ -1,0 +1,513 @@
+<file>
+     1→import { Song, SongClass } from "../../common/entities/SongsResult"
+     2→import { changeDuration } from "../../common/functions/common/convert"
+     3→import { pauseMusic, playNext, playPre, resumeMusic, seekMusic } from "../../common/functions/play/playControl"
+     4→import { AddToPlayListCircleButton } from "../buttons/play/AddToPlayListButton"
+     5→import { LoopModeButton } from "../buttons/play/LoopModeButton"
+     6→import { PlayQueueButton } from "../buttons/play/PlayQueueButton"
+     7→import { DownloadDialog } from "../dialog/DownloadDialog"
+     8→import { LyricComponent } from "../play/LyricComponent"
+     9→import { AVCastPicker } from "@kit.AVSessionKit"
+    10→import { TimerButton } from "../buttons/play/TimerButton"
+    11→import { StorageConstants } from "../../common/constants/StorageConstants"
+    12→import Constants from "../../common/constants/Constants"
+    13→import { PasteboardUtil, ToastUtil } from "@pura/harmony-utils"
+    14→import { PlayerActionSheet } from "./PlayerActionSheet"
+    15→import { likeThisSong } from "../../common/functions/play/songLike"
+    16→import { resourceManager } from "@kit.LocalizationKit"
+    17→
+    18→@Component
+    19→export struct PlayingCover {
+    20→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    21→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    22→  @StorageProp(StorageConstants.PLAY_MODE) playmode: number = 1
+    23→  @StorageProp(StorageConstants.PLAY_SONG) song: Song = SongClass
+    24→  @StorageProp(StorageConstants.PLAY_ARTISTS) artists: string = ''
+    25→  @StorageProp(StorageConstants.IS_PAUSED) isPaused: boolean = false
+    26→  @StorageProp(StorageConstants.PIC_URL) picUrl: string = ''
+    27→  @StorageProp(StorageConstants.PLAY_TIME) time: number = 0
+    28→  @StorageProp(StorageConstants.ISLIKED) isLiked: boolean = false
+    29→  @StorageProp(StorageConstants.PLAY_COUNTDOWN_WORKING) isTimerWorking: boolean = false
+    30→  @StorageProp(StorageConstants.PLAY_IS_LOCALFILE) isLocalFile: boolean = false
+    31→  @StorageProp(StorageConstants.BREAKPOINT) breakpoint: string = 'sm'
+    32→  @StorageProp(StorageConstants.DEVICE_TYPE) deviceType: resourceManager.DeviceType = resourceManager.DeviceType.DEVICE_TYPE_PHONE
+    33→  @Link isShow: boolean
+    34→  @State sliderThickness: number = 10
+    35→  @State isMovingSlider: boolean = false
+    36→  @State sliderMovingTime: number = 0
+    37→  @State tabPageIndex: number = 0
+    38→  @State isShowMenu: boolean = false
+    39→  @State isShowTimer: boolean = false
+    40→  @State isShowAddSheet: boolean = false
+    41→  @State isLikeProcessing: boolean = false
+    42→  @State totalOpacity: number = 0
+    43→  private dialogController: CustomDialogController = new CustomDialogController({
+    44→    builder: DownloadDialog({
+    45→      song: this.song,
+    46→      picUrl: this.picUrl,
+    47→      artists: this.artists,
+    48→      duration: changeDuration(this.song.duration)
+    49→    }),
+    50→  })
+    51→
+    52→  aboutToAppear(): void {
+    53→    setTimeout(() => {
+    54→      animateTo({ duration: 300, curve: Curve.EaseInOut }, () => {
+    55→        this.totalOpacity = 0.7
+    56→      })
+    57→    }, 700)
+    58→  }
+    59→
+    60→  build() {
+    61→   Stack() {
+    62→     // Background
+    63→     Stack() {
+    64→       Image(this.playmode == 1 ? this.picUrl + '?param=512y512' : $r('app.media.bg_default'))
+    65→         .blur(100)
+    66→         .width('100%')
+    67→         .height('100%')
+    68→         .animation({
+    69→           duration: 300,
+    70→           curve: Curve.Linear
+    71→         })
+    72→         .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+    73→       Column()
+    74→         .width('100%')
+    75→         .height('100%')
+    76→         .opacity(0.6)
+    77→         .backgroundColor(Color.Black)
+    78→         .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+    79→     }
+    80→     .width('100%')
+    81→     .height('100%')
+    82→
+    83→     /**
+    84→      * 主内容
+    85→      */
+    86→     if(this.breakpoint == 'sm' ||
+    87→       (this.breakpoint == 'md' && this.deviceType == resourceManager.DeviceType.DEVICE_TYPE_TABLET)) {
+    88→       this.PhoneUI()
+    89→     } else {
+    90→       this.LargeUI()
+    91→     }
+    92→
+    93→     /**
+    94→      * Head栏
+    95→      */
+    96→     this.Head()
+    97→
+    98→   }
+    99→   .height('100%')
+   100→   .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+   101→  }
+   102→
+   103→  /**
+   104→   * 功能栏
+   105→   */
+   106→  @Builder
+   107→  ToolBar() {
+   108→    if(this.tabPageIndex == 0) {
+   109→      Row() {
+   110→        /**
+   111→         * Clock-Timer
+   112→         */
+   113→        TimerButton({ isTimerWorking: this.isTimerWorking, isShow: this.isShowTimer })
+   114→          .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.7 })
+   115→        if (this.song.id != 0) {
+   116→          /**
+   117→           * Download
+   118→           */
+   119→          Image($r('app.media.ic_arrow_down_o_icon'))
+   120→            .fillColor(Color.White)
+   121→            .height(25)
+   122→            .aspectRatio(1)
+   123→            .draggable(false)
+   124→            .backgroundColor(Color.Transparent)
+   125→            .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.7 })
+   126→            .onClick(() => {
+   127→              this.dialogController.open()
+   128→            })
+   129→
+   130→          /**
+   131→           * AddToPlayList
+   132→           */
+   133→          AddToPlayListCircleButton({
+   134→            song: this.song,
+   135→            imgColor: Color.White,
+   136→            imgHeight: 29,
+   137→            isShowAddSheet: this.isShowAddSheet
+   138→          })
+   139→            .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.7 })
+   140→
+   141→          /**
+   142→           * Heart
+   143→           */
+   144→          Image(this.isLiked ? $r('app.media.ic_public_favor_filled') : $r('app.media.ic_public_favor'))
+   145→            .fillColor(Color.White)
+   146→            .height(25)
+   147→            .aspectRatio(1)
+   148→            .draggable(false)
+   149→            .backgroundColor(Color.Transparent)
+   150→            .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.7 })
+   151→            .onClick(async () => {
+   152→              if(this.isLikeProcessing) return
+   153→              this.isLikeProcessing = true
+   154→              try {
+   155→                await likeThisSong()
+   156→              } finally {
+   157→                this.isLikeProcessing = false
+   158→              }
+   159→            })
+   160→        }
+   161→
+   162→        /**
+   163→         * More
+   164→         */
+   165→        Image($r('app.media.ic_more_vertical_o_icon'))
+   166→          .fillColor(Color.White)
+   167→          .height(23)
+   168→          .aspectRatio(1)
+   169→          .draggable(false)
+   170→          .backgroundColor(Color.Transparent)
+   171→          .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.7 })
+   172→          .bindSheet(this.isShowMenu, this.MenuSheet(), {
+   173→            backgroundColor: Color.Transparent,
+   174→            showClose: true,
+   175→            height: SheetSize.MEDIUM,
+   176→            dragBar: false,
+   177→            blurStyle: BlurStyle.Regular,
+   178→            preferType: SheetType.CENTER,
+   179→            onDisappear: () => {
+   180→              this.isShowMenu = false
+   181→            }
+   182→          })
+   183→          .onClick(() => {
+   184→            this.isShowMenu = true
+   185→          })
+   186→      }
+   187→      .justifyContent(FlexAlign.SpaceEvenly)
+   188→      .width('100%')
+   189→      .height(30)
+   190→      .opacity(0.6)
+   191→    }
+   192→  }
+   193→
+   194→  /**
+   195→   * 进度条组件
+   196→   */
+   197→  @Builder
+   198→  SliderContent() {
+   199→    Column({ space: 5 }) {
+   200→      Row() {
+   201→        // 当前时间
+   202→        Text(`${changeDuration(this.time)}`)
+   203→          .fontSize(Constants.FONT_SIZE_COMMON)
+   204→          .layoutWeight(1)
+   205→          .textAlign(TextAlign.Start)
+   206→          .fontColor(Color.White)
+   207→          .opacity(this.tabPageIndex == 0 ? 0.7 : 0.1)
+   208→
+   209→        // 拖动进度条时，显示即将跳转的时间
+   210→        if (this.isMovingSlider) {
+   211→          Column() {
+   212→            Text(`${changeDuration(this.sliderMovingTime)}`)
+   213→              .fontColor(Color.White)
+   214→              .backgroundColor(Color.Gray)
+   215→              .borderRadius(15)
+   216→              .fontSize(Constants.FONT_SIZE_COMMON)
+   217→              .textAlign(TextAlign.Center)
+   218→              .padding({ left: 10, right: 10 })
+   219→          }
+   220→          .layoutWeight(1)
+   221→        }
+   222→
+   223→        // 总时间
+   224→        Text(`${changeDuration(this.song.duration)}`)
+   225→          .fontSize(Constants.FONT_SIZE_COMMON)
+   226→          .layoutWeight(1)
+   227→          .textAlign(TextAlign.End)
+   228→          .fontColor(Color.White)
+   229→          .opacity(this.tabPageIndex == 0 ? 0.7 : 0.1)
+   230→      }
+   231→      .width('90%')
+   232→      .justifyContent(FlexAlign.SpaceAround)
+   233→
+   234→      // 进度条
+   235→      Slider({
+   236→        value: this.time,
+   237→        max: this.song.duration,
+   238→        style: SliderStyle.InSet
+   239→      })
+   240→        .width('90%')
+   241→        .blockColor(Color.White)
+   242→        .trackColor(Color.Gray)
+   243→        .trackThickness(this.sliderThickness)
+   244→        .selectedColor(Color.White)
+   245→        .showSteps(false)
+   246→        .showTips(false)
+   247→        .opacity(this.tabPageIndex == 0 ? 0.7 : 0.1)
+   248→        .animation({
+   249→          duration: 600,
+   250→          curve: Curve.LinearOutSlowIn,
+   251→        })
+   252→        .onChange((value: number, mode: SliderChangeMode) => {
+   253→          if (mode == SliderChangeMode.Begin) {
+   254→            this.isMovingSlider = true
+   255→            this.sliderThickness = 20
+   256→          } else if (mode == SliderChangeMode.Moving) {
+   257→            this.sliderMovingTime = value
+   258→          } else if (mode == SliderChangeMode.End) {
+   259→            this.time = value
+   260→            this.isMovingSlider = false
+   261→            this.sliderThickness = 10
+   262→            seekMusic(value)
+   263→          }
+   264→        })
+   265→    }
+   266→  }
+   267→
+   268→  /**
+   269→   * PlayButton
+   270→   * 控制上一首、下一首、播放和暂停
+   271→   */
+   272→  @Builder
+   273→  PlayButton() {
+   274→    // 上一首
+   275→    Image($r('app.media.ic_public_play_last')).buttonImgStyle()
+   276→    .onClick(() => {
+   277→      playPre()
+   278→    })
+   279→
+   280→    // 暂停、继续
+   281→    Image(!this.isPaused ? $r('app.media.ic_public_pause') : $r('app.media.ic_play_fill')).buttonImgStyle()
+   282→      .onClick(() => {
+   283→        if(this.isPaused) {
+   284→          resumeMusic()
+   285→        } else {
+   286→          pauseMusic()
+   287→        }
+   288→      })
+   289→
+   290→    // 下一首
+   291→    Image($r('app.media.ic_public_play_next')).buttonImgStyle()
+   292→    .onClick(() => {
+   293→      playNext()
+   294→    })
+   295→  }
+   296→
+   297→  /**
+   298→   * Head
+   299→   */
+   300→  @Builder
+   301→  Head() {
+   302→    Row() {
+   303→      Button({ type: ButtonType.Circle }) { Image($r('app.media.ic_public_arrow_down_0')).draggable(false).fillColor(Color.White).width(Constants.SIZE_ICON_BUTTON_COMMON).aspectRatio(1) }
+   304→      .backgroundColor(Color.Transparent)
+   305→      .onClick(() => { this.isShow = false })
+   306→
+   307→      /**
+   308→       * AVCastPicker
+   309→       */
+   310→      Column() {
+   311→        AVCastPicker({
+   312→          normalColor: Color.White,
+   313→          sessionType: 'audio'
+   314→        })
+   315→          .width(23)
+   316→          .height(23)
+   317→          .backgroundColor(Color.Transparent)
+   318→      }
+   319→    }
+   320→    .position({ top: 0 })
+   321→    .width('100%')
+   322→    .justifyContent(FlexAlign.SpaceBetween)
+   323→    .padding({ top: px2vp(this.topRectHeight), left: 10, right: 10, bottom: 5 })
+   324→    .opacity(this.totalOpacity)
+   325→  }
+   326→
+   327→  /**
+   328→   * Information
+   329→   */
+   330→  @Builder
+   331→  SongInfo() {
+   332→    Column({ space: 20 }) {
+   333→      // 歌曲封面图片
+   334→      if (this.playmode == 0) {
+   335→        Stack() {
+   336→          Column() {
+   337→          }
+   338→          .height('60%')
+   339→          .borderRadius(5)
+   340→          .aspectRatio(1)
+   341→          Image(this.picUrl)
+   342→            .height(this.song.id == 0 ? '30%' : '60%')
+   343→            .borderRadius(5)
+   344→            .aspectRatio(1)
+   345→        }
+   346→        .padding({ bottom: 30 })
+   347→      } else {
+   348→        Stack() {
+   349→          LoadingProgress().width(60)
+   350→          if(this.picUrl != '') {
+   351→            Image(this.picUrl + '?param=512y512')
+   352→              .height('60%')
+   353→              .borderRadius(5)
+   354→              .aspectRatio(1)
+   355→              .shadow({ radius: 30, type: ShadowType.BLUR, offsetX: 20, offsetY: 20 })
+   356→          }
+   357→          else {
+   358→            Column()
+   359→            .height('60%')
+   360→            .borderRadius(5)
+   361→            .aspectRatio(1)
+   362→          }
+   363→        }
+   364→        .padding({ bottom: 30 })
+   365→      }
+   366→
+   367→      // 歌曲名称&艺术家
+   368→      Text(this.song.name)
+   369→        .textStyle(24)
+   370→        .fontWeight(FontWeight.Bold)
+   371→        .onClick(() => {
+   372→          PasteboardUtil.setDataText(this.song.name)
+   373→          ToastUtil.showToast('已复制歌名到剪贴板', { duration: 3000 })
+   374→        })
+   375→      Text(this.artists)
+   376→        .textStyle(16)
+   377→        .onClick(() => {
+   378→          PasteboardUtil.setDataText(this.artists)
+   379→          ToastUtil.showToast('已复制歌手名到剪贴板', { duration: 3000 })
+   380→        })
+   381→    }
+   382→    .layoutWeight(1)
+   383→    .width('100%')
+   384→    .padding({ left: 15, right: 15, top:px2vp(this.topRectHeight) + 40 })
+   385→    .height('100%')
+   386→    .justifyContent(FlexAlign.Center)
+   387→    .gesture(
+   388→      SwipeGesture({
+   389→        fingers: 1,
+   390→        direction: SwipeDirection.Vertical
+   391→      }).onAction(() => { this.isShow = false })
+   392→    )
+   393→  }
+   394→
+   395→  @Builder PhoneUI() {
+   396→    Column() {
+   397→      Swiper() {
+   398→        this.SongInfo()
+   399→        LyricComponent()
+   400→          .padding({ top: px2vp(this.topRectHeight) })
+   401→          .width('100%')
+   402→      }
+   403→      .indicator(
+   404→        new DotIndicator()
+   405→          .top(px2vp(this.topRectHeight) + 5)
+   406→          .selectedColor(Color.White)
+   407→          .color(Color.Gray)
+   408→      )
+   409→      .clip(false)
+   410→      .loop(false)
+   411→      .layoutWeight(1)
+   412→      .onAnimationStart((from, target) => {
+   413→        animateTo({ duration: 300, curve: Curve.EaseInOut }, () => {
+   414→          this.tabPageIndex = target
+   415→        })
+   416→      })
+   417→
+   418→      Column({ space: 10 }) {
+   419→        this.SliderContent()
+   420→        this.ToolBar()
+   421→        Row() {
+   422→          LoopModeButton({ imgColor: Color.White }).opacity(0.8)
+   423→          this.PlayButton()
+   424→          PlayQueueButton({ imgColor: Color.White }).opacity(0.8)
+   425→        }
+   426→        .opacity(this.tabPageIndex == 0 ? 0.8 : 0.2)
+   427→        .padding({ top: 20, bottom: 15 })
+   428→        .justifyContent(FlexAlign.SpaceEvenly)
+   429→        .width('90%')
+   430→
+   431→        if(this.tabPageIndex == 0) {
+   432→          Row({ space: 15 }) {
+   433→            if(this.isLocalFile || this.playmode == 0) { Text('本地文件播放中').fontSize(10).fontColor(Color.Gray) }
+   434→            if(this.isTimerWorking) { Text('已设置定时关闭').fontSize(10).fontColor(Color.Gray) }
+   435→          }
+   436→          .justifyContent(FlexAlign.Center)
+   437→          .width('100%')
+   438→          .height(30)
+   439→          .backgroundColor(Color.Transparent)
+   440→        }
+   441→      }
+   442→      .constraintSize({
+   443→        minWidth: 200,
+   444→        maxWidth: 500
+   445→      })
+   446→      .width('100%')
+   447→    }
+   448→    .height('100%')
+   449→    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+   450→  }
+   451→
+   452→  @Builder LargeUI() {
+   453→    Row() {
+   454→      Column() {
+   455→        this.SongInfo()
+   456→        Column({ space: 10 }) {
+   457→          this.SliderContent()
+   458→          this.ToolBar()
+   459→          Row() {
+   460→            LoopModeButton({ imgColor: Color.White }).opacity(0.8)
+   461→            this.PlayButton()
+   462→            PlayQueueButton({ imgColor: Color.White }).opacity(0.8)
+   463→          }
+   464→          .opacity(this.tabPageIndex == 0 ? 0.8 : 0.2)
+   465→          .padding({ top: 20, bottom: 15 })
+   466→          .justifyContent(FlexAlign.SpaceEvenly)
+   467→          .width('90%')
+   468→          Row({ space: 15 }) {
+   469→            if(this.isLocalFile || this.playmode == 0) { Text('本地文件播放中').fontSize(10).fontColor(Color.Gray) }
+   470→            if(this.isTimerWorking) { Text('已设置定时关闭').fontSize(10).fontColor(Color.Gray) }
+   471→          }
+   472→          .justifyContent(FlexAlign.Center)
+   473→          .width('100%')
+   474→          .height(30)
+   475→          .backgroundColor(Color.Transparent)
+   476→        }
+   477→        .width('100%')
+   478→      }
+   479→      .layoutWeight(0.9)
+   480→
+   481→      LyricComponent()
+   482→        .width('100%')
+   483→        .layoutWeight(1.1)
+   484→    }
+   485→    .width('100%')
+   486→    .height('100%')
+   487→    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+   488→  }
+   489→
+   490→  @Builder MenuSheet() {
+   491→    PlayerActionSheet({ isShow: this.isShowMenu, isShowTimer: this.isShowTimer, isShowAddSheet: this.isShowAddSheet })
+   492→  }
+   493→}
+   494→
+   495→@Extend(Text) function textStyle(size:number) {
+   496→  .fontSize(size)
+   497→  .fontColor(Color.White)
+   498→  .maxLines(1)
+   499→  .padding({ left:20, right:20 })
+   500→  .textOverflow({ overflow: TextOverflow.MARQUEE })
+   501→}
+   502→
+   503→@Extend(Image) function buttonImgStyle() {
+   504→  .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.8 })
+   505→  .width(50)
+   506→  .fillColor(Color.White)
+   507→  .draggable(false)
+   508→}
+   509→
+   510→
+</file>
+<metadata>The file has 510 lines in total.</metadata>

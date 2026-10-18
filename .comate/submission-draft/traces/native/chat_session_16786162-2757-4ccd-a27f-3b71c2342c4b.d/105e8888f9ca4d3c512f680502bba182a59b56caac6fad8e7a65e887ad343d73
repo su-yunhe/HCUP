@@ -1,0 +1,3 @@
+        self.assertEqual(fm.bottom_song(self.driver), fm.SONG_A, "退出后应播放进入前的那首")
+        self.assertEqual(fm.log_count(self.driver, fm.LOG_E1) - e1, 0, "退出FM不应发推荐请求")
+        self.assertEqual(fm.log_count(self.driver, fm.LOG_E2) - e2, 0)

@@ -1,0 +1,17 @@
+  await PreferencesUtils.putPreferenceValue('Play','CurrentQueueIndex', PlayQueueUtils.currentQueueIndex)
+}
+
+/**
+ * 向私人FM 注册播放控制
+ */
+FMUtils.setPlayer({
+  play: (index: number) => {
+    playQueue(index)
+  },
+  resume: () => {
+    resumeMusic()
+  },
+  stop: async () => {
+    await AVPlayerUtils.stop()
+  }
+})

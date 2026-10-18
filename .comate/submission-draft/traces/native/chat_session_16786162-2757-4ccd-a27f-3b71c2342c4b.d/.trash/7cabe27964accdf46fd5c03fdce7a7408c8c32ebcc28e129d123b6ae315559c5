@@ -1,0 +1,10 @@
+  @Builder
+  PlayButton() {
+    // 上一首
+    Image($r('app.media.ic_public_play_last')).buttonImgStyle()
+    .onClick(() => {
+      playPre()
+    })
+
+    // 暂停、继续
+    Image(!this.isPaused ? $r('app.media.ic_public_pause') : $r('app.media.ic_play_fi

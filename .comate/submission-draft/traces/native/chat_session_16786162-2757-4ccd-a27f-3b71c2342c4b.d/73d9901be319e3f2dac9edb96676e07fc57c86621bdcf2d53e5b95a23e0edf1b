@@ -1,0 +1,95 @@
+"""场景一：发现页私人FM卡片、进入私人FM、标识。"""
+from __future__ import annotations
+
+import time
+
+from hypium import BY
+
+from harness.driver import HarnessTestCase
+from hypium_tests import fm_helpers as fm
+
+
+class TestFMEntry(HarnessTestCase):
+
+    def test_01_card_visible_without_scroll(self):
+        """A1-A4：冷启动后发现页第 1 张卡片就是私人FM，无需横滑，文案精确。"""
+        fm.launch(self.driver)
+        fm.exit_fm_if_needed(self.driver)
+        title = self.require_component(BY.text("私人FM"), "发现页没有文字为“私人FM”的组件")
+        self.assertEqual(fm.text_of(self.driver, "fm_card_title"), "私人FM")
+        self.assertEqual(fm.text_of(self.driver, "fm_card_subtitle"), "根据口味连续推荐")
+        b = fm.find(self.driver, "fm_card").getBounds()
+        self.assertGreaterEqual(b.left, 0)
+        self.assertLessEqual(b.right, 1308, "私人FM卡片超出屏幕，需要横滑才能看到")
+        self.assertIsNotNone(title)
+        # A18/A24：普通模式下没有 FM 标识
+        self.assertIsNone(fm.find(self.driver, "fm_badge_bottom"))
+
+    def test_02_enter_fm_and_autoplay(self):
+        """A5-A7/A16：点击卡片进入私人FM，自动播放第一首推荐，不自动打开播放页。"""
+        fm.launch(self.driver)
+        fm.exit_fm_if_needed(self.driver)
+        old = fm.bottom_song(self.driver)
+        mark = fm.mark(self.driver)
+        fm.click_key(self.driver, "fm_card")
+        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom"), "进入私人FM后底部栏没有标识")
+        self.assertEqual(fm.text_of(self.driver, "fm_badge_bottom"), "私人FM")
+        song = fm.wait_song_change(self.driver, old)
+        self.assertIsNotNone(song, "进入私人FM后底部栏歌曲没有变成推荐歌曲")
+        # 不自动打开播放页，仍在发现页
+        self.assertIsNone(fm.find(self.driver, "player_slider"), "点击卡片后不应自动打开播放页")
+        self.assertIsNotNone(fm.find(self.driver, "fm_card"))
+        # 歌曲真正开始播放：底部栏出现暂停按钮
+        self.assertIsNotNone(fm.wait_key(self.driver, "bottom_bar_pause_btn", 20), "推荐歌曲没有开始播放")
+        # 网络：点击卡片恰好发出 1 次推荐请求
+        time.sleep(2)
+        self.assertEqual(fm.e1_ops_since(self.driver, mark), 1, "点击卡片应恰好发出 1 次推荐请求")
+
+    def test_03_rapid_click_card(self):
+        """A8：快速连点卡片只进入一次，播放列表里没有重复歌曲。"""
+        fm.launch(self.driver)
+        fm.exit_fm_if_needed(self.driver)
+        mark = fm.mark(self.driver)
+        fm.rapid_tap(self.driver, fm.find(self.driver, "fm_card"), 3)
+        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom"))
+        fm.wait_song_change(self.driver, None)
+        time.sleep(3)
+        self.assertEqual(fm.e1_ops_since(self.driver, mark), 1, "快速连点卡片应只发出 1 次推荐请求")
+        fm.open_queue_from_bottom(self.driver)
+        names = fm.queue_names(self.driver)
+        self.assertGreaterEqual(len(names), 1)
+        self.assertEqual(len(names), len(set(names)), f"FM 队列出现重复歌曲: {names}")
+        count = fm.queue_count(self.driver)
+        # 本地未登录时每次推荐 1 首，连点不应叠加出更多
+        self.assertLessEqual(count, 3, f"连点后 FM 队列数量异常: {count}")
+        fm.close_overlay(self.driver)
+
+    def test_04_click_card_again_in_fm(self):
+        """A9：已在私人FM中再次点击卡片，不重新加载，歌曲不变。"""
+        song = fm.ensure_fm_playing(self.driver)
+        time.sleep(2)
+        song = fm.bottom_song(self.driver)
+        mark = fm.mark(self.driver)
+        fm.click_key(self.driver, "fm_card")
+        time.sleep(4)
+        self.assertEqual(fm.bottom_song(self.driver), song)
+        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
+        self.assertEqual(fm.e1_ops_since(self.driver, mark), 0, "已在 FM 中再点卡片不应发推荐请求")
+
+    def test_05_state_kept_after_navigation(self):
+        """A19：切换 Tab、打开/收起播放页后仍在私人FM，歌曲不变。"""
+        fm.ensure_fm_playing(self.driver)
+        time.sleep(2)
+        song = fm.bottom_song(self.driver)
+        mark = fm.mark(self.driver)
+        self.driver.click(self.driver.find_all_components(BY.text("我的"))[-1])
+        time.sleep(1.5)
+        self.driver.click(self.driver.find_all_components(BY.text("发现"))[-1])
+        time.sleep(1.5)
+        fm.open_player(self.driver)
+        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
+        fm.click_key(self.driver, "player_close_btn")
+        self.assertTrue(fm.wait_gone(self.driver, "player_slider"))
+        self.assertEqual(fm.bottom_song(self.driver), song)
+        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
+        self.assertEqual(fm.e1_ops_since(self.driver, mark), 0, "切换页面不应发推荐请求")

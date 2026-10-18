@@ -1,0 +1,67 @@
+import { LogUtil, ToastUtil } from '@pura/harmony-utils'
+import { getPersonalFM, trashFM } from '../../../api/songApi'
+import { StorageConstants } from '../../constants/StorageConstants'
+import { FMMode } from '../../entities/PersonalFM'
+import { PlayQueue } from '../../entities/PlayQueue'
+import { Song } from '../../entities/SongsResult'
+import { playQueue, resumeMusic } from '../../functions/play/playControl'
+import PreferencesUtils from '../data/PreferencesUtils'
+import AVPlayerUtils from './AVPlayerUtils'
+import PlayQueueUtils from './PlayQueueUtils'
+
+/**
+ * 私人FM 工具
+ * FM 队列直接使用 PlayQueueUtils 的播放列表，进入时备份手动维护的播放列表，退出时还原
+ */
+const TAG = '[FMUtils] '
+const pref = StorageConstants.QUEUE_PREF
+const MAX_PLAY_FAIL = 3
+
+class FMUtils {
+  active: boolean = false
+  mode: FMMode = 'DEFAULT'
+  loading: boolean = false
+  private backupQueue: Array<PlayQueue> = []
+  private backupIndex: number = -1
+  private blacklist: Array<number> = []
+  // 请求序号，序号变化后到达的响应直接丢弃
+  private reqSeq: number = 0
+  // 正在进行的续拉请求（含预取）
+  private fetching: Promise<boolean> | null = null
+  private dislikeInFlight: boolean = false
+  private playFailCount: number = 0
+
+  /**
+   * 冷启动时恢复私人FM状态（不自动请求、不自动播放）
+   */
+  async init() {
+    try {
+      this.active = await PreferencesUtils.getPreferenceValue<boolean>(pref, 'fmActive', false)
+      const mode = await PreferencesUtils.getPreferenceValue<string>(pref, 'fmMode', 'DEFAULT')
+      this.mode = (mode == 'FAMILIAR' || mode == 'EXPLORE') ? mode : 'DEFAULT'
+      this.backupQueue = await PreferencesUtils.getPreferenceValue<Array<PlayQueue>>(pref, 'fmBackupQueue', [])
+      this.backupIndex = await PreferencesUtils.getPreferenceValue<number>(pref, 'fmBackupIndex', -1)
+      this.blacklist = await PreferencesUtils.getPreferenceValue<Array<number>>(pref, 'fmBlacklist', [])
+    } catch (e) {
+      LogUtil.error(TAG + '初始化私人FM失败: ' + e.message)
+    }
+    AppStorage.setOrCreate(StorageConstants.FM_ACTIVE, this.active)
+    AppStorage.setOrCreate(StorageConstants.FM_MODE, this.mode)
+    AppStorage.setOrCreate(StorageConstants.FM_LOADING, false)
+  }
+
+  /**
+   * 点击私人FM卡片
+   */
+  async enter() {
+    if (this.loading) {
+      ToastUtil.showToast('正在加载, 请稍后')
+      return
+    }
+    // 已在私人FM中且有当前歌曲：不重新请求，未播放/暂停时继续播放
+    if (this.active && PlayQueueUtils.getQueueElement(PlayQueueUtils.currentQueueIndex)) {
+      const isPlaying: boolean | undefined = AppStorage.get(StorageConstants.IS_PLAYING)
+      const isPaused: boolean | undefined = AppStorage.get(StorageConstants.IS_PAUSED)
+      if (!isPlaying) {
+        this.play(PlayQueueUtils.currentQueueIndex)
+      } else if 

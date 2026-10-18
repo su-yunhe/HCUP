@@ -1,0 +1,43 @@
+"""场景一/三/四：播放页私人FM标识、模式菜单、不喜欢、下一首。"""
+from __future__ import annotations
+
+import time
+
+from hypium import BY
+
+from harness.driver import HarnessTestCase
+from hypium_tests import fm_helpers as fm
+
+MODE_KEYS = {"默认": "fm_mode_default", "熟悉": "fm_mode_familiar", "探索": "fm_mode_explore"}
+
+
+class TestFMPlayer(HarnessTestCase):
+
+    def setUp(self):
+        fm.ensure_fm_playing(self.driver)
+        fm.open_player(self.driver)
+
+    def tearDown(self):
+        # 关闭可能残留的菜单/播放页
+        for _ in range(2):
+            if fm.find(self.driver, "player_slider") is None:
+                break
+            self.driver.press_back()
+            time.sleep(1)
+
+    def open_menu(self):
+        fm.click_key(self.driver, "fm_badge_player")
+        item = fm.wait_for(lambda: self.driver.find_component(BY.text("探索")), 5)
+        self.assertIsNotNone(item, "点击私人FM标识后没有弹出模式菜单")
+        time.sleep(0.5)
+
+    def selected_mode(self):
+        for label, key in MODE_KEYS.items():
+            c = fm.find(self.driver, key)
+            if c is not None and c.isSelected():
+                return label
+        return None
+
+    def test_01_player_badge_and_dislike_button(self):
+        """A17/A42：播放页显示私人FM标识和“不喜欢”，循环按钮被替换。"""
+        self.assertEqual(fm.te

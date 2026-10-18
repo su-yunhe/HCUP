@@ -1,0 +1,4 @@
+// “不喜欢”切歌后等待新歌开始播放的最长时间
+const DISLIKE_LOCK_TIMEOUT = 10000
+// 推荐结果全部被黑名单/去重过滤时，同一次操作最多请求的次数
+const MAX_REQUEST_ATTEMPTS = 3

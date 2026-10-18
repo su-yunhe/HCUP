@@ -1,0 +1,3 @@
+  async cleanQueue() {
+    FMUtils.onExternalQueueChange()
+    this.queue = []

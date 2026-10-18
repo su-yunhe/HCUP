@@ -1,0 +1,10 @@
+    if(localPath != '') { // 是否存在本地文件
+      AppStorage.setOrCreate(StorageConstants.PLAY_IS_LOCALFILE, true)
+      await AVPlayerUtils.setUrl(localPath)
+    } else if(songPlay.data[0].url) {
+      AppStorage.setOrCreate(StorageConstants.PLAY_IS_LOCALFILE, false)
+      await AVPlayerUtils.setUrl(songPlay.data[0].url)
+    } else {
+      ToastUtil.showToast('获取播放资源失败')
+      playNext()
+    }

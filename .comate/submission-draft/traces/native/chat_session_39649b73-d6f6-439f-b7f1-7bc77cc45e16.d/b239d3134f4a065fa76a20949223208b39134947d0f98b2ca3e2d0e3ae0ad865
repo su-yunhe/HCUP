@@ -1,0 +1,130 @@
+<file>
+     1→import { AppUtil, LogUtil, ToastUtil } from "@pura/harmony-utils"
+     2→import { getAppInfo } from "../../../api/chenlvinApi"
+     3→import { Song, SongClass } from "../../entities/SongsResult"
+     4→import PlayQueueUtils from "../../utils/play/PlayQueueUtils"
+     5→import PreferencesUtils from "../../utils/data/PreferencesUtils"
+     6→import { StorageConstants } from "../../constants/StorageConstants"
+     7→import { notificationManager } from "@kit.NotificationKit"
+     8→import { resourceManager } from "@kit.LocalizationKit"
+     9→import { initSettings } from "./settings"
+    10→import { getLoginStatus } from "../../../api/loginApi"
+    11→import { PlayingPlayList, PlayList } from "../../entities/PlayList"
+    12→import { TopListItem } from "../../entities/TopList"
+    13→import { getLikeList } from "../../../api/songApi"
+    14→import { PersonalListItem } from "../../entities/Personalized"
+    15→import { pauseMusic, playQueue } from "../play/playControl"
+    16→import RelationalStoreUtils from "../../utils/data/RelationalStoreUtils"
+    17→
+    18→/**
+    19→ * App初始化
+    20→ */
+    21→const TAG = '[appInit] '
+    22→
+    23→export async function appInit() {
+    24→  AppStorage.setOrCreate(StorageConstants.APP_LOADING, true)
+    25→  await initSettings()
+    26→  await initPlayQueue()
+    27→  loadSavedSong()
+    28→  initPermission()
+    29→  initLocalData()
+    30→  getAppInfo()
+    31→  await initUserInfo()
+    32→  AppStorage.setOrCreate(StorageConstants.APP_LOADING, false)
+    33→}
+    34→
+    35→async function initPermission() {
+    36→  notificationManager.requestEnableNotification(AppUtil.getContext()).then(() => {
+    37→  })
+    38→}
+    39→
+    40→export async function initUserInfo() {
+    41→  const cookie = await PreferencesUtils.getPreferenceValue<string>(StorageConstants.USER_PREF, StorageConstants.COOKIE, '')
+    42→  AppStorage.setOrCreate(StorageConstants.COOKIE, cookie)
+    43→  let isLogged = await getLoginStatus(cookie)
+    44→  if(!isLogged && cookie) {
+    45→    ToastUtil.showToast('登录状态失效')
+    46→  } else {
+    47→    getLikeList()
+    48→  }
+    49→}
+    50→
+    51→async function initLocalData() {
+    52→  RelationalStoreUtils.init()
+    53→
+    54→  let userLikeList: string[] = []
+    55→  AppStorage.setOrCreate(StorageConstants.USER_LIKELIST, userLikeList)
+    56→  const playInfo: PlayingPlayList = {
+    57→    id: -1,
+    58→    count: -1
+    59→  }
+    60→  AppStorage.setOrCreate(StorageConstants.LAST_PLAYED_LIST, playInfo)
+    61→
+    62→  const results = await Promise.all([
+    63→    getDeviceTypeInfo(),
+    64→    PreferencesUtils.getPreferenceValue<PlayList[]>(StorageConstants.USER_PREF, StorageConstants.USER_PLAYLISTS, []),
+    65→    PreferencesUtils.getPreferenceValue<TopListItem[]>(StorageConstants.USER_PREF, StorageConstants.TOPLISTS, []),
+    66→    PreferencesUtils.getPreferenceValue<PersonalListItem[]>(StorageConstants.USER_PREF, StorageConstants.PERSONALIZED_LIST, []),
+    67→    PreferencesUtils.getPreferenceValue<string[]>(StorageConstants.USER_PREF, StorageConstants.SEARCH_HISTORY, [])
+    68→  ])
+    69→
+    70→  AppStorage.setOrCreate(StorageConstants.DEVICE_TYPE, results[0])
+    71→  AppStorage.setOrCreate(StorageConstants.USER_PLAYLISTS, results[1])
+    72→  AppStorage.setOrCreate(StorageConstants.TOPLISTS, results[2])
+    73→  AppStorage.setOrCreate(StorageConstants.PERSONALIZED_LIST, results[3])
+    74→  AppStorage.setOrCreate(StorageConstants.SEARCH_HISTORY, results[4])
+    75→}
+    76→
+    77→/**
+    78→ * 初始化播放列表
+    79→ */
+    80→async function initPlayQueue() {
+    81→  await PlayQueueUtils.init()
+    82→}
+    83→
+    84→/**
+    85→ * 加载上一次的播放内容
+    86→ */
+    87→async function loadSavedSong() {
+    88→  let has = await PreferencesUtils.getPreferenceValue<boolean>('Play','hasCurrentSong', false)
+    89→  let song: Song = {
+    90→    id: 0,
+    91→    name: "暂无播放",
+    92→    artists: [],
+    93→    duration: 0,
+    94→    alias: [],
+    95→    fee: 0
+    96→  }
+    97→  let artists = '选择一首歌曲播放吧'
+    98→  let picUrl: string = ''
+    99→  let playMode: number = 0
+   100→
+   101→  if(has) {
+   102→    song = await PreferencesUtils.getPreferenceValue<Song>('Play', 'CurrentSong', SongClass)
+   103→    playMode = await PreferencesUtils.getPreferenceValue<number>('Play', 'PlayMode', 1)
+   104→    artists = await PreferencesUtils.getPreferenceValue<string>('Play', 'CurrentArtists', '')
+   105→    picUrl = await PreferencesUtils.getPreferenceValue<string>('Play', 'CurrentImage', '')
+   106→    let currentIndex = await PreferencesUtils.getPreferenceValue<number>('Play', 'CurrentQueueIndex', 0)
+   107→    await PlayQueueUtils.setIndex(currentIndex)
+   108→  }
+   109→  AppStorage.setOrCreate(StorageConstants.PLAY_MODE, playMode)
+   110→  AppStorage.setOrCreate(StorageConstants.PLAY_SONG, song)
+   111→  AppStorage.setOrCreate(StorageConstants.PLAY_ARTISTS, artists)
+   112→  AppStorage.setOrCreate(StorageConstants.PIC_URL, picUrl)
+   113→}
+   114→
+   115→/**
+   116→ * 获取当前设备类型
+   117→ */
+   118→async function getDeviceTypeInfo(): Promise<resourceManager.DeviceType> {
+   119→  let deviceType = resourceManager.DeviceType.DEVICE_TYPE_PHONE
+   120→  try {
+   121→    deviceType = getContext().resourceManager.getDeviceCapabilitySync().deviceType
+   122→  } catch (e) {
+   123→    LogUtil.error(TAG + 'Failed to get device type: ' + e.message)
+   124→  }
+   125→  return deviceType
+   126→}
+   127→
+</file>
+<metadata>The file has 127 lines in total.</metadata>

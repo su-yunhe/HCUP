@@ -1,0 +1,3 @@
+    const index = PlayQueueUtils.currentQueueIndex
+    if (index < 0 || index < PlayQueueUtils.getQueueLength() - 1 || index == this.prefetchIndex) return
+    this.prefetchIndex = index

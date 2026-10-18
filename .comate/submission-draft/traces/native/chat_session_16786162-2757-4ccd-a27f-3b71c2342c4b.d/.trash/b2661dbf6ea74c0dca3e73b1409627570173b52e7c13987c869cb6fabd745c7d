@@ -1,0 +1,76 @@
+"""私人FM 自测公共方法（cmu-spec34）。
+
+约定：
+- 每个用例自己通过 restart_app 冷启动，不依赖其他用例留下的状态；
+- 依赖本地 NeteaseCloudMusicApi（应用内 API 地址 http://10.0.2.2:3000），未登录即可；
+- 组件优先用 .id() 定位（BY.key），文案断言用 BY.text 精确匹配。
+"""
+from __future__ import annotations
+
+import re
+import time
+
+from hypium import BY
+
+from harness.app import restart_app
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+API_URL = "http://10.0.2.2:3000"
+NET_TIMEOUT = 25
+
+SONG_A = "外婆桥"  # 搜索结果第 1 首（任然，fee=8 可播放）
+SONG_B = "摇到外婆桥（摇啊摇）(童声合唱版)"  # 搜索结果第 2 首（fee=8 可播放）
+
+
+def find(driver, key: str):
+    return driver.find_component(BY.key(key))
+
+
+def text_of(driver, key: str):
+    c = find(driver, key)
+    return None if c is None else c.getText()
+
+
+def wait_for(cond, timeout: float = NET_TIMEOUT, interval: float = 0.5):
+    """轮询 cond()，返回第一个真值；超时返回 None。"""
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        value = cond()
+        if value:
+            return value
+        time.sleep(interval)
+    return None
+
+
+def wait_key(driver, key: str, timeout: float = NET_TIMEOUT):
+    return wait_for(lambda: find(driver, key), timeout)
+
+
+def wait_gone(driver, key: str, timeout: float = 10) -> bool:
+    return bool(wait_for(lambda: find(driver, key) is None, timeout))
+
+
+def click_key(driver, key: str, timeout: float = 10):
+    c = wait_key(driver, key, timeout)
+    if c is None:
+        raise AssertionError(f"未找到组件 id={key}")
+    driver.click(c)
+    return c
+
+
+def launch(driver):
+    """冷启动并等待发现页私人FM卡片出现。"""
+    restart_app(driver, BUNDLE, wait_time=3)
+    if wait_key(driver, "fm_card", 20) is None:
+        raise AssertionError("冷启动后发现页未出现私人FM卡片")
+    time.sleep(1.5)
+
+
+def bottom_song(driver):
+    return text_of(driver, "bottom_bar_song_name")
+
+
+def wait_song_change(driver, old: str | None, key: str = "bottom_bar_song_name", timeout: float = NET_TIMEOUT):
+    def changed():
+        t = text_of(driver, key)
+        return t if t and t !

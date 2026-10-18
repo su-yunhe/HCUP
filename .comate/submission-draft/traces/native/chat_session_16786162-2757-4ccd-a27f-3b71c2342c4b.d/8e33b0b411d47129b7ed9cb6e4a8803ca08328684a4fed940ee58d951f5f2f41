@@ -1,0 +1,2 @@
+        # 歌曲真正开始播放：底部栏出现暂停按钮
+        self.assertIsNotNone(fm.wait_key(self.driver, "bottom_bar_pause_btn", 20), "推荐歌曲没有开始播放")

@@ -1,0 +1,35 @@
+      // Last
+      Image($r('app.media.ic_public_play_last')).buttonImgStyle()
+        .id('bottom_bar_prev_btn')
+        .fillColor($r('app.color.app_red'))
+        .onClick(() => {
+          playPre()
+        })
+
+      // Play & Pause
+      if (!this.isPaused) {
+        Image($r('app.media.ic_public_pause_norm')).buttonImgStyle()
+          .id('bottom_bar_play_btn')
+          .fillColor($r('app.color.app_red'))
+          .onClick(() => {
+            pauseMusic()
+          })
+      } else {
+        Image($r('app.media.ic_public_play_norm')).buttonImgStyle()
+          .id('bottom_bar_play_btn')
+          .fillColor($r('app.color.app_red'))
+          .onClick(() => {
+          if(!this.isPlaying) playQueue(playQueueUtils.currentQueueIndex)
+          else resumeMusic()
+        })
+      }
+
+      // Next
+      Image($r('app.media.ic_public_play_next')).buttonImgStyle()
+        .id('bottom_bar_next_btn')
+        .fillColor($r('app.color.app_red'))
+        .onClick(() => {
+          playNext()
+        })
+
+      PlayQueueButton({ imgWidth: 25, imgColor: $r('app.color.app_red'), btnId: 'bottom_bar_queue_btn' })

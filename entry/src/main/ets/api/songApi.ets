@@ -1,6 +1,7 @@
 import { LogUtil } from "@pura/harmony-utils"
 import { StorageConstants } from "../common/constants/StorageConstants"
 import { HeartMode } from "../common/entities/HeartMode"
+import { FMMode, PersonalFM } from "../common/entities/PersonalFM"
 import { DailyListSongs } from "../common/entities/PlayListSongs"
 import { PlayQueue } from "../common/entities/PlayQueue"
 import { SongDetail } from "../common/entities/SongDetail"
@@ -194,4 +195,62 @@ export async function setHeartMode(id: number, pid: number): Promise<void> {
   }
   await PlayQueueUtils.cleanQueue()
   await PlayQueueUtils.queueAdd_array(queue)
+}
+
+/**
+ * 获取私人FM推荐歌曲
+ * @param mode - 默认 DEFAULT / 熟悉 FAMILIAR / 探索 EXPLORE
+ * @returns Array<PlayQueue>
+ */
+export async function getPersonalFM(mode: FMMode): Promise<Array<PlayQueue>> {
+  let queue: Array<PlayQueue> = []
+  const rootUrl = await getApiUrl()
+  // 服务端有缓存，必须带 timestamp
+  const url: string = mode == 'DEFAULT' ?
+    `${rootUrl}/personal_fm?timestamp=${new Date().getTime()}` :
+    `${rootUrl}/personal/fm/mode?mode=${mode}&timestamp=${new Date().getTime()}`
+  LogUtil.info(TAG + 'Request personal fm: ' + url)
+  const request = new HttpRequest(url)
+  const data = await request.Request()
+  const dataGot = data.result as PersonalFM
+  if(data.responseCode != 200 || !dataGot || dataGot.code != 200 || !dataGot.data) {
+    throw new Error(`personal fm failed: ${data.responseCode} - ${dataGot?.code}`)
+  }
+  for(let item of dataGot.data) {
+    let artists = await getArtists(item.artists ?? [])
+    queue.push({
+      playmode: 1,
+      song: {
+        id: item.id,
+        name: item.name,
+        artists: item.artists ?? [],
+        duration: item.duration,
+        alias: item.alias ?? [],
+        fee: item.fee
+      },
+      artists: artists,
+      fileName: '',
+      picUrl: item.album?.picUrl ?? $r('app.media.ic_public_music')
+    })
+  }
+  return queue
+}
+
+/**
+ * 私人FM 不喜欢（加入垃圾桶）
+ * @param sid - 歌曲id
+ * @returns boolean 是否成功
+ */
+export async function trashFM(sid: number): Promise<boolean> {
+  const rootUrl = await getApiUrl()
+  const url: string = `${rootUrl}/fm_trash?id=${sid}&timestamp=${new Date().getTime()}`
+  LogUtil.info(TAG + 'Request fm trash: ' + url)
+  const request = new HttpRequest(url)
+  const data = await request.Request()
+  const code = data.result ? data.result['code'] as number : -1
+  if(data.responseCode != 200 || code != 200) {
+    LogUtil.error(TAG + `fm trash failed: ${data.responseCode} - ${JSON.stringify(data.result)}`)
+    return false
+  }
+  return true
 }

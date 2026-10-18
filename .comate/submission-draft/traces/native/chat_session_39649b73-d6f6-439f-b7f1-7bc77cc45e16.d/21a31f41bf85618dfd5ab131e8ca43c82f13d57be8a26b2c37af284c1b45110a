@@ -1,0 +1,2 @@
+- 来源：无（Spec 没写前置条件）｜证据：USER_CONFIRMED（U1）
+- 原子行为：`VALID_API_URL=false` 或未登录时卡片照样显示（放在 `RecommendCards.ets:70` 的 `if(this.validApiUrl)` 之外，和 `本地曲库` 一样）。

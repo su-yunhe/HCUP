@@ -1,0 +1,16 @@
+  } catch (e) {
+    LogUtil.error(TAG + '播放Url出错: ' + e)
+    playFailed()
+  }
+}
+
+/**
+ * 在线播放失败后的操作：私人FM 中续拉下一首推荐（有连续失败上限），否则播放下一首
+ */
+function playFailed() {
+  if(FMUtils.active) {
+    FMUtils.onPlayFailed()
+  } else {
+    playNext()
+  }
+}

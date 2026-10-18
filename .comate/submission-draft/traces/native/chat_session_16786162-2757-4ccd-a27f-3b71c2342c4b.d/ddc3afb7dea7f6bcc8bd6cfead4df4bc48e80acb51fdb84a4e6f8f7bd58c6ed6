@@ -1,0 +1,6 @@
+        self.assertTrue(fm.find(self.driver, "fm_mode_familiar").isSelected(), "重启后模式应保持为熟悉")
+        # 恢复默认（等请求完成、歌曲切换后再结束，避免下一个用例重启时打断）
+        song = fm.text_of(self.driver, "player_song_name")
+        self.driver.click(fm.find(self.driver, "fm_mode_default"))
+        fm.wait_song_change(self.driver, song, "player_song_name")
+        time.sleep(1)

@@ -1,0 +1,5 @@
+  onPlayStarted(songId: number) {
+    this.playFailCount = 0
+    this.startedSongId = songId
+    this.completedSongId = 0
+    this.notifyPlay

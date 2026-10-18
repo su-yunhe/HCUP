@@ -1,0 +1,217 @@
+Found 72 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 5: 证据等级：`SPEC_EXPLICIT`（Spec 明文）／`REASONABLE_DERIVATION`（由 Spec 或基线结构合理推出）／`UNCONFIRMED_ASSUMPTION`（Spec 没写、需要你拍板，汇总见第 4 节）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 20: Spec 没有给出的文案（卡片副标题、加载中/失败提示、当前模式显示文字）一律按 `UNCONFIRMED_ASSUMPTION` 处理，并且**不能包含**上表里的完整文案，以免选择器歧义（例如失败提示不要写成“私人FM加载失败”）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 42:     FM_ENTERING --> FM_ACTIVE: E1 失败且选方案B(U3) / 空FM队列 + 提示
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 43:     FM_ENTERING --> NORMAL: E1 失败且选方案A(U3)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 47:     FM_RELOADING --> FM_ACTIVE: E1 结束(成功替换队列 / 失败回退模式 U14)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 56: | T1 | NORMAL | 点击 `私人FM` 卡片 | 在点击回调里**同步发出** E1(fmMode) | 发出前 `fmLoading=true`，`finally` 置 false，一次请求对应一次 loading | 备份手动队列 → FM 队列=结果（过滤黑名单）→ `fmActive=true` → `playQueue(0)`（发 E3） | U3 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 58: | T3 | FM_ACTIVE | 点击卡片 | 不发（U5） | — | 暂停中则继续播放 | — |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 61: | T6 | FM_ACTIVE | 点 `不喜欢` | 发 E2(当前歌 id)；是队尾时同时发 E1 | `dislikeInFlight=true`，E2 结束且新歌开始后释放 | 黑名单加入该 id，播下一首 | E2 失败：U17；E1 失败：同 T4 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 65: | T10 | 菜单打开 | 选中当前已选的模式 | 不发（U13） | — | 关闭菜单 | — |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 66: | T11 | 菜单打开 | 选中其他模式 M | 发 E1(M) | `fmLoading=true`，期间模式项不可点 | `fmMode=M` 并持久化，FM 队列替换为结果，`playQueue(0)`，手动备份不动 | U14 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 68: | T13 | 任一 FM 状态 | 点 `退出FM` | **不发 E1/E2**；是否发 E3 取决于 U8 | `fmReqSeq++`，在途 E1 的响应直接丢弃 | 还原手动队列和 index，`fmActive=false`，持久化 | — |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 69: | T14 | 任一 FM 状态 | 其他入口替换队列（播放歌单/每日推荐/心动/单曲播放） | 不发 FM 请求 | `fmReqSeq++` | 按 U10 处理 | — |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 70: | T15 | 冷启动 | — | **不自动发** E1（与基线 `loadSavedSong` 只恢复显示、不自动播放一致） | — | 按 U15 恢复 FM 状态 | — |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 96: - 来源：无（Spec 没写前置条件）｜证据：UNCONFIRMED_ASSUMPTION → U1
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 103: - 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U2
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 113: - UI：加载期间有 loading 或提示（文案见 U3）｜数据：`fmActive`、`fmMode` 写入状态｜网络：恰好 1 次 E1
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 123: - 返回：收起/打开播放页歌曲不变｜边界：E1 返回空数组 → 按失败处理（U3）；返回的歌全部在黑名单或与已播重复（实测出现过重复 id）→ 去重后为空则再拉一次；第一首没有播放地址（实测未登录时 `fee=4` 的歌 `url=null`）→ FM 中直接续拉下一首，不能走基线 `playNext()` 的“没有下一首了~”，并且连续失败要设上限（建议 3 次）以免死循环
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 127: - 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U4
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 128: - 原子行为：推荐不自动打开（与心动歌单卡片一致），停留在发现页。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 142: - 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U5
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 143: - 原子行为：推荐不重新请求、不重新备份；暂停中则继续播放。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 158: - 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U3
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 159: - 原子行为：E1 失败时给出提示、释放 loading，不崩溃、不卡死；是否保持 FM 状态由 U3 决定。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 160: - 可观察：应用不崩溃；`fmLoading` 恢复为 false（卡片可以再次点击并再次发出 E1）；若选方案 B，`私人FM` 标识仍在，并且仍能打开播放页（基线空队列打不开播放页，需修复）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 162: - UI：提示文案未定（U3）｜数据：失败时不能动手动队列（方案 A）或保留备份（方案 B）｜网络：恰好 1 次 E1，失败后不自动无限重试
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 185: - 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U6
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 191: - 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U7
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 192: - 原子行为：推荐沿用基线：在 FM 队列内回到上一首，已经是第一首时提示 `没有上一首了~`，不发请求。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 200: - 入口：任一带底部栏的页面（6 个页面共用 `BottomBarComponent`）｜前置：FM_ACTIVE（失败分支见 U3）｜动作：无
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 228: - 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U15
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 229: - 原子行为：推荐持久化 `fmActive`、`fmMode`、手动备份、黑名单；冷启动后恢复 FM 状态（标识显示），但和基线一样不自动播放、不自动发 E1（T15）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 242: - 返回：关闭面板再打开仍显示｜边界：FM 队列为空（U3 方案 B）时也显示
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 278: - UI：上述元素消失｜数据：`fmActive=false` 并持久化｜网络：退出本身不发 E1/E2（是否发 E3 见 U8）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 283: - 来源：场景二-3“播放模式切换回普通队列播放”（未说明当前歌怎么办）｜证据：UNCONFIRMED_ASSUMPTION → U8
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 284: - 原子行为：见 U8 的三个方案。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 285: - 可观察：底部栏歌名、播放/暂停状态（取决于方案）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 298: - 来源：场景二-3/4 连续描述在同一个面板里｜证据：UNCONFIRMED_ASSUMPTION → U9
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 299: - 原子行为：推荐面板保持打开，并立刻刷新为手动队列（基线 `dataSource` 只在 `aboutToAppear` 和刷新事件时更新，必须主动刷新）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 319: - 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U10
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 321: - 可观察：取决于 U10。其余维度：同 A26。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 327: - 来源：场景三-1/2｜证据：SPEC_EXPLICIT；具体入口形式 → U11
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 342: - 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U12
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 343: - 原子行为：推荐首次使用时为 `默认`，菜单里当前模式有选中标记（勾或高亮），选中状态通过 `selected`/勾图标可观察。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 363: - 来源：场景三｜证据：REASONABLE_DERIVATION（取消）；UNCONFIRMED_ASSUMPTION → U13（选当前模式）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 371: - 来源：场景三-3｜证据：REASONABLE_DERIVATION（连点）；UNCONFIRMED_ASSUMPTION → U14（失败）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 372: - 原子行为：E1(mode) 在途时再选模式被忽略（T12）；失败时提示，按 U14 回退。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 375: - UI：失败提示（文案未定）｜数据：失败时 `fmMode` 按 U14 处理，FM 队列不变｜网络：1 次 E1，不自动重试
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 386: - 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U15
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 387: - 原子行为：推荐持久化 `fmMode`；退出 FM 后再进入、重启后再进入都使用上次选的模式。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 394: - 来源：场景四-1/2｜证据：SPEC_EXPLICIT（FM 播放页、播放控制区、文字 `不喜欢`）；非 FM 隐藏为 REASONABLE_DERIVATION；具体位置 → U16
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 407: - 返回：不适用｜边界：FM 队列为空（U3 方案 B）时按钮禁用或忽略，不能带 id=0 上报；未登录时实测返回 HTTP 301 `需要登录`，见 A48
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 442: - 来源：无｜证据：UNCONFIRMED_ASSUMPTION → U17
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 443: - 原子行为：推荐 E2 失败也照样切歌和本地拉黑，只在日志记录（或轻提示），不回滚。实测未登录时 E2 一定失败（HTTP 301 + `code:301`），所以这条在未登录环境里就是主流程；HTTP 301 要当作失败处理，不能当成功。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 462: ## 4. UNCONFIRMED_ASSUMPTION 汇总（需要你拍板）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 468: | U1 | 卡片是否和其他网络卡片一样，只在 API 可用时显示 | 显示 / 隐藏 | **始终显示，放在第 1 张** | Spec 步骤 1 无条件“看到”；全新安装默认没有 API，隐藏的话入口类检查点全部失败；放末尾会在屏外，并且实测屏外卡片不在 UI 树里，不横滑就找不到（A2） |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 469: | U2 | 卡片副标题 | 自拟 | 用一句不含 Spec 文案的短语，例如 `根据口味连续推荐` | `ContentButton` 必须有副标题；不能包含 `私人FM` 以免文字选择器歧义 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 470: | U3 | 无服务端 / 未登录 / E1 失败时点击卡片 | A：保持普通模式，只提示；B：进入 FM（显示标识、提示失败、FM 队列为空，之后点下一首/不喜欢/切模式时再请求），并修好“空队列打不开播放页” | **B** | 有服务端时两者一样；无服务端时 B 能让标识、面板提示、退出FM、模式菜单、不喜欢按钮这些 UI 检查点通过，A 全部失败。代价：失败后“处于 FM 但没有歌”的状态要处理好（A11/A50）。是否在客户端先判断登录并提示 `请登录后再试`：**不拦**。实测未登录时 E1 照样返回歌曲，如果像心动卡片那样拦登录，未登录环境下整个功能都用不了 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 471: | U4 | 点击卡片后是否自动打开播放页 | 自动打开 / 不打开 | **不打开** | Spec 只说“播放器自动加载”；与心动歌单卡片一致；Spec 步骤 4 同时检查底部栏，停在发现页更直接 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 472: | U5 | 已在 FM 中再次点击卡片 | 重新拉取 / 不操作 | **不重新拉取，暂停时继续播放** | 避免覆盖手动备份和多余请求 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 473: | U6 | FM 中的循环模式 | 照常生效 / 忽略 | **忽略**（播完总是下一首推荐），循环按钮在 FM 中被 `不喜欢` 替换（见 U16），退出后恢复 | Spec 要求播完“自动拉取下一首”，单曲循环、随机和这条冲突 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 474: | U7 | FM 中的“上一首” | 在 FM 历史里后退 / 禁用 | **后退**（沿用基线，第一首时提示 `没有上一首了~`） | 改动最小，不影响 Spec 的任何一条 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 475: | U8 | 退出 FM 后当前播放 | A：当前 FM 歌继续播，下一首起走手动队列；B：立即播放手动队列中进入前的那首；C：停止播放，底部栏显示进入前那首，处于暂停（类似冷启动） | **B**，并且先更新底部栏显示再请求播放地址；手动队列为空时停止播放并显示 `暂无播放` | “切换回普通队列播放”读起来就是按队列播放；B 下底部栏、高亮、实际播放三者一致。注意基线 `playMusicByUrl` 先请求后改显示，无服务端时显示不会更新，所以需要调整顺序。如果你更看重“退出不发任何请求”，选 C |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 476: | U9 | 退出后面板是否保持打开 | 保持并刷新 / 关闭 | **保持并刷新** | 场景二 3、4 是同一面板里的连续步骤 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 477: | U10 | FM 中替换或编辑队列（播放歌单/每日推荐/心动/单曲播放/面板删除/清空） | 自动退出 FM / 禁止 / 混合 | **替换队列的操作自动退出 FM 并丢弃备份（新队列就是手动队列）；面板的删除单曲、清空、心动按钮在 FM 中隐藏** | 避免“FM 标识还在但播的不是推荐”，也避免清空后备份错乱；Spec 没有涉及，测到的概率低 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 478: | U11 | 模式菜单入口 | 标识可点 / 单独菜单按钮 / ⋮ 菜单项 | **`私人FM` 标识 + 旁边一个下拉箭头组成一个可点击区域**，点它弹菜单 | Spec 写的是“标识或菜单按钮”，一个区域同时满足两种理解；标识文字仍然精确为 `私人FM` |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 479: | U12 | 初始模式与选中标记 | — | 初始 `默认`；当前项打勾 | Spec 列举顺序以 `默认` 开头；标记便于测试观察 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 480: | U13 | 选中当前已选的模式 | 重新加载 / 不操作 | **不操作，只关菜单** | 避免多余请求；Spec 只描述了切到另一个模式 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 481: | U14 | 切换模式失败 | 保留新模式 / 回退 | **回退到原模式，旧队列继续播放，提示失败** | 保证“菜单标记的模式 = 当前队列实际来源”。选方案 B（U3）且当前 FM 队列为空时，失败后保留新模式（因为没有旧队列可以对应） |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 482: | U15 | 持久化（重启后） | 不持久化（重启回到普通模式）/ 持久化 | **持久化 `fmActive`、`fmMode`、手动备份、黑名单**；启动不自动请求 | 基线会持久化队列和当前歌，重启后当前歌是 FM 歌；不恢复 FM 状态会导致“显示 FM 歌但没有标识、手动队列丢失” |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 483: | U16 | `不喜欢` 按钮在控制行的位置和样子 | 新增第 6 个 / 替换上一首 / 替换循环按钮 | **FM 中把控制行最左边的循环模式按钮替换为 `不喜欢`**（图标 + 可见文字 `不喜欢`），非 FM 恢复循环按钮 | 位于“播放控制区”；循环模式在 FM 中无意义（U6）；保留上一首/下一首不受影响 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 484: | U17 | 不喜欢上报失败 / 未登录 | 回滚 / 照常切歌 | **照常切歌并本地拉黑，只记日志** | Spec 强调“立即”切歌；失败回滚会让用户重新听到不喜欢的歌。实测未登录时 E2 必定返回 `需要登录`，如果失败就回滚，未登录环境下场景四全部失败 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/spec/acceptance.md:
+  Line 506: | 重启应用后重进 | 适用 | A20/A41/A45（取决于 U15） |

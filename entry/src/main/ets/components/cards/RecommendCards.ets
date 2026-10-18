@@ -4,6 +4,7 @@ import { StorageConstants } from "../../common/constants/StorageConstants"
 import { PlayList } from "../../common/entities/PlayList"
 import { playQueue } from "../../common/functions/play/playControl"
 import PlayQueueUtils from "../../common/utils/play/PlayQueueUtils"
+import FMUtils from "../../common/utils/play/FMUtils"
 import { promptAction } from "@kit.ArkUI"
 import { DateUtil } from "@pura/harmony-utils"
 
@@ -12,15 +13,17 @@ const cardRadius: number = 5
 const cardHeight: number = 250
 const cardWidth: number = 200
 
-@Builder function ContentButton(firText:string, secText:string, imgUrl:ResourceStr, onClick?: () => void, showDate: boolean = false) {
+@Builder function ContentButton(firText:string, secText:string, imgUrl:ResourceStr, onClick?: () => void, showDate: boolean = false, idPrefix: string = '') {
   Stack({ alignContent: Alignment.Center }) {
     Column() {
       Text(`${firText}`)
+        .id(idPrefix ? `${idPrefix}_title` : '')
         .width('100%')
         .textStyle(Constants.FONT_SIZE_TITLE + 3, true)
         .padding(Constants.PADDING_EDGE_DEFAULT)
         .textShadow({ radius: 15 })
       Text(`${secText}`)
+        .id(idPrefix ? `${idPrefix}_subtitle` : '')
         .width('100%')
         .textStyle(Constants.FONT_SIZE_COMMON - 3)
         .textAlign(TextAlign.Center)
@@ -52,6 +55,7 @@ const cardWidth: number = 200
   .backgroundColor(Color.Transparent)
   .width(cardWidth)
   .height(cardHeight)
+  .id(idPrefix)
   .onClick(onClick)
   .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
 }
@@ -63,10 +67,29 @@ export struct RecommendCards {
   @Prop isLogged: boolean
   @State isLoadingHeart: boolean = false
   @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = true
+  @StorageProp(StorageConstants.FM_LOADING) isLoadingFM: boolean = false
 
   build() {
     List() {
       ListItem().width(10)
+      /**
+       * 私人FM卡片
+       */
+      ListItem() {
+        Stack() {
+          ContentButton(`私人FM`, `根据口味连续推荐`, $r('app.media.bg4'), () => {
+            FMUtils.enter()
+          }, false, 'fm_card')
+          if(this.isLoadingFM) {
+            LoadingProgress()
+              .id('fm_card_loading')
+              .width(50)
+              .color(Color.White)
+              .hitTestBehavior(HitTestMode.Transparent)
+          }
+        }
+      }
+
       if(this.validApiUrl) {
         /**
          * 每日推荐卡片

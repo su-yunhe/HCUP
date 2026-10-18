@@ -1,0 +1,6 @@
+#### A20 重启应用后保持 FM 状态
+- 来源：无｜证据：USER_CONFIRMED（U15）
+- 原子行为：持久化 `fmActive`、`fmMode`、手动备份（队列 + index）、黑名单（Preferences `Play`）；冷启动后恢复 FM 状态，底部栏显示上次的 FM 歌和 `私人FM` 标识；和基线一样不自动播放、不自动发 E1（T15）。之后点播放就播这首 FM 歌。
+- 可观察：force-stop 后重新启动，底部栏仍显示 `私人FM` 和上次的 FM 歌曲；面板仍显示 `正在播放私人FM`；退出 FM 后还原的是进入 FM 前的手动队列。
+- 入口：冷启动｜前置：重启前处于 FM（含 FM_EMPTY）｜动作：`restart_app`｜UI：标识显示｜数据：从 Preferences `Play` 读取｜网络：启动时不发 FM 请求｜返回：不适用｜边界：重启前处于 FM_ENTERING（E1 在途）→ 那时 `fmActive` 和备份都还没写入，重启后就是普通模式，不会留下没有备份的 FM 状态
+- 选择器：`fm_badge_bottom`、`fm_queue_tip`

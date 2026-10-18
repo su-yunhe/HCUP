@@ -1,0 +1,11 @@
+| # | 当前状态 | 用户动作 / 事件 | 是否发请求 | loading 绑定 | 成功后 | 失败后 |
+| --- | --- | --- | --- | --- | --- | --- |
+| T1 | NORMAL | 点击 `私人FM` 卡片 | 在点击回调里**同步发出** E1(fmMode) | 发出前 `fmLoading=true`，`finally` 置 false，一次请求对应一次 loading；卡片显示加载状态 | 备份手动队列 → FM 队列=结果（去重、过滤黑名单）→ `fmActive=true` → `playQueue(0)`（发 E3）→ 持久化 | 备份手动队列 → `fmActive=true`、FM 队列为空（FM_EMPTY）→ 提示 `获取推荐歌曲失败` → 持久化 |
+| T2 | `fmLoading=true` | 再点卡片 / 快速连点 | **不发** | 不变 | 提示 `正在加载, 请稍后` | — |
+| T3 | FM_ACTIVE（有当前歌） | 点击卡片 | **不发**（U5） | — | 暂停中则继续播放，否则无变化 | — |
+| T3b | FM_EMPTY | 点击卡片 | 发 E1(fmMode)（重试） | 同 T1 | FM 队列=结果，播放第 1 首（备份不重做） | 提示，保持 FM_EMPTY |
+| T4 | FM_ACTIVE | 当前歌播放完成（`completed`） | 下一首已在 FM 队列（预取）：只发 E3；是队尾：发 E1 | E1 期间 `fmLoading=true` | 追加结果，播放新一首 | 提示 `获取推荐歌曲失败`，停在当前歌，不自动重试 |
+| T5 | FM_ACTIVE / FM_EMPTY | 点 `下一首`（底部栏/播放页/播控中心） | 同 T4（FM_EMPTY 时直接发 E1） | 同 T4 | 同 T4 | 同 T4 |
+| T6 | FM_ACTIVE | 点 `不喜欢` | 发 E2(当前歌 id)；是队尾时同时发 E1 | `dislikeInFlight=true`，E2 结束且新歌开始后释放 | 黑名单加入该 id，播下一首 | E2 失败（含 HTTP 301 未登录）：照常切歌、照常拉黑、只记日志（U17）；E1 失败：同 T4 |
+| T6b | FM_EMPTY | 点 `不喜欢` | **不发**（没有当前歌 id） | — | — | — |
+| T7 | `dislikeInFlight=true` | 再点 `不喜欢` | **不发** | 不变 | — | — |

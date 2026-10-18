@@ -1,0 +1,8 @@
+    this.persist()
+    try {
+      await this.next()
+      await report
+    } finally {
+      this.dislikeInFlight = false
+    }
+  }

@@ -1,0 +1,4 @@
+  async next() {
+    if (!this.active) return
+    const index = PlayQueueUtils.currentQueueIndex
+    if (index + 1 < PlayQueueUtils.getQueueLength()) {

@@ -1,0 +1,2 @@
+        self.assertEqual(len(names), len(set(names)), f"FM 队列出现重复歌曲: {names}")
+        self.assertNotIn(song, names[-1:], "被不喜欢的歌不应是当前歌")

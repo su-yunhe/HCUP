@@ -1,0 +1,130 @@
+<file>
+     1→import { http } from "@kit.NetworkKit"
+     2→import { BusinessError } from "@kit.BasicServicesKit"
+     3→import { LogUtil } from "@pura/harmony-utils"
+     4→import { uint8ArrayToString } from "../../functions/common/convert"
+     5→import { MsgConstants } from "../../constants/MsgConstants"
+     6→import { getCookie } from "../../functions/common/get"
+     7→import { promptAction } from "@kit.ArkUI"
+     8→
+     9→/**
+    10→ * 网络请求工具类
+    11→ * HTTP Request
+    12→ */
+    13→const TAG = '[HTTPRequest]'
+    14→
+    15→export class HttpRequest {
+    16→  private url: string = ''
+    17→  private usingCache:boolean = true
+    18→
+    19→  constructor(url: string, usingCache?:boolean) {
+    20→    this.url = url
+    21→    if(usingCache) { this.usingCache = usingCache }
+    22→  }
+    23→
+    24→  /**
+    25→   * Http请求
+    26→   * @param useCookie 是否使用cookie (boolean)
+    27→   * @returns
+    28→   */
+    29→  public async Request(useCookie: boolean = true, method: string = 'get'): Promise<http.HttpResponse> {
+    30→    const cookie = await getCookie()
+    31→    return new Promise((resolve, reject) => {
+    32→      let httpRequest = http.createHttp()
+    33→      httpRequest.request(
+    34→        this.url,
+    35→        {
+    36→          method: method == 'post' ? http.RequestMethod.POST : http.RequestMethod.GET,
+    37→          header: {
+    38→            'Content-Type': 'application/json',
+    39→            'cookie': useCookie ? cookie : ''
+    40→          },
+    41→          usingCache: this.usingCache,
+    42→          expectDataType: http.HttpDataType.OBJECT,
+    43→          connectTimeout: 15000,
+    44→          readTimeout: 15000,
+    45→        }, (err: BusinessError, data: http.HttpResponse) => {
+    46→        if (!err) {
+    47→          httpRequest.destroy()
+    48→          resolve(data)  // 返回请求数据
+    49→        } else {
+    50→          LogUtil.error(TAG + 'HttpRequest Error: '+ `Url: ${this.url}` + JSON.stringify(err))
+    51→          httpRequest.off('headersReceive')
+    52→          httpRequest.destroy()
+    53→          reject(err)  // 出现错误时reject
+    54→        }
+    55→      })
+    56→    })
+    57→  }
+    58→
+    59→  /**
+    60→   * Http请求 (流式)
+    61→   * @param useCookie 是否使用Cookie(boolean)
+    62→   * @returns
+    63→   */
+    64→  public async RequestInStream(useCookie:boolean = true): Promise<http.HttpResponse> {
+    65→    const cookie = await getCookie()
+    66→    return new Promise((resolve, reject) => {
+    67→      let httpRequest = http.createHttp()
+    68→
+    69→      // 创建一个存储所有接收数据的容器
+    70→      let resView = new Uint8Array(0)
+    71→
+    72→      // 当收到数据时
+    73→      httpRequest.on('dataReceive', (data: ArrayBuffer) => {
+    74→        const newView = new Uint8Array(resView.length + data.byteLength)
+    75→        newView.set(resView, 0);
+    76→        newView.set(new Uint8Array(data), resView.length)
+    77→        resView = newView
+    78→      })
+    79→
+    80→      // 当数据接收完毕时
+    81→      httpRequest.on('dataEnd', () => {
+    82→        let resultString = uint8ArrayToString(resView)
+    83→        try {
+    84→          const result:string = JSON.parse(resultString)
+    85→          const data: http.HttpResponse = {
+    86→            result: result,
+    87→            responseCode: 200,
+    88→            header: {},
+    89→            resultType: http.HttpDataType.OBJECT,
+    90→            cookies: "",
+    91→            performanceTiming: {
+    92→              dnsTiming: 0,
+    93→              tcpTiming: 0,
+    94→              tlsTiming: 0,
+    95→              firstSendTiming: 0,
+    96→              firstReceiveTiming: 0,
+    97→              totalFinishTiming: 0,
+    98→              redirectTiming: 0,
+    99→              responseHeaderTiming: 0,
+   100→              responseBodyTiming: 0,
+   101→              totalTiming: 0
+   102→            }
+   103→          }
+   104→          resolve(data)
+   105→        } catch (err) {
+   106→          LogUtil.error(TAG + 'Error: ' + this.url + '\nerr: ' + err)
+   107→          reject(err)
+   108→        }
+   109→      })
+   110→
+   111→      // 发起请求
+   112→      let streamInfo: http.HttpRequestOptions = {
+   113→        method: http.RequestMethod.POST,
+   114→        header: {
+   115→          'Content-Type': 'application/json',
+   116→          'cookie': useCookie ? cookie : '',
+   117→        },
+   118→        usingCache: this.usingCache,
+   119→        expectDataType: http.HttpDataType.OBJECT,
+   120→        connectTimeout: 15000,
+   121→        readTimeout: 15000,
+   122→      }
+   123→      httpRequest.requestInStream(this.url, streamInfo)
+   124→    })
+   125→  }
+   126→}
+   127→
+</file>
+<metadata>The file has 127 lines in total.</metadata>

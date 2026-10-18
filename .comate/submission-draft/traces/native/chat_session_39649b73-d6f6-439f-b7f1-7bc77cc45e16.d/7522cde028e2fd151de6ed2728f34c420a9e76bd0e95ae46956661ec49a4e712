@@ -1,0 +1,35 @@
+## 6. 缺失项（Spec 要求、基线完全没有）
+
+1. 私人FM 接口：获取推荐（默认 / 按模式）、不喜欢上报。基线 `api/` 下没有任何相关函数。
+2. FM 模式状态：是否处于 FM、当前模式（默认/熟悉/探索）、请求中标志，以及持久化。
+3. 发现页“私人FM”卡片。
+4. 底部播放栏和播放页的“私人FM”标识。
+5. 播放列表面板的 `正在播放私人FM` 提示和 `退出FM` 按钮。
+6. **手动队列的备份与还原**：基线所有“换队列”的地方（心动、每日推荐、歌单）都直接 `cleanQueue()` 覆盖，没有备份机制。
+7. FM 队列用完时自动续拉：基线 `playNext()` 在队尾只 toast `没有下一首了~`（`playControl.ets:174-177`）。
+8. 模式选择菜单（`默认` / `熟悉` / `探索`）。
+9. “不喜欢”按钮、上报，以及本地黑名单过滤。
+10. 所有组件的稳定 id：全工程只有 `pages/CachedPage.ets:86` 一处 `.id('search')`。
+
+## 7. 前置环境需求
+
+- **API 服务端**：应用依赖用户自建的 NeteaseCloudMusicApi（README、`ApiSetPage.ets:64-69`）。本地**没有**可用服务端，API 地址为空。
+  - 【实机】没有服务端时：`VALID_API_URL=false`，发现页隐藏三张网络卡片，“我的”页不显示登录按钮（`Me.ets:86-96`，截图 `logs/baseline-04-me-tab.jpeg`），所有歌曲地址请求都会失败。
+- **登录账号**：私人FM、不喜欢上报属于账号级接口。【未验证】按 NeteaseCloudMusicApi 公开文档的一般认知，这些接口需要登录 cookie；本地没有账号。
+- **网络**：【实机】模拟器能访问外网（`ping 223.5.5.5` 通）；作者公告接口 `https://api.chenlvin.cc/api/cloudmusic/app` 超时（hilog `Operation timeout`）。
+- **测试数据**：除服务端与账号外不需要其他数据。本地曲库为空，没有本地文件可播放。
+- **结论**：本地**无法端到端验证**“真的拉到推荐并播放 / 真的上报不喜欢”，只能验证 UI、状态机、是否发起请求（可通过 hilog 打印请求 URL 证明）。如需端到端验证，要么由你提供服务端地址和 cookie，要么在本机跑一个 NeteaseCloudMusicApi（需要 npm 联网安装第三方包和真实账号，需你决定）。官方评测环境有没有服务端/账号未知，见 `acceptance.md` 的 U1、U3。
+
+## 8. 测试可观测性风险
+
+1. **没有稳定 id**：卡片、底部栏、播放页、播放列表面板全部没有 `.id()`。播放控制按钮全是无文字的 Image（`BottomBarComponent.ets:80-109`、`PlayingCover.ets:275-294`），只能靠类型+顺序定位。
+2. **Span 会合并成一条 text**：【实机】面板标题在 UI 树里是一条 `'播放列表  (0)'`（Text + 两个 Span，`PlayQueueSheet.ets:52-55`），`BY.text('播放列表')` 精确匹配会失败。`正在播放私人FM`、`退出FM`、`私人FM`、`不喜欢` 必须各自是独立 Text 或独立按钮文字，不能拼进 Span 或加后缀（例如不能写成 `私人FM · 探索`）。
+3. **下层页面节点不会从 UI 树消失**：【实机】面板打开时 dump 里仍有发现页的 `本地曲库` 等节点。因此 `私人FM` 会同时出现在发现页卡片、底部栏标识、播放页标识上，按文字查找可能命中错误的那个，需要分别加不同 id。基线本身已经有同名文字（导航标题 `发现` 与 Tab 文字 `发现`）。
+4. **横向卡片列表只露出约 1.8 张卡**（见第 3 节）：FM 卡如果追加在列表末尾，在 API 可用时会在屏幕外。
+5. **空队列时打不开播放页**（第 3 节，已实机复现）：如果在没有服务端的环境下进入 FM 后队列为空，测试将无法进入“私人FM播放页”。
+6. 【推断】`RequestInStream()` 没有监听请求失败，也没有处理 `requestInStream` 返回的 promise（`HttpRequestUtils.ets:64-124`），网络错误时外层 promise 可能永远不 resolve/reject，导致类似 `isLoadingHeart` 的锁一直不释放。FM 请求建议用 `Request()`，或者自己补上错误处理。
+7. 【代码】`new HttpRequest(url, false)` 关不掉缓存：构造函数只在传 truthy 时赋值（`HttpRequestUtils.ets:19-22`），`usingCache` 实际总是 true。基线其他接口靠 URL 里的 `timestamp=` 规避缓存。FM 接口必须带时间戳，否则可能连续拿到同一批推荐。【未验证】实际缓存效果。
+8. 【推断】`cycleMode == 2`（顺序循环）且网络全部失败时，`playMusicByUrl` 失败 → `playNext()` → 再失败……可能无限循环（`playControl.ets:61-64,174-176`）。
+9. 【推断】`PlayQueueSheet.aboutToDisappear` 用一个新的匿名函数调 `EmitterUtil.off`（`PlayQueueSheet.ets:44`），取消不了订阅，面板多次打开后可能重复订阅刷新事件。
+10. Toast 不一定出现在 UI 树里，不能作为唯一的可观察结果。
+11. 【未验证】播放页（`bindContentCover`）在 UI dump 里的结构：空队列打不开播放页，本地也没有可播放歌曲，所以没能 dump 播放页。

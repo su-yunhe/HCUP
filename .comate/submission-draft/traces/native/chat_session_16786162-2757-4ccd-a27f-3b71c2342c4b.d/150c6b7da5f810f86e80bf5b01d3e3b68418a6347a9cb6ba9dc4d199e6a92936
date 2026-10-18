@@ -1,0 +1,4 @@
+        self.assertTrue(fm.wait_gone(self.driver, "player_slider"))
+        self.assertEqual(fm.bottom_song(self.driver), song)
+        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
+        self.assertEqual(fm.log_count(self.driver, fm.LOG_E1) - e1, 0, "切换页面不应发推荐请求")

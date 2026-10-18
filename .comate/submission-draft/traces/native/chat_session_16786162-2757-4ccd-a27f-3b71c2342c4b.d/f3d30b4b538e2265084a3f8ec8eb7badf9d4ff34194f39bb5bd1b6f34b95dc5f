@@ -1,0 +1,35 @@
+  /**
+   * 添加歌曲至播放列表
+   */
+  async queueAdd(playmode:number, song:Song = SongClass, artists: string = '', fileName: string = '', picUrl: string | ResourceStr = '') {
+    try {
+      this.queue.splice(this.currentQueueIndex + 1 , 0 ,{
+        playmode: playmode,
+        song: song,
+        artists: artists,
+        fileName: fileName,
+        picUrl: picUrl
+      })
+      await this.syncQueueToStorage()
+    } catch (e) {
+      LogUtil.error(TAG + '添加失败 add queue element error: ' + e.message())
+    }
+  }
+
+  async queueAdd_array(queue:Array<PlayQueue>) {
+    try {
+      this.queue = this.queue.concat(queue)
+      AppStorage.setOrCreate('PlayQueue', this.queue)
+      await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
+      EmitterUtil.post(EmitterConstants.EMITTER_REFRESH_PLAYQUEUE, () => {})
+    } catch (e) {
+      LogUtil.error(TAG + 'Error while queueAdd_array: ' + e.message)
+    }
+  }
+
+  /**
+   * 从播放列表中删除指定位置歌曲
+   */
+  async queueDelete(index:number) {
+    try {
+      this.queue.splice(index,1)

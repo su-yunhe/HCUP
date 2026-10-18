@@ -1,0 +1,147 @@
+"""场景一/三/四：播放页私人FM标识、模式菜单、不喜欢、下一首。"""
+from __future__ import annotations
+
+import time
+
+from hypium import BY
+
+from harness.driver import HarnessTestCase
+from hypium_tests import fm_helpers as fm
+
+MODE_KEYS = {"默认": "fm_mode_default", "熟悉": "fm_mode_familiar", "探索": "fm_mode_explore"}
+
+
+class TestFMPlayer(HarnessTestCase):
+
+    def setUp(self):
+        fm.ensure_fm_playing(self.driver)
+        fm.open_player(self.driver)
+
+    def tearDown(self):
+        # 关闭可能残留的菜单/播放页
+        for _ in range(2):
+            if fm.find(self.driver, "player_slider") is None:
+                break
+            self.driver.press_back()
+            time.sleep(1)
+
+    def open_menu(self):
+        fm.click_key(self.driver, "fm_badge_player")
+        item = fm.wait_for(lambda: self.driver.find_component(BY.text("探索")), 5)
+        self.assertIsNotNone(item, "点击私人FM标识后没有弹出模式菜单")
+        time.sleep(0.5)
+
+    def selected_mode(self):
+        for label, key in MODE_KEYS.items():
+            c = fm.find(self.driver, key)
+            if c is not None and c.isSelected():
+                return label
+        return None
+
+    def test_01_player_badge_and_dislike_button(self):
+        """A17/A42：播放页显示私人FM标识和“不喜欢”，循环按钮被替换。"""
+        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
+        self.assertTrue(fm.find(self.driver, "fm_badge_player").isClickable())
+        self.require_component(BY.text("不喜欢"), "播放页没有“不喜欢”按钮", timeout=5)
+        self.assertTrue(fm.find(self.driver, "fm_dislike_btn").isClickable())
+        self.assertIsNone(fm.find(self.driver, "player_loop_btn"), "FM 中循环模式按钮应被“不喜欢”替换")
+        # 播放页打开时歌名与底部栏一致
+        self.assertEqual(fm.text_of(self.driver, "player_song_name"), fm.bottom_song(self.driver))
+
+    def test_02_mode_menu_items_and_cancel(self):
+        """A33-A35/A38：菜单有默认/熟悉/探索，当前模式打勾，返回键取消不切歌。"""
+        song = fm.text_of(self.driver, "player_song_name")
+        mark = fm.mark(self.driver)
+        self.open_menu()
+        for label, key in MODE_KEYS.items():
+            self.assertIsNotNone(self.driver.find_component(BY.text(label)), f"菜单缺少 {label}")
+            self.assertIsNotNone(fm.find(self.driver, key))
+        selected = [label for label, key in MODE_KEYS.items() if fm.find(self.driver, key).isSelected()]
+        self.assertEqual(len(selected), 1, f"应恰好一个模式打勾: {selected}")
+        self.driver.press_back()
+        time.sleep(1.5)
+        self.assertIsNone(self.driver.find_component(BY.text("探索")), "返回键后菜单未关闭")
+        self.assertIsNotNone(fm.find(self.driver, "player_slider"), "返回键只应关闭菜单，不应关闭播放页")
+        time.sleep(3)
+        self.assertEqual(fm.text_of(self.driver, "player_song_name"), song)
+        self.assertEqual(fm.e1_ops_since(self.driver, mark), 0, "打开/取消菜单不应发推荐请求")
+
+    def test_03_select_current_mode_no_reload(self):
+        """A38/U13：选择当前已选模式只关闭菜单，歌曲不变。"""
+        song = fm.text_of(self.driver, "player_song_name")
+        mark = fm.mark(self.driver)
+        self.open_menu()
+        current = self.selected_mode()
+        self.assertIsNotNone(current)
+        self.driver.click(fm.find(self.driver, MODE_KEYS[current]))
+        time.sleep(4)
+        self.assertEqual(fm.text_of(self.driver, "player_song_name"), song)
+        self.assertIsNotNone(fm.find(self.driver, "fm_badge_player"))
+        self.assertEqual(fm.e1_ops_since(self.driver, mark), 0, "选择当前模式不应发推荐请求")
+
+    def test_04_select_explore_reloads(self):
+        """A36/A40/A41：选择“探索”重新加载推荐，仍在私人FM，再打开菜单勾在探索。"""
+        self.open_menu()
+        if self.selected_mode() == "探索":
+            # 先切到默认，保证“探索”是一次真正的切换
+            song = fm.text_of(self.driver, "player_song_name")
+            self.driver.click(fm.find(self.driver, "fm_mode_default"))
+            self.assertIsNotNone(fm.wait_song_change(self.driver, song, "player_song_name"))
+            time.sleep(2)
+            self.open_menu()
+        song = fm.text_of(self.driver, "player_song_name")
+        mark = fm.mark(self.driver)
+        self.driver.click(self.driver.find_component(BY.text("探索")))
+        new_song = fm.wait_song_change(self.driver, song, "player_song_name")
+        self.assertIsNotNone(new_song, "选择探索后没有重新加载推荐歌曲")
+        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
+        time.sleep(2)
+        self.assertEqual(fm.e1_ops_since(self.driver, mark, "mode=EXPLORE"), 1, "选择探索应恰好发出 1 次 EXPLORE 推荐请求")
+        self.open_menu()
+        self.assertEqual(self.selected_mode(), "探索")
+        # 恢复默认模式，避免影响其他用例
+        song = fm.text_of(self.driver, "player_song_name")
+        self.driver.click(fm.find(self.driver, "fm_mode_default"))
+        fm.wait_song_change(self.driver, song, "player_song_name")
+
+    def test_05_dislike_switches_song_and_stays_in_fm(self):
+        """A43-A46/A48：点不喜欢立即切到下一首，仍在私人FM（未登录上报失败也照常切歌）。"""
+        song = fm.text_of(self.driver, "player_song_name")
+        mark = fm.mark(self.driver)
+        fm.click_key(self.driver, "fm_dislike_btn")
+        new_song = fm.wait_song_change(self.driver, song, "player_song_name")
+        self.assertIsNotNone(new_song, "点不喜欢后没有切到下一首")
+        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
+        self.assertIsNotNone(self.driver.find_component(BY.text("不喜欢")))
+        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
+        # 被不喜欢的歌不在之后的队列中（当前及之后）
+        self.assertNotEqual(fm.text_of(self.driver, "player_song_name"), song)
+        # 网络：恰好 1 次不喜欢上报；队尾时同时续拉 1 次推荐
+        time.sleep(2)
+        self.assertEqual(fm.count_since(self.driver, mark, fm.LOG_E2), 1, "点不喜欢应恰好上报 1 次")
+        self.assertLessEqual(fm.e1_ops_since(self.driver, mark), 1)
+
+    def test_06_rapid_dislike_skips_once(self):
+        """A47：快速连点不喜欢只上报一次、只跳过一首。"""
+        song = fm.text_of(self.driver, "player_song_name")
+        mark = fm.mark(self.driver)
+        fm.rapid_tap(self.driver, fm.find(self.driver, "fm_dislike_btn"), 3)
+        self.assertIsNotNone(fm.wait_song_change(self.driver, song, "player_song_name"))
+        time.sleep(4)
+        self.assertEqual(fm.count_since(self.driver, mark, fm.LOG_E2), 1,
+                         "快速连点不喜欢应只上报 1 次" + fm.fm_log_since(self.driver, mark))
+        fm.click_key(self.driver, "player_queue_btn")
+        fm.wait_key(self.driver, "queue_title", 8)
+        time.sleep(1)
+        names = fm.queue_names(self.driver)
+        self.assertEqual(len(names), len(set(names)), f"FM 队列出现重复歌曲: {names}")
+        self.assertLessEqual(names.count(song), 1, "被不喜欢的歌只应留在已播记录里")
+        self.driver.press_back()
+        time.sleep(1)
+
+    def test_07_next_button_in_fm(self):
+        """A13：FM 中点下一首切到另一首推荐，不提示没有下一首，标识保持。"""
+        song = fm.text_of(self.driver, "player_song_name")
+        fm.click_key(self.driver, "player_next_btn")
+        self.assertIsNotNone(fm.wait_song_change(self.driver, song, "player_song_name"), "FM 中下一首没有切歌")
+        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")

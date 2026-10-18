@@ -1,0 +1,6 @@
+"""私人FM 自测公共方法（cmu-spec34）。
+
+约定：
+- 每个用例自己通过 restart_app 冷启动，不依赖其他用例留下的状态；
+- 依赖本地 NeteaseCloudMusicApi（应用内 API 地址 http://10.0.2.2:3000），未登录即可；
+- 组件优先用 .id() 定位（BY.key），文案断言用 BY.text

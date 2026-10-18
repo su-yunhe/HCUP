@@ -1,0 +1,181 @@
+<file>
+     1→import { avSession } from "@kit.AVSessionKit";
+     2→import { AppUtil, LogUtil } from "@pura/harmony-utils";
+     3→import { StorageConstants } from "../../constants/StorageConstants";
+     4→import { Song, SongClass } from "../../entities/SongsResult";
+     5→import { changeCycleMode,
+     6→  pauseMusic, playNext, playPre, resumeMusic, seekMusic } from "../../functions/play/playControl";
+     7→import { likeThisSong } from "../../functions/play/songLike";
+     8→import LyricUtils from "./LyricUtils";
+     9→
+    10→/**
+    11→ * AVSession 播控中心工具类
+    12→ */
+    13→const TAG = '[AVSessionUtils] '
+    14→
+    15→class AVSessionUtils {
+    16→  context = AppUtil.getContext()
+    17→  session = this.createSession()
+    18→
+    19→  private isActivating = false
+    20→  private cycleMode: number = 0
+    21→  private currentSong: Song = SongClass
+    22→  private currentArtists: string = ''
+    23→  private currentPic: string | ResourceStr  = ''
+    24→  private lyric: string = ''
+    25→
+    26→  async createSession(): Promise<avSession.AVSession> {
+    27→    if(this.session) {
+    28→      return this.session
+    29→    }
+    30→    let session = await avSession.createAVSession(this.context, 'cloudmusic', 'audio')
+    31→    try {
+    32→      let cycleMode: number | undefined = AppStorage.get('cycleMode')
+    33→      if(cycleMode) this.cycleMode = this.cycleMode
+    34→      else this.cycleMode = 0
+    35→
+    36→      session.on('play', () => {
+    37→        resumeMusic()
+    38→      });
+    39→      session.on('pause', () => {
+    40→        pauseMusic()
+    41→      });
+    42→      session.on('playNext', () => {
+    43→        playNext()
+    44→      });
+    45→      session.on('playPrevious', () => {
+    46→        playPre()
+    47→      });
+    48→      session.on('seek', (time) => {
+    49→        seekMusic(time)
+    50→      });
+    51→      session.on('toggleFavorite', (isFavor) => {
+    52→        likeThisSong()
+    53→      })
+    54→      session.on('setLoopMode', (loopMode) => {
+    55→        if(loopMode == 0) { changeCycleMode(1) }
+    56→        else if(loopMode == 1) { changeCycleMode(2) }
+    57→        else if(loopMode == 2) { changeCycleMode(3) }
+    58→        else { changeCycleMode(0) }
+    59→      })
+    60→
+    61→    } catch (e) {
+    62→      LogUtil.error(TAG + '创建session失败 / create session error: ' + JSON.stringify(e))
+    63→    } finally {
+    64→      return session
+    65→    }
+    66→  }
+    67→
+    68→  /**
+    69→   * 设置媒体信息
+    70→   * @param song
+    71→   * @param artists
+    72→   * @param picUrl
+    73→   */
+    74→  async setMetadata(song: Song, artists: string, picUrl: string | ResourceStr) {
+    75→    this.currentSong = song
+    76→    this.currentArtists = artists
+    77→    this.currentPic = picUrl
+    78→    this.lyric = LyricUtils.lyricString
+    79→
+    80→    let metadata: avSession.AVMetadata = {
+    81→      assetId: `${song.id}`,
+    82→      title: song.name,
+    83→      mediaImage: typeof picUrl === 'string' ? picUrl : '/resources/base/media/app.media.ic_public_music.svg',
+    84→      artist: artists != 'null' ? artists : '未知',
+    85→      duration: song.duration,
+    86→      lyric: this.lyric
+    87→    };
+    88→
+    89→    (await this.session).setAVMetadata(metadata)
+    90→  }
+    91→
+    92→  /**
+    93→   * 启用
+    94→   */
+    95→  async activate() {
+    96→    if (this.isActivating) return // 防止重复调用
+    97→    this.isActivating = true
+    98→    try {
+    99→      await (await this.session).activate()
+   100→    } finally {
+   101→      this.isActivating = false
+   102→    }
+   103→  }
+   104→
+   105→  /**
+   106→   * 停用
+   107→   */
+   108→  async deactive() {
+   109→    if (this.isActivating) return; // 等待激活完成
+   110→    try {
+   111→      await (await this.session).deactivate()
+   112→    } catch (e) {
+   113→      LogUtil.error(TAG + '停用失败: ' + e)
+   114→    }
+   115→  }
+   116→
+   117→  private isFavorite(): boolean {
+   118→    const is: boolean = AppStorage.get(StorageConstants.ISLIKED) as boolean
+   119→    return is
+   120→  }
+   121→  /**
+   122→   * 设置为播放状态
+   123→   */
+   124→  async playState(time: number) {
+   125→    let loopMode = await getLoopMode()
+   126→    let playbackState: avSession.AVPlaybackState = {
+   127→      state: avSession.PlaybackState.PLAYBACK_STATE_PLAY,
+   128→      loopMode: loopMode,
+   129→      isFavorite: this.isFavorite(),
+   130→      position: {
+   131→        elapsedTime: time,
+   132→        updateTime: new Date().getTime()
+   133→      }
+   134→    };
+   135→
+   136→    (await this.session).setAVPlaybackState(playbackState)
+   137→  }
+   138→
+   139→  /**
+   140→   * 设置为暂停状态
+   141→   */
+   142→  async pauseState(time:number) {
+   143→    let pausedState: avSession.AVPlaybackState = {
+   144→      state: avSession.PlaybackState.PLAYBACK_STATE_PAUSE,
+   145→      position: {
+   146→        elapsedTime: time,
+   147→        updateTime: new Date().getTime()
+   148→      }
+   149→    };
+   150→    (await this.session).setAVPlaybackState(pausedState)
+   151→  }
+   152→
+   153→  /**
+   154→   * 设置为缓冲状态
+   155→   */
+   156→  async bufferingState() {
+   157→    let playbackState: avSession.AVPlaybackState = {
+   158→      state: avSession.PlaybackState.PLAYBACK_STATE_BUFFERING,
+   159→      position: {
+   160→        elapsedTime: 0,
+   161→        updateTime: new Date().getTime(),
+   162→      }
+   163→    };
+   164→    (await this.session).setAVPlaybackState(playbackState)
+   165→  }
+   166→}
+   167→
+   168→async function getLoopMode(): Promise<number> {
+   169→  let loopMode = 0
+   170→  let cycleMode: number | undefined = await AppStorage.get('cycleMode')
+   171→  if(cycleMode) {
+   172→    loopMode = cycleMode
+   173→  }
+   174→  return loopMode
+   175→}
+   176→
+   177→const avSessionUtils = new AVSessionUtils()
+   178→export default avSessionUtils as AVSessionUtils
+</file>
+<metadata>The file has 178 lines in total.</metadata>

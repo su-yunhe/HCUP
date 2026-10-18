@@ -1,0 +1,4 @@
+  // 已为队列中该位置的歌曲预取过
+  private prefetchIndex: number = -1
+  // 播放器中实际在播的歌曲 id（切歌期间旧歌的进度回调不能触发预取）
+  private startedSongId: number = 0

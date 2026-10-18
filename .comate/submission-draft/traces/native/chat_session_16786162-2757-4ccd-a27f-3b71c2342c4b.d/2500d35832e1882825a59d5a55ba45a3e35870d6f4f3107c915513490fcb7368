@@ -1,0 +1,26 @@
+  @StorageProp('player-currentLyric') currentLyric: string = ''
+  @StorageProp(StorageConstants.FM_ACTIVE) isFMActive: boolean = false
+  @State isShow: boolean = false
+  @Consume('pageInfos') pageInfos: NavPathStack
+
+  build() {
+    Row() {
+      if(this.playmode == 0) { Image(this.picUrl).songImg() }
+      else { Image(this.picUrl + '?param=512y512').songImg() }
+
+      Column({ space: 5 }) {
+        Row() {
+          Text(this.song.name).textStyle(16).fontWeight(FontWeight.Medium).id('bottom_bar_song_name')
+          if(this.isFMActive) {
+            Text('私人FM')
+              .id('fm_badge_bottom')
+              .fontSize(10)
+              .fontColor($r('app.color.app_red'))
+              .border({ width: 1, color: $r('app.color.app_red'), radius: 4 })
+              .padding({ left: 4, right: 4, top: 1, bottom: 1 })
+              .margin({ right: 10 })
+              .flexShrink(0)
+          }
+        }
+        .width('100%')
+        if(!this.currentLyric || this.currentLyric === '暂无歌词') {

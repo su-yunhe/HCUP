@@ -1,0 +1,97 @@
+Found 32 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/DailyListPage.ets:
+  Line 90:                     playQueue(0)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playListOp.ets:
+  Line 13:       playQueue(currentIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playListOp.ets:
+  Line 20:       playQueue(currentIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 50:       playNext()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 63:     playNext()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 97:       playNext()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 101:     playNext()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 127: export async function playQueue(index: number) {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 139: export async function playPre() {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 150:     if(cycleMode == 2) { playQueue(PlayQueueUtils.getQueueLength() - 1) }
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 158: export async function playNext() {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 164:     playQueue(randomIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 175:     if(cycleMode == 2) { playQueue(0) }
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 183: export async function completeDo() {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 187:     playNext()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 192:     playQueue(currentQueueIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 198:     playQueue(randomIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/play/BottomBarComponent.ets:
+  Line 56:         await playQueue(playQueueUtils.currentQueueIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/play/BottomBarComponent.ets:
+  Line 83:           playPre()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/play/BottomBarComponent.ets:
+  Line 97:           if(!this.isPlaying) playQueue(playQueueUtils.currentQueueIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/play/BottomBarComponent.ets:
+  Line 106:           playNext()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/utils/play/AVPlayerUtils.ets:
+  Line 4: import { completeDo } from '../../functions/play/playControl'
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/utils/play/AVPlayerUtils.ets:
+  Line 156:           completeDo()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/utils/play/AVSessionUtils.ets:
+  Line 43:         playNext()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/utils/play/AVSessionUtils.ets:
+  Line 46:         playPre()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/cards/FileCard.ets:
+  Line 88:             playQueue(PlayQueueUtils.currentQueueIndex + 1)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/cards/SongCard.ets:
+  Line 267:       playQueue(PlayQueueUtils.currentQueueIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/cards/RecommendCards.ets:
+  Line 112:                   playQueue(0)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/sheets/PlayingCover.ets:
+  Line 277:       playPre()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/sheets/PlayingCover.ets:
+  Line 293:       playNext()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/sheets/PlayQueueSheet.ets:
+  Line 164:           await playQueue(index)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/sheets/PlayQueueSheet.ets:
+  Line 227:             playQueue(0)

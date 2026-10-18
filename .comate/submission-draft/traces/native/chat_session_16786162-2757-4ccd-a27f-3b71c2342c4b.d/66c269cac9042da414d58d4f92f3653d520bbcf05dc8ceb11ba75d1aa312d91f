@@ -1,0 +1,19 @@
+  private async request(mode: FMMode, exclude: Array<PlayQueue>): Promise<Array<PlayQueue>> {
+    for (let i = 0; i < 2; i++) {
+      if (i > 0) {
+        LogUtil.info(TAG + 'Retry personal fm: all songs filtered')
+      }
+      const list = await getPersonalFM(mode)
+      if (list.length == 0) return []
+      let result: Array<PlayQueue> = []
+      for (let item of list) {
+        const id = item.song.id
+        if (this.blacklist.includes(id)) continue
+        if (exclude.some((e: PlayQueue) => e.song.id == id)) continue
+        if (result.some((e: PlayQueue) => e.song.id == id)) continue
+        result.push(item)
+      }
+      if (result.length > 0) return result
+    }
+    return []
+  }

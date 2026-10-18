@@ -1,0 +1,4 @@
+  // 正在进行的续拉请求（含预取）
+  private fetching: Promise<boolean> | null = null
+  // 已为队列中该位置的歌曲预取过
+  private prefetchIndex: number = -1

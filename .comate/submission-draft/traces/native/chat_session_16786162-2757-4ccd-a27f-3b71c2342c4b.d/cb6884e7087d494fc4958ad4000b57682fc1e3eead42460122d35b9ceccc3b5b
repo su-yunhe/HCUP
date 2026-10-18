@@ -1,0 +1,124 @@
+"""重启应用后的私人FM状态（A20/A41）与播完自动续播（A12）。"""
+from __future__ import annotations
+
+import time
+
+from hypium import BY
+
+from harness.driver import HarnessTestCase
+from hypium_tests import fm_helpers as fm
+
+
+class TestFMPersist(HarnessTestCase):
+
+    def tearDown(self):
+        for _ in range(2):
+            if fm.find(self.driver, "queue_title") is None and fm.find(self.driver, "player_slider") is None:
+                break
+            self.driver.press_back()
+            time.sleep(1)
+
+    def test_01_restart_keeps_fm_and_backup(self):
+        """A20：重启后仍显示私人FM标识与上次的 FM 歌曲，退出后还原进入前的手动队列。"""
+        fm.launch(self.driver)
+        fm.build_manual_queue(self.driver)
+        fm.enter_fm(self.driver)
+        time.sleep(3)
+        song = fm.bottom_song(self.driver)
+
+        fm.launch(self.driver)
+        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom", 10), "重启后私人FM标识丢失")
+        self.assertEqual(fm.bottom_song(self.driver), song, "重启后底部栏应显示上次的 FM 歌曲")
+        fm.open_queue_from_bottom(self.driver)
+        self.assertEqual(fm.text_of(self.driver, "fm_queue_tip"), "正在播放私人FM")
+        fm.click_key(self.driver, "fm_exit_btn")
+        self.assertTrue(fm.wait_for(lambda: fm.queue_count(self.driver) == 2, 5))
+        self.assertEqual(fm.queue_names(self.driver), [fm.SONG_A, fm.SONG_B])
+        fm.close_overlay(self.driver)
+        self.assertEqual(fm.bottom_song(self.driver), fm.SONG_A)
+
+        # 退出后重启仍是普通模式
+        fm.launch(self.driver)
+        self.assertIsNone(fm.find(self.driver, "fm_badge_bottom"))
+
+    def test_02_restart_then_play_fm_song(self):
+        """T15：重启后不自动播放；点击卡片继续播放上次的 FM 歌，不重新请求。"""
+        fm.ensure_fm_playing(self.driver)
+        time.sleep(2)
+        song = fm.bottom_song(self.driver)
+        mark = fm.mark(self.driver)
+        fm.launch(self.driver)
+        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom", 10))
+        self.assertIsNotNone(fm.find(self.driver, "bottom_bar_play_btn"), "重启后不应自动播放")
+        fm.click_key(self.driver, "fm_card")
+        self.assertIsNotNone(fm.wait_key(self.driver, "bottom_bar_pause_btn", fm.NET_TIMEOUT), "点击卡片后应继续播放")
+        self.assertEqual(fm.bottom_song(self.driver), song)
+        self.assertEqual(fm.e1_ops_since(self.driver, mark), 0, "冷启动和继续播放都不应发推荐请求")
+
+    def test_03_mode_persists_after_restart(self):
+        """A41：选择“熟悉”后重启，模式菜单仍勾在熟悉。"""
+        fm.ensure_fm_playing(self.driver)
+        fm.open_player(self.driver)
+        fm.click_key(self.driver, "fm_badge_player")
+        fm.wait_for(lambda: self.driver.find_component(BY.text("熟悉")), 5)
+        time.sleep(0.5)
+        if not fm.find(self.driver, "fm_mode_familiar").isSelected():
+            song = fm.text_of(self.driver, "player_song_name")
+            self.driver.click(fm.find(self.driver, "fm_mode_familiar"))
+            self.assertIsNotNone(fm.wait_song_change(self.driver, song, "player_song_name"))
+        else:
+            self.driver.press_back()
+        time.sleep(2)
+        fm.launch(self.driver)
+        fm.open_player(self.driver)
+        fm.click_key(self.driver, "fm_badge_player")
+        fm.wait_for(lambda: self.driver.find_component(BY.text("熟悉")), 5)
+        time.sleep(0.5)
+        self.assertTrue(fm.find(self.driver, "fm_mode_familiar").isSelected(), "重启后模式应保持为熟悉")
+        # 恢复默认（等请求完成、歌曲切换后再结束，避免下一个用例重启时打断）
+        song = fm.text_of(self.driver, "player_song_name")
+        self.driver.click(fm.find(self.driver, "fm_mode_default"))
+        fm.wait_song_change(self.driver, song, "player_song_name")
+        time.sleep(1)
+
+    def test_04_auto_next_after_complete(self):
+        """A12：歌曲播放完成后自动播放下一首推荐，仍在私人FM。"""
+        fm.ensure_fm_playing(self.driver)
+        self.assert_auto_next()
+
+    def test_05_auto_next_ignores_cycle_mode(self):
+        """A14：依次切换四种循环模式（顺序/单曲/列表循环/随机），FM 中播完都切到另一首推荐。"""
+        for _ in range(4):
+            fm.launch(self.driver)
+            fm.exit_fm_if_needed(self.driver)
+            fm.open_player(self.driver)
+            fm.click_key(self.driver, "player_loop_btn")  # 切到下一种循环模式
+            time.sleep(1)
+            fm.click_key(self.driver, "player_close_btn")
+            fm.wait_gone(self.driver, "player_slider")
+            fm.enter_fm(self.driver)
+            self.assert_auto_next()
+            fm.click_key(self.driver, "player_close_btn")
+            fm.wait_gone(self.driver, "player_slider")
+
+    def assert_auto_next(self):
+        fm.open_player(self.driver)
+        self.assertIsNotNone(fm.wait_key(self.driver, "bottom_bar_pause_btn", 20))
+        song = fm.text_of(self.driver, "player_song_name")
+        slider = fm.find(self.driver, "player_slider")
+        b = slider.getBounds()
+        y = (b.top + b.bottom) // 2
+        start_x = b.left + int((b.right - b.left) * 0.3)
+        end_x = b.left + int((b.right - b.left) * 0.93)
+        mark = fm.mark(self.driver)
+        # 点击轨道不会跳转，必须拖动；拖到最末尾不会触发 completed，所以拖到约 93%
+        self.driver.drag((start_x, y), (end_x, y), drag_time=1)
+        new_song = fm.wait_song_change(self.driver, song, "player_song_name", timeout=60)
+        self.assertIsNotNone(new_song, "播放完成后没有自动播放下一首推荐" + fm.fm_log_since(self.driver, mark))
+        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
+        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
+        # 临近结束预取与播完续拉不能重复请求：只有预取没拿到新歌、或新歌无法播放被跳过时，才会再请求
+        allowed = 1 + fm.count_since(self.driver, mark, "fetch more: 0 new songs") \
+            + fm.count_since(self.driver, mark, "next(fail)")
+        self.assertLessEqual(fm.e1_ops_since(self.driver, mark), allowed,
+                             "播完续播不应重复发推荐请求" + fm.fm_log_since(self.driver, mark))

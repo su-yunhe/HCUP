@@ -1,0 +1,2 @@
+        self.assertEqual(len(names), len(set(names)), f"FM 队列出现重复歌曲: {names}")
+        self.assertLessEqual(names.count(song), 1, "被不喜欢的歌只应留在已播记录里")

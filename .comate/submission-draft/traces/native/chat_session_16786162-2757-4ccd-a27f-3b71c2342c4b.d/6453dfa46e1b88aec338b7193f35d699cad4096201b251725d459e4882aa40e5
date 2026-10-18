@@ -1,0 +1,3 @@
+    # 搜索框、底部栏也可能是同样的文字，取最靠上的 Text（搜索结果列表里的）
+    texts = [c for c in driver.find_all_components(BY.text(name)) if c.getType() == "Text"]
+    target = min(texts, key=lambda c: c.getBounds().top)

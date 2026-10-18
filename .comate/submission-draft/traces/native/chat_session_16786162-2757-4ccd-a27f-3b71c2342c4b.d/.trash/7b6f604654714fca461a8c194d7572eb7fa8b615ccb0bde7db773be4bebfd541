@@ -1,0 +1,50 @@
+  @Builder
+  PlayButton() {
+    // 上一首
+    Image($r('app.media.ic_public_play_last')).buttonImgStyle()
+    .id('player_prev_btn')
+    .onClick(() => {
+      playPre()
+    })
+
+    // 暂停、继续
+    Image(!this.isPaused ? $r('app.media.ic_public_pause') : $r('app.media.ic_play_fill')).buttonImgStyle()
+      .id('player_play_btn')
+      .onClick(() => {
+        if(this.isPaused) {
+          resumeMusic()
+        } else {
+          pauseMusic()
+        }
+      })
+
+    // 下一首
+    Image($r('app.media.ic_public_play_next')).buttonImgStyle()
+    .id('player_next_btn')
+    .onClick(() => {
+      playNext()
+    })
+  }
+
+  /**
+   * 播放控制行最左侧：私人FM 中为“不喜欢”，否则为循环模式
+   */
+  @Builder
+  LeftControlButton() {
+    if(this.isFMActive) {
+      Column({ space: 2 }) {
+        Image($r('app.media.ic_public_delete'))
+          .width(26)
+          .aspectRatio(1)
+          .fillColor(Color.White)
+          .draggable(false)
+        Text('不喜欢')
+          .id('fm_dislike_text')
+          .fontSize(10)
+          .fontColor(Color.White)
+      }
+      .id('fm_dislike_btn')
+      .opacity(0.8)
+      .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.8 })
+      .onClick(() => {
+  

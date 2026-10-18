@@ -1,0 +1,8 @@
+  } catch (e) {
+    LogUtil.error(TAG + '播放Url出错: ' + e)
+    playFailed()
+  }
+}
+
+/**
+ * 在线播放失败后的操作：

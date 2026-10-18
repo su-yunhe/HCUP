@@ -1,0 +1,13 @@
+  onPlayStarted(songId: number) {
+    this.playFailCount = 0
+    this.startedSongId = songId
+    this.completedSongId = 0
+    this.notifyPlaySettled()
+  }
+
+  /**
+   * 歌曲播放完成：实测同一首歌会连续收到两次 completed，只处理一次，否则会跳过下一首
+   */
+  onCompleted() {
+    if (this.startedSongId != 0 && this.startedSongId == this.completedSongId) {
+      LogUtil.info(TAG + 'ignore repeated completed: ' + this.startedSongId)

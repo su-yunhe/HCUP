@@ -1,0 +1,86 @@
+Command executed successfully.
+Exit code: 0
+Output:
+import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
+import { hilog } from '@kit.PerformanceAnalysisKit';
+import { window } from '@kit.ArkUI';
+import PreferencesUtils from '../common/utils/data/PreferencesUtils';
+import { AppUtil, LogUtil } from '@pura/harmony-utils';
+import { appInit } from '../common/functions/app/appInit';
+import { StorageConstants } from '../common/constants/StorageConstants';
+
+
+export default class EntryAbility extends UIAbility {
+  async onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): Promise<void> {
+    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
+
+    // 初始化 Log
+    LogUtil.init(0x1010, 'Cloud Music', true)
+
+    // 初始化用户首选项
+    await PreferencesUtils.loadPreference(this.context, StorageConstants.USER_PREF)
+    await PreferencesUtils.loadPreference(this.context, StorageConstants.SET_PERF)
+    await PreferencesUtils.loadPreference(this.context, StorageConstants.QUEUE_PREF)
+
+    // 初始化应用信息
+    appInit()
+  }
+
+  onDestroy(): void {
+    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onDestroy');
+  }
+
+  onWindowStageCreate(windowStage: window.WindowStage): void {
+import { JSON } from '@kit.ArkTS'
+import { fetchSongInfo, getArtists } from '../../functions/common/convert'
+
+/**
+ * 文件管理
+ */
+const TAG = '[FileUtils] '
+
+class FileUtils {
+  context = getContext(this) as common.UIAbilityContext
+  filesDir = this.context.filesDir
+  cacheDir = this.context.cacheDir
+
+  getFilesDir() {
+    return this.filesDir
+  }
+      ToastUtil.showToast('获取公共目录失败: ' + e.message)
+    } finally {
+      return dir
+    }
+  }
+}
+
+const fileUtils = new FileUtils()
+export default fileUtils as FileUtilscommon/utils/play/AVSessionUtils.ets:1:import { avSession } from "@kit.AVSessionKit";
+common/utils/play/AVSessionUtils.ets:2:import { AppUtil, LogUtil } from "@pura/harmony-utils";
+common/utils/play/AVSessionUtils.ets:3:import { StorageConstants } from "../../constants/StorageConstants";
+common/utils/play/AVSessionUtils.ets:4:import { Song, SongClass } from "../../entities/SongsResult";
+common/utils/play/AVSessionUtils.ets:5:import { changeCycleMode,
+common/utils/play/AVSessionUtils.ets:7:import { likeThisSong } from "../../functions/play/songLike";
+common/utils/play/AVSessionUtils.ets:8:import LyricUtils from "./LyricUtils";
+common/utils/play/AVPlayerUtils.ets:1:import { LogUtil, ToastUtil } from '@pura/harmony-utils'
+common/utils/play/AVPlayerUtils.ets:2:import ContinuousTask from './ContinuousTask'
+common/utils/play/AVPlayerUtils.ets:3:import AVSessionUtils from './AVSessionUtils'
+common/utils/play/AVPlayerUtils.ets:4:import { completeDo } from '../../functions/play/playControl'
+common/utils/play/AVPlayerUtils.ets:5:import LyricUtils from './LyricUtils'
+common/utils/play/AVPlayerUtils.ets:6:import { audio } from '@kit.AudioKit'
+common/utils/play/AVPlayerUtils.ets:7:import { StorageConstants } from '../../constants/StorageConstants'
+common/utils/play/AVPlayerUtils.ets:8:import { media } from '@kit.MediaKit'
+common/utils/play/AVPlayerUtils.ets:9:import { BusinessError } from '@kit.BasicServicesKit'
+common/utils/play/ContinuousTask.ets:1:import { BusinessError } from '@kit.BasicServicesKit';
+common/utils/play/ContinuousTask.ets:2:import { backgroundTaskManager } from '@kit.BackgroundTasksKit';
+common/utils/play/ContinuousTask.ets:3:import { WantAgent, wantAgent } from '@kit.AbilityKit';
+common/utils/play/ContinuousTask.ets:4:import { LogUtil } from '@pura/harmony-utils';
+common/utils/play/LyricUtils.ets:1:import { EmitterUtil, FileUtil, LogUtil } from "@pura/harmony-utils"
+common/utils/play/LyricUtils.ets:2:import { getLyric } from "../../../api/LyricApi"
+common/utils/play/LyricUtils.ets:3:import { EmitterConstants } from "../../constants/EmitterConstants"
+common/utils/play/LyricUtils.ets:4:import { StorageConstants } from "../../constants/StorageConstants"
+common/utils/play/LyricUtils.ets:5:import { Lyric } from "../../entities/Lyric"
+common/utils/play/LyricUtils.ets:6:import { Song } from "../../entities/SongsResult"
+common/utils/play/LyricUtils.ets:7:import FileUtils from "../file/FileUtils"
+common/utils/play/LyricUtils.ets:8:import { fileIo, ReadOptions } from "@kit.CoreFileKit"
+common/utils/play/LyricUtils.ets:9:import { buffer } from "@kit.ArkTS"

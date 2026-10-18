@@ -1,0 +1,18 @@
+def _app_log(driver) -> list[str]:
+    return driver.shell("hilog -x -D 0x1010").splitlines()
+
+
+def mark(driver) -> str:
+    """记录设备当前时间（到秒），之后只统计晚于该秒的日志；等 1.1 秒保证后续操作落在新的一秒。"""
+    marker = driver.shell('date "+%m-%d %H:%M:%S"').strip()
+    time.sleep(1.1)
+    return marker
+
+
+def count_since(driver, marker: str, pattern: str) -> int:
+    """应用日志域 0x1010 中晚于 marker、包含 pattern 的行数，用来统计真实发出的网络请求。"""
+    return sum(1 for line in _app_log(driver) if line[:14] > marker and pattern in line)
+
+
+def e1_ops_since(driver, marker: str, pattern: str = LOG_E1) -> int:
+    """推荐请求的“操作次数”：请求行数减去过滤后补请求的

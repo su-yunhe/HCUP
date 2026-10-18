@@ -1,0 +1,79 @@
+<file>
+     1→import { LogUtil } from "@pura/harmony-utils"
+     2→import { User } from "../common/entities/User"
+     3→import { HttpRequest } from "../common/utils/request/HttpRequestUtils"
+     4→import PreferencesUtils from "../common/utils/data/PreferencesUtils"
+     5→import { StorageConstants } from "../common/constants/StorageConstants"
+     6→import { getApiUrl } from "../common/functions/common/get"
+     7→
+     8→const TAG = '[loginApi] '
+     9→/**
+    10→ * 获取登录状态
+    11→ * @param cookie
+    12→ */
+    13→export async function getLoginStatus(cookie: string): Promise<boolean> {
+    14→  let code: number = -1
+    15→  try {
+    16→    const rootUrl = await getApiUrl()
+    17→    const url: string = `${rootUrl}/login/status?timestamp=${new Date().getTime()}`
+    18→    const request = new HttpRequest(url, false)
+    19→    const userPref = StorageConstants.USER_PREF
+    20→    const data = await request.Request()
+    21→    code = data.responseCode
+    22→    const user: User = data.result as User
+    23→    AppStorage.setOrCreate(StorageConstants.VALID_API_URL, true)
+    24→    if (user.data.account.id) {
+    25→      PreferencesUtils.putPreferenceValue(userPref, StorageConstants.USER, user)
+    26→      PreferencesUtils.putPreferenceValue(userPref, StorageConstants.COOKIE, cookie)
+    27→      AppStorage.setOrCreate(StorageConstants.VIP_TYPE, user.data.account.vipType)
+    28→      AppStorage.setOrCreate(StorageConstants.VALID_COOKIE, true)
+    29→      AppStorage.setOrCreate(StorageConstants.USER, user)
+    30→      AppStorage.setOrCreate(StorageConstants.IS_LOGGED, true)
+    31→      return true
+    32→    } else {
+    33→      await PreferencesUtils.delPreferenceValue(StorageConstants.USER_PREF, StorageConstants.USER)
+    34→      await PreferencesUtils.delPreferenceValue(StorageConstants.USER_PREF, StorageConstants.COOKIE)
+    35→      await PreferencesUtils.delPreferenceValue(StorageConstants.USER_PREF, StorageConstants.USER_PLAYLISTS)
+    36→      AppStorage.setOrCreate(StorageConstants.VALID_COOKIE, false)
+    37→      AppStorage.setOrCreate(StorageConstants.COOKIE, '')
+    38→      AppStorage.setOrCreate(StorageConstants.IS_LOGGED, false)
+    39→      AppStorage.setOrCreate(StorageConstants.USER_PLAYLISTS, [])
+    40→      return false
+    41→    }
+    42→  } catch (error) {
+    43→    LogUtil.error('获取登录状态失败: ', error.message)
+    44→    if(code == 200) {
+    45→      AppStorage.setOrCreate(StorageConstants.VALID_COOKIE, false)
+    46→      AppStorage.setOrCreate(StorageConstants.VALID_API_URL, true)
+    47→    } else {
+    48→      AppStorage.setOrCreate(StorageConstants.VALID_API_URL, false)
+    49→    }
+    50→    return false
+    51→  }
+    52→}
+    53→
+    54→export async function logOut(): Promise<boolean> {
+    55→  const rootUrl = await getApiUrl()
+    56→  const url:string = `${rootUrl}/logout?timestamp=${new Date().getTime()}`
+    57→  const request = new HttpRequest(url)
+    58→  try {
+    59→    let data = await request.Request()
+    60→    if(data.responseCode == 200) {
+    61→      await PreferencesUtils.delPreferenceValue(StorageConstants.USER_PREF, StorageConstants.USER)
+    62→      await PreferencesUtils.delPreferenceValue(StorageConstants.USER_PREF, StorageConstants.COOKIE)
+    63→      await PreferencesUtils.delPreferenceValue(StorageConstants.USER_PREF, StorageConstants.USER_PLAYLISTS)
+    64→      AppStorage.setOrCreate(StorageConstants.VALID_COOKIE, false)
+    65→      AppStorage.setOrCreate(StorageConstants.COOKIE, '')
+    66→      AppStorage.setOrCreate(StorageConstants.IS_LOGGED, false)
+    67→      AppStorage.setOrCreate(StorageConstants.USER_PLAYLISTS, [])
+    68→      return true
+    69→    } else {
+    70→      return false
+    71→    }
+    72→  } catch (e) {
+    73→    LogUtil.error(TAG + '退出登录失败：' + JSON.stringify(e))
+    74→    return false
+    75→  }
+    76→}
+</file>
+<metadata>The file has 76 lines in total.</metadata>

@@ -1,0 +1,8 @@
+        song = fm.text_of(self.driver, "player_song_name")
+        explore = fm.log_count(self.driver, "mode=EXPLORE")
+        self.driver.click(self.driver.find_component(BY.text("探索")))
+        new_song = fm.wait_song_change(self.driver, song, "player_song_name")
+        self.assertIsNotNone(new_song, "选择探索后没有重新加载推荐歌曲")
+        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
+        time.sleep(2)
+        self.assertEqual(fm.log_count(self.driver, "mode=EXPLORE") - explore, 1, "选择探索应恰好发出 1 次 EXPLORE 推荐请求")

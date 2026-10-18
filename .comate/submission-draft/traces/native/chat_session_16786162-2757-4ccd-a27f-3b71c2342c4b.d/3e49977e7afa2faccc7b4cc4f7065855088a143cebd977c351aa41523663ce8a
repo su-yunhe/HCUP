@@ -1,0 +1,7 @@
+      // 进度条
+      Slider({
+        value: this.time,
+        max: this.song.duration,
+        style: SliderStyle.InSet
+      })
+        .width('90%')

@@ -1,0 +1,8 @@
+            .backgroundColor(Color.Transparent)
+            .onClick(() => {
+              this.scrollToCurrent()
+            })
+
+            if(!this.isFMActive) {
+              Button({ type: ButtonType.Circle }) {
+                Image($r(

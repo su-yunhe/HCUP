@@ -1,0 +1,12 @@
+  @StorageProp('player-currentLyric') currentLyric: string = ''
+  @State isShow: boolean = false
+  @Consume('pageInfos') pageInfos: NavPathStack
+
+  build() {
+    Row() {
+      if(this.playmode == 0) { Image(this.picUrl).songImg() }
+      else { Image(this.picUrl + '?param=512y512').songImg() }
+
+      Column({ space: 5 }) {
+        Text(this.song.name).textStyle(16).fontWeight(FontWeight.Medium)
+        if(!this.currentLyric || this.currentLyric === '暂无歌词') {

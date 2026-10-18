@@ -1,0 +1,69 @@
+# 基线说明：私人FM（cmu-spec34）
+
+标注约定：【代码】= 读源码得出，附 `文件:行号`；【实机】= 在模拟器上实际操作/截图/UI dump 验证；【推断】= 基于代码的推测，未实测；【未验证】= 本地条件不足无法验证。
+截图与 UI dump 存于 `logs/baseline-*.jpeg|json`。所有源码路径相对 `entry/src/main/ets/`。
+
+## 1. 基线快照标识
+
+- `spec/metadata.json` 的 `base_commit` = `edc3a3d6d27b0bf60b3e18477a30f4d85142d0ce`（已有 tag `base/cmu-spec34` 指向它）。
+- 当前 HEAD = `b256c8ff85bef787a3b551cd969e9e4a3311cc4a`（分支 `dev`），相对 base 只改了 `oh-package-lock.json5`（ohpm 重建锁文件，无业务代码）。
+- 本阶段新打 tag：`baseline-cmu-spec34` → `b256c8f`（2026-10-18）。
+- 分析开始时工作区已有未提交改动：`build-profile.json5` 新增 `"targetSdkVersion": "6.1.0(23)"`（不是本阶段改的，原样保留）；`spec/` 未跟踪。本阶段新增未跟踪目录 `logs/`。
+
+## 2. 构建基线状态
+
+构建环境（本机 PATH 里默认没有 hvigorw/hdc/java，需要显式设置）：
+
+```bash
+D=/Applications/DevEco-Studio.app/Contents
+export JAVA_HOME=$D/jbr/Contents/Home DEVECO_SDK_HOME=$D/sdk
+export PATH=$JAVA_HOME/bin:$D/tools/hvigor/bin:$D/tools/node/bin:$D/tools/ohpm/bin:$D/sdk/default/openharmony/toolchains:$PATH
+hvigorw clean --no-daemon
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon
+```
+
+- 【实机】不设 `JAVA_HOME` 时 clean build 在 `PackageHap` 失败：`Error Code: 00308018 ... Unable to locate a Java Runtime`。设成 DevEco 自带 JBR（OpenJDK 21.0.8）后 **BUILD SUCCESSFUL**（约 11 s）。
+- 产物：`entry/build/default/outputs/default/entry-default-unsigned.hap`（约 4.5 MB，未签名，模拟器可直接安装）。
+- 增量构建会显示 `CompileArkTS UP-TO-DATE`，不输出告警；**对比告警必须用 clean build**。
+- 告警（clean build，日志 `logs/baseline-build.log`，归一化清单 `logs/baseline-warnings.txt`，按 `文件:行:列 + 消息` 排序，可直接 diff）：
+  - hvigor 告警 2 条：`'lib_name' conflict, first declared`、`No signingConfig found for product default`。
+  - ArkTS WARN 共 673 条：`oh_modules/@pura/harmony-utils` 550 条，`entry/src` 123 条。
+  - `entry/src` 按类型：`Function may throw exceptions` 50、`'px2vp' has been deprecated` 30、`'showToast' has been deprecated` 18、`'getContext'` 9、`'animateTo'` 7、`backgroundTaskManager` 能力 3、`matchMediaSync` 3、`'key' can only be used for testing` 2、`decode` 1。
+  - 本题大概率要改的文件里已有的告警：`RecommendCards.ets` 5 条（showToast，:96/:110/:114/:119/:122）、`PlayingCover.ets` 6 条（px2vp/animateTo）、`PlayQueueSheet.ets` 1 条（:106 px2vp）、`Explore.ets` 2 条、`AVPlayerUtils.ets` 6 条。注意：新代码如果再用 `promptAction.showToast` / `px2vp` / `animateTo` 会新增同类告警，建议用 `ToastUtil.showToast`（基线已大量使用）。
+- 构建后 `git status` 没有出现噪声文件：`BuildProfile.ets` 在 `entry/build/` 下，已被 `.gitignore` 忽略，仓库里没有跟踪的 `BuildProfile.ets`。
+
+安装与环境：
+
+- 【实机】`hdc -t 127.0.0.1:5555 install -r <hap>` 成功，bundleName `cc.chenlvin.cloudmusic`，`bm dump` 显示 `updateTime 1792292738259`，targetVersion 60100023。
+- 【实机】`harness.env_check`：emulator 6.1.0.115，1308×2880，“✓ 环境与官方评测规格一致”。
+
+## 3. Spec 描述的入口当前在哪
+
+“发现”页与推荐卡片：
+
+- 【代码】入口页 `pages/Index.ets`（`main_pages.json` 唯一页面），`Navigation(this.pageInfos)` + `Tabs`，第 0 个 Tab 是 `Explore()`（`pages/Index.ets:80`），标题 `'发现'`（`:104`），底部 Tab 文字 `'发现'`（`:153`）。
+- 【代码】推荐卡片区：`components/main/Explore.ets:116-122` 渲染 `RecommendCards({ isLogged })`，`isLoading` 时换成骨架屏 `RecommendCards_Skeleton`。
+- 【代码】卡片列表：`components/cards/RecommendCards.ets:67-147`，横向 `List`，卡片由 `@Builder ContentButton(主标题, 副标题, 背景图, onClick, showDate)` 生成（`:15-57`）。
+  - `每日推荐` / `音乐云盘` / `心动歌单` 三张卡包在 `if(this.validApiUrl)` 里（`:70-126`），`本地曲库` 在条件外（`:131-139`）。
+  - 心动歌单卡片（`:104-125`）是与私人FM最接近的现成实现：未登录 toast `请登录后再试`，`isLoadingHeart` 防重入，`await setHeartMode(...)` 后 `playQueue(0)`。
+- 【实机】全新安装（未配置 API 地址）启动后，发现页只有一张 `本地曲库` 卡片（`logs/baseline-01-launch.jpeg`）。hilog：`获取登录状态失败: Invalid URL format or missing URL`，即 `VALID_API_URL` 被置为 false，三张网络卡片被隐藏。
+- 【代码+计算】卡片宽 200vp（`RecommendCards.ets:13`），首个占位 10vp；模拟器 1308px / 3.5 ≈ 373.7vp 宽，一屏只能看到约 1.8 张卡。API 可用时有 4 张卡，追加在末尾的第 5 张卡完全在屏外（需横滑）。
+
+路由方式：
+
+- 【代码】`@Provide('pageInfos') NavPathStack`（`pages/Index.ets:27`），子页面用 `pushPathByName/replacePathByName`，名字映射在 `PageMap`（`:112-149`）。设置页内部另有 `settingsPageInfos`（`pages/settings/SettingsPage.ets:24,101-114`）。
+
+播放页、底部播放栏、播放列表面板（都不是路由页）：
+
+- 【代码】底部播放栏 `components/play/BottomBarComponent.ets`，被 6 个页面引用：`Index.ets:93`、`SearchPage.ets:58`、`PlayListPage.ets:184`、`DailyListPage.ets:131`、`CloudPage.ets:134`、`CachedPage.ets:211`。歌名 `:34`，歌手/歌词 `:35-40`，控制按钮 `ControlButtons` `:73-112`（上一首/播放暂停/下一首/播放列表，全部是无文字 Image/Button）。
+- 【代码】播放页 = 底部栏上的 `bindContentCover`（`BottomBarComponent.ets:60-63`）→ `components/sheets/PlayingCover.ets`。点击底部栏 `:54-59`：未播放时先 `await playQueue(currentQueueIndex)` 再 `isShow = true`。
+- 【实机】空队列时点击底部栏**打不开播放页**（`logs/baseline-03-bottombar-click-empty.jpeg`，画面不变）。【推断】原因是 `playQueue(-1)` 里 `queue[-1]` 为 undefined，`playControl.ets:131` 访问 `.playmode` 抛 TypeError，`isShow = true` 执行不到（hilog 里没抓到堆栈）。
+- 【代码】播放页结构（手机走 `PhoneUI`，373vp 落在 `sm` 断点 `BreakpointUtils.ets:37`）：
+  - 顶栏 `Head()` `PlayingCover.ets:300-325`：左边收起按钮，右边 `AVCastPicker`，中间是空的。
+  - 功能栏 `ToolBar()` `:106-192`：定时、下载、加入歌单、喜欢、更多（`bindSheet` → `PlayerActionSheet`）。
+  - 播放控制行 `:421-429`：`LoopModeButton | 上一首 | 播放/暂停 | 下一首 | PlayQueueButton`。大屏布局 `LargeUI` 在 `:459-467` 有一份重复的控制行。
+  - 状态文字行 `:431-440`：灰色小字 `本地文件播放中` / `已设置定时关闭`。
+- 【代码】播放列表面板：`components/buttons/play/PlayQueueButton.ets:14-30` 的 `bindSheet` → `components/sheets/PlayQueueSheet.ets`。两个入口：底部栏 `BottomBarComponent.ets:109`，播放页 `PlayingCover.ets:424`（大屏 `:462`）。
+- 【实机】底部栏播放列表按钮可以打开面板，空队列时顶部为 `播放列表  (0)`、循环模式按钮、定位、清空（`logs/baseline-02-queue-sheet-empty.jpeg`）。
+
+PLACEHOLDER_SECTION_4

@@ -1,0 +1,3 @@
+      avPlayer.on('timeUpdate', (time: number) => {
+        AppStorage.setOrCreate(StorageConstants.PLAY_TIME, time)
+      })

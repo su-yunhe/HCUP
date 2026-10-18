@@ -1,0 +1,107 @@
+<file>
+     1→import { LogUtil, ToastUtil } from "@pura/harmony-utils"
+     2→import { StorageConstants } from "../../constants/StorageConstants"
+     3→import PreferencesUtils from "../../utils/data/PreferencesUtils"
+     4→/**
+     5→ * 设置项
+     6→ */
+     7→const TAG = '[settings] '
+     8→
+     9→/**
+    10→ * 初始化应用设置
+    11→ */
+    12→export async function initSettings() {
+    13→  const SetPerf = StorageConstants.SET_PERF
+    14→
+    15→  // 并行处理无依赖的配置项
+    16→  await Promise.all([
+    17→    // API地址
+    18→    (async () => {
+    19→      const exists = await PreferencesUtils.hasPreferenceValue(SetPerf, StorageConstants.API_URL)
+    20→      const value = exists
+    21→        ? await PreferencesUtils.getPreferenceValue(SetPerf, StorageConstants.API_URL, '')
+    22→        : ''
+    23→      if (!exists) await PreferencesUtils.putPreferenceValue(SetPerf, StorageConstants.API_URL, '')
+    24→      AppStorage.setOrCreate(StorageConstants.API_URL, value)
+    25→    })(),
+    26→
+    27→    // 默认主页
+    28→    (async () => {
+    29→      const exists = await PreferencesUtils.hasPreferenceValue(SetPerf, StorageConstants.DEFAULT_PAGE_INDEX)
+    30→      const value = exists
+    31→        ? await PreferencesUtils.getPreferenceValue(SetPerf, StorageConstants.DEFAULT_PAGE_INDEX, 0)
+    32→        : 0
+    33→      if (!exists) await PreferencesUtils.putPreferenceValue(SetPerf, StorageConstants.DEFAULT_PAGE_INDEX, 0)
+    34→      AppStorage.setOrCreate(StorageConstants.DEFAULT_PAGE_INDEX, value)
+    35→    })(),
+    36→
+    37→    // 播放质量
+    38→    (async () => {
+    39→      const exists = await PreferencesUtils.hasPreferenceValue(SetPerf, StorageConstants.PLAY_QUALITY)
+    40→      const value = exists
+    41→        ? await PreferencesUtils.getPreferenceValue(SetPerf, StorageConstants.PLAY_QUALITY, 0)
+    42→        : 0
+    43→      if (!exists) await PreferencesUtils.putPreferenceValue(SetPerf, StorageConstants.PLAY_QUALITY, 0)
+    44→      AppStorage.setOrCreate(StorageConstants.PLAY_QUALITY, value)
+    45→    })(),
+    46→
+    47→    // 播放卡片操作
+    48→    (async () => {
+    49→      const exists = await PreferencesUtils.hasPreferenceValue(SetPerf, StorageConstants.SONG_CLICK_ACTION)
+    50→      const value = exists
+    51→        ? await PreferencesUtils.getPreferenceValue(SetPerf, StorageConstants.SONG_CLICK_ACTION, 0)
+    52→        : 0
+    53→      if (!exists) await PreferencesUtils.putPreferenceValue(SetPerf, StorageConstants.SONG_CLICK_ACTION, 0)
+    54→      AppStorage.setOrCreate(StorageConstants.SONG_CLICK_ACTION, value)
+    55→    })()
+    56→
+    57→  ])
+    58→
+    59→  // 处理关联配置项（自定义API URL）
+    60→  const results = await Promise.all([
+    61→    PreferencesUtils.hasPreferenceValue(SetPerf, StorageConstants.IS_CUSTOM_COOKIE),
+    62→    PreferencesUtils.hasPreferenceValue(SetPerf, StorageConstants.MIX_WITH_OTHERS)
+    63→  ])
+    64→  const isCustomCookieExist = results[0]
+    65→  const isMixExist = results[1]
+    66→
+    67→  // 自定义Cookie设置
+    68→  if (!isCustomCookieExist) {
+    69→    await Promise.all([
+    70→      PreferencesUtils.putPreferenceValue(SetPerf, StorageConstants.IS_CUSTOM_COOKIE, false),
+    71→      PreferencesUtils.putPreferenceValue(SetPerf, StorageConstants.CUSTOM_COOKIE, 'MUSIC_U=')
+    72→    ])
+    73→    AppStorage.setOrCreate(StorageConstants.IS_CUSTOM_COOKIE, false)
+    74→    AppStorage.setOrCreate(StorageConstants.CUSTOM_COOKIE, 'MUSIC_U=')
+    75→  } else {
+    76→    const customResults = await Promise.all([
+    77→      PreferencesUtils.getPreferenceValue(SetPerf, StorageConstants.IS_CUSTOM_COOKIE, false),
+    78→      PreferencesUtils.getPreferenceValue(SetPerf, StorageConstants.CUSTOM_COOKIE, 'MUSIC_U=')
+    79→    ])
+    80→    const isCustom = customResults[0]
+    81→    const cookie = customResults[1]
+    82→    AppStorage.setOrCreate(StorageConstants.IS_CUSTOM_COOKIE, isCustom)
+    83→    AppStorage.setOrCreate(StorageConstants.CUSTOM_COOKIE, cookie)
+    84→  }
+    85→
+    86→  // 混音设置
+    87→  if (!isMixExist) {
+    88→    await PreferencesUtils.putPreferenceValue(SetPerf, StorageConstants.MIX_WITH_OTHERS, false)
+    89→    AppStorage.setOrCreate(StorageConstants.MIX_WITH_OTHERS, false)
+    90→  } else {
+    91→    const mixValue = await PreferencesUtils.getPreferenceValue(SetPerf, StorageConstants.MIX_WITH_OTHERS, false)
+    92→    AppStorage.setOrCreate(StorageConstants.MIX_WITH_OTHERS, mixValue)
+    93→  }
+    94→}
+    95→
+    96→export async function changeSettings(name: string, value: number | boolean) {
+    97→  try {
+    98→    await PreferencesUtils.putPreferenceValue(StorageConstants.SET_PERF, name, value)
+    99→    AppStorage.setOrCreate(name, value)
+   100→  } catch (e) {
+   101→    ToastUtil.showToast('更改设置失败')
+   102→    LogUtil.error(TAG + 'Error while changing settings: ' + e.message)
+   103→  }
+   104→}
+</file>
+<metadata>The file has 104 lines in total.</metadata>

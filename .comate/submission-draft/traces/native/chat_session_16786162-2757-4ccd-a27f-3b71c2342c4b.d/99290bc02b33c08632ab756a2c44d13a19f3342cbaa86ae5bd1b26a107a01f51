@@ -1,0 +1,3 @@
+      // 播放列表已替换，清除“上一次播放的歌单”记录
+      const playInfo: PlayingPlayList = { id: -1, count: -1 }
+      AppStorage.setOrCreate(StorageConstants.LAST_PLAYED_LIST, playInfo)

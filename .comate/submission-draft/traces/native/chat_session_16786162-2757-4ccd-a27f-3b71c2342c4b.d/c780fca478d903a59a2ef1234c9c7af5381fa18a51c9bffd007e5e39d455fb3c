@@ -1,0 +1,2 @@
+        # 临近结束预取与播完续拉合计只发 1 次推荐请求
+        self.assertEqual(fm.log_count(self.driver, fm.LOG_E1) - e1, 1, "播完续播应恰好发出 1 次推荐请求")

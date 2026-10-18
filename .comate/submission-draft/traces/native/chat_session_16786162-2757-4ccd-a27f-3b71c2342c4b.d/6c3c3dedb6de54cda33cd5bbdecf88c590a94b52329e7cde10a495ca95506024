@@ -1,0 +1,234 @@
+<file>
+     1→import { setHeartMode } from "../../api/songApi"
+     2→import Constants from "../../common/constants/Constants"
+     3→import { StorageConstants } from "../../common/constants/StorageConstants"
+     4→import { PlayList } from "../../common/entities/PlayList"
+     5→import { playQueue } from "../../common/functions/play/playControl"
+     6→import PlayQueueUtils from "../../common/utils/play/PlayQueueUtils"
+     7→import { promptAction } from "@kit.ArkUI"
+     8→import { DateUtil } from "@pura/harmony-utils"
+     9→
+    10→
+    11→const cardRadius: number = 5
+    12→const cardHeight: number = 250
+    13→const cardWidth: number = 200
+    14→
+    15→@Builder function ContentButton(firText:string, secText:string, imgUrl:ResourceStr, onClick?: () => void, showDate: boolean = false) {
+    16→  Stack({ alignContent: Alignment.Center }) {
+    17→    Column() {
+    18→      Text(`${firText}`)
+    19→        .width('100%')
+    20→        .textStyle(Constants.FONT_SIZE_TITLE + 3, true)
+    21→        .padding(Constants.PADDING_EDGE_DEFAULT)
+    22→        .textShadow({ radius: 15 })
+    23→      Text(`${secText}`)
+    24→        .width('100%')
+    25→        .textStyle(Constants.FONT_SIZE_COMMON - 3)
+    26→        .textAlign(TextAlign.Center)
+    27→        .backgroundColor(Color.Transparent)
+    28→        .textShadow({ radius: 5 })
+    29→        .borderRadius({ bottomLeft: cardRadius, bottomRight: cardRadius })
+    30→        .height(Constants.FONT_SIZE_COMMON * 2)
+    31→        .backdropBlur(100)
+    32→    }
+    33→    .width(cardWidth - 20)
+    34→    .height(cardHeight - 20)
+    35→    .justifyContent(FlexAlign.SpaceBetween)
+    36→    .backgroundImage(imgUrl)
+    37→    .backgroundImageSize(ImageSize.Cover)
+    38→    .borderRadius(Constants.RADIUS_IMG)
+    39→    .shadow({ radius: 10, type: ShadowType.BLUR, offsetX: 10, offsetY: 10 })
+    40→
+    41→    if(showDate) {
+    42→      Text(`${DateUtil.getTodayStr('dd')}`)
+    43→        .width('100%')
+    44→        .fontSize(Constants.FONT_SIZE_TITLE * 2)
+    45→        .textShadow({ radius: 5 })
+    46→        .fontWeight(FontWeight.Bolder)
+    47→        .fontColor(Color.White)
+    48→        .textAlign(TextAlign.Center)
+    49→        .backgroundColor(Color.Transparent)
+    50→    }
+    51→  }
+    52→  .backgroundColor(Color.Transparent)
+    53→  .width(cardWidth)
+    54→  .height(cardHeight)
+    55→  .onClick(onClick)
+    56→  .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+    57→}
+    58→
+    59→@Component
+    60→export struct RecommendCards {
+    61→  @Consume('pageInfos') pageInfos: NavPathStack
+    62→  @StorageProp(StorageConstants.USER_PLAYLISTS) playLists: Array<PlayList> = []
+    63→  @Prop isLogged: boolean
+    64→  @State isLoadingHeart: boolean = false
+    65→  @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = true
+    66→
+    67→  build() {
+    68→    List() {
+    69→      ListItem().width(10)
+    70→      if(this.validApiUrl) {
+    71→        /**
+    72→         * 每日推荐卡片
+    73→         */
+    74→        ListItem() {
+    75→          ContentButton(`每日推荐`,'符合你口味的新鲜好歌',$r('app.media.bg_daily'),() => {
+    76→            if(this.pageInfos.size() == 0) {
+    77→              this.pageInfos.pushPathByName('DailyListPage', null)
+    78→            } else {
+    79→              this.pageInfos.replacePathByName('DailyListPage', null)
+    80→            }
+    81→          }, true)
+    82→        }
+    83→
+    84→        /**
+    85→         * 音乐云盘卡片
+    86→         */
+    87→        ListItem() {
+    88→          ContentButton(`音乐云盘`,`享受云端曲目`,$r('app.media.bg_cloud'),() => {
+    89→            if(this.isLogged) {
+    90→              if(this.pageInfos.size() == 0) {
+    91→                this.pageInfos.pushPathByName('CloudPage', null)
+    92→              } else {
+    93→                this.pageInfos.replacePathByName('CloudPage', null)
+    94→              }
+    95→            } else {
+    96→              promptAction.showToast({ message: '请登录后再试' })
+    97→            }
+    98→          })
+    99→        }
+   100→
+   101→        /**
+   102→         * 心动歌单卡片
+   103→         */
+   104→        ListItem() {
+   105→          ContentButton(`心动歌单`,`智能播放`,$r('app.media.bg_heart'), async () => {
+   106→            if(this.isLogged) {
+   107→              if(!this.isLoadingHeart) {
+   108→                try {
+   109→                  this.isLoadingHeart = true
+   110→                  promptAction.showToast({ message: '开始播放心动歌单' })
+   111→                  await setHeartMode(PlayQueueUtils.getCurrentSong().id, this.playLists[0].id)
+   112→                  playQueue(0)
+   113→                } catch (e) {
+   114→                  promptAction.showToast({ message: '获取心动歌单失败: ' + e.message })
+   115→                } finally {
+   116→                  this.isLoadingHeart = false
+   117→                }
+   118→              } else {
+   119→                promptAction.showToast({ message: '正在加载, 请稍后' })
+   120→              }
+   121→            } else {
+   122→              promptAction.showToast({ message: '请登录后再试' })
+   123→            }
+   124→          })
+   125→        }
+   126→      }
+   127→
+   128→      /**
+   129→       * 本地缓存
+   130→       */
+   131→      ListItem() {
+   132→        ContentButton(`本地曲库`,`随时随地畅听`,$r('app.media.bg_local'),() => {
+   133→          if(this.pageInfos.size() == 0) {
+   134→            this.pageInfos.pushPathByName('CachedPage', null)
+   135→          } else {
+   136→            this.pageInfos.replacePathByName('CachedPage', null)
+   137→          }
+   138→        })
+   139→      }
+   140→
+   141→      ListItem().width(5)
+   142→    }
+   143→    .borderRadius(0)
+   144→    .scrollBar(BarState.Off)
+   145→    .listDirection(Axis.Horizontal)
+   146→    .width('100%')
+   147→  }
+   148→}
+   149→
+   150→@Extend(Button) function buttonSty() {
+   151→  .type(ButtonType.Normal)
+   152→  .width('100%')
+   153→  .borderRadius(cardRadius)
+   154→  .backgroundColor(Color.Transparent)
+   155→}
+   156→
+   157→@Extend(Text) function textStyle(size: number, isBold: boolean = false) {
+   158→  .fontSize(size)
+   159→  .fontColor(Color.White)
+   160→  .fontWeight(isBold ? FontWeight.Bold : FontWeight.Normal)
+   161→}
+   162→
+   163→/**
+   164→ * RecommendCards
+   165→ * Loading
+   166→ * Skeleton
+   167→ */
+   168→@Component
+   169→export struct RecommendCards_Skeleton {
+   170→  build() {
+   171→    List({ space: 15 }) {
+   172→      ListItem().width(5)
+   173→      ListItem() {
+   174→        this.ContentSkeleton()
+   175→      }
+   176→      .width(cardWidth)
+   177→      ListItem() {
+   178→        this.ContentSkeleton()
+   179→      }
+   180→      .width(cardWidth)
+   181→      ListItem() {
+   182→        this.ContentSkeleton()
+   183→      }
+   184→      .width(cardWidth)
+   185→
+   186→      ListItem().width(5)
+   187→    }
+   188→    .borderRadius(0)
+   189→    .scrollBar(BarState.Off)
+   190→    .listDirection(Axis.Horizontal)
+   191→    .width('100%')
+   192→  }
+   193→
+   194→  @Builder ContentSkeleton() {
+   195→    Button() {
+   196→      Column() {
+   197→        Column()
+   198→          .backgroundColor($r('app.color.background'))
+   199→          .alignSelf(ItemAlign.Start)
+   200→          .width('70%')
+   201→          .borderRadius(cardRadius)
+   202→          .height(Constants.FONT_SIZE_TITLE)
+   203→          .padding(Constants.PADDING_EDGE_DEFAULT)
+   204→        Column({ space: 3 }) {
+   205→          Column()
+   206→            .backgroundColor($r('app.color.background'))
+   207→            .alignSelf(ItemAlign.Center)
+   208→            .width('80%')
+   209→            .borderRadius(cardRadius)
+   210→            .height(Constants.FONT_SIZE_BAR - 2)
+   211→            .padding(Constants.PADDING_EDGE_DEFAULT)
+   212→          Column()
+   213→            .backgroundColor($r('app.color.background'))
+   214→            .alignSelf(ItemAlign.Center)
+   215→            .width('80%')
+   216→            .borderRadius(cardRadius)
+   217→            .height(Constants.FONT_SIZE_BAR - 2)
+   218→            .padding(Constants.PADDING_EDGE_DEFAULT)
+   219→        }
+   220→      }
+   221→      .padding(Constants.PADDING_EDGE_DEFAULT)
+   222→      .justifyContent(FlexAlign.SpaceBetween)
+   223→      .height('100%')
+   224→      .width('100%')
+   225→    }
+   226→    .buttonSty()
+   227→    .backgroundColor($r('app.color.main'))
+   228→    .width(cardWidth)
+   229→    .height(cardHeight)
+   230→  }
+   231→}
+</file>
+<metadata>The file has 231 lines in total.</metadata>

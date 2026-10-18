@@ -1,0 +1,9 @@
+        Column({ space: 10 }) {
+          this.FMBadge()
+          this.SliderContent()
+          this.ToolBar()
+          Row() {
+            this.LeftControlButton()
+            this.PlayButton()
+            PlayQueueButton({ imgColor: Color.White, btnId: 'player_queue_btn' }).opacity(0.8)
+          }

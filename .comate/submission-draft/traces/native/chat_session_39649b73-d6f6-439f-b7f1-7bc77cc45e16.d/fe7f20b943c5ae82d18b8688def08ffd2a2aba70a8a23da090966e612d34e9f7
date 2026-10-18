@@ -1,0 +1,29 @@
+## 2. 网络状态机（REASONABLE_DERIVATION + 第 4 节已确认的决策）
+
+状态变量（建议）：`fmActive`（是否处于 FM）、`fmMode`、`fmLoading`（E1 在途）、`dislikeInFlight`（E2 在途）、`manualBackup`（进入 FM 前的手动队列和 index）、`fmReqSeq`（请求序号，用来丢弃过期响应）。
+
+进入时机（U3）：`fmActive` 和手动队列备份在 **E1 结束时**（成功或失败）才设置，点击时只发请求、显示加载状态。因此 FM_ENTERING 期间仍是普通模式，面板里没有 `退出FM`；这期间重启应用也不会留下“没有备份的 FM 状态”。
+
+```mermaid
+stateDiagram-v2
+    [*] --> NORMAL
+    NORMAL --> FM_ENTERING: 点击卡片 / 发 E1
+    FM_ENTERING --> FM_ACTIVE: E1 成功 / 备份手动队列, FM队列=结果, 播放第1首
+    FM_ENTERING --> FM_EMPTY: E1 失败或去重后为空 / 备份手动队列, FM队列=空, 提示失败
+    FM_ENTERING --> NORMAL: 其他入口替换队列 / 作废在途 E1
+    FM_EMPTY --> FM_FETCHING: 点卡片/下一首/切模式 / 发 E1
+    FM_ACTIVE --> FM_FETCHING: 队尾时 播完/下一首/不喜欢 / 发 E1
+    FM_FETCHING --> FM_ACTIVE: E1 成功 / 追加并播放
+    FM_FETCHING --> FM_ACTIVE: E1 失败且有当前歌 / 提示, 停在当前歌
+    FM_FETCHING --> FM_EMPTY: E1 失败且没有当前歌 / 提示
+    FM_ACTIVE --> FM_RELOADING: 选择不同模式 / 发 E1(mode)
+    FM_RELOADING --> FM_ACTIVE: E1 成功替换队列 / 失败回退模式
+    FM_ACTIVE --> NORMAL: 退出FM / 还原手动队列, 播放还原的当前歌
+    FM_EMPTY --> NORMAL: 退出FM / 同上
+    FM_FETCHING --> NORMAL: 退出FM / 同上, 作废在途 E1
+    FM_RELOADING --> NORMAL: 退出FM / 同上, 作废在途 E1
+```
+
+FM_EMPTY 是 FM_ACTIVE 的特例：`fmActive=true`，FM 队列为空，没有当前 FM 歌。标识、面板提示、`退出FM`、模式菜单都正常显示，`不喜欢` 显示但点击无效，点底部栏必须能打开播放页（基线空队列打不开，要修）。
+
+PLACEHOLDER_SM_TABLE

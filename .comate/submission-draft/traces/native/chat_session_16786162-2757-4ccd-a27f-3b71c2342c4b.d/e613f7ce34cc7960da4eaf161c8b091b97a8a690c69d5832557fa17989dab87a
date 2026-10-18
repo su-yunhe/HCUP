@@ -1,0 +1,15 @@
+      Column({ space: 10 }) {
+        this.FMBadge()
+        this.SliderContent()
+        this.ToolBar()
+        Row() {
+          this.LeftControlButton()
+          this.PlayButton()
+          PlayQueueButton({ imgColor: Color.White, btnId: 'player_queue_btn' }).opacity(0.8)
+        }
+        .opacity(this.tabPageIndex == 0 ? 0.8 : 0.2)
+        .padding({ top: 20, bottom: 15 })
+        .justifyContent(FlexAlign.SpaceEvenly)
+        .width('90%')
+
+        if(this.tabPageIndex == 0) {

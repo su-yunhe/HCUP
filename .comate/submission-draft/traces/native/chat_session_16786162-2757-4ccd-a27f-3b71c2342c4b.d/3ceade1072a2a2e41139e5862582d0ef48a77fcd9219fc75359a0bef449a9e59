@@ -1,0 +1,10 @@
+@Builder function ContentButton(firText:string, secText:string, imgUrl:ResourceStr, onClick?: () => void, showDate: boolean = false) {
+  Stack({ alignContent: Alignment.Center }) {
+    Column() {
+      Text(`${firText}`)
+        .width('100%')
+        .textStyle(Constants.FONT_SIZE_TITLE + 3, true)
+        .padding(Constants.PADDING_EDGE_DEFAULT)
+        .textShadow({ radius: 15 })
+      Text(`${secText}`)
+        .width('100%')

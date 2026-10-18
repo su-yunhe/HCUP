@@ -1,0 +1,11 @@
+    def test_04_auto_next_after_complete(self):
+        """A12：歌曲播放完成后自动播放下一首推荐，仍在私人FM。"""
+        fm.ensure_fm_playing(self.driver)
+        self.assert_auto_next()
+
+    def test_05_auto_next_ignores_cycle_mode(self):
+        """A14：依次切换四种循环模式（顺序/单曲/列表循环/随机），FM 中播完都切到另一首推荐。"""
+        for _ in range(4):
+            fm.launch(self.driver)
+            fm.exit_fm_if_needed(self.driver)
+            fm.open_player(self.driver)

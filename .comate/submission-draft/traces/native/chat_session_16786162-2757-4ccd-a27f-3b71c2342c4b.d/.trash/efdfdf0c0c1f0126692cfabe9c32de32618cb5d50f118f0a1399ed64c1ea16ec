@@ -1,0 +1,6 @@
+        time.sleep(3)
+        self.assertEqual(fm.text_of(self.driver, "player_song_name"), song)
+        self.assertEqual(fm.log_count(self.driver, fm.LOG_E1) - e1, 0, "打开/取消菜单不应发推荐请求")
+
+    def test_03_select_current_mode_no_reload(self):
+        """A38/U13：选择当前

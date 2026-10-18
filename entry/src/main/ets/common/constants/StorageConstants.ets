@@ -133,6 +133,21 @@ export class StorageConstants {
    * @description AppStorage
    */
   static readonly LAST_PLAYED_LIST: string = 'lastPlayedList'
+  /**
+   * 是否处于私人FM模式 - boolean
+   * @description AppStorage
+   */
+  static readonly FM_ACTIVE: string = 'fm-active'
+  /**
+   * 私人FM模式 DEFAULT/FAMILIAR/EXPLORE - string
+   * @description AppStorage
+   */
+  static readonly FM_MODE: string = 'fm-mode'
+  /**
+   * 私人FM是否正在请求推荐 - boolean
+   * @description AppStorage
+   */
+  static readonly FM_LOADING: string = 'fm-loading'
 
 
 

@@ -1,0 +1,16 @@
+import { Artist } from "./SongsResult"
+
+/**
+ * 私人FM
+ */
+interface Album {
+  picUrl: string
+  name: string
+}
+
+export interface FMSong {
+  id: number
+  name: string
+  artists: Artist[]
+  album: Album
+  duration: number

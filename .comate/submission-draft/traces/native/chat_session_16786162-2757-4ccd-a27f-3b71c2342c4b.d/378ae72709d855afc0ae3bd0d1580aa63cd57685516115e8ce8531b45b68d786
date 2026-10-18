@@ -1,0 +1,3 @@
+  private async request(mode: FMMode, exclude: Array<PlayQueue>): Promise<Array<PlayQueue>> {
+    for (let i = 0; i < 2; i++) {
+      const list = await getPersonalFM(mode)

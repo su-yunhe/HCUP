@@ -1,0 +1,3 @@
+  // 播放器中实际在播的歌曲 id（切歌期间旧歌的进度回调不能触发预取）
+  private startedSongId: number = 0
+  private dislikeInFlight: boolean = false

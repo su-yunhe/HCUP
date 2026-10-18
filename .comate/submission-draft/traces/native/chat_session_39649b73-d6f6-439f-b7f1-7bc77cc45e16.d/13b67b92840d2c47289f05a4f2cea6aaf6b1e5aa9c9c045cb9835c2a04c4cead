@@ -1,0 +1,9 @@
+## 1. 接口（REASONABLE_DERIVATION，来源：NeteaseCloudMusicApi 公开接口的一般认知，本地无服务端，**未验证**）
+
+| 编号 | 用途 | 建议请求 |
+| --- | --- | --- |
+| E1 | 拉取私人FM推荐（一次返回少量歌曲） | 默认：`/personal_fm`；按模式：`/personal/fm/mode?mode=DEFAULT\|FAMILIAR\|EXPLORE`；都要带 `timestamp=`（基线缓存问题见 baseline-notes 第 8 节第 7 条） |
+| E2 | 不喜欢 / 加入黑名单 | `/fm_trash?id=<songId>&timestamp=` |
+| E3 | 播放所需（已有） | `/song/url/v1`、`/song/detail`、歌词接口，经 `playMusicByUrl` 发出 |
+
+模式映射：`默认`→DEFAULT，`熟悉`→FAMILIAR，`探索`→EXPLORE。E1 的响应字段（`artists/album/duration` 还是 `ar/al/dt`）没有验证，解析时两种都要兼容。

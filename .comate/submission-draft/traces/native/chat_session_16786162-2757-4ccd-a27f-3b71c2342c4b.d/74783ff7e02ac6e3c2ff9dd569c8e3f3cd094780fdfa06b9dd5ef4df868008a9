@@ -1,0 +1,8 @@
+        Column({ space: 10 }) {
+          this.SliderContent()
+          this.ToolBar()
+          Row() {
+            LoopModeButton({ imgColor: Color.White }).opacity(0.8)
+            this.PlayButton()
+            PlayQueueButton({ imgColor: Color.White }).opacity(0.8)
+          }

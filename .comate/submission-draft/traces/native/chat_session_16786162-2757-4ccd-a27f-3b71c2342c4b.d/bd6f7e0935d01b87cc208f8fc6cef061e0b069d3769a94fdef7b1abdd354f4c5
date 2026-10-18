@@ -1,0 +1,19 @@
+            .backgroundColor(Color.Transparent)
+            .onClick(() => {
+              this.scrollToCurrent()
+            })
+
+            Button({ type: ButtonType.Circle }) {
+              Image($r('app.media.ic_public_delete_filled')).width(Constants.SIZE_ICON_BUTTON_BAR_SMALL).fillColor(Color.Gray)
+            }
+            .backgroundColor(Color.Transparent)
+            .onClick(() => {
+              this.cleanPlayQueue()
+            })
+          }
+        }
+        .padding({ left: 5, right: 5 })
+        .width('100%')
+        .justifyContent(FlexAlign.SpaceBetween)
+
+        List({ scroller: this.scroller, space: 20 }) {

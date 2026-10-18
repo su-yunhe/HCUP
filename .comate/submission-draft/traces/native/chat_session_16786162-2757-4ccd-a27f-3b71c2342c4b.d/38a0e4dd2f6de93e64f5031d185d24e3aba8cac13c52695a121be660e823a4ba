@@ -1,0 +1,4 @@
+        buttons = [c for c in (driver.find_all_components(BY.text("确认")) or []) if c.getType() == "Button"]
+        if not buttons:
+            raise AssertionError("未找到清空播放列表确认按钮")
+        driver.click(buttons[-1])

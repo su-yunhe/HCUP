@@ -1,0 +1,36 @@
+    this.persist()
+    try {
+      // 新歌真正开始播放（或播放失败）前，再点“不喜欢”都忽略
+      const settled = this.waitPlaySettled(DISLIKE_LOCK_TIMEOUT)
+      await this.next()
+      if (PlayQueueUtils.currentQueueIndex != index) {
+        await settled
+      }
+      await report
+    } finally {
+      this.dislikeInFlight = false
+    }
+  }
+
+  /**
+   * 等待下一次 onPlayStarted / onPlayFailed，超时也返回
+   */
+  private waitPlaySettled(timeout: number): Promise<void> {
+    return new Promise<void>((resolve: () => void) => {
+      let timer: number = -1
+      const done = (): void => {
+        clearTimeout(timer)
+        if (this.playSettled === done) this.playSettled = null
+        resolve()
+      }
+      timer = setTimeout(done, timeout)
+      this.playSettled = done
+    })
+  }
+
+  private notifyPlaySettled() {
+    if (this.playSettled) {
+      const done = this.playSettled
+      done()
+    }
+  }

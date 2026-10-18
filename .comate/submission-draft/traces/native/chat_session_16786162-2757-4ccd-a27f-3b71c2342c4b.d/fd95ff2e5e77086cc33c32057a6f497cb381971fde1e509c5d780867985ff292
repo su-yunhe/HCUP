@@ -1,0 +1,5 @@
+        self.assertIsNone(fm.find(self.driver, "queue_clean_btn"))
+
+        e1 = fm.log_count(self.driver, fm.LOG_E1)
+        e2 = fm.log_count(self.driver, fm.LOG_E2)
+        self.driver.click(exit_btn)

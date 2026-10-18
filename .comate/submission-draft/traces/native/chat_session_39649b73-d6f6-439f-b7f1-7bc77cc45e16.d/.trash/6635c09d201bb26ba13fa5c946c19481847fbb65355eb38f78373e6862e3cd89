@@ -1,0 +1,38 @@
+## 2. 网络状态机（REASONABLE_DERIVATION；带 Ux 的分支取决于第 4 节的决定）
+
+状态变量（建议）：`fmActive`（是否处于 FM）、`fmMode`、`fmLoading`（E1 在途）、`dislikeInFlight`（E2 在途）、`manualBackup`（进入 FM 前的手动队列和 index）、`fmReqSeq`（请求序号，用来丢弃过期响应）。
+
+```mermaid
+stateDiagram-v2
+    [*] --> NORMAL
+    NORMAL --> FM_ENTERING: 点击卡片 / 发 E1
+    FM_ENTERING --> FM_ACTIVE: E1 成功 / 备份手动队列, 播放第1首
+    FM_ENTERING --> FM_ACTIVE: E1 失败且选方案B(U3) / 空FM队列 + 提示
+    FM_ENTERING --> NORMAL: E1 失败且选方案A(U3)
+    FM_ACTIVE --> FM_FETCHING: 队尾时 播完/下一首/不喜欢 / 发 E1
+    FM_FETCHING --> FM_ACTIVE: E1 结束(成功追加并播放 / 失败提示)
+    FM_ACTIVE --> FM_RELOADING: 选择不同模式 / 发 E1(mode)
+    FM_RELOADING --> FM_ACTIVE: E1 结束(成功替换队列 / 失败回退模式 U14)
+    FM_ACTIVE --> NORMAL: 退出FM / 不发FM请求, 还原手动队列
+    FM_ENTERING --> NORMAL: 退出FM / 作废在途 E1
+    FM_FETCHING --> NORMAL: 退出FM / 作废在途 E1
+    FM_RELOADING --> NORMAL: 退出FM / 作废在途 E1
+```
+
+| # | 当前状态 | 用户动作 / 事件 | 是否发请求 | loading 绑定 | 成功后 | 失败后 |
+| --- | --- | --- | --- | --- | --- | --- |
+| T1 | NORMAL | 点击 `私人FM` 卡片 | 在点击回调里**同步发出** E1(fmMode) | 发出前 `fmLoading=true`，`finally` 置 false，一次请求对应一次 loading | 备份手动队列 → FM 队列=结果（过滤黑名单）→ `fmActive=true` → `playQueue(0)`（发 E3） | U3 |
+| T2 | `fmLoading=true` | 再点卡片 / 快速连点 | **不发** | 不变 | — | — |
+| T3 | FM_ACTIVE | 点击卡片 | 不发（U5） | — | 暂停中则继续播放 | — |
+| T4 | FM_ACTIVE | 当前歌播放完成（`completed`） | 不是队尾：只发 E3；是队尾：发 E1 | E1 期间 `fmLoading=true` | 追加结果，播放新一首 | 提示，停在当前歌，不自动重试 |
+| T5 | FM_ACTIVE | 点 `下一首`（底部栏/播放页/播控中心） | 同 T4 | 同 T4 | 同 T4 | 同 T4 |
+| T6 | FM_ACTIVE | 点 `不喜欢` | 发 E2(当前歌 id)；是队尾时同时发 E1 | `dislikeInFlight=true`，E2 结束且新歌开始后释放 | 黑名单加入该 id，播下一首 | E2 失败：U17；E1 失败：同 T4 |
+| T7 | `dislikeInFlight=true` | 再点 `不喜欢` | **不发** | 不变 | — | — |
+| T8 | FM_ACTIVE | 点播放页 `私人FM` 标识 | 不发 | — | 弹出模式菜单 | — |
+| T9 | 菜单打开 | 取消 / 点外部 / 返回键 | **不发** | — | 模式不变 | — |
+| T10 | 菜单打开 | 选中当前已选的模式 | 不发（U13） | — | 关闭菜单 | — |
+| T11 | 菜单打开 | 选中其他模式 M | 发 E1(M) | `fmLoading=true`，期间模式项不可点 | `fmMode=M` 并持久化，FM 队列替换为结果，`playQueue(0)`，手动备份不动 | U14 |
+| T12 | `fmLoading=true` | 再选模式 | **不发** | 不变 | — | — |
+| T13 | 任一 FM 状态 | 点 `退出FM` | **不发 E1/E2**；是否发 E3 取决于 U8 | `fmReqSeq++`，在途 E1 的响应直接丢弃 | 还原手动队列和 index，`fmActive=false`，持久化 | — |
+| T14 | 任一 FM 状态 | 其他入口替换队列（播放歌单/每日推荐/心动/单曲播放） | 不发 FM 请求 | `fmReqSeq++` | 按 U10 处理 | — |
+| T15 | 冷启动 | — | **不自动发** E1（与基线 `loadSavedSong` 只恢复显示、不自动播放一致） | — | 按 U15 恢复 FM 状态 | — |

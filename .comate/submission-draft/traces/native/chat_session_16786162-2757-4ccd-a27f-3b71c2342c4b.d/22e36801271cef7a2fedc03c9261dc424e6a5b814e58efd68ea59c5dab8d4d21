@@ -1,0 +1,4 @@
+    def test_02_mode_menu_items_and_cancel(self):
+        """A33-A35/A38：菜单有默认/熟悉/探索，当前模式打勾，返回键取消不切歌。"""
+        song = fm.text_of(self.driver, "player_song_name")
+        self.open_menu()

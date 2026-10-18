@@ -1,0 +1,62 @@
+# Code snapshot state (generated 2026-10-18 by 2-submit task; read-only evidence)
+base_commit: edc3a3d6d27b0bf60b3e18477a30f4d85142d0ce
+HEAD: b256c8ff85bef787a3b551cd969e9e4a3311cc4a (branch dev)
+tag baseline-cmu-spec34 -> b256c8ff85bef787a3b551cd969e9e4a3311cc4a
+working-tree snapshot tree hash (excl. logs/ and .comate/submission-draft/): 2731e22026192bac04fc2eb972df7e83036ade2f
+
+## git status --short
+ M build-profile.json5
+ M entry/src/main/ets/api/songApi.ets
+ M entry/src/main/ets/common/constants/StorageConstants.ets
+ M entry/src/main/ets/common/functions/app/appInit.ets
+ M entry/src/main/ets/common/functions/play/playControl.ets
+ M entry/src/main/ets/common/utils/play/AVPlayerUtils.ets
+ M entry/src/main/ets/common/utils/play/PlayQueueUtils.ets
+ M entry/src/main/ets/components/buttons/play/LoopModeButton.ets
+ M entry/src/main/ets/components/buttons/play/PlayQueueButton.ets
+ M entry/src/main/ets/components/cards/RecommendCards.ets
+ M entry/src/main/ets/components/play/BottomBarComponent.ets
+ M entry/src/main/ets/components/sheets/PlayQueueSheet.ets
+ M entry/src/main/ets/components/sheets/PlayingCover.ets
+?? .comate/
+?? entry/src/main/ets/common/entities/PersonalFM.ets
+?? entry/src/main/ets/common/utils/play/FMUtils.ets
+?? hypium_tests/
+?? logs/
+?? spec/
+
+## git log base..HEAD
+b256c8ff85bef787a3b551cd969e9e4a3311cc4a bress <1980039406@qq.com> 2026-10-14 17:24:26 +0800 chore: 记录 ohpm install 重建的依赖锁文件
+
+## git diff --numstat base -> working tree (same scope as changes/final.diff)
+2	1	build-profile.json5
+59	0	entry/src/main/ets/api/songApi.ets
+15	0	entry/src/main/ets/common/constants/StorageConstants.ets
+30	0	entry/src/main/ets/common/entities/PersonalFM.ets
+2	0	entry/src/main/ets/common/functions/app/appInit.ets
+49	2	entry/src/main/ets/common/functions/play/playControl.ets
+2	0	entry/src/main/ets/common/utils/play/AVPlayerUtils.ets
+474	0	entry/src/main/ets/common/utils/play/FMUtils.ets
+21	0	entry/src/main/ets/common/utils/play/PlayQueueUtils.ets
+5	0	entry/src/main/ets/components/buttons/play/LoopModeButton.ets
+2	0	entry/src/main/ets/components/buttons/play/PlayQueueButton.ets
+24	1	entry/src/main/ets/components/cards/RecommendCards.ets
+21	2	entry/src/main/ets/components/play/BottomBarComponent.ets
+51	9	entry/src/main/ets/components/sheets/PlayQueueSheet.ets
+96	4	entry/src/main/ets/components/sheets/PlayingCover.ets
+0	0	hypium_tests/__init__.py
+257	0	hypium_tests/fm_helpers.py
+95	0	hypium_tests/test_01_entry.py
+147	0	hypium_tests/test_02_player.py
+104	0	hypium_tests/test_03_queue.py
+124	0	hypium_tests/test_04_persist.py
+73	0	hypium_tests/test_05_failure.py
+2	1	oh-package-lock.json5
+85	0	spec/0-analyze.md
+132	0	spec/1-do.md
+127	0	spec/2-submit.md
+141	0	spec/3-package.md
+539	0	spec/acceptance.md
+163	0	spec/baseline-notes.md
+4	0	spec/metadata.json
+52	0	spec/requirement.md

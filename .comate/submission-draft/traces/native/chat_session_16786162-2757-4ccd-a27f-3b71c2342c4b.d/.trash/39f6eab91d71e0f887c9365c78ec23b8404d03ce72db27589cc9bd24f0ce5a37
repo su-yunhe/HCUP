@@ -1,0 +1,218 @@
+import { LogUtil, ToastUtil } from '@pura/harmony-utils'
+import { getPersonalFM, trashFM } from '../../../api/songApi'
+import { StorageConstants } from '../../constants/StorageConstants'
+import { FMMode } from '../../entities/PersonalFM'
+import { PlayQueue } from '../../entities/PlayQueue'
+import { Song } from '../../entities/SongsResult'
+import { playQueue, resumeMusic } from '../../functions/play/playControl'
+import PreferencesUtils from '../data/PreferencesUtils'
+import AVPlayerUtils from './AVPlayerUtils'
+import PlayQueueUtils from './PlayQueueUtils'
+
+/**
+ * 私人FM 工具
+ * FM 队列直接使用 PlayQueueUtils 的播放列表，进入时备份手动维护的播放列表，退出时还原
+ */
+const TAG = '[FMUtils] '
+const pref = StorageConstants.QUEUE_PREF
+const MAX_PLAY_FAIL = 3
+
+class FMUtils {
+  active: boolean = false
+  mode: FMMode = 'DEFAULT'
+  loading: boolean = false
+  private backupQueue: Array<PlayQueue> = []
+  private backupIndex: number = -1
+  private blacklist: Array<number> = []
+  // 请求序号，序号变化后到达的响应直接丢弃
+  private reqSeq: number = 0
+  // 正在进行的续拉请求（含预取）
+  private fetching: Promise<boolean> | null = null
+  private dislikeInFlight: boolean = false
+  private playFailCount: number = 0
+
+  /**
+   * 冷启动时恢复私人FM状态（不自动请求、不自动播放）
+   */
+  async init() {
+    try {
+      this.active = await PreferencesUtils.getPreferenceValue<boolean>(pref, 'fmActive', false)
+      const mode = await PreferencesUtils.getPreferenceValue<string>(pref, 'fmMode', 'DEFAULT')
+      this.mode = (mode == 'FAMILIAR' || mode == 'EXPLORE') ? mode : 'DEFAULT'
+      this.backupQueue = await PreferencesUtils.getPreferenceValue<Array<PlayQueue>>(pref, 'fmBackupQueue', [])
+      this.backupIndex = await PreferencesUtils.getPreferenceValue<number>(pref, 'fmBackupIndex', -1)
+      this.blacklist = await PreferencesUtils.getPreferenceValue<Array<number>>(pref, 'fmBlacklist', [])
+    } catch (e) {
+      LogUtil.error(TAG + '初始化私人FM失败: ' + e.message)
+    }
+    AppStorage.setOrCreate(StorageConstants.FM_ACTIVE, this.active)
+    AppStorage.setOrCreate(StorageConstants.FM_MODE, this.mode)
+    AppStorage.setOrCreate(StorageConstants.FM_LOADING, false)
+  }
+
+  /**
+   * 点击私人FM卡片
+   */
+  async enter() {
+    if (this.loading) {
+      ToastUtil.showToast('正在加载, 请稍后')
+      return
+    }
+    // 已在私人FM中且有当前歌曲：不重新请求，未播放/暂停时继续播放
+    if (this.active && PlayQueueUtils.getQueueElement(PlayQueueUtils.currentQueueIndex)) {
+      const isPlaying: boolean | undefined = AppStorage.get(StorageConstants.IS_PLAYING)
+      const isPaused: boolean | undefined = AppStorage.get(StorageConstants.IS_PAUSED)
+      if (!isPlaying) {
+        this.play(PlayQueueUtils.currentQueueIndex)
+      } else if (isPaused) {
+        resumeMusic()
+      }
+      return
+    }
+
+    const seq = ++this.reqSeq
+    this.fetching = null
+    this.setLoading(true)
+    let list: Array<PlayQueue> = []
+    try {
+      list = await this.request(this.mode, [])
+    } catch (e) {
+      LogUtil.error(TAG + '获取私人FM失败: ' + JSON.stringify(e))
+    }
+    if (seq != this.reqSeq) return
+    this.setLoading(false)
+
+    // 请求结束（无论成败）才进入私人FM并备份手动播放列表
+    if (!this.active) {
+      this.backupQueue = PlayQueueUtils.getQueue().slice()
+      this.backupIndex = PlayQueueUtils.currentQueueIndex
+      this.setActive(true)
+    }
+    this.playFailCount = 0
+    if (list.length > 0) {
+      PlayQueueUtils.replaceQueue(list, 0)
+      this.play(0)
+    } else {
+      PlayQueueUtils.replaceQueue([], -1)
+      ToastUtil.showToast('获取推荐歌曲失败')
+    }
+    await this.persist()
+  }
+
+  /**
+   * 私人FM 下一首：队列中已有下一首直接播放，否则续拉推荐
+   */
+  async next() {
+    if (!this.active) return
+    const index = PlayQueueUtils.currentQueueIndex
+    if (index + 1 < PlayQueueUtils.getQueueLength()) {
+      this.play(index + 1)
+      return
+    }
+    if (this.loading) return
+
+    const seq = this.reqSeq
+    this.setLoading(true)
+    const ok = await this.fetchMore()
+    if (seq != this.reqSeq) return
+    this.setLoading(false)
+    const current = PlayQueueUtils.currentQueueIndex
+    if (ok && current + 1 < PlayQueueUtils.getQueueLength()) {
+      this.play(current + 1)
+    } else {
+      ToastUtil.showToast('获取推荐歌曲失败')
+    }
+  }
+
+  /**
+   * 私人FM 中歌曲播放失败（如无播放地址），连续失败超过上限则停止
+   */
+  onPlayFailed() {
+    this.playFailCount++
+    if (this.playFailCount >= MAX_PLAY_FAIL) {
+      this.playFailCount = 0
+      ToastUtil.showToast('获取推荐歌曲失败')
+      return
+    }
+    this.next()
+  }
+
+  onPlayStarted() {
+    this.playFailCount = 0
+  }
+
+  /**
+   * 不喜欢当前歌曲：上报服务端、加入本地黑名单，并切到下一首
+   */
+  async dislike() {
+    if (!this.active || this.dislikeInFlight) return
+    const index = PlayQueueUtils.currentQueueIndex
+    const current = PlayQueueUtils.getQueueElement(index)
+    if (!current) return
+    const sid = current.song.id
+    this.dislikeInFlight = true
+    const report: Promise<boolean> = trashFM(sid).catch((e: Error) => {
+      LogUtil.error(TAG + '不喜欢上报失败: ' + JSON.stringify(e))
+      return false
+    })
+    if (!this.blacklist.includes(sid)) {
+      this.blacklist.push(sid)
+    }
+    // 队列中尚未播放的同一首歌也移除
+    const queue = PlayQueueUtils.getQueue()
+    const filtered = queue.filter((item: PlayQueue, i: number) => i <= index || item.song.id != sid)
+    if (filtered.length != queue.length) {
+      PlayQueueUtils.replaceQueue(filtered, index)
+    }
+    this.persist()
+    try {
+      await this.next()
+      await report
+    } finally {
+      this.dislikeInFlight = false
+    }
+  }
+
+  /**
+   * 切换私人FM模式并重新加载推荐队列
+   */
+  async switchMode(mode: FMMode) {
+    if (!this.active || mode == this.mode || this.loading) return
+    const seq = ++this.reqSeq
+    this.fetching = null
+    const hasOldQueue = PlayQueueUtils.getQueueLength() > 0
+    this.setLoading(true)
+    let list: Array<PlayQueue> = []
+    try {
+      list = await this.request(mode, [])
+    } catch (e) {
+      LogUtil.error(TAG + '切换私人FM模式失败: ' + JSON.stringify(e))
+    }
+    if (seq != this.reqSeq) return
+    this.setLoading(false)
+    if (list.length > 0) {
+      this.setMode(mode)
+      this.playFailCount = 0
+      PlayQueueUtils.replaceQueue(list, 0)
+      this.play(0)
+    } else {
+      // 有旧队列时保持原模式；没有旧队列时保留新模式
+      if (!hasOldQueue) {
+        this.setMode(mode)
+      }
+      ToastUtil.showToast('切换模式失败')
+    }
+    await this.persist()
+  }
+
+  /**
+   * 退出私人FM：还原手动播放列表并播放进入前的那首
+   */
+  async exit() {
+    if (!this.active) return
+    const queue = this.backupQueue
+    let index = this.backupIndex
+    this.restore()
+    if (queue.length > 0) {
+      if (index < 0 || index >= queue.length) index = 0
+      Pl

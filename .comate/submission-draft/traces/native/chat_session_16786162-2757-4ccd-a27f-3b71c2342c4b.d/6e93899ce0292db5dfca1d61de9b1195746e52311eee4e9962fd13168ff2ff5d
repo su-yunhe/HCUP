@@ -1,0 +1,2 @@
+      const mode = await PreferencesUtils.getPreferenceValue<string>(pref, 'fmMode', 'DEFAULT')
+      this.mode = (mode == 'FAMILIAR' || mode == 'EXPLORE') ? mode : 'DEFAULT'

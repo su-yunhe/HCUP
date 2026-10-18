@@ -1,0 +1,8 @@
+export async function playQueue(index: number) {
+  const queue = PlayQueueUtils.getQueue()
+  const playqueue = queue[index]
+  if(!playqueue) {
+    LogUtil.warn(TAG + '播放列表中不存在该歌曲: ' + index)
+    return
+  }
+  PlayQueueUtils.setIndex(index)

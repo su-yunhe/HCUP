@@ -7,6 +7,7 @@ import { audio } from '@kit.AudioKit'
 import { StorageConstants } from '../../constants/StorageConstants'
 import { media } from '@kit.MediaKit'
 import { BusinessError } from '@kit.BasicServicesKit'
+import FMUtils from './FMUtils'
 
 const TAG = '[AVPlayerUtils] '
 
@@ -61,6 +62,7 @@ class AVPlayerUtils {
       }, 1000)
       avPlayer.on('timeUpdate', (time: number) => {
         AppStorage.setOrCreate(StorageConstants.PLAY_TIME, time)
+        FMUtils.onProgress(time, avPlayer.duration)
       })
     } catch (e) {
       LogUtil.error(TAG + '播放错误: ' + e.message)

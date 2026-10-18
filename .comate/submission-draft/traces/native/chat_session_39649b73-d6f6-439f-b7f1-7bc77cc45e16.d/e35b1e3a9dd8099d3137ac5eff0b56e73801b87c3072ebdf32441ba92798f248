@@ -1,0 +1,206 @@
+<file>
+     1→import { DialogUtil, ToastUtil } from "@pura/harmony-utils"
+     2→import { getLoginStatus, logOut } from "../../api/loginApi"
+     3→import Constants from "../../common/constants/Constants"
+     4→import { StorageConstants } from "../../common/constants/StorageConstants"
+     5→import { User, UserClass } from "../../common/entities/User"
+     6→import { initUserInfo } from "../../common/functions/app/appInit"
+     7→import { SettingsPage } from "../../pages/settings/SettingsPage"
+     8→import { CircleImageButton } from "../buttons/CircleButton"
+     9→
+    10→@Component
+    11→export struct Me {
+    12→  @StorageProp(StorageConstants.IS_LOGGED) isLogged: boolean = false
+    13→  @StorageProp(StorageConstants.USER) user: User = UserClass
+    14→  @StorageProp(StorageConstants.VALID_API_URL) isValidAPI: boolean = true
+    15→  @StorageProp(StorageConstants.VALID_COOKIE) isValidCookie: boolean = true
+    16→  @StorageProp(StorageConstants.COOKIE) cookie: string = ''
+    17→  @StorageProp(StorageConstants.APP_LOADING) appLoading: boolean = true
+    18→  @State isRefreshing: boolean = false
+    19→  @State isShowSettings: boolean = false
+    20→  @Consume('pageInfos') pageInfos: NavPathStack
+    21→
+    22→  async aboutToAppear(): Promise<void> {
+    23→    if(this.isValidAPI && this.cookie && !this.isLogged) {
+    24→      this.appLoading = true
+    25→      await getLoginStatus(this.cookie)
+    26→      this.appLoading = false
+    27→    }
+    28→  }
+    29→
+    30→  private async handleRefresh() {
+    31→    this.isRefreshing = true
+    32→    ToastUtil.showToast('正在刷新登录状态')
+    33→    try {
+    34→      await initUserInfo()
+    35→    } finally {
+    36→      this.isRefreshing = false
+    37→    }
+    38→  }
+    39→
+    40→  build() {
+    41→    Column({ space: 10 }) {
+    42→      Column() {
+    43→        if (this.isLogged && this.user) {
+    44→          Row({ space: 20 }) {
+    45→            CircleImageButton({ imgUrl: this.user.data.profile.avatarUrl + '?param=256y256', wid: 64 })
+    46→            Text(this.user.data.profile.nickname).textStyle(Constants.FONT_SIZE_TITLE).fontWeight(FontWeight.Bold)
+    47→          }
+    48→          .justifyContent(FlexAlign.Center)
+    49→          .width('100%')
+    50→          .padding({ bottom: 10 })
+    51→        } else if(this.appLoading) {
+    52→          LoadingProgress().width(40)
+    53→        } else if(this.isValidAPI) {
+    54→          Row({ space: 20 }) {
+    55→            CircleImageButton({ imgUrl: $r('app.media.ic_user_portrait'), wid: 64 })
+    56→            Text('未登录').textStyle(Constants.FONT_SIZE_TITLE).fontWeight(FontWeight.Bold)
+    57→            this.RefreshButton()
+    58→          }
+    59→          .justifyContent(FlexAlign.Center)
+    60→          .width('100%')
+    61→          .padding({ bottom: 10 })
+    62→        }
+    63→      }
+    64→      .height(80)
+    65→
+    66→      Column() {
+    67→        this.ItemCard($r('app.media.ic_public_settings_filled'), '应用设置', () => {
+    68→          this.isShowSettings = true
+    69→        })
+    70→      }
+    71→      .itemColumnStyle()
+    72→
+    73→      Column() {
+    74→        this.ItemCard($r('app.media.ic_public_folder_filled'), '本地曲库', () => {
+    75→          if(this.pageInfos.size() == 0) {
+    76→            this.pageInfos.pushPathByName('CachedPage', null)
+    77→          } else {
+    78→            this.pageInfos.replacePathByName('CachedPage', null)
+    79→          }
+    80→        })
+    81→      }
+    82→      .itemColumnStyle()
+    83→
+    84→      Column().padding(30)
+    85→
+    86→      if(this.isValidAPI && !this.appLoading) {
+    87→        if(this.isLogged) {
+    88→          this.LoginButton($r('app.color.app_red'), '退出登录', () => {
+    89→            this.LogOut()
+    90→          })
+    91→        } else {
+    92→          this.LoginButton(Color.Blue, '登 录', () => {
+    93→            this.pageInfos.pushPathByName('LoginPage', null, true)
+    94→          })
+    95→        }
+    96→      }
+    97→    }
+    98→    .width('100%')
+    99→    .height('100%')
+   100→    .constraintSize({
+   101→      minWidth: 200,
+   102→      maxWidth: 500
+   103→    })
+   104→    .backgroundColor($r('app.color.background'))
+   105→    .padding({ left: 20, right: 20 })
+   106→    .bindSheet(this.isShowSettings, this.Settings(), {
+   107→      preferType: SheetType.CENTER,
+   108→      height: SheetSize.LARGE,
+   109→      dragBar: false,
+   110→      showClose: false,
+   111→      scrollSizeMode: ScrollSizeMode.FOLLOW_DETENT,
+   112→      backgroundColor: $r('app.color.background'),
+   113→      onDisappear: () => { this.isShowSettings = false }
+   114→    })
+   115→  }
+   116→
+   117→  @Builder ItemCard(icon: ResourceStr | string, text: string, action: () => void) {
+   118→    Button() {
+   119→      Row({ space: 10 }) {
+   120→        Image(icon).iconStyle()
+   121→        Text(text).textStyle(Constants.FONT_SIZE_COMMON + 2).textAlign(TextAlign.Start).layoutWeight(1)
+   122→        Image($r('app.media.ic_public_arrow_right')).iconStyle()
+   123→      }
+   124→    }
+   125→    .backgroundColor(Color.Transparent)
+   126→    .width('100%')
+   127→    .padding(Constants.PADDING_EDGE_DEFAULT)
+   128→    .onClick(action)
+   129→  }
+   130→
+   131→  @Builder LoginButton(color: Color | string | ResourceStr, text: string, action: () => void) {
+   132→    Button() {
+   133→      Row({ space: 10 }) {
+   134→        Text(text)
+   135→          .textStyle(Constants.FONT_SIZE_COMMON + 2)
+   136→          .textAlign(TextAlign.Center)
+   137→          .fontColor(Color.White)
+   138→      }
+   139→    }
+   140→    .backgroundColor(color)
+   141→    .width('100%')
+   142→    .padding(Constants.PADDING_EDGE_DEFAULT)
+   143→    .onClick(action)
+   144→  }
+   145→
+   146→  @Builder RefreshButton() {
+   147→    if(this.isRefreshing) {
+   148→      LoadingProgress().width(Constants.FONT_SIZE_COMMON).aspectRatio(1)
+   149→    } else {
+   150→      Image($r('app.media.ic_public_refresh'))
+   151→        .width(Constants.FONT_SIZE_COMMON)
+   152→        .aspectRatio(1)
+   153→        .fillColor($r('app.color.reverse'))
+   154→        .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.7 })
+   155→        .onClick(() => {
+   156→          this.handleRefresh()
+   157→        })
+   158→    }
+   159→  }
+   160→
+   161→  @Builder Settings() {
+   162→    SettingsPage()
+   163→  }
+   164→
+   165→  private LogOut() {
+   166→    DialogUtil.showPrimaryDialog({
+   167→      title: '确认',
+   168→      message: '是否退出登录?',
+   169→      primaryButton: "取消",
+   170→      secondaryButton: {
+   171→        value: '确认',
+   172→        fontColor: Color.Red,
+   173→        action: async () => {
+   174→          let result = await logOut()
+   175→          if(result) {
+   176→            ToastUtil.showToast('成功退出登录')
+   177→          } else {
+   178→            ToastUtil.showToast('退出登录时出错')
+   179→          }
+   180→        }
+   181→      }
+   182→    })
+   183→  }
+   184→}
+   185→
+   186→@Extend(Text) function textStyle(size: number = Constants.FONT_SIZE_COMMON) {
+   187→  .fontSize(size)
+   188→  .textAlign(TextAlign.Center)
+   189→  .fontColor($r('app.color.reverse'))
+   190→}
+   191→
+   192→@Extend(Image) function iconStyle() {
+   193→  .width(Constants.SIZE_ICON_BUTTON_BAR)
+   194→  .fillColor(Color.Gray)
+   195→  .draggable(false)
+   196→}
+   197→
+   198→@Extend(Column) function itemColumnStyle() {
+   199→  .backgroundColor($r('app.color.main'))
+   200→  .borderRadius(Constants.RADIUS_CARD)
+   201→  .width('100%')
+   202→  .padding(5)
+   203→}
+</file>
+<metadata>The file has 203 lines in total.</metadata>

@@ -1,0 +1,449 @@
+import { LogUtil, ToastUtil } from '@pura/harmony-utils'
+import { getPersonalFM, trashFM } from '../../../api/songApi'
+import { StorageConstants } from '../../constants/StorageConstants'
+import { FMMode } from '../../entities/PersonalFM'
+import { PlayingPlayList } from '../../entities/PlayList'
+import { PlayQueue } from '../../entities/PlayQueue'
+import { Song } from '../../entities/SongsResult'
+import PreferencesUtils from '../data/PreferencesUtils'
+import PlayQueueUtils from './PlayQueueUtils'
+
+/**
+ * 私人FM 工具
+ * FM 队列直接使用 PlayQueueUtils 的播放列表，进入时备份手动维护的播放列表，退出时还原
+ */
+const TAG = '[FMUtils] '
+const pref = StorageConstants.QUEUE_PREF
+const MAX_PLAY_FAIL = 3
+// 距歌曲结束多少毫秒时预取下一首
+const PREFETCH_BEFORE_END = 20000
+// “不喜欢”切歌后等待新歌开始播放的最长时间
+const DISLIKE_LOCK_TIMEOUT = 10000
+
+/**
+ * 播放控制，由 playControl 注册
+ * （FMUtils 在应用启动时随 PlayQueueUtils 加载，此时不能加载依赖 UI 上下文的播放模块）
+ */
+export interface FMPlayer {
+  play: (index: number) => void
+  resume: () => void
+  stop: () => Promise<void>
+}
+
+class FMUtils {
+  active: boolean = false
+  mode: FMMode = 'DEFAULT'
+  loading: boolean = false
+  private player: FMPlayer | null = null
+  private backupQueue: Array<PlayQueue> = []
+  private backupIndex: number = -1
+  private blacklist: Array<number> = []
+  // 请求序号，序号变化后到达的响应直接丢弃
+  private reqSeq: number = 0
+  // 正在进行的续拉请求（含预取）
+  private fetching: Promise<boolean> | null = null
+  // 已为队列中该位置的歌曲预取过
+  private prefetchIndex: number = -1
+  private dislikeInFlight: boolean = false
+  // 等待当前切歌结果（开始播放或失败）的回调
+  private playSettled: (() => void) | null = null
+  private playFailCount: number = 0
+
+  setPlayer(player: FMPlayer) {
+    this.player = player
+  }
+
+  /**
+   * 冷启动时恢复私人FM状态（不自动请求、不自动播放）
+   */
+  async init() {
+    try {
+      this.active = await PreferencesUtils.getPreferenceValue<boolean>(pref, 'fmActive', false)
+      const mode = await PreferencesUtils.getPreferenceValue<string>(pref, 'fmMode', 'DEFAULT')
+      if (mode == 'FAMILIAR') {
+        this.mode = 'FAMILIAR'
+      } else if (mode == 'EXPLORE') {
+        this.mode = 'EXPLORE'
+      } else {
+        this.mode = 'DEFAULT'
+      }
+      this.backupQueue = await PreferencesUtils.getPreferenceValue<Array<PlayQueue>>(pref, 'fmBackupQueue', [])
+      this.backupIndex = await PreferencesUtils.getPreferenceValue<number>(pref, 'fmBackupIndex', -1)
+      this.blacklist = await PreferencesUtils.getPreferenceValue<Array<number>>(pref, 'fmBlacklist', [])
+    } catch (e) {
+      LogUtil.error(TAG + '初始化私人FM失败: ' + e.message)
+    }
+    AppStorage.setOrCreate(StorageConstants.FM_ACTIVE, this.active)
+    AppStorage.setOrCreate(StorageConstants.FM_MODE, this.mode)
+    AppStorage.setOrCreate(StorageConstants.FM_LOADING, false)
+  }
+
+  /**
+   * 点击私人FM卡片
+   */
+  async enter() {
+    if (this.loading) {
+      ToastUtil.showToast('正在加载, 请稍后')
+      return
+    }
+    // 已在私人FM中且有当前歌曲：不重新请求，未播放/暂停时继续播放
+    if (this.active && PlayQueueUtils.getQueueElement(PlayQueueUtils.currentQueueIndex)) {
+      const isPlaying: boolean | undefined = AppStorage.get(StorageConstants.IS_PLAYING)
+      const isPaused: boolean | undefined = AppStorage.get(StorageConstants.IS_PAUSED)
+      if (!isPlaying) {
+        this.play(PlayQueueUtils.currentQueueIndex)
+      } else if (isPaused) {
+        this.player?.resume()
+      }
+      return
+    }
+
+    const seq = ++this.reqSeq
+    this.fetching = null
+    this.prefetchIndex = -1
+    this.setLoading(true)
+    let list: Array<PlayQueue> = []
+    try {
+      list = await this.request(this.mode, [])
+    } catch (e) {
+      LogUtil.error(TAG + '获取私人FM失败: ' + JSON.stringify(e))
+    }
+    if (seq != this.reqSeq) return
+    this.setLoading(false)
+
+    // 请求结束（无论成败）才进入私人FM并备份手动播放列表
+    if (!this.active) {
+      this.backupQueue = PlayQueueUtils.getQueue().slice()
+      this.backupIndex = PlayQueueUtils.currentQueueIndex
+      this.setActive(true)
+      // 播放列表已替换，清除“上一次播放的歌单”记录
+      const playInfo: PlayingPlayList = { id: -1, count: -1 }
+      AppStorage.setOrCreate(StorageConstants.LAST_PLAYED_LIST, playInfo)
+    }
+    this.playFailCount = 0
+    if (list.length > 0) {
+      PlayQueueUtils.replaceQueue(list, 0)
+      this.play(0)
+    } else {
+      PlayQueueUtils.replaceQueue([], -1)
+      ToastUtil.showToast('获取推荐歌曲失败')
+    }
+    await this.persist()
+  }
+
+  /**
+   * 私人FM 下一首：队列中已有下一首直接播放，否则续拉推荐
+   */
+  async next() {
+    if (!this.active) return
+    const index = PlayQueueUtils.currentQueueIndex
+    if (index + 1 < PlayQueueUtils.getQueueLength()) {
+      this.play(index + 1)
+      return
+    }
+    if (this.loading) return
+
+    const seq = this.reqSeq
+    this.setLoading(true)
+    const ok = await this.fetchMore()
+    if (seq != this.reqSeq) return
+    this.setLoading(false)
+    const current = PlayQueueUtils.currentQueueIndex
+    if (ok && current + 1 < PlayQueueUtils.getQueueLength()) {
+      this.play(current + 1)
+    } else {
+      ToastUtil.showToast('获取推荐歌曲失败')
+    }
+  }
+
+  /**
+   * 私人FM 中歌曲播放失败（如无播放地址），连续失败超过上限则停止
+   */
+  onPlayFailed() {
+    this.notifyPlaySettled()
+    this.playFailCount++
+    if (this.playFailCount >= MAX_PLAY_FAIL) {
+      this.playFailCount = 0
+      ToastUtil.showToast('获取推荐歌曲失败')
+      return
+    }
+    this.next()
+  }
+
+  onPlayStarted() {
+    this.playFailCount = 0
+    this.notifyPlaySettled()
+  }
+
+  /**
+   * 不喜欢当前歌曲：上报服务端、加入本地黑名单，并切到下一首
+   */
+  async dislike() {
+    if (!this.active || this.dislikeInFlight) return
+    const index = PlayQueueUtils.currentQueueIndex
+    const current = PlayQueueUtils.getQueueElement(index)
+    if (!current) return
+    const sid = current.song.id
+    this.dislikeInFlight = true
+    const report: Promise<boolean> = trashFM(sid).catch((e: Error) => {
+      LogUtil.error(TAG + '不喜欢上报失败: ' + JSON.stringify(e))
+      return false
+    })
+    if (!this.blacklist.includes(sid)) {
+      this.blacklist.push(sid)
+    }
+    // 队列中尚未播放的同一首歌也移除
+    const queue = PlayQueueUtils.getQueue()
+    const filtered = queue.filter((item: PlayQueue, i: number) => i <= index || item.song.id != sid)
+    if (filtered.length != queue.length) {
+      PlayQueueUtils.replaceQueue(filtered, index)
+    }
+    this.persist()
+    try {
+      // 新歌真正开始播放（或播放失败）前，再点“不喜欢”都忽略
+      const settled = this.waitPlaySettled(DISLIKE_LOCK_TIMEOUT)
+      await this.next()
+      if (PlayQueueUtils.currentQueueIndex != index) {
+        await settled
+      }
+      await report
+    } finally {
+      this.dislikeInFlight = false
+    }
+  }
+
+  /**
+   * 等待下一次 onPlayStarted / onPlayFailed，超时也返回
+   */
+  private waitPlaySettled(timeout: number): Promise<void> {
+    return new Promise<void>((resolve: () => void) => {
+      let timer: number = -1
+      const done = (): void => {
+        clearTimeout(timer)
+        if (this.playSettled === done) this.playSettled = null
+        resolve()
+      }
+      timer = setTimeout(done, timeout)
+      this.playSettled = done
+    })
+  }
+
+  private notifyPlaySettled() {
+    if (this.playSettled) {
+      const done = this.playSettled
+      done()
+    }
+  }
+
+  /**
+   * 切换私人FM模式并重新加载推荐队列
+   */
+  async switchMode(mode: FMMode) {
+    if (!this.active || mode == this.mode || this.loading) return
+    const seq = ++this.reqSeq
+    this.fetching = null
+    this.prefetchIndex = -1
+    const hasOldQueue = PlayQueueUtils.getQueueLength() > 0
+    this.setLoading(true)
+    let list: Array<PlayQueue> = []
+    try {
+      list = await this.request(mode, [])
+    } catch (e) {
+      LogUtil.error(TAG + '切换私人FM模式失败: ' + JSON.stringify(e))
+    }
+    if (seq != this.reqSeq) return
+    this.setLoading(false)
+    if (list.length > 0) {
+      this.setMode(mode)
+      this.playFailCount = 0
+      PlayQueueUtils.replaceQueue(list, 0)
+      this.play(0)
+    } else {
+      // 有旧队列时保持原模式；没有旧队列时保留新模式
+      if (!hasOldQueue) {
+        this.setMode(mode)
+      }
+      ToastUtil.showToast('切换模式失败')
+    }
+    await this.persist()
+  }
+
+  /**
+   * 退出私人FM：还原手动播放列表并播放进入前的那首
+   */
+  async exit() {
+    if (!this.active) return
+    const queue = this.backupQueue
+    let index = this.backupIndex
+    this.restore()
+    if (queue.length > 0) {
+      if (index < 0 || index >= queue.length) index = 0
+      PlayQueueUtils.setIndex(index)
+      // 先更新显示，再请求播放地址
+      const item = queue[index]
+      AppStorage.setOrCreate(StorageConstants.PLAY_MODE, item.playmode)
+      AppStorage.setOrCreate(StorageConstants.PLAY_SONG, item.song)
+      AppStorage.setOrCreate(StorageConstants.PLAY_ARTISTS, item.artists)
+      if (item.playmode == 1 && item.picUrl) {
+        AppStorage.setOrCreate(StorageConstants.PIC_URL, item.picUrl)
+      }
+      this.player?.play(index)
+    } else {
+      await this.stopAndClear()
+    }
+    await this.persist()
+  }
+
+  /**
+   * 其他入口修改播放列表前调用：处于私人FM时先还原手动播放列表（不播放），并作废在途请求
+   */
+  onExternalQueueChange() {
+    if (this.active) {
+      this.restore()
+      this.persist()
+    } else if (this.loading) {
+      this.reqSeq++
+      this.setLoading(false)
+    }
+  }
+
+  /**
+   * 还原手动播放列表并退出私人FM（同步部分）
+   */
+  private restore() {
+    this.reqSeq++
+    this.fetching = null
+    this.prefetchIndex = -1
+    this.setLoading(false)
+    this.setActive(false)
+    let index = this.backupIndex
+    if (index >= this.backupQueue.length) index = this.backupQueue.length - 1
+    PlayQueueUtils.replaceQueue(this.backupQueue, index)
+    this.backupQueue = []
+    this.backupIndex = -1
+  }
+
+  private play(index: number) {
+    if (!this.player) {
+      LogUtil.error(TAG + '播放控制未注册')
+      return
+    }
+    this.player.play(index)
+  }
+
+  /**
+   * 播放进度更新：当前歌是队尾且临近结束时预取下一首（每首只预取一次，失败不提示），播完即可无缝衔接
+   * 不在歌曲开始时预取，保证点击卡片、切换模式、不喜欢等操作各自只发一次推荐请求
+   */
+  onProgress(time: number, duration: number) {
+    if (!this.active || this.fetching || this.loading) return
+    if (duration <= 0 || duration - time > PREFETCH_BEFORE_END) return
+    const index = PlayQueueUtils.currentQueueIndex
+    if (index < 0 || index < PlayQueueUtils.getQueueLength() - 1 || index == this.prefetchIndex) return
+    this.prefetchIndex = index
+    this.fetchMore()
+  }
+
+  /**
+   * 续拉推荐并追加到队列，同一时间只有一个续拉请求
+   */
+  private fetchMore(): Promise<boolean> {
+    if (this.fetching) return this.fetching
+    const seq = this.reqSeq
+    const mode = this.mode
+    const task = async (): Promise<boolean> => {
+      try {
+        const list = await this.request(mode, PlayQueueUtils.getQueue())
+        if (seq != this.reqSeq || !this.active || list.length == 0) return false
+        PlayQueueUtils.replaceQueue(PlayQueueUtils.getQueue().concat(list), PlayQueueUtils.currentQueueIndex)
+        return true
+      } catch (e) {
+        LogUtil.error(TAG + '续拉私人FM失败: ' + JSON.stringify(e))
+        return false
+      }
+    }
+    const promise = task()
+    this.fetching = promise
+    promise.finally(() => {
+      if (this.fetching === promise) this.fetching = null
+    })
+    return promise
+  }
+
+  /**
+   * 请求推荐：过滤黑名单和已在队列中的歌曲，过滤后为空时再请求一次
+   */
+  private async request(mode: FMMode, exclude: Array<PlayQueue>): Promise<Array<PlayQueue>> {
+    for (let i = 0; i < 2; i++) {
+      if (i > 0) {
+        LogUtil.info(TAG + 'Retry personal fm: all songs filtered')
+      }
+      const list = await getPersonalFM(mode)
+      if (list.length == 0) return []
+      let result: Array<PlayQueue> = []
+      for (let item of list) {
+        const id = item.song.id
+        if (this.blacklist.includes(id)) continue
+        if (exclude.some((e: PlayQueue) => e.song.id == id)) continue
+        if (result.some((e: PlayQueue) => e.song.id == id)) continue
+        result.push(item)
+      }
+      if (result.length > 0) return result
+    }
+    return []
+  }
+
+  /**
+   * 停止播放并显示“暂无播放”
+   */
+  private async stopAndClear() {
+    try {
+      await this.player?.stop()
+    } catch (e) {
+      LogUtil.error(TAG + '停止播放失败: ' + JSON.stringify(e))
+    }
+    const song: Song = {
+      id: 0,
+      name: '暂无播放',
+      artists: [],
+      duration: 0,
+      alias: [],
+      fee: 0
+    }
+    AppStorage.setOrCreate(StorageConstants.IS_PLAYING, false)
+    AppStorage.setOrCreate(StorageConstants.IS_PAUSED, true)
+    AppStorage.setOrCreate(StorageConstants.PLAY_TIME, 0)
+    AppStorage.setOrCreate(StorageConstants.PLAY_MODE, 0)
+    AppStorage.setOrCreate(StorageConstants.PLAY_SONG, song)
+    AppStorage.setOrCreate(StorageConstants.PLAY_ARTISTS, '选择一首歌曲播放吧')
+    AppStorage.setOrCreate(StorageConstants.PIC_URL, '')
+    AppStorage.setOrCreate('player-currentLyric', '')
+    await PreferencesUtils.putPreferenceValue(pref, 'hasCurrentSong', false)
+  }
+
+  private setActive(active: boolean) {
+    this.active = active
+    AppStorage.setOrCreate(StorageConstants.FM_ACTIVE, active)
+  }
+
+  private setMode(mode: FMMode) {
+    this.mode = mode
+    AppStorage.setOrCreate(StorageConstants.FM_MODE, mode)
+  }
+
+  private setLoading(loading: boolean) {
+    this.loading = loading
+    AppStorage.setOrCreate(StorageConstants.FM_LOADING, loading)
+  }
+
+  private async persist() {
+    await PreferencesUtils.putPreferenceValue(pref, 'fmActive', this.active)
+    await PreferencesUtils.putPreferenceValue(pref, 'fmMode', this.mode)
+    await PreferencesUtils.putPreferenceValue(pref, 'fmBackupQueue', this.backupQueue)
+    await PreferencesUtils.putPreferenceValue(pref, 'fmBackupIndex', this.backupIndex)
+    await PreferencesUtils.putPreferenceValue(pref, 'fmBlacklist', this.blacklist)
+  }
+}
+
+const fmUtils: FMUtils = new FMUtils()
+export default fmUtils as FMUtils

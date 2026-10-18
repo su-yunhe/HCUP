@@ -1,0 +1,52 @@
+"""场景二：播放列表面板中的“正在播放私人FM”与“退出FM”。"""
+from __future__ import annotations
+
+import time
+
+from hypium import BY
+
+from harness.driver import HarnessTestCase
+from hypium_tests import fm_helpers as fm
+
+
+class TestFMQueue(HarnessTestCase):
+
+    def tearDown(self):
+        for _ in range(2):
+            if fm.find(self.driver, "queue_title") is None and fm.find(self.driver, "player_slider") is None:
+                break
+            self.driver.press_back()
+            time.sleep(1)
+
+    def test_01_exit_restores_manual_queue(self):
+        """A10/A21/A22/A25-A29：面板提示与退出，退出后恢复手动队列并播放进入前的歌，面板保持打开。"""
+        fm.launch(self.driver)
+        fm.build_manual_queue(self.driver)
+        fm.open_queue_from_bottom(self.driver)
+        self.assertIsNone(fm.find(self.driver, "fm_queue_tip"), "普通模式不应显示“正在播放私人FM”")
+        self.assertIsNone(fm.find(self.driver, "fm_exit_btn"))
+        manual = fm.queue_names(self.driver)
+        self.assertEqual(manual, [fm.SONG_A, fm.SONG_B])
+        self.assertEqual(fm.queue_count(self.driver), 2)
+        fm.close_overlay(self.driver)
+
+        fm_song = fm.enter_fm(self.driver)
+        fm.open_queue_from_bottom(self.driver)
+        self.require_component(BY.text("正在播放私人FM"), "面板没有“正在播放私人FM”", timeout=5)
+        exit_btn = self.require_component(BY.text("退出FM"), "面板没有“退出FM”按钮", timeout=5)
+        self.assertTrue(fm.find(self.driver, "fm_exit_btn").isClickable())
+        # FM 中面板列出的是推荐队列，隐藏清空按钮
+        names = fm.queue_names(self.driver)
+        self.assertIn(fm_song, names)
+        self.assertIsNone(fm.find(self.driver, "queue_clean_btn"))
+
+        self.driver.click(exit_btn)
+        self.assertTrue(fm.wait_gone(self.driver, "fm_queue_tip"), "退出FM后提示未消失")
+        self.assertIsNone(fm.find(self.driver, "fm_exit_btn"))
+        # 面板保持打开，并立即刷新为手动队列
+        self.assertIsNotNone(fm.find(self.driver, "queue_title"), "退出FM后面板不应关闭")
+        self.assertTrue(fm.wait_for(lambda: fm.queue_count(self.driver) == 2, 5), "退出后数量不是手动队列的 2 首")
+        self.assertEqual(fm.queue_names(self.driver), manual)
+        self.assertIsNotNone(fm.find(self.driver, "queue_clean_btn"), "退出FM后清空按钮应恢复")
+        fm.close_overlay(self.driver)
+        self.assertIsNone(fm.find(self.driver, "fm_badge_bott

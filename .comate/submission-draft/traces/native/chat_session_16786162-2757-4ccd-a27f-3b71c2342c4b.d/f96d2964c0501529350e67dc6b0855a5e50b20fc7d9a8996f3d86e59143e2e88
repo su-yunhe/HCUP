@@ -1,0 +1,13 @@
+  private scrollToCurrent(animation: boolean = true) {
+    this.scroller.scrollToIndex(this.currentQueueIndex, animation, ScrollAlign.START)
+  }
+
+  /**
+   * 退出私人FM，面板保持打开并刷新为手动播放列表
+   */
+  private async exitFM() {
+    await FMUtils.exit()
+    this.dataSource.setData(PlayQueueUtils.getQueue())
+    this.dataSource.notifyDataReload()
+    this.scrollToCurrent(false)
+  }

@@ -1,0 +1,243 @@
+"""私人FM 自测公共方法（cmu-spec34）。
+
+约定：
+- 每个用例自己通过 restart_app 冷启动，不依赖其他用例留下的状态；
+- 依赖本地 NeteaseCloudMusicApi（应用内 API 地址 http://10.0.2.2:3000），未登录即可；
+- 组件优先用 .id() 定位（BY.key），文案断言用 BY.text 精确匹配。
+"""
+from __future__ import annotations
+
+import re
+import time
+
+from hypium import BY
+
+from harness.app import restart_app
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+API_URL = "http://10.0.2.2:3000"
+NET_TIMEOUT = 25
+
+SONG_A = "外婆桥"  # 搜索结果第 1 首（任然，fee=8 可播放）
+SONG_B = "摇到外婆桥（摇啊摇）(童声合唱版)"  # 搜索结果第 2 首（fee=8 可播放）
+
+
+def find(driver, key: str):
+    return driver.find_component(BY.key(key))
+
+
+# hilog 中的请求日志（songApi.ets 在发出请求前打印）
+LOG_E1 = "Request personal fm"
+LOG_E2 = "Request fm trash"
+# 推荐结果全部被黑名单/去重过滤时 FMUtils 会补请求一次，这次补请求属于同一次操作
+LOG_E1_RETRY = "Retry personal fm"
+
+
+def _app_log(driver) -> list[str]:
+    return driver.shell("hilog -x -D 0x1010").splitlines()
+
+
+def mark(driver) -> str:
+    """记录设备当前时间（到秒），之后只统计晚于该秒的日志；等 1.1 秒保证后续操作落在新的一秒。"""
+    marker = driver.shell('date "+%m-%d %H:%M:%S"').strip()
+    time.sleep(1.1)
+    return marker
+
+
+def count_since(driver, marker: str, pattern: str) -> int:
+    """应用日志域 0x1010 中晚于 marker、包含 pattern 的行数，用来统计真实发出的网络请求。"""
+    return sum(1 for line in _app_log(driver) if line[:14] > marker and pattern in line)
+
+
+def e1_ops_since(driver, marker: str, pattern: str = LOG_E1) -> int:
+    """推荐请求的“操作次数”：请求行数减去过滤后补请求的次数。"""
+    lines = [line for line in _app_log(driver) if line[:14] > marker]
+    return sum(1 for line in lines if pattern in line) - sum(1 for line in lines if LOG_E1_RETRY in line)
+
+
+def text_of(driver, key: str):
+    c = find(driver, key)
+    return None if c is None else c.getText()
+
+
+def wait_for(cond, timeout: float = NET_TIMEOUT, interval: float = 0.5):
+    """轮询 cond()，返回第一个真值；超时返回 None。"""
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        value = cond()
+        if value:
+            return value
+        time.sleep(interval)
+    return None
+
+
+def wait_key(driver, key: str, timeout: float = NET_TIMEOUT):
+    return wait_for(lambda: find(driver, key), timeout)
+
+
+def wait_gone(driver, key: str, timeout: float = 10) -> bool:
+    return bool(wait_for(lambda: find(driver, key) is None, timeout))
+
+
+def click_key(driver, key: str, timeout: float = 10):
+    c = wait_key(driver, key, timeout)
+    if c is None:
+        raise AssertionError(f"未找到组件 id={key}")
+    driver.click(c)
+    return c
+
+
+def launch(driver):
+    """冷启动并等待发现页私人FM卡片出现。"""
+    restart_app(driver, BUNDLE, wait_time=3)
+    if wait_key(driver, "fm_card", 20) is None:
+        raise AssertionError("冷启动后发现页未出现私人FM卡片")
+    time.sleep(1.5)
+
+
+def bottom_song(driver):
+    return text_of(driver, "bottom_bar_song_name")
+
+
+def wait_song_change(driver, old: str | None, key: str = "bottom_bar_song_name", timeout: float = NET_TIMEOUT):
+    def changed():
+        t = text_of(driver, key)
+        return t if t and t != old and t != "暂无播放" else None
+    return wait_for(changed, timeout)
+
+
+def is_fm(driver) -> bool:
+    return find(driver, "fm_badge_bottom") is not None
+
+
+def open_queue_from_bottom(driver):
+    click_key(driver, "bottom_bar_queue_btn")
+    if wait_key(driver, "queue_title", 8) is None:
+        raise AssertionError("播放列表面板未打开")
+    time.sleep(1)
+
+
+def close_overlay(driver):
+    driver.press_back()
+    time.sleep(1.2)
+
+
+def queue_count(driver) -> int | None:
+    t = text_of(driver, "queue_title")
+    if not t:
+        return None
+    m = re.search(r"\((\d+)\)", t)
+    return int(m.group(1)) if m else None
+
+
+def queue_names(driver, limit: int = 8) -> list[str]:
+    names = []
+    for i in range(limit):
+        t = text_of(driver, f"queue_item_{i}")
+        if t is None:
+            break
+        names.append(t)
+    return names
+
+
+def exit_fm_if_needed(driver):
+    """处于私人FM时，从底部栏打开播放列表点“退出FM”。"""
+    if not is_fm(driver):
+        return
+    open_queue_from_bottom(driver)
+    click_key(driver, "fm_exit_btn")
+    wait_gone(driver, "fm_exit_btn")
+    close_overlay(driver)
+    if not wait_gone(driver, "fm_badge_bottom"):
+        raise AssertionError("退出FM后底部栏仍显示私人FM标识")
+
+
+def enter_fm(driver) -> str:
+    """点击私人FM卡片，等待标识出现、底部栏歌曲换成 FM 推荐，返回歌名。"""
+    old = bottom_song(driver)
+    click_key(driver, "fm_card")
+    if wait_key(driver, "fm_badge_bottom") is None:
+        raise AssertionError("点击私人FM卡片后底部栏没有出现私人FM标识")
+    song = wait_song_change(driver, old)
+    if song is None:
+        # 进入前正在播放的歌恰好被推荐时歌名可能不变
+        song = bottom_song(driver)
+    return song
+
+
+def ensure_fm_playing(driver) -> str:
+    """冷启动后保证处于私人FM且有当前歌，返回歌名。"""
+    launch(driver)
+    if is_fm(driver):
+        click_key(driver, "fm_card")  # 已在 FM：未播放时开始播放
+        time.sleep(2)
+        song = bottom_song(driver)
+        if song and song != "暂无播放":
+            return song
+        exit_fm_if_needed(driver)
+    return enter_fm(driver)
+
+
+def open_player(driver):
+    click_key(driver, "bottom_bar")
+    if wait_key(driver, "player_slider", 10) is None:
+        raise AssertionError("点击底部播放栏后播放页未打开")
+    time.sleep(1.5)
+
+
+def clear_queue(driver):
+    """普通模式下清空播放列表。"""
+    open_queue_from_bottom(driver)
+    if queue_count(driver) != 0:
+        click_key(driver, "queue_clean_btn")
+        time.sleep(1)
+        # 弹窗标题和确认按钮文字都是“确认”，按钮在下方
+        confirms = driver.find_all_components(BY.text("确认")) or []
+        if not confirms:
+            raise AssertionError("未找到清空播放列表确认按钮")
+        driver.click(max(confirms, key=lambda c: c.getBounds().top))
+        if not wait_for(lambda: queue_count(driver) == 0, 8):
+            raise AssertionError("清空播放列表失败")
+    close_overlay(driver)
+
+
+def search(driver, keyword: str):
+    driver.click(driver.find_component(BY.type("Search")))
+    time.sleep(2)
+    driver.input_text(driver.find_component(BY.type("Search")), keyword)
+    time.sleep(0.5)
+    driver.click(driver.find_component(BY.text("搜索")))
+    if wait_for(lambda: driver.find_component(BY.text(SONG_B)), 20) is None:
+        raise AssertionError("搜索结果未加载")
+    time.sleep(1)
+
+
+def song_menu(driver, name: str, action: str):
+    """长按搜索结果中的歌曲弹出菜单，点击菜单项。"""
+    # 搜索框、底部栏也可能是同样的文字，取最靠上的 Text（搜索结果列表里的）
+    texts = [c for c in driver.find_all_components(BY.text(name)) if c.getType() == "Text"]
+    target = min(texts, key=lambda c: c.getBounds().top)
+    driver.long_click(target)
+    item = wait_for(lambda: driver.find_component(BY.text(action)), 8)
+    if item is None:
+        raise AssertionError(f"歌曲菜单未出现 {action}")
+    driver.click(item)
+    time.sleep(1.5)
+
+
+def build_manual_queue(driver):
+    """普通模式下把手动播放列表设为 [SONG_A(当前), SONG_B]，最后回到发现页。"""
+    exit_fm_if_needed(driver)
+    clear_queue(driver)
+    search(driver, "外婆桥")
+    song_menu(driver, SONG_A, "单曲播放")
+    song_menu(driver, SONG_B, "添加到下一首")
+    # 返回发现页（键盘可能还开着，最多返回 3 次；搜索页的“搜索”按钮消失即已返回）
+    for _ in range(3):
+        if driver.find_component(BY.text("搜索")) is None:
+            break
+        close_overlay(driver)
+    if driver.find_component(BY.text("搜索")) is not None:
+        raise AssertionError("未能返回发现页")
+    if wait_for(lambda: bottom_song(driver) == SONG_A, NET_TIMEOUT) is None:
+        raise AssertionError(f"手动播放列表当前歌不是 {SONG_A}: {bottom_song(driver)}")

@@ -1,0 +1,30 @@
+import { LogUtil, ToastUtil } from '@pura/harmony-utils'
+import { getPersonalFM, trashFM } from '../../../api/songApi'
+import { StorageConstants } from '../../constants/StorageConstants'
+import { FMMode } from '../../entities/PersonalFM'
+import { PlayQueue } from '../../entities/PlayQueue'
+import { Song } from '../../entities/SongsResult'
+import { playQueue, resumeMusic } from '../../functions/play/playControl'
+import PreferencesUtils from '../data/PreferencesUtils'
+import AVPlayerUtils from './AVPlayerUtils'
+import PlayQueueUtils from './PlayQueueUtils'
+
+/**
+ * 私人FM 工具
+ * FM 队列直接使用 PlayQueueUtils 的播放列表，进入时备份手动维护的播放列表，退出时还原
+ */
+const TAG = '[FMUtils] '
+const pref = StorageConstants.QUEUE_PREF
+const MAX_PLAY_FAIL = 3
+
+class FMUtils {
+  active: boolean = false
+  mode: FMMode = 'DEFAULT'
+  loading: boolean = false
+  private backupQueue: Array<PlayQueue> = []
+  private backupIndex: number = -1
+  private blacklist: Array<number> = []
+  // 请求序号，序号变化后到达的响应直接丢弃
+  private reqSeq: number = 0
+  // 正在进行的续拉请求（含预取）
+  pri

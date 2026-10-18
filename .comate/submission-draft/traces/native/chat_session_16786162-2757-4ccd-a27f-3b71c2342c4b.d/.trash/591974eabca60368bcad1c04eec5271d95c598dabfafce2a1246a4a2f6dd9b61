@@ -1,0 +1,15 @@
+  @StorageProp('player-currentLyric') currentLyric: string = ''
+  @StorageProp(StorageConstants.FM_ACTIVE) isFMActive: boolean = false
+  @State isShow: boolean = false
+  @Consume('pageInfos') pageInfos: NavPathStack
+
+  build() {
+    Row() {
+      if(this.playmode == 0) { Image(this.picUrl).songImg() }
+      else { Image(this.picUrl + '?param=512y512').songImg() }
+
+      Column({ space: 5 }) {
+        Row() {
+          Text(this.song.name).textStyle(16).fontWeight(FontWeight.Medium).id('bottom_bar_song_name')
+          if(this.isFMActive) {
+            Text('私人FM'

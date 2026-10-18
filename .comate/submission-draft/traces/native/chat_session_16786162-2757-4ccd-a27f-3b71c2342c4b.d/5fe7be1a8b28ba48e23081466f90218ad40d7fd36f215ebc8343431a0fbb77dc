@@ -1,0 +1,2 @@
+export async function playNext() {
+  let isLogged:boolean | undefined = await AppStorage.get(StorageConstants.IS_LOGGED)

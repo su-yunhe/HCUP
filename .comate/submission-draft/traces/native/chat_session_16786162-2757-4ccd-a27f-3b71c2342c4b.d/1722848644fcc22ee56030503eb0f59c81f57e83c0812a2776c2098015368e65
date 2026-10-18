@@ -1,0 +1,13 @@
+def click_key(driver, key: str, timeout: float = 10):
+    c = wait_key(driver, key, timeout)
+    if c is None:
+        raise AssertionError(f"未找到组件 id={key}")
+    driver.click(c)
+    return c
+
+
+def rapid_tap(driver, component, times: int = 3):
+    """在设备端连续点击组件中心（约 0.2 秒一次），比逐次调用 driver.click 更接近真实连点。"""
+    b = component.getBounds()
+    x, y = (b.left + b.right) // 2, (b.top + b.bottom) // 2
+    driver.shell("; ".join([f"uitest uiInput click {x} {y}"] * times))

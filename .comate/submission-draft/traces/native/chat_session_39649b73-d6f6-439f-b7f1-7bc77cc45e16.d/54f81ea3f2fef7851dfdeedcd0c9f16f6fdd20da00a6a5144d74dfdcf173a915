@@ -1,0 +1,32 @@
+# 验收矩阵：私人FM（cmu-spec34）
+
+依据：`spec/requirement.md`（四个场景）+ 基线实测（`spec/baseline-notes.md`）。本文件只做拆解，不含实现。
+
+证据等级：`SPEC_EXPLICIT`（Spec 明文）／`REASONABLE_DERIVATION`（由 Spec 或基线结构合理推出）／`UNCONFIRMED_ASSUMPTION`（Spec 没写、需要你拍板，汇总见第 4 节）。
+八个维度缩写：入口／前置／动作／UI／数据／网络／返回／边界。选择器一栏里的 id 都是**建议值**，基线全部缺失，标“需补 `.id()`”。
+
+## 0. Spec 原文文案（逐字，实现时不得改写）
+
+| 文案 | 出处 | 用在哪里 |
+| --- | --- | --- |
+| `发现` | 场景一概述/步骤1 | 已有页面（`Index.ets:104` 标题、`:153` Tab） |
+| `私人FM` | 场景一 1/2/4，场景二概述，场景三 1，场景四 4 | 推荐卡片标题、底部播放栏标识、播放页标识 |
+| `播放列表` | 场景二 1 | 已有面板（`PlayQueueSheet.ets:53`，与数量拼在同一 Text 里） |
+| `正在播放私人FM` | 场景二 2 | 播放列表面板顶部提示 |
+| `退出FM` | 场景二 2/3 | 播放列表面板按钮 |
+| `默认` `熟悉` `探索` | 场景三 2/3 | 模式菜单三个选项 |
+| `不喜欢` | 场景四 2 | 播放页播放控制区按钮 |
+
+Spec 没有给出的文案（卡片副标题、加载中/失败提示、当前模式显示文字）一律按 `UNCONFIRMED_ASSUMPTION` 处理，并且**不能包含**上表里的完整文案，以免选择器歧义（例如失败提示不要写成“私人FM加载失败”）。
+
+## 1. 接口（REASONABLE_DERIVATION，来源：NeteaseCloudMusicApi 公开接口的一般认知，本地无服务端，**未验证**）
+
+| 编号 | 用途 | 建议请求 |
+| --- | --- | --- |
+| E1 | 拉取私人FM推荐（一次返回少量歌曲） | 默认：`/personal_fm`；按模式：`/personal/fm/mode?mode=DEFAULT\|FAMILIAR\|EXPLORE`；都要带 `timestamp=`（基线缓存问题见 baseline-notes 第 8 节第 7 条） |
+| E2 | 不喜欢 / 加入黑名单 | `/fm_trash?id=<songId>&timestamp=` |
+| E3 | 播放所需（已有） | `/song/url/v1`、`/song/detail`、歌词接口，经 `playMusicByUrl` 发出 |
+
+模式映射：`默认`→DEFAULT，`熟悉`→FAMILIAR，`探索`→EXPLORE。E1 的响应字段（`artists/album/duration` 还是 `ar/al/dt`）没有验证，解析时两种都要兼容。
+
+PLACEHOLDER_STATE_MACHINE

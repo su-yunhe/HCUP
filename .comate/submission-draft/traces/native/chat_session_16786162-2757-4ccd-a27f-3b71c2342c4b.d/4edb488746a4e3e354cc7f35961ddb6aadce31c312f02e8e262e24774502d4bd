@@ -1,0 +1,13 @@
+  onPlayFailed() {
+    this.playFailCount++
+    if (this.playFailCount >= MAX_PLAY_FAIL) {
+      this.playFailCount = 0
+      ToastUtil.showToast('获取推荐歌曲失败')
+      return
+    }
+    this.next()
+  }
+
+  onPlayStarted() {
+    this.playFailCount = 0
+  }

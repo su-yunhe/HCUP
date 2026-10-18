@@ -1,0 +1,107 @@
+  @Builder
+  PlayButton() {
+    // 上一首
+    Image($r('app.media.ic_public_play_last')).buttonImgStyle()
+    .id('player_prev_btn')
+    .onClick(() => {
+      playPre()
+    })
+
+    // 暂停、继续
+    Image(!this.isPaused ? $r('app.media.ic_public_pause') : $r('app.media.ic_play_fill')).buttonImgStyle()
+      .id('player_play_btn')
+      .onClick(() => {
+        if(this.isPaused) {
+          resumeMusic()
+        } else {
+          pauseMusic()
+        }
+      })
+
+    // 下一首
+    Image($r('app.media.ic_public_play_next')).buttonImgStyle()
+    .id('player_next_btn')
+    .onClick(() => {
+      playNext()
+    })
+  }
+
+  /**
+   * 播放控制行最左侧：私人FM 中为“不喜欢”，否则为循环模式
+   */
+  @Builder
+  LeftControlButton() {
+    if(this.isFMActive) {
+      Column({ space: 2 }) {
+        Image($r('app.media.ic_public_delete'))
+          .width(26)
+          .aspectRatio(1)
+          .fillColor(Color.White)
+          .draggable(false)
+        Text('不喜欢')
+          .id('fm_dislike_text')
+          .fontSize(10)
+          .fontColor(Color.White)
+      }
+      .id('fm_dislike_btn')
+      .opacity(0.8)
+      .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.8 })
+      .onClick(() => {
+        FMUtils.dislike()
+      })
+    } else {
+      LoopModeButton({ imgColor: Color.White, btnId: 'player_loop_btn' }).opacity(0.8)
+    }
+  }
+
+  /**
+   * 私人FM 标识，点击弹出模式选择菜单
+   */
+  @Builder
+  FMBadge() {
+    if(this.isFMActive) {
+      Row({ space: 2 }) {
+        Text('私人FM')
+          .id('fm_badge_player_text')
+          .fontSize(Constants.FONT_SIZE_COMMON - 1)
+          .fontColor(Color.White)
+          .fontWeight(FontWeight.Medium)
+        Image($r('app.media.ic_public_arrow_down_0'))
+          .id('fm_badge_player_arrow')
+          .width(16)
+          .aspectRatio(1)
+          .fillColor(Color.White)
+          .draggable(false)
+      }
+      .id('fm_badge_player')
+      .padding({ left: 12, right: 8, top: 4, bottom: 4 })
+      .borderRadius(14)
+      .backgroundColor('#33FFFFFF')
+      .bindMenu(this.FMModeMenu())
+    }
+  }
+
+  @Builder
+  FMModeMenu() {
+    Menu() {
+      MenuItem({ content: '默认' })
+        .id('fm_mode_default')
+        .selected(this.fmMode == 'DEFAULT')
+        .selectIcon(true)
+        .enabled(!this.isFMLoading)
+        .onClick(() => { FMUtils.switchMode('DEFAULT') })
+      MenuItem({ content: '熟悉' })
+        .id('fm_mode_familiar')
+        .selected(this.fmMode == 'FAMILIAR')
+        .selectIcon(true)
+        .enabled(!this.isFMLoading)
+        .onClick(() => { FMUtils.switchMode('FAMILIAR') })
+      MenuItem({ content: '探索' })
+        .id('fm_mode_explore')
+        .selected(this.fmMode == 'EXPLORE')
+        .selectIcon(true)
+        .enabled(!this.isFMLoading)
+        .onClick(() => { FMUtils.switchMode('EXPLORE') })
+    }
+    .id('fm_mode_menu')
+  }

@@ -14,6 +14,7 @@ import { PasteboardUtil, ToastUtil } from "@pura/harmony-utils"
 import { PlayerActionSheet } from "./PlayerActionSheet"
 import { likeThisSong } from "../../common/functions/play/songLike"
 import { resourceManager } from "@kit.LocalizationKit"
+import FMUtils from "../../common/utils/play/FMUtils"
 
 @Component
 export struct PlayingCover {
@@ -30,6 +31,9 @@ export struct PlayingCover {
   @StorageProp(StorageConstants.PLAY_IS_LOCALFILE) isLocalFile: boolean = false
   @StorageProp(StorageConstants.BREAKPOINT) breakpoint: string = 'sm'
   @StorageProp(StorageConstants.DEVICE_TYPE) deviceType: resourceManager.DeviceType = resourceManager.DeviceType.DEVICE_TYPE_PHONE
+  @StorageProp(StorageConstants.FM_ACTIVE) isFMActive: boolean = false
+  @StorageProp(StorageConstants.FM_MODE) fmMode: string = 'DEFAULT'
+  @StorageProp(StorageConstants.FM_LOADING) isFMLoading: boolean = false
   @Link isShow: boolean
   @State sliderThickness: number = 10
   @State isMovingSlider: boolean = false
@@ -237,6 +241,7 @@ export struct PlayingCover {
         max: this.song.duration,
         style: SliderStyle.InSet
       })
+        .id('player_slider')
         .width('90%')
         .blockColor(Color.White)
         .trackColor(Color.Gray)
@@ -273,12 +278,14 @@ export struct PlayingCover {
   PlayButton() {
     // 上一首
     Image($r('app.media.ic_public_play_last')).buttonImgStyle()
+    .id('player_prev_btn')
     .onClick(() => {
       playPre()
     })
 
     // 暂停、继续
     Image(!this.isPaused ? $r('app.media.ic_public_pause') : $r('app.media.ic_play_fill')).buttonImgStyle()
+      .id('player_play_btn')
       .onClick(() => {
         if(this.isPaused) {
           resumeMusic()
@@ -289,9 +296,90 @@ export struct PlayingCover {
 
     // 下一首
     Image($r('app.media.ic_public_play_next')).buttonImgStyle()
+    .id('player_next_btn')
     .onClick(() => {
       playNext()
     })
+  }
+
+  /**
+   * 播放控制行最左侧：私人FM 中为“不喜欢”，否则为循环模式
+   */
+  @Builder
+  LeftControlButton() {
+    if(this.isFMActive) {
+      Column({ space: 2 }) {
+        Image($r('app.media.ic_public_delete'))
+          .width(26)
+          .aspectRatio(1)
+          .fillColor(Color.White)
+          .draggable(false)
+        Text('不喜欢')
+          .id('fm_dislike_text')
+          .fontSize(10)
+          .fontColor(Color.White)
+      }
+      .id('fm_dislike_btn')
+      .opacity(0.8)
+      .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.8 })
+      .onClick(() => {
+        FMUtils.dislike()
+      })
+    } else {
+      LoopModeButton({ imgColor: Color.White, btnId: 'player_loop_btn' }).opacity(0.8)
+    }
+  }
+
+  /**
+   * 私人FM 标识，点击弹出模式选择菜单
+   */
+  @Builder
+  FMBadge() {
+    if(this.isFMActive) {
+      Row({ space: 2 }) {
+        Text('私人FM')
+          .id('fm_badge_player_text')
+          .fontSize(Constants.FONT_SIZE_COMMON - 1)
+          .fontColor(Color.White)
+          .fontWeight(FontWeight.Medium)
+        Image($r('app.media.ic_public_arrow_down_0'))
+          .id('fm_badge_player_arrow')
+          .width(16)
+          .aspectRatio(1)
+          .fillColor(Color.White)
+          .draggable(false)
+      }
+      .id('fm_badge_player')
+      .padding({ left: 12, right: 8, top: 4, bottom: 4 })
+      .borderRadius(14)
+      .backgroundColor('#33FFFFFF')
+      .bindMenu(this.FMModeMenu())
+    }
+  }
+
+  @Builder
+  FMModeMenu() {
+    Menu() {
+      MenuItem({ content: '默认' })
+        .id('fm_mode_default')
+        .selected(this.fmMode == 'DEFAULT')
+        .selectIcon(true)
+        .enabled(!this.isFMLoading)
+        .onClick(() => { FMUtils.switchMode('DEFAULT') })
+      MenuItem({ content: '熟悉' })
+        .id('fm_mode_familiar')
+        .selected(this.fmMode == 'FAMILIAR')
+        .selectIcon(true)
+        .enabled(!this.isFMLoading)
+        .onClick(() => { FMUtils.switchMode('FAMILIAR') })
+      MenuItem({ content: '探索' })
+        .id('fm_mode_explore')
+        .selected(this.fmMode == 'EXPLORE')
+        .selectIcon(true)
+        .enabled(!this.isFMLoading)
+        .onClick(() => { FMUtils.switchMode('EXPLORE') })
+    }
+    .id('fm_mode_menu')
   }
 
   /**
@@ -302,6 +390,7 @@ export struct PlayingCover {
     Row() {
       Button({ type: ButtonType.Circle }) { Image($r('app.media.ic_public_arrow_down_0')).draggable(false).fillColor(Color.White).width(Constants.SIZE_ICON_BUTTON_COMMON).aspectRatio(1) }
       .backgroundColor(Color.Transparent)
+      .id('player_close_btn')
       .onClick(() => { this.isShow = false })
 
       /**
@@ -366,6 +455,7 @@ export struct PlayingCover {
 
       // 歌曲名称&艺术家
       Text(this.song.name)
+        .id('player_song_name')
         .textStyle(24)
         .fontWeight(FontWeight.Bold)
         .onClick(() => {
@@ -416,12 +506,13 @@ export struct PlayingCover {
       })
 
       Column({ space: 10 }) {
+        this.FMBadge()
         this.SliderContent()
         this.ToolBar()
         Row() {
-          LoopModeButton({ imgColor: Color.White }).opacity(0.8)
+          this.LeftControlButton()
           this.PlayButton()
-          PlayQueueButton({ imgColor: Color.White }).opacity(0.8)
+          PlayQueueButton({ imgColor: Color.White, btnId: 'player_queue_btn' }).opacity(0.8)
         }
         .opacity(this.tabPageIndex == 0 ? 0.8 : 0.2)
         .padding({ top: 20, bottom: 15 })
@@ -454,12 +545,13 @@ export struct PlayingCover {
       Column() {
         this.SongInfo()
         Column({ space: 10 }) {
+          this.FMBadge()
           this.SliderContent()
           this.ToolBar()
           Row() {
-            LoopModeButton({ imgColor: Color.White }).opacity(0.8)
+            this.LeftControlButton()
             this.PlayButton()
-            PlayQueueButton({ imgColor: Color.White }).opacity(0.8)
+            PlayQueueButton({ imgColor: Color.White, btnId: 'player_queue_btn' }).opacity(0.8)
           }
           .opacity(this.tabPageIndex == 0 ? 0.8 : 0.2)
           .padding({ top: 20, bottom: 15 })

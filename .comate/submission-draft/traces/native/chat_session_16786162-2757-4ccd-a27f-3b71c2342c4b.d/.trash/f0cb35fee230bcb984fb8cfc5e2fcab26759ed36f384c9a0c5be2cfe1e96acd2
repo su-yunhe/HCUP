@@ -1,0 +1,19 @@
+        song = fm.text_of(self.driver, "player_song_name")
+        e1 = fm.log_count(self.driver, fm.LOG_E1)
+        e2 = fm.log_count(self.driver, fm.LOG_E2)
+        fm.click_key(self.driver, "fm_dislike_btn")
+        new_song = fm.wait_song_change(self.driver, song, "player_song_name")
+        self.assertIsNotNone(new_song, "点不喜欢后没有切到下一首")
+        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
+        self.assertIsNotNone(self.driver.find_component(BY.text("不喜欢")))
+        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
+        # 被不喜欢的歌不在之后的队列中（当前及之后）
+        self.assertNotEqual(fm.text_of(self.driver, "player_song_name"), song)
+        # 网络：恰好 1 次不喜欢上报；队尾时同时续拉 1 次推荐
+        time.sleep(2)
+        self.assertEqual(fm.log_count(self.driver, fm.LOG_E2) - e2, 1, "点不喜欢应恰好上报 1 次")
+        self.assertLessEqual(fm.log_count(self.driver, fm.LOG_E1) - e1, 1)
+
+    def test_06_rapid_dislike_skips_once(self):
+        """A47：快速连点不喜欢只上报一次、只跳过一首。"""
+       

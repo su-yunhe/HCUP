@@ -1,0 +1,11 @@
+def e1_ops_since(driver, marker: str, pattern: str = LOG_E1) -> int:
+    """推荐请求的“操作次数”：请求行数减去过滤后补请求的次数。"""
+    lines = [line for line in _app_log(driver) if line[:14] > marker]
+    return sum(1 for line in lines if pattern in line) - sum(1 for line in lines if LOG_E1_RETRY in line)
+
+
+def fm_log_since(driver, marker: str) -> str:
+    """晚于 marker 的 FM 相关日志，断言失败时附在消息里便于排查。"""
+    keys = ("Request", "Retry", "FMUtils", "AVPlayerUtils")
+    lines = [line[6:200] for line in _app_log(driver) if line[:14] > marker and any(k in line for k in keys)]
+    return "\n" + "\n".join(lines[-20:])

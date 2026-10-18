@@ -1,0 +1,3516 @@
+diff --git a/build-profile.json5 b/build-profile.json5
+index 8531b6bdb5863c5636441c20a0d8c28266d26266..446bc312a58d5a539e289e6936a993801387eed8 100644
+--- a/build-profile.json5
++++ b/build-profile.json5
+@@ -12,7 +12,8 @@
+             "caseSensitiveCheck": true,
+             "useNormalizedOHMUrl": true
+           }
+-        }
++        },
++        "targetSdkVersion": "6.1.0(23)"
+       }
+     ],
+     "buildModeSet": [
+diff --git a/entry/src/main/ets/api/songApi.ets b/entry/src/main/ets/api/songApi.ets
+index ea78c88328ded20fdf5b3d6ada51d8a45397cd34..09e8957005b0f44f04ce7732d913b78cf932b72e 100644
+--- a/entry/src/main/ets/api/songApi.ets
++++ b/entry/src/main/ets/api/songApi.ets
+@@ -1,6 +1,7 @@
+ import { LogUtil } from "@pura/harmony-utils"
+ import { StorageConstants } from "../common/constants/StorageConstants"
+ import { HeartMode } from "../common/entities/HeartMode"
++import { FMMode, PersonalFM } from "../common/entities/PersonalFM"
+ import { DailyListSongs } from "../common/entities/PlayListSongs"
+ import { PlayQueue } from "../common/entities/PlayQueue"
+ import { SongDetail } from "../common/entities/SongDetail"
+@@ -194,4 +195,62 @@ export async function setHeartMode(id: number, pid: number): Promise<void> {
+   }
+   await PlayQueueUtils.cleanQueue()
+   await PlayQueueUtils.queueAdd_array(queue)
++}
++
++/**
++ * 获取私人FM推荐歌曲
++ * @param mode - 默认 DEFAULT / 熟悉 FAMILIAR / 探索 EXPLORE
++ * @returns Array<PlayQueue>
++ */
++export async function getPersonalFM(mode: FMMode): Promise<Array<PlayQueue>> {
++  let queue: Array<PlayQueue> = []
++  const rootUrl = await getApiUrl()
++  // 服务端有缓存，必须带 timestamp
++  const url: string = mode == 'DEFAULT' ?
++    `${rootUrl}/personal_fm?timestamp=${new Date().getTime()}` :
++    `${rootUrl}/personal/fm/mode?mode=${mode}&timestamp=${new Date().getTime()}`
++  LogUtil.info(TAG + 'Request personal fm: ' + url)
++  const request = new HttpRequest(url)
++  const data = await request.Request()
++  const dataGot = data.result as PersonalFM
++  if(data.responseCode != 200 || !dataGot || dataGot.code != 200 || !dataGot.data) {
++    throw new Error(`personal fm failed: ${data.responseCode} - ${dataGot?.code}`)
++  }
++  for(let item of dataGot.data) {
++    let artists = await getArtists(item.artists ?? [])
++    queue.push({
++      playmode: 1,
++      song: {
++        id: item.id,
++        name: item.name,
++        artists: item.artists ?? [],
++        duration: item.duration,
++        alias: item.alias ?? [],
++        fee: item.fee
++      },
++      artists: artists,
++      fileName: '',
++      picUrl: item.album?.picUrl ?? $r('app.media.ic_public_music')
++    })
++  }
++  return queue
++}
++
++/**
++ * 私人FM 不喜欢（加入垃圾桶）
++ * @param sid - 歌曲id
++ * @returns boolean 是否成功
++ */
++export async function trashFM(sid: number): Promise<boolean> {
++  const rootUrl = await getApiUrl()
++  const url: string = `${rootUrl}/fm_trash?id=${sid}&timestamp=${new Date().getTime()}`
++  LogUtil.info(TAG + 'Request fm trash: ' + url)
++  const request = new HttpRequest(url)
++  const data = await request.Request()
++  const code = data.result ? data.result['code'] as number : -1
++  if(data.responseCode != 200 || code != 200) {
++    LogUtil.error(TAG + `fm trash failed: ${data.responseCode} - ${JSON.stringify(data.result)}`)
++    return false
++  }
++  return true
+ }
+\ No newline at end of file
+diff --git a/entry/src/main/ets/common/constants/StorageConstants.ets b/entry/src/main/ets/common/constants/StorageConstants.ets
+index 7e75d3a51eea453a1e85e483dc20ec26d2bcde32..c5aa23c7c1085fc3d2d151129c3dee919ff844e7 100644
+--- a/entry/src/main/ets/common/constants/StorageConstants.ets
++++ b/entry/src/main/ets/common/constants/StorageConstants.ets
+@@ -133,6 +133,21 @@ export class StorageConstants {
+    * @description AppStorage
+    */
+   static readonly LAST_PLAYED_LIST: string = 'lastPlayedList'
++  /**
++   * 是否处于私人FM模式 - boolean
++   * @description AppStorage
++   */
++  static readonly FM_ACTIVE: string = 'fm-active'
++  /**
++   * 私人FM模式 DEFAULT/FAMILIAR/EXPLORE - string
++   * @description AppStorage
++   */
++  static readonly FM_MODE: string = 'fm-mode'
++  /**
++   * 私人FM是否正在请求推荐 - boolean
++   * @description AppStorage
++   */
++  static readonly FM_LOADING: string = 'fm-loading'
+ 
+ 
+ 
+diff --git a/entry/src/main/ets/common/entities/PersonalFM.ets b/entry/src/main/ets/common/entities/PersonalFM.ets
+new file mode 100644
+index 0000000000000000000000000000000000000000..6509ee00b5ebcaf377b48d77ec7a33f376625831
+--- /dev/null
++++ b/entry/src/main/ets/common/entities/PersonalFM.ets
+@@ -0,0 +1,30 @@
++import { Artist } from "./SongsResult"
++
++/**
++ * 私人FM
++ */
++interface Album {
++  picUrl: string
++  name: string
++}
++
++export interface FMSong {
++  id: number
++  name: string
++  artists: Artist[]
++  album: Album
++  duration: number
++  alias: string[]
++  fee: number
++}
++
++export interface PersonalFM {
++  code: number
++  data: FMSong[]
++}
++
++/**
++ * 私人FM 模式
++ * DEFAULT-默认, FAMILIAR-熟悉, EXPLORE-探索
++ */
++export type FMMode = 'DEFAULT' | 'FAMILIAR' | 'EXPLORE'
+diff --git a/entry/src/main/ets/common/functions/app/appInit.ets b/entry/src/main/ets/common/functions/app/appInit.ets
+index d21180b0ba5f6bcb0b25d536c8d9ab94f9d06df7..1c5cc0c2b8d02112bc0a702dbaf840f05758669f 100644
+--- a/entry/src/main/ets/common/functions/app/appInit.ets
++++ b/entry/src/main/ets/common/functions/app/appInit.ets
+@@ -14,6 +14,7 @@ import { getLikeList } from "../../../api/songApi"
+ import { PersonalListItem } from "../../entities/Personalized"
+ import { pauseMusic, playQueue } from "../play/playControl"
+ import RelationalStoreUtils from "../../utils/data/RelationalStoreUtils"
++import FMUtils from "../../utils/play/FMUtils"
+ 
+ /**
+  * App初始化
+@@ -24,6 +25,7 @@ export async function appInit() {
+   AppStorage.setOrCreate(StorageConstants.APP_LOADING, true)
+   await initSettings()
+   await initPlayQueue()
++  await FMUtils.init()
+   loadSavedSong()
+   initPermission()
+   initLocalData()
+diff --git a/entry/src/main/ets/common/functions/play/playControl.ets b/entry/src/main/ets/common/functions/play/playControl.ets
+index 0ff0fd05d79e4ac7600256561a756833bbe2878c..16864ca52ffb5db7c07da45d94a20618fe693ceb 100644
+--- a/entry/src/main/ets/common/functions/play/playControl.ets
++++ b/entry/src/main/ets/common/functions/play/playControl.ets
+@@ -15,6 +15,7 @@ import { StorageConstants } from "../../constants/StorageConstants";
+ import { JSON } from "@kit.ArkTS";
+ import AVPlayerUtils from "../../utils/play/AVPlayerUtils";
+ import { isThisSongLiked } from "./songLike";
++import FMUtils from "../../utils/play/FMUtils";
+ 
+ 
+ /**
+@@ -42,12 +43,14 @@ export async function playMusicByUrl(song: Song, artists: string, isLogged: bool
+     if(localPath != '') { // 是否存在本地文件
+       AppStorage.setOrCreate(StorageConstants.PLAY_IS_LOCALFILE, true)
+       await AVPlayerUtils.setUrl(localPath)
++      FMUtils.onPlayStarted(song.id)
+     } else if(songPlay.data[0].url) {
+       AppStorage.setOrCreate(StorageConstants.PLAY_IS_LOCALFILE, false)
+       await AVPlayerUtils.setUrl(songPlay.data[0].url)
++      FMUtils.onPlayStarted(song.id)
+     } else {
+       ToastUtil.showToast('获取播放资源失败')
+-      playNext()
++      playFailed()
+     }
+     if(!picUrl) {
+       picUrl = await getSongPicUrl(song.id)
+@@ -60,6 +63,17 @@ export async function playMusicByUrl(song: Song, artists: string, isLogged: bool
+     saveCurrentSongInfo(1, song, artists, picUrl)
+   } catch (e) {
+     LogUtil.error(TAG + '播放Url出错: ' + e)
++    playFailed()
++  }
++}
++
++/**
++ * 在线播放失败后的操作：私人FM 中续拉下一首推荐（有连续失败上限），否则播放下一首
++ */
++function playFailed() {
++  if(FMUtils.active) {
++    FMUtils.onPlayFailed()
++  } else {
+     playNext()
+   }
+ }
+@@ -127,6 +141,10 @@ export async function seekMusic(time: number) {
+ export async function playQueue(index: number) {
+   const queue = PlayQueueUtils.getQueue()
+   const playqueue = queue[index]
++  if(!playqueue) {
++    LogUtil.warn(TAG + '播放列表中不存在该歌曲: ' + index)
++    return
++  }
+   PlayQueueUtils.setIndex(index)
+   if(playqueue.playmode == 0) { // Play with file
+     playMusicWithFile(playqueue.song, playqueue.fileName)
+@@ -139,6 +157,10 @@ export async function playQueue(index: number) {
+ export async function playPre() {
+   let isLogged: boolean | undefined = await AppStorage.get(StorageConstants.IS_LOGGED)
+   let cycleMode = await getCycleMode()
++  // 私人FM 中忽略循环模式
++  if(FMUtils.active) {
++    cycleMode = 0
++  }
+   if(PlayQueueUtils.pre()) {
+     const res = PlayQueueUtils.getQueueElement(PlayQueueUtils.currentQueueIndex)
+     if(res.playmode == 0) {
+@@ -156,6 +178,11 @@ export async function playPre() {
+  * 播放下一首
+  */
+ export async function playNext() {
++  // 私人FM 中忽略循环模式，播放下一首推荐
++  if(FMUtils.active) {
++    FMUtils.next('next')
++    return
++  }
+   let isLogged:boolean | undefined = await AppStorage.get(StorageConstants.IS_LOGGED)
+   let cycleMode = await getCycleMode()
+   if(cycleMode == 3) {
+@@ -181,6 +208,11 @@ export async function playNext() {
+  * 本首歌曲播放完成后的操作
+  */
+ export async function completeDo() {
++  // 私人FM 中忽略循环模式，自动播放下一首推荐
++  if(FMUtils.active) {
++    FMUtils.onCompleted()
++    return
++  }
+   let cycleMode = await getCycleMode()
+   // 顺序播放 & 顺序循环
+   if(cycleMode == 0 || cycleMode == 2) {
+@@ -269,4 +301,19 @@ export async function saveCurrentSongInfo(playMode: number, song: Song, artists:
+   await PreferencesUtils.putPreferenceValue('Play','CurrentArtists', artists)
+   await PreferencesUtils.putPreferenceValue('Play','CurrentImage', imgUrl)
+   await PreferencesUtils.putPreferenceValue('Play','CurrentQueueIndex', PlayQueueUtils.currentQueueIndex)
+-}
+\ No newline at end of file
++}
++
++/**
++ * 向私人FM 注册播放控制
++ */
++FMUtils.setPlayer({
++  play: (index: number) => {
++    playQueue(index)
++  },
++  resume: () => {
++    resumeMusic()
++  },
++  stop: async () => {
++    await AVPlayerUtils.stop()
++  }
++})
+\ No newline at end of file
+diff --git a/entry/src/main/ets/common/utils/play/AVPlayerUtils.ets b/entry/src/main/ets/common/utils/play/AVPlayerUtils.ets
+index 410041fa0ad0c6db7eb28c5869f843150cb0da84..7678342a5914bc71d53a0e8843f2fe8e3b8b5e6a 100644
+--- a/entry/src/main/ets/common/utils/play/AVPlayerUtils.ets
++++ b/entry/src/main/ets/common/utils/play/AVPlayerUtils.ets
+@@ -7,6 +7,7 @@ import { audio } from '@kit.AudioKit'
+ import { StorageConstants } from '../../constants/StorageConstants'
+ import { media } from '@kit.MediaKit'
+ import { BusinessError } from '@kit.BasicServicesKit'
++import FMUtils from './FMUtils'
+ 
+ const TAG = '[AVPlayerUtils] '
+ 
+@@ -61,6 +62,7 @@ class AVPlayerUtils {
+       }, 1000)
+       avPlayer.on('timeUpdate', (time: number) => {
+         AppStorage.setOrCreate(StorageConstants.PLAY_TIME, time)
++        FMUtils.onProgress(time, avPlayer.duration)
+       })
+     } catch (e) {
+       LogUtil.error(TAG + '播放错误: ' + e.message)
+diff --git a/entry/src/main/ets/common/utils/play/FMUtils.ets b/entry/src/main/ets/common/utils/play/FMUtils.ets
+new file mode 100644
+index 0000000000000000000000000000000000000000..c0fc04a7ccd5b4ab678f0192ca258f4a1ad642d3
+--- /dev/null
++++ b/entry/src/main/ets/common/utils/play/FMUtils.ets
+@@ -0,0 +1,474 @@
++import { LogUtil, ToastUtil } from '@pura/harmony-utils'
++import { getPersonalFM, trashFM } from '../../../api/songApi'
++import { StorageConstants } from '../../constants/StorageConstants'
++import { FMMode } from '../../entities/PersonalFM'
++import { PlayingPlayList } from '../../entities/PlayList'
++import { PlayQueue } from '../../entities/PlayQueue'
++import { Song } from '../../entities/SongsResult'
++import PreferencesUtils from '../data/PreferencesUtils'
++import PlayQueueUtils from './PlayQueueUtils'
++
++/**
++ * 私人FM 工具
++ * FM 队列直接使用 PlayQueueUtils 的播放列表，进入时备份手动维护的播放列表，退出时还原
++ */
++const TAG = '[FMUtils] '
++const pref = StorageConstants.QUEUE_PREF
++const MAX_PLAY_FAIL = 3
++// 距歌曲结束多少毫秒时预取下一首
++const PREFETCH_BEFORE_END = 20000
++// “不喜欢”切歌后等待新歌开始播放的最长时间
++const DISLIKE_LOCK_TIMEOUT = 10000
++// 推荐结果全部被黑名单/去重过滤时，同一次操作最多请求的次数
++const MAX_REQUEST_ATTEMPTS = 3
++
++/**
++ * 播放控制，由 playControl 注册
++ * （FMUtils 在应用启动时随 PlayQueueUtils 加载，此时不能加载依赖 UI 上下文的播放模块）
++ */
++export interface FMPlayer {
++  play: (index: number) => void
++  resume: () => void
++  stop: () => Promise<void>
++}
++
++class FMUtils {
++  active: boolean = false
++  mode: FMMode = 'DEFAULT'
++  loading: boolean = false
++  private player: FMPlayer | null = null
++  private backupQueue: Array<PlayQueue> = []
++  private backupIndex: number = -1
++  private blacklist: Array<number> = []
++  // 请求序号，序号变化后到达的响应直接丢弃
++  private reqSeq: number = 0
++  // 正在进行的续拉请求（含预取）
++  private fetching: Promise<boolean> | null = null
++  // 已为队列中该位置的歌曲预取过
++  private prefetchIndex: number = -1
++  // 播放器中实际在播的歌曲 id（切歌期间旧歌的进度回调不能触发预取）
++  private startedSongId: number = 0
++  // 已处理过播放完成的歌曲 id
++  private completedSongId: number = 0
++  private dislikeInFlight: boolean = false
++  // 等待当前切歌结果（开始播放或失败）的回调
++  private playSettled: (() => void) | null = null
++  private playFailCount: number = 0
++
++  setPlayer(player: FMPlayer) {
++    this.player = player
++  }
++
++  /**
++   * 冷启动时恢复私人FM状态（不自动请求、不自动播放）
++   */
++  async init() {
++    try {
++      this.active = await PreferencesUtils.getPreferenceValue<boolean>(pref, 'fmActive', false)
++      const mode = await PreferencesUtils.getPreferenceValue<string>(pref, 'fmMode', 'DEFAULT')
++      if (mode == 'FAMILIAR') {
++        this.mode = 'FAMILIAR'
++      } else if (mode == 'EXPLORE') {
++        this.mode = 'EXPLORE'
++      } else {
++        this.mode = 'DEFAULT'
++      }
++      this.backupQueue = await PreferencesUtils.getPreferenceValue<Array<PlayQueue>>(pref, 'fmBackupQueue', [])
++      this.backupIndex = await PreferencesUtils.getPreferenceValue<number>(pref, 'fmBackupIndex', -1)
++      this.blacklist = await PreferencesUtils.getPreferenceValue<Array<number>>(pref, 'fmBlacklist', [])
++    } catch (e) {
++      LogUtil.error(TAG + '初始化私人FM失败: ' + e.message)
++    }
++    AppStorage.setOrCreate(StorageConstants.FM_ACTIVE, this.active)
++    AppStorage.setOrCreate(StorageConstants.FM_MODE, this.mode)
++    AppStorage.setOrCreate(StorageConstants.FM_LOADING, false)
++  }
++
++  /**
++   * 点击私人FM卡片
++   */
++  async enter() {
++    if (this.loading) {
++      ToastUtil.showToast('正在加载, 请稍后')
++      return
++    }
++    // 已在私人FM中且有当前歌曲：不重新请求，未播放/暂停时继续播放
++    if (this.active && PlayQueueUtils.getQueueElement(PlayQueueUtils.currentQueueIndex)) {
++      const isPlaying: boolean | undefined = AppStorage.get(StorageConstants.IS_PLAYING)
++      const isPaused: boolean | undefined = AppStorage.get(StorageConstants.IS_PAUSED)
++      if (!isPlaying) {
++        this.play(PlayQueueUtils.currentQueueIndex)
++      } else if (isPaused) {
++        this.player?.resume()
++      }
++      return
++    }
++
++    const seq = ++this.reqSeq
++    this.fetching = null
++    this.prefetchIndex = -1
++    this.setLoading(true)
++    let list: Array<PlayQueue> = []
++    try {
++      list = await this.request(this.mode, [])
++    } catch (e) {
++      LogUtil.error(TAG + '获取私人FM失败: ' + JSON.stringify(e))
++    }
++    if (seq != this.reqSeq) return
++    this.setLoading(false)
++
++    // 请求结束（无论成败）才进入私人FM并备份手动播放列表
++    if (!this.active) {
++      this.backupQueue = PlayQueueUtils.getQueue().slice()
++      this.backupIndex = PlayQueueUtils.currentQueueIndex
++      this.setActive(true)
++      // 播放列表已替换，清除“上一次播放的歌单”记录
++      const playInfo: PlayingPlayList = { id: -1, count: -1 }
++      AppStorage.setOrCreate(StorageConstants.LAST_PLAYED_LIST, playInfo)
++    }
++    this.playFailCount = 0
++    if (list.length > 0) {
++      PlayQueueUtils.replaceQueue(list, 0)
++      this.play(0)
++    } else {
++      PlayQueueUtils.replaceQueue([], -1)
++      ToastUtil.showToast('获取推荐歌曲失败')
++    }
++    await this.persist()
++  }
++
++  /**
++   * 私人FM 下一首：队列中已有下一首直接播放，否则续拉推荐
++   */
++  async next(source: string = 'user') {
++    if (!this.active) return
++    const index = PlayQueueUtils.currentQueueIndex
++    LogUtil.info(TAG + `next(${source}): index ${index}, length ${PlayQueueUtils.getQueueLength()}, fetching ${this.fetching != null}`)
++    if (index + 1 < PlayQueueUtils.getQueueLength()) {
++      this.play(index + 1)
++      return
++    }
++    if (this.loading) return
++
++    const seq = this.reqSeq
++    this.setLoading(true)
++    const ok = await this.fetchMore()
++    if (seq != this.reqSeq) return
++    this.setLoading(false)
++    const current = PlayQueueUtils.currentQueueIndex
++    if (ok && current + 1 < PlayQueueUtils.getQueueLength()) {
++      this.play(current + 1)
++    } else {
++      ToastUtil.showToast('获取推荐歌曲失败')
++    }
++  }
++
++  /**
++   * 私人FM 中歌曲播放失败（如无播放地址），连续失败超过上限则停止
++   */
++  onPlayFailed() {
++    this.notifyPlaySettled()
++    this.playFailCount++
++    if (this.playFailCount >= MAX_PLAY_FAIL) {
++      this.playFailCount = 0
++      ToastUtil.showToast('获取推荐歌曲失败')
++      return
++    }
++    this.next('fail')
++  }
++
++  onPlayStarted(songId: number) {
++    this.playFailCount = 0
++    this.startedSongId = songId
++    this.completedSongId = 0
++    this.notifyPlaySettled()
++  }
++
++  /**
++   * 歌曲播放完成：实测同一首歌会连续收到两次 completed，只处理一次，否则会跳过下一首
++   */
++  onCompleted() {
++    if (this.startedSongId != 0 && this.startedSongId == this.completedSongId) {
++      LogUtil.info(TAG + 'ignore repeated completed: ' + this.startedSongId)
++      return
++    }
++    this.completedSongId = this.startedSongId
++    this.next('complete')
++  }
++
++  /**
++   * 不喜欢当前歌曲：上报服务端、加入本地黑名单，并切到下一首
++   */
++  async dislike() {
++    if (!this.active || this.dislikeInFlight) return
++    const index = PlayQueueUtils.currentQueueIndex
++    const current = PlayQueueUtils.getQueueElement(index)
++    if (!current) return
++    const sid = current.song.id
++    this.dislikeInFlight = true
++    const report: Promise<boolean> = trashFM(sid).catch((e: Error) => {
++      LogUtil.error(TAG + '不喜欢上报失败: ' + JSON.stringify(e))
++      return false
++    })
++    if (!this.blacklist.includes(sid)) {
++      this.blacklist.push(sid)
++    }
++    // 队列中尚未播放的同一首歌也移除
++    const queue = PlayQueueUtils.getQueue()
++    const filtered = queue.filter((item: PlayQueue, i: number) => i <= index || item.song.id != sid)
++    if (filtered.length != queue.length) {
++      PlayQueueUtils.replaceQueue(filtered, index)
++    }
++    this.persist()
++    try {
++      // 新歌真正开始播放（或播放失败）前，再点“不喜欢”都忽略
++      const settled = this.waitPlaySettled(DISLIKE_LOCK_TIMEOUT)
++      await this.next('dislike')
++      if (PlayQueueUtils.currentQueueIndex != index) {
++        await settled
++      }
++      await report
++    } finally {
++      this.dislikeInFlight = false
++    }
++  }
++
++  /**
++   * 等待下一次 onPlayStarted / onPlayFailed，超时也返回
++   */
++  private waitPlaySettled(timeout: number): Promise<void> {
++    return new Promise<void>((resolve: () => void) => {
++      let timer: number = -1
++      const done = (): void => {
++        clearTimeout(timer)
++        if (this.playSettled === done) this.playSettled = null
++        resolve()
++      }
++      timer = setTimeout(done, timeout)
++      this.playSettled = done
++    })
++  }
++
++  private notifyPlaySettled() {
++    if (this.playSettled) {
++      const done = this.playSettled
++      done()
++    }
++  }
++
++  /**
++   * 切换私人FM模式并重新加载推荐队列
++   */
++  async switchMode(mode: FMMode) {
++    if (!this.active || mode == this.mode || this.loading) return
++    const seq = ++this.reqSeq
++    this.fetching = null
++    this.prefetchIndex = -1
++    const hasOldQueue = PlayQueueUtils.getQueueLength() > 0
++    this.setLoading(true)
++    let list: Array<PlayQueue> = []
++    try {
++      list = await this.request(mode, [])
++    } catch (e) {
++      LogUtil.error(TAG + '切换私人FM模式失败: ' + JSON.stringify(e))
++    }
++    if (seq != this.reqSeq) return
++    this.setLoading(false)
++    if (list.length > 0) {
++      this.setMode(mode)
++      this.playFailCount = 0
++      PlayQueueUtils.replaceQueue(list, 0)
++      this.play(0)
++    } else {
++      // 有旧队列时保持原模式；没有旧队列时保留新模式
++      if (!hasOldQueue) {
++        this.setMode(mode)
++      }
++      ToastUtil.showToast('切换模式失败')
++    }
++    await this.persist()
++  }
++
++  /**
++   * 退出私人FM：还原手动播放列表并播放进入前的那首
++   */
++  async exit() {
++    if (!this.active) return
++    const queue = this.backupQueue
++    let index = this.backupIndex
++    this.restore()
++    if (queue.length > 0) {
++      if (index < 0 || index >= queue.length) index = 0
++      PlayQueueUtils.setIndex(index)
++      // 先更新显示，再请求播放地址
++      const item = queue[index]
++      AppStorage.setOrCreate(StorageConstants.PLAY_MODE, item.playmode)
++      AppStorage.setOrCreate(StorageConstants.PLAY_SONG, item.song)
++      AppStorage.setOrCreate(StorageConstants.PLAY_ARTISTS, item.artists)
++      if (item.playmode == 1 && item.picUrl) {
++        AppStorage.setOrCreate(StorageConstants.PIC_URL, item.picUrl)
++      }
++      this.player?.play(index)
++    } else {
++      await this.stopAndClear()
++    }
++    await this.persist()
++  }
++
++  /**
++   * 其他入口修改播放列表前调用：处于私人FM时先还原手动播放列表（不播放），并作废在途请求
++   */
++  onExternalQueueChange() {
++    if (this.active) {
++      this.restore()
++      this.persist()
++    } else if (this.loading) {
++      this.reqSeq++
++      this.setLoading(false)
++    }
++  }
++
++  /**
++   * 还原手动播放列表并退出私人FM（同步部分）
++   */
++  private restore() {
++    this.reqSeq++
++    this.fetching = null
++    this.prefetchIndex = -1
++    this.setLoading(false)
++    this.setActive(false)
++    let index = this.backupIndex
++    if (index >= this.backupQueue.length) index = this.backupQueue.length - 1
++    PlayQueueUtils.replaceQueue(this.backupQueue, index)
++    this.backupQueue = []
++    this.backupIndex = -1
++  }
++
++  private play(index: number) {
++    if (!this.player) {
++      LogUtil.error(TAG + '播放控制未注册')
++      return
++    }
++    this.player.play(index)
++  }
++
++  /**
++   * 播放进度更新：当前歌是队尾且临近结束时预取下一首（每首只预取一次，失败不提示），播完即可无缝衔接
++   * 不在歌曲开始时预取，保证点击卡片、切换模式、不喜欢等操作各自只发一次推荐请求
++   */
++  onProgress(time: number, duration: number) {
++    if (!this.active || this.fetching || this.loading) return
++    if (duration <= 0 || duration - time > PREFETCH_BEFORE_END) return
++    const index = PlayQueueUtils.currentQueueIndex
++    if (index < 0 || index < PlayQueueUtils.getQueueLength() - 1 || index == this.prefetchIndex) return
++    if (PlayQueueUtils.getQueueElement(index).song.id != this.startedSongId) return
++    this.prefetchIndex = index
++    LogUtil.info(TAG + `Prefetch personal fm: index ${index}, time ${time}, duration ${duration}`)
++    this.fetchMore()
++  }
++
++  /**
++   * 续拉推荐并追加到队列，同一时间只有一个续拉请求
++   */
++  private fetchMore(): Promise<boolean> {
++    if (this.fetching) return this.fetching
++    const seq = this.reqSeq
++    const mode = this.mode
++    const task = async (): Promise<boolean> => {
++      try {
++        const list = await this.request(mode, PlayQueueUtils.getQueue())
++        LogUtil.info(TAG + `fetch more: ${list.length} new songs`)
++        if (seq != this.reqSeq || !this.active || list.length == 0) return false
++        PlayQueueUtils.replaceQueue(PlayQueueUtils.getQueue().concat(list), PlayQueueUtils.currentQueueIndex)
++        return true
++      } catch (e) {
++        LogUtil.error(TAG + '续拉私人FM失败: ' + JSON.stringify(e))
++        return false
++      }
++    }
++    const promise = task()
++    this.fetching = promise
++    promise.finally(() => {
++      if (this.fetching === promise) this.fetching = null
++    })
++    return promise
++  }
++
++  /**
++   * 请求推荐：过滤黑名单和已在队列中的歌曲，过滤后为空时再请求一次
++   */
++  private async request(mode: FMMode, exclude: Array<PlayQueue>): Promise<Array<PlayQueue>> {
++    for (let i = 0; i < MAX_REQUEST_ATTEMPTS; i++) {
++      if (i > 0) {
++        LogUtil.info(TAG + 'Retry personal fm: all songs filtered')
++      }
++      const list = await getPersonalFM(mode)
++      if (list.length == 0) return []
++      let result: Array<PlayQueue> = []
++      for (let item of list) {
++        const id = item.song.id
++        if (this.blacklist.includes(id)) continue
++        if (exclude.some((e: PlayQueue) => e.song.id == id)) continue
++        if (result.some((e: PlayQueue) => e.song.id == id)) continue
++        result.push(item)
++      }
++      LogUtil.info(TAG + `personal fm: ${list.map((e: PlayQueue) => e.song.id).join(',')} -> ${result.length} kept, blacklist ${this.blacklist.length}, exclude ${exclude.length}`)
++      if (result.length > 0) return result
++    }
++    return []
++  }
++
++  /**
++   * 停止播放并显示“暂无播放”
++   */
++  private async stopAndClear() {
++    try {
++      await this.player?.stop()
++    } catch (e) {
++      LogUtil.error(TAG + '停止播放失败: ' + JSON.stringify(e))
++    }
++    const song: Song = {
++      id: 0,
++      name: '暂无播放',
++      artists: [],
++      duration: 0,
++      alias: [],
++      fee: 0
++    }
++    AppStorage.setOrCreate(StorageConstants.IS_PLAYING, false)
++    AppStorage.setOrCreate(StorageConstants.IS_PAUSED, true)
++    AppStorage.setOrCreate(StorageConstants.PLAY_TIME, 0)
++    AppStorage.setOrCreate(StorageConstants.PLAY_MODE, 0)
++    AppStorage.setOrCreate(StorageConstants.PLAY_SONG, song)
++    AppStorage.setOrCreate(StorageConstants.PLAY_ARTISTS, '选择一首歌曲播放吧')
++    AppStorage.setOrCreate(StorageConstants.PIC_URL, '')
++    AppStorage.setOrCreate('player-currentLyric', '')
++    await PreferencesUtils.putPreferenceValue(pref, 'hasCurrentSong', false)
++  }
++
++  private setActive(active: boolean) {
++    this.active = active
++    AppStorage.setOrCreate(StorageConstants.FM_ACTIVE, active)
++  }
++
++  private setMode(mode: FMMode) {
++    this.mode = mode
++    AppStorage.setOrCreate(StorageConstants.FM_MODE, mode)
++  }
++
++  private setLoading(loading: boolean) {
++    this.loading = loading
++    AppStorage.setOrCreate(StorageConstants.FM_LOADING, loading)
++  }
++
++  private async persist() {
++    await PreferencesUtils.putPreferenceValue(pref, 'fmActive', this.active)
++    await PreferencesUtils.putPreferenceValue(pref, 'fmMode', this.mode)
++    await PreferencesUtils.putPreferenceValue(pref, 'fmBackupQueue', this.backupQueue)
++    await PreferencesUtils.putPreferenceValue(pref, 'fmBackupIndex', this.backupIndex)
++    await PreferencesUtils.putPreferenceValue(pref, 'fmBlacklist', this.blacklist)
++  }
++}
++
++const fmUtils: FMUtils = new FMUtils()
++export default fmUtils as FMUtils
+diff --git a/entry/src/main/ets/common/utils/play/PlayQueueUtils.ets b/entry/src/main/ets/common/utils/play/PlayQueueUtils.ets
+index bc364bb9e4104c140543b36a1d168cd9026f3639..029e422a764c3fe690732f60e2004d80a884d440 100644
+--- a/entry/src/main/ets/common/utils/play/PlayQueueUtils.ets
++++ b/entry/src/main/ets/common/utils/play/PlayQueueUtils.ets
+@@ -4,6 +4,7 @@ import { StorageConstants } from '../../constants/StorageConstants'
+ import { PlayQueue } from '../../entities/PlayQueue'
+ import { Song, SongClass } from '../../entities/SongsResult'
+ import PreferencesUtils from '../data/PreferencesUtils'
++import FMUtils from './FMUtils'
+ 
+ /**
+  * 播放列表工具
+@@ -53,6 +54,7 @@ class PlayQueueUtils {
+    */
+   async queueAdd(playmode:number, song:Song = SongClass, artists: string = '', fileName: string = '', picUrl: string | ResourceStr = '') {
+     try {
++      FMUtils.onExternalQueueChange()
+       this.queue.splice(this.currentQueueIndex + 1 , 0 ,{
+         playmode: playmode,
+         song: song,
+@@ -68,6 +70,7 @@ class PlayQueueUtils {
+ 
+   async queueAdd_array(queue:Array<PlayQueue>) {
+     try {
++      FMUtils.onExternalQueueChange()
+       this.queue = this.queue.concat(queue)
+       AppStorage.setOrCreate('PlayQueue', this.queue)
+       await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
+@@ -77,11 +80,28 @@ class PlayQueueUtils {
+     }
+   }
+ 
++  /**
++   * 整体替换播放列表（私人FM 使用，不触发退出私人FM）
++   */
++  async replaceQueue(queue: Array<PlayQueue>, index: number) {
++    try {
++      this.queue = queue
++      this.currentQueueIndex = index
++      AppStorage.setOrCreate('currentQueueIndex', this.currentQueueIndex)
++      AppStorage.setOrCreate('PlayQueue', this.queue)
++      EmitterUtil.post(EmitterConstants.EMITTER_REFRESH_PLAYQUEUE, () => {})
++      await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
++    } catch (e) {
++      LogUtil.error(TAG + 'Error while replaceQueue: ' + e.message)
++    }
++  }
++
+   /**
+    * 从播放列表中删除指定位置歌曲
+    */
+   async queueDelete(index:number) {
+     try {
++      FMUtils.onExternalQueueChange()
+       this.queue.splice(index,1)
+       AppStorage.setOrCreate('PlayQueue',this.queue)
+       await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
+@@ -128,6 +148,7 @@ class PlayQueueUtils {
+   }
+ 
+   async cleanQueue() {
++    FMUtils.onExternalQueueChange()
+     this.queue = []
+     this.currentQueueIndex = -1
+     AppStorage.setOrCreate('PlayQueue',this.queue)
+diff --git a/entry/src/main/ets/components/buttons/play/LoopModeButton.ets b/entry/src/main/ets/components/buttons/play/LoopModeButton.ets
+index 866d8443d3605592e2551db8afc688ae8b196e52..6d2ca12fa2e9ae36602931708d6ea0a1aa4ba778 100644
+--- a/entry/src/main/ets/components/buttons/play/LoopModeButton.ets
++++ b/entry/src/main/ets/components/buttons/play/LoopModeButton.ets
+@@ -6,6 +6,7 @@ export struct LoopModeButton {
+   @State imgWidth: number = 30
+   @State btnWidth: number = 30
+   @State imgColor: Color | ResourceStr = $r('app.color.reverse')
++  btnId: string = ''
+ 
+ 
+   build() {
+@@ -13,18 +14,22 @@ export struct LoopModeButton {
+     if(this.cycleMode == 0) {
+       Button() { Image($r('app.media.ic_public_order_play')).image(this.imgWidth).fillColor(this.imgColor) }
+       .button(this.btnWidth)
++      .id(this.btnId)
+       .onClick(() => { changeCycleMode(1) })
+     } else if(this.cycleMode == 1) {
+       Button() { Image($r('app.media.ic_public_single_cycle')).image(this.imgWidth).fillColor(this.imgColor) }
+       .button(this.btnWidth)
++      .id(this.btnId)
+       .onClick(() => { changeCycleMode(2) })
+     } else if(this.cycleMode == 2) {
+       Button() { Image($r('app.media.ic_public_list_cycle')).image(this.imgWidth).fillColor(this.imgColor) }
+       .button(this.btnWidth)
++      .id(this.btnId)
+       .onClick(() => { changeCycleMode(3) })
+     } else {
+       Button() { Image($r('app.media.ic_public_random')).image(this.imgWidth - 5).fillColor(this.imgColor) }
+       .button(this.btnWidth)
++      .id(this.btnId)
+       .onClick(() => { changeCycleMode(0) })
+     }
+   }
+diff --git a/entry/src/main/ets/components/buttons/play/PlayQueueButton.ets b/entry/src/main/ets/components/buttons/play/PlayQueueButton.ets
+index f2c1ab81b7295ce9fd03f2b54c96098c6246e99c..82def45298d4410aa2d101b849ec8570d3add7b2 100644
+--- a/entry/src/main/ets/components/buttons/play/PlayQueueButton.ets
++++ b/entry/src/main/ets/components/buttons/play/PlayQueueButton.ets
+@@ -9,6 +9,7 @@ export struct PlayQueueButton {
+   @State isShow: boolean = false
+   @State imgWidth: number = 30
+   @State imgColor: Color | ResourceStr = $r('app.color.reverse')
++  btnId: string = ''
+ 
+   build() {
+     Button(){
+@@ -17,6 +18,7 @@ export struct PlayQueueButton {
+         .fillColor(this.imgColor)
+         .draggable(false)
+     }
++    .id(this.btnId)
+     .stateEffect(false)
+     .backgroundColor(Color.Transparent)
+     .onClick(() => { this.isShow = !this.isShow })
+diff --git a/entry/src/main/ets/components/cards/RecommendCards.ets b/entry/src/main/ets/components/cards/RecommendCards.ets
+index 8b6b7a74643919f02e2aa7ecd44cd7ba66e2cfb4..04bab37673a563dcafe19344b94e0664beef56b0 100644
+--- a/entry/src/main/ets/components/cards/RecommendCards.ets
++++ b/entry/src/main/ets/components/cards/RecommendCards.ets
+@@ -4,6 +4,7 @@ import { StorageConstants } from "../../common/constants/StorageConstants"
+ import { PlayList } from "../../common/entities/PlayList"
+ import { playQueue } from "../../common/functions/play/playControl"
+ import PlayQueueUtils from "../../common/utils/play/PlayQueueUtils"
++import FMUtils from "../../common/utils/play/FMUtils"
+ import { promptAction } from "@kit.ArkUI"
+ import { DateUtil } from "@pura/harmony-utils"
+ 
+@@ -12,15 +13,17 @@ const cardRadius: number = 5
+ const cardHeight: number = 250
+ const cardWidth: number = 200
+ 
+-@Builder function ContentButton(firText:string, secText:string, imgUrl:ResourceStr, onClick?: () => void, showDate: boolean = false) {
++@Builder function ContentButton(firText:string, secText:string, imgUrl:ResourceStr, onClick?: () => void, showDate: boolean = false, idPrefix: string = '') {
+   Stack({ alignContent: Alignment.Center }) {
+     Column() {
+       Text(`${firText}`)
++        .id(idPrefix ? `${idPrefix}_title` : '')
+         .width('100%')
+         .textStyle(Constants.FONT_SIZE_TITLE + 3, true)
+         .padding(Constants.PADDING_EDGE_DEFAULT)
+         .textShadow({ radius: 15 })
+       Text(`${secText}`)
++        .id(idPrefix ? `${idPrefix}_subtitle` : '')
+         .width('100%')
+         .textStyle(Constants.FONT_SIZE_COMMON - 3)
+         .textAlign(TextAlign.Center)
+@@ -52,6 +55,7 @@ const cardWidth: number = 200
+   .backgroundColor(Color.Transparent)
+   .width(cardWidth)
+   .height(cardHeight)
++  .id(idPrefix)
+   .onClick(onClick)
+   .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+ }
+@@ -63,10 +67,29 @@ export struct RecommendCards {
+   @Prop isLogged: boolean
+   @State isLoadingHeart: boolean = false
+   @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = true
++  @StorageProp(StorageConstants.FM_LOADING) isLoadingFM: boolean = false
+ 
+   build() {
+     List() {
+       ListItem().width(10)
++      /**
++       * 私人FM卡片
++       */
++      ListItem() {
++        Stack() {
++          ContentButton(`私人FM`, `根据口味连续推荐`, $r('app.media.bg4'), () => {
++            FMUtils.enter()
++          }, false, 'fm_card')
++          if(this.isLoadingFM) {
++            LoadingProgress()
++              .id('fm_card_loading')
++              .width(50)
++              .color(Color.White)
++              .hitTestBehavior(HitTestMode.Transparent)
++          }
++        }
++      }
++
+       if(this.validApiUrl) {
+         /**
+          * 每日推荐卡片
+diff --git a/entry/src/main/ets/components/play/BottomBarComponent.ets b/entry/src/main/ets/components/play/BottomBarComponent.ets
+index a40974b8c89951a55c1f734383f5483492d2a98f..54c02b12089b994f42b11c4f106ea069490d1b8e 100644
+--- a/entry/src/main/ets/components/play/BottomBarComponent.ets
++++ b/entry/src/main/ets/components/play/BottomBarComponent.ets
+@@ -22,6 +22,7 @@ export struct BottomBarComponent {
+   @StorageProp(StorageConstants.PIC_URL) picUrl: string = ''
+   @StorageProp(StorageConstants.PLAY_TIME) time: number = 0
+   @StorageProp('player-currentLyric') currentLyric: string = ''
++  @StorageProp(StorageConstants.FM_ACTIVE) isFMActive: boolean = false
+   @State isShow: boolean = false
+   @Consume('pageInfos') pageInfos: NavPathStack
+ 
+@@ -31,7 +32,20 @@ export struct BottomBarComponent {
+       else { Image(this.picUrl + '?param=512y512').songImg() }
+ 
+       Column({ space: 5 }) {
+-        Text(this.song.name).textStyle(16).fontWeight(FontWeight.Medium)
++        Row() {
++          Text(this.song.name).textStyle(16).fontWeight(FontWeight.Medium).id('bottom_bar_song_name')
++          if(this.isFMActive) {
++            Text('私人FM')
++              .id('fm_badge_bottom')
++              .fontSize(10)
++              .fontColor($r('app.color.app_red'))
++              .border({ width: 1, color: $r('app.color.app_red'), radius: 4 })
++              .padding({ left: 4, right: 4, top: 1, bottom: 1 })
++              .margin({ right: 10 })
++              .flexShrink(0)
++          }
++        }
++        .width('100%')
+         if(!this.currentLyric || this.currentLyric === '暂无歌词') {
+           Text(this.artists).textStyle(12).textOverflow({ overflow: TextOverflow.MARQUEE }).layoutWeight(1).fontColor(Color.Gray)
+         }
+@@ -47,6 +61,7 @@ export struct BottomBarComponent {
+     }
+     .justifyContent(FlexAlign.SpaceBetween)
+     .width('100%')
++    .id('bottom_bar')
+     .borderRadius(Constants.RADIUS_CARD)
+     .backgroundColor($r('app.color.main'))
+     .height(Constants.HEIGHT_MINI)
+@@ -78,6 +93,7 @@ struct ControlButtons {
+     Row({ space: 10 }) {
+       // Last
+       Image($r('app.media.ic_public_play_last')).buttonImgStyle()
++        .id('bottom_bar_prev_btn')
+         .fillColor($r('app.color.app_red'))
+         .onClick(() => {
+           playPre()
+@@ -86,12 +102,14 @@ struct ControlButtons {
+       // Play & Pause
+       if (!this.isPaused) {
+         Image($r('app.media.ic_public_pause_norm')).buttonImgStyle()
++          .id('bottom_bar_pause_btn')
+           .fillColor($r('app.color.app_red'))
+           .onClick(() => {
+             pauseMusic()
+           })
+       } else {
+         Image($r('app.media.ic_public_play_norm')).buttonImgStyle()
++          .id('bottom_bar_play_btn')
+           .fillColor($r('app.color.app_red'))
+           .onClick(() => {
+           if(!this.isPlaying) playQueue(playQueueUtils.currentQueueIndex)
+@@ -101,12 +119,13 @@ struct ControlButtons {
+ 
+       // Next
+       Image($r('app.media.ic_public_play_next')).buttonImgStyle()
++        .id('bottom_bar_next_btn')
+         .fillColor($r('app.color.app_red'))
+         .onClick(() => {
+           playNext()
+         })
+ 
+-      PlayQueueButton({ imgWidth: 25, imgColor: $r('app.color.app_red') })
++      PlayQueueButton({ imgWidth: 25, imgColor: $r('app.color.app_red'), btnId: 'bottom_bar_queue_btn' })
+     }
+   }
+ }
+diff --git a/entry/src/main/ets/components/sheets/PlayQueueSheet.ets b/entry/src/main/ets/components/sheets/PlayQueueSheet.ets
+index 062cd5bd8287cf05607adab2430ad27cdbf32166..26ba3165cc3904fb1f1bd0751627d87afb7021b8 100644
+--- a/entry/src/main/ets/components/sheets/PlayQueueSheet.ets
++++ b/entry/src/main/ets/components/sheets/PlayQueueSheet.ets
+@@ -2,6 +2,7 @@ import { DialogUtil, EmitterUtil, LogUtil, ToastUtil } from "@pura/harmony-utils
+ import { PlayQueue } from "../../common/entities/PlayQueue"
+ import { playQueue } from "../../common/functions/play/playControl"
+ import PlayQueueUtils from "../../common/utils/play/PlayQueueUtils"
++import FMUtils from "../../common/utils/play/FMUtils"
+ import { LoopModeButton } from "../buttons/play/LoopModeButton"
+ import { LazyData } from '@pie/lazy-data';
+ import { setHeartMode } from "../../api/songApi"
+@@ -22,6 +23,7 @@ export struct PlayQueueSheet {
+   @StorageProp(StorageConstants.PLAY_MODE) playmode: number = 1
+   @StorageProp(StorageConstants.USER_PLAYLISTS) playLists: Array<PlayList> = []
+   @StorageProp(StorageConstants.BREAKPOINT) breakpoint: string = 'sm'
++  @StorageProp(StorageConstants.FM_ACTIVE) isFMActive: boolean = false
+   @State isLoading: boolean = false
+   @Link isShow: boolean
+   @State dataSource: LazyData<PlayQueue> = new LazyData()
+@@ -53,11 +55,12 @@ export struct PlayQueueSheet {
+               Span('播放列表').fontSize(Constants.FONT_SIZE_TITLE).fontColor(Color.Gray).fontWeight(FontWeight.Bold)
+               Span(`  (${this.queue.length})`).fontSize(Constants.FONT_SIZE_COMMON).fontColor(Color.Gray)
+             }
++            .id('queue_title')
+ 
+             LoopModeButton({ imgWidth: Constants.SIZE_ICON_BUTTON_BAR, btnWidth: Constants.SIZE_ICON_BUTTON_BAR })
+ 
+             // HeartMode Button
+-            if(this.queue.length > 0 && this.playmode == 1) {
++            if(!this.isFMActive && this.queue.length > 0 && this.playmode == 1) {
+               Button() {
+                 Image($r('app.media.ic_heart_filled')).width(Constants.SIZE_ICON_BUTTON_BAR - 5).fillColor($r('app.color.reverse'))
+               }
+@@ -81,19 +84,46 @@ export struct PlayQueueSheet {
+               this.scrollToCurrent()
+             })
+ 
+-            Button({ type: ButtonType.Circle }) {
+-              Image($r('app.media.ic_public_delete_filled')).width(Constants.SIZE_ICON_BUTTON_BAR_SMALL).fillColor(Color.Gray)
++            if(!this.isFMActive) {
++              Button({ type: ButtonType.Circle }) {
++                Image($r('app.media.ic_public_delete_filled')).width(Constants.SIZE_ICON_BUTTON_BAR_SMALL).fillColor(Color.Gray)
++              }
++              .backgroundColor(Color.Transparent)
++              .id('queue_clean_btn')
++              .onClick(() => {
++                this.cleanPlayQueue()
++              })
+             }
+-            .backgroundColor(Color.Transparent)
+-            .onClick(() => {
+-              this.cleanPlayQueue()
+-            })
+           }
+         }
+         .padding({ left: 5, right: 5 })
+         .width('100%')
+         .justifyContent(FlexAlign.SpaceBetween)
+ 
++        // 私人FM 提示与退出按钮
++        if(this.isFMActive) {
++          Row() {
++            Text('正在播放私人FM')
++              .id('fm_queue_tip')
++              .fontSize(Constants.FONT_SIZE_COMMON)
++              .fontColor($r('app.color.app_red'))
++              .fontWeight(FontWeight.Medium)
++            Button('退出FM')
++              .id('fm_exit_btn')
++              .fontSize(Constants.FONT_SIZE_COMMON - 2)
++              .fontColor(Color.White)
++              .backgroundColor($r('app.color.app_red'))
++              .height(30)
++              .padding({ left: 12, right: 12 })
++              .onClick(() => {
++                this.exitFM()
++              })
++          }
++          .padding({ left: 5, right: 5 })
++          .width('100%')
++          .justifyContent(FlexAlign.SpaceBetween)
++        }
++
+         List({ scroller: this.scroller, space: 20 }) {
+           LazyForEach(this.dataSource, (item: PlayQueue, index) => {
+             ListItem() {
+@@ -107,6 +137,7 @@ export struct PlayQueueSheet {
+         }
+         .lanes(this.breakpoint == 'sm' ? 1 : 2)
+         .divider({ color: Color.Gray, strokeWidth: 0.1 })
++        .id('queue_list')
+         .width('100%')
+         .height('100%')
+         .layoutWeight(1)
+@@ -130,6 +161,7 @@ export struct PlayQueueSheet {
+     Row({ space: 5 }) {
+       Column({ space: 5 }) {
+         Text(`${item.song.name}`)
++          .id(`queue_item_${index}`)
+           .fontSize(16)
+           .fontWeight(FontWeight.Medium)
+           .fontColor(this.currentQueueIndex == index ? $r('app.color.app_red') : $r('app.color.reverse'))
+@@ -167,8 +199,8 @@ export struct PlayQueueSheet {
+         } else return
+       })
+ 
+-      // 从播放列表中删除
+-      if(this.currentQueueIndex != index) {
++      // 从播放列表中删除（私人FM 中不可删除）
++      if(!this.isFMActive && this.currentQueueIndex != index) {
+         Button({ type: ButtonType.Circle }) {
+           Image($r('app.media.ic_public_cancel')).width(20).fillColor(Color.Gray)
+         }
+@@ -190,6 +222,16 @@ export struct PlayQueueSheet {
+     this.scroller.scrollToIndex(this.currentQueueIndex, animation, ScrollAlign.START)
+   }
+ 
++  /**
++   * 退出私人FM，面板保持打开并刷新为手动播放列表
++   */
++  private async exitFM() {
++    await FMUtils.exit()
++    this.dataSource.setData(PlayQueueUtils.getQueue())
++    this.dataSource.notifyDataReload()
++    this.scrollToCurrent(false)
++  }
++
+   private cleanPlayQueue() {
+     DialogUtil.showPrimaryDialog({
+       title: '确认',
+diff --git a/entry/src/main/ets/components/sheets/PlayingCover.ets b/entry/src/main/ets/components/sheets/PlayingCover.ets
+index 3aecf9df7f84b8566c724f5698ab426c8eed8ccc..9783b1122680800640fafe2631d2e0501d8767a4 100644
+--- a/entry/src/main/ets/components/sheets/PlayingCover.ets
++++ b/entry/src/main/ets/components/sheets/PlayingCover.ets
+@@ -14,6 +14,7 @@ import { PasteboardUtil, ToastUtil } from "@pura/harmony-utils"
+ import { PlayerActionSheet } from "./PlayerActionSheet"
+ import { likeThisSong } from "../../common/functions/play/songLike"
+ import { resourceManager } from "@kit.LocalizationKit"
++import FMUtils from "../../common/utils/play/FMUtils"
+ 
+ @Component
+ export struct PlayingCover {
+@@ -30,6 +31,9 @@ export struct PlayingCover {
+   @StorageProp(StorageConstants.PLAY_IS_LOCALFILE) isLocalFile: boolean = false
+   @StorageProp(StorageConstants.BREAKPOINT) breakpoint: string = 'sm'
+   @StorageProp(StorageConstants.DEVICE_TYPE) deviceType: resourceManager.DeviceType = resourceManager.DeviceType.DEVICE_TYPE_PHONE
++  @StorageProp(StorageConstants.FM_ACTIVE) isFMActive: boolean = false
++  @StorageProp(StorageConstants.FM_MODE) fmMode: string = 'DEFAULT'
++  @StorageProp(StorageConstants.FM_LOADING) isFMLoading: boolean = false
+   @Link isShow: boolean
+   @State sliderThickness: number = 10
+   @State isMovingSlider: boolean = false
+@@ -237,6 +241,7 @@ export struct PlayingCover {
+         max: this.song.duration,
+         style: SliderStyle.InSet
+       })
++        .id('player_slider')
+         .width('90%')
+         .blockColor(Color.White)
+         .trackColor(Color.Gray)
+@@ -273,12 +278,14 @@ export struct PlayingCover {
+   PlayButton() {
+     // 上一首
+     Image($r('app.media.ic_public_play_last')).buttonImgStyle()
++    .id('player_prev_btn')
+     .onClick(() => {
+       playPre()
+     })
+ 
+     // 暂停、继续
+     Image(!this.isPaused ? $r('app.media.ic_public_pause') : $r('app.media.ic_play_fill')).buttonImgStyle()
++      .id('player_play_btn')
+       .onClick(() => {
+         if(this.isPaused) {
+           resumeMusic()
+@@ -289,11 +296,92 @@ export struct PlayingCover {
+ 
+     // 下一首
+     Image($r('app.media.ic_public_play_next')).buttonImgStyle()
++    .id('player_next_btn')
+     .onClick(() => {
+       playNext()
+     })
+   }
+ 
++  /**
++   * 播放控制行最左侧：私人FM 中为“不喜欢”，否则为循环模式
++   */
++  @Builder
++  LeftControlButton() {
++    if(this.isFMActive) {
++      Column({ space: 2 }) {
++        Image($r('app.media.ic_public_delete'))
++          .width(26)
++          .aspectRatio(1)
++          .fillColor(Color.White)
++          .draggable(false)
++        Text('不喜欢')
++          .id('fm_dislike_text')
++          .fontSize(10)
++          .fontColor(Color.White)
++      }
++      .id('fm_dislike_btn')
++      .opacity(0.8)
++      .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.8 })
++      .onClick(() => {
++        FMUtils.dislike()
++      })
++    } else {
++      LoopModeButton({ imgColor: Color.White, btnId: 'player_loop_btn' }).opacity(0.8)
++    }
++  }
++
++  /**
++   * 私人FM 标识，点击弹出模式选择菜单
++   */
++  @Builder
++  FMBadge() {
++    if(this.isFMActive) {
++      Row({ space: 2 }) {
++        Text('私人FM')
++          .id('fm_badge_player_text')
++          .fontSize(Constants.FONT_SIZE_COMMON - 1)
++          .fontColor(Color.White)
++          .fontWeight(FontWeight.Medium)
++        Image($r('app.media.ic_public_arrow_down_0'))
++          .id('fm_badge_player_arrow')
++          .width(16)
++          .aspectRatio(1)
++          .fillColor(Color.White)
++          .draggable(false)
++      }
++      .id('fm_badge_player')
++      .padding({ left: 12, right: 8, top: 4, bottom: 4 })
++      .borderRadius(14)
++      .backgroundColor('#33FFFFFF')
++      .bindMenu(this.FMModeMenu())
++    }
++  }
++
++  @Builder
++  FMModeMenu() {
++    Menu() {
++      MenuItem({ content: '默认' })
++        .id('fm_mode_default')
++        .selected(this.fmMode == 'DEFAULT')
++        .selectIcon(true)
++        .enabled(!this.isFMLoading)
++        .onClick(() => { FMUtils.switchMode('DEFAULT') })
++      MenuItem({ content: '熟悉' })
++        .id('fm_mode_familiar')
++        .selected(this.fmMode == 'FAMILIAR')
++        .selectIcon(true)
++        .enabled(!this.isFMLoading)
++        .onClick(() => { FMUtils.switchMode('FAMILIAR') })
++      MenuItem({ content: '探索' })
++        .id('fm_mode_explore')
++        .selected(this.fmMode == 'EXPLORE')
++        .selectIcon(true)
++        .enabled(!this.isFMLoading)
++        .onClick(() => { FMUtils.switchMode('EXPLORE') })
++    }
++    .id('fm_mode_menu')
++  }
++
+   /**
+    * Head
+    */
+@@ -302,6 +390,7 @@ export struct PlayingCover {
+     Row() {
+       Button({ type: ButtonType.Circle }) { Image($r('app.media.ic_public_arrow_down_0')).draggable(false).fillColor(Color.White).width(Constants.SIZE_ICON_BUTTON_COMMON).aspectRatio(1) }
+       .backgroundColor(Color.Transparent)
++      .id('player_close_btn')
+       .onClick(() => { this.isShow = false })
+ 
+       /**
+@@ -366,6 +455,7 @@ export struct PlayingCover {
+ 
+       // 歌曲名称&艺术家
+       Text(this.song.name)
++        .id('player_song_name')
+         .textStyle(24)
+         .fontWeight(FontWeight.Bold)
+         .onClick(() => {
+@@ -416,12 +506,13 @@ export struct PlayingCover {
+       })
+ 
+       Column({ space: 10 }) {
++        this.FMBadge()
+         this.SliderContent()
+         this.ToolBar()
+         Row() {
+-          LoopModeButton({ imgColor: Color.White }).opacity(0.8)
++          this.LeftControlButton()
+           this.PlayButton()
+-          PlayQueueButton({ imgColor: Color.White }).opacity(0.8)
++          PlayQueueButton({ imgColor: Color.White, btnId: 'player_queue_btn' }).opacity(0.8)
+         }
+         .opacity(this.tabPageIndex == 0 ? 0.8 : 0.2)
+         .padding({ top: 20, bottom: 15 })
+@@ -454,12 +545,13 @@ export struct PlayingCover {
+       Column() {
+         this.SongInfo()
+         Column({ space: 10 }) {
++          this.FMBadge()
+           this.SliderContent()
+           this.ToolBar()
+           Row() {
+-            LoopModeButton({ imgColor: Color.White }).opacity(0.8)
++            this.LeftControlButton()
+             this.PlayButton()
+-            PlayQueueButton({ imgColor: Color.White }).opacity(0.8)
++            PlayQueueButton({ imgColor: Color.White, btnId: 'player_queue_btn' }).opacity(0.8)
+           }
+           .opacity(this.tabPageIndex == 0 ? 0.8 : 0.2)
+           .padding({ top: 20, bottom: 15 })
+diff --git a/hypium_tests/__init__.py b/hypium_tests/__init__.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/hypium_tests/fm_helpers.py b/hypium_tests/fm_helpers.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..199d7fe690c1a8b487e82d1988a209d3ebef9847
+--- /dev/null
++++ b/hypium_tests/fm_helpers.py
+@@ -0,0 +1,257 @@
++"""私人FM 自测公共方法（cmu-spec34）。
++
++约定：
++- 每个用例自己通过 restart_app 冷启动，不依赖其他用例留下的状态；
++- 依赖本地 NeteaseCloudMusicApi（应用内 API 地址 http://10.0.2.2:3000），未登录即可；
++- 组件优先用 .id() 定位（BY.key），文案断言用 BY.text 精确匹配。
++"""
++from __future__ import annotations
++
++import re
++import time
++
++from hypium import BY
++
++from harness.app import restart_app
++
++BUNDLE = "cc.chenlvin.cloudmusic"
++API_URL = "http://10.0.2.2:3000"
++NET_TIMEOUT = 25
++
++SONG_A = "外婆桥"  # 搜索结果第 1 首（任然，fee=8 可播放）
++SONG_B = "摇到外婆桥（摇啊摇）(童声合唱版)"  # 搜索结果第 2 首（fee=8 可播放）
++
++
++def find(driver, key: str):
++    return driver.find_component(BY.key(key))
++
++
++# hilog 中的请求日志（songApi.ets 在发出请求前打印）
++LOG_E1 = "Request personal fm"
++LOG_E2 = "Request fm trash"
++# 推荐结果全部被黑名单/去重过滤时 FMUtils 会补请求一次，这次补请求属于同一次操作
++LOG_E1_RETRY = "Retry personal fm"
++
++
++def _app_log(driver) -> list[str]:
++    return driver.shell("hilog -x -D 0x1010").splitlines()
++
++
++def mark(driver) -> str:
++    """记录设备当前时间（到秒），之后只统计晚于该秒的日志；等 1.1 秒保证后续操作落在新的一秒。"""
++    marker = driver.shell('date "+%m-%d %H:%M:%S"').strip()
++    time.sleep(1.1)
++    return marker
++
++
++def count_since(driver, marker: str, pattern: str) -> int:
++    """应用日志域 0x1010 中晚于 marker、包含 pattern 的行数，用来统计真实发出的网络请求。"""
++    return sum(1 for line in _app_log(driver) if line[:14] > marker and pattern in line)
++
++
++def e1_ops_since(driver, marker: str, pattern: str = LOG_E1) -> int:
++    """推荐请求的“操作次数”：请求行数减去过滤后补请求的次数。"""
++    lines = [line for line in _app_log(driver) if line[:14] > marker]
++    return sum(1 for line in lines if pattern in line) - sum(1 for line in lines if LOG_E1_RETRY in line)
++
++
++def fm_log_since(driver, marker: str) -> str:
++    """晚于 marker 的 FM 相关日志，断言失败时附在消息里便于排查。"""
++    keys = ("Request", "Retry", "FMUtils", "AVPlayerUtils")
++    lines = [line[6:200] for line in _app_log(driver) if line[:14] > marker and any(k in line for k in keys)]
++    return "\n" + "\n".join(lines[-20:])
++
++
++def text_of(driver, key: str):
++    c = find(driver, key)
++    return None if c is None else c.getText()
++
++
++def wait_for(cond, timeout: float = NET_TIMEOUT, interval: float = 0.5):
++    """轮询 cond()，返回第一个真值；超时返回 None。"""
++    deadline = time.monotonic() + timeout
++    while time.monotonic() < deadline:
++        value = cond()
++        if value:
++            return value
++        time.sleep(interval)
++    return None
++
++
++def wait_key(driver, key: str, timeout: float = NET_TIMEOUT):
++    return wait_for(lambda: find(driver, key), timeout)
++
++
++def wait_gone(driver, key: str, timeout: float = 10) -> bool:
++    return bool(wait_for(lambda: find(driver, key) is None, timeout))
++
++
++def click_key(driver, key: str, timeout: float = 10):
++    c = wait_key(driver, key, timeout)
++    if c is None:
++        raise AssertionError(f"未找到组件 id={key}")
++    driver.click(c)
++    return c
++
++
++def rapid_tap(driver, component, times: int = 3):
++    """在设备端连续点击组件中心（约 0.2 秒一次），比逐次调用 driver.click 更接近真实连点。"""
++    b = component.getBounds()
++    x, y = (b.left + b.right) // 2, (b.top + b.bottom) // 2
++    driver.shell("; ".join([f"uitest uiInput click {x} {y}"] * times))
++
++
++def launch(driver):
++    """冷启动并等待发现页私人FM卡片出现。"""
++    restart_app(driver, BUNDLE, wait_time=3)
++    if wait_key(driver, "fm_card", 20) is None:
++        raise AssertionError("冷启动后发现页未出现私人FM卡片")
++    time.sleep(1.5)
++
++
++def bottom_song(driver):
++    return text_of(driver, "bottom_bar_song_name")
++
++
++def wait_song_change(driver, old: str | None, key: str = "bottom_bar_song_name", timeout: float = NET_TIMEOUT):
++    def changed():
++        t = text_of(driver, key)
++        return t if t and t != old and t != "暂无播放" else None
++    return wait_for(changed, timeout)
++
++
++def is_fm(driver) -> bool:
++    return find(driver, "fm_badge_bottom") is not None
++
++
++def open_queue_from_bottom(driver):
++    click_key(driver, "bottom_bar_queue_btn")
++    if wait_key(driver, "queue_title", 8) is None:
++        raise AssertionError("播放列表面板未打开")
++    time.sleep(1)
++
++
++def close_overlay(driver):
++    driver.press_back()
++    time.sleep(1.2)
++
++
++def queue_count(driver) -> int | None:
++    t = text_of(driver, "queue_title")
++    if not t:
++        return None
++    m = re.search(r"\((\d+)\)", t)
++    return int(m.group(1)) if m else None
++
++
++def queue_names(driver, limit: int = 8) -> list[str]:
++    names = []
++    for i in range(limit):
++        t = text_of(driver, f"queue_item_{i}")
++        if t is None:
++            break
++        names.append(t)
++    return names
++
++
++def exit_fm_if_needed(driver):
++    """处于私人FM时，从底部栏打开播放列表点“退出FM”。"""
++    if not is_fm(driver):
++        return
++    open_queue_from_bottom(driver)
++    click_key(driver, "fm_exit_btn")
++    wait_gone(driver, "fm_exit_btn")
++    close_overlay(driver)
++    if not wait_gone(driver, "fm_badge_bottom"):
++        raise AssertionError("退出FM后底部栏仍显示私人FM标识")
++
++
++def enter_fm(driver) -> str:
++    """点击私人FM卡片，等待标识出现、底部栏歌曲换成 FM 推荐，返回歌名。"""
++    old = bottom_song(driver)
++    click_key(driver, "fm_card")
++    if wait_key(driver, "fm_badge_bottom") is None:
++        raise AssertionError("点击私人FM卡片后底部栏没有出现私人FM标识")
++    song = wait_song_change(driver, old)
++    if song is None:
++        # 进入前正在播放的歌恰好被推荐时歌名可能不变
++        song = bottom_song(driver)
++    return song
++
++
++def ensure_fm_playing(driver) -> str:
++    """冷启动后保证处于私人FM且有当前歌，返回歌名。"""
++    launch(driver)
++    if is_fm(driver):
++        click_key(driver, "fm_card")  # 已在 FM：未播放时开始播放
++        time.sleep(2)
++        song = bottom_song(driver)
++        if song and song != "暂无播放":
++            return song
++        exit_fm_if_needed(driver)
++    return enter_fm(driver)
++
++
++def open_player(driver):
++    click_key(driver, "bottom_bar")
++    if wait_key(driver, "player_slider", 10) is None:
++        raise AssertionError("点击底部播放栏后播放页未打开")
++    time.sleep(1.5)
++
++
++def clear_queue(driver):
++    """普通模式下清空播放列表。"""
++    open_queue_from_bottom(driver)
++    if queue_count(driver) != 0:
++        click_key(driver, "queue_clean_btn")
++        time.sleep(1)
++        # 弹窗标题和确认按钮文字都是“确认”，按钮在下方
++        confirms = driver.find_all_components(BY.text("确认")) or []
++        if not confirms:
++            raise AssertionError("未找到清空播放列表确认按钮")
++        driver.click(max(confirms, key=lambda c: c.getBounds().top))
++        if not wait_for(lambda: queue_count(driver) == 0, 8):
++            raise AssertionError("清空播放列表失败")
++    close_overlay(driver)
++
++
++def search(driver, keyword: str):
++    driver.click(driver.find_component(BY.type("Search")))
++    time.sleep(2)
++    driver.input_text(driver.find_component(BY.type("Search")), keyword)
++    time.sleep(0.5)
++    driver.click(driver.find_component(BY.text("搜索")))
++    if wait_for(lambda: driver.find_component(BY.text(SONG_B)), 20) is None:
++        raise AssertionError("搜索结果未加载")
++    time.sleep(1)
++
++
++def song_menu(driver, name: str, action: str):
++    """长按搜索结果中的歌曲弹出菜单，点击菜单项。"""
++    # 搜索框、底部栏也可能是同样的文字，取最靠上的 Text（搜索结果列表里的）
++    texts = [c for c in driver.find_all_components(BY.text(name)) if c.getType() == "Text"]
++    target = min(texts, key=lambda c: c.getBounds().top)
++    driver.long_click(target)
++    item = wait_for(lambda: driver.find_component(BY.text(action)), 8)
++    if item is None:
++        raise AssertionError(f"歌曲菜单未出现 {action}")
++    driver.click(item)
++    time.sleep(1.5)
++
++
++def build_manual_queue(driver):
++    """普通模式下把手动播放列表设为 [SONG_A(当前), SONG_B]，最后回到发现页。"""
++    exit_fm_if_needed(driver)
++    clear_queue(driver)
++    search(driver, "外婆桥")
++    song_menu(driver, SONG_A, "单曲播放")
++    song_menu(driver, SONG_B, "添加到下一首")
++    # 返回发现页（键盘可能还开着，最多返回 3 次；搜索页的“搜索”按钮消失即已返回）
++    for _ in range(3):
++        if driver.find_component(BY.text("搜索")) is None:
++            break
++        close_overlay(driver)
++    if driver.find_component(BY.text("搜索")) is not None:
++        raise AssertionError("未能返回发现页")
++    if wait_for(lambda: bottom_song(driver) == SONG_A, NET_TIMEOUT) is None:
++        raise AssertionError(f"手动播放列表当前歌不是 {SONG_A}: {bottom_song(driver)}")
+diff --git a/hypium_tests/test_01_entry.py b/hypium_tests/test_01_entry.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..1e951abc1bc971e20d423fd8d20c2d4b62f43794
+--- /dev/null
++++ b/hypium_tests/test_01_entry.py
+@@ -0,0 +1,95 @@
++"""场景一：发现页私人FM卡片、进入私人FM、标识。"""
++from __future__ import annotations
++
++import time
++
++from hypium import BY
++
++from harness.driver import HarnessTestCase
++from hypium_tests import fm_helpers as fm
++
++
++class TestFMEntry(HarnessTestCase):
++
++    def test_01_card_visible_without_scroll(self):
++        """A1-A4：冷启动后发现页第 1 张卡片就是私人FM，无需横滑，文案精确。"""
++        fm.launch(self.driver)
++        fm.exit_fm_if_needed(self.driver)
++        title = self.require_component(BY.text("私人FM"), "发现页没有文字为“私人FM”的组件")
++        self.assertEqual(fm.text_of(self.driver, "fm_card_title"), "私人FM")
++        self.assertEqual(fm.text_of(self.driver, "fm_card_subtitle"), "根据口味连续推荐")
++        b = fm.find(self.driver, "fm_card").getBounds()
++        self.assertGreaterEqual(b.left, 0)
++        self.assertLessEqual(b.right, 1308, "私人FM卡片超出屏幕，需要横滑才能看到")
++        self.assertIsNotNone(title)
++        # A18/A24：普通模式下没有 FM 标识
++        self.assertIsNone(fm.find(self.driver, "fm_badge_bottom"))
++
++    def test_02_enter_fm_and_autoplay(self):
++        """A5-A7/A16：点击卡片进入私人FM，自动播放第一首推荐，不自动打开播放页。"""
++        fm.launch(self.driver)
++        fm.exit_fm_if_needed(self.driver)
++        old = fm.bottom_song(self.driver)
++        mark = fm.mark(self.driver)
++        fm.click_key(self.driver, "fm_card")
++        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom"), "进入私人FM后底部栏没有标识")
++        self.assertEqual(fm.text_of(self.driver, "fm_badge_bottom"), "私人FM")
++        song = fm.wait_song_change(self.driver, old)
++        self.assertIsNotNone(song, "进入私人FM后底部栏歌曲没有变成推荐歌曲")
++        # 不自动打开播放页，仍在发现页
++        self.assertIsNone(fm.find(self.driver, "player_slider"), "点击卡片后不应自动打开播放页")
++        self.assertIsNotNone(fm.find(self.driver, "fm_card"))
++        # 歌曲真正开始播放：底部栏出现暂停按钮
++        self.assertIsNotNone(fm.wait_key(self.driver, "bottom_bar_pause_btn", 20), "推荐歌曲没有开始播放")
++        # 网络：点击卡片恰好发出 1 次推荐请求
++        time.sleep(2)
++        self.assertEqual(fm.e1_ops_since(self.driver, mark), 1, "点击卡片应恰好发出 1 次推荐请求")
++
++    def test_03_rapid_click_card(self):
++        """A8：快速连点卡片只进入一次，播放列表里没有重复歌曲。"""
++        fm.launch(self.driver)
++        fm.exit_fm_if_needed(self.driver)
++        mark = fm.mark(self.driver)
++        fm.rapid_tap(self.driver, fm.find(self.driver, "fm_card"), 3)
++        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom"))
++        fm.wait_song_change(self.driver, None)
++        time.sleep(3)
++        self.assertEqual(fm.e1_ops_since(self.driver, mark), 1, "快速连点卡片应只发出 1 次推荐请求")
++        fm.open_queue_from_bottom(self.driver)
++        names = fm.queue_names(self.driver)
++        self.assertGreaterEqual(len(names), 1)
++        self.assertEqual(len(names), len(set(names)), f"FM 队列出现重复歌曲: {names}")
++        count = fm.queue_count(self.driver)
++        # 本地未登录时每次推荐 1 首，连点不应叠加出更多
++        self.assertLessEqual(count, 3, f"连点后 FM 队列数量异常: {count}")
++        fm.close_overlay(self.driver)
++
++    def test_04_click_card_again_in_fm(self):
++        """A9：已在私人FM中再次点击卡片，不重新加载，歌曲不变。"""
++        song = fm.ensure_fm_playing(self.driver)
++        time.sleep(2)
++        song = fm.bottom_song(self.driver)
++        mark = fm.mark(self.driver)
++        fm.click_key(self.driver, "fm_card")
++        time.sleep(4)
++        self.assertEqual(fm.bottom_song(self.driver), song)
++        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
++        self.assertEqual(fm.e1_ops_since(self.driver, mark), 0, "已在 FM 中再点卡片不应发推荐请求")
++
++    def test_05_state_kept_after_navigation(self):
++        """A19：切换 Tab、打开/收起播放页后仍在私人FM，歌曲不变。"""
++        fm.ensure_fm_playing(self.driver)
++        time.sleep(2)
++        song = fm.bottom_song(self.driver)
++        mark = fm.mark(self.driver)
++        self.driver.click(self.driver.find_all_components(BY.text("我的"))[-1])
++        time.sleep(1.5)
++        self.driver.click(self.driver.find_all_components(BY.text("发现"))[-1])
++        time.sleep(1.5)
++        fm.open_player(self.driver)
++        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
++        fm.click_key(self.driver, "player_close_btn")
++        self.assertTrue(fm.wait_gone(self.driver, "player_slider"))
++        self.assertEqual(fm.bottom_song(self.driver), song)
++        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
++        self.assertEqual(fm.e1_ops_since(self.driver, mark), 0, "切换页面不应发推荐请求")
+diff --git a/hypium_tests/test_02_player.py b/hypium_tests/test_02_player.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..7cd6d5bcbeb2baf895047ccfff2abeaf17576721
+--- /dev/null
++++ b/hypium_tests/test_02_player.py
+@@ -0,0 +1,147 @@
++"""场景一/三/四：播放页私人FM标识、模式菜单、不喜欢、下一首。"""
++from __future__ import annotations
++
++import time
++
++from hypium import BY
++
++from harness.driver import HarnessTestCase
++from hypium_tests import fm_helpers as fm
++
++MODE_KEYS = {"默认": "fm_mode_default", "熟悉": "fm_mode_familiar", "探索": "fm_mode_explore"}
++
++
++class TestFMPlayer(HarnessTestCase):
++
++    def setUp(self):
++        fm.ensure_fm_playing(self.driver)
++        fm.open_player(self.driver)
++
++    def tearDown(self):
++        # 关闭可能残留的菜单/播放页
++        for _ in range(2):
++            if fm.find(self.driver, "player_slider") is None:
++                break
++            self.driver.press_back()
++            time.sleep(1)
++
++    def open_menu(self):
++        fm.click_key(self.driver, "fm_badge_player")
++        item = fm.wait_for(lambda: self.driver.find_component(BY.text("探索")), 5)
++        self.assertIsNotNone(item, "点击私人FM标识后没有弹出模式菜单")
++        time.sleep(0.5)
++
++    def selected_mode(self):
++        for label, key in MODE_KEYS.items():
++            c = fm.find(self.driver, key)
++            if c is not None and c.isSelected():
++                return label
++        return None
++
++    def test_01_player_badge_and_dislike_button(self):
++        """A17/A42：播放页显示私人FM标识和“不喜欢”，循环按钮被替换。"""
++        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
++        self.assertTrue(fm.find(self.driver, "fm_badge_player").isClickable())
++        self.require_component(BY.text("不喜欢"), "播放页没有“不喜欢”按钮", timeout=5)
++        self.assertTrue(fm.find(self.driver, "fm_dislike_btn").isClickable())
++        self.assertIsNone(fm.find(self.driver, "player_loop_btn"), "FM 中循环模式按钮应被“不喜欢”替换")
++        # 播放页打开时歌名与底部栏一致
++        self.assertEqual(fm.text_of(self.driver, "player_song_name"), fm.bottom_song(self.driver))
++
++    def test_02_mode_menu_items_and_cancel(self):
++        """A33-A35/A38：菜单有默认/熟悉/探索，当前模式打勾，返回键取消不切歌。"""
++        song = fm.text_of(self.driver, "player_song_name")
++        mark = fm.mark(self.driver)
++        self.open_menu()
++        for label, key in MODE_KEYS.items():
++            self.assertIsNotNone(self.driver.find_component(BY.text(label)), f"菜单缺少 {label}")
++            self.assertIsNotNone(fm.find(self.driver, key))
++        selected = [label for label, key in MODE_KEYS.items() if fm.find(self.driver, key).isSelected()]
++        self.assertEqual(len(selected), 1, f"应恰好一个模式打勾: {selected}")
++        self.driver.press_back()
++        time.sleep(1.5)
++        self.assertIsNone(self.driver.find_component(BY.text("探索")), "返回键后菜单未关闭")
++        self.assertIsNotNone(fm.find(self.driver, "player_slider"), "返回键只应关闭菜单，不应关闭播放页")
++        time.sleep(3)
++        self.assertEqual(fm.text_of(self.driver, "player_song_name"), song)
++        self.assertEqual(fm.e1_ops_since(self.driver, mark), 0, "打开/取消菜单不应发推荐请求")
++
++    def test_03_select_current_mode_no_reload(self):
++        """A38/U13：选择当前已选模式只关闭菜单，歌曲不变。"""
++        song = fm.text_of(self.driver, "player_song_name")
++        mark = fm.mark(self.driver)
++        self.open_menu()
++        current = self.selected_mode()
++        self.assertIsNotNone(current)
++        self.driver.click(fm.find(self.driver, MODE_KEYS[current]))
++        time.sleep(4)
++        self.assertEqual(fm.text_of(self.driver, "player_song_name"), song)
++        self.assertIsNotNone(fm.find(self.driver, "fm_badge_player"))
++        self.assertEqual(fm.e1_ops_since(self.driver, mark), 0, "选择当前模式不应发推荐请求")
++
++    def test_04_select_explore_reloads(self):
++        """A36/A40/A41：选择“探索”重新加载推荐，仍在私人FM，再打开菜单勾在探索。"""
++        self.open_menu()
++        if self.selected_mode() == "探索":
++            # 先切到默认，保证“探索”是一次真正的切换
++            song = fm.text_of(self.driver, "player_song_name")
++            self.driver.click(fm.find(self.driver, "fm_mode_default"))
++            self.assertIsNotNone(fm.wait_song_change(self.driver, song, "player_song_name"))
++            time.sleep(2)
++            self.open_menu()
++        song = fm.text_of(self.driver, "player_song_name")
++        mark = fm.mark(self.driver)
++        self.driver.click(self.driver.find_component(BY.text("探索")))
++        new_song = fm.wait_song_change(self.driver, song, "player_song_name")
++        self.assertIsNotNone(new_song, "选择探索后没有重新加载推荐歌曲")
++        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
++        time.sleep(2)
++        self.assertEqual(fm.e1_ops_since(self.driver, mark, "mode=EXPLORE"), 1, "选择探索应恰好发出 1 次 EXPLORE 推荐请求")
++        self.open_menu()
++        self.assertEqual(self.selected_mode(), "探索")
++        # 恢复默认模式，避免影响其他用例
++        song = fm.text_of(self.driver, "player_song_name")
++        self.driver.click(fm.find(self.driver, "fm_mode_default"))
++        fm.wait_song_change(self.driver, song, "player_song_name")
++
++    def test_05_dislike_switches_song_and_stays_in_fm(self):
++        """A43-A46/A48：点不喜欢立即切到下一首，仍在私人FM（未登录上报失败也照常切歌）。"""
++        song = fm.text_of(self.driver, "player_song_name")
++        mark = fm.mark(self.driver)
++        fm.click_key(self.driver, "fm_dislike_btn")
++        new_song = fm.wait_song_change(self.driver, song, "player_song_name")
++        self.assertIsNotNone(new_song, "点不喜欢后没有切到下一首")
++        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
++        self.assertIsNotNone(self.driver.find_component(BY.text("不喜欢")))
++        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
++        # 被不喜欢的歌不在之后的队列中（当前及之后）
++        self.assertNotEqual(fm.text_of(self.driver, "player_song_name"), song)
++        # 网络：恰好 1 次不喜欢上报；队尾时同时续拉 1 次推荐
++        time.sleep(2)
++        self.assertEqual(fm.count_since(self.driver, mark, fm.LOG_E2), 1, "点不喜欢应恰好上报 1 次")
++        self.assertLessEqual(fm.e1_ops_since(self.driver, mark), 1)
++
++    def test_06_rapid_dislike_skips_once(self):
++        """A47：快速连点不喜欢只上报一次、只跳过一首。"""
++        song = fm.text_of(self.driver, "player_song_name")
++        mark = fm.mark(self.driver)
++        fm.rapid_tap(self.driver, fm.find(self.driver, "fm_dislike_btn"), 3)
++        self.assertIsNotNone(fm.wait_song_change(self.driver, song, "player_song_name"))
++        time.sleep(4)
++        self.assertEqual(fm.count_since(self.driver, mark, fm.LOG_E2), 1,
++                         "快速连点不喜欢应只上报 1 次" + fm.fm_log_since(self.driver, mark))
++        fm.click_key(self.driver, "player_queue_btn")
++        fm.wait_key(self.driver, "queue_title", 8)
++        time.sleep(1)
++        names = fm.queue_names(self.driver)
++        self.assertEqual(len(names), len(set(names)), f"FM 队列出现重复歌曲: {names}")
++        self.assertLessEqual(names.count(song), 1, "被不喜欢的歌只应留在已播记录里")
++        self.driver.press_back()
++        time.sleep(1)
++
++    def test_07_next_button_in_fm(self):
++        """A13：FM 中点下一首切到另一首推荐，不提示没有下一首，标识保持。"""
++        song = fm.text_of(self.driver, "player_song_name")
++        fm.click_key(self.driver, "player_next_btn")
++        self.assertIsNotNone(fm.wait_song_change(self.driver, song, "player_song_name"), "FM 中下一首没有切歌")
++        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
+diff --git a/hypium_tests/test_03_queue.py b/hypium_tests/test_03_queue.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..e6dacdc684de1e1a01d3a5ebe8d18846a10add49
+--- /dev/null
++++ b/hypium_tests/test_03_queue.py
+@@ -0,0 +1,104 @@
++"""场景二：播放列表面板中的“正在播放私人FM”与“退出FM”。"""
++from __future__ import annotations
++
++import time
++
++from hypium import BY
++
++from harness.driver import HarnessTestCase
++from hypium_tests import fm_helpers as fm
++
++
++class TestFMQueue(HarnessTestCase):
++
++    def tearDown(self):
++        for _ in range(2):
++            if fm.find(self.driver, "queue_title") is None and fm.find(self.driver, "player_slider") is None:
++                break
++            self.driver.press_back()
++            time.sleep(1)
++
++    def test_01_exit_restores_manual_queue(self):
++        """A10/A21/A22/A25-A29：面板提示与退出，退出后恢复手动队列并播放进入前的歌，面板保持打开。"""
++        fm.launch(self.driver)
++        fm.build_manual_queue(self.driver)
++        fm.open_queue_from_bottom(self.driver)
++        self.assertIsNone(fm.find(self.driver, "fm_queue_tip"), "普通模式不应显示“正在播放私人FM”")
++        self.assertIsNone(fm.find(self.driver, "fm_exit_btn"))
++        manual = fm.queue_names(self.driver)
++        self.assertEqual(manual, [fm.SONG_A, fm.SONG_B])
++        self.assertEqual(fm.queue_count(self.driver), 2)
++        fm.close_overlay(self.driver)
++
++        fm_song = fm.enter_fm(self.driver)
++        fm.open_queue_from_bottom(self.driver)
++        self.require_component(BY.text("正在播放私人FM"), "面板没有“正在播放私人FM”", timeout=5)
++        exit_btn = self.require_component(BY.text("退出FM"), "面板没有“退出FM”按钮", timeout=5)
++        self.assertTrue(fm.find(self.driver, "fm_exit_btn").isClickable())
++        # FM 中面板列出的是推荐队列，隐藏清空按钮
++        names = fm.queue_names(self.driver)
++        self.assertIn(fm_song, names)
++        self.assertIsNone(fm.find(self.driver, "queue_clean_btn"))
++
++        mark = fm.mark(self.driver)
++        self.driver.click(exit_btn)
++        self.assertTrue(fm.wait_gone(self.driver, "fm_queue_tip"), "退出FM后提示未消失")
++        self.assertIsNone(fm.find(self.driver, "fm_exit_btn"))
++        # 面板保持打开，并立即刷新为手动队列
++        self.assertIsNotNone(fm.find(self.driver, "queue_title"), "退出FM后面板不应关闭")
++        self.assertTrue(fm.wait_for(lambda: fm.queue_count(self.driver) == 2, 5), "退出后数量不是手动队列的 2 首")
++        self.assertEqual(fm.queue_names(self.driver), manual)
++        self.assertIsNotNone(fm.find(self.driver, "queue_clean_btn"), "退出FM后清空按钮应恢复")
++        fm.close_overlay(self.driver)
++        self.assertIsNone(fm.find(self.driver, "fm_badge_bottom"), "退出FM后底部栏标识应消失")
++        self.assertEqual(fm.bottom_song(self.driver), fm.SONG_A, "退出后应播放进入前的那首")
++        self.assertEqual(fm.e1_ops_since(self.driver, mark), 0, "退出FM不应发推荐请求")
++        self.assertEqual(fm.count_since(self.driver, mark, fm.LOG_E2), 0)
++
++        # A31：再进出一轮，手动队列不被污染
++        fm.enter_fm(self.driver)
++        fm.exit_fm_if_needed(self.driver)
++        fm.open_queue_from_bottom(self.driver)
++        self.assertEqual(fm.queue_names(self.driver), manual)
++        fm.close_overlay(self.driver)
++
++    def test_02_exit_from_player_queue(self):
++        """A23/A26/A18/A42：从播放页的播放列表按钮退出FM，播放页标识与不喜欢消失，循环按钮恢复。"""
++        fm.ensure_fm_playing(self.driver)
++        fm.open_player(self.driver)
++        fm.click_key(self.driver, "player_queue_btn")
++        self.assertIsNotNone(fm.wait_key(self.driver, "fm_queue_tip", 8), "播放页打开的面板没有私人FM提示")
++        self.assertEqual(fm.text_of(self.driver, "fm_queue_tip"), "正在播放私人FM")
++        fm.click_key(self.driver, "fm_exit_btn")
++        self.assertTrue(fm.wait_gone(self.driver, "fm_queue_tip"))
++        fm.close_overlay(self.driver)
++        self.assertIsNotNone(fm.find(self.driver, "player_slider"), "应仍停留在播放页")
++        self.assertTrue(fm.wait_gone(self.driver, "fm_badge_player"), "退出后播放页标识应消失")
++        self.assertIsNone(self.driver.find_component(BY.text("不喜欢")))
++        self.assertIsNotNone(fm.find(self.driver, "player_loop_btn"), "退出后循环模式按钮应恢复")
++
++    def test_03_exit_with_empty_manual_queue(self):
++        """A28 边界：进入前手动队列为空，退出后列表为空，底部栏显示“暂无播放”。"""
++        fm.launch(self.driver)
++        fm.exit_fm_if_needed(self.driver)
++        fm.clear_queue(self.driver)
++        fm.enter_fm(self.driver)
++        fm.open_queue_from_bottom(self.driver)
++        fm.click_key(self.driver, "fm_exit_btn")
++        self.assertTrue(fm.wait_for(lambda: fm.queue_count(self.driver) == 0, 5), "退出后列表应为空")
++        self.assertIsNotNone(fm.find(self.driver, "queue_title"))
++        fm.close_overlay(self.driver)
++        self.assertEqual(fm.bottom_song(self.driver), "暂无播放")
++        self.assertIsNone(fm.find(self.driver, "fm_badge_bottom"))
++
++    def test_04_other_entry_exits_fm(self):
++        """A32/U10：FM 中从搜索单曲播放，自动退出私人FM。"""
++        fm.ensure_fm_playing(self.driver)
++        fm.search(self.driver, "外婆桥")
++        fm.song_menu(self.driver, fm.SONG_B, "单曲播放")
++        self.assertTrue(fm.wait_gone(self.driver, "fm_badge_bottom"), "其他入口播放后应退出私人FM")
++        for _ in range(3):
++            if self.driver.find_component(BY.text("搜索")) is None:
++                break
++            fm.close_overlay(self.driver)
++        self.assertTrue(fm.wait_for(lambda: fm.bottom_song(self.driver) == fm.SONG_B, fm.NET_TIMEOUT))
+diff --git a/hypium_tests/test_04_persist.py b/hypium_tests/test_04_persist.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..053f1c0f1585a45be2d1c82812cc4edd6b655d19
+--- /dev/null
++++ b/hypium_tests/test_04_persist.py
+@@ -0,0 +1,124 @@
++"""重启应用后的私人FM状态（A20/A41）与播完自动续播（A12）。"""
++from __future__ import annotations
++
++import time
++
++from hypium import BY
++
++from harness.driver import HarnessTestCase
++from hypium_tests import fm_helpers as fm
++
++
++class TestFMPersist(HarnessTestCase):
++
++    def tearDown(self):
++        for _ in range(2):
++            if fm.find(self.driver, "queue_title") is None and fm.find(self.driver, "player_slider") is None:
++                break
++            self.driver.press_back()
++            time.sleep(1)
++
++    def test_01_restart_keeps_fm_and_backup(self):
++        """A20：重启后仍显示私人FM标识与上次的 FM 歌曲，退出后还原进入前的手动队列。"""
++        fm.launch(self.driver)
++        fm.build_manual_queue(self.driver)
++        fm.enter_fm(self.driver)
++        time.sleep(3)
++        song = fm.bottom_song(self.driver)
++
++        fm.launch(self.driver)
++        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom", 10), "重启后私人FM标识丢失")
++        self.assertEqual(fm.bottom_song(self.driver), song, "重启后底部栏应显示上次的 FM 歌曲")
++        fm.open_queue_from_bottom(self.driver)
++        self.assertEqual(fm.text_of(self.driver, "fm_queue_tip"), "正在播放私人FM")
++        fm.click_key(self.driver, "fm_exit_btn")
++        self.assertTrue(fm.wait_for(lambda: fm.queue_count(self.driver) == 2, 5))
++        self.assertEqual(fm.queue_names(self.driver), [fm.SONG_A, fm.SONG_B])
++        fm.close_overlay(self.driver)
++        self.assertEqual(fm.bottom_song(self.driver), fm.SONG_A)
++
++        # 退出后重启仍是普通模式
++        fm.launch(self.driver)
++        self.assertIsNone(fm.find(self.driver, "fm_badge_bottom"))
++
++    def test_02_restart_then_play_fm_song(self):
++        """T15：重启后不自动播放；点击卡片继续播放上次的 FM 歌，不重新请求。"""
++        fm.ensure_fm_playing(self.driver)
++        time.sleep(2)
++        song = fm.bottom_song(self.driver)
++        mark = fm.mark(self.driver)
++        fm.launch(self.driver)
++        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom", 10))
++        self.assertIsNotNone(fm.find(self.driver, "bottom_bar_play_btn"), "重启后不应自动播放")
++        fm.click_key(self.driver, "fm_card")
++        self.assertIsNotNone(fm.wait_key(self.driver, "bottom_bar_pause_btn", fm.NET_TIMEOUT), "点击卡片后应继续播放")
++        self.assertEqual(fm.bottom_song(self.driver), song)
++        self.assertEqual(fm.e1_ops_since(self.driver, mark), 0, "冷启动和继续播放都不应发推荐请求")
++
++    def test_03_mode_persists_after_restart(self):
++        """A41：选择“熟悉”后重启，模式菜单仍勾在熟悉。"""
++        fm.ensure_fm_playing(self.driver)
++        fm.open_player(self.driver)
++        fm.click_key(self.driver, "fm_badge_player")
++        fm.wait_for(lambda: self.driver.find_component(BY.text("熟悉")), 5)
++        time.sleep(0.5)
++        if not fm.find(self.driver, "fm_mode_familiar").isSelected():
++            song = fm.text_of(self.driver, "player_song_name")
++            self.driver.click(fm.find(self.driver, "fm_mode_familiar"))
++            self.assertIsNotNone(fm.wait_song_change(self.driver, song, "player_song_name"))
++        else:
++            self.driver.press_back()
++        time.sleep(2)
++        fm.launch(self.driver)
++        fm.open_player(self.driver)
++        fm.click_key(self.driver, "fm_badge_player")
++        fm.wait_for(lambda: self.driver.find_component(BY.text("熟悉")), 5)
++        time.sleep(0.5)
++        self.assertTrue(fm.find(self.driver, "fm_mode_familiar").isSelected(), "重启后模式应保持为熟悉")
++        # 恢复默认（等请求完成、歌曲切换后再结束，避免下一个用例重启时打断）
++        song = fm.text_of(self.driver, "player_song_name")
++        self.driver.click(fm.find(self.driver, "fm_mode_default"))
++        fm.wait_song_change(self.driver, song, "player_song_name")
++        time.sleep(1)
++
++    def test_04_auto_next_after_complete(self):
++        """A12：歌曲播放完成后自动播放下一首推荐，仍在私人FM。"""
++        fm.ensure_fm_playing(self.driver)
++        self.assert_auto_next()
++
++    def test_05_auto_next_ignores_cycle_mode(self):
++        """A14：依次切换四种循环模式（顺序/单曲/列表循环/随机），FM 中播完都切到另一首推荐。"""
++        for _ in range(4):
++            fm.launch(self.driver)
++            fm.exit_fm_if_needed(self.driver)
++            fm.open_player(self.driver)
++            fm.click_key(self.driver, "player_loop_btn")  # 切到下一种循环模式
++            time.sleep(1)
++            fm.click_key(self.driver, "player_close_btn")
++            fm.wait_gone(self.driver, "player_slider")
++            fm.enter_fm(self.driver)
++            self.assert_auto_next()
++            fm.click_key(self.driver, "player_close_btn")
++            fm.wait_gone(self.driver, "player_slider")
++
++    def assert_auto_next(self):
++        fm.open_player(self.driver)
++        self.assertIsNotNone(fm.wait_key(self.driver, "bottom_bar_pause_btn", 20))
++        song = fm.text_of(self.driver, "player_song_name")
++        slider = fm.find(self.driver, "player_slider")
++        b = slider.getBounds()
++        y = (b.top + b.bottom) // 2
++        start_x = b.left + int((b.right - b.left) * 0.3)
++        end_x = b.left + int((b.right - b.left) * 0.93)
++        mark = fm.mark(self.driver)
++        # 点击轨道不会跳转，必须拖动；拖到最末尾不会触发 completed，所以拖到约 93%
++        self.driver.drag((start_x, y), (end_x, y), drag_time=1)
++        new_song = fm.wait_song_change(self.driver, song, "player_song_name", timeout=60)
++        self.assertIsNotNone(new_song, "播放完成后没有自动播放下一首推荐" + fm.fm_log_since(self.driver, mark))
++        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
++        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
++        # 临近结束预取与播完续拉不能重复请求：只有预取没拿到新歌、或新歌无法播放被跳过时，才会再请求
++        allowed = 1 + fm.count_since(self.driver, mark, "fetch more: 0 new songs") \
++            + fm.count_since(self.driver, mark, "next(fail)")
++        self.assertLessEqual(fm.e1_ops_since(self.driver, mark), allowed,
++                             "播完续播不应重复发推荐请求" + fm.fm_log_since(self.driver, mark))
+diff --git a/hypium_tests/test_05_failure.py b/hypium_tests/test_05_failure.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..cf03093c98f1c98bdb731f5b4cb360339d719153
+--- /dev/null
++++ b/hypium_tests/test_05_failure.py
+@@ -0,0 +1,73 @@
++"""A3/A11/A50：API 不可用时卡片仍显示，进入私人FM失败也不崩溃（FM 队列为空）。
++
++会临时把应用内 API 地址改成不可用的端口，用例结束时改回 fm_helpers.API_URL。
++"""
++from __future__ import annotations
++
++import time
++
++from hypium import BY
++
++from harness.app import click_text_path
++from harness.driver import HarnessTestCase
++from hypium_tests import fm_helpers as fm
++
++BAD_API_URL = "http://10.0.2.2:3999"
++
++
++class TestFMFailure(HarnessTestCase):
++
++    def set_api_url(self, url: str):
++        fm.launch(self.driver)
++        self.driver.click(self.driver.find_all_components(BY.text("我的"))[-1])
++        time.sleep(1.5)
++        click_text_path(self.driver, ["应用设置", "API与Cookie设置"])
++        time.sleep(1.5)
++        field = self.driver.find_all_components(BY.type("TextInput"))[0]
++        self.driver.input_text(field, url)
++        time.sleep(0.5)
++        self.assertEqual(self.driver.find_all_components(BY.type("TextInput"))[0].getText(), url)
++        self.driver.click(self.driver.find_component(BY.text("设置")))
++        time.sleep(2)
++
++    def tearDown(self):
++        self.set_api_url(fm.API_URL)
++        fm.launch(self.driver)
++        fm.exit_fm_if_needed(self.driver)
++
++    def test_01_enter_fm_without_server(self):
++        self.set_api_url(BAD_API_URL)
++        fm.launch(self.driver)
++        fm.exit_fm_if_needed(self.driver)
++        # A3：API 不可用时卡片仍在
++        self.assertEqual(fm.text_of(self.driver, "fm_card_title"), "私人FM")
++        song = fm.bottom_song(self.driver)
++
++        fm.click_key(self.driver, "fm_card")
++        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom"), "请求失败后也应进入私人FM并显示标识")
++        self.assertTrue(fm.wait_gone(self.driver, "fm_card_loading", 20), "请求失败后加载状态未释放")
++        self.assertEqual(fm.bottom_song(self.driver), song, "请求失败时不应改变当前显示的歌曲")
++
++        # 空 FM 队列也能打开播放页
++        fm.open_player(self.driver)
++        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
++        self.assertIsNotNone(self.driver.find_component(BY.text("不喜欢")))
++        fm.click_key(self.driver, "fm_dislike_btn")  # 没有当前 FM 歌：点击无效、不崩溃
++        time.sleep(1)
++        fm.click_key(self.driver, "player_close_btn")
++        fm.wait_gone(self.driver, "player_slider")
++
++        # 再点卡片重试一次，仍然失败但不崩溃、可再次点击
++        fm.click_key(self.driver, "fm_card")
++        self.assertTrue(fm.wait_gone(self.driver, "fm_card_loading", 20))
++
++        fm.open_queue_from_bottom(self.driver)
++        self.assertEqual(fm.text_of(self.driver, "fm_queue_tip"), "正在播放私人FM")
++        self.assertEqual(fm.queue_count(self.driver), 0)
++        fm.click_key(self.driver, "fm_exit_btn")
++        self.assertTrue(fm.wait_gone(self.driver, "fm_queue_tip"))
++        fm.close_overlay(self.driver)
++        self.assertIsNone(fm.find(self.driver, "fm_badge_bottom"))
++
++        pid = self.driver.shell(f"pidof {fm.BUNDLE}").strip()
++        self.assertTrue(pid, "应用进程不存在（可能崩溃）")
+diff --git a/oh-package-lock.json5 b/oh-package-lock.json5
+index 4fc7eabaa10fbc38a736b4359e7f9676c2689b86..d8313d98db2e7324e0a26a59c130e959a1ba4802 100644
+--- a/oh-package-lock.json5
++++ b/oh-package-lock.json5
+@@ -1,6 +1,7 @@
+ {
+   "meta": {
+-    "stableOrder": true
++    "stableOrder": true,
++    "enableUnifiedLockfile": false
+   },
+   "lockfileVersion": 3,
+   "ATTENTION": "THIS IS AN AUTOGENERATED FILE. DO NOT EDIT THIS FILE DIRECTLY.",
+diff --git a/spec/0-analyze.md b/spec/0-analyze.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..13ae398fdad4e72ab8d2408dd20588c8b604f30e
+--- /dev/null
++++ b/spec/0-analyze.md
+@@ -0,0 +1,85 @@
++# 核心任务
++
++在本工程中，把本工程 `spec/requirement.md` 拆成可验证的验收矩阵，并摸清基线现状。
++
++**本阶段禁止修改任何业务代码。** 产出只有两份文档，都写在本工程：`spec/acceptance.md` 和 `spec/baseline-notes.md`。
++
++这一步的目的是防止直接开写导致漏掉隐藏检查点。官方 F-point 是从 Spec 归一化得到的，
++Spec 里一句"显示历史记录"可能对应去重、排序、上限、点击触发四个独立检查点。
++
++# 禁止事项（违反即废题）
++
++与 `1-do.md` 完全一致，本阶段同样适用：
++
++1. 不得访问本题来源项目（上游仓库）中与本题相关的提交、PR、Issue、补丁及其副本，
++   也不得查看上游已实现该功能的当前版本代码。
++2. 不得访问题包目录（`SWE-OpenHarmony/`）；本题资料已复制到本工程 `spec/`。
++3. 不得访问其他赛题的工程目录（`harmonycup-work/` 下除本工程和 `common/` 之外的目录）。
++
++允许只读访问 `../common/`（相对本工程，即 `harmonycup-work/common/`：通用任务书与测试框架），不得修改。
++
++分析阶段尤其容易踩第 1 条——"先看看别人怎么实现的"正是违规行为。
++需求有歧义时，列出多个假设并标注证据等级，交给我判断，不要去上游找答案。
++
++# 输入
++
++| 文件 | 内容 |
++| --- | --- |
++| 本工程 `spec/requirement.md` | 本题需求说明 |
++| 本工程 `spec/metadata.json` | `base_commit` |
++| 工程源码 | 未修改的基线 |
++
++# 输出一：spec/acceptance.md
++
++对 Spec 里每个场景的每个步骤，逐条拆成验收项。每条包含：
++
++| 字段 | 说明 |
++| --- | --- |
++| 编号 | 如 A1、A2，便于后续引用 |
++| 来源 | 对应 Spec 的哪个场景、哪一步 |
++| 证据等级 | `SPEC_EXPLICIT`（Spec 明文）／`REASONABLE_DERIVATION`（合理推导）／`UNCONFIRMED_ASSUMPTION`（待确认假设） |
++| 原子行为 | 一句话描述这条要做什么 |
++| 可观察结果 | Hypium 能断言什么：具体文字、组件、页面、状态、数据、请求 |
++| 八个维度 | 入口／前置数据／用户动作／UI 结果／数据结果／网络结果／返回结果／边界条件，不适用的写"不适用"并说明理由 |
++| 稳定选择器 | 该项需要哪些组件 id；基线缺失的标注"需在实现时补 `.id()`" |
++
++额外要求：
++
++- **边界条件要穷举**：空输入、纯空格、取消、关闭、重复点击、快速连点、无数据、最后一页、
++  部分操作、请求失败、返回后重进、重启应用后重进。不适用的也要写明为什么不适用。
++- **网络类需求必须画状态机**，明确每个用户动作是否触发请求、loading 与请求的绑定关系、
++  请求结束后的状态恢复。不要留"点击后先改 UI 稍后补请求"的空间。
++- **文案逐字摘录** Spec 原文，不要改写。
++- 标 `UNCONFIRMED_ASSUMPTION` 的项要单独汇总，附上你的推荐处理方式和理由。
++
++# 输出二：spec/baseline-notes.md
++
++先构建并安装**未修改的基线**，启动应用实际操作一遍，然后记录：
++
++1. **基线快照标识**：打 `git tag baseline-<题目ID>` 或记录 HEAD，写进文档。
++2. **构建基线状态**：构建命令、是否成功、已有告警清单（后续用于对比是否引入新告警）。
++3. **Spec 描述的入口当前在哪**：页面文件路径、路由名、跳转调用点（带 `文件:行号`）。
++4. **相关现状**：页面组件、状态模型、数据模型、网络服务、本地存储的位置与写法。
++5. **可复用的既有实现**：基线里相近功能用了什么数据结构、状态管理、路由方式。
++   官方测试沿现有流程进入目标页面，因此优先复用而非另起一套。
++6. **缺失项**：Spec 要求但基线完全没有的能力。
++7. **前置环境需求**：是否需要登录账号、服务端、WebDAV、测试数据；本地能否满足，不能满足的明确指出。
++8. **测试可观测性风险**：关键组件是否缺少稳定 id、是否存在同名文本导致选择器歧义。
++
++# 要求
++
++1. **不改代码**。发现基线有 bug 也只记录，不在本阶段修。
++2. **不编造**。所有结论要给出文件路径和行号；没验证的标注"未验证"。
++3. **区分事实与推断**。Spec 明文、代码实证、你的推测必须分开标注。
++4. **先构建安装再写结论**，不要只读代码就断言入口在哪。
++5. 歧义不要自行决定，列假设给我判断。
++
++# 背景
++
++评分单位是 F-point，评测分 = 通过的 F-point ÷ 本阶段全部 F-point × 100。
++未提交、构建失败、崩溃、超时、跳过的都不计通过但计入分母。
++
++正式测试脚本、隐藏输入、参考答案均不公开，线上期间没有官方反馈。
++验收矩阵就是我们自己的"隐藏测试推导"——它的覆盖面直接决定能拿多少分。
++
++Spec 场景数不等于官方 F-point 数量，不要据此推断分值。
+diff --git a/spec/1-do.md b/spec/1-do.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..366bd64c3f349faabaf06b52d4830a870179d6da
+--- /dev/null
++++ b/spec/1-do.md
+@@ -0,0 +1,132 @@
++# 核心任务
++
++在本工程中，按本工程 `spec/requirement.md` 的需求完成功能开发，目标是让尽可能多的官方 F-point 通过。
++
++**前置**：必须先按 `0-analyze.md` 完成分析，拿到本工程 `spec/acceptance.md`（验收矩阵）和
++`spec/baseline-notes.md`（基线理解结论）后再动手写代码。没有验收矩阵就直接改代码，等于放弃隐藏检查点。
++
++本题基线提交号见本工程 `spec/metadata.json` 的 `base_commit`。
++
++# 禁止事项（违反即废题）
++
++以下是赛事章程第 5.6、5.7、5.8 条的硬红线，**违反会导致本题全部 F-point 不计通过，且仍计入分母**：
++
++1. **不得访问本题来源项目（上游仓库）中与本题相关的任何内容**，包括：
++   - 实现该功能的提交、合并请求、Issue、补丁，及其镜像、转载、副本
++   - 上游仓库该功能相关文件的当前版本（main/master 分支上已实现的代码）
++   - 上游仓库的提交历史、代码搜索结果、第三方转载的同功能代码
++2. **不得访问题包目录**（`SWE-OpenHarmony/`）。本题所需资料已复制到本工程 `spec/`。
++   题包里有其他赛题的 Spec 和基线，访问即违规。
++3. **不得访问其他赛题的工程目录**（`harmonycup-work/` 下除本工程和 `common/` 之外的目录）。
++
++允许访问的范围：
++
++| 范围 | 用途 |
++| --- | --- |
++| 本工程目录 | 源码、`spec/`、`hypium_tests/`、`logs/` |
++| `../common/`（相对本工程，即 `harmonycup-work/common/`） | 通用任务书 `spec-harness/`、测试框架 `test-harness/`、Python 环境 `.venv/`；**只读，不得修改** |
++| 公开资料 | 鸿蒙官方文档、ArkTS/ArkUI API 资料、与本赛题无关的通用技术资料 |
++
++检索到的页面若出现本应用的同功能实现，立即停止阅读并在产出中说明。
++
++**不确定某个来源是否受保护时，不要访问，先问我。**
++
++# 输入
++
++| 文件 | 内容 |
++| --- | --- |
++| 本工程 `spec/requirement.md` | 本题需求说明 |
++| 本工程 `spec/metadata.json` | `base_commit` 与基线 bundle 标识 |
++| 本工程 `spec/acceptance.md` | 验收矩阵（由 `0-analyze.md` 产出） |
++| 本工程 `spec/baseline-notes.md` | 基线理解结论（由 `0-analyze.md` 产出） |
++| 工程源码 | 本题指定基线 |
++
++# 必做流程
++
++按顺序执行，不要跳步。
++
++1. **确认基线快照存在**。`0-analyze.md` 阶段应已打好标识；若没有，先 `git tag baseline-<题目ID>` 或记录 HEAD。
++2. **走通端到端最短路径**，顺序固定：
++   页面入口能进入 → 正常数据能展示 → 用户动作能触发 → 状态正确变化 →
++   必要的网络请求或本地持久化真正发生 → 返回/重进/重启/重复操作正确 → 最后才做视觉细节。
++3. **沿用基线既有结构**。若基线已有相近功能，优先复用其数据结构、状态管理和路由方式。
++   官方测试会沿现有应用流程进入目标页面；另起一套页面或绕过原有服务，会导致入口、参数、返回栈对不上。
++4. **涉及网络的需求显式设计状态机**，不要"先改 UI 再补请求"。
++   隐藏测试可能直接观测网络行为，也可能快速重复点击验证是否产生重复请求。
++5. **写 Hypium 自测脚本**到本工程 `hypium_tests/test_*.py`，测试类继承
++   `common/test-harness` 中的 `harness.driver.HarnessTestCase`（框架用法见 `common/test-harness/README.md`）。
++   为新增/关键组件设置稳定的 `.id()`，否则只能依赖脆弱的类型+顺序选择器。
++6. **构建、安装本题 HAP，再跑自测**，全程留日志。命令均在本工程根目录执行：
++
++   ```bash
++   COMMON="$(cd ../common && pwd)"
++   mkdir -p logs
++   hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon 2>&1 | tee logs/build.log
++   hdc -t <设备序列号> install -r <本题HAP路径> 2>&1 | tee logs/install.log
++   PROJ="$PWD"
++   # 在 logs/ 下运行：Hypium 会在当前目录生成 reports/，避免污染工程根目录
++   (cd logs && PYTHONPATH="$COMMON/test-harness" "$COMMON/.venv/bin/python" -m harness.runner \
++       --project "$PROJ" --device <设备序列号> --json "$PROJ/logs/selftest.json" 2>&1 | tee selftest.log)
++   ```
++
++   **每次跑自测前都必须先安装本题刚构建的 HAP。** 同一上游项目的多道题共用同一个 bundleName，
++   模拟器上装的可能是别的题的构建产物，直接跑会测错对象。
++   可用 `hdc shell "bm dump -n <bundleName>"` 的 `updateTime` 核对安装时间。
++   需要 `hdc` 在 PATH 中（DevEco 的 `sdk/default/openharmony/toolchains`）。
++
++7. **自测失败就修，修完重跑**，不要带着失败用例交付。
++8. **交付前还原构建生成的噪声文件**（如各模块 `BuildProfile.ets` 因 `buildMode=debug` 被改写）：
++
++  ```bash
++  git checkout -- $(git diff --name-only | grep 'BuildProfile.ets')
++  ```
++
++# 开发时必须回答的验收维度
++
++`spec/acceptance.md` 里的每一条都要落到代码和自测里。这些维度各自都可能是独立检查点：
++
++| 维度 | 需要回答 |
++| --- | --- |
++| 入口 | 测试从哪个页面、哪个按钮或哪种初始状态开始？ |
++| 前置数据 | 需要登录、地址、商品、歌曲、配置或服务端数据吗？ |
++| 用户动作 | 测试会点击、滑动、输入、返回、重启还是重复操作？ |
++| UI 结果 | 必须出现什么文字、组件、页面、状态或布局？ |
++| 数据结果 | 是否要保存、删除、排序、追加、同步或持久化？ |
++| 网络结果 | 是否必须真的发请求？请求何时发起？取消/关闭时是否不能发？ |
++| 返回结果 | 返回后状态是否保持？滚动位置是否保持？ |
++| 边界条件 | 空输入、纯空格、取消、重复点击、没有更多数据、部分操作如何处理？ |
++
++文案必须与 Spec 完全一致，不要自行改写或美化。
++
++# 完成标准
++
++全部满足才算这一步完成，缺一项就继续改：
++
++- [ ] `spec/acceptance.md` 中每条验收项都有对应实现
++- [ ] 构建成功，无新增告警（与基线构建日志对比）
++- [ ] 应用能安装、能冷启动、不崩溃
++- [ ] `hypium_tests/` 自测全部通过，日志已存入 `logs/`
++- [ ] 至少覆盖：首次进入、无数据、取消操作、返回后重进、重启应用、连续点击、空输入/纯空格
++- [ ] 涉及网络的需求已确认请求真实发出，且取消/关闭时确实不发
++- [ ] `git status` 只剩真实改动，无构建噪声文件
++- [ ] 已知问题和未覆盖项已明确列出（交给 `2-submit.md` 用）
++
++# 背景
++
++本工程对应 2026 AI 辅助研发创新大赛（鸿蒙杯）的一道赛题。
++
++评分单位是 F-point（从 Spec 归一化得到、可由 Hypium 执行判定的功能检查点）：
++
++```
++评测分 = 通过的 F-point 数 ÷ 本阶段全部 F-point 数 × 100
++```
++
++未提交、未完成、构建或安装失败、崩溃、超时、跳过、未执行的 F-point 都不计通过，**但仍计入分母**。
++所以"没做"和"做崩了"扣分相同，而每道已做题目里多通过一个检查点都是净收益。
++
++正式测试脚本、隐藏输入和参考答案都不公开，线上提交期间也没有官方反馈。
++截止前多次提交以最后一次为准，不取历史最高分。因此自测体系是唯一可靠信号——
++不要把"本地示例通过"或"界面看起来对了"当成完成。
++
++Spec 中的场景数不等于官方 F-point 数量，可以用场景拆解开发和自测，但不要据此推断分值。
++
+diff --git a/spec/2-submit.md b/spec/2-submit.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..75e1bc2aa8ac4faea7f1ee49145ae006d82255c6
+--- /dev/null
++++ b/spec/2-submit.md
+@@ -0,0 +1,127 @@
++# 核心任务
++
++在本工程中，整理本题的鸿蒙杯成果提交材料，产出到本工程 `.comate/submission-draft/`。
++
++**前置**：`1-do.md` 已完成，构建与自测均通过。
++
++**不要改动任何业务代码、资源和配置。** 本任务只做单题材料整理与校验。
++
++团队级文件（`solution.md`、根 `sources.md`、根 `README.md`、`system-config/`）与成果包打包不在本阶段，
++由 `3-package.md` 统一处理；本阶段只产出本题材料，以及供其汇总的片段文件。
++
++材料规格以赛题包的官方模板为准，开工前必须先读（题包 `SWE-OpenHarmony/` 与 `harmonycup-work/` 同级，相对本工程为 `../../SWE-OpenHarmony/`）：
++- `../../SWE-OpenHarmony/templates/submission-checklist.md`（材料清单）
++- `../../SWE-OpenHarmony/templates/trace-index.md`（记录索引字段）
++- `../../SWE-OpenHarmony/templates/submission.json`（任务清单模板）
++
++**访问范围限制**：
++
++| 范围 | 是否允许 |
++| --- | --- |
++| 本工程目录 | 允许 |
++| `harmonycup-work/common/`（只读） | 允许 |
++| 题包 `templates/` | 允许，只读 |
++| 题包 `reports/build-baselines/<本题ID>.log` | 允许，只读 |
++| 题包 `specs/`、`metadata/`、`repo_bundles/` 及其他目录 | **禁止**（本题需求与元数据已在本工程 `spec/`） |
++| 其他赛题的工程目录 | **禁止** |
++| 本题来源项目中与本题相关的提交、PR、Issue、补丁及其副本 | **禁止** |
++
++# 输入
++
++## 一、需要我提供的（留空的不要猜）
++
++- 团队级信息：`../common/spec-harness/team.yaml`（相对本工程）
++- 题目级信息：本工程 `spec/submit-input.yaml`
++
++两个文件中留空的字段一律视为未提供，在产出中标 `【待补充】`，不要推测。
++
++## 二、本次需要整理的会话（我每次填写后再交给你）
++
++严格只整理下表所列会话，范围见要求 5。
++
++| 引擎 sessionUuid | IDE 侧边栏会话 ID（可选） | 用途（可选，如 实现/测试设计/修复） |
++| --- | --- | --- |
++| 39649b73-d6f6-439f-b7f1-7bc77cc45e16 |  |  |
++| 16786162-2757-4ccd-a27f-3b71c2342c4 |  |  |
++|  |  |  |
++
++表中 sessionUuid 全部为空时，不得自行检索会话补全，`traces/` 与会话相关字段全部标 `【待补充】`，并在交付说明中提醒我补填。
++
++## 三、你自己去取的（不要问我）
++
++| 信息 | 来源 |
++| --- | --- |
++| `base_commit` | 本工程 `spec/metadata.json` |
++| 基线准备脚本记录 | 题包 `reports/build-baselines/<本题ID>.log` |
++| 改动清单、`final.diff`、二进制大小与 SHA-256 | 本工程 git 状态 |
++| bundleName、入口 Ability | `AppScope/app.json5`、entry 模块的 `src/main/module.json5` |
++| 依赖与锁文件、构建命令、产物路径 | `oh-package.json5`、`oh-package-lock.json5`、`build-profile.json5` |
++| 轨迹文件路径、会话元信息 | `~/.comate-engine/store/comate_chat_sessions.jsonl` 中**仅限**上文第二节所列 sessionUuid 的记录（只按 ID 取，不按工程路径或题目 ID 搜索） |
++| Agent、模型 ID、effort、token 用量、生效规则 | 第二节所列会话的明细 `chat_session_<uuid>` 的 `payload.model` / `payload.agent` / `agentInfo` / `tokenUsage` / `appliedRuleNames` |
++| 客户端与扩展版本 | `/Applications/Comate.app/Contents/Resources/app/product.json`、扩展 `package.json` |
++| 任务书版本 | `common/spec-harness`：若为 git 仓库记 `git -C <common> rev-parse HEAD`，否则记四个任务书文件的 SHA-256 |
++| 本题历史任务书 | 本工程 `spec/history/`（若存在） |
++| Skill 与工具清单、失败重试过程 | 会话明细的工具调用序列 |
++| 构建与自测日志 | 本工程 `logs/` |
++| 成果冻结时间 | 开始整理时执行 `TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M'` 取当前北京时间，精确到分，本次整理只取一次；填入 `trace-index.md`，`3-package.md` 打包时会统一为成果包的冻结时间 |
++
++# 输出
++
++全部产出到本工程 `.comate/submission-draft/`，由 `3-package.md` 汇总进成果包。
++
++| 文件 | 内容要求 |
++| --- | --- |
++| `changes/final.diff` | 自 `base_commit` 的完整差异，含新增、修改、删除；二进制用 `--binary` |
++| `build.md` | 依赖安装、构建、安装、启动、应用标识、必要初始化；不得出现本机私有绝对路径 |
++| `trace-index.md` | 按官方模板逐字段填写；客观字段据实填，其余留 `【待补充】` |
++| `sources.fragment.md` | 本题的随包基线声明与额外来源，供汇总进根 `sources.md` |
++| `solution.fragment.md` | 本题完成情况、未完成项、已知问题、AI 参与环节，供汇总进 `solution.md` |
++| `submission.json.fragment` | 本题在任务清单中的 JSON 片段 |
++| `traces/` | 第二节所列会话的原生明细 + 过滤后的索引行 + Markdown 副本 + 代码改动快照 |
++| `logs/` | 从本工程 `logs/` 复制；缺失则明确告诉我需要补跑哪条命令 |
++
++最后输出两份清单：**仍需我补充的字段**，以及**你已自动填入的事实及其出处**。
++
++# 要求
++
++这些是硬约束，违反任意一条都算任务失败。
++
++1. **不得编造**。会话 ID、版本号、时间、分工、路径一律来自真实文件；无法核实的标 `【待补充】`，禁止用"示例值"占位。
++2. **`final.diff` 必须完整且可应用**。范围是 `base_commit` 到提交版本的**全部**改动，
++   包括 `spec/`、`hypium_tests/`、`.comate/` 等过程文件——它们会随工程一起放进成果包的 `project/`，
++   diff 必须与 `project/` 一一对应，不能只截取业务代码目录。
++   校验方式：把基线 clone 到临时目录、`checkout` 到 `base_commit`、`git apply --check --binary`，
++   再比对关键文件与工程一致。校验结果写进交付说明。
++3. **二进制资源单列**。diff 存不住内容，需另列文件路径、大小、SHA-256；若复制自基线自带资源，注明同源以免被当作外部素材。
++4. **diff 不含构建噪声**。生成前确认 `git status` 只剩真实改动（`BuildProfile.ets` 等构建生成文件先还原）。
++5. **轨迹只整理我指定的会话**。范围严格等于上文第二节我填写的会话表：
++   - 禁止按工程路径、题目 ID、时间或其他条件自行检索、补充会话，即使认为某会话"相关"也不得纳入；
++   - 表中的 ID 在 `comate_chat_sessions.jsonl` 或 `chat_session_<uuid>` 中找不到时，如实报告并标 `【待补充】`，不得用其他会话替代；
++   - 若发现疑似遗漏的会话，只在交付说明中提示我，由我决定是否加入表中；
++   - 禁止整盘打包 `~/.comate-engine/store/`，规则不允许提交整个客户端数据库和无关私人会话。
++6. **会话 ID 要写两个**：引擎 `sessionUuid` 与 IDE 侧边栏会话 ID，并说明对应关系。
++   `sessionUuid` 取自会话表；侧边栏 ID 优先取表中填写的值，未提供时只可从该会话自身记录中核实，仍无法核实则标 `【待补充】`。
++7. **失败与重试必须保留**：会话表内会话的失败与重试过程要完整保留，不能只留成功记录。
++8. **任务书版本要记录**：`trace-index.md` 中注明本题实际使用的 `common/spec-harness` 版本，
++   以及 `spec/history/` 中的历史任务书（若存在）。
++9. **路径规范**：`submission.json` 的三个路径字段填成果包内相对路径、用 `/` 分隔，后两项必须是文件路径。
++10. **如实披露**。来源使用情况、人工修改、脱敏范围、记录缺失都按事实写；不确定的交给我判断，不要替我做有利解释。
++
++# 背景
++
++本工程对应 2026 AI 辅助研发创新大赛（鸿蒙杯）的一道赛题，题包仓库 `gitcode.com/SMAT/SWE-OpenHarmony`。
++
++评分单位是 F-point（可判定的 Hypium 测试方法），线上评测分 = 通过的 F-point ÷ 该阶段总数 × 100。
++未提交、构建失败、崩溃的 F-point 都不计通过但计入分母。
++
++材料本身也会被核验，且核验的是实质而非文件是否存在：
++
++- 官方会逐题核验是否有 AI 实际参与研发，检查原始记录是否对应**本题**的具体研发过程。
++- 无法证明某题实际使用 AI 的，该题全部 F-point 不计通过。
++- **截止后禁止补交**代码、漏交材料，也不能用新产生的记录替代原始解题证据。
++- 涉嫌伪造或故意隐瞒按章程第 11.1、11.4 条处理，后果重于单题归零。
++- 来源保护：不得访问来源项目中与本题相关的修复提交、合并请求、Issue、补丁及其副本；
++  轨迹显示访问受保护内容的，该题 F-point 不计通过（章程第 5.7、5.8 条）。
++
++所以材料整理的目标不是"把目录填满"，而是**让核验者能顺着索引复现本题的真实研发过程**。
++本地 `tools/check_submission.py` 只验 ZIP 结构和路径存在性，通过不代表材料合格。
+diff --git a/spec/3-package.md b/spec/3-package.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..7426719133e8c08e10e6f45973129de0e697d514
+--- /dev/null
++++ b/spec/3-package.md
+@@ -0,0 +1,141 @@
++# 核心任务
++
++把本阶段全部题目的材料汇总成一个可提交的成果包 ZIP，并完成本地校验。
++
++**本任务不改任何业务代码，也不补做题目。** 只做汇总、校验、打包。
++
++前置：每道已完成的题都应已通过 `2-submit.md` 在各自工程的 `.comate/submission-draft/` 产出单题材料。
++未做或未完成的题不需要材料，但**必须在清单里保留条目**。
++
++本阶段是跨题汇总，**不受单题的访问隔离限制**：可以读取题包和 `harmonycup-work/` 下全部工程，
++但只读不写（成果包输出目录除外）。
++
++# 禁止事项
++
++1. **不得伪造或补造记录**。截止后禁止补交代码和漏交材料，也不能用新产生的记录替代原始解题证据；
++   涉嫌伪造或故意隐瞒按章程第 11.1、11.4 条处理，后果重于单题归零。
++2. **不得整盘打包客户端数据**。只摘取与本阶段题目相关的会话，不提交整个 `~/.comate-engine/store/`、
++   无关私人会话、账号密钥、签名私钥。
++3. **不得在材料中出现本机私有绝对路径**作为构建依赖；成果包内路径一律相对、用 `/` 分隔。
++4. **不得遮蔽代码来源与修改依据**。可以脱敏，但要说明范围。
++5. **不得修改任何工程的源码或 git 历史**。
++
++# 输入
++
++## 需要我提供的（留空的不要猜）
++
++- 团队级信息：`harmonycup-work/common/spec-harness/team.yaml`
++  （其中 `submitted_tasks`、`attempted_not_submitted`、`zip_out` 三项本阶段必填）
++
++## 你自己去取的
++
++| 信息 | 来源 |
++| --- | --- |
++| 本阶段全部题目 ID | 题包 `templates/submission.json`（25 题，顺序与条目都要保留） |
++| 各题 `base_commit` | 各工程 `spec/metadata.json`，并与题包 `metadata/<题目ID>.json` 交叉核对 |
++| 各题单题材料 | 各工程 `.comate/submission-draft/` |
++| 各题会话记录 | `~/.comate-engine/store/`，按工程绝对路径与题目 ID 反查 |
++| Agent／模型／客户端版本 | 会话明细 `payload.model`、`payload.agent`；应用包 `product.json` 与扩展 `package.json` |
++| 系统提示与任务书 | `harmonycup-work/common/spec-harness/`（各题实际使用的版本见其 `trace-index.md`），以及各工程 `spec/history/` |
++| Skill 定义 | `~/.comate/skills/`、`~/.agents/skills/` 中各题实际调用过的 Skill |
++| 自测框架 | `harmonycup-work/common/test-harness/`（作为自研工具放入 `system-config/`） |
++
++# 输出：成果包结构
++
++```
++<包根>/
++├── submission.json          # 本阶段全部题目；未做的留 not_completed
++├── README.md                # 公共环境说明（SDK、DevEco、工具版本、通用构建方式）
++├── solution.md              # 团队级：完成情况、人机协作、成员分工、来源保护、配置与变更
++├── sources.md               # 团队级：第三方来源；无额外来源也要显式声明
++├── traces/<题目ID>/         # 各题会话原生明细 + 过滤后索引行 + Markdown 副本 + 代码改动快照
++├── system-config/           # 实际使用的系统提示、Skill 定义、工具与编排配置
++└── tasks/<题目ID>/
++    ├── project/             # 完整工程（排除 build/、oh_modules/、.hvigor/ 等产物）
++    ├── build.md
++    ├── trace-index.md
++    ├── human-changes.md     # 有人工改码时才需要
++    ├── changes/final.diff
++    └── logs/                # 构建与自测日志
++```
++
++`submission.json` 中每个 submitted 条目：
++
++```json
++{ "task_id": "<题目ID>", "status": "submitted",
++  "project_path": "tasks/<题目ID>/project",
++  "build_instructions": "tasks/<题目ID>/build.md",
++  "trace_index": "tasks/<题目ID>/trace-index.md" }
++```
++
++# 执行顺序
++
++1. **冻结**。停止本次提交涉及的全部 AI 任务和人工修改，执行 `TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M'`
++   取当前北京时间作为成果冻结时间（只取一次），写入 `solution.md`，并把包内各题 `trace-index.md` 的冻结时间统一为该值；各题打版本标识
++   （`git tag submit-<题目ID>-v<版本>` 或记录工作树快照摘要）。
++2. **核对题目清单**。以题包 `templates/submission.json` 为准，确认 25 个条目齐全、无重复、无多余；
++   `submitted` 与 `not_completed` 与实际一致。
++3. **汇总单题材料**。把各题 `.comate/submission-draft/` 下的 `final.diff`、`build.md`、`trace-index.md`、
++   `logs/` 搬到 `tasks/<题目ID>/`，`traces/` 搬到包根 `traces/<题目ID>/`；
++   缺任何一项的，列出来告诉我，不要用空文件凑数。
++4. **拷贝工程**到 `tasks/<题目ID>/project/`，排除构建产物与依赖目录（`build/`、`oh_modules/`、`.hvigor/`、
++   `__pycache__/`），保留源码、资源、配置、依赖清单、锁文件，以及 `spec/`、`hypium_tests/`、`.comate/` 等过程文件。
++   保留范围必须与该题 `final.diff` 覆盖的范围一致。
++5. **补齐轨迹**：核对 `traces/<题目ID>/` 是否覆盖本题全部会话，按工程路径和题目 ID 两个维度各查一遍
++   （测试设计类会话的工作区可能是题包目录，容易漏），含失败与重试记录。
++6. **复制配置**到 `system-config/`：
++   - `spec-harness/`：各题实际使用版本的通用任务书（多题用了不同版本时按版本分目录，并在说明里写清对应关系）
++   - `test-harness/`：自测框架源码与 `requirements.txt`
++   - `history/<题目ID>/`：各工程 `spec/history/` 中的历史任务书
++   - `skills/`：各题实际调用过的 Skill 定义
++   - `README.md`：Agent／模型／客户端版本、上述文件的读取方式；即使无自定义项也要写这份说明
++7. **写团队级文档**：
++   - `README.md`：公共环境（SDK、DevEco、Node/OHPM/Hvigor、hdc、Python 与 Hypium 版本）与通用构建方式
++   - `solution.md`：汇总各题 `solution.fragment.md`，加上团队信息、成员分工、来源保护措施、配置与变更；
++     须包含"已尝试但未提交工程的任务"一节，列出题目 ID 与记录索引路径
++   - `sources.md`：汇总各题 `sources.fragment.md`，同一来源合并为一条并标注涉及题目
++8. **逐题校验差异可用性**：把 `final.diff` 应用到该题基线的干净 clone 上
++   （`git clone` → `checkout base_commit` → `git apply --check --binary`），确认与 `project/` 一致。
++   任一题校验失败就停下报告，不要打包。
++9. **打包并校验**：
++
++   ```bash
++   cd <包根的父目录> && zip -r "<zip_out>" <包根目录名> -x '*/build/*' '*/oh_modules/*' '*/.hvigor/*'
++   cd <题包目录 SWE-OpenHarmony，与 harmonycup-work 同级>
++   .venv/bin/python tools/check_submission.py "<zip_out>"
++   .venv/bin/python tools/submission_checksum.py "<zip_out>"
++   ```
++
++10. **输出提交邮件要素**：阶段、团队 ID、版本号、联系人、文件名、大小、SHA-256，
++    以及下载链接与提取码的占位（链接由我填）。
++
++# 要求
++
++1. **不得编造**。团队信息、分工只能用我提供的值；冻结时间取第 1 步执行时的系统时间；其余一律来自真实文件。
++   无法核实的标 `【待补充】`并在最后汇总，禁止用示例值占位。
++2. **清单必须全量**。25 个条目一个不少，`not_completed` 也要保留；路径字段必须指向包内真实文件，
++   后两项必须是文件路径而非说明文字。
++3. **每个 submitted 题目**都要有完整工程、`build.md`、`trace-index.md`、`final.diff`；
++   不能只交 HAP 或补丁。
++4. **`traces/` 与 `system-config/` 必须非空**，这是 `check_submission.py` 的硬性检查项。
++5. **二进制资源单列**摘要（路径、大小、SHA-256），复制自基线自带资源的注明同源。
++6. **如实披露**来源使用、人工修改、脱敏范围、记录缺失；不确定的交给我判断，不要替我做有利解释。
++7. **最后输出三份清单**：仍需我补充的字段、各题材料完整性检查结果、差异可应用性校验结果。
++
++# 背景
++
++本阶段共 25 道赛题。评测分 = 通过的 F-point ÷ 本阶段全部 F-point × 100，
++未提交、构建失败、崩溃的检查点都不计通过但计入分母——所以清单里每道题的状态都影响最终分数。
++
++材料本身也会被核验，且核验实质而非文件是否存在：
++
++- 官方逐题核验是否有 AI 实际参与研发，检查原始记录是否对应**本题**的具体研发过程。
++- 无法证明某题实际使用 AI 的，该题全部 F-point 不计通过。
++- 轨迹显示访问受保护内容的，该题 F-point 不计通过（章程第 5.7、5.8 条）。
++- 个别记录缺失但包内其他证据足以核验的，按实际测试结果正常计分，不直接认定作弊。
++
++提交后仍可继续作答，但更新正式成果须重新冻结并生成完整成果包、重新发送正式提交邮件；
++不得直接替换已上传包内的文件。未收到新邮件时以最后一次正式提交为准。
++
++本地 `check_submission.py` 只验 ZIP 结构和路径存在性，通过不代表材料合格、源码可构建或功能通过。
++
+diff --git a/spec/acceptance.md b/spec/acceptance.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..4786f927df28a0291af704bae6dcc8ee45291f6b
+--- /dev/null
++++ b/spec/acceptance.md
+@@ -0,0 +1,539 @@
++# 验收矩阵：私人FM（cmu-spec34）
++
++依据：`spec/requirement.md`（四个场景）+ 基线实测（`spec/baseline-notes.md`）。本文件只做拆解，不含实现。
++
++证据等级：`SPEC_EXPLICIT`（Spec 明文）／`REASONABLE_DERIVATION`（由 Spec 或基线结构合理推出）／`UNCONFIRMED_ASSUMPTION`（Spec 没写的假设）／`USER_CONFIRMED`（原为 `UNCONFIRMED_ASSUMPTION`，2026-10-18 你确认全部采用推荐方案）。原假设编号 U1–U17 保留，方便追溯，决策汇总见第 4 节。目前没有未决的假设。
++八个维度缩写：入口／前置／动作／UI／数据／网络／返回／边界。选择器一栏里的 id 都是**建议值**，基线全部缺失，标“需补 `.id()`”。
++
++## 0. Spec 原文文案（逐字，实现时不得改写）
++
++| 文案 | 出处 | 用在哪里 |
++| --- | --- | --- |
++| `发现` | 场景一概述/步骤1 | 已有页面（`Index.ets:104` 标题、`:153` Tab） |
++| `私人FM` | 场景一 1/2/4，场景二概述，场景三 1，场景四 4 | 推荐卡片标题、底部播放栏标识、播放页标识 |
++| `播放列表` | 场景二 1 | 已有面板（`PlayQueueSheet.ets:53`，与数量拼在同一 Text 里） |
++| `正在播放私人FM` | 场景二 2 | 播放列表面板顶部提示 |
++| `退出FM` | 场景二 2/3 | 播放列表面板按钮 |
++| `默认` `熟悉` `探索` | 场景三 2/3 | 模式菜单三个选项 |
++| `不喜欢` | 场景四 2 | 播放页播放控制区按钮 |
++
++Spec 没有给出的文案已经定下（`USER_CONFIRMED`，非 Spec 原文，可以调整，但**不能包含**上表里的完整文案，以免选择器歧义）：
++
++| 场合 | 文案 | 来源 |
++| --- | --- | --- |
++| 卡片副标题 | `根据口味连续推荐` | U2 |
++| E1 在途时再点卡片 | `正在加载, 请稍后` | 沿用基线心动卡片（`RecommendCards.ets:119`） |
++| 进入 FM / 续拉时 E1 失败 | `获取推荐歌曲失败` | U3 |
++| 切换模式失败 | `切换模式失败` | U14 |
++| 不喜欢上报失败 | 不提示，只记日志 | U17 |
++| 退出 FM 后手动队列为空 | 底部栏显示基线文案 `暂无播放` / `选择一首歌曲播放吧` | U8 |
++| 当前模式 | 不单独显示文字，只在模式菜单里给当前项打勾 | U12 |
++
++## 1. 接口（已用本地 NeteaseCloudMusicApi 实测，**未登录**；详见 baseline-notes 第 9 节）
++
++| 编号 | 用途 | 请求 | 实测结果 |
++| --- | --- | --- | --- |
++| E1 | 拉取私人FM推荐 | 默认：`/personal_fm`；按模式：`/personal/fm/mode?mode=DEFAULT\|FAMILIAR\|EXPLORE`；必须带不同的 `timestamp=` | 未登录也返回 200，**每次 1 首**；不带 timestamp 时服务端返回完全相同的内容 |
++| E2 | 不喜欢 / 加入黑名单 | `/fm_trash?id=<songId>&timestamp=` | 未登录：HTTP 301 + `{"msg":"需要登录","code":301}` |
++| E3 | 播放所需（已有） | `/song/url/v1`、`/song/detail`、歌词接口，经 `playMusicByUrl` 发出 | 未登录时 `fee=8` 可播，`fee=1/4` 可能 `url=null` |
++
++模式映射：`默认`→DEFAULT，`熟悉`→FAMILIAR，`探索`→EXPLORE（三个都实测返回数据）。E1 的歌曲字段是 `name/id/artists[]/album.picUrl/duration/fee`，和心动模式的 `ar/al/dt` 不一样，不能直接复用 `HeartMode` 实体。
++因为每次只返回 1 首，FM 队列几乎每首都要续拉。为了“无缝衔接”，当前 FM 歌是队尾且**距结束 ≤20 秒**时预取下一首（每首只预取一次，REASONABLE_DERIVATION，见 T4）；不在歌曲开始时预取，以保证点击卡片、切换模式、不喜欢等操作各自恰好 1 次 E1。预取失败不提示，等真正需要下一首时再按 T4 请求。
++
++## 2. 网络状态机（REASONABLE_DERIVATION + 第 4 节已确认的决策）
++
++状态变量（建议）：`fmActive`（是否处于 FM）、`fmMode`、`fmLoading`（E1 在途）、`dislikeInFlight`（E2 在途）、`manualBackup`（进入 FM 前的手动队列和 index）、`fmReqSeq`（请求序号，用来丢弃过期响应）。
++
++进入时机（U3）：`fmActive` 和手动队列备份在 **E1 结束时**（成功或失败）才设置，点击时只发请求、显示加载状态。因此 FM_ENTERING 期间仍是普通模式，面板里没有 `退出FM`；这期间重启应用也不会留下“没有备份的 FM 状态”。
++
++```mermaid
++stateDiagram-v2
++    [*] --> NORMAL
++    NORMAL --> FM_ENTERING: 点击卡片 / 发 E1
++    FM_ENTERING --> FM_ACTIVE: E1 成功 / 备份手动队列, FM队列=结果, 播放第1首
++    FM_ENTERING --> FM_EMPTY: E1 失败或去重后为空 / 备份手动队列, FM队列=空, 提示失败
++    FM_ENTERING --> NORMAL: 其他入口替换队列 / 作废在途 E1
++    FM_EMPTY --> FM_FETCHING: 点卡片/下一首/切模式 / 发 E1
++    FM_ACTIVE --> FM_FETCHING: 队尾时 播完/下一首/不喜欢 / 发 E1
++    FM_FETCHING --> FM_ACTIVE: E1 成功 / 追加并播放
++    FM_FETCHING --> FM_ACTIVE: E1 失败且有当前歌 / 提示, 停在当前歌
++    FM_FETCHING --> FM_EMPTY: E1 失败且没有当前歌 / 提示
++    FM_ACTIVE --> FM_RELOADING: 选择不同模式 / 发 E1(mode)
++    FM_RELOADING --> FM_ACTIVE: E1 成功替换队列 / 失败回退模式
++    FM_ACTIVE --> NORMAL: 退出FM / 还原手动队列, 播放还原的当前歌
++    FM_EMPTY --> NORMAL: 退出FM / 同上
++    FM_FETCHING --> NORMAL: 退出FM / 同上, 作废在途 E1
++    FM_RELOADING --> NORMAL: 退出FM / 同上, 作废在途 E1
++```
++
++FM_EMPTY 是 FM_ACTIVE 的特例：`fmActive=true`，FM 队列为空，没有当前 FM 歌。标识、面板提示、`退出FM`、模式菜单都正常显示，`不喜欢` 显示但点击无效，点底部栏必须能打开播放页（基线空队列打不开，要修）。进入 FM_EMPTY 时**不停止**正在播放的音频，底部栏继续显示原来那首（或 `暂无播放`）并带 `私人FM` 标识；这首播完时按 T4 去请求 E1，之后的重试成功后由 FM 歌替换。
++
++| # | 当前状态 | 用户动作 / 事件 | 是否发请求 | loading 绑定 | 成功后 | 失败后 |
++| --- | --- | --- | --- | --- | --- | --- |
++| T1 | NORMAL | 点击 `私人FM` 卡片 | 在点击回调里**同步发出** E1(fmMode) | 发出前 `fmLoading=true`，`finally` 置 false，一次请求对应一次 loading；卡片显示加载状态 | 备份手动队列 → FM 队列=结果（去重、过滤黑名单）→ `fmActive=true` → `playQueue(0)`（发 E3）→ 持久化 | 备份手动队列 → `fmActive=true`、FM 队列为空（FM_EMPTY）→ 提示 `获取推荐歌曲失败` → 持久化 |
++| T2 | `fmLoading=true` | 再点卡片 / 快速连点 | **不发** | 不变 | 提示 `正在加载, 请稍后` | — |
++| T3 | FM_ACTIVE（有当前歌） | 点击卡片 | **不发**（U5） | — | 暂停中则继续播放，否则无变化 | — |
++| T3b | FM_EMPTY | 点击卡片 | 发 E1(fmMode)（重试） | 同 T1 | FM 队列=结果，播放第 1 首（备份不重做） | 提示，保持 FM_EMPTY |
++| T4 | FM_ACTIVE | 当前歌播放完成（`completed`） | 下一首已在 FM 队列（预取）：只发 E3；是队尾：发 E1 | E1 期间 `fmLoading=true` | 追加结果，播放新一首 | 提示 `获取推荐歌曲失败`，停在当前歌，不自动重试 |
++| T5 | FM_ACTIVE / FM_EMPTY | 点 `下一首`（底部栏/播放页/播控中心） | 同 T4（FM_EMPTY 时直接发 E1） | 同 T4 | 同 T4 | 同 T4 |
++| T6 | FM_ACTIVE | 点 `不喜欢` | 发 E2(当前歌 id)；是队尾时同时发 E1 | `dislikeInFlight=true`，E2 结束且新歌开始后释放 | 黑名单加入该 id，播下一首 | E2 失败（含 HTTP 301 未登录）：照常切歌、照常拉黑、只记日志（U17）；E1 失败：同 T4 |
++| T6b | FM_EMPTY | 点 `不喜欢` | **不发**（没有当前歌 id） | — | — | — |
++| T7 | `dislikeInFlight=true` | 再点 `不喜欢` | **不发** | 不变 | — | — |
++| T8 | FM_ACTIVE / FM_EMPTY | 点播放页 `私人FM` 标识区域（标识 + 下拉箭头） | 不发 | — | 弹出模式菜单，当前模式打勾 | — |
++| T9 | 菜单打开 | 取消 / 点外部 / 返回键 | **不发** | — | 模式不变 | — |
++| T10 | 菜单打开 | 选中当前已选的模式 | **不发**（U13） | — | 只关闭菜单 | — |
++| T11 | 菜单打开 | 选中其他模式 M | 发 E1(M) | `fmLoading=true`，期间模式项不可点 | `fmMode=M` 并持久化，FM 队列替换为结果，`playQueue(0)`，手动备份不动 | 有旧 FM 队列：回退到原模式，旧歌继续播，提示 `切换模式失败`；FM_EMPTY：保留新模式，提示 `切换模式失败`（U14） |
++| T12 | `fmLoading=true` | 再选模式 | **不发** | 不变 | — | — |
++| T13 | FM 任一状态 | 点 `退出FM` | **不发 E1/E2**；手动队列非空时发 E3 播放还原的当前歌，为空时不发（U8） | `fmReqSeq++`，在途 E1 的响应直接丢弃 | 还原手动队列和 index → `fmActive=false` → 持久化 → 先更新底部栏显示，再播放还原的当前歌（index 无效时用 0）；手动队列为空则停止播放，底部栏显示 `暂无播放`；面板保持打开并刷新（U9） | — |
++| T14 | FM 任一状态 / FM_ENTERING | 其他入口操作队列（播放歌单/每日推荐/心动/单曲播放/添加到下一首） | 不发 FM 请求 | `fmReqSeq++` | FM 中：先退出 FM（还原手动队列，不播放），再按基线原逻辑执行该操作（U10）；FM_ENTERING：只作废在途 E1，不进入 FM | — |
++| T15 | 冷启动 | — | **不自动发** E1（与基线 `loadSavedSong` 只恢复显示、不自动播放一致） | — | 从 Preferences 恢复 `fmActive`、`fmMode`、手动备份、黑名单；底部栏显示上次的 FM 歌和 `私人FM` 标识（U15） | — |
++
++不变式：任何时刻最多一个 E1 在途、最多一个 E2 在途；E1 响应只在 `seq` 等于当前 `fmReqSeq` 时生效；不允许“先改 UI，之后再补请求”——T1/T3b/T5/T6/T11 的请求必须在同一个点击回调里发出。FM 中忽略 `cycleMode`（U6），但不修改它，退出后原循环模式继续生效。
++
++## 3. 验收项
++
++### 场景一：进入私人FM、连续收听、标识
++
++#### A1 发现页显示“私人FM”推荐卡片
++- 来源：场景一-1｜证据：SPEC_EXPLICIT
++- 原子行为：发现页推荐卡片区出现标题为 `私人FM` 的卡片。
++- 可观察：发现页存在 text 精确等于 `私人FM` 的组件（卡片主标题，独立 Text）。
++- 入口：冷启动 → 默认 Tab `发现`｜前置：无（是否要求 API/登录见 A3）｜动作：无
++- UI：卡片样式与其他推荐卡一致（`ContentButton`）｜数据：不适用（纯展示）｜网络：进入页面时**不**为卡片发 FM 请求
++- 返回：从子页面返回、切 Tab 回来后卡片仍在｜边界：无数据不适用（卡片是静态入口）；重启后仍在
++- 选择器：`fm_card`（需补 `.id()`），标题 Text `fm_card_title`（需补）
++
++#### A2 卡片无需横滑即可见
++- 来源：场景一-1“看到”｜证据：REASONABLE_DERIVATION + USER_CONFIRMED（U1：放在第 1 张）
++- 原子行为：卡片放在横向列表的**第 1 张**（`每日推荐` 之前），373vp 宽的屏幕上完整可见。实测屏外卡片不在 UI 树里。
++- 可观察：冷启动后不滑动就能在 UI 树中找到 `私人FM` 并点击成功。
++- 入口：同 A1｜前置：API 可用（4 张卡）和不可用（只剩本地曲库）两种情况都要满足｜动作：无
++- UI：卡片 bounds 落在屏幕内｜数据/网络：不适用（布局要求）｜返回：同 A1｜边界：大屏断点下也要可见
++- 选择器：`fm_card`
++
++#### A3 卡片显示不依赖 API/登录状态
++- 来源：无（Spec 没写前置条件）｜证据：USER_CONFIRMED（U1）
++- 原子行为：`VALID_API_URL=false` 或未登录时卡片照样显示（放在 `RecommendCards.ets:70` 的 `if(this.validApiUrl)` 之外，和 `本地曲库` 一样）。
++- 可观察：全新安装、不配置 API 时发现页能找到 `私人FM`。
++- 入口/动作：同 A1｜前置：无 API、无登录｜UI：卡片显示｜数据/网络：不适用｜返回/边界：配置 API 后依然显示
++- 选择器：`fm_card`
++
++#### A4 卡片副标题
++- 来源：无｜证据：USER_CONFIRMED（U2）
++- 原子行为：副标题为 `根据口味连续推荐`。
++- 可观察：卡片内有 text 精确等于 `根据口味连续推荐` 的 Text。其余维度：不适用（纯文案）。
++- 选择器：`fm_card_subtitle`（需补）
++
++#### A5 点击卡片发起推荐请求并进入私人FM模式
++- 来源：场景一-2“点击…开始收听”｜证据：SPEC_EXPLICIT（进入模式）+ REASONABLE_DERIVATION（请求时机）
++- 原子行为：点击卡片在同一回调中发出 E1（当前模式，默认 `默认`），进入 FM 状态（T1）。
++- 可观察：hilog 出现 E1 URL；`fmActive=true`；底部栏出现 `私人FM` 标识（A16）。
++- 入口：发现页｜前置：成功分支需要服务端（实测不需要登录，见 baseline 第 9 节）｜动作：单击卡片
++- UI：E1 在途时卡片显示加载状态；成功后进入 FM，失败后按 A11 进入 FM_EMPTY 并提示 `获取推荐歌曲失败`｜数据：E1 结束时才写 `fmActive`、备份手动队列（见第 2 节“进入时机”）｜网络：恰好 1 次 E1
++- 返回：不适用（不跳页面，见 A7）｜边界：连点见 A8；失败见 A11；已在 FM 见 A9
++- 选择器：`fm_card`；状态断言靠 `fm_badge_bottom`
++
++#### A6 自动加载并播放第一首推荐歌曲
++- 来源：场景一-2“播放器自动加载第一首推荐歌曲”｜证据：SPEC_EXPLICIT
++- 原子行为：E1 成功后把结果变成 FM 队列，自动播放第 0 首。
++- 可观察：底部栏歌名 = E1 返回的第一首歌名；`player-isplaying=true`；播放列表面板里第一项高亮。实测从点击到出声约 12 s，断言等待 ≥15 s。
++- 入口：A5 之后｜前置：服务端（不需要登录）｜动作：无（自动）
++- UI：底部栏歌名/歌手/封面更新｜数据：`PlayQueueUtils.queue` = FM 歌曲，`currentQueueIndex=0`，`saveCurrentSongInfo` 写入｜网络：E3（url/detail/歌词）
++- 返回：收起/打开播放页歌曲不变｜边界：E1 返回空数组 → 按 A11 进入 FM_EMPTY（U3）；返回的歌全部在黑名单或与已播重复（实测出现过重复 id）→ 去重后为空则补请求，同一次操作最多共请求 3 次（实测未登录时服务端常重复返回刚推荐过的歌）；第一首没有播放地址（实测未登录时 `fee=4` 的歌 `url=null`）→ FM 中直接续拉下一首，不能走基线 `playNext()` 的“没有下一首了~”，连续失败上限 3 次，超过后提示 `获取推荐歌曲失败` 并停止
++- 选择器：`bottom_bar_song_name`（需补）
++
++#### A7 点击卡片后不自动打开播放页
++- 来源：无｜证据：USER_CONFIRMED（U4）
++- 原子行为：不自动打开播放页（与心动歌单卡片一致），停留在发现页，由用户点底部栏进入播放页。
++- 可观察：点击后仍能看到发现页卡片和底部栏，UI 树里没有播放页的进度条（`player_slider`）。其余维度：同 A5。
++- 选择器：`fm_card`、`bottom_bar`（需补）
++
++#### A8 卡片重复点击不产生重复请求
++- 来源：场景一-2｜证据：REASONABLE_DERIVATION（基线心动卡片 `isLoadingHeart` 同样处理）
++- 原子行为：E1 在途时再点卡片直接忽略（T2）。
++- 可观察：快速连点 3 次，hilog 只有 1 条 E1；FM 队列只被设置一次，不出现重复歌曲。
++- 入口：发现页｜前置：同 A5｜动作：快速连点 / 间隔 300ms 重复点击
++- UI：提示 `正在加载, 请稍后`（沿用基线心动卡片文案，非 Spec 文案）｜数据：备份只做一次（第二次不能把 FM 队列当成手动队列备份）｜网络：E1 恰好 1 次
++- 返回：不适用｜边界：请求结束后再点击走 A9
++- 选择器：`fm_card`
++
++#### A9 已在 FM 中再次点击卡片
++- 来源：无｜证据：USER_CONFIRMED（U5）
++- 原子行为：有当前 FM 歌时（FM_ACTIVE）不重新请求、不重新备份，暂停中则继续播放（T3）；FM 队列为空时（FM_EMPTY）点击卡片就是重试，发 1 次 E1，备份不重做（T3b）。
++- 可观察：FM_ACTIVE 下 hilog 无新的 E1，底部栏歌名不变；FM_EMPTY 下 hilog 有 1 条新的 E1；两种情况退出后都还原最初的手动队列（A28）。
++- 入口：发现页（FM 进行中）｜前置：FM_ACTIVE 或 FM_EMPTY｜动作：单击卡片｜UI：标识不变｜数据：备份不变｜网络：FM_ACTIVE 无请求，FM_EMPTY 1 次 E1｜返回/边界：同 A8
++- 选择器：`fm_card`
++
++#### A10 进入 FM 时备份手动队列
++- 来源：场景二-4“恢复为手动维护的播放队列”｜证据：REASONABLE_DERIVATION
++- 原子行为：从 NORMAL 进入 FM 时保存当前 `queue` 和 `currentQueueIndex`，FM 期间不改动这份备份。
++- 可观察：退出后列表内容、数量、顺序和进入前一致（由 A28 断言）。
++- 入口：发现页｜前置：手动队列有 N 首（含 N=0）｜动作：点击卡片
++- UI：不适用（内部数据）｜数据：备份需要持久化（否则 A20 重启后无法还原）｜网络：不适用（本地操作）
++- 返回：不适用｜边界：N=0；本地文件歌曲（`playmode=0`）也要原样备份；在 FM 中切模式不能覆盖备份
++- 选择器：不适用（通过 A28 观测）
++
++#### A11 请求失败 / 返回空 / 无服务端
++- 来源：无｜证据：USER_CONFIRMED（U3）
++- 原子行为：E1 失败（或去重、过滤后为空）时仍然进入 FM，但 FM 队列为空（FM_EMPTY）：备份手动队列，`fmActive=true`，提示 `获取推荐歌曲失败`，释放 loading，不崩溃、不卡死。客户端不检查登录（实测未登录时 E1 也能返回歌曲）。
++- 可观察：应用不崩溃；`私人FM` 标识出现；点底部栏能打开播放页（基线空队列打不开，需修复）；面板显示 `正在播放私人FM` 和 `退出FM`；之后点卡片、下一首或切模式会再发 1 次 E1。
++- 入口：发现页｜前置：无 API 地址 / 断网 / 服务端返回错误｜动作：点击卡片
++- UI：提示 `获取推荐歌曲失败`；不停止当前音频，底部栏仍显示进入前的歌名（或 `暂无播放`），带 `私人FM` 标识｜数据：手动队列已备份，FM 队列为空，持久化｜网络：恰好 1 次 E1，失败后不自动重试
++- 返回：退出 FM 后还原手动队列（A28）｜边界：超时（基线 15s）期间连点仍只 1 次请求；`RequestInStream` 可能不 reject（baseline 第 8 节第 6 条），必须保证 loading 一定会释放
++- 选择器：`fm_card`、`fm_badge_bottom`、`fm_queue_tip`
++
++#### A12 播完自动拉取下一首个性化推荐并无缝播放
++- 来源：场景一-3｜证据：SPEC_EXPLICIT
++- 原子行为：FM 中歌曲 `completed` → 播 FM 队列的下一首；已到队尾就发 E1 续拉后播放（T4）。
++- 可观察：把进度条**拖动**到约 90% 后等待自然播完（实测：点击轨道不会跳转；拖到最末尾会卡在 playing、不触发 `completed`，见 baseline-notes 第 8 节第 12 条），歌名变成另一首，`私人FM` 标识仍在，没有 `没有下一首了~` 提示。
++- 入口：FM 播放中｜前置：服务端（不需要登录）｜动作：等待播完 / 拖动进度条到约 90% 后等待
++- UI：底部栏和播放页歌名更新，标识保持｜数据：续拉结果追加到 FM 队列，不写入手动备份｜网络：非队尾不发 E1；队尾发 1 次 E1；E3 正常
++- 返回：播放页开着时自动切歌，页面不关闭｜边界：续拉失败 → 提示 `获取推荐歌曲失败` 并停在当前歌，不循环请求；续拉到的歌都在黑名单或重复 → 过滤后为空则补请求，同一次操作最多共请求 3 次；本地文件歌曲不会出现在 FM 队列
++- 选择器：`player_song_name`、`bottom_bar_song_name`、`player_slider`（需补）
++
++#### A13 FM 中的“下一首”按钮
++- 来源：场景一“连续收听，无需手动选歌”｜证据：REASONABLE_DERIVATION
++- 原子行为：FM 中点击下一首（底部栏、播放页、系统播控）走 T5，与 A12 一致；队尾不提示 `没有下一首了~`。
++- 可观察：点击后歌名变化，标识仍在。
++- 入口：底部栏 / 播放页｜前置：FM_ACTIVE｜动作：单击、快速连点
++- UI：同 A12｜数据：同 A12｜网络：快速连点只能有 1 个 E1 在途
++- 返回：不适用｜边界：随机模式下不能随机跳回已播歌曲（见 A14）
++- 选择器：`bottom_bar_next_btn`、`player_next_btn`（需补）
++
++#### A14 FM 中忽略循环模式
++- 来源：无｜证据：USER_CONFIRMED（U6）
++- 原子行为：FM 中不管 `cycleMode` 是什么（单曲循环/随机/顺序循环），播完都放下一首推荐；FM 中不修改 `cycleMode`，退出后原来的循环模式继续生效。播放页控制行的循环按钮在 FM 中被 `不喜欢` 替换（U16），面板顶部的循环按钮保留但在 FM 中不起作用。
++- 可观察：先设成单曲循环再进 FM，播完后换成另一首歌；退出 FM 后循环按钮仍是单曲循环图标。其余维度：同 A12。
++- 选择器：循环按钮 `player_loop_btn`（需补）
++
++#### A15 FM 中的“上一首”
++- 来源：无｜证据：USER_CONFIRMED（U7）
++- 原子行为：沿用基线：在 FM 队列内回到上一首，已经是第一首时提示 `没有上一首了~`，不发 FM 请求。
++- 可观察：歌名回到前一首，标识仍在。网络：只有 E3。
++- 选择器：`player_prev_btn`、`bottom_bar_prev_btn`（需补）
++
++#### A16 底部播放栏显示“私人FM”标识
++- 来源：场景一-4｜证据：SPEC_EXPLICIT
++- 原子行为：`fmActive=true` 时底部播放栏显示 `私人FM`。
++- 可观察：底部栏区域内有 text 精确等于 `私人FM` 的独立 Text。
++- 入口：任一带底部栏的页面（6 个页面共用 `BottomBarComponent`）｜前置：FM_ACTIVE 或 FM_EMPTY（失败后也显示，U3）｜动作：无
++- UI：标识与歌名同时可见，不能挤掉歌名｜数据：只读 `fmActive`｜网络：不适用（纯展示）
++- 返回：进入每日推荐/搜索等子页面后那里的底部栏也显示｜边界：歌名很长时标识仍然可见
++- 选择器：`fm_badge_bottom`（需补；多个页面同时存在实例，测试应限定在当前页面）
++
++#### A17 播放页显示“私人FM”标识
++- 来源：场景一-4、场景三-1、场景四-4｜证据：SPEC_EXPLICIT
++- 原子行为：`fmActive=true` 时播放页显示 `私人FM`，并且可点击（A33）。
++- 可观察：打开播放页后存在 text 精确等于 `私人FM` 的组件，与发现页卡片、底部栏标识用不同 id 区分。
++- 入口：点击底部栏打开播放页｜前置：FM_ACTIVE｜动作：打开播放页
++- UI：手机（PhoneUI）和大屏（LargeUI）布局都要有；标识区域 = Text `私人FM` + 下拉箭头（A33）。位置：顶栏中间已经被 Swiper 页面指示点占用（实测），放在控制区上方单独一行（不在 Swiper 里，歌词页也能看到）｜数据/网络：不适用（纯展示）
++- 返回：收起后再打开仍在｜边界：切到歌词页（Swiper 第 2 页）也能看到更好
++- 选择器：`fm_badge_player`（需补）
++
++#### A18 非 FM 模式不显示标识
++- 来源：场景一-4、场景二-3｜证据：REASONABLE_DERIVATION
++- 原子行为：`fmActive=false`（冷启动未进 FM、退出 FM 后）时底部栏和播放页都没有 `私人FM` 标识。
++- 可观察：`fm_badge_bottom`、`fm_badge_player` 不存在。其余维度：不适用（A16/A17 的反面）。
++- 选择器：同 A16、A17
++
++#### A19 返回、切换页面、收起播放页后状态保持
++- 来源：场景四“始终停留在私人FM收听模式”｜证据：REASONABLE_DERIVATION
++- 原子行为：切 Tab、进出子页面、收起/重开播放页、打开/关闭播放列表面板，都不改变 FM 状态，不发请求。
++- 可观察：完成这些操作后标识仍在，歌名不变，hilog 没有新的 E1。
++- 入口：任意｜前置：FM_ACTIVE｜动作：返回键、下滑收起播放页、切 Tab｜UI：标识保持｜数据：不变｜网络：无｜返回：本条即返回场景｜边界：快速来回切换
++- 选择器：`fm_badge_bottom`、`fm_badge_player`
++
++#### A20 重启应用后保持 FM 状态
++- 来源：无｜证据：USER_CONFIRMED（U15）
++- 原子行为：持久化 `fmActive`、`fmMode`、手动备份（队列 + index）、黑名单（Preferences `Play`）；冷启动后恢复 FM 状态，底部栏显示上次的 FM 歌和 `私人FM` 标识；和基线一样不自动播放、不自动发 E1（T15）。之后点播放就播这首 FM 歌。
++- 可观察：force-stop 后重新启动，底部栏仍显示 `私人FM` 和上次的 FM 歌曲；面板仍显示 `正在播放私人FM`；退出 FM 后还原的是进入 FM 前的手动队列。
++- 入口：冷启动｜前置：重启前处于 FM（含 FM_EMPTY）｜动作：`restart_app`｜UI：标识显示｜数据：从 Preferences `Play` 读取｜网络：启动时不发 FM 请求｜返回：不适用｜边界：重启前处于 FM_ENTERING（E1 在途）→ 那时 `fmActive` 和备份都还没写入，重启后就是普通模式，不会留下没有备份的 FM 状态
++- 选择器：`fm_badge_bottom`、`fm_queue_tip`
++
++### 场景二：播放列表面板中的 FM 提示与退出
++
++#### A21 面板顶部显示“正在播放私人FM”
++- 来源：场景二-1/2｜证据：SPEC_EXPLICIT
++- 原子行为：FM 中打开播放列表面板，顶部显示 `正在播放私人FM`。
++- 可观察：面板内有 text 精确等于 `正在播放私人FM` 的**独立 Text**（不能写进 `播放列表  (n)` 的 Span 里，见 baseline 第 8 节第 2 条）。
++- 入口：底部栏或播放页的播放列表按钮｜前置：FM_ACTIVE｜动作：点击播放列表按钮
++- UI：提示在面板顶部（标题行附近）｜数据：只读 `fmActive`｜网络：打开面板不发请求
++- 返回：关闭面板再打开仍显示｜边界：FM 队列为空（FM_EMPTY，U3）时也显示
++- 选择器：`fm_queue_tip`（需补）；面板按钮 `bottom_bar_queue_btn` / `player_queue_btn`（需补）
++
++#### A22 面板显示“退出FM”按钮
++- 来源：场景二-2｜证据：SPEC_EXPLICIT
++- 原子行为：同一面板顶部显示可点击的 `退出FM` 按钮。
++- 可观察：存在 text 为 `退出FM`、clickable=true 的组件。
++- 入口/前置/动作：同 A21｜UI：按钮可点击｜数据/网络：不适用（只是展示，点击见 A26）｜返回：同 A21｜边界：同 A21
++- 选择器：`fm_exit_btn`（需补）
++
++#### A23 两个面板入口的表现一致
++- 来源：场景二-1“打开播放列表面板”｜证据：REASONABLE_DERIVATION
++- 原子行为：底部栏的播放列表按钮（`BottomBarComponent.ets:109`）和播放页的播放列表按钮（`PlayingCover.ets:424`）打开的是同一个 `PlayQueueSheet`，两处都要满足 A21/A22/A26/A28。
++- 可观察：从两个入口分别打开都能看到提示和按钮。其余维度：同 A21。
++- 选择器：同 A21
++
++#### A24 非 FM 时面板不显示提示和按钮
++- 来源：场景二｜证据：REASONABLE_DERIVATION
++- 原子行为：`fmActive=false` 时面板保持基线样子，没有 `正在播放私人FM` 和 `退出FM`。
++- 可观察：`fm_queue_tip`、`fm_exit_btn` 不存在。其余维度：不适用（A21/A22 的反面）。
++- 选择器：同 A21、A22
++
++#### A25 FM 期间面板列出的是 FM 推荐队列
++- 来源：场景二-4“恢复为手动维护的播放队列内容”（说明 FM 期间显示的是别的内容）｜证据：REASONABLE_DERIVATION
++- 原子行为：FM 中面板列表显示 FM 队列（已播 + 待播推荐），数量与 FM 队列一致，当前歌高亮。
++- 可观察：面板里的歌名与底部栏当前歌名一致；手动队列里的歌不在列表中（除非恰好被推荐）。
++- 入口：同 A21｜前置：FM_ACTIVE，手动队列与 FM 队列内容不同｜动作：打开面板
++- UI：列表与高亮｜数据：读 FM 队列｜网络：无
++- 返回：续拉（A12）后再打开面板能看到新追加的歌｜边界：面板开着时自动切歌，高亮要跟着变
++- 选择器：列表 `queue_list`（需补）
++
++#### A26 点击“退出FM”切回普通队列模式
++- 来源：场景二-3｜证据：SPEC_EXPLICIT
++- 原子行为：点击 `退出FM` → `fmActive=false`（T13）。
++- 可观察：`正在播放私人FM`、`退出FM`、底部栏 `私人FM` 标识都消失；播放页标识也消失（A18）；播放页 `不喜欢` 消失（A42）。
++- 入口：播放列表面板｜前置：FM 任一状态｜动作：单击 `退出FM`
++- UI：上述元素消失｜数据：`fmActive=false` 并持久化｜网络：退出本身不发 E1/E2；手动队列非空时为播放还原的当前歌发 E3（U8，见 A27）
++- 返回：退出后切页面、重启都保持普通模式｜边界：E1 在途时退出 → 丢弃迟到的响应（A30）
++- 选择器：`fm_exit_btn`、`fm_queue_tip`、`fm_badge_bottom`
++
++#### A27 退出后立即播放手动队列中进入前的那首
++- 来源：场景二-3“播放模式切换回普通队列播放”｜证据：USER_CONFIRMED（U8）
++- 原子行为：退出后立即播放还原的手动队列中 `currentQueueIndex` 那首（index 无效时用 0）。**先**把底部栏的歌名/歌手/封面更新为这首歌，**再**请求播放地址（基线 `playMusicByUrl` 是先请求后更新显示，要调整顺序，否则请求失败时显示不更新）。手动队列为空时停止播放，底部栏显示 `暂无播放` / `选择一首歌曲播放吧`。
++- 可观察：底部栏歌名 = 进入 FM 前正在播的歌，处于播放状态；面板高亮同一首；队列为空时底部栏为 `暂无播放`。
++- 入口：面板 `退出FM`｜前置：进入 FM 前手动队列 N 首、当前为第 k 首｜动作：点击 `退出FM`
++- UI：底部栏立即换成第 k 首｜数据：`player-song` 等 AppStorage 更新，`saveCurrentSongInfo` 写入｜网络：1 次 E3（N=0 时不发）
++- 返回：收起/打开播放页显示同一首｜边界：N=0；第 k 首是本地文件（`playmode=0`）走 `playMusicWithFile`，不发网络请求；第 k 首拿不到播放地址 → 走基线原逻辑（提示 `获取播放资源失败` 并 `playNext()`）
++- 选择器：`bottom_bar_song_name`、`bottom_bar_play_btn`（需补）
++
++#### A28 播放列表恢复为手动维护的队列
++- 来源：场景二-4｜证据：SPEC_EXPLICIT（恢复）+ REASONABLE_DERIVATION（恢复到“进入 FM 前”的那份）
++- 原子行为：退出后 `PlayQueueUtils.queue`、`currentQueueIndex` 还原为 A10 的备份，并同步到 AppStorage 和 Preferences。
++- 可观察：面板标题数量 = 进入前的 N；歌名、顺序与进入前一致；高亮是进入前的当前歌。
++- 入口：播放列表面板｜前置：进入 FM 前手动队列有 N 首（自测用 N≥2 与 N=0 两组）｜动作：点击 `退出FM`
++- UI：列表刷新为手动队列｜数据：队列与 index 还原；FM 队列丢弃｜网络：不适用（本地还原）
++- 返回：关掉面板再打开、重启后仍是手动队列｜边界：N=0 → 列表为空、显示 `播放列表  (0)`；手动队列里有本地文件歌曲要原样还原；FM 中切换过模式也还原同一份
++- 选择器：`queue_list`、面板标题 `queue_title`（需补）
++
++#### A29 退出后面板保持打开并刷新
++- 来源：场景二-3/4 连续描述在同一个面板里｜证据：USER_CONFIRMED（U9）
++- 原子行为：点击 `退出FM` 后面板不关闭，立刻刷新为手动队列（基线 `dataSource` 只在 `aboutToAppear` 和刷新事件时更新，必须主动 `setData` + `notifyDataReload`）。
++- 可观察：点击 `退出FM` 后面板仍在，标题数量和列表立即变成手动队列，`正在播放私人FM` 消失。其余维度：同 A28。
++- 选择器：`queue_list`、`queue_title`
++
++#### A30 退出操作的幂等与在途请求作废
++- 来源：场景二-3｜证据：REASONABLE_DERIVATION
++- 原子行为：退出不发 FM 请求；按钮在退出后消失，不会被点两次；E1 在途（续拉、切模式、FM_EMPTY 重试）时退出，迟到的响应不能把应用拉回 FM 或覆盖手动队列。FM_ENTERING 期间还不是 FM，面板里没有 `退出FM`。
++- 可观察：快速连点 `退出FM` 不崩溃；切换模式后立刻退出，等 15 秒后队列仍是手动队列，标识没有重新出现。
++- 入口：面板｜前置：FM_FETCHING / FM_RELOADING / FM_EMPTY 重试中｜动作：快速连点、在加载中点击
++- UI：保持普通模式｜数据：备份只还原一次｜网络：不新发 FM 请求（只有 A27 的 E3），在途 E1 响应被丢弃｜返回：不适用｜边界：同时有 E2 在途
++- 选择器：`fm_exit_btn`
++
++#### A31 多次进出 FM 不污染手动队列
++- 来源：场景二-4｜证据：REASONABLE_DERIVATION
++- 原子行为：进入 → 退出 → 再进入 → 退出，每次还原的都是最近一次进入前的手动队列。
++- 可观察：两轮之后面板内容仍和最初的手动队列一致。
++- 入口：发现页 + 面板｜前置：手动队列 N 首｜动作：重复两轮｜UI：同 A28｜数据：每次进入时重新备份｜网络：每次进入 1 次 E1｜返回：不适用｜边界：N=0 时两轮后仍为空
++- 选择器：`fm_card`、`fm_exit_btn`、`queue_list`
++
++#### A32 FM 期间的其他队列操作
++- 来源：无｜证据：USER_CONFIRMED（U10）
++- 原子行为：
++  - FM 中从其他入口操作队列（播放歌单、每日推荐“播放全部”、心动歌单卡片、单曲播放、添加到下一首）→ 先自动退出 FM（还原手动队列，不播放，作废在途 E1），再按基线原逻辑执行该操作（T14）。整体替换队列的操作执行后，新队列就是手动队列。
++  - FM 中播放列表面板隐藏：单曲删除按钮（×）、清空按钮、心动模式按钮。循环模式按钮、定位按钮保留。
++- 可观察：FM 中去每日推荐点“播放全部” → `私人FM` 标识消失，面板是每日推荐列表，没有 `正在播放私人FM`；FM 中打开面板，看不到 × / 清空 / 心动按钮，退出 FM 后它们恢复。
++- 入口：每日推荐 / 歌单 / 搜索 / 面板｜前置：FM_ACTIVE｜动作：上述操作
++- UI：标识与面板提示消失（替换类操作）；面板按钮隐藏（FM 中）｜数据：`fmActive=false`，手动队列先还原再被操作｜网络：不发 FM 请求，只有基线原有请求
++- 返回：退出后按普通模式工作｜边界：FM_ENTERING 时做这些操作 → 只作废在途 E1，不进入 FM
++- 选择器：`fm_badge_bottom`、`fm_queue_tip`、`queue_list`
++
++### 场景三：私人FM 收听模式选择
++
++#### A33 点击播放页“私人FM”标识区域弹出模式菜单
++- 来源：场景三-1/2｜证据：SPEC_EXPLICIT；入口形式为 USER_CONFIRMED（U11）
++- 原子行为：播放页的标识区域 = Text `私人FM` + 紧挨着的下拉箭头图标，整块可点击；点击后弹出模式选择菜单，打开菜单不发请求（T8）。标识文字仍然精确为 `私人FM`。
++- 可观察：点击 `私人FM` 文字或下拉箭头，都会出现 `默认` `熟悉` `探索` 三个选项（用 Hypium 查找，`uitest dumpLayout` 看不到弹出菜单）。
++- 入口：播放页｜前置：FM_ACTIVE 或 FM_EMPTY｜动作：单击标识或箭头
++- UI：菜单弹出（`bindMenu`）｜数据：不变｜网络：无
++- 返回：返回键/点外部关闭菜单后仍在播放页（A38）｜边界：非 FM 没有标识，所以菜单无入口；快速连点只弹一个菜单
++- 选择器：`fm_badge_player`（整块可点击区域），文字 `fm_badge_player_text`，箭头 `fm_badge_player_arrow`，菜单容器 `fm_mode_menu`（需补）
++
++#### A34 菜单展示“默认”“熟悉”“探索”三项
++- 来源：场景三-2｜证据：SPEC_EXPLICIT
++- 原子行为：菜单里恰好三项，文字分别为 `默认`、`熟悉`、`探索`，顺序同 Spec。
++- 可观察：三个 text 精确匹配的可点击项。其余维度：不适用（纯展示）。
++- 选择器：`fm_mode_default`、`fm_mode_familiar`、`fm_mode_explore`（需补）
++
++#### A35 初始模式为“默认”，当前模式打勾
++- 来源：无｜证据：USER_CONFIRMED（U12）
++- 原子行为：首次使用时模式为 `默认`；菜单里当前模式项打勾（勾图标或 `selected` 状态可观察），其他项不打勾。播放页不额外显示模式文字。
++- 可观察：首次打开菜单 `默认` 被打勾；选完 `探索` 再打开，勾在 `探索` 上。其余维度：同 A34。
++- 选择器：同 A34，勾图标 `fm_mode_check_<mode>`（需补）
++
++#### A36 选择“探索”后重新加载推荐队列
++- 来源：场景三-3｜证据：SPEC_EXPLICIT（切换 + 重新加载）+ REASONABLE_DERIVATION（加载完自动播放第一首）
++- 原子行为：选择 `探索` → 关闭菜单 → 发 E1(mode=EXPLORE)（T11）→ 用结果替换 FM 队列 → `playQueue(0)`。
++- 可观察：hilog 出现带 `EXPLORE` 的 E1；歌名变成新队列第一首；面板里的列表换成新内容；仍有 `私人FM` 标识。
++- 入口：播放页模式菜单｜前置：FM_ACTIVE，当前不是探索，服务端（不需要登录）｜动作：点 `探索`
++- UI：加载中有反馈，结束后歌名更新｜数据：`fmMode=EXPLORE` 并持久化；FM 队列被替换；手动备份不变｜网络：恰好 1 次 E1(EXPLORE)
++- 返回：收起播放页再打开，模式仍是探索｜边界：失败见 A39；返回空列表按失败处理
++- 选择器：`fm_mode_explore`、`player_song_name`
++
++#### A37 选择“熟悉”或“默认”同理
++- 来源：场景三“不同模式推送不同偏好程度的歌曲”｜证据：REASONABLE_DERIVATION
++- 原子行为：`熟悉`→FAMILIAR，`默认`→DEFAULT，行为同 A36。
++- 可观察：hilog 中 E1 的 mode 参数与所选一致。其余维度：同 A36。
++- 选择器：`fm_mode_familiar`、`fm_mode_default`
++
++#### A38 取消菜单 / 选当前模式时不发请求
++- 来源：场景三｜证据：REASONABLE_DERIVATION（取消）；USER_CONFIRMED（U13，选当前模式）
++- 原子行为：点外部、返回键、关闭按钮关掉菜单 → 不发请求、模式不变（T9）；选中当前已选模式 → 只关菜单（T10）。
++- 可观察：hilog 没有新的 E1；歌名不变。
++- 入口：模式菜单｜前置：FM_ACTIVE｜动作：取消 / 返回 / 点当前模式
++- UI：菜单关闭，回到播放页｜数据：不变｜网络：无｜返回：返回键只关菜单，不关播放页｜边界：打开再取消重复多次
++- 选择器：`fm_mode_menu`、当前模式项
++
++#### A39 模式切换的连点与失败
++- 来源：场景三-3｜证据：REASONABLE_DERIVATION（连点）；USER_CONFIRMED（U14，失败）
++- 原子行为：E1(mode) 在途时再选模式被忽略（T12）。失败时提示 `切换模式失败`：有旧 FM 队列 → 模式回退为原模式，旧歌继续播放；FM_EMPTY → 保留新模式（没有旧队列可对应）。
++- 可观察：快速依次点 `熟悉`、`探索` 只有 1 个 E1；失败后旧歌继续播放、标识仍在，再打开菜单勾仍在原模式。
++- 入口：模式菜单｜前置：FM_ACTIVE / FM_EMPTY｜动作：快速连点、断开服务端后切换
++- UI：提示 `切换模式失败`｜数据：有旧队列时 `fmMode` 不变、FM 队列不变；FM_EMPTY 时 `fmMode`=新模式并持久化｜网络：1 次 E1，不自动重试
++- 返回：不适用｜边界：切换途中点 `退出FM`（A30）
++- 选择器：同 A34
++
++#### A40 切换模式后仍处于 FM、手动备份不变
++- 来源：场景三-3“重新加载推荐队列”｜证据：REASONABLE_DERIVATION
++- 原子行为：切模式只替换 FM 队列，不改 `fmActive`、不重新备份。
++- 可观察：切换后标识仍在；随后退出 FM，还原的仍是最初的手动队列（A28）。其余维度：同 A36。
++- 选择器：`fm_badge_player`、`queue_list`
++
++#### A41 模式持久化
++- 来源：无｜证据：USER_CONFIRMED（U15）
++- 原子行为：`fmMode` 持久化到 Preferences `Play`；退出 FM 后再进入、重启后再进入都使用上次选的模式。
++- 可观察：选 `探索` → 退出 → 重新进入，E1 带 EXPLORE，菜单标记在 `探索`。其余维度：同 A36。
++- 选择器：同 A35
++
++### 场景四：不喜欢
++
++#### A42 FM 播放页的播放控制区显示“不喜欢”按钮
++- 来源：场景四-1/2｜证据：SPEC_EXPLICIT（FM 播放页、播放控制区、文字 `不喜欢`）；非 FM 隐藏为 REASONABLE_DERIVATION；位置为 USER_CONFIRMED（U16）
++- 原子行为：FM 中把播放页控制行（`PlayingCover.ets:421-429`，大屏 `:459-467`）最左边的循环模式按钮换成 `不喜欢`（图标 + 可见文字 `不喜欢`），控制行变为 `不喜欢 | 上一首 | 播放/暂停 | 下一首 | 播放列表`；非 FM 恢复为循环模式按钮。FM_EMPTY 时按钮照常显示，但点击无效（T6b）。
++- 可观察：存在 text 精确等于 `不喜欢`、可点击的组件，位于控制行最左；非 FM 时不存在，循环按钮回到原位。
++- 入口：底部栏 → 播放页｜前置：FM_ACTIVE / FM_EMPTY｜动作：打开播放页
++- UI：按钮在控制行内，手机和大屏布局都改｜数据/网络：不适用（纯展示）｜返回：收起再打开仍在；退出 FM 后消失｜边界：歌词页也在（控制行在 Swiper 外面）
++- 选择器：`fm_dislike_btn`（需补），文字 `fm_dislike_text`（需补）
++
++#### A43 点击“不喜欢”向服务端上报
++- 来源：场景四-3“向服务端上报‘不喜欢’反馈”｜证据：SPEC_EXPLICIT
++- 原子行为：点击时在同一回调中发 E2，带**点击那一刻**的当前歌曲 id（T6）。
++- 可观察：hilog 出现 `fm_trash?id=<当前歌 id>`。
++- 入口：FM 播放页｜前置：FM_ACTIVE，有当前歌｜动作：单击
++- UI：见 A44｜数据：见 A45｜网络：恰好 1 次 E2，id 正确
++- 返回：不适用｜边界：FM_EMPTY（没有当前歌）时点击被忽略，不能带 id=0 上报（T6b）；未登录时实测返回 HTTP 301 `需要登录`，见 A48
++- 选择器：`fm_dislike_btn`
++
++#### A44 立即切到下一首推荐并无缝播放
++- 来源：场景四-3“立即拉取下一首个性化推荐歌曲无缝衔接播放”｜证据：SPEC_EXPLICIT
++- 原子行为：不等 E2 返回就切到 FM 队列下一首；在队尾则同时发 E1 续拉（T6）。
++- 可观察：点击后歌名变化；被不喜欢的歌不再是当前歌。
++- 入口/前置：同 A43｜动作：单击
++- UI：歌名、封面更新，仍在播放页｜数据：currentQueueIndex 前进，或被移出 FM 队列｜网络：E2 + （队尾时）E1 + E3
++- 返回：不适用｜边界：续拉失败 → 提示 `获取推荐歌曲失败`，停在原歌（被不喜欢的歌仍已进黑名单）
++- 选择器：`player_song_name`
++
++#### A45 被不喜欢的歌曲此后不再推荐
++- 来源：场景四概述/3“加入黑名单（此后不再被推荐）”｜证据：SPEC_EXPLICIT（结果）+ REASONABLE_DERIVATION（客户端也过滤）
++- 原子行为：除服务端黑名单外，本地记录这些 id，以后 E1 结果里过滤掉；列表里还没播的同一首也移除。
++- 可观察：之后的 FM 队列和面板列表里不再出现该歌；重启后依然过滤。
++- 入口：FM 中｜前置：已对某首歌点过不喜欢｜动作：继续播放、续拉、切模式、重进 FM
++- UI：面板中没有该歌｜数据：黑名单持久化到 Preferences｜网络：不适用（本地过滤，靠 E1 结果观测）
++- 返回：重启后有效｜边界：过滤后为空 → 补请求（最多共 3 次）；不影响手动队列里同一首歌
++- 选择器：`queue_list`
++
++#### A46 不喜欢之后仍在私人FM模式
++- 来源：场景四-4｜证据：SPEC_EXPLICIT
++- 原子行为：整个流程不改变 `fmActive`，不需要重新进入 FM。
++- 可观察：点击后播放页仍有 `私人FM` 和 `不喜欢`；底部栏仍有 `私人FM`；面板仍有 `正在播放私人FM`。其余维度：同 A44。
++- 选择器：`fm_badge_player`、`fm_badge_bottom`、`fm_queue_tip`
++
++#### A47 快速连点“不喜欢”
++- 来源：场景四｜证据：REASONABLE_DERIVATION
++- 原子行为：E2 在途、新歌还没开始时再点击被忽略（T7）。
++- 可观察：快速连点 3 次，hilog 只有 1 条 E2，只跳过 1 首。
++- 入口/前置：同 A43｜动作：快速连点｜UI：只切一次｜数据：黑名单只加 1 个 id｜网络：1 次 E2，最多 1 次 E1｜返回：不适用｜边界：新歌开始后再点，就是对新歌的第二次不喜欢（正常）
++- 选择器：`fm_dislike_btn`
++
++#### A48 上报失败 / 未登录时照常切歌
++- 来源：无｜证据：USER_CONFIRMED（U17）
++- 原子行为：E2 失败也照样切歌和本地拉黑，只记日志、不提示，不回滚。实测未登录时 E2 一定失败（HTTP 301 + `code:301`），所以这条在未登录环境里就是主流程；HTTP 301 / `code≠200` 都按失败处理，不能当成功。
++- 可观察：未登录、断网或无服务端时点击：不崩溃，歌曲切换（如果有下一首），被点的歌进入本地黑名单，`dislikeInFlight` 会释放，hilog 有失败日志。其余维度：同 A43。
++- 选择器：`fm_dislike_btn`
++
++### 跨场景
++
++#### A49 文案唯一性与选择器
++- 来源：第 0 节文案表｜证据：REASONABLE_DERIVATION
++- 原子行为：每个 Spec 文案都是独立 Text 或独立按钮文字，不拼 Span、不加前后缀；同一文案出现在多个位置时用不同 id。
++- 可观察：`BY.text` 精确匹配可以找到；按 id 能区分卡片、底部栏、播放页三处 `私人FM`。其余维度：不适用（通用约束）。
++- 选择器：本文件所有建议 id
++
++#### A50 无服务端/无网络时不崩溃、不卡死
++- 来源：baseline 第 7、8 节｜证据：REASONABLE_DERIVATION
++- 原子行为：A5、A12、A36、A43 在请求失败、超时、不 reject 等情况下都能释放 loading，不崩溃，不无限重试。
++- 可观察：本地（无 API 地址）把四个场景各走一遍，进程一直在（`pidof`），没有 faultlog，按钮在请求结束后可以再次点击。
++- 入口：各场景入口｜前置：无 API 地址｜动作：各场景主动作 + 连点｜UI：有失败提示｜数据：状态一致（不会出现标识显示但没有备份等情况）｜网络：每个动作最多 1 次请求｜返回：返回后再进入可以重试｜边界：E1 超时 15s 期间切换页面、退出 FM
++- 选择器：同各项
++
++## 4. 已确认的决策（原 UNCONFIRMED_ASSUMPTION，2026-10-18 全部采用推荐方案）
++
++判断原则：官方 F-point 是对照参考实现写的，必须能在参考实现上通过。所以如果一种做法在有服务端时和严格做法表现一样，在没有服务端或未登录时又能让更多 UI 检查点通过，就选它。下表“落实到”一栏指向对应的验收项和状态机转换。
++
++| 编号 | 问题 | 决定 | 落实到 | 理由 |
++| --- | --- | --- | --- | --- |
++| U1 | 卡片显示条件与位置 | **始终显示**（不受 API/登录状态影响），放在横向列表**第 1 张** | A1–A3 | Spec 步骤 1 无条件“看到”；全新安装默认没有 API；实测屏外卡片不在 UI 树里 |
++| U2 | 卡片副标题 | `根据口味连续推荐` | A4 | `ContentButton` 必须有副标题，且不能含 `私人FM` |
++| U3 | E1 失败 / 无服务端 / 未登录 | **E1 失败也进入 FM**，FM 队列为空（FM_EMPTY），提示 `获取推荐歌曲失败`；之后点卡片、下一首、切模式会重试；修好空队列时打不开播放页的问题；客户端**不检查登录**。`fmActive` 和备份在 E1 结束时写入 | A5、A11、T1、T3b | 有服务端时与严格做法一样；无服务端时更多 UI 检查点能通过；实测未登录时 E1 能返回歌曲 |
++| U4 | 点击卡片后是否打开播放页 | **不打开**，停在发现页 | A7 | 与心动歌单卡片一致；Spec 只说“播放器自动加载” |
++| U5 | 已在 FM 中再次点击卡片 | 有当前歌：**不请求**，暂停时继续播放；FM_EMPTY：重试 E1 | A9、T3、T3b | 避免覆盖备份和多余请求，同时给失败状态留重试入口 |
++| U6 | FM 中的循环模式 | **忽略** `cycleMode`（不修改它），播完总是下一首推荐；退出后原循环模式继续生效 | A14 | Spec 要求播完“自动拉取下一首”，单曲循环、随机与之冲突 |
++| U7 | FM 中的“上一首” | 在 FM 队列内**后退**（沿用基线，第一首时提示 `没有上一首了~`），不发 FM 请求 | A15 | 改动最小，不影响 Spec 任何一条 |
++| U8 | 退出 FM 后播什么 | **立即播放手动队列中进入前的那首**（index 无效用 0）；先更新底部栏显示，再请求播放地址；手动队列为空时停止播放，底部栏显示 `暂无播放` | A27、T13 | 底部栏、面板高亮、实际播放三者一致；基线是先请求后更新显示，要调整顺序 |
++| U9 | 退出后面板是否保持打开 | **保持打开**，立即刷新为手动队列 | A29 | 场景二 3、4 是同一面板里的连续步骤 |
++| U10 | FM 中其他入口操作队列 / 面板编辑 | 播放歌单、每日推荐、心动、单曲播放、添加到下一首：**先自动退出 FM**（还原手动队列，不播放），再按基线逻辑执行；FM 中面板**隐藏**单曲删除、清空、心动按钮 | A32、T14 | 避免“标识还在但播的不是推荐”和备份错乱。“添加到下一首”是在原推荐基础上补充的同类操作，按同一规则处理 |
++| U11 | 模式菜单入口 | Text `私人FM` + 下拉箭头组成**一块可点击区域**，点击弹出 `bindMenu` | A33、T8 | 同时满足“标识”和“菜单按钮”两种理解，标识文字仍精确为 `私人FM` |
++| U12 | 初始模式与选中标记 | 初始 `默认`；菜单里当前项**打勾**；播放页不额外显示模式文字 | A35 | Spec 列举以 `默认` 开头；打勾便于观察，也不会产生新的文字歧义 |
++| U13 | 选中当前已选的模式 | **不请求**，只关菜单 | A38、T10 | Spec 只描述切到另一个模式 |
++| U14 | 切换模式失败 | 有旧 FM 队列：**回退到原模式**，旧歌继续播，提示 `切换模式失败`；FM_EMPTY：保留新模式，提示同上 | A39、T11 | 保证“打勾的模式 = 当前队列的实际来源” |
++| U15 | 重启后 | **持久化** `fmActive`、`fmMode`、手动备份、黑名单；启动时恢复 FM 状态，不自动请求、不自动播放 | A20、A41、A45、T15 | 基线会持久化队列和当前歌，不恢复 FM 状态会出现“显示 FM 歌但没有标识、手动队列丢失” |
++| U16 | `不喜欢` 的位置和样子 | FM 中把控制行**最左边的循环模式按钮换成 `不喜欢`**（图标 + 可见文字），非 FM 恢复；手机和大屏布局都改 | A42 | 位于“播放控制区”；循环模式在 FM 中不起作用（U6）；上一首/下一首不受影响 |
++| U17 | 不喜欢上报失败 / 未登录 | **照常切歌并本地拉黑**，只记日志、不提示、不回滚；HTTP 301 / `code≠200` 都算失败 | A48、T6 | Spec 强调“立即”切歌；实测未登录时 E2 必然失败，失败就回滚的话场景四在未登录环境下全部失败 |
++
++仍需知悉的风险（不需要选择）：
++
++- R1 接口路径和参数（第 1 节）已在本地服务端实测（未登录）。没验证的：登录后 E1 每次返回几首、E2 登录后的返回格式。
++- R2 官方环境有没有服务端/账号未知。本地能端到端验证进入 FM、续拉、切模式、退出还原；不喜欢“上报成功”需要登录 cookie 才能验证。
++
++## 5. 边界条件穷举对照
++
++| 边界 | 是否适用 | 覆盖项 / 不适用原因 |
++| --- | --- | --- |
++| 空输入 | 不适用 | 四个场景都没有文本输入框（API 地址输入属于基线设置页，不在本题范围） |
++| 纯空格 | 不适用 | 同上 |
++| 取消 | 适用 | 模式菜单取消 A38；退出FM 没有确认弹窗（Spec 写的是点击即切换），所以没有“取消退出” |
++| 关闭 | 适用 | 关闭面板后再开 A21/A28；收起播放页 A19；关闭菜单 A38 |
++| 重复点击 | 适用 | 卡片 A8/A9；退出FM A30；模式项 A38/A39；不喜欢 A47；标识 A33 |
++| 快速连点 | 适用 | 同上，并且下一首 A13 |
++| 无数据 | 适用 | E1 返回空 A6/A11；过滤黑名单后为空 A45；进入前手动队列为空 A28/A31 |
++| 最后一页 | 适用（换成“FM 队列到尾”） | 续拉 A12/A13/A44；FM 没有分页，也没有“没有更多” |
++| 部分操作 | 适用 | 点卡片后马上退出 A30；打开菜单不选 A38；E1 在途时切页面 A19/A50；在途时重启 A20 |
++| 请求失败 | 适用 | E1 A11/A12/A39；E2 A48；E3 沿用基线（失败后在 FM 中跳下一首推荐） |
++| 返回后重进 | 适用 | A19（切 Tab、进出子页面、收起播放页） |
++| 重启应用后重进 | 适用 | A20/A41/A45（U15：FM 状态、模式、备份、黑名单全部持久化） |
++
++## 6. 建议的稳定 id 一览（基线全部缺失，都需在实现时补 `.id()`）
++
++- 新增组件：`fm_card`、`fm_card_title`、`fm_card_subtitle`、`fm_badge_bottom`、`fm_badge_player`（可点击区域）、`fm_badge_player_text`、`fm_badge_player_arrow`、`fm_mode_menu`、`fm_mode_default`、`fm_mode_familiar`、`fm_mode_explore`、`fm_mode_check_default|familiar|explore`、`fm_queue_tip`、`fm_exit_btn`、`fm_dislike_btn`、`fm_dislike_text`。
++- 给已有组件补（自测要用，也不影响官方选择器）：`bottom_bar`、`bottom_bar_song_name`、`bottom_bar_prev_btn`、`bottom_bar_play_btn`、`bottom_bar_next_btn`、`bottom_bar_queue_btn`、`player_close_btn`、`player_song_name`、`player_slider`、`player_loop_btn`、`player_prev_btn`、`player_play_btn`、`player_next_btn`、`player_queue_btn`、`queue_title`、`queue_list`。
++- 注意：`BottomBarComponent` 有 6 个实例（每个子页面一个），`PlayQueueButton` 有底部栏和播放页两个实例，同一个 id 会在 UI 树里出现多次；下层页面的节点也不会从树里消失（baseline 第 8 节第 3 条）。自测要按“当前可见区域/最后出现”来取，或者在 id 里区分实例。
+diff --git a/spec/baseline-notes.md b/spec/baseline-notes.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..ee635f7b5d631982e47168db9f92e02240bb7d0b
+--- /dev/null
++++ b/spec/baseline-notes.md
+@@ -0,0 +1,163 @@
++# 基线说明：私人FM（cmu-spec34）
++
++标注约定：【代码】= 读源码得出，附 `文件:行号`；【实机】= 在模拟器上实际操作/截图/UI dump 验证；【推断】= 基于代码的推测，未实测；【未验证】= 本地条件不足无法验证。
++截图与 UI dump 存于 `logs/baseline-*.jpeg|json`。所有源码路径相对 `entry/src/main/ets/`。
++
++## 1. 基线快照标识
++
++- `spec/metadata.json` 的 `base_commit` = `edc3a3d6d27b0bf60b3e18477a30f4d85142d0ce`（已有 tag `base/cmu-spec34` 指向它）。
++- 当前 HEAD = `b256c8ff85bef787a3b551cd969e9e4a3311cc4a`（分支 `dev`），相对 base 只改了 `oh-package-lock.json5`（ohpm 重建锁文件，无业务代码）。
++- 本阶段新打 tag：`baseline-cmu-spec34` → `b256c8f`（2026-10-18）。
++- 分析开始时工作区已有未提交改动：`build-profile.json5` 新增 `"targetSdkVersion": "6.1.0(23)"`（不是本阶段改的，原样保留）；`spec/` 未跟踪。本阶段新增未跟踪目录 `logs/`。
++
++## 2. 构建基线状态
++
++构建环境（本机 PATH 里默认没有 hvigorw/hdc/java，需要显式设置）：
++
++```bash
++D=/Applications/DevEco-Studio.app/Contents
++export JAVA_HOME=$D/jbr/Contents/Home DEVECO_SDK_HOME=$D/sdk
++export PATH=$JAVA_HOME/bin:$D/tools/hvigor/bin:$D/tools/node/bin:$D/tools/ohpm/bin:$D/sdk/default/openharmony/toolchains:$PATH
++hvigorw clean --no-daemon
++hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon
++```
++
++- 【实机】不设 `JAVA_HOME` 时 clean build 在 `PackageHap` 失败：`Error Code: 00308018 ... Unable to locate a Java Runtime`。设成 DevEco 自带 JBR（OpenJDK 21.0.8）后 **BUILD SUCCESSFUL**（约 11 s）。
++- 产物：`entry/build/default/outputs/default/entry-default-unsigned.hap`（约 4.5 MB，未签名，模拟器可直接安装）。
++- 增量构建会显示 `CompileArkTS UP-TO-DATE`，不输出告警；**对比告警必须用 clean build**。
++- 告警（clean build，日志 `logs/baseline-build.log`，归一化清单 `logs/baseline-warnings.txt`，按 `文件:行:列 + 消息` 排序，可直接 diff）：
++  - hvigor 告警 2 条：`'lib_name' conflict, first declared`、`No signingConfig found for product default`。
++  - ArkTS WARN 共 673 条：`oh_modules/@pura/harmony-utils` 550 条，`entry/src` 123 条。
++  - `entry/src` 按类型：`Function may throw exceptions` 50、`'px2vp' has been deprecated` 30、`'showToast' has been deprecated` 18、`'getContext'` 9、`'animateTo'` 7、`backgroundTaskManager` 能力 3、`matchMediaSync` 3、`'key' can only be used for testing` 2、`decode` 1。
++  - 本题大概率要改的文件里已有的告警：`RecommendCards.ets` 5 条（showToast，:96/:110/:114/:119/:122）、`PlayingCover.ets` 6 条（px2vp/animateTo）、`PlayQueueSheet.ets` 1 条（:106 px2vp）、`Explore.ets` 2 条、`AVPlayerUtils.ets` 6 条。注意：新代码如果再用 `promptAction.showToast` / `px2vp` / `animateTo` 会新增同类告警，建议用 `ToastUtil.showToast`（基线已大量使用）。
++- 构建后 `git status` 没有出现噪声文件：`BuildProfile.ets` 在 `entry/build/` 下，已被 `.gitignore` 忽略，仓库里没有跟踪的 `BuildProfile.ets`。
++
++安装与环境：
++
++- 【实机】`hdc -t 127.0.0.1:5555 install -r <hap>` 成功，bundleName `cc.chenlvin.cloudmusic`，`bm dump` 显示 `updateTime 1792292738259`，targetVersion 60100023。
++- 【实机】`harness.env_check`：emulator 6.1.0.115，1308×2880，“✓ 环境与官方评测规格一致”。
++
++## 3. Spec 描述的入口当前在哪
++
++“发现”页与推荐卡片：
++
++- 【代码】入口页 `pages/Index.ets`（`main_pages.json` 唯一页面），`Navigation(this.pageInfos)` + `Tabs`，第 0 个 Tab 是 `Explore()`（`pages/Index.ets:80`），标题 `'发现'`（`:104`），底部 Tab 文字 `'发现'`（`:153`）。
++- 【代码】推荐卡片区：`components/main/Explore.ets:116-122` 渲染 `RecommendCards({ isLogged })`，`isLoading` 时换成骨架屏 `RecommendCards_Skeleton`。
++- 【代码】卡片列表：`components/cards/RecommendCards.ets:67-147`，横向 `List`，卡片由 `@Builder ContentButton(主标题, 副标题, 背景图, onClick, showDate)` 生成（`:15-57`）。
++  - `每日推荐` / `音乐云盘` / `心动歌单` 三张卡包在 `if(this.validApiUrl)` 里（`:70-126`），`本地曲库` 在条件外（`:131-139`）。
++  - 心动歌单卡片（`:104-125`）是与私人FM最接近的现成实现：未登录 toast `请登录后再试`，`isLoadingHeart` 防重入，`await setHeartMode(...)` 后 `playQueue(0)`。
++- 【实机】全新安装（未配置 API 地址）启动后，发现页只有一张 `本地曲库` 卡片（`logs/baseline-01-launch.jpeg`）。hilog：`获取登录状态失败: Invalid URL format or missing URL`，即 `VALID_API_URL` 被置为 false，三张网络卡片被隐藏。
++- 【代码+计算】卡片宽 200vp（`RecommendCards.ets:13`），首个占位 10vp；模拟器 1308px / 3.5 ≈ 373.7vp 宽，一屏只能看到约 1.8 张卡。API 可用时有 4 张卡，追加在末尾的第 5 张卡完全在屏外（需横滑）。
++- 【实机，配置 API 后】发现页出现 `每日推荐`、`音乐云盘`（第 2 张露出一部分）、`推荐歌单`（未登录为空）、`排行榜`（`logs/baseline-11-launch-with-api.jpeg`）。UI 树里**只有** `每日推荐`、`音乐云盘` 两张卡的文字，屏外的 `心动歌单`、`本地曲库` **不在树里**（`logs/baseline-11-launch-with-api.json`）。也就是说放在屏外的卡片，不横滑就无法按文字找到。
++
++路由方式：
++
++- 【代码】`@Provide('pageInfos') NavPathStack`（`pages/Index.ets:27`），子页面用 `pushPathByName/replacePathByName`，名字映射在 `PageMap`（`:112-149`）。设置页内部另有 `settingsPageInfos`（`pages/settings/SettingsPage.ets:24,101-114`）。
++
++播放页、底部播放栏、播放列表面板（都不是路由页）：
++
++- 【代码】底部播放栏 `components/play/BottomBarComponent.ets`，被 6 个页面引用：`Index.ets:93`、`SearchPage.ets:58`、`PlayListPage.ets:184`、`DailyListPage.ets:131`、`CloudPage.ets:134`、`CachedPage.ets:211`。歌名 `:34`，歌手/歌词 `:35-40`，控制按钮 `ControlButtons` `:73-112`（上一首/播放暂停/下一首/播放列表，全部是无文字 Image/Button）。
++- 【代码】播放页 = 底部栏上的 `bindContentCover`（`BottomBarComponent.ets:60-63`）→ `components/sheets/PlayingCover.ets`。点击底部栏 `:54-59`：未播放时先 `await playQueue(currentQueueIndex)` 再 `isShow = true`。
++- 【实机】空队列时点击底部栏**打不开播放页**（`logs/baseline-03-bottombar-click-empty.jpeg`，画面不变）。【推断】原因是 `playQueue(-1)` 里 `queue[-1]` 为 undefined，`playControl.ets:131` 访问 `.playmode` 抛 TypeError，`isShow = true` 执行不到（hilog 里没抓到堆栈）。
++- 【代码】播放页结构（手机走 `PhoneUI`，373vp 落在 `sm` 断点 `BreakpointUtils.ets:37`）：
++  - 顶栏 `Head()` `PlayingCover.ets:300-325`：左边收起按钮，右边 `AVCastPicker`。【实机】顶栏中间被 Swiper 的页面指示点占用（`PlayingCover.ets:403-408`，`DotIndicator().top(topRectHeight+5)`，截图 `logs/baseline-17-playing-page.jpeg`），不是空位。
++  - 功能栏 `ToolBar()` `:106-192`：定时、下载、加入歌单、喜欢、更多（`bindSheet` → `PlayerActionSheet`）。
++  - 播放控制行 `:421-429`：`LoopModeButton | 上一首 | 播放/暂停 | 下一首 | PlayQueueButton`。大屏布局 `LargeUI` 在 `:459-467` 有一份重复的控制行。
++  - 状态文字行 `:431-440`：灰色小字 `本地文件播放中` / `已设置定时关闭`。
++- 【代码】播放列表面板：`components/buttons/play/PlayQueueButton.ets:14-30` 的 `bindSheet` → `components/sheets/PlayQueueSheet.ets`。两个入口：底部栏 `BottomBarComponent.ets:109`，播放页 `PlayingCover.ets:424`（大屏 `:462`）。
++- 【实机】底部栏播放列表按钮可以打开面板，空队列时顶部为 `播放列表  (0)`、循环模式按钮、定位、清空（`logs/baseline-02-queue-sheet-empty.jpeg`）。
++- 【实机，配置 API 后】搜索 → 点歌曲弹出菜单 → `单曲播放` → 底部栏更新 → 点底部栏打开播放页，整条链路可用（`logs/baseline-14-song-menu.jpeg`、`baseline-17-playing-page.jpeg`）。播放页中歌名/歌手/进度时间是独立 Text，控制行 5 个按钮都没有文字。
++
++## 4. 相关现状
++
++状态模型（全部基于 AppStorage 全局 key + 单例工具类，组件用 `@StorageProp/@StorageLink` 订阅）：
++
++- 【代码】key 定义集中在 `common/constants/StorageConstants.ets`：播放器 `player-isplaying`(:74)、`player-ispaused`(:79)、`player-mode`(:84，0=本地文件 1=在线)、`player-song`(:94)、`player-artists`(:99)、`player-time`(:104)、`player-picurl`(:109)、`isPlayerLoading`(:125)、`cycleMode`(:181)。
++- 【代码】播放队列单例 `common/utils/play/PlayQueueUtils.ets`：`queue: PlayQueue[]`、`currentQueueIndex`（:15-16），同步到 AppStorage `'PlayQueue'` / `'currentQueueIndex'`，并持久化到 Preferences `Play.queue`（:42-49）。`cleanQueue()`（:130-136）清空并把 index 置 -1；`queueAdd_array()`（:69-78）追加并发 `EMITTER_REFRESH_PLAYQUEUE` 事件刷新面板。
++- 【代码】播放控制 `common/functions/play/playControl.ets`：`playQueue(index)`(:127-137)、`playPre()`(:139-153)、`playNext()`(:158-178，队尾时 toast `没有下一首了~`，顺序循环时回到 0)、`completeDo()`(:183-200，按 `cycleMode` 0/2→下一首，1→单曲重播，3→随机)。
++- 【代码】歌曲播完：`AVPlayerUtils.ets:152-157` 的 `stateChange == 'completed'` 调 `completeDo()`。系统播控中心的上一首/下一首走 `AVSessionUtils.ets:42-47` → `playPre/playNext`。
++- 【代码】在线播放 `playMusicByUrl()`（`playControl.ets:26-65`）：先 `getSongUrl` 再 `setPlayData` 写 AppStorage，失败时 `playNext()`；结束时 `saveCurrentSongInfo` 写 Preferences `Play.*`（:265-272）。
++
++数据模型：
++
++- 【代码】`common/entities/SongsResult.ets:10-17` `Song {id,name,artists,duration,alias,fee}`；`common/entities/PlayQueue.ets:3-9` `PlayQueue {playmode,song,artists,fileName,picUrl}`；心动模式响应 `common/entities/HeartMode.ets:27-30`（`data[].songInfo` 用 `ar/al/dt` 字段）。
++
++网络服务：
++
++- 【代码】`common/utils/request/HttpRequestUtils.ets`：`Request()`（:29-57，GET/POST，出错会 reject，超时 15 s）和 `RequestInStream()`（:64-125，固定 POST）。根地址来自 `getApiUrl()` = AppStorage `apiUrl`（`common/functions/common/get.ets:10-12`），cookie 由 `getCookie()` 注入请求头（:18-27）。
++- 【代码】接口函数按领域放在 `api/`：`songApi.ets`（播放地址 :55-71、封面 :78-91、喜欢 :153-162、心动模式 :169-197）、`playListApi.ets`（歌单/每日推荐/个性化推荐）、`loginApi.ets`、`LyricApi.ets`。全工程没有私人FM相关接口（grep `FM|fm|trash|不喜欢` 无结果）。
++
++本地存储：
++
++- 【代码】`common/utils/data/PreferencesUtils.ets`，三个 Preferences 文件在 `EntryAbility.ets:18-20` 加载：`UserPreference`、`Settings`、`Play`。
++- 【代码】冷启动 `common/functions/app/appInit.ets:23-33`：`initSettings` → `PlayQueueUtils.init()`（恢复队列）→ `loadSavedSong()`（:87-113，恢复当前歌曲显示，不自动播放，没有记录时显示 `暂无播放` / `选择一首歌曲播放吧`）→ `initUserInfo()`（校验登录）。
++- 【代码】API 地址默认为空字符串（`common/functions/app/settings.ets:18-25`），要在“我的 → 应用设置 → API与Cookie设置”（`pages/settings/ApiSetPage.ets`）里手动填写。
++
++## 5. 可复用的既有实现
++
++- **心动模式就是最接近的模板**：
++  - 卡片入口 + 登录校验 + 防重入 + toast：`RecommendCards.ets:104-125`。
++  - 拉取推荐 → 转成 `PlayQueue` → `cleanQueue()` + `queueAdd_array()` → `playQueue(0)`：`api/songApi.ets:169-197`。
++  - 播放列表面板头部按钮 + 确认弹窗 + `isLoading` + 刷新 `dataSource`：`PlayQueueSheet.ets:59-72, 215-240`。
++  - 区别：心动模式会**直接覆盖手动队列**，不会备份；而 Spec 场景二要求退出 FM 后恢复手动队列，所以必须额外做“进入时备份、退出时还原”。
++- 队列面板刷新：`EMITTER_REFRESH_PLAYQUEUE` + `dataSource.setData/notifyDataReload`（`PlayQueueSheet.ets:37-40`）。
++- 播放页状态小字：`PlayingCover.ets:431-440`（`本地文件播放中`）的条件渲染方式，可以照着加 FM 相关状态。
++- 弹出层：`bindSheet`（`PlayingCover.ets:172-185`、`PlayQueueButton.ets:23-30`）、`DialogUtil.showPrimaryDialog`（`PlayQueueSheet.ets:194-213`）。模式选择用 `bindMenu` 或 `bindSheet` 都与现有风格一致。
++- 持久化：`PreferencesUtils.putPreferenceValue(StorageConstants.QUEUE_PREF, key, value)`，与 `saveCurrentSongInfo` 同一个 `Play` 文件。
++- 播放链路（`playQueue/playNext/completeDo`、AVSession）如果复用 `PlayQueueUtils.queue` 来承载 FM 队列，基本不用改；只要在 FM 模式下改写“队尾行为”（拉取更多而不是 toast）和“循环模式分支”。
++
++## 6. 缺失项（Spec 要求、基线完全没有）
++
++1. 私人FM 接口：获取推荐（默认 / 按模式）、不喜欢上报。基线 `api/` 下没有任何相关函数。
++2. FM 模式状态：是否处于 FM、当前模式（默认/熟悉/探索）、请求中标志，以及持久化。
++3. 发现页“私人FM”卡片。
++4. 底部播放栏和播放页的“私人FM”标识。
++5. 播放列表面板的 `正在播放私人FM` 提示和 `退出FM` 按钮。
++6. **手动队列的备份与还原**：基线所有“换队列”的地方（心动、每日推荐、歌单）都直接 `cleanQueue()` 覆盖，没有备份机制。
++7. FM 队列用完时自动续拉：基线 `playNext()` 在队尾只 toast `没有下一首了~`（`playControl.ets:174-177`）。
++8. 模式选择菜单（`默认` / `熟悉` / `探索`）。
++9. “不喜欢”按钮、上报，以及本地黑名单过滤。
++10. 所有组件的稳定 id：全工程只有 `pages/CachedPage.ets:86` 一处 `.id('search')`。
++
++## 7. 前置环境需求
++
++- **API 服务端**：应用依赖自建的 NeteaseCloudMusicApi（README、`ApiSetPage.ets:64-69`），API 地址默认为空。
++  - 【实机】没有服务端时：`VALID_API_URL=false`，发现页隐藏三张网络卡片，“我的”页不显示登录按钮（`Me.ets:86-96`，截图 `logs/baseline-04-me-tab.jpeg`），所有歌曲地址请求都会失败（hilog `Invalid URL format or missing URL`）。
++  - 【实机，2026-10-18 你配置后】宿主机 Docker 上的 NeteaseCloudMusicApi 监听 `:3000`，应用里的 API 地址为 `http://10.0.2.2:3000`（从应用 Preferences `Settings.apiUrl` 读到）。模拟器能访问，`VALID_API_URL=true`。
++- **登录账号**：【实机】当前**未登录**（`/login/status` 返回 `account:null`，hilog `获取登录状态失败: Cannot read property id of null`），`推荐歌单` 为空，心动歌单卡片点了只会提示 `请登录后再试`。
++- **网络**：【实机】模拟器能访问外网；作者公告接口 `https://api.chenlvin.cc/api/cloudmusic/app` 失败（先超时，后来是 DNS 解析失败），不影响本题。
++- **测试数据**：本地曲库为空。在线歌曲不登录也能播放一部分（`fee=8` 的可以，`fee=1/4` 的没有播放地址）。
++- **结论**（未登录 + 本地服务端）：
++  - 能端到端验证：进入 FM 拉到推荐并播放、播完续拉、三种模式切换、退出 FM 还原队列（实测接口见第 9 节）。
++  - 不能验证：“不喜欢”上报成功（未登录时 `fm_trash` 返回“需要登录”），以及服务端黑名单真正生效。要验证这部分需要登录 cookie。
++  - 官方环境有没有服务端/有没有登录仍然未知。应对办法已经定下：卡片始终显示、不检查登录、失败也进入 FM、上报失败照常切歌（`acceptance.md` 第 4 节 U1、U3、U17）。
++
++## 8. 测试可观测性风险
++
++1. **没有稳定 id**：卡片、底部栏、播放页、播放列表面板全部没有 `.id()`。播放控制按钮全是无文字的 Image（`BottomBarComponent.ets:80-109`、`PlayingCover.ets:275-294`），只能靠类型+顺序定位。
++2. **Span 会合并成一条 text**：【实机】面板标题在 UI 树里是一条 `'播放列表  (0)'`（Text + 两个 Span，`PlayQueueSheet.ets:52-55`），`BY.text('播放列表')` 精确匹配会失败。`正在播放私人FM`、`退出FM`、`私人FM`、`不喜欢` 必须各自是独立 Text 或独立按钮文字，不能拼进 Span 或加后缀（例如不能写成 `私人FM · 探索`）。
++3. **下层页面节点不会从 UI 树消失**：【实机】面板打开时 dump 里仍有发现页的 `本地曲库`；播放页打开时，搜索页的列表和底部栏也都还在树里，`外婆桥` 一共出现 3 次（搜索列表、底部栏、播放页）。因此 `私人FM` 会同时出现在卡片、底部栏、播放页三处，按文字查找可能命中错误的那个，要分别加不同 id。基线本身也有同名文字（导航标题 `发现` 与 Tab 文字 `发现`）。
++4. **横向卡片列表**：一屏约 1.8 张卡，并且【实机】屏外的卡片不在 UI 树里（第 3 节）。FM 卡放在末尾就无法直接找到。
++5. **空队列时打不开播放页**（第 3 节，已实机复现）：如果进入 FM 后队列为空（失败分支），测试将进不了“私人FM播放页”。
++6. 【推断】`RequestInStream()` 没有监听请求失败，也没有处理 `requestInStream` 返回的 promise（`HttpRequestUtils.ets:64-124`），网络错误时外层 promise 可能永远不 resolve/reject，导致类似 `isLoadingHeart` 的锁一直不释放。FM 请求建议用 `Request()`，或者自己补上错误处理。
++7. 【代码+实机】缓存：`new HttpRequest(url, false)` 关不掉缓存（构造函数只在传 truthy 时赋值，`HttpRequestUtils.ets:19-22`）。另外【实机】服务端自己也有缓存：不带 `timestamp` 连续请求两次 `/personal_fm`，返回内容**完全相同**。FM 请求必须每次带不同的 `timestamp`。
++8. 【推断】`cycleMode == 2`（顺序循环）且网络全部失败时，`playMusicByUrl` 失败 → `playNext()` → 再失败……可能无限循环（`playControl.ets:61-64,174-176`）。
++9. 【推断】`PlayQueueSheet.aboutToDisappear` 用一个新的匿名函数调 `EmitterUtil.off`（`PlayQueueSheet.ets:44`），取消不了订阅，面板多次打开后可能重复订阅刷新事件。
++10. Toast 不一定出现在 UI 树里，不能作为唯一的可观察结果。
++11. **弹出菜单不在 `uitest dumpLayout` 里**：【实机】歌曲卡片弹出的菜单（`单曲播放`、`添加到下一首`）在 `uitest dumpLayout` 的输出里没有，但 Hypium `find_all_components(BY.text(...))` 能找到。自测要用 Hypium 查找，不能只看 dumpLayout。模式菜单如果用 `bindMenu` 也会是这种情况。
++12. **进度条**：【实机】（`player_slider`）
++    - 点击轨道**不会**跳转进度（试了 3 次，播放进度照常走）；要用拖动（`driver.drag`）才行。harness 的 `set_slider` 是点击实现的，对这个 Slider 无效。
++    - 直接拖到最末尾（234083/234098 ms）后，AVPlayer 一直是 `playing`，进度不再变化，40 秒以上都没有触发 `completed`，`completeDo()` 也就不会执行。
++    - 拖到约 93% 再等它自然播完，可以正常触发 `completed`（hilog `notify completed`），基线随后进入暂停（队列里没有下一首）。
++    - 所以自测“播完自动下一首”要拖到 90% 左右再等待十几秒，不能拖到底。
++13. **延迟**：【实机】点 `单曲播放` 后约 6 秒时底部栏还是 `暂无播放`；从点击到开始出声约 12 秒（hilog 时间戳）。宿主机直连服务端 `song/url` 约 1 s，慢在模拟器到服务端的链路或应用内部。自测的等待超时应 ≥15 s。
++
++## 9. 配置服务端后的接口实测（未登录，宿主机 curl `http://127.0.0.1:3000`，2026-10-18）
++
++- `/personal_fm`：HTTP 200，`code=200`，**每次只返回 1 首**（`data` 长度 1）。字段是 `name/id/artists[]/album{picUrl}/duration/fee`，**不是**心动模式那种 `ar/al/dt`。GET、POST 都能用。连续 10 次都能播放，id 互不相同；但在另一组 8 次采样里出现过 1 次重复 id，所以需要去重。
++- `/personal/fm/mode?mode=DEFAULT|FAMILIAR|EXPLORE`：三个模式都返回 200，结构与 `/personal_fm` 相同，每次 1 首。
++- `/fm_trash?id=<id>`：**HTTP 状态码 301**，body `{"msg":"需要登录","code":301}`。【未验证】应用的 `Request()` 遇到 301 是当作成功（`responseCode=301`）还是失败。
++- `/song/url/v1`：未登录时 `fee=8` 的歌有地址；遇到过 `fee=4` 的歌 `url=null`。FM 推荐里偶尔会有拿不到地址的歌，基线遇到这种情况会 toast `获取播放资源失败` 然后 `playNext()`。
++- 宿主机延迟：`personal_fm` 约 0.4 s，`song/url` 约 1 s，`song/detail`、`login/status` 约 0.3 s。
++
++模拟器上的应用状态（API 地址、两首搜索播放过的歌和队列）是这次实测留下的，不影响代码；需要干净环境时重新安装或在设置里清除即可。
+diff --git a/spec/metadata.json b/spec/metadata.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..3accb5c65e9d90d001dcf6ceaa6b9298d11f31b6
+--- /dev/null
++++ b/spec/metadata.json
+@@ -0,0 +1,4 @@
++{
++  "base_commit": "edc3a3d6d27b0bf60b3e18477a30f4d85142d0ce",
++  "baseline_bundle": "repo_bundles/cloudmusic-harmonyosnex-edc3a3d6d2-base.bundle"
++}
+diff --git a/spec/requirement.md b/spec/requirement.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..e17d4f139f109f761ba2f160b86a4204e084fb9a
+--- /dev/null
++++ b/spec/requirement.md
+@@ -0,0 +1,52 @@
++# 私人FM 功能
++
++## 场景一
++
++### 场景概述
++
++用户在"发现"页面点击"私人FM"入口，应用根据用户口味自动推送个性化歌曲，进入连续收听模式，无需手动选歌。
++
++### 操作步骤与预期结果
++
++1. 用户进入"发现"页面，看到"私人FM"推荐卡片。
++2. 用户点击"私人FM"卡片开始收听，播放器自动加载第一首推荐歌曲。
++3. 当一首歌播放完毕，播放器自动拉取下一首个性化推荐歌曲，无缝衔接播放。
++4. 底部播放栏和播放页均显示"私人FM"标识。
++
++## 场景二
++
++### 场景概述
++
++用户在播放列表或播放页看到"私人FM"状态标识，可通过专属按钮退出私人FM模式，回到普通播放队列模式。
++
++### 操作步骤与预期结果
++
++1. 用户在播放私人FM时打开"播放列表"面板。
++2. 面板顶部显示"正在播放私人FM"提示，以及"退出FM"按钮。
++3. 用户点击"退出FM"按钮，播放模式切换回普通队列播放。
++4. 播放列表恢复为手动维护的播放队列内容。
++
++## 场景三
++
++### 场景概述
++
++用户在播放页中可以选择私人FM的三种收听模式（默认/熟悉/探索），不同模式推送不同偏好程度的歌曲。
++
++### 操作步骤与预期结果
++
++1. 用户在播放页点击"私人FM"标识或菜单按钮。
++2. 弹出私人FM模式选择菜单，展示"默认""熟悉""探索"三个选项。
++3. 用户选择"探索"模式，播放器切换为更多新歌推送风格，重新加载推荐队列。
++
++## 场景四
++
++### 场景概述
++
++用户在私人FM播放页对当前推荐歌曲不感兴趣时，可以点击"不喜欢"按钮，立即将该歌曲加入黑名单（此后不再被推荐），并自动切换到下一首个性化推荐歌曲，期间始终停留在私人FM收听模式，无需退出后重新进入 FM。
++
++### 操作步骤与预期结果
++
++1. 用户在私人FM播放页看到当前正在播放的推荐歌曲，对歌曲不感兴趣。
++2. 用户点击播放控制区的"不喜欢"按钮。
++3. 应用向服务端上报"不喜欢"反馈（将该歌曲加入黑名单，此后不再推荐），并立即拉取下一首个性化推荐歌曲无缝衔接播放。
++4. 播放页仍显示"私人FM"标识，用户始终处于私人FM收听模式中，无需手动重新进入FM。

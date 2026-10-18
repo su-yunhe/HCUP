@@ -1,0 +1,22 @@
+## 5. 边界条件穷举对照
+
+| 边界 | 是否适用 | 覆盖项 / 不适用原因 |
+| --- | --- | --- |
+| 空输入 | 不适用 | 四个场景都没有文本输入框（API 地址输入属于基线设置页，不在本题范围） |
+| 纯空格 | 不适用 | 同上 |
+| 取消 | 适用 | 模式菜单取消 A38；退出FM 没有确认弹窗（Spec 写的是点击即切换），所以没有“取消退出” |
+| 关闭 | 适用 | 关闭面板后再开 A21/A28；收起播放页 A19；关闭菜单 A38 |
+| 重复点击 | 适用 | 卡片 A8/A9；退出FM A30；模式项 A38/A39；不喜欢 A47；标识 A33 |
+| 快速连点 | 适用 | 同上，并且下一首 A13 |
+| 无数据 | 适用 | E1 返回空 A6/A11；过滤黑名单后为空 A45；进入前手动队列为空 A28/A31 |
+| 最后一页 | 适用（换成“FM 队列到尾”） | 续拉 A12/A13/A44；FM 没有分页，也没有“没有更多” |
+| 部分操作 | 适用 | 点卡片后马上退出 A30；打开菜单不选 A38；E1 在途时切页面 A19/A50；在途时重启 A20 |
+| 请求失败 | 适用 | E1 A11/A12/A39；E2 A48；E3 沿用基线（失败后在 FM 中跳下一首推荐） |
+| 返回后重进 | 适用 | A19（切 Tab、进出子页面、收起播放页） |
+| 重启应用后重进 | 适用 | A20/A41/A45（取决于 U15） |
+
+## 6. 建议的稳定 id 一览（基线全部缺失，都需在实现时补 `.id()`）
+
+- 新增组件：`fm_card`、`fm_card_title`、`fm_card_subtitle`、`fm_badge_bottom`、`fm_badge_player`、`fm_mode_menu`、`fm_mode_default`、`fm_mode_familiar`、`fm_mode_explore`、`fm_queue_tip`、`fm_exit_btn`、`fm_dislike_btn`。
+- 给已有组件补（自测要用，也不影响官方选择器）：`bottom_bar`、`bottom_bar_song_name`、`bottom_bar_prev_btn`、`bottom_bar_play_btn`、`bottom_bar_next_btn`、`bottom_bar_queue_btn`、`player_close_btn`、`player_song_name`、`player_slider`、`player_loop_btn`、`player_prev_btn`、`player_play_btn`、`player_next_btn`、`player_queue_btn`、`queue_title`、`queue_list`。
+- 注意：`BottomBarComponent` 有 6 个实例（每个子页面一个），`PlayQueueButton` 有底部栏和播放页两个实例，同一个 id 会在 UI 树里出现多次；下层页面的节点也不会从树里消失（baseline 第 8 节第 3 条）。自测要按“当前可见区域/最后出现”来取，或者在 id 里区分实例。

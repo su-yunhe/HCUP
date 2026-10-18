@@ -1,0 +1,3 @@
+        const list = await this.request(mode, PlayQueueUtils.getQueue())
+        LogUtil.info(TAG + `fetch more: ${list.length} new songs`)
+        if (seq != this.reqSeq || !this.active || list.length == 0) return false

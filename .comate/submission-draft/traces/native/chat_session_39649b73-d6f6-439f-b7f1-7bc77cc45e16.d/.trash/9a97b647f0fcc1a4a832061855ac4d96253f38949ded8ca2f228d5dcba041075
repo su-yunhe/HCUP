@@ -1,0 +1,29 @@
+# 基线说明：私人FM（cmu-spec34）
+
+标注约定：【代码】= 读源码得出，附 `文件:行号`；【实机】= 在模拟器上实际操作/截图/UI dump 验证；【推断】= 基于代码的推测，未实测；【未验证】= 本地条件不足无法验证。
+截图与 UI dump 存于 `logs/baseline-*.jpeg|json`。所有源码路径相对 `entry/src/main/ets/`。
+
+## 1. 基线快照标识
+
+- `spec/metadata.json` 的 `base_commit` = `edc3a3d6d27b0bf60b3e18477a30f4d85142d0ce`（已有 tag `base/cmu-spec34` 指向它）。
+- 当前 HEAD = `b256c8ff85bef787a3b551cd969e9e4a3311cc4a`（分支 `dev`），相对 base 只改了 `oh-package-lock.json5`（ohpm 重建锁文件，无业务代码）。
+- 本阶段新打 tag：`baseline-cmu-spec34` → `b256c8f`（2026-10-18）。
+- 分析开始时工作区已有未提交改动：`build-profile.json5` 新增 `"targetSdkVersion": "6.1.0(23)"`（不是本阶段改的，原样保留）；`spec/` 未跟踪。本阶段新增未跟踪目录 `logs/`。
+
+## 2. 构建基线状态
+
+构建环境（本机 PATH 里默认没有 hvigorw/hdc/java，需要显式设置）：
+
+```bash
+D=/Applications/DevEco-Studio.app/Contents
+export JAVA_HOME=$D/jbr/Contents/Home DEVECO_SDK_HOME=$D/sdk
+export PATH=$JAVA_HOME/bin:$D/tools/hvigor/bin:$D/tools/node/bin:$D/tools/ohpm/bin:$D/sdk/default/openharmony/toolchains:$PATH
+hvigorw clean --no-daemon
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon
+```
+
+- 【实机】不设 `JAVA_HOME` 时 clean build 在 `PackageHap` 失败：`Error Code: 00308018 ... Unable to locate a Java Runtime`。设成 DevEco 自带 JBR（OpenJDK 21.0.8）后 **BUILD SUCCESSFUL**（约 11 s）。
+- 产物：`entry/build/default/outputs/default/entry-default-unsigned.hap`（约 4.5 MB，未签名，模拟器可直接安装）。
+- 增量构建会显示 `CompileArkTS UP-TO-DATE`，不输出告警；**对比告警必须用 clean build**。
+- 告警（clean build，日志 `logs/baseline-build.log`，归一化清单 `logs/baseline-warnings.txt`，按 `文件:行:列 + 消息` 排序，可直接 diff）：
+  - hvigor 告警 2 条：`'lib_name' conflict, first declared`、`No

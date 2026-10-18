@@ -1,0 +1,6 @@
+  /**
+   * 添加歌曲至播放列表
+   */
+  async queueAdd(playmode:number, song:Song = SongClass, artists: string = '', fileName: string = '', picUrl: string | ResourceStr = '') {
+    try {
+    

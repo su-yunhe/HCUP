@@ -1,0 +1,27 @@
+        song = fm.text_of(self.driver, "player_song_name")
+        fm.click_key(self.driver, "fm_dislike_btn")
+        new_song = fm.wait_song_change(self.driver, song, "player_song_name")
+        self.assertIsNotNone(new_song, "点不喜欢后没有切到下一首")
+        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
+        self.assertIsNotNone(self.driver.find_component(BY.text("不喜欢")))
+        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
+        # 被不喜欢的歌不在之后的队列中（当前及之后）
+        self.assertNotEqual(fm.text_of(self.driver, "player_song_name"), song)
+
+    def test_06_rapid_dislike_skips_once(self):
+        """A47：快速连点不喜欢只跳过一首。"""
+        fm.click_key(self.driver, "player_queue_btn")
+        fm.wait_key(self.driver, "queue_title", 8)
+        time.sleep(1)
+        before = fm.queue_count(self.driver)
+        self.driver.press_back()
+        time.sleep(1.2)
+        song = fm.text_of(self.driver, "player_song_name")
+        btn = fm.find(self.driver, "fm_dislike_btn")
+        for _ in range(3):
+            self.driver.click(btn)
+            time.sleep(0.1)
+        self.assertIsNotNone(fm.wait_song_change(self.driver, song, "player_song_name"))
+        time.sleep(4)
+        fm.click_key(self.driver, "player_queue_btn")
+        fm.wait_k

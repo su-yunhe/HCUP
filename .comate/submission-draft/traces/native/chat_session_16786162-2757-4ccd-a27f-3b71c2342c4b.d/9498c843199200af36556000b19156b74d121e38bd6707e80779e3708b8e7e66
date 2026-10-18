@@ -1,0 +1,4 @@
+export async function playQueue(index: number) {
+  const queue = PlayQueueUtils.getQueue()
+  const playqueue = queue[index]
+  PlayQueueUtils.setIndex(index)

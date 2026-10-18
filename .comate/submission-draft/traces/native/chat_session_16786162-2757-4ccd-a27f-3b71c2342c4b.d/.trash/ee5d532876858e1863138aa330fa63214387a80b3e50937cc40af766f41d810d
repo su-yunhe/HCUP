@@ -1,0 +1,44 @@
+  /**
+   * 添加歌曲至播放列表
+   */
+  async queueAdd(playmode:number, song:Song = SongClass, artists: string = '', fileName: string = '', picUrl: string | ResourceStr = '') {
+    try {
+      FMUtils.onExternalQueueChange()
+      this.queue.splice(this.currentQueueIndex + 1 , 0 ,{
+        playmode: playmode,
+        song: song,
+        artists: artists,
+        fileName: fileName,
+        picUrl: picUrl
+      })
+      await this.syncQueueToStorage()
+    } catch (e) {
+      LogUtil.error(TAG + '添加失败 add queue element error: ' + e.message())
+    }
+  }
+
+  async queueAdd_array(queue:Array<PlayQueue>) {
+    try {
+      FMUtils.onExternalQueueChange()
+      this.queue = this.queue.concat(queue)
+      AppStorage.setOrCreate('PlayQueue', this.queue)
+      await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
+      EmitterUtil.post(EmitterConstants.EMITTER_REFRESH_PLAYQUEUE, () => {})
+    } catch (e) {
+      LogUtil.error(TAG + 'Error while queueAdd_array: ' + e.message)
+    }
+  }
+
+  /**
+   * 整体替换播放列表（私人FM 使用，不触发退出私人FM）
+   */
+  async replaceQueue(queue: Array<PlayQueue>, index: number) {
+    try {
+      this.queue = queue
+      this.currentQueueIndex = index
+      AppStorage.setOrCreate('currentQueueIndex', this.currentQueueIndex)
+      AppStorage.setOrCreate('PlayQueue', this.queue)
+      EmitterUtil.post(EmitterConstants.EMITTER_REFRESH_PLAYQUEUE, () => {})
+      await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
+    } catch (e) {
+      LogUtil.

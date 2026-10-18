@@ -1,0 +1,286 @@
+<file>
+     1→import { DialogUtil, LogUtil, ToastUtil} from "@pura/harmony-utils";
+     2→import { RecommendCards, RecommendCards_Skeleton } from "../cards/RecommendCards";
+     3→import { User, UserClass } from "../../common/entities/User";
+     4→import Constants from "../../common/constants/Constants";
+     5→import { TopListItem } from "../../common/entities/TopList";
+     6→import { getTopList } from "../../api/topListApi";
+     7→import { TopListItemCard } from "../cards/TopListItemCard";
+     8→import { StorageConstants } from "../../common/constants/StorageConstants";
+     9→import { PlayList } from "../../common/entities/PlayList";
+    10→import { getPersonalizedList, getPlayLists } from "../../api/playListApi";
+    11→import { PersonalListItem } from "../../common/entities/Personalized";
+    12→import { PersonalizedCard } from "../cards/PersonalizedCard";
+    13→import { AppInfo, AppInfoClass } from "../../common/entities/AppInfo";
+    14→
+    15→@Component
+    16→export struct Explore {
+    17→  @StorageProp(StorageConstants.IS_LOGGED) @Watch('getPlayLists') isLogged: boolean = false
+    18→  @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = true
+    19→  @StorageProp(StorageConstants.USER) user: User = UserClass
+    20→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    21→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    22→  @StorageProp(StorageConstants.APP_INFO) appInfo: AppInfo = AppInfoClass
+    23→  @StorageLink(StorageConstants.USER_PLAYLISTS) playLists: Array<PlayList> = []
+    24→  @StorageLink(StorageConstants.TOPLISTS) topList: Array<TopListItem> = []
+    25→  @StorageLink(StorageConstants.PERSONALIZED_LIST) personalizedList: Array<PersonalListItem> = []
+    26→  @State isLoading: boolean = false
+    27→  @State isLoadingPersonalized: boolean = false
+    28→  @State columnsTemplate: string = '1fr'
+    29→  @State isRefreshing: boolean = false
+    30→  @State lastRefreshTime: number = 0
+    31→  @Consume('pageInfos') pageInfos: NavPathStack
+    32→  private refreshCooldown: number = 5000
+    33→
+    34→  async aboutToAppear(): Promise<void> {
+    35→    try {
+    36→      setTimeout(async () => {
+    37→        await Promise.all([
+    38→          this.getTopLists(),
+    39→          this.getPlayLists(),
+    40→          this.getPersonalizedList()
+    41→        ])
+    42→      }, 500)
+    43→    } catch (e) {
+    44→      LogUtil.error('Error: ' + e.message)
+    45→    }
+    46→  }
+    47→
+    48→  private async getTopLists() {
+    49→    if(this.topList.length == 0 && this.validApiUrl) {
+    50→      this.isLoading = true
+    51→      await getTopList()
+    52→      this.isLoading = false
+    53→    }
+    54→    else return
+    55→  }
+    56→
+    57→  async getPlayLists() {
+    58→    if(this.isLogged && this.playLists.length == 0 && this.validApiUrl) {
+    59→      this.isLoading = true
+    60→      await getPlayLists(0)
+    61→      this.isLoading = false
+    62→    }
+    63→    else return
+    64→  }
+    65→
+    66→  async getPersonalizedList() {
+    67→    if(this.isLogged && this.personalizedList.length == 0 && this.validApiUrl) {
+    68→      this.isLoadingPersonalized = true
+    69→      await getPersonalizedList()
+    70→      this.isLoadingPersonalized = false
+    71→    }
+    72→    else return
+    73→  }
+    74→
+    75→  private async refreshContent() {
+    76→    this.isRefreshing = true
+    77→    const currentTime = new Date().getTime()
+    78→    if (currentTime - this.lastRefreshTime < this.refreshCooldown) {
+    79→      ToastUtil.showToast('操作过于频繁，请5秒后再试')
+    80→    } else {
+    81→      try {
+    82→        await getTopList()
+    83→        await getPersonalizedList()
+    84→        this.lastRefreshTime = currentTime
+    85→        ToastUtil.showToast('刷新成功')
+    86→      } catch (e) {
+    87→        ToastUtil.showToast('内容刷新失败: ' + e.message)
+    88→      }
+    89→    }
+    90→    this.isRefreshing = false
+    91→  }
+    92→
+    93→  build() {
+    94→    Column() {
+    95→      Refresh({ refreshing: this.isRefreshing}) {
+    96→        Column({ space: 5 }) {
+    97→          if (this.appInfo.data.Announcement.isShow) {
+    98→            this.Announcement()
+    99→          }
+   100→          Grid() {
+   101→            GridItem() {
+   102→              Search({
+   103→                placeholder: '搜索内容',
+   104→                icon: '/resources/base/media/ic_public_search_filled.svg',
+   105→              })
+   106→                .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+   107→                .focusable(false)
+   108→                .onClick(() => {
+   109→                  this.pageInfos.clear()
+   110→                  this.pageInfos.pushPathByName('SearchPage', null, true)
+   111→                })
+   112→                .layoutWeight(1)
+   113→            }
+   114→            .padding({ left: 20, right: 20 })
+   115→
+   116→            GridItem() {
+   117→              if (this.isLoading) {
+   118→                RecommendCards_Skeleton()
+   119→              } else {
+   120→                RecommendCards({ isLogged: this.isLogged })
+   121→              }
+   122→            }
+   123→
+   124→            if(this.validApiUrl) {
+   125→              GridItem() {
+   126→                Column({ space: 5 }) {
+   127→                  this.Intro('推荐歌单', () => {})
+   128→                  // 推荐歌单
+   129→                  if (this.isLoadingPersonalized) {
+   130→                    GridItem() {
+   131→                      this.Loading(300)
+   132→                    }
+   133→                  } else {
+   134→                    List() {
+   135→                      ListItem().width(5)
+   136→                      ListItem().width(5)
+   137→                      ForEach(this.personalizedList, (item: PersonalListItem, index) => {
+   138→                        ListItem() {
+   139→                          PersonalizedCard({ item: item }).padding(5)
+   140→                        }
+   141→                      }, (item: PersonalListItem) => item.id.toString())
+   142→                      ListItem().width(5)
+   143→                      ListItem().width(5)
+   144→                    }
+   145→                    .lanes(2)
+   146→                    .listDirection(Axis.Horizontal)
+   147→                    .scrollBar(BarState.Off)
+   148→                    .width('100%')
+   149→                  }
+   150→                }
+   151→              }
+   152→              .padding({ top: 20 })
+   153→
+   154→              GridItem() {
+   155→                Column({ space: 15 }) {
+   156→                  this.Intro('排行榜', () => {
+   157→                    this.pageInfos.pushPathByName('TopListPage', null)
+   158→                  })
+   159→                  // 排行榜
+   160→                  if (this.isLoading) {
+   161→                    GridItem() {
+   162→                      this.Loading(300)
+   163→                    }
+   164→                  } else {
+   165→                    List() {
+   166→                      ListItem().width(15)
+   167→                      ForEach(this.topList.slice(0, 5), (item: TopListItem, index) => {
+   168→                        ListItem() {
+   169→                          TopListItemCard({ topListItem: item }).padding(5)
+   170→                        }
+   171→                      })
+   172→                      ListItem() {
+   173→                        Button() {
+   174→                          Column({ space: 5 }) {
+   175→                            Stack({ alignContent: Alignment.Center }) {
+   176→                              Image($r('app.media.bg4'))
+   177→                                .width(120)
+   178→                                .aspectRatio(1)
+   179→                                .borderRadius(Constants.RADIUS_CARD)
+   180→                                .draggable(false)
+   181→                              Text('更多排行')
+   182→                                .fontSize(Constants.FONT_SIZE_COMMON + 3)
+   183→                                .fontWeight(FontWeight.Bold)
+   184→                                .fontColor(Color.White)
+   185→                            }
+   186→                            .width(120)
+   187→                            .aspectRatio(1)
+   188→                            .backgroundColor(Color.Transparent)
+   189→                          }
+   190→                        }
+   191→                        .backgroundColor(Color.Transparent)
+   192→                        .borderRadius(Constants.RADIUS_CARD)
+   193→                        .type(ButtonType.Normal)
+   194→                        .width(120)
+   195→                        .aspectRatio(1)
+   196→                        .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+   197→                        .onClick(() => { this.pageInfos.pushPathByName('TopListPage', null) })
+   198→                      }.padding(5)
+   199→                      ListItem().width(15)
+   200→                    }
+   201→                    .listDirection(Axis.Horizontal)
+   202→                    .scrollBar(BarState.Off)
+   203→                    .width('100%')
+   204→                  }
+   205→                }
+   206→              }
+   207→            }
+   208→
+   209→            GridItem()
+   210→              .height(px2vp(this.bottomRectHeight) + 115)
+   211→          }
+   212→          .height('100%')
+   213→          .width('100%')
+   214→          .edgeEffect(EdgeEffect.Spring)
+   215→          .scrollBar(BarState.Off)
+   216→          .rowsGap(15)
+   217→          .columnsTemplate(this.columnsTemplate)
+   218→          .layoutDirection(GridDirection.Column)
+   219→          .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+   220→        }
+   221→      }
+   222→      .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+   223→      .onRefreshing(async () => {
+   224→        await this.refreshContent()
+   225→      })
+   226→    }
+   227→    .width('100%')
+   228→    .height('100%')
+   229→  }
+   230→
+   231→  @Builder
+   232→  Loading(ht: number | string = '100%') {
+   233→    Column() {
+   234→      LoadingProgress().width(Constants.SIZE_LOADING_PROGRESS_DEFAULT)
+   235→    }
+   236→    .height(ht)
+   237→    .padding({ bottom: px2vp(this.topRectHeight) + 60 })
+   238→    .width('100%')
+   239→    .justifyContent(FlexAlign.Center)
+   240→  }
+   241→
+   242→  @Builder
+   243→  Announcement() {
+   244→    Row() {
+   245→      Text(this.appInfo.data.Announcement.message)
+   246→        .width('100%')
+   247→        .textAlign(TextAlign.Center)
+   248→        .fontColor($r('app.color.main'))
+   249→        .fontSize(Constants.FONT_SIZE_COMMON)
+   250→        .padding({ top: 5, bottom: 5 })
+   251→        .layoutWeight(1)
+   252→        .textOverflow({ overflow: TextOverflow.MARQUEE })
+   253→        .onClick(() => {
+   254→          DialogUtil.showConfirmDialog({
+   255→            title: this.appInfo.data.Announcement.title,
+   256→            message: this.appInfo.data.Announcement.message
+   257→          })
+   258→        })
+   259→    }
+   260→    .backgroundColor('#fff8b8b8')
+   261→  }
+   262→
+   263→  @Builder Intro(title: string, action: () => void) {
+   264→    Row({ space: 5 }) {
+   265→      Text(title)
+   266→        .textStyle(18)
+   267→      Image($r('app.media.ic_public_arrow_right'))
+   268→        .width(Constants.SIZE_ICON_BUTTON_BAR)
+   269→        .fillColor($r('app.color.reverse'))
+   270→    }
+   271→    .width('100%')
+   272→    .justifyContent(FlexAlign.Start)
+   273→    .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+   274→    .onClick(action)
+   275→  }
+   276→}
+   277→
+   278→@Extend(Text) function textStyle(size: number) {
+   279→  .fontSize(size)
+   280→  .fontWeight(FontWeight.Bold)
+   281→  .fontColor($r('app.color.reverse'))
+   282→  .padding({ left: 20 })
+   283→}
+</file>
+<metadata>The file has 283 lines in total.</metadata>

@@ -1,0 +1,275 @@
+<file>
+     1→import { EmitterUtil, FileUtil, LogUtil, RandomUtil, ToastUtil } from "@pura/harmony-utils";
+     2→import { Song } from "../../entities/SongsResult";
+     3→import FileUtils from "../../utils/file/FileUtils";
+     4→import {getSongPicUrl, getSongUrl } from "../../../api/songApi";
+     5→import { fetchMetadata, fetchSongInfo, sanitizeFileName } from "../common/convert";
+     6→import PlayQueueUtils from "../../utils/play/PlayQueueUtils";
+     7→import AVSessionUtils from "../../utils/play/AVSessionUtils";
+     8→import PreferencesUtils from "../../utils/data/PreferencesUtils";
+     9→import { fileIo } from "@kit.CoreFileKit";
+    10→import { SongPlay } from "../../entities/SongPlay";
+    11→import LyricUtils from "../../utils/play/LyricUtils";
+    12→import { PlayConstants } from "../../constants/PlayConstants";
+    13→import { EmitterConstants } from "../../constants/EmitterConstants";
+    14→import { StorageConstants } from "../../constants/StorageConstants";
+    15→import { JSON } from "@kit.ArkTS";
+    16→import AVPlayerUtils from "../../utils/play/AVPlayerUtils";
+    17→import { isThisSongLiked } from "./songLike";
+    18→
+    19→
+    20→/**
+    21→ * 音频播放控制方法
+    22→ */
+    23→const TAG = '[playerControl] '
+    24→const pref = StorageConstants.QUEUE_PREF
+    25→
+    26→export async function playMusicByUrl(song: Song, artists: string, isLogged: boolean, picUrl: string | ResourceStr = '') {
+    27→  try {
+    28→    isThisSongLiked(song.id)
+    29→    const quality:number | undefined = await AppStorage.get(StorageConstants.PLAY_QUALITY)
+    30→    const songPlay:SongPlay = await getSongUrl(song.id, quality ? PlayConstants.QUALITY[quality] : "standard", isLogged)
+    31→    setPlayData(1, song, artists)
+    32→    let localPath: string = ''
+    33→    let tempArtists: string = artists
+    34→    try {
+    35→      if(song.name.length + artists.length >= 103) {
+    36→        try { tempArtists = artists.slice(0, 100 - song.name.length) }
+    37→        catch (e) { artists = '未知' }
+    38→      }
+    39→      localPath = await FileUtils.accessLocalFile(sanitizeFileName(`${tempArtists} - ${song.name}`))
+    40→    } catch (e) {}
+    41→
+    42→    if(localPath != '') { // 是否存在本地文件
+    43→      AppStorage.setOrCreate(StorageConstants.PLAY_IS_LOCALFILE, true)
+    44→      await AVPlayerUtils.setUrl(localPath)
+    45→    } else if(songPlay.data[0].url) {
+    46→      AppStorage.setOrCreate(StorageConstants.PLAY_IS_LOCALFILE, false)
+    47→      await AVPlayerUtils.setUrl(songPlay.data[0].url)
+    48→    } else {
+    49→      ToastUtil.showToast('获取播放资源失败')
+    50→      playNext()
+    51→    }
+    52→    if(!picUrl) {
+    53→      picUrl = await getSongPicUrl(song.id)
+    54→    }
+    55→    setPicUrl(picUrl)
+    56→    LyricUtils.setLyric(song).then(() => {
+    57→      AVSessionUtils.setMetadata(song, artists, picUrl)
+    58→      AVSessionUtils.activate()
+    59→    })
+    60→    saveCurrentSongInfo(1, song, artists, picUrl)
+    61→  } catch (e) {
+    62→    LogUtil.error(TAG + '播放Url出错: ' + e)
+    63→    playNext()
+    64→  }
+    65→}
+    66→
+    67→export async function playMusicWithFile(song: Song, fileName: string) {
+    68→  try {
+    69→    AppStorage.setOrCreate(StorageConstants.ISLIKED, true)
+    70→    const filesDir = FileUtils.getFilesDir()
+    71→    const fileUrl = filesDir + `/${fileName}`
+    72→    let file = await fileIo.open(fileUrl)
+    73→    let fdPath = 'fd://' + file.fd
+    74→    const metadata = await fetchMetadata(fileUrl)
+    75→    if(metadata) {
+    76→      song.duration = (metadata.duration) ? parseInt(metadata.duration) : 0
+    77→    }
+    78→    if(FileUtil.accessSync(fileUrl)) {
+    79→      setPlayData(0, song, song.artists[0].name, fileName)
+    80→      let picUrl = song.id == 0 ? $r('app.media.ic_files_audio') : `file://${filesDir}/pic/${song.id}.jpg`
+    81→      setPicUrl(picUrl)
+    82→      await AVPlayerUtils.setUrl(fdPath)
+    83→      // Lyric
+    84→      if(song.id != 0) {
+    85→        let lyricString = await LyricUtils.readLyric(song.id.toString())
+    86→        LyricUtils.setLyricString(lyricString)
+    87→      } else {
+    88→        LyricUtils.setLyricString('')
+    89→      }
+    90→      // AVSession
+    91→      AVSessionUtils.setMetadata(song,song.artists[0].name, picUrl)
+    92→      AVSessionUtils.activate()
+    93→      saveCurrentSongInfo(0, song, song.artists[0].name, picUrl)
+    94→      EmitterUtil.post(EmitterConstants.EMITTER_LYRIC_UPDATE, 'Lyric Updated')
+    95→    } else {
+    96→      ToastUtil.showToast('未找到文件')
+    97→      playNext()
+    98→    }
+    99→  } catch (e) {
+   100→    LogUtil.error(TAG + '播放File出错: ' + JSON.stringify(e))
+   101→    playNext()
+   102→  }
+   103→}
+   104→
+   105→export async function stopMusic() {
+   106→  AVPlayerUtils.stop().then(() => {
+   107→    AppStorage.setOrCreate(StorageConstants.IS_PLAYING, false)
+   108→    AVPlayerUtils.release()
+   109→  })
+   110→}
+   111→
+   112→export async function pauseMusic() {
+   113→  AVPlayerUtils.pause()
+   114→  AppStorage.setOrCreate(StorageConstants.IS_PAUSED, true)
+   115→}
+   116→
+   117→export async function resumeMusic() {
+   118→  AVPlayerUtils.play()
+   119→  AppStorage.setOrCreate(StorageConstants.IS_PAUSED, false)
+   120→}
+   121→
+   122→export async function seekMusic(time: number) {
+   123→  AVPlayerUtils.play()
+   124→  AVPlayerUtils.seek(time)
+   125→}
+   126→
+   127→export async function playQueue(index: number) {
+   128→  const queue = PlayQueueUtils.getQueue()
+   129→  const playqueue = queue[index]
+   130→  PlayQueueUtils.setIndex(index)
+   131→  if(playqueue.playmode == 0) { // Play with file
+   132→    playMusicWithFile(playqueue.song, playqueue.fileName)
+   133→  } else { // Play with url
+   134→    const isLogged: boolean | undefined = AppStorage.get(StorageConstants.IS_LOGGED)
+   135→    playMusicByUrl(playqueue.song, playqueue.artists, isLogged ? true : false, playqueue.picUrl)
+   136→  }
+   137→}
+   138→
+   139→export async function playPre() {
+   140→  let isLogged: boolean | undefined = await AppStorage.get(StorageConstants.IS_LOGGED)
+   141→  let cycleMode = await getCycleMode()
+   142→  if(PlayQueueUtils.pre()) {
+   143→    const res = PlayQueueUtils.getQueueElement(PlayQueueUtils.currentQueueIndex)
+   144→    if(res.playmode == 0) {
+   145→      playMusicWithFile(res.song, res.fileName)
+   146→    } else {
+   147→      playMusicByUrl(res.song, res.artists, isLogged ? isLogged : false, res.picUrl)
+   148→    }
+   149→  } else {
+   150→    if(cycleMode == 2) { playQueue(PlayQueueUtils.getQueueLength() - 1) }
+   151→    else { ToastUtil.showToast('没有上一首了~') }
+   152→  }
+   153→}
+   154→
+   155→/**
+   156→ * 播放下一首
+   157→ */
+   158→export async function playNext() {
+   159→  let isLogged:boolean | undefined = await AppStorage.get(StorageConstants.IS_LOGGED)
+   160→  let cycleMode = await getCycleMode()
+   161→  if(cycleMode == 3) {
+   162→    let queueLength = PlayQueueUtils.getQueueLength()
+   163→    let randomIndex = RandomUtil.getRandomInt(0, queueLength - 1)
+   164→    playQueue(randomIndex)
+   165→  }
+   166→  // 存在下一首歌曲
+   167→  else if(PlayQueueUtils.next()) {
+   168→    const res = PlayQueueUtils.getQueueElement(PlayQueueUtils.currentQueueIndex)
+   169→    if(res.playmode == 0) {
+   170→      playMusicWithFile(res.song, res.fileName)
+   171→    } else {
+   172→      playMusicByUrl(res.song, res.artists, isLogged ? isLogged:false, res.picUrl)
+   173→    }
+   174→  } else {
+   175→    if(cycleMode == 2) { playQueue(0) }
+   176→    else { ToastUtil.showToast('没有下一首了~') }
+   177→  }
+   178→}
+   179→
+   180→/**
+   181→ * 本首歌曲播放完成后的操作
+   182→ */
+   183→export async function completeDo() {
+   184→  let cycleMode = await getCycleMode()
+   185→  // 顺序播放 & 顺序循环
+   186→  if(cycleMode == 0 || cycleMode == 2) {
+   187→    playNext()
+   188→  }
+   189→  // 单曲循环
+   190→  else if(cycleMode == 1) {
+   191→    let currentQueueIndex = PlayQueueUtils.currentQueueIndex
+   192→    playQueue(currentQueueIndex)
+   193→  }
+   194→  // 随机播放
+   195→  else if(cycleMode == 3) {
+   196→    let queueLength = PlayQueueUtils.getQueueLength()
+   197→    let randomIndex = RandomUtil.getRandomInt(0, queueLength - 1)
+   198→    playQueue(randomIndex)
+   199→  }
+   200→}
+   201→
+   202→/**
+   203→ * 设置循环模式
+   204→ * 0-顺序播放, 1-单曲循环, 2-顺序循环, 3-随机播放
+   205→ * @param mode
+   206→ */
+   207→export async function changeCycleMode(mode: number) {
+   208→  AppStorage.setOrCreate(StorageConstants.CYCLE_MODE, mode)
+   209→  PreferencesUtils.putPreferenceValue(pref,StorageConstants.CYCLE_MODE, mode).then(async () => {
+   210→    AVSessionUtils.playState(await getPlayTime())
+   211→  })
+   212→}
+   213→
+   214→/**
+   215→ * 获取循环模式
+   216→ * @returns number-mode
+   217→ */
+   218→export async function getCycleMode(): Promise<number> {
+   219→  const mode: number | undefined = await AppStorage.get(StorageConstants.CYCLE_MODE)
+   220→  if(mode) {
+   221→    return mode
+   222→  } else return 0
+   223→}
+   224→
+   225→/**
+   226→ * 获取播放时间(ms)
+   227→ * @returns number 播放时间(ms)
+   228→ */
+   229→async function getPlayTime(): Promise<number> {
+   230→  let resTime = 0
+   231→  let elapsedTime:number | undefined = await AppStorage.get(StorageConstants.PLAY_TIME)
+   232→  if(elapsedTime) {
+   233→    resTime = elapsedTime
+   234→  }
+   235→  return resTime
+   236→}
+   237→
+   238→/**
+   239→ * 设定播放歌曲信息
+   240→ * @param mode
+   241→ * @param song
+   242→ * @param artists
+   243→ * @param fileName
+   244→ */
+   245→async function setPlayData(mode: number, song:Song, artists: string, fileName: string = '') {
+   246→  AppStorage.setOrCreate(StorageConstants.IS_PLAYING ,true)
+   247→  AppStorage.setOrCreate(StorageConstants.IS_PAUSED, false)
+   248→  AppStorage.setOrCreate(StorageConstants.PLAY_MODE, mode)
+   249→  AppStorage.setOrCreate(StorageConstants.PLAY_FILE_NAME, fileName)
+   250→  AppStorage.setOrCreate(StorageConstants.PLAY_SONG, song)
+   251→  AppStorage.setOrCreate(StorageConstants.PLAY_ARTISTS, artists)
+   252→}
+   253→
+   254→/**
+   255→ * 设定歌曲封面
+   256→ * @param picUrl
+   257→ */
+   258→async function setPicUrl(picUrl: string | ResourceStr) {
+   259→  AppStorage.setOrCreate(StorageConstants.PIC_URL, picUrl)
+   260→}
+   261→
+   262→/**
+   263→ * 保存当前播放的歌曲信息
+   264→ */
+   265→export async function saveCurrentSongInfo(playMode: number, song: Song, artists: string, imgUrl: string | ResourceStr) {
+   266→  await PreferencesUtils.putPreferenceValue('Play','hasCurrentSong', true)
+   267→  await PreferencesUtils.putPreferenceValue('Play','PlayMode', playMode)
+   268→  await PreferencesUtils.putPreferenceValue('Play','CurrentSong', song)
+   269→  await PreferencesUtils.putPreferenceValue('Play','CurrentArtists', artists)
+   270→  await PreferencesUtils.putPreferenceValue('Play','CurrentImage', imgUrl)
+   271→  await PreferencesUtils.putPreferenceValue('Play','CurrentQueueIndex', PlayQueueUtils.currentQueueIndex)
+   272→}
+</file>
+<metadata>The file has 272 lines in total.</metadata>

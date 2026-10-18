@@ -1,0 +1,26 @@
+  @State isLoadingHeart: boolean = false
+  @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = true
+  @StorageProp(StorageConstants.FM_LOADING) isLoadingFM: boolean = false
+
+  build() {
+    List() {
+      ListItem().width(10)
+      /**
+       * 私人FM卡片
+       */
+      ListItem() {
+        Stack() {
+          ContentButton(`私人FM`, `根据口味连续推荐`, $r('app.media.bg4'), () => {
+            FMUtils.enter()
+          }, false, 'fm_card')
+          if(this.isLoadingFM) {
+            LoadingProgress()
+              .id('fm_card_loading')
+              .width(50)
+              .color(Color.White)
+              .hitTestBehavior(HitTestMode.Transparent)
+          }
+        }
+      }
+
+      if(this.validApiUrl) {

@@ -1,0 +1,183 @@
+<file>
+     1→import { Song } from '../common/entities/SongsResult'
+     2→import { SongCard } from '../components/cards/SongCard'
+     3→import { LogUtil } from '@pura/harmony-utils'
+     4→import { DailySongRes, PlayDailySongs } from '../api/playListApi'
+     5→import { BottomBarComponent } from '../components/play/BottomBarComponent'
+     6→import { playQueue } from '../common/functions/play/playControl'
+     7→import { AddToPlayListButton } from '../components/buttons/play/AddToPlayListButton'
+     8→import { getDailySongs } from '../api/songApi'
+     9→import Constants from '../common/constants/Constants'
+    10→import { resourceManager } from '@kit.LocalizationKit'
+    11→import { StorageConstants } from '../common/constants/StorageConstants'
+    12→
+    13→/**
+    14→ * 每日推荐歌单页面
+    15→ */
+    16→
+    17→const TAG = '[DailyListPage] '
+    18→
+    19→@Component
+    20→export struct DailyListPage {
+    21→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    22→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    23→  @StorageProp(StorageConstants.BREAKPOINT) breakpoint: string = 'sm'
+    24→  @State list: Array<DailySongRes> = new Array()
+    25→  @State hasLoaded: boolean = false
+    26→  @State isLoading: boolean = true
+    27→  @State loadingPlayList:boolean = false
+    28→  @State pageOpacity: number = 1
+    29→  @State totayDate: string = ''
+    30→
+    31→  async aboutToAppear() {
+    32→    if(!this.hasLoaded) {
+    33→      await this.loadSongs()
+    34→      this.hasLoaded = true
+    35→    }
+    36→    let date = new Date()
+    37→    this.totayDate = `${date.toDateString()}`
+    38→  }
+    39→
+    40→  async loadSongs(): Promise<void> {
+    41→    this.isLoading = true
+    42→    try {
+    43→      let result:Array<DailySongRes> = await getDailySongs()
+    44→      if(result.length < 3) { result = await getDailySongs(false) }
+    45→      this.list = result
+    46→    } catch (e) {
+    47→      LogUtil.error(TAG + 'Error fetching songs: ', e)
+    48→    } finally {
+    49→      this.isLoading = false
+    50→    }
+    51→  }
+    52→
+    53→  build() {
+    54→    NavDestination() {
+    55→      Stack({ alignContent: Alignment.Bottom }) {
+    56→        Stack({ alignContent: Alignment.Top }) {
+    57→          if (this.isLoading) {
+    58→            Column() {
+    59→              LoadingProgress().width(Constants.SIZE_LOADING_PROGRESS_DEFAULT)
+    60→            }.height('100%').width('100%').justifyContent(FlexAlign.Center)
+    61→          } else {
+    62→            // debug
+    63→            Stack({ alignContent: Alignment.Top}) {
+    64→              Column() {
+    65→                if(this.list.length < 3) {
+    66→                  Text('获取每日歌单失败').fontSize(Constants.FONT_SIZE_COMMON).textAlign(TextAlign.Center)
+    67→                }
+    68→              }
+    69→              .padding({ top: px2vp(this.topRectHeight) + 150, left: 20, right: 20 })
+    70→
+    71→              List() {
+    72→                ListItem() {
+    73→                  this.Info()
+    74→                }
+    75→                ListItem() {
+    76→                  Button() {
+    77→                    Row({ space: 5 }) {
+    78→                      Image($r('app.media.ic_play_fill')).width(Constants.FONT_SIZE_COMMON).fillColor(Color.Gray)
+    79→                      Text('播放全部').fontSize(Constants.FONT_SIZE_COMMON)
+    80→                    }
+    81→                    .height(Constants.HEIGHT_TEXT_BUTTON)
+    82→                  }
+    83→                  .type(ButtonType.Normal)
+    84→                  .backgroundColor(Color.Transparent)
+    85→                  .borderRadius(Constants.RADIUS_BUTTON)
+    86→                  .onClick(async () => {
+    87→                    this.loadingPlayList = true
+    88→                    await PlayDailySongs()
+    89→                    this.loadingPlayList = false
+    90→                    playQueue(0)
+    91→                  })
+    92→                }
+    93→                .padding({ left: 20, bottom: 10 })
+    94→
+    95→                ForEach(this.list, (item: DailySongRes, index) => {
+    96→                  ListItem() {
+    97→                    SongCard({
+    98→                      song: item.song,
+    99→                      sid: index,
+   100→                      isPlayList: false,
+   101→                      index: index,
+   102→                      reason: item.reason,
+   103→                      picUrl: item.picUrl ?? $r('app.media.ic_public_music')
+   104→                    })
+   105→                  }
+   106→                  .swipeAction({ end: this.SwipeItem(item.song) })
+   107→                  .translate({ y: -40 })
+   108→                  .animation({
+   109→                    duration: 600,
+   110→                    curve: Curve.LinearOutSlowIn
+   111→                  })
+   112→                  .translate({ y: 0 })
+   113→                })
+   114→
+   115→                ListItem().height(px2vp(this.bottomRectHeight) + Constants.HEIGHT_MINI)
+   116→              }
+   117→              .height('100%')
+   118→              .layoutWeight(1)
+   119→              .width('100%')
+   120→              .scrollBar(BarState.Auto)
+   121→              .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
+   122→            }
+   123→            .height('100%')
+   124→            .layoutWeight(1)
+   125→            .width('100%')
+   126→          }
+   127→        }
+   128→        .height('100%')
+   129→
+   130→        if(this.breakpoint !== 'lg') {
+   131→          BottomBarComponent()
+   132→            .padding(Constants.PADDING_EDGE_DEFAULT)
+   133→            .backgroundColor(Color.Transparent)
+   134→        }
+   135→
+   136→        if(this.loadingPlayList) {
+   137→          Column() {
+   138→            Column({ space: 10 }) {
+   139→              LoadingProgress().width(60)
+   140→              Text('正在获取完整歌曲列表')
+   141→            }
+   142→            .padding(30)
+   143→            .borderRadius(15)
+   144→            .backgroundColor($r('app.color.main'))
+   145→          }
+   146→          .height('100%')
+   147→          .width('100%')
+   148→          .justifyContent(FlexAlign.Center)
+   149→          .padding({ bottom: px2vp(this.topRectHeight) })
+   150→        }
+   151→      }
+   152→      .opacity(this.pageOpacity)
+   153→      .width('100%')
+   154→      .height('100%')
+   155→      .backgroundColor($r('app.color.background'))
+   156→    }
+   157→    .title('每日推荐')
+   158→    .backgroundColor($r('app.color.background'))
+   159→  }
+   160→
+   161→  @Builder
+   162→  Info() {
+   163→    Column() {
+   164→      Text(this.totayDate)
+   165→        .fontWeight(FontWeight.Bold)
+   166→        .fontSize(18)
+   167→        .width('100%')
+   168→      Text('根据你的音乐口味生成，每天6:00更新')
+   169→        .fontSize(12)
+   170→        .width('100%')
+   171→    }
+   172→    .width('100%')
+   173→    .padding({ left: 20, right: 20, bottom: 20 })
+   174→  }
+   175→
+   176→  @Builder SwipeItem(song: Song) {
+   177→    AddToPlayListButton({ songId: song.id })
+   178→  }
+   179→
+   180→}
+</file>
+<metadata>The file has 180 lines in total.</metadata>

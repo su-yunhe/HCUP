@@ -1,0 +1,3 @@
+  private dislikeInFlight: boolean = false
+  // 等待当前切歌结果（开始播放或失败）的回调
+  private playSettled: (() => void) | null = null

@@ -1,0 +1,142 @@
+<file>
+     1→import { Song, SongClass } from "../../common/entities/SongsResult"
+     2→import { pauseMusic, playNext, playPre, playQueue, resumeMusic } from "../../common/functions/play/playControl"
+     3→import playQueueUtils from "../../common/utils/play/PlayQueueUtils"
+     4→import { PlayQueueButton } from "../buttons/play/PlayQueueButton"
+     5→import { PlayingCover } from "../sheets/PlayingCover"
+     6→import { StorageConstants } from "../../common/constants/StorageConstants"
+     7→import Constants from "../../common/constants/Constants"
+     8→
+     9→/**
+    10→ * 底部播控组件
+    11→ */
+    12→@Component
+    13→export struct BottomBarComponent {
+    14→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    15→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    16→  @StorageLink(StorageConstants.IS_PLAYING) isPlaying: boolean = false
+    17→  @StorageProp(StorageConstants.PLAY_MODE) playmode: number = 1
+    18→  @StorageProp(StorageConstants.PLAY_FILE_NAME) fileName: string = ''
+    19→  @StorageProp(StorageConstants.PLAY_SONG) song: Song = SongClass
+    20→  @StorageProp(StorageConstants.PLAY_ARTISTS) artists: string = ''
+    21→  @StorageProp(StorageConstants.IS_PAUSED) isPaused: boolean = true
+    22→  @StorageProp(StorageConstants.PIC_URL) picUrl: string = ''
+    23→  @StorageProp(StorageConstants.PLAY_TIME) time: number = 0
+    24→  @StorageProp('player-currentLyric') currentLyric: string = ''
+    25→  @State isShow: boolean = false
+    26→  @Consume('pageInfos') pageInfos: NavPathStack
+    27→
+    28→  build() {
+    29→    Row() {
+    30→      if(this.playmode == 0) { Image(this.picUrl).songImg() }
+    31→      else { Image(this.picUrl + '?param=512y512').songImg() }
+    32→
+    33→      Column({ space: 5 }) {
+    34→        Text(this.song.name).textStyle(16).fontWeight(FontWeight.Medium)
+    35→        if(!this.currentLyric || this.currentLyric === '暂无歌词') {
+    36→          Text(this.artists).textStyle(12).textOverflow({ overflow: TextOverflow.MARQUEE }).layoutWeight(1).fontColor(Color.Gray)
+    37→        }
+    38→        else {
+    39→          Text(this.currentLyric).textStyle(12).textOverflow({ overflow: TextOverflow.MARQUEE }).layoutWeight(1).fontColor(Color.Gray)
+    40→        }
+    41→      }
+    42→      .padding({ top: 10, bottom: 10 })
+    43→      .layoutWeight(1)
+    44→
+    45→      ControlButtons({ isPaused: this.isPaused, isPlaying: this.isPlaying })
+    46→        .padding({ right: 5 })
+    47→    }
+    48→    .justifyContent(FlexAlign.SpaceBetween)
+    49→    .width('100%')
+    50→    .borderRadius(Constants.RADIUS_CARD)
+    51→    .backgroundColor($r('app.color.main'))
+    52→    .height(Constants.HEIGHT_MINI)
+    53→    .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+    54→    .onClick(async () => {
+    55→      if(!this.isPlaying) {
+    56→        await playQueue(playQueueUtils.currentQueueIndex)
+    57→      }
+    58→      this.isShow = true
+    59→    })
+    60→    .bindContentCover($$this.isShow, this.Cover(), {
+    61→      modalTransition: ModalTransition.DEFAULT,
+    62→      backgroundColor: $r('app.color.background')
+    63→    })
+    64→  }
+    65→
+    66→  @Builder
+    67→  Cover() {
+    68→    PlayingCover({ isShow: this.isShow })
+    69→      .height('100%')
+    70→  }
+    71→}
+    72→
+    73→@Component
+    74→struct ControlButtons {
+    75→  @Link isPaused: boolean
+    76→  @Link isPlaying: boolean
+    77→  build() {
+    78→    Row({ space: 10 }) {
+    79→      // Last
+    80→      Image($r('app.media.ic_public_play_last')).buttonImgStyle()
+    81→        .fillColor($r('app.color.app_red'))
+    82→        .onClick(() => {
+    83→          playPre()
+    84→        })
+    85→
+    86→      // Play & Pause
+    87→      if (!this.isPaused) {
+    88→        Image($r('app.media.ic_public_pause_norm')).buttonImgStyle()
+    89→          .fillColor($r('app.color.app_red'))
+    90→          .onClick(() => {
+    91→            pauseMusic()
+    92→          })
+    93→      } else {
+    94→        Image($r('app.media.ic_public_play_norm')).buttonImgStyle()
+    95→          .fillColor($r('app.color.app_red'))
+    96→          .onClick(() => {
+    97→          if(!this.isPlaying) playQueue(playQueueUtils.currentQueueIndex)
+    98→          else resumeMusic()
+    99→        })
+   100→      }
+   101→
+   102→      // Next
+   103→      Image($r('app.media.ic_public_play_next')).buttonImgStyle()
+   104→        .fillColor($r('app.color.app_red'))
+   105→        .onClick(() => {
+   106→          playNext()
+   107→        })
+   108→
+   109→      PlayQueueButton({ imgWidth: 25, imgColor: $r('app.color.app_red') })
+   110→    }
+   111→  }
+   112→}
+   113→
+   114→@Extend(Image) function buttonImgStyle() {
+   115→  .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.6 })
+   116→  .aspectRatio(1)
+   117→  .width(30)
+   118→  .fillColor($r('app.color.reverse'))
+   119→  .draggable(false)
+   120→}
+   121→
+   122→@Extend(Text) function textStyle(size:number) {
+   123→  .fontSize(size)
+   124→  .fontColor($r('app.color.reverse'))
+   125→  .textAlign(TextAlign.Start)
+   126→  .layoutWeight(1)
+   127→  .width('100%')
+   128→  .maxLines(1)
+   129→  .padding({ left: 10, right: 10 })
+   130→  .textOverflow({ overflow: TextOverflow.Ellipsis })
+   131→}
+   132→
+   133→@Extend(Image) function songImg() {
+   134→  .height(Constants.HEIGHT_MINI)
+   135→  .aspectRatio(1)
+   136→  .borderRadius(10)
+   137→  .padding(5)
+   138→}
+   139→
+</file>
+<metadata>The file has 139 lines in total.</metadata>

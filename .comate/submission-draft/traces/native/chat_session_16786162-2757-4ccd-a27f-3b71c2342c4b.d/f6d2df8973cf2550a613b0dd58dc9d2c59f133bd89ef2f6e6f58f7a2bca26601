@@ -1,0 +1,5 @@
+        # 临近结束预取与播完续拉不能重复请求：只有预取没拿到新歌、或新歌无法播放被跳过时，才会再请求
+        allowed = 1 + fm.count_since(self.driver, mark, "fetch more: 0 new songs") \
+            + fm.count_since(self.driver, mark, "next(fail)")
+        self.assertLessEqual(fm.e1_ops_since(self.driver, mark), allowed,
+                             "播完续播不应重复发推荐请求" + fm.fm_log_since(self.driver, mark))

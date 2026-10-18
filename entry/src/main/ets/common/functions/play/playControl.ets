@@ -15,6 +15,7 @@ import { StorageConstants } from "../../constants/StorageConstants";
 import { JSON } from "@kit.ArkTS";
 import AVPlayerUtils from "../../utils/play/AVPlayerUtils";
 import { isThisSongLiked } from "./songLike";
+import FMUtils from "../../utils/play/FMUtils";
 
 
 /**
@@ -42,12 +43,14 @@ export async function playMusicByUrl(song: Song, artists: string, isLogged: bool
     if(localPath != '') { // 是否存在本地文件
       AppStorage.setOrCreate(StorageConstants.PLAY_IS_LOCALFILE, true)
       await AVPlayerUtils.setUrl(localPath)
+      FMUtils.onPlayStarted(song.id)
     } else if(songPlay.data[0].url) {
       AppStorage.setOrCreate(StorageConstants.PLAY_IS_LOCALFILE, false)
       await AVPlayerUtils.setUrl(songPlay.data[0].url)
+      FMUtils.onPlayStarted(song.id)
     } else {
       ToastUtil.showToast('获取播放资源失败')
-      playNext()
+      playFailed()
     }
     if(!picUrl) {
       picUrl = await getSongPicUrl(song.id)
@@ -60,6 +63,17 @@ export async function playMusicByUrl(song: Song, artists: string, isLogged: bool
     saveCurrentSongInfo(1, song, artists, picUrl)
   } catch (e) {
     LogUtil.error(TAG + '播放Url出错: ' + e)
+    playFailed()
+  }
+}
+
+/**
+ * 在线播放失败后的操作：私人FM 中续拉下一首推荐（有连续失败上限），否则播放下一首
+ */
+function playFailed() {
+  if(FMUtils.active) {
+    FMUtils.onPlayFailed()
+  } else {
     playNext()
   }
 }
@@ -127,6 +141,10 @@ export async function seekMusic(time: number) {
 export async function playQueue(index: number) {
   const queue = PlayQueueUtils.getQueue()
   const playqueue = queue[index]
+  if(!playqueue) {
+    LogUtil.warn(TAG + '播放列表中不存在该歌曲: ' + index)
+    return
+  }
   PlayQueueUtils.setIndex(index)
   if(playqueue.playmode == 0) { // Play with file
     playMusicWithFile(playqueue.song, playqueue.fileName)
@@ -139,6 +157,10 @@ export async function playQueue(index: number) {
 export async function playPre() {
   let isLogged: boolean | undefined = await AppStorage.get(StorageConstants.IS_LOGGED)
   let cycleMode = await getCycleMode()
+  // 私人FM 中忽略循环模式
+  if(FMUtils.active) {
+    cycleMode = 0
+  }
   if(PlayQueueUtils.pre()) {
     const res = PlayQueueUtils.getQueueElement(PlayQueueUtils.currentQueueIndex)
     if(res.playmode == 0) {
@@ -156,6 +178,11 @@ export async function playPre() {
  * 播放下一首
  */
 export async function playNext() {
+  // 私人FM 中忽略循环模式，播放下一首推荐
+  if(FMUtils.active) {
+    FMUtils.next('next')
+    return
+  }
   let isLogged:boolean | undefined = await AppStorage.get(StorageConstants.IS_LOGGED)
   let cycleMode = await getCycleMode()
   if(cycleMode == 3) {
@@ -181,6 +208,11 @@ export async function playNext() {
  * 本首歌曲播放完成后的操作
  */
 export async function completeDo() {
+  // 私人FM 中忽略循环模式，自动播放下一首推荐
+  if(FMUtils.active) {
+    FMUtils.onCompleted()
+    return
+  }
   let cycleMode = await getCycleMode()
   // 顺序播放 & 顺序循环
   if(cycleMode == 0 || cycleMode == 2) {
@@ -270,3 +302,18 @@ export async function saveCurrentSongInfo(playMode: number, song: Song, artists:
   await PreferencesUtils.putPreferenceValue('Play','CurrentImage', imgUrl)
   await PreferencesUtils.putPreferenceValue('Play','CurrentQueueIndex', PlayQueueUtils.currentQueueIndex)
 }
+
+/**
+ * 向私人FM 注册播放控制
+ */
+FMUtils.setPlayer({
+  play: (index: number) => {
+    playQueue(index)
+  },
+  resume: () => {
+    resumeMusic()
+  },
+  stop: async () => {
+    await AVPlayerUtils.stop()
+  }
+})

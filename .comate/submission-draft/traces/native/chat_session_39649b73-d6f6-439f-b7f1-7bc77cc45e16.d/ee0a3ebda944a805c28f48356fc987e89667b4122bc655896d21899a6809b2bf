@@ -1,0 +1,131 @@
+<file>
+     1→import { SetPlayQuality } from '../../components/settings/SetPlayQuality'
+     2→import { SetApiUrl } from '../../components/settings/SetApiUrl'
+     3→import { RemoveCache } from '../../components/settings/RemoveCache'
+     4→import {
+     5→  OtherContents,
+     6→  Settings_Bottom, TextContents} from '../../components/settings/TextContent'
+     7→import Constants from '../../common/constants/Constants'
+     8→import { SetDefaultHomePage } from '../../components/settings/SetDefaultHomePage'
+     9→import { MixWithOthers } from '../../components/settings/MixWithOthers'
+    10→import { SongClickAction } from '../../components/settings/SongClickAction'
+    11→import { SongClickActionPage } from './SongClickActionPage'
+    12→import { ApiSetPage } from './ApiSetPage'
+    13→import { WebPage } from '../WebPage'
+    14→import { WebPageParam } from '../../common/entities/PageParams'
+    15→import { DebugPage } from '../DebugPage'
+    16→
+    17→/**
+    18→ * 设置页面
+    19→ */
+    20→@Component
+    21→export struct SettingsPage {
+    22→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    23→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    24→  @Provide('settingsPageInfos') settingsPageInfos: NavPathStack = new NavPathStack()
+    25→
+    26→  build() {
+    27→    Navigation(this.settingsPageInfos) {
+    28→      Stack() {
+    29→        Scroll() {
+    30→          Column({ space: 10 }) {
+    31→            List({ space: 10 }) {
+    32→              ListItem() {
+    33→                SetDefaultHomePage().padding({ left: 10, right: 10 })
+    34→              }.listItemStyle()
+    35→
+    36→              ListItem() {
+    37→                Column({ space: 20 }) {
+    38→                  SetPlayQuality()
+    39→                  MixWithOthers()
+    40→                }
+    41→                .padding(10)
+    42→              }.listItemStyle()
+    43→
+    44→              ListItem() {
+    45→                Column({ space: 20 }) {
+    46→                  SongClickAction()
+    47→                    .onClick(() => {
+    48→                      this.settingsPageInfos.pushPathByName('SongClickActionPage', null)
+    49→                    })
+    50→                  SetApiUrl()
+    51→                    .onClick(() => {
+    52→                      this.settingsPageInfos.pushPathByName('ApiSetPage', null)
+    53→                    })
+    54→                }
+    55→                .padding(10)
+    56→              }.listItemStyle()
+    57→
+    58→              ListItem() {
+    59→                RemoveCache().padding({ left: 10, right: 10 })
+    60→              }.listItemStyle()
+    61→
+    62→              ListItem() {
+    63→                Divider().padding({ left: 20, right: 20 })
+    64→              }
+    65→
+    66→              ListItem() {
+    67→                TextContents()
+    68→              }.listItemStyle()
+    69→
+    70→              ListItem() {
+    71→                OtherContents()
+    72→              }.listItemStyle()
+    73→
+    74→              ListItem() {
+    75→                Settings_Bottom()
+    76→              }
+    77→
+    78→              ListItem().height(px2vp(this.bottomRectHeight))
+    79→            }
+    80→            .scrollBar(BarState.Auto)
+    81→            .width('100%')
+    82→            .height('100%')
+    83→            .layoutWeight(1)
+    84→            .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+    85→          }
+    86→        }
+    87→        .width('100%')
+    88→        .height('100%')
+    89→        .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+    90→      }
+    91→      .width('100%')
+    92→      .height('100%')
+    93→    }
+    94→    .backgroundColor($r('app.color.background'))
+    95→    .title('设置')
+    96→    .mode(NavigationMode.Stack)
+    97→    .titleMode(NavigationTitleMode.Mini)
+    98→    .navDestination(this.PageMap)
+    99→  }
+   100→
+   101→  @Builder PageMap(name: string, param: Object) {
+   102→    if(name === 'SongClickActionPage') {
+   103→      SongClickActionPage()
+   104→    }
+   105→    else if(name == 'ApiSetPage') {
+   106→      ApiSetPage()
+   107→    }
+   108→    else if(name === 'WebPage') {
+   109→      WebPage({ param: param as WebPageParam })
+   110→    }
+   111→    else if(name == 'DebugPage') {
+   112→      DebugPage()
+   113→    }
+   114→  }
+   115→
+   116→  @Styles listItemStyle() {
+   117→    .backgroundColor($r('app.color.main'))
+   118→    .borderRadius(Constants.RADIUS_CARD)
+   119→    .margin({ left: 20, right: 20 })
+   120→    .padding({ left: Constants.PADDING_EDGE_DEFAULT, right: Constants.PADDING_EDGE_DEFAULT })
+   121→    .constraintSize({
+   122→      minHeight: 60,
+   123→      maxHeight: '100%'
+   124→    })
+   125→  }
+   126→}
+   127→
+   128→
+</file>
+<metadata>The file has 128 lines in total.</metadata>

@@ -1,0 +1,178 @@
+Found 59 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/CachedPage.ets:
+  Line 162:                         .bindSheet(this.isShowMigration, this.Migration(), {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/PlayListPage.ets:
+  Line 34:   @StorageProp(StorageConstants.IS_PLAYER_LOADING) isPlayerLoading: boolean = false
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/settings/ApiSetPage.ets:
+  Line 14: export struct ApiSetPage {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/settings/ApiSetPage.ets:
+  Line 25:         this.SetApiUrl()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/settings/ApiSetPage.ets:
+  Line 50:   @Builder SetApiUrl() {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/DailyListPage.ets:
+  Line 90:                     playQueue(0)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/settings/SettingsPage.ets:
+  Line 12: import { ApiSetPage } from './ApiSetPage'
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/settings/SettingsPage.ets:
+  Line 50:                   SetApiUrl()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/settings/SettingsPage.ets:
+  Line 52:                       this.settingsPageInfos.pushPathByName('ApiSetPage', null)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/settings/SettingsPage.ets:
+  Line 105:     else if(name == 'ApiSetPage') {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/pages/settings/SettingsPage.ets:
+  Line 106:       ApiSetPage()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playListOp.ets:
+  Line 10:     AppStorage.setOrCreate(StorageConstants.IS_PLAYER_LOADING, true)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playListOp.ets:
+  Line 13:       playQueue(currentIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playListOp.ets:
+  Line 20:       playQueue(currentIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playListOp.ets:
+  Line 31:     AppStorage.setOrCreate(StorageConstants.IS_PLAYER_LOADING, false)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 127: export async function playQueue(index: number) {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 150:     if(cycleMode == 2) { playQueue(PlayQueueUtils.getQueueLength() - 1) }
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 164:     playQueue(randomIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 175:     if(cycleMode == 2) { playQueue(0) }
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 183: export async function completeDo() {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 192:     playQueue(currentQueueIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/functions/play/playControl.ets:
+  Line 198:     playQueue(randomIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/utils/play/AVPlayerUtils.ets:
+  Line 4: import { completeDo } from '../../functions/play/playControl'
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/utils/play/AVPlayerUtils.ets:
+  Line 156:           completeDo()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/utils/play/PlayQueueUtils.ets:
+  Line 74:       EmitterUtil.post(EmitterConstants.EMITTER_REFRESH_PLAYQUEUE, () => {})
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/api/songApi.ets:
+  Line 195:   await PlayQueueUtils.cleanQueue()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/api/songApi.ets:
+  Line 196:   await PlayQueueUtils.queueAdd_array(queue)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/constants/EmitterConstants.ets:
+  Line 16:   static readonly EMITTER_REFRESH_PLAYQUEUE: string = 'REFRESH_PLAYQUEUE'
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/common/constants/StorageConstants.ets:
+  Line 125:   static readonly IS_PLAYER_LOADING: string = 'isPlayerLoading'
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/api/playListApi.ets:
+  Line 123:       await PlayQueueUtils.cleanQueue()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/api/playListApi.ets:
+  Line 126:     await PlayQueueUtils.queueAdd_array(tempQueue)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/api/playListApi.ets:
+  Line 163:   await PlayQueueUtils.cleanQueue()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/api/playListApi.ets:
+  Line 164:   await PlayQueueUtils.queueAdd_array(queue)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/cards/RecommendCards.ets:
+  Line 112:                   playQueue(0)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/buttons/play/AddToPlayListButton.ets:
+  Line 27:     .bindSheet(this.isShowAddSheet, this.Sheet(), {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/buttons/play/AddToPlayListButton.ets:
+  Line 59:       .bindSheet(this.isShowAddSheet, this.Sheet(), {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/buttons/play/TimerButton.ets:
+  Line 21:       .bindSheet(this.isShow, Timer(), {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/buttons/play/TimerButton.ets:
+  Line 59:     .bindSheet(this.isShow, Timer(), {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/main/Me.ets:
+  Line 106:     .bindSheet(this.isShowSettings, this.Settings(), {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/dialog/ApiDialog.ets:
+  Line 9: export struct ApiDialog {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/dialog/ApiDialog.ets:
+  Line 26:       this.SetApiUrl()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/dialog/ApiDialog.ets:
+  Line 49:   @Builder SetApiUrl() {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/buttons/play/PlayQueueButton.ets:
+  Line 23:     .bindSheet(this.isShow, this.QueueComponent(), {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/play/BottomBarComponent.ets:
+  Line 56:         await playQueue(playQueueUtils.currentQueueIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/play/BottomBarComponent.ets:
+  Line 60:     .bindContentCover($$this.isShow, this.Cover(), {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/play/BottomBarComponent.ets:
+  Line 97:           if(!this.isPlaying) playQueue(playQueueUtils.currentQueueIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/cards/FileCard.ets:
+  Line 50:     .bindSheet(this.showMatchSheet, this.MatchSheet, {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/cards/FileCard.ets:
+  Line 87:             PlayQueueUtils.queueAdd(0, song, this.localSong.artists, this.localSong.songFile)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/cards/FileCard.ets:
+  Line 88:             playQueue(PlayQueueUtils.currentQueueIndex + 1)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/cards/SongCard.ets:
+  Line 16:   @StorageProp(StorageConstants.IS_PLAYER_LOADING) isPlayerLoading: boolean = false
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/cards/SongCard.ets:
+  Line 257:     PlayQueueUtils.queueAdd(1, this.song, this.artists, '', this.picUrl ?? $r('app.media.ic_public_music'))
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/cards/SongCard.ets:
+  Line 265:       PlayQueueUtils.queueAdd(1, this.song, this.artists, '')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/cards/SongCard.ets:
+  Line 267:       playQueue(PlayQueueUtils.currentQueueIndex)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/sheets/PlayQueueSheet.ets:
+  Line 37:     EmitterUtil.onSubscribe(EmitterConstants.EMITTER_REFRESH_PLAYQUEUE, () => {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/sheets/PlayQueueSheet.ets:
+  Line 44:     EmitterUtil.off(EmitterConstants.EMITTER_REFRESH_PLAYQUEUE, () => {})
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/sheets/PlayQueueSheet.ets:
+  Line 164:           await playQueue(index)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/sheets/PlayQueueSheet.ets:
+  Line 204:             PlayQueueUtils.cleanQueue()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/sheets/PlayQueueSheet.ets:
+  Line 227:             playQueue(0)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec34/entry/src/main/ets/components/sheets/PlayingCover.ets:
+  Line 172:           .bindSheet(this.isShowMenu, this.MenuSheet(), {

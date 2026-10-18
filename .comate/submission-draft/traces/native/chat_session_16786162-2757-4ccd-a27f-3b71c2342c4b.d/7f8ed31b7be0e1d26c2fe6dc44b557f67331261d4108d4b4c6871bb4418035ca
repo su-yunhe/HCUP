@@ -1,0 +1,6 @@
+      await AVPlayerUtils.setUrl(localPath)
+      FMUtils.onPlayStarted(song.id)
+    } else if(songPlay.data[0].url) {
+      AppStorage.setOrCreate(StorageConstants.PLAY_IS_LOCALFILE, false)
+      await AVPlayerUtils.setUrl(songPlay.data[0].url)
+      FMUtils.onPlayStarted(song.id)

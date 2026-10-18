@@ -1,0 +1,5 @@
+  async next() {
+    if (!this.active) return
+    const index = PlayQueueUtils.currentQueueIndex
+    LogUtil.info(TAG + `next: index ${index}, length ${PlayQueueUtils.getQueueLength()}, fetching ${this.fetching != null}`)
+    if (index + 1 < PlayQueueUtils.getQueueLength()) {

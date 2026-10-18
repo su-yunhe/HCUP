@@ -1,0 +1,38 @@
+        fm.launch(self.driver)
+        fm.exit_fm_if_needed(self.driver)
+        e1 = fm.log_count(self.driver, fm.LOG_E1)
+        card = fm.find(self.driver, "fm_card")
+        for _ in range(3):
+            self.driver.click(card)
+            time.sleep(0.15)
+        self.assertIsNotNone(fm.wait_key(self.driver, "fm_badge_bottom"))
+        fm.wait_song_change(self.driver, None)
+        time.sleep(3)
+        self.assertEqual(fm.log_count(self.driver, fm.LOG_E1) - e1, 1, "快速连点卡片应只发出 1 次推荐请求")
+        fm.open_queue_from_bottom(self.driver)
+        names = fm.queue_names(self.driver)
+        self.assertGreaterEqual(len(names), 1)
+        self.assertEqual(len(names), len(set(names)), f"FM 队列出现重复歌曲: {names}")
+        count = fm.queue_count(self.driver)
+        # 本地未登录时每次推荐 1 首，连点不应叠加出更多
+        self.assertLessEqual(count, 3, f"连点后 FM 队列数量异常: {count}")
+        fm.close_overlay(self.driver)
+
+    def test_04_click_card_again_in_fm(self):
+        """A9：已在私人FM中再次点击卡片，不重新加载，歌曲不变。"""
+        song = fm.ensure_fm_playing(self.driver)
+        time.sleep(2)
+        song = fm.bottom_song(self.driver)
+        e1 = fm.log_count(self.driver, fm.LOG_E1)
+        fm.click_key(self.driver, "fm_card")
+        time.sleep(4)
+        self.assertEqual(fm.bottom_song(self.driver), song)
+        self.assertIsNotNone(fm.find(self.driver, "fm_badge_bottom"))
+        self.assertEqual(fm.log_count(self.driver, fm.LOG_E1) - e1, 0, "已在 FM 中再点卡片不应发推荐请求")
+
+    def test_05_state_kept_after_navigation(self):
+        """A19：切换 Tab、打开/收起播放页后仍在私人FM，歌曲不变。"""
+        fm.ensure_fm_playing(self.driver)
+        time.sleep(2)
+        song = fm.bottom_song(self.driver)
+        e1 = fm.log_count(self.driver, fm.LOG_E1)

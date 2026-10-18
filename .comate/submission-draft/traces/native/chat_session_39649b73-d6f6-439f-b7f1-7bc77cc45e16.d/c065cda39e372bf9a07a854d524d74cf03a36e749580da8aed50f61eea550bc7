@@ -1,0 +1,10 @@
+## 1. 接口（已用本地 NeteaseCloudMusicApi 实测，**未登录**；详见 baseline-notes 第 9 节）
+
+| 编号 | 用途 | 请求 | 实测结果 |
+| --- | --- | --- | --- |
+| E1 | 拉取私人FM推荐 | 默认：`/personal_fm`；按模式：`/personal/fm/mode?mode=DEFAULT\|FAMILIAR\|EXPLORE`；必须带不同的 `timestamp=` | 未登录也返回 200，**每次 1 首**；不带 timestamp 时服务端返回完全相同的内容 |
+| E2 | 不喜欢 / 加入黑名单 | `/fm_trash?id=<songId>&timestamp=` | 未登录：HTTP 301 + `{"msg":"需要登录","code":301}` |
+| E3 | 播放所需（已有） | `/song/url/v1`、`/song/detail`、歌词接口，经 `playMusicByUrl` 发出 | 未登录时 `fee=8` 可播，`fee=1/4` 可能 `url=null` |
+
+模式映射：`默认`→DEFAULT，`熟悉`→FAMILIAR，`探索`→EXPLORE（三个都实测返回数据）。E1 的歌曲字段是 `name/id/artists[]/album.picUrl/duration/fee`，和心动模式的 `ar/al/dt` 不一样，不能直接复用 `HeartMode` 实体。
+因为每次只返回 1 首，FM 队列几乎每首都要续拉。要做到“无缝衔接”，建议当前歌开始播放时就预取下一首。

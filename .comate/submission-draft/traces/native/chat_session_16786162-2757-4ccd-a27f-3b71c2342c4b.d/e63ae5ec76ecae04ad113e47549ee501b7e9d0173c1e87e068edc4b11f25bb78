@@ -1,0 +1,20 @@
+  private play(index: number) {
+    if (!this.player) {
+      LogUtil.error(TAG + '播放控制未注册')
+      return
+    }
+    this.player.play(index)
+  }
+
+  /**
+   * 播放进度更新：当前歌是队尾且临近结束时预取下一首（每首只预取一次，失败不提示），播完即可无缝衔接
+   * 不在歌曲开始时预取，保证点击卡片、切换模式、不喜欢等操作各自只发一次推荐请求
+   */
+  onProgress(time: number, duration: number) {
+    if (!this.active || this.fetching || this.loading) return
+    if (duration <= 0 || duration - time > PREFETCH_BEFORE_END) return
+    const index = PlayQueueUtils.currentQueueIndex
+    if (index < 0 || index < PlayQueueUtils.getQueueLength() - 1 || index == this.prefetchIndex) return
+    this.prefetchIndex = index
+    this.fetchMore()
+  }

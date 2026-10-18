@@ -1,0 +1,28 @@
+  await PlayQueueUtils.cleanQueue()
+  await PlayQueueUtils.queueAdd_array(queue)
+}
+
+/**
+ * 获取私人FM推荐歌曲
+ * @param mode - 默认 DEFAULT / 熟悉 FAMILIAR / 探索 EXPLORE
+ * @returns Array<PlayQueue>
+ */
+export async function getPersonalFM(mode: FMMode): Promise<Array<PlayQueue>> {
+  let queue: Array<PlayQueue> = []
+  const rootUrl = await getApiUrl()
+  // 服务端有缓存，必须带 timestamp
+  const url: string = mode == 'DEFAULT' ?
+    `${rootUrl}/personal_fm?timestamp=${new Date().getTime()}` :
+    `${rootUrl}/personal/fm/mode?mode=${mode}&timestamp=${new Date().getTime()}`
+  LogUtil.info(TAG + 'Request personal fm: ' + url)
+  const request = new HttpRequest(url)
+  const data = await request.Request()
+  const dataGot = data.result as PersonalFM
+  if(data.responseCode != 200 || !dataGot || dataGot.code != 200 || !dataGot.data) {
+    throw new Error(`personal fm failed: ${data.responseCode} - ${dataGot?.code}`)
+  }
+  for(let item of dataGot.data) {
+    let artists = await getArtists(item.artists ?? [])
+    queue.push({
+      playmode: 1,
+      

@@ -1,0 +1,6 @@
+        song = fm.text_of(self.driver, "player_song_name")
+        self.driver.click(self.driver.find_component(BY.text("探索")))
+        new_song = fm.wait_song_change(self.driver, song, "player_song_name")
+        self.assertIsNotNone(new_song, "选择探索后没有重新加载推荐歌曲")
+        self.assertEqual(fm.text_of(self.driver, "fm_badge_player_text"), "私人FM")
+        time.sleep(2)

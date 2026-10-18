@@ -1,0 +1,8 @@
+export async function playPre() {
+  let isLogged: boolean | undefined = await AppStorage.get(StorageConstants.IS_LOGGED)
+  let cycleMode = await getCycleMode()
+  // 私人FM 中忽略循环模式
+  if(FMUtils.active) {
+    cycleMode = 0
+  }
+  if(PlayQueueUtils.pre()) {

@@ -4,6 +4,7 @@ import { StorageConstants } from '../../constants/StorageConstants'
 import { PlayQueue } from '../../entities/PlayQueue'
 import { Song, SongClass } from '../../entities/SongsResult'
 import PreferencesUtils from '../data/PreferencesUtils'
+import FMUtils from './FMUtils'
 
 /**
  * 播放列表工具
@@ -53,6 +54,7 @@ class PlayQueueUtils {
    */
   async queueAdd(playmode:number, song:Song = SongClass, artists: string = '', fileName: string = '', picUrl: string | ResourceStr = '') {
     try {
+      FMUtils.onExternalQueueChange()
       this.queue.splice(this.currentQueueIndex + 1 , 0 ,{
         playmode: playmode,
         song: song,
@@ -68,6 +70,7 @@ class PlayQueueUtils {
 
   async queueAdd_array(queue:Array<PlayQueue>) {
     try {
+      FMUtils.onExternalQueueChange()
       this.queue = this.queue.concat(queue)
       AppStorage.setOrCreate('PlayQueue', this.queue)
       await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
@@ -78,10 +81,27 @@ class PlayQueueUtils {
   }
 
   /**
+   * 整体替换播放列表（私人FM 使用，不触发退出私人FM）
+   */
+  async replaceQueue(queue: Array<PlayQueue>, index: number) {
+    try {
+      this.queue = queue
+      this.currentQueueIndex = index
+      AppStorage.setOrCreate('currentQueueIndex', this.currentQueueIndex)
+      AppStorage.setOrCreate('PlayQueue', this.queue)
+      EmitterUtil.post(EmitterConstants.EMITTER_REFRESH_PLAYQUEUE, () => {})
+      await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
+    } catch (e) {
+      LogUtil.error(TAG + 'Error while replaceQueue: ' + e.message)
+    }
+  }
+
+  /**
    * 从播放列表中删除指定位置歌曲
    */
   async queueDelete(index:number) {
     try {
+      FMUtils.onExternalQueueChange()
       this.queue.splice(index,1)
       AppStorage.setOrCreate('PlayQueue',this.queue)
       await PreferencesUtils.putPreferenceValue(pref, 'queue', this.queue)
@@ -128,6 +148,7 @@ class PlayQueueUtils {
   }
 
   async cleanQueue() {
+    FMUtils.onExternalQueueChange()
     this.queue = []
     this.currentQueueIndex = -1
     AppStorage.setOrCreate('PlayQueue',this.queue)

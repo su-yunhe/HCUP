@@ -1,0 +1,2 @@
+        const list = await this.request(mode, PlayQueueUtils.getQueue())
+        if (seq != this.reqSeq || !this.active || list.length == 0) return false

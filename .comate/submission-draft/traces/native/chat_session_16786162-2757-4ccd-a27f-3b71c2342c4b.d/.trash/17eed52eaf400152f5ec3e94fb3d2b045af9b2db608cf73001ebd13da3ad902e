@@ -1,0 +1,30 @@
+"""私人FM 自测公共方法（cmu-spec34）。
+
+约定：
+- 每个用例自己通过 restart_app 冷启动，不依赖其他用例留下的状态；
+- 依赖本地 NeteaseCloudMusicApi（应用内 API 地址 http://10.0.2.2:3000），未登录即可；
+- 组件优先用 .id() 定位（BY.key），文案断言用 BY.text 精确匹配。
+"""
+from __future__ import annotations
+
+import re
+import time
+
+from hypium import BY
+
+from harness.app import restart_app
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+API_URL = "http://10.0.2.2:3000"
+NET_TIMEOUT = 25
+
+SONG_A = "外婆桥"  # 搜索结果第 1 首（任然，fee=8 可播放）
+SONG_B = "摇到外婆桥（摇啊摇）(童声合唱版)"  # 搜索结果第 2 首（fee=8 可播放）
+
+
+def find(driver, key: str):
+    return driver.find_component(BY.key(key))
+
+
+def text_of(driver, key: str):
+    c = fin

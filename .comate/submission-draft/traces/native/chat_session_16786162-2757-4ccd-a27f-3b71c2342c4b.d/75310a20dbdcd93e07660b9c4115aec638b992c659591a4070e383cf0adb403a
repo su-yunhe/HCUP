@@ -1,0 +1,10 @@
+---
+name: harmonycup local toolchain env
+description: How to build/install/run Hypium self-tests on this Mac (DevEco paths, JAVA_HOME, hdc PATH, emulator serial)
+type: reference
+---
+
+- Build needs DevEco JBR: `D=/Applications/DevEco-Studio.app/Contents; JAVA_HOME=$D/jbr/Contents/Home DEVECO_SDK_HOME=$D/sdk`, PATH += `$JAVA_HOME/bin:$D/tools/hvigor/bin:$D/tools/node/bin:$D/tools/ohpm/bin:$D/sdk/default/openharmony/toolchains`. Without JAVA_HOME, PackageHap fails (00308018).
+- Hypium (common/.venv) also needs `hdc` on PATH, otherwise UiDriver.connect fails with "OHOSProxyInitFailed: Connection refused".
+- Emulator serial `127.0.0.1:5555`; app bundle `cc.chenlvin.cloudmusic`; local NeteaseCloudMusicApi on host :3000, app uses `http://10.0.2.2:3000`.
+- Warning diff: only clean builds print ArkTS warnings; compare against `logs/baseline-warnings.txt`.

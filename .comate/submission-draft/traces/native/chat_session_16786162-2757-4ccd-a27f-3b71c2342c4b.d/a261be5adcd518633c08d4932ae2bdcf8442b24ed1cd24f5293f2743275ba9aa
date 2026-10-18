@@ -1,0 +1,5 @@
+        # 歌曲真正开始播放：底部栏出现暂停按钮
+        self.assertIsNotNone(fm.wait_key(self.driver, "bottom_bar_pause_btn", 20), "推荐歌曲没有开始播放")
+        # 网络：点击卡片恰好发出 1 次推荐请求
+        time.sleep(2)
+        self.assertEqual(fm.log_count(self.driver, fm.LOG_E1) - e1, 1, "点击卡片应恰好发出 1 次推荐请求")

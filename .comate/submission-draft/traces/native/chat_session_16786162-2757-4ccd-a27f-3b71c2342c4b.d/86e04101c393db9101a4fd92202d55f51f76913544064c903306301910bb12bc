@@ -1,0 +1,3 @@
+        # 临近结束预取与播完续拉不能重复请求（下一首已在队列中时为 0 次）
+        self.assertLessEqual(fm.e1_ops_since(self.driver, mark), 1,
+                             "播完续播不应重复发推荐请求" + fm.fm_log_since(self.driver, mark))

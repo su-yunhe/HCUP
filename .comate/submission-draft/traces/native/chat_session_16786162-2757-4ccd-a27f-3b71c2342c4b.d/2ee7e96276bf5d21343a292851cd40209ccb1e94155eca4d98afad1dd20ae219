@@ -1,0 +1,2 @@
+        pid = self.driver.shell(f"pidof {fm.BUNDLE}").strip()
+        self.assertTrue(pid, "应用进程不存在（可能崩溃）")

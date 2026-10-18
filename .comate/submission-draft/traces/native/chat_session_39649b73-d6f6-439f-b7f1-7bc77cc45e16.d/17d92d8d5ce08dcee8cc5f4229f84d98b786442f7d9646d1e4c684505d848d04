@@ -1,0 +1,39 @@
+## 4. 相关现状
+
+状态模型（全部基于 AppStorage 全局 key + 单例工具类，组件用 `@StorageProp/@StorageLink` 订阅）：
+
+- 【代码】key 定义集中在 `common/constants/StorageConstants.ets`：播放器 `player-isplaying`(:74)、`player-ispaused`(:79)、`player-mode`(:84，0=本地文件 1=在线)、`player-song`(:94)、`player-artists`(:99)、`player-time`(:104)、`player-picurl`(:109)、`isPlayerLoading`(:125)、`cycleMode`(:181)。
+- 【代码】播放队列单例 `common/utils/play/PlayQueueUtils.ets`：`queue: PlayQueue[]`、`currentQueueIndex`（:15-16），同步到 AppStorage `'PlayQueue'` / `'currentQueueIndex'`，并持久化到 Preferences `Play.queue`（:42-49）。`cleanQueue()`（:130-136）清空并把 index 置 -1；`queueAdd_array()`（:69-78）追加并发 `EMITTER_REFRESH_PLAYQUEUE` 事件刷新面板。
+- 【代码】播放控制 `common/functions/play/playControl.ets`：`playQueue(index)`(:127-137)、`playPre()`(:139-153)、`playNext()`(:158-178，队尾时 toast `没有下一首了~`，顺序循环时回到 0)、`completeDo()`(:183-200，按 `cycleMode` 0/2→下一首，1→单曲重播，3→随机)。
+- 【代码】歌曲播完：`AVPlayerUtils.ets:152-157` 的 `stateChange == 'completed'` 调 `completeDo()`。系统播控中心的上一首/下一首走 `AVSessionUtils.ets:42-47` → `playPre/playNext`。
+- 【代码】在线播放 `playMusicByUrl()`（`playControl.ets:26-65`）：先 `getSongUrl` 再 `setPlayData` 写 AppStorage，失败时 `playNext()`；结束时 `saveCurrentSongInfo` 写 Preferences `Play.*`（:265-272）。
+
+数据模型：
+
+- 【代码】`common/entities/SongsResult.ets:10-17` `Song {id,name,artists,duration,alias,fee}`；`common/entities/PlayQueue.ets:3-9` `PlayQueue {playmode,song,artists,fileName,picUrl}`；心动模式响应 `common/entities/HeartMode.ets:27-30`（`data[].songInfo` 用 `ar/al/dt` 字段）。
+
+网络服务：
+
+- 【代码】`common/utils/request/HttpRequestUtils.ets`：`Request()`（:29-57，GET/POST，出错会 reject，超时 15 s）和 `RequestInStream()`（:64-125，固定 POST）。根地址来自 `getApiUrl()` = AppStorage `apiUrl`（`common/functions/common/get.ets:10-12`），cookie 由 `getCookie()` 注入请求头（:18-27）。
+- 【代码】接口函数按领域放在 `api/`：`songApi.ets`（播放地址 :55-71、封面 :78-91、喜欢 :153-162、心动模式 :169-197）、`playListApi.ets`（歌单/每日推荐/个性化推荐）、`loginApi.ets`、`LyricApi.ets`。全工程没有私人FM相关接口（grep `FM|fm|trash|不喜欢` 无结果）。
+
+本地存储：
+
+- 【代码】`common/utils/data/PreferencesUtils.ets`，三个 Preferences 文件在 `EntryAbility.ets:18-20` 加载：`UserPreference`、`Settings`、`Play`。
+- 【代码】冷启动 `common/functions/app/appInit.ets:23-33`：`initSettings` → `PlayQueueUtils.init()`（恢复队列）→ `loadSavedSong()`（:87-113，恢复当前歌曲显示，不自动播放，没有记录时显示 `暂无播放` / `选择一首歌曲播放吧`）→ `initUserInfo()`（校验登录）。
+- 【代码】API 地址默认为空字符串（`common/functions/app/settings.ets:18-25`），要在“我的 → 应用设置 → API与Cookie设置”（`pages/settings/ApiSetPage.ets`）里手动填写。
+
+## 5. 可复用的既有实现
+
+- **心动模式就是最接近的模板**：
+  - 卡片入口 + 登录校验 + 防重入 + toast：`RecommendCards.ets:104-125`。
+  - 拉取推荐 → 转成 `PlayQueue` → `cleanQueue()` + `queueAdd_array()` → `playQueue(0)`：`api/songApi.ets:169-197`。
+  - 播放列表面板头部按钮 + 确认弹窗 + `isLoading` + 刷新 `dataSource`：`PlayQueueSheet.ets:59-72, 215-240`。
+  - 区别：心动模式会**直接覆盖手动队列**，不会备份；而 Spec 场景二要求退出 FM 后恢复手动队列，所以必须额外做“进入时备份、退出时还原”。
+- 队列面板刷新：`EMITTER_REFRESH_PLAYQUEUE` + `dataSource.setData/notifyDataReload`（`PlayQueueSheet.ets:37-40`）。
+- 播放页状态小字：`PlayingCover.ets:431-440`（`本地文件播放中`）的条件渲染方式，可以照着加 FM 相关状态。
+- 弹出层：`bindSheet`（`PlayingCover.ets:172-185`、`PlayQueueButton.ets:23-30`）、`DialogUtil.showPrimaryDialog`（`PlayQueueSheet.ets:194-213`）。模式选择用 `bindMenu` 或 `bindSheet` 都与现有风格一致。
+- 持久化：`PreferencesUtils.putPreferenceValue(StorageConstants.QUEUE_PREF, key, value)`，与 `saveCurrentSongInfo` 同一个 `Play` 文件。
+- 播放链路（`playQueue/playNext/completeDo`、AVSession）如果复用 `PlayQueueUtils.queue` 来承载 FM 队列，基本不用改；只要在 FM 模式下改写“队尾行为”（拉取更多而不是 toast）和“循环模式分支”。
+
+PLACEHOLDER_SECTION_6

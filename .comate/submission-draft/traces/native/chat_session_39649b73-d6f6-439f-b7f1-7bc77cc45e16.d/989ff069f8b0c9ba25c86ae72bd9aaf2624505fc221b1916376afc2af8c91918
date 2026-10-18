@@ -1,0 +1,11 @@
+PLACEHOLDER_SM_TABLE
+
+| # | 当前状态 | 用户动作 / 事件 | 是否发请求 | loading 绑定 | 成功后 | 失败后 |
+| --- | --- | --- | --- | --- | --- | --- |
+| T1 | NORMAL | 点击 `私人FM` 卡片 | 在点击回调里**同步发出** E1(fmMode) | 发出前 `fmLoading=true`，`finally` 置 false，一次请求对应一次 loading | 备份手动队列 → FM 队列=结果（过滤黑名单）→ `fmActive=true` → `playQueue(0)`（发 E3） | U3 |
+| T2 | `fmLoading=true` | 再点卡片 / 快速连点 | **不发** | 不变 | — | — |
+| T3 | FM_ACTIVE | 点击卡片 | 不发（U5） | — | 暂停中则继续播放 | — |
+| T4 | FM_ACTIVE | 当前歌播放完成（`completed`） | 不是队尾：只发 E3；是队尾：发 E1 | E1 期间 `fmLoading=true` | 追加结果，播放新一首 | 提示，停在当前歌，不自动重试 |
+| T5 | FM_ACTIVE | 点 `下一首`（底部栏/播放页/播控中心） | 同 T4 | 同 T4 | 同 T4 | 同 T4 |
+| T6 | FM_ACTIVE | 点 `不喜欢` | 发 E2(当前歌 id)；是队尾时同时发 E1 | `dislikeInFlight=true`，E2 结束且新歌开始后释放 | 黑名单加入该 id，播下一首 | E2 失败：U17；E1 失败：同 T4 |
+| T7 | `dislikeInFlight=true` | 再点 `不喜欢` | **不发** | 不变 | — | — |

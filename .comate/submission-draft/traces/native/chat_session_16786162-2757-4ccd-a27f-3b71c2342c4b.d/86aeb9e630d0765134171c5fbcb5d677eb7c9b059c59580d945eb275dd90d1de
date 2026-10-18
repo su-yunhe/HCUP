@@ -1,0 +1,7 @@
+  @State isLoadingHeart: boolean = false
+  @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = true
+
+  build() {
+    List() {
+      ListItem().width(10)
+      if(this.validApiUrl) {
