@@ -1,0 +1,44 @@
+# 团队级信息（整个阶段填一次，2-submit.md 与 3-package.md 共用）
+# 留空的字段 Agent 一律视为未提供，在产出中标【待补充】，不会推测。
+
+team_id: "HC2026-111"
+team_name: "Ghost_London"
+stage: "online"
+version: "v1"              # 成果包版本，如 v1
+contact: "苏云鹤, 1980039406@qq.com"              # 姓名 + 邮箱/电话
+members:
+  - name: "赵琳慧"
+    work: "需求分析与方案设计" 
+  - name: "苏云鹤"
+    work: "AI指导与代码编写"
+  - name: "罗智文"
+    work: "测试与验收"      
+source_guard:
+  # 问 1：为防止系统访问来源项目的修复提交、PR、Issue、补丁及其副本，采取了哪些措施
+  measures: |
+    1. 系统提示访问限制：各阶段任务书（0-analyze / 1-do / 2-submit）开头设"禁止事项"，明确禁止访问
+       本题来源项目（coolmallarkts、cloudmusic-harmonyosnex、jingmo-for-harmonyos、symbolu_next、vignette）
+       中与本题相关的修复提交、合并请求、Issue、补丁及其镜像、转载或副本，禁止查看上游已实现该功能的
+       当前版本代码；要求 Agent 检索到同功能实现时立即停止阅读并在产出中说明，不确定时先询问队员。
+    2. 检索/网络过滤：将上述来源项目的仓库地址及其镜像加入屏蔽列表；
+    3. 每题独立工作目录：每题使用独立工程目录 harmonycup-work/<题目ID>/（独立 git 分支，
+       自 metadata 指定的 base_commit 起），本题 Spec 与 metadata 复制到工程内 spec/，
+       Agent 会话只在本题目录启动，不提供题包或其他题目录。
+    4. 人工审查：队员审查会话中的检索与网页访问记录，确认未访问受保护内容。
+
+  # 问 2：上述限制与配置在 system-config/ 中的位置
+  config_location: |
+    system-config/spec-harness/（通用任务书，"禁止事项/访问范围"章节）；
+    system-config/history/<题目ID>/（各题早期实际使用的任务书）；
+
+  # 问 3：如何确认每题只使用本题工程基线、未将其他赛题的基线或工程交给系统
+  isolation: |
+    各题工程自 metadata 指定的 bundle 与 base_commit 检出，final.diff 以该 base_commit 为起点并已在干净 clone 上
+    git apply --check 校验；各题会话的工作区路径均为 harmonycup-work/<题目ID>/，见各题 trace-index.md 所列会话记录；
+    任务书禁止访问 harmonycup-work/ 下其他题目录及题包 specs/、metadata/、repo_bundles/；
+    多题共用同一 bundleName 时，自测前重装本题构建产物，避免测到其他题的安装包。      
+
+# 以下三项仅 3-package.md 使用
+submitted_tasks: []      # 本次标记 submitted 的题目ID
+attempted_not_submitted: []   # 已尝试但不提交工程的题目ID（仍须提供记录索引）
+zip_out: ""              # 成果包输出路径

@@ -1,0 +1,43 @@
+"""场景一：设置 → 在线服务 → 在线服务配置（结构化表单、保存提示、连通性检查）。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.cmu_helpers import (DEAD_PORT, HOST, PROXY_PORT, T7, CmuTestCase, RecordingProxy,
+                                      basic_auth)
+
+PORT = str(PROXY_PORT)
+
+
+class TestS1ApiConfig(CmuTestCase):
+    proxy: RecordingProxy
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        cls.proxy = RecordingProxy().__enter__()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.proxy.__exit__(None, None, None)
+
+    def setUp(self) -> None:
+        self.proxy.delay = 0.0
+        self.proxy.delay_prefix = None
+
+    def checks(self) -> int:
+        return len(self.proxy.paths("/inner/version"))
+
+    # A1-A9：入口、标题、六项输入、协议选项、状态、保存按钮
+    def test_01_form_structure(self):
+        self.restart()
+        self.open_api_page()
+        for label in ("主机", "端口", "请求", "路径", "用户", "密码", "HTTP", "HTTPS", "保存配置"):
+            self.require_text(label, f"配置页缺少 {label!r}", timeout=3)
+        for key in ("api_host_input", "api_port_input", "api_path_input", "api_user_input",
+                    "api_password_input", "api_protocol_http", "api_protocol_https", "api_save_button"):
+            self.require_component(BY.key(key), f"缺少组件 {key}", timeout=3)
+        self.assertIn(self.status(), ("正常", "不可用"))
+        self.assertIsNotNone(self.find_or_none(BY.text("正常"), 1) or self.find_or_none(BY.text("不可用"), 1),
+                             "状态值不是独立的 正常/不可用 文本")
+   

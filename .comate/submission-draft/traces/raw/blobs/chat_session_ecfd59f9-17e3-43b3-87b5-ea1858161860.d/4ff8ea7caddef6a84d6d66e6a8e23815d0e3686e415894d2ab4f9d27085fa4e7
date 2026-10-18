@@ -1,0 +1,193 @@
+<file>
+     1→import Constants from "../../common/constants/Constants"
+     2→import { StorageConstants } from "../../common/constants/StorageConstants"
+     3→import { ApiConfig } from "../../common/entities/local/Settings"
+     4→import { getApiConfig, saveApiConfig } from "../../common/functions/app/settings"
+     5→
+     6→const LABEL_WIDTH: number = 50
+     7→const INPUT_HEIGHT: number = 36
+     8→const ROW_SPACE: number = 6
+     9→
+    10→/**
+    11→ * 在线服务配置表单
+    12→ * 设置页「在线服务」与发现页底部配置面板共用
+    13→ */
+    14→@Component
+    15→export struct ApiConfigForm {
+    16→  @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = false
+    17→  @State protocol: string = 'http'
+    18→  @State host: string = ''
+    19→  @State port: string = ''
+    20→  @State path: string = ''
+    21→  @State user: string = ''
+    22→  @State password: string = ''
+    23→  // 保存后回调（如关闭面板）
+    24→  onSaved?: () => void
+    25→
+    26→  aboutToAppear(): void {
+    27→    this.loadConfig()
+    28→  }
+    29→
+    30→  // 布局紧凑，保证软键盘弹出时"保存配置"按钮仍在可见区域内
+    31→  build() {
+    32→    Column({ space: ROW_SPACE }) {
+    33→      this.Fields()
+    34→      this.SaveButton()
+    35→    }
+    36→    .width('100%')
+    37→  }
+    38→
+    39→  @Builder Fields() {
+    40→    Column({ space: ROW_SPACE }) {
+    41→      Row() {
+    42→        Text('连通性状态').LabelText()
+    43→        Text(this.validApiUrl ? '正常' : '不可用')
+    44→          .id('api_status')
+    45→          .fontSize(Constants.FONT_SIZE_COMMON)
+    46→          .fontWeight(FontWeight.Bold)
+    47→          .fontColor(this.validApiUrl ? Color.Green : $r('app.color.app_red'))
+    48→      }
+    49→      .width('100%')
+    50→      .justifyContent(FlexAlign.SpaceBetween)
+    51→
+    52→      Row({ space: 10 }) {
+    53→        Text('主机').LabelText().width(LABEL_WIDTH)
+    54→        TextInput({ text: this.host, placeholder: '域名或IP地址' })
+    55→          .id('api_host_input')
+    56→          .InputStyle()
+    57→          .onChange((text) => this.host = text)
+    58→      }
+    59→      .width('100%')
+    60→
+    61→      Row({ space: 10 }) {
+    62→        Text('端口').LabelText().width(LABEL_WIDTH)
+    63→        TextInput({ text: this.port, placeholder: '留空使用协议默认端口' })
+    64→          .id('api_port_input')
+    65→          .InputStyle()
+    66→          .type(InputType.Number)
+    67→          .maxLength(5)
+    68→          .onChange((text) => this.port = text)
+    69→      }
+    70→      .width('100%')
+    71→
+    72→      Row({ space: 10 }) {
+    73→        Text('请求').LabelText().width(LABEL_WIDTH)
+    74→        Row() {
+    75→          Radio({ value: 'HTTP', group: 'apiProtocol' })
+    76→            .id('api_protocol_http')
+    77→            .checked(this.protocol === 'http')
+    78→            .radioStyle({ checkedBackgroundColor: $r('app.color.app_red') })
+    79→            .onChange((isChecked) => {
+    80→              if (isChecked) this.protocol = 'http'
+    81→            })
+    82→          Text('HTTP')
+    83→            .OptionText()
+    84→            .padding({ right: 20 })
+    85→            .onClick(() => this.protocol = 'http')
+    86→          Radio({ value: 'HTTPS', group: 'apiProtocol' })
+    87→            .id('api_protocol_https')
+    88→            .checked(this.protocol === 'https')
+    89→            .radioStyle({ checkedBackgroundColor: $r('app.color.app_red') })
+    90→            .onChange((isChecked) => {
+    91→              if (isChecked) this.protocol = 'https'
+    92→            })
+    93→          Text('HTTPS')
+    94→            .OptionText()
+    95→            .onClick(() => this.protocol = 'https')
+    96→        }
+    97→        .layoutWeight(1)
+    98→      }
+    99→      .width('100%')
+   100→      .height(INPUT_HEIGHT)
+   101→
+   102→      Row({ space: 10 }) {
+   103→        Text('路径').LabelText().width(LABEL_WIDTH)
+   104→        TextInput({ text: this.path, placeholder: '无部署前缀时留空' })
+   105→          .id('api_path_input')
+   106→          .InputStyle()
+   107→          .onChange((text) => this.path = text)
+   108→      }
+   109→      .width('100%')
+   110→
+   111→      Row({ space: 10 }) {
+   112→        Text('用户').LabelText().width(LABEL_WIDTH)
+   113→        TextInput({ text: this.user, placeholder: '未配置认证时留空' })
+   114→          .id('api_user_input')
+   115→          .InputStyle()
+   116→          .onChange((text) => this.user = text)
+   117→      }
+   118→      .width('100%')
+   119→
+   120→      Row({ space: 10 }) {
+   121→        Text('密码').LabelText().width(LABEL_WIDTH)
+   122→        TextInput({ text: this.password, placeholder: '未配置认证时留空' })
+   123→          .id('api_password_input')
+   124→          .InputStyle()
+   125→          .type(InputType.Password)
+   126→          .onChange((text) => this.password = text)
+   127→      }
+   128→      .width('100%')
+   129→    }
+   130→    .width('100%')
+   131→  }
+   132→
+   133→  @Builder SaveButton() {
+   134→    Button('保存配置')
+   135→      .id('api_save_button')
+   136→      .fontSize(Constants.FONT_SIZE_COMMON)
+   137→      .fontColor($r('app.color.app_red'))
+   138→      .borderColor($r('app.color.app_red'))
+   139→      .backgroundColor(Color.Transparent)
+   140→      .borderWidth(1)
+   141→      .width(150)
+   142→      .padding({ left: Constants.PADDING_EDGE_DEFAULT, right: Constants.PADDING_EDGE_DEFAULT })
+   143→      .onClick(() => {
+   144→        this.save()
+   145→      })
+   146→  }
+   147→
+   148→  private loadConfig() {
+   149→    const config = getApiConfig()
+   150→    this.protocol = config.protocol
+   151→    this.host = config.host
+   152→    this.port = config.port
+   153→    this.path = config.path
+   154→    this.user = config.user
+   155→    this.password = config.password
+   156→  }
+   157→
+   158→  private save() {
+   159→    const config: ApiConfig = {
+   160→      protocol: this.protocol,
+   161→      host: this.host,
+   162→      port: this.port,
+   163→      path: this.path,
+   164→      user: this.user,
+   165→      password: this.password
+   166→    }
+   167→    saveApiConfig(config)
+   168→    // 回显规范化后的已保存值
+   169→    this.loadConfig()
+   170→    this.onSaved?.()
+   171→  }
+   172→}
+   173→
+   174→@Extend(Text) function LabelText() {
+   175→  .fontSize(Constants.FONT_SIZE_COMMON)
+   176→  .fontWeight(FontWeight.Bold)
+   177→  .fontColor($r('app.color.reverse'))
+   178→}
+   179→
+   180→@Extend(Text) function OptionText() {
+   181→  .fontSize(Constants.FONT_SIZE_COMMON)
+   182→  .fontColor($r('app.color.reverse'))
+   183→}
+   184→
+   185→@Extend(TextInput) function InputStyle() {
+   186→  .layoutWeight(1)
+   187→  .height(INPUT_HEIGHT)
+   188→  .borderRadius(Constants.RADIUS_IMG)
+   189→}
+   190→
+</file>
+<metadata>The file has 190 lines in total.</metadata>

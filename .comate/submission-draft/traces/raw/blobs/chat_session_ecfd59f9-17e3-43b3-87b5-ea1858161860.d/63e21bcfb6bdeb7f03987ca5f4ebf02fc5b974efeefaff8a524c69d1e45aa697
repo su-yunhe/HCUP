@@ -1,0 +1,2 @@
+    // 关闭动画开始前即复位，关闭过程中再次点击"设置在线服务"也能重新弹出
+    onWillDisappear: () => { this.isShowApiSheet = false }

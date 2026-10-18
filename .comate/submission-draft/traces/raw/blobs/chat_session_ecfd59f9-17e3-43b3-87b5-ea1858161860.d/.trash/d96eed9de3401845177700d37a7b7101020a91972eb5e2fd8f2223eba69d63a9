@@ -1,0 +1,39 @@
+"""场景二：发现页未配置引导 + 底部配置面板。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.cmu_helpers import (DEAD_PORT, HOST, PROXY_PORT, T7, T9, T10, CmuTestCase,
+                                      RecordingProxy)
+
+PORT = str(PROXY_PORT)
+SHEET = BY.key("explore_api_sheet")
+
+
+class TestS2ExploreGuide(CmuTestCase):
+    proxy: RecordingProxy
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        cls.proxy = RecordingProxy().__enter__()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.proxy.__exit__(None, None, None)
+
+    def content_requests(self) -> list[str]:
+        return self.proxy.paths("/toplist") + self.proxy.paths("/personalized")
+
+    def assert_guide(self, timeout: float = 10) -> None:
+        self.require_text(T9, f"未显示引导文案 {T9!r}", timeout=timeout)
+        self.assertTrue(self.require_text(T10, f"未显示按钮 {T10!r}", timeout=3).isClickable())
+        self.assertFalse(self.exists(BY.text("推荐歌单")), "未配置时不应显示推荐歌单")
+        self.assertFalse(self.exists(BY.text("排行榜")), "未配置时不应显示排行榜")
+
+    def pull_refresh(self) -> None:
+        self.driver.swipe("DOWN", distance=50, swipe_time=0.6)
+        self.driver.wait(2)
+
+    # B1-B3：未配置（空主机）冷启动 → 引导；下拉刷新不发内容请求
+    def test_01_gui

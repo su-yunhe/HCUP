@@ -1,0 +1,93 @@
+# cmu-spec1 基线现状记录（baseline-notes）
+
+标注约定：【实测】= 本阶段在本机构建或在模拟器上实际操作看到的；【代码】= 读代码得出，附 `文件:行号`（路径相对 `entry/src/main/ets/`，另注明的除外）；【推断】= 推测；【未验证】= 没有实际跑过。
+本阶段没有改任何业务代码。
+
+## 1. 基线快照标识
+
+- 分支 `dev`，HEAD = `d03903a79a1fc825d8219e57b496c34b4861957d`（"chore: 记录 ohpm install 重建的依赖锁文件"，只改了 `oh-package-lock.json5`），父提交 = `17549abcf6ffa4ee3ff90115945646b4a0018688`（"Harmony Cup sanitized baseline snapshot"）。【实测】
+- 原有 tag：`base/cmu-spec1` → `17549ab`。本阶段新打 `baseline-cmu-spec1` → `d03903a`（也就是本次构建/安装的提交）。【实测】
+- **`spec/metadata.json` 不存在**【实测】，`base_commit` 无从核对。【推断】`17549ab` 就是题包快照。1-do / 2-submit 都要读这个文件，需要从准备流程补拷（Agent 不得访问题包，只能由人补）。
+- 会话开始时工作区就有一处未提交修改：`build-profile.json5` 新增 `"targetSdkVersion": "6.1.0(23)"`，不是本阶段改的。本次构建带着这处修改进行；去掉它能否构建【未验证】。`spec/`、`logs/` 未跟踪。
+
+## 2. 构建基线状态
+
+环境（本机 PATH 里没有工具链，需要手动导出）：
+
+```bash
+export JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home   # 不设会报 "Unable to locate a Java Runtime"，打包阶段失败
+export DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk
+export PATH="$JAVA_HOME/bin:/Applications/DevEco-Studio.app/Contents/tools/node/bin:/Applications/DevEco-Studio.app/Contents/tools/hvigor/bin:/Applications/DevEco-Studio.app/Contents/tools/ohpm/bin:/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains:$PATH"
+hvigorw clean --no-daemon
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon > logs/baseline-build.log 2>&1
+hdc -t 127.0.0.1:5555 install -r entry/build/default/outputs/default/entry-default-unsigned.hap
+```
+
+- 结果：`BUILD SUCCESSFUL`（clean 后全量约 11s），0 个 `ArkTS:ERROR`。【实测】完整日志：`logs/baseline-build.log`（2297 行）。
+- 产物：`entry/build/default/outputs/default/entry-default-unsigned.hap`（4,756,869 字节，sha256 前缀 `5c50cd1b4e0dc274`）。未签名（`hvigor WARN: No signingConfig found for product default`），但模拟器上 `install -r` 成功（`logs/baseline-install.log`）。【实测】
+- 构建后 `git status` 没有出现 `BuildProfile.ets` 噪声。【实测】
+- 已有告警（后续对比"是否新增"用这个基线）：【实测】
+  - `ArkTS:WARN` 共 736 条，其中 `oh_modules/` 三方库 607 条，`entry/src` 129 条。
+  - `entry/src` 129 条按类别：`Function may throw exceptions` 45、`'px2vp' has been deprecated` 45、`'animateTo' has been deprecated` 14、`'getContext' has been deprecated` 9、`'matchMediaSync'` 6、`backgroundTaskManager` 能力 3、`'vp2px'` 3、`'key' can only be used for testing directories` 2、`@Entry` 导出 struct 1、`'decode'` 1。
+  - 本题可能改到的文件里已有的告警：`pages/settings/ApiSetPage.ets:41`（px2vp）、`:98`（animateTo）；`common/view/Explore.ets:37`（animateTo）、`:218`、`:244`（px2vp）；`pages/local/LocalSongPage.ets:164`、`:338`、`:342`（animateTo）、`:207`（px2vp）、`:324`（key）；`pages/settings/SettingsPage.ets:44`（px2vp）；`common/view/Me.ets:125`（px2vp）。行号会随修改漂移，对比时按"文件 + 类别 + 条数"比。
+  - 资源合并告警：`'page_show' conflict` 7 条、`'lib_name' conflict` 3 条、`agcit_pura_harmony_utils` / `agcit_agc_ui_skeleton` 各 1 条（来自三方库资源）。
+- 设备：`127.0.0.1:5555`，`emulator 6.1.0.115`，API 23，aarch64，1308×2880；`harness.env_check` 输出"✓ 环境与官方评测规格一致"。【实测】bundleName `cc.chenlvin.cloudmusic`，安装后 `bm dump` 的 `updateTime` 已更新为本次安装时间。【实测】
+
+## 3. Spec 描述的入口当前在哪
+
+单页应用：`resources/base/profile/main_pages.json` 只有 `pages/Index`（以及悬浮歌词 `pages/lyrics/FloatingLyrics`），其余页面都是 Navigation 子页。
+
+### 场景一："设置" → "在线服务"
+- 实测路径（坐标为 1308×2880 下的点击位置）：底部 `我的`(1090,2720) → `应用设置` 卡片(650,743) → 弹出设置面板 → `云服务设置`(650,1162) → 配置页。【实测】
+- `我的` Tab：`pages/Index.ets:111`（`TabContent() { Me(...) }`），底栏按钮 `pages/Index.ets:152`。【代码】
+- `应用设置` 卡片：`common/view/Me.ets:86-91` 置 `isShowSettings=true` → `common/view/Me.ets:126` `bindSheet(this.isShowSettings, this.Settings(), this.settingsSheetOptions)`，面板类型 `SheetType.CENTER`（`Me.ets:24-32`），内容是 `SettingsPage()`（`Me.ets:178-180`）。另一入口："我的"Tab 标题栏右上设置菜单 `pages/Index.ets:93-101`（写 AppStorage `isShowSettings`）。【代码】
+- 设置面板：`pages/settings/SettingsPage.ets:18` 自带 `Navigation(this.settingsPageInfos)`，标题 `$r('app.string.Settings')` = `应用设置`（`resources/zh_CN/element/string.json:28-29`）。【代码+实测】
+- `云服务设置` 项：`pages/settings/SettingsPage.ets:88-96`，文案 `$r('app.string.SET_CLOUDSERVICE')` = `云服务设置`（`resources/zh_CN/element/string.json:52-53`；base `Cloud Service`，`resources/base/element/string.json:52-53`），点击 `pushPathByName('ApiSetPage', null)`（`:93`）。【代码+实测】
+- 路由：`common/model/PageMap.ets:95-97`（`SettingsPageMap` 中 `'ApiSetPage'` → `ApiSetPage()`）。【代码】
+- 配置页：`pages/settings/ApiSetPage.ets:13-156`，NavDestination 标题同为 `云服务设置`（`:52`），页内小标题也是 `云服务设置`（`:59`）。【代码+实测】
+
+### 场景二："发现"页
+- 发现页 = `pages/Index.ets:109` `TabContent() { Explore(...) }`；默认首页 `defaultPageIndex` 默认 0（`common/functions/app/settings.ets:25`；`pages/Index.ets:26,38-40`），冷启动即进发现页。【代码+实测】
+- 在线内容区：`common/view/Explore.ets:116-215` `if(this.validApiUrl) { 推荐歌单(117-142) ... 排行榜(166-214) }`。不可用时整块不渲染，**没有任何引导文案或按钮**。【代码+实测】
+- 快捷卡片：`common/view/IndexRecommend.ets:133-135` 不可用时只保留最后一张 `本地曲库`。【代码+实测】
+- 底部配置面板：基线没有。`components/dialog/ApiDialog.ets` 是一个单输入框的 CustomDialog（标题 `启用在线服务`，按钮 `设置` / `确认并关闭`），**全工程没有任何引用**（grep 确认）。【代码】
+
+### 场景三："本地曲库"
+- 路由名 `LocalSongPage`：`common/model/PageMap.ets:37-39`。【代码】
+- 入口一：`我的` → `本地曲库` 卡片 `common/view/Me.ets:93-101`；入口二：发现页 `本地曲库` 卡片 `common/view/IndexRecommend.ets:90-96,125-130`（未配置时也显示）。【代码+实测】
+- 空列表文案：`pages/local/LocalSongPage.ets:175-192`，`Text('本地文件列表为空')` 在 `:177`；`filesList` 非空时另显示 `迁移旧版本数据` 按钮（`:178-190`，实测本机出现过）。【代码+实测】
+- 右上角上传：`pages/local/LocalSongPage.ets:47-67`（`menus` 第 2 项 `Upload`），UI 树 id `__NavdestinationField__NavigationMenu__MenuItem2__`，bounds `[1112,164][1252,304]`；第 1 项是搜索 `MenuItem1`。【代码+实测】
+
+## 4. 相关现状
+
+### 4.1 配置页组件（`pages/settings/ApiSetPage.ets`）【代码】
+- 状态：`@StorageProp(API_URL) customApiUrl`、`@StorageProp(VALID_API_URL) validApiUrl`（`:14-19`）。
+- 状态行：`Text(){ Span('用户云服务状态: ') Span('正常'|'不可用') }`（`:25-35`），UI 树里是一整串 `用户云服务状态: 正常`。【实测】
+- 表单：只有一个 `TextInput({ text: this.customApiUrl })`（`:66-69`）+ `Button('保存配置')`（`:70-74`）。
+- 保存：`setCustomApiUrl()`（`:133-138`）= `AppStorage.setOrCreate(API_URL)` + `PreferencesUtils.putPreferenceValue(SET_PERF, API_URL)` + `ToastUtil.showToast('配置已保存, 正在检查云服务是否可用...')` + `checkValidUrl()`（不 await、没有在途保护）。
+- 可用时额外显示 `(高级) 手动设置Cookie` 区（`:37-39`、`:81-125`）。
+
+### 4.2 状态模型 / 本地存储【代码】
+- 键：`StorageConstants.API_URL = 'apiUrl'`（`common/constants/StorageConstants.ets:271`，AppStorage + Preference）；`VALID_API_URL = 'isValidApiUrl'`（`:44`，只在 AppStorage）；首选项文件名 `SET_PERF = 'Settings'`（`:198`）。
+- 启动加载：`initSettings()` → `handleSetting<string>(API_URL, '')`（`common/functions/app/settings.ets:21-23`），没有就写默认值 `''`，再 `AppStorage.setOrCreate`（`:80-93`）。通用写法 `changeSettings(name, value)`（`:70-78`）。
+- 本机模拟器上首选项文件 `/data/app/el2/100/base/cc.chenlvin.cloudmusic/haps/entry/preferences/Settings` 是 XML，可在 shell 下读到，便于自测核对持久化。【实测】
+- 使用 `isValidApiUrl` 的 UI：`Explore.ets:20`（默认 true）、`IndexRecommend.ets:24`（默认 true）、`Me.ets:14`（默认 true）、`ApiSetPage.ets:17`（默认 false）、`ApiDialog.ets:11`。【代码】
+
+### 4.3 网络服务【代码】
+- `common/utils/request/RequestUtil.ets:11-13` axios 实例，超时 15000ms；请求拦截器 `:15-29`：`baseURL = params.baseUrl || getApiUrl()`（`getApiUrl` 读 AppStorage `apiUrl`，`common/functions/common/get.ets:14-16`），追加 `cookie`、`realIP` 参数；不支持认证头。`commonRequest` 返回 `response.data`（`:46-49`）。
+- 连通性检查：`checkValidUrl()`（`common/functions/common/get.ets:40-57`）`GET /inner/version`，`code === 200` → `isValidApiUrl=true`，否则或异常 → false；没有并发控制，旧请求晚到会覆盖新结果。
+- 启动顺序：`EntryAbility.ets:24-30` 先加载 3 个首选项再 `await appInit()`；`appInit()`（`common/functions/app/appInit.ets:26-40`）：`initSettings` → … → `getAppInfo()`（请求外网 `https://api.chenlvin.cc/api/cloudmusic/app`，`Constants.ets:8`、`api/chenlvinApi.ets:10-21`，失败 Toast `获取应用信息失败`）→ `checkValidUrl()`（`:35`）→ 可用才 `initUserInfo()`（登录态）。
+- 在线内容接口：`getTopList()` `GET /toplist`（`api/topListApi.ets:9-16`，成功写首选项缓存）；`getPersonalizedList()` `GET /personalized`（`api/playListApi.ets:137-145`，写 AppStorage + 首选项）。
+
+### 4.4 发现页状态（`common/view/Explore.ets`）【代码】
+- `isLogged` 带 `@Watch('getContent')`（`:19`）——**只有登录态变化才拉内容**；`validApiUrl` 没有 Watch（`:20`）。
+- `getTopLists()`（`:47-54`）只在缓存为空且可用时请求；`getPersonalizedList()`（`:56-63`）还要求已登录。两者都没有 try/finally，请求抛错时 `isLoadingTopList` / `isLoadingPersonalized` 会停在 true（骨架屏不消失）。
+- 下拉刷新 `refreshContent`（`:65-83`）：5s 冷却，不检查 `validApiUrl`，未登录也会请求 `/toplist` 和 `/personalized`，成功 Toast `刷新成功`。
+- 缓存：启动时从 `UserPreference` 读 `topLists`、`personalizedList` 进 AppStorage（`appInit.ets:76-77,85-86`）。
+
+### 4.5 本地曲库（`pages/local/LocalSongPage.ets`）【代码】
+- 状态 `:25-36`；`aboutToAppear` `:70-78`（loading → `refreshList()` → `FileUtils.getFileName()`）；`refreshList` `:260-267`（RDB `getAllSongs()` 倒序）。
+- 上传：菜单 → `DialogUtil.showPrimaryDialog`（标题 `上传文件`、按钮 `取消`/`上传`，`:50-65`）→ `handleUpload` `:269-281` → `PickerUtil.selectDocument`（`.mp3/.flac`，最多 99）→ `FileUtils.saveFilesToDirectory`（`common/utils/file/FileUtils.ets:155-186`：同名已存在跳过；复制到 `filesDir`；`fetchSongInfo` 按 `歌手 - 歌名.ext` 解析；写 RDB）→ Toast `上传 N 个文件` → `refreshList()`。
+- 数据：RDB `LocalSongs.db` 表 `songs`（`common/utils/data/RelationalStoreUtils.ets:11,25-35`）。
+
+<!-- APPEND_5 -->

@@ -35,6 +35,18 @@ export interface CacheSet {
   staticCacheMaxSize: number
 }
 
+/**
+ * 在线服务配置
+ */
+export interface ApiConfig {
+  protocol: string // 'http' | 'https'
+  host: string
+  port: string
+  path: string
+  user: string
+  password: string
+}
+
 export const CacheSetItem: CacheSet = {
   songCacheMaxSize: 1024 * 1024 * 1024,
   staticCacheMaxSize: 1024 * 1024 * 1024

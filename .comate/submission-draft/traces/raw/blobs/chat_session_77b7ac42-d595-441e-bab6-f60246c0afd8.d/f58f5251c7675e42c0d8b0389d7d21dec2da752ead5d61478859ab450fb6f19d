@@ -1,0 +1,135 @@
+Command executed successfully.
+Exit code: 0
+Output:
+resources/zh_CN/element/string.json-15-    {
+resources/zh_CN/element/string.json:16:      "name": "Explore",
+resources/zh_CN/element/string.json-17-      "value": "发现"
+--
+resources/zh_CN/element/string.json-19-    {
+resources/zh_CN/element/string.json:20:      "name": "Me",
+resources/zh_CN/element/string.json-21-      "value": "我的"
+--
+resources/zh_CN/element/string.json-23-    {
+resources/zh_CN/element/string.json:24:      "name": "Lists",
+resources/zh_CN/element/string.json-25-      "value": "播单"
+--
+resources/zh_CN/element/string.json-27-    {
+resources/zh_CN/element/string.json:28:      "name": "Settings",
+resources/zh_CN/element/string.json-29-      "value": "应用设置"
+--
+resources/zh_CN/element/string.json-31-    {
+resources/zh_CN/element/string.json:32:      "name": "LocalSongs",
+resources/zh_CN/element/string.json-33-      "value": "本地曲库"
+--
+resources/zh_CN/element/string.json-51-    {
+resources/zh_CN/element/string.json:52:      "name": "SET_CLOUDSERVICE",
+resources/zh_CN/element/string.json-53-      "value": "云服务设置"
+--
+resources/zh_CN/element/string.json-55-    {
+resources/zh_CN/element/string.json:56:      "name": "SET_DATAANDCACHE",
+resources/zh_CN/element/string.json-57-      "value": "应用数据与缓存"
+--
+resources/zh_CN/element/string.json-95-    {
+resources/zh_CN/element/string.json:96:      "name": "Search_content",
+resources/zh_CN/element/string.json-97-      "value": "搜索内容"
+--
+resources/base/element/string.json-15-    {
+resources/base/element/string.json:16:      "name": "Explore",
+resources/base/element/string.json-17-      "value": "Explore"
+--
+resources/base/element/string.json-19-    {
+resources/base/element/string.json:20:      "name": "Me",
+resources/base/element/string.json-21-      "value": "Me"
+--
+resources/base/element/string.json-23-    {
+resources/base/element/string.json:24:      "name": "Lists",
+resources/base/element/string.json-25-      "value": "Lists"
+--
+resources/base/element/string.json-27-    {
+resources/base/element/string.json:28:      "name": "Settings",
+resources/base/element/string.json-29-      "value": "Settings"
+--
+resources/base/element/string.json-31-    {
+resources/base/element/string.json:32:      "name": "LocalSongs",
+resources/base/element/string.json-33-      "value": "Local Songs"
+--
+resources/base/element/string.json-51-    {
+resources/base/element/string.json:52:      "name": "SET_CLOUDSERVICE",
+resources/base/element/string.json-53-      "value": "Cloud Service"
+--
+resources/base/element/string.json-55-    {
+resources/base/element/string.json:56:      "name": "SET_DATAANDCACHE",
+resources/base/element/string.json-57-      "value": "App Data & Cache"
+--
+resources/base/element/string.json-95-    {
+resources/base/element/string.json:96:      "name": "Search_content",
+resources/base/element/string.json-97-      "value": "Search something"
+export class EmitterConstants {
+  /**
+   * 播放界面显示事件
+   */
+  static readonly PLAYING_COVER_TOGGLE: string = 'PLAYING_COVER_TOGGLE'
+  /**
+   * Emitter
+   * 更新歌词
+   */
+  static readonly EMITTER_LYRIC_UPDATE: string = 'LYRIC_UPDATE'
+  /**
+   * Emitter
+   * 更新搜索内容
+   */
+  static readonly EMITTER_SEARCH: string = 'SEARCH'
+  /**
+   * Emitter
+   * 刷新播放列表
+   */
+  static readonly EMITTER_REFRESH_PLAYQUEUE: string = 'REFRESH_PLAYQUEUE'
+  /**
+   * 刷新LocalSong列表
+   */
+  static readonly REFRESH_LOCALSONGS: string = 'REFRESH_LOCALSONGS'
+  /**
+   * 从歌单中删除歌曲
+   */
+  static readonly EMITTER_DELETE_FROM_PLAYLIST: string = 'DELETE_FROM_PLAYLIST'
+  /**
+   * 播放
+   */
+  static readonly PLAY_PLAYLIST_SONGS: string = 'PLAY_PLAYLIST_SONGS'
+  /**
+   * Push页面
+   */
+  static readonly PUSH_PAGE: string = 'PUSH_PAGE'
+}import Constants from "../../common/constants/Constants"
+
+@Component
+export struct CommonSettingsCard {
+  @State title: string | ResourceStr = ''
+  @State text: string | ResourceStr = ''
+  action: () => void = () => {}
+
+  build() {
+    Button() {
+      Row() {
+        Text(this.title)
+          .fontSize(Constants.FONT_SIZE_COMMON)
+          .fontWeight(Constants.FONT_WEIGHT_BOLD)
+        if (!this.text) {
+          Image($r('app.media.ic_public_arrow_right'))
+            .width(Constants.FONT_SIZE_TITLE)
+            .fillColor($r('app.color.reverse'))
+        } else {
+          Text(this.text)
+            .fontSize(Constants.FONT_SIZE_COMMON)
+            .fontWeight(FontWeight.Bold)
+        }
+      }
+      .width('100%')
+      .justifyContent(FlexAlign.SpaceBetween)
+    }
+    .padding({ left: Constants.PADDING_EDGE_DEFAULT, right: Constants.PADDING_EDGE_DEFAULT })
+    .backgroundColor(Color.Transparent)
+    .onClick(this.action)
+    .height(Constants.HEIGHT_SETTINGS_ITEM)
+  }
+}

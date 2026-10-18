@@ -1,0 +1,303 @@
+Found 100 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 19: | T1 | `设置` | S1-1 | 基线为"应用设置"，见 U1 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 21: | T3 | `在线服务配置` | S1-概述 | 页面名，见 U2 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 22: | T4 | `主机` `端口` `请求（HTTP/HTTPS）` `路径` `用户` `密码` | S1-2 | 括号为全角 `（）`(U+FF08/U+FF09)；"请求"标签形式见 U3 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 30: | T12 | `本地文件列表为空\n右上方入口支持上传本地音频` | S3-2 | Spec 源文件中是反斜杠+n 两个字符，按换行理解，见 U9 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 34: ### A1 设置页可进入
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 36: - 证据等级：SPEC_EXPLICIT（进入设置页）；入口文案 UNCONFIRMED（U1）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 42: ### A2 设置页存在"在线服务"选项
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 47: - 八维：入口=A1；前置数据=无；用户动作=无（存在性）；UI=列表项文字 `在线服务`；数据=不适用；网络=不适用；返回=不适用；边界=同屏不得出现第二个 text 恰为 `在线服务` 的组件（否则点击歧义）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 50: ### A3 点击"在线服务"进入配置页
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 52: - 证据等级：SPEC_EXPLICIT（点击进入）；页面标题 UNCONFIRMED（U2）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 53: - 原子行为：点击 A2 选项后在设置面板的 Navigation 栈内 push 配置页（沿用 `pushPathByName('ApiSetPage')`）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 54: - 可观察结果：配置页可见，包含 A4 表单与 A8 状态。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 55: - 八维：入口=A2；前置数据=无；用户动作=点击；UI=配置页出现；数据=不适用；网络=进入页面不发请求（基线即如此，REASONABLE）；返回=返回键回到设置列表，再返回关闭面板；边界=快速连点不应 push 两层（基线 `pushPathByName` 无去重，未实测）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 58: ### A4 表单包含六个独立输入项
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 62: - 可观察结果：标签文本 `主机` `端口` `路径` `用户` `密码` 各自全等命中；"请求"标签见 U3；对应 5 个 TextInput + 1 个协议选择控件。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 63: - 八维：入口=A3；前置数据=无（未配置时各项为空、协议为默认值）；用户动作=无（存在性）；UI=六项同屏或可滚动可见；数据=不适用；网络=不适用；返回=不适用；边界=小屏需可滚动到"保存配置"（基线外层已是 Scroll）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 66: ### A5 请求协议可在 HTTP / HTTPS 间切换
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 68: - 证据等级：SPEC_EXPLICIT（两个取值）；默认 HTTP 为 REASONABLE_DERIVATION（答疑 Q1 示例为 HTTP）；控件形态 UNCONFIRMED（U3）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 69: - 原子行为：协议二选一，默认 HTTP，选择结果参与地址组合（A15）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 71: - 八维：入口=A3；前置数据=无；用户动作=点击 `HTTPS` / `HTTP`；UI=选中态切换；数据=保存后协议持久化；网络=切换本身不发请求；返回=重进页面回显已保存协议；边界=重复点击同一项不变化。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 74: ### A6 端口输入约束
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 76: - 证据等级：REASONABLE_DERIVATION（端口为数字）；非法值处理 UNCONFIRMED（U6）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 79: - 八维：入口=A3；前置数据=无；用户动作=输入；UI=数字键盘；数据=保存后持久化；网络=不适用；返回=回显；边界=空、纯空格（trim 后为空→省略端口）、非数字/超出 1–65535（U6）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 82: ### A7 密码输入掩码
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 87: - 八维：入口=A3；前置数据=无；用户动作=输入；UI=掩码；数据=保存后持久化；网络=是否参与请求见 A16；返回=回显（掩码）；边界=空（答疑 Q1：服务未配置认证时留空）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 90: ### A8 显示当前连通性状态
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 95: - 八维：入口=A3；前置数据=未配置→`不可用`；已配置且服务可达→`正常`；用户动作=无；UI=状态文本 + 颜色；数据=读 AppStorage；网络=进入页面不额外发请求（沿用启动时检查结果，REASONABLE）；返回=返回重进状态保持；边界=启动检查未完成时显示什么（U7）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 98: ### A9 "保存配置"按钮
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 103: - 八维：入口=A3；前置数据=无；用户动作=点击；UI=见 A11/A13；数据=见 A10；网络=见 A12；返回=不适用；边界=键盘弹出时按钮仍可点到（基线实测键盘未遮挡，y=947–1087）；连点见 A20。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 106: ### A10 保存即持久化（沿用基线存储方式）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 111: - 八维：入口=A9；前置数据=无；用户动作=点击保存；UI=无直接 UI（见 A11）；数据=写首选项 + AppStorage；网络=见 A12；返回=重进页面回显；边界=只改了部分字段时其余字段保持原值（"部分操作"）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 114: ### A11 保存后提示文案
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 119: - 八维：入口=A9；前置数据=无；用户动作=点击保存；UI=Toast；数据=不适用；网络=提示与检查请求同时发生，提示不等待结果；返回=不适用；边界=空主机时是否仍提示（U5）；连点时每次点击是否都提示（A20）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 122: ### A12 保存后真实发起连通性检查
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 127: - 八维：入口=A9；前置数据=可达的兼容服务；用户动作=点击保存；UI=A13/A14；数据=AppStorage `isValidApiUrl`；网络=每次保存恰好 1 次检查请求，超时 15s（基线 RequestUtil 默认）；返回=离开页面不取消请求，结果仍写回；边界=组合地址为空时不发请求直接判不可用（基线实测空地址无请求）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 130: ### A13 检查成功 → 状态自动变为"正常"
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 135: - 八维：入口=A12；前置数据=服务可达；用户动作=无；UI=状态刷新；数据=`isValidApiUrl=true`；网络=1 次检查请求已完成；返回=返回"我的"页出现 `未登录` 和 `登录`（基线 `Me.ets:73-82,106-116`）；边界=重启后仍为 `正常`（启动检查，`appInit.ets:35`）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 138: ### A14 检查失败 → 状态为"不可用"
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 143: - 八维：入口=A12；前置数据=不可达地址 / 空主机；用户动作=无；UI=状态刷新；数据=`isValidApiUrl=false`；网络=失败或无请求；返回=发现页回到引导提示（B1）；边界=从"正常"改成错误地址保存后应变为"不可用"，而不是保留旧值。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 146: ### A15 地址组合规则
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 151: - 八维：入口=A9；前置数据=无；用户动作=填写+保存；UI=不适用；数据=`apiUrl` 值；网络=请求打到组合地址；返回=不适用；边界=路径 `api`/`/api`/`/api/` 三种写法结果相同；主机纯空格视为空。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 154: ### A16 用户名/密码的使用方式
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 156: - 证据等级：UNCONFIRMED_ASSUMPTION（U4）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 159: - 八维：入口=A9；前置数据=无；用户动作=填写；UI=不适用；数据=持久化；网络=见原子行为；返回=回显；边界=只填用户不填密码。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 162: ### A17 返回后重进 / 重启应用后重进
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 167: - 八维：入口=A1→A3；前置数据=已保存配置；用户动作=返回/重启/重进；UI=回显；数据=读首选项；网络=冷启动时自动检查 1 次（`appInit.ets:35`），重进页面不额外请求；返回=保持；边界=填写后未点保存就返回 → 不持久化（A22）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 168: - 稳定选择器：A4 各输入框 id（需补）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 170: ### A18 既有单字符串配置的兼容
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 172: - 证据等级：UNCONFIRMED_ASSUMPTION（U8）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 176: - 稳定选择器：同 A4。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 178: ### A19 空输入 / 纯空格
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 180: - 证据等级：UNCONFIRMED_ASSUMPTION（U5）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 183: - 八维：入口=A3；前置数据=任意；用户动作=清空主机后保存；UI=Toast（U5）+ 状态；数据=`apiUrl=''`；网络=不发请求；返回=重进显示空主机；边界=只有端口/路径有值、主机为空时同样视为未配置。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 184: - 稳定选择器：同 A4、A8。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 186: ### A20 重复点击 / 快速连点"保存配置"
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 191: - 八维：入口=A9；前置数据=服务可达；用户动作=快速连点；UI=最多一次 Toast 或每次 Toast（不影响断言）；数据=最终值=最后一次输入；网络=去重；返回=不适用；边界=先存不可达地址（15s 超时在途）再改存可达地址 → 最终 `正常`，超时返回后不得改回 `不可用`。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 194: ### A21 新地址对全应用生效
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 198: - 可观察结果：返回"我的"出现 `登录` 按钮；发现页加载内容（B7/B13）；服务端日志请求来自同一地址。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 199: - 八维：入口=A13；前置数据=服务可达；用户动作=返回；UI=见可观察结果；数据=`apiUrl`；网络=后续请求 baseURL 为新地址（`RequestUtil.ets:17`）；返回=保持；边界=不得硬编码地址（答疑 Q1）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 202: ### A22 修改后未保存即离开
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 207: - 八维：入口=A3；前置数据=已保存配置；用户动作=修改→返回；UI=回显原值；数据=不变；网络=无；返回=见可观察结果；边界=关闭整个设置面板同理。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 208: - 稳定选择器：同 A4。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 212: ### B1 未配置时显示引导文案
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 214: - 证据等级：SPEC_EXPLICIT（文案）；显示条件 UNCONFIRMED（U10）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 220: ### B2 未配置时显示"设置在线服务"按钮
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 225: - 八维：入口=B1；前置数据=同 B1；用户动作=无；UI=按钮；数据=不适用；网络=不适用；返回=同 B1；边界=同屏不得有其他全等 `设置在线服务` 的组件。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 228: ### B3 未配置时不加载推荐内容
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 233: - 八维：入口=B1；前置数据=未配置；用户动作=冷启动 / 下拉刷新；UI=只保留问候语 + `本地曲库` 卡片 + 引导；数据=不读写在线缓存；网络=0 个内容请求；返回=不适用；边界=下拉刷新（基线 `Explore.ets:65-83` 不判断配置，会发请求并失败 toast，需改）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 236: ### B4 点击按钮从底部弹出配置面板
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 238: - 证据等级：SPEC_EXPLICIT（底部弹出）；面板内容 REASONABLE_DERIVATION（与 A4 同一套表单）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 239: - 原子行为：点击 T10 → 在发现页当前页打开底部 Sheet（`SheetType.BOTTOM`，基线 `AlbumPage.ets:35` 有同类写法），内含 A4 六项 + A8 状态 + `保存配置`。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 241: - 八维：入口=B2；前置数据=未配置；用户动作=点击；UI=底部面板；数据=回显当前已保存值（空）；网络=打开面板不发请求；返回=返回键/下滑/点遮罩关闭（B9）；边界=快速连点只出现一个面板（B10）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 242: - 稳定选择器：需补 `.id("explore_api_sheet")`；面板内输入框沿用 A4 id。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 244: ### B5 面板内保存 → 面板关闭
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 249: - 八维：入口=B4；前置数据=无；用户动作=填写 + 点击保存；UI=面板关闭；数据=同 A10；网络=同 A12；返回=回到发现页；边界=主机为空时是否也关闭（U5）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 252: ### B6 面板保存同样持久化 + 检查 + 提示
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 254: - 证据等级：REASONABLE_DERIVATION（持久化、检查）；面板保存是否同样弹 T7 为 UNCONFIRMED（U11）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 255: - 原子行为：与 A10、A11、A12 完全一致（同一保存逻辑）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 257: - 八维：入口=B5；前置数据=服务可达；用户动作=保存；UI=Toast T7（推荐）；数据=首选项；网络=1 次检查；返回=不适用；边界=同 A20。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 258: - 稳定选择器：同 A4。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 260: ### B7 检查通过后发现页刷新加载在线内容
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 265: - 八维：入口=B5；前置数据=兼容服务可达；用户动作=无（自动）；UI=加载中骨架 → 内容；数据=写 AppStorage/首选项缓存（基线 `topListApi.ets`、`playListApi.ets:137-145` 既有）；网络=各 1 次；返回=切到其他 Tab 再回来内容仍在、不重复请求；边界=请求失败见 B12。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 268: ### B8 检查失败时保持引导
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 273: - 八维：入口=B5；前置数据=不可达地址；用户动作=保存；UI=引导保留；数据=配置已保存（下次进入面板回显）；网络=仅 1 次检查请求；返回=不适用；边界=再次点 T10 可重新修改。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 274: - 稳定选择器：同 B1/B2。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 276: ### B9 取消 / 关闭面板
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 281: - 八维：入口=B4；前置数据=未配置；用户动作=取消；UI=面板关闭；数据=不变；网络=0；返回=回到发现页；边界=输入一半后取消。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 282: - 稳定选择器：同 B4。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 284: ### B10 重复点击"设置在线服务"
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 289: - 八维：入口=B2；前置数据=未配置；用户动作=连点；UI=单面板；数据=不适用；网络=0；返回=一次返回即关闭；边界=不适用其余项。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 292: ### B11 加载状态与请求绑定
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 297: - 八维：入口=B7；前置数据=服务检查通过但内容接口失败；用户动作=无；UI=骨架屏消失；数据=不写坏缓存；网络=失败；返回=不适用；边界=刷新过程中切 Tab。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 300: ### B12 重启应用后重进
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 306: - 稳定选择器：同 B1/B7。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 308: ### B13 在设置页完成配置后回到发现页
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 311: - 原子行为：通过"我的→应用设置→在线服务"保存成功后，切回发现页同样显示在线内容、引导消失（与 B7 同一触发源：`isValidApiUrl` 变化）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 312: - 可观察结果：同 B7。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 313: - 八维：入口=A13 后切 `发现` Tab；前置数据=服务可达；用户动作=切 Tab；UI=内容；数据=缓存；网络=`/toplist` `/personalized` 各 1 次；返回=不适用；边界=基线此路径不加载内容（实测保存后切回仅显示空 `推荐歌单`/`排行榜` 标题，无请求）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 314: - 稳定选择器：同 B7。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 316: ### B14 由可用改为不可用
+
+(Results are truncated. Consider using a more specific pattern.)

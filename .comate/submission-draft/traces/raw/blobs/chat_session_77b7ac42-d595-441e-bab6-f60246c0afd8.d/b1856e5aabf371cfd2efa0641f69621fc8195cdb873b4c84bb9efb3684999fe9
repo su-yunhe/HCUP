@@ -1,0 +1,123 @@
+<file>
+     1→import { common } from '@kit.AbilityKit'
+     2→import fileIo from '@ohos.file.fs'
+     3→import {  FileUtil, LogUtil, PreviewUtil, ToastUtil } from '@pura/harmony-utils'
+     4→import fs from '@ohos.file.fs'
+     5→import { Environment, fileUri, statfs } from '@kit.CoreFileKit'
+     6→import { picker } from '@kit.CoreFileKit'
+     7→import { BusinessError } from '@kit.BasicServicesKit'
+     8→import { LocalSong } from '../../entities/local/LocalData'
+     9→import RelationalStoreUtils from '../data/RelationalStoreUtils'
+    10→import { JSON } from '@kit.ArkTS'
+    11→import { fetchSongInfo, getArtists } from '../../functions/common/convert'
+    12→
+    13→/**
+    14→ * 文件管理
+    15→ */
+    16→const TAG = '[FileUtils] '
+    17→
+    18→class FileUtils {
+    19→  context = getContext(this) as common.UIAbilityContext
+    20→  filesDir = this.context.filesDir
+    21→  cacheDir = this.context.cacheDir
+    22→
+    23→  getFilesDir() {
+    24→    return this.filesDir
+    25→  }
+    26→
+    27→  getCacheDir() {
+    28→    return this.cacheDir
+    29→  }
+    30→
+    31→  async getFileName(): Promise<Array<string>> {
+    32→    let list = await fileIo.listFile(this.filesDir, {
+    33→      filter: {
+    34→        suffix: ['.mp3', '.MP3', '.flac', '.FLAC'],
+    35→      }
+    36→    })
+    37→    return list
+    38→  }
+    39→
+    40→  /**
+    41→   * 是否存在本地文件
+    42→   * @param fileName
+    43→   * @returns string - fdPath
+    44→   */
+    45→  async accessLocalFile(fileName: string): Promise<string> {
+    46→    const fileType: Array<string> = ['flac', 'FLAC', 'mp3', 'MP3']
+    47→    for(let type of fileType) {
+    48→      let filePath = this.filesDir + `/${fileName}.${type}`
+    49→      if(await(FileUtil.access(filePath))) {
+    50→        let file = await fileIo.open(filePath)
+    51→        let fdPath = 'fd://' + file.fd
+    52→        return fdPath
+    53→      }
+    54→    }
+    55→    return ''
+    56→  }
+    57→
+    58→  async deleteFile(localSongs: LocalSong[]) {
+    59→    try {
+    60→      let successCount = 0
+    61→      for (const localSong of localSongs) {
+    62→        try {
+    63→          RelationalStoreUtils.deleteSong(localSong.id)
+    64→          await FileUtil.unlink(this.filesDir + `/${localSong.songFile}`)
+    65→          if(localSong.songId != 0) {
+    66→            await FileUtil.unlink(this.filesDir + `/pic/${localSong.songId}.jpg`)
+    67→            await FileUtil.unlink(this.filesDir + `/lyric/${localSong.songId}.lrc`)
+    68→          }
+    69→          successCount++
+    70→        } catch (e) {
+    71→          LogUtil.error(TAG, `删除文件 ${localSong.songFile} 失败: ${e.stack}`)
+    72→        }
+    73→      }
+    74→      ToastUtil.showToast(`删除了 ${successCount}/${localSongs.length} 个文件`)
+    75→    } catch (e) {
+    76→      LogUtil.error(TAG, `Delete files error: ${JSON.stringify(e)}`)
+    77→    }
+    78→  }
+    79→
+    80→
+    81→  async getFileUri(fileName:string): Promise<fileUri.FileUri | null> {
+    82→    try {
+    83→      let uri = FileUtil.getFileUri(this.filesDir + `/${fileName}`)
+    84→      return uri
+    85→    } catch (e) {
+    86→      LogUtil.error(TAG, '获取文件Uri失败: ' + e.message())
+    87→      return null
+    88→    }
+    89→  }
+    90→
+    91→  async moveFile(from:string, to:string) {
+    92→    try {
+    93→      FileUtil.moveFile(from, to, 0)
+    94→    } catch (e) {
+    95→      LogUtil.error(TAG, '移动文件时出错 move file error: ' + e.message())
+    96→    }
+    97→  }
+    98→
+    99→  async saveFile(localSongs: LocalSong[]) {
+   100→    try {
+   101→      let filePicker = new picker.DocumentViewPicker()
+   102→      let saveOption = new picker.DocumentSaveOptions()
+   103→      saveOption.newFileNames = localSongs.map(song => song.songFile)
+   104→
+   105→      filePicker.save(saveOption).then((uris) => {
+   106→        uris.forEach(async (uri, index) => {
+   107→          try {
+   108→            let srcPath = this.filesDir + `/${localSongs[index].songFile}`
+   109→            let descFile = fs.openSync(uri, fs.OpenMode.READ_WRITE | fs.OpenMode.CREATE)
+   110→            await fs.copyFile(srcPath, descFile.fd)
+   111→            fs.closeSync(descFile.fd)
+   112→          } catch (err) {
+   113→            LogUtil.error(TAG, `文件 ${localSongs[index].songFile} 保存失败: ${err.message}`)
+   114→          }
+   115→        })
+   116→        ToastUtil.showToast(`已保存 ${uris.length} 个文件`)
+   117→      }).catch((err: Error) => {
+   118→        LogUtil.error(TAG, 'File Picker 出错: ' + err.message)
+   119→      })
+   120→    } catch (e) {
+</file>
+<metadata>The file has 217 lines in total.</metadata>

@@ -1,0 +1,304 @@
+<file>
+     1→import { DialogUtil, ToastUtil} from "@pura/harmony-utils";
+     2→import Constants from "../constants/Constants";
+     3→import { TopListItem } from "../entities/recommend/TopList";
+     4→import { getTopList } from "../../api/topListApi";
+     5→import { TopListItemCard } from "../../components/cards/TopListItemCard";
+     6→import { StorageConstants } from "../constants/StorageConstants";
+     7→import { getPersonalizedList } from "../../api/playListApi";
+     8→import { PersonalListItem } from "../entities/recommend/Personalized";
+     9→import { PersonalizedCard } from "../../components/cards/PersonalizedCard";
+    10→import { AppInfo, AppInfoClass } from "../entities/local/AppInfo";
+    11→import { RecommendDjRadio } from "../entities/dj/DjRecommend";
+    12→import { IndexRecommend } from "./IndexRecommend";
+    13→import { PersonalizedSkeletion } from "../../components/skeleton/Skeleton";
+    14→
+    15→@Component
+    16→export struct Explore {
+    17→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    18→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    19→  @StorageProp(StorageConstants.IS_LOGGED) @Watch('getContent') isLogged: boolean = false
+    20→  @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = true
+    21→  @StorageProp(StorageConstants.APP_INFO) appInfo: AppInfo = AppInfoClass
+    22→  @StorageLink(StorageConstants.TOPLISTS) topList: Array<TopListItem> = []
+    23→  @StorageLink(StorageConstants.PERSONALIZED_LIST) personalizedList: Array<PersonalListItem> = []
+    24→  @StorageLink(StorageConstants.RECOMMENDED_DJ) recommendDjRadioList: Array<RecommendDjRadio> = []
+    25→  @StorageProp(StorageConstants.BREAKPOINT_WIDTH) breakpoint: string = 'sm'
+    26→  @State isLoadingTopList: boolean = false
+    27→  @State isLoadingPersonalized: boolean = false
+    28→  @State isLoadingRecommendDjRadio: boolean = false
+    29→  @State isRefreshing: boolean = false
+    30→  @State lastRefreshTime: number = 0
+    31→  @Prop currentHour: number = 0
+    32→  @State totalOpacity: number = 0
+    33→  @Consume('pageInfos') pageInfos: NavPathStack
+    34→  private refreshCooldown: number = 5000
+    35→
+    36→  aboutToAppear() {
+    37→    animateTo({ duration: 300, curve: Curve.Ease, delay: 100}, () => {
+    38→      this.totalOpacity = 1
+    39→    })
+    40→  }
+    41→
+    42→  async getContent() {
+    43→    this.getTopLists()
+    44→    this.getPersonalizedList()
+    45→  }
+    46→
+    47→  private async getTopLists() {
+    48→    if(this.topList.length == 0 && this.validApiUrl) {
+    49→      this.isLoadingTopList = true
+    50→      this.topList = await getTopList()
+    51→      this.isLoadingTopList = false
+    52→    }
+    53→    else return
+    54→  }
+    55→
+    56→  private async getPersonalizedList() {
+    57→    if(this.isLogged && this.personalizedList.length == 0 && this.validApiUrl) {
+    58→      this.isLoadingPersonalized = true
+    59→      this.personalizedList = await getPersonalizedList()
+    60→      this.isLoadingPersonalized = false
+    61→    }
+    62→    else return
+    63→  }
+    64→
+    65→  private refreshContent = async () => {
+    66→    this.isRefreshing = true
+    67→    const currentTime = new Date().getTime()
+    68→    if (currentTime - this.lastRefreshTime < this.refreshCooldown) {
+    69→      ToastUtil.showToast('操作过于频繁，请5秒后再试')
+    70→    } else {
+    71→      try {
+    72→        Promise.all([
+    73→          this.topList = await getTopList(),
+    74→          this.personalizedList = await getPersonalizedList(),
+    75→        ])
+    76→        this.lastRefreshTime = currentTime
+    77→        ToastUtil.showToast('刷新成功')
+    78→      } catch (e) {
+    79→        ToastUtil.showToast('内容刷新失败: ' + e.message)
+    80→      }
+    81→    }
+    82→    this.isRefreshing = false
+    83→  }
+    84→
+    85→  build() {
+    86→    Column() {
+    87→      Refresh({ refreshing: this.isRefreshing }) {
+    88→        Grid() {
+    89→          if(this.appInfo.data.Announcement.isShow) {
+    90→            GridItem() {
+    91→              this.Announcement()
+    92→            }
+    93→          }
+    94→          GridItem() {
+    95→            Search({
+    96→              placeholder: $r('app.string.Search_content'),
+    97→              icon: '/resources/base/media/ic_public_search_filled.svg',
+    98→            })
+    99→              .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+   100→              .focusable(false)
+   101→              .onClick(() => {
+   102→                this.pageInfos.clear()
+   103→                this.pageInfos.pushPathByName('SearchPage', null, this.breakpoint === 'lg' && this.pageInfos.size() === 0 ? false : true)
+   104→              })
+   105→              .layoutWeight(1)
+   106→          }
+   107→          .padding({ left: 20, right: 20 })
+   108→
+   109→          GridItem() {
+   110→            Column({ space: 5 }) {
+   111→              this.Intro(this.getGreeting(this.currentHour), () => {})
+   112→              IndexRecommend({ isLogged: this.isLogged })
+   113→            }
+   114→          }
+   115→
+   116→          if(this.validApiUrl) {
+   117→            GridItem() {
+   118→              Column({ space: 5 }) {
+   119→                this.Intro('推荐歌单', () => {})
+   120→                // 推荐歌单
+   121→                List() {
+   122→                  ListItem().width(5)
+   123→                  ListItem().width(5)
+   124→                  if(this.isLoadingPersonalized || this.isRefreshing) {
+   125→                    ForEach(Constants.ARRAY_LENGTH_10, (item: number) => {
+   126→                      PersonalizedSkeletion()
+   127→                    })
+   128→                  } else {
+   129→                    ForEach(this.personalizedList, (item: PersonalListItem, index) => {
+   130→                      PersonalizedCard({ item: item }).padding(5)
+   131→                    }, (item: PersonalListItem) => item.id.toString())
+   132→                  }
+   133→                  ListItem().width(5)
+   134→                  ListItem().width(5)
+   135→                }
+   136→                .lanes(2)
+   137→                .listDirection(Axis.Horizontal)
+   138→                .scrollBar(BarState.Off)
+   139→                .width('100%')
+   140→              }
+   141→            }
+   142→            .padding({ top: 20 })
+   143→
+   144→            // GridItem() {
+   145→            //   Column({ space: 5 }) {
+   146→            //     this.Intro('推荐电台', () => {})
+   147→            //     // 推荐歌单
+   148→            //     List() {
+   149→            //       ListItem().width(5)
+   150→            //       ListItem().width(5)
+   151→            //       ForEach(this.recommendDjRadioList, (item: RecommendDjRadio) => {
+   152→            //         ListItem() {
+   153→            //           DjRadioRecommendCard({ djRadio: item }).padding(10)
+   154→            //         }
+   155→            //       }, (item: PersonalListItem) => item.id.toString())
+   156→            //       ListItem().width(5)
+   157→            //       ListItem().width(5)
+   158→            //     }
+   159→            //     .listDirection(Axis.Horizontal)
+   160→            //     .scrollBar(BarState.Off)
+   161→            //     .width('100%')
+   162→            //   }
+   163→            // }
+   164→            // .padding({ top: 20 })
+   165→
+   166→            GridItem() {
+   167→              Column({ space: 15 }) {
+   168→                this.Intro('排行榜', () => {
+   169→                  this.pageInfos.pushPathByName('TopListPage', null, this.breakpoint === 'lg' && this.pageInfos.size() === 0 ? false : true)
+   170→                })
+   171→                // 排行榜
+   172→                List() {
+   173→                  ListItem().width(15)
+   174→                  ForEach(this.topList.slice(0, 10), (item: TopListItem) => {
+   175→                    ListItem() {
+   176→                      TopListItemCard({ topListItem: item, breakpoint: this.breakpoint }).padding(5)
+   177→                    }
+   178→                  })
+   179→                  ListItem() {
+   180→                    Button() {
+   181→                      Column({ space: 5 }) {
+   182→                        Stack({ alignContent: Alignment.Center }) {
+   183→                          Image($r('app.media.bg4'))
+   184→                            .width(120)
+   185→                            .aspectRatio(1)
+   186→                            .borderRadius(Constants.RADIUS_CARD)
+   187→                            .draggable(false)
+   188→                          Text('更多排行')
+   189→                            .fontSize(Constants.FONT_SIZE_COMMON + 3)
+   190→                            .fontWeight(FontWeight.Bold)
+   191→                            .fontColor(Color.White)
+   192→                        }
+   193→                        .width(120)
+   194→                        .aspectRatio(1)
+   195→                        .backgroundColor(Color.Transparent)
+   196→                      }
+   197→                    }
+   198→                    .backgroundColor(Color.Transparent)
+   199→                    .borderRadius(Constants.RADIUS_CARD)
+   200→                    .type(ButtonType.Normal)
+   201→                    .width(120)
+   202→                    .aspectRatio(1)
+   203→                    .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+   204→                    .onClick(() => { this.pageInfos.pushPathByName('TopListPage', null, this.breakpoint === 'lg' && this.pageInfos.size() === 0 ? false : true) })
+   205→                  }.padding(5)
+   206→                  ListItem().width(15)
+   207→                }
+   208→                .listDirection(Axis.Horizontal)
+   209→                .scrollBar(BarState.Off)
+   210→                .width('100%')
+   211→                .height('auto')
+   212→              }
+   213→            }
+   214→            .padding({ top: 20 })
+   215→          }
+   216→
+   217→          GridItem()
+   218→            .height(px2vp(this.bottomRectHeight) + 115)
+   219→        }
+   220→        .height('100%')
+   221→        .width('100%')
+   222→        .edgeEffect(EdgeEffect.Spring)
+   223→        .scrollBar(BarState.Off)
+   224→        .rowsGap(15)
+   225→        .columnsTemplate('1fr')
+   226→        .layoutDirection(GridDirection.Column)
+   227→        .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+   228→        .backToTop(true)
+   229→      }
+   230→      .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+   231→      .onRefreshing(this.refreshContent)
+   232→    }
+   233→    .width('100%')
+   234→    .height('100%')
+   235→    .opacity(this.totalOpacity)
+   236→  }
+   237→
+   238→  @Builder
+   239→  Loading(ht: number | string = '100%') {
+   240→    Column() {
+   241→      LoadingProgress().width(Constants.SIZE_LOADING_PROGRESS_DEFAULT)
+   242→    }
+   243→    .height(ht)
+   244→    .padding({ bottom: px2vp(this.topRectHeight) + 60 })
+   245→    .width('100%')
+   246→    .justifyContent(FlexAlign.Center)
+   247→  }
+   248→
+   249→  @Builder
+   250→  Announcement() {
+   251→    Row() {
+   252→      Text(this.appInfo.data.Announcement.message)
+   253→        .width('100%')
+   254→        .textAlign(TextAlign.Center)
+   255→        .fontColor($r('app.color.main'))
+   256→        .fontSize(Constants.FONT_SIZE_COMMON)
+   257→        .padding({ top: 5, bottom: 5 })
+   258→        .layoutWeight(1)
+   259→        .textOverflow({ overflow: TextOverflow.MARQUEE })
+   260→        .onClick(() => {
+   261→          DialogUtil.showConfirmDialog({
+   262→            title: this.appInfo.data.Announcement.title,
+   263→            message: this.appInfo.data.Announcement.message
+   264→          })
+   265→        })
+   266→    }
+   267→    .backgroundColor('#fff8b8b8')
+   268→  }
+   269→
+   270→  @Builder Intro(title: string, action: () => void) {
+   271→    Row({ space: 5 }) {
+   272→      Text(title)
+   273→        .textStyle(18)
+   274→      Image($r('app.media.ic_public_arrow_right'))
+   275→        .width(Constants.SIZE_ICON_BUTTON_BAR)
+   276→        .fillColor($r('app.color.reverse'))
+   277→    }
+   278→    .width('100%')
+   279→    .justifyContent(FlexAlign.Start)
+   280→    .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+   281→    .onClick(action)
+   282→  }
+   283→
+   284→  private getGreeting(hour: number): string {
+   285→    if (hour >= 5 && hour < 7) return '清晨好'
+   286→    if (hour >= 7 && hour < 9) return '早上好'
+   287→    if (hour >= 9 && hour < 11) return '上午好'
+   288→    if (hour >= 11 && hour < 13) return '中午好'
+   289→    if (hour >= 13 && hour < 18) return '下午好'
+   290→    if (hour >= 18 && hour < 24) return '晚上好'
+   291→    if (hour >= 0 && hour < 5) return '夜已深, 注意休息'
+   292→    return '探索您喜爱的内容'
+   293→  }
+   294→}
+   295→
+   296→@Extend(Text) function textStyle(size: number) {
+   297→  .fontSize(size)
+   298→  .fontWeight(FontWeight.Bold)
+   299→  .fontColor($r('app.color.reverse'))
+   300→  .padding({ left: 20 })
+   301→}
+</file>
+<metadata>The file has 301 lines in total.</metadata>

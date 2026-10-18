@@ -1,4 +1,5 @@
 import { LogUtil } from "@pura/harmony-utils";
+import { util } from "@kit.ArkTS";
 import { StorageConstants } from "../../constants/StorageConstants";
 import { CacheSet, CacheSetItem } from "../../entities/local/Settings";
 import { Artist } from "../../entities/song/Song";
@@ -33,27 +34,66 @@ export async function getCookie(): Promise<string> {
 interface InnerVersion {
   code: number
 }
+
+let checkSeq: number = 0
+let checkingKey: string | undefined = undefined
+let checkingTask: Promise<boolean> | undefined = undefined
+
 /**
  * 检查API URL连通性
+ * 同一配置的检查在途时不重复发请求；配置变化后旧请求的结果作废，不会覆盖新结果
  * @returns
  */
-export async function checkValidUrl(): Promise<boolean> {
+export function checkValidUrl(): Promise<boolean> {
+  const apiUrl = AppStorage.get<string>(StorageConstants.API_URL) ?? ''
+  const key = `${apiUrl}\n${getApiAuthorization()}`
+  if (checkingTask && checkingKey === key) {
+    return checkingTask
+  }
+  const seq = ++checkSeq
+  if (!apiUrl) {
+    checkingKey = undefined
+    checkingTask = undefined
+    AppStorage.setOrCreate(StorageConstants.VALID_API_URL, false)
+    return Promise.resolve(false)
+  }
+  checkingKey = key
+  const task = requestInnerVersion().then((valid: boolean) => {
+    if (seq === checkSeq) {
+      AppStorage.setOrCreate(StorageConstants.VALID_API_URL, valid)
+      checkingKey = undefined
+      checkingTask = undefined
+    }
+    return valid
+  })
+  checkingTask = task
+  return task
+}
+
+async function requestInnerVersion(): Promise<boolean> {
   try {
     const response = await commonRequest<InnerVersion>({
       url: '/inner/version',
       params: {}
     })
-    if (response.code === 200) {
-      AppStorage.setOrCreate(StorageConstants.VALID_API_URL, true)
-      return true
-    } else {
-      AppStorage.setOrCreate(StorageConstants.VALID_API_URL, false)
-      return false
-    }
+    return response.code === 200
   } catch (e) {
-    AppStorage.setOrCreate(StorageConstants.VALID_API_URL, false)
     return false
   }
+}
+
+/**
+ * 在线服务认证头
+ * 配置了用户或密码时返回 HTTP Basic 认证值，否则返回 ''
+ */
+export function getApiAuthorization(): string {
+  const user = AppStorage.get<string>(StorageConstants.API_USER) ?? ''
+  const password = AppStorage.get<string>(StorageConstants.API_PASSWORD) ?? ''
+  if (!user && !password) {
+    return ''
+  }
+  const bytes = new util.TextEncoder().encodeInto(`${user}:${password}`)
+  return 'Basic ' + new util.Base64Helper().encodeToStringSync(bytes)
 }
 
 export async function getLocalSongArtistsString(localSongArtists: string): Promise<string> {

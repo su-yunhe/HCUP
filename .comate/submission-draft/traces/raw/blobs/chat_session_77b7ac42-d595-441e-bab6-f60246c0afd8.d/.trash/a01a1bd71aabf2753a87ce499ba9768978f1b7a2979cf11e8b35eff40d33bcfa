@@ -1,0 +1,17 @@
+## 4. 相关现状
+
+### 4.1 配置页组件（`pages/settings/ApiSetPage.ets`）【代码】
+- 状态：`@StorageProp(API_URL) customApiUrl`、`@StorageProp(VALID_API_URL) validApiUrl`（`:14-19`）。
+- 状态行：`Text(){ Span('用户云服务状态: ') Span('正常'|'不可用') }`（`:25-35`），UI 树里是一整串 `用户云服务状态: 正常`。【实测】
+- 表单：只有一个 `TextInput({ text: this.customApiUrl })`（`:66-69`）+ `Button('保存配置')`（`:70-74`）。
+- 保存：`setCustomApiUrl()`（`:133-138`）= `AppStorage.setOrCreate(API_URL)` + `PreferencesUtils.putPreferenceValue(SET_PERF, API_URL)` + `ToastUtil.showToast('配置已保存, 正在检查云服务是否可用...')` + `checkValidUrl()`（不 await、没有在途保护）。
+- 可用时额外显示 `(高级) 手动设置Cookie` 区（`:37-39`、`:81-125`）。
+
+### 4.2 状态模型 / 本地存储【代码】
+- 键：`StorageConstants.API_URL = 'apiUrl'`（`common/constants/StorageConstants.ets:271`，AppStorage + Preference）；`VALID_API_URL = 'isValidApiUrl'`（`:44`，只在 AppStorage）；首选项文件名 `SET_PERF = 'Settings'`（`:198`）。
+- 启动加载：`initSettings()` → `handleSetting<string>(API_URL, '')`（`common/functions/app/settings.ets:21-23`），没有就写默认值 `''`，再 `AppStorage.setOrCreate`（`:80-93`）。通用写法 `changeSettings(name, value)`（`:70-78`）。
+- 本机模拟器上首选项文件 `/data/app/el2/100/base/cc.chenlvin.cloudmusic/haps/entry/preferences/Settings` 是 XML，可在 shell 下读到，便于自测核对持久化。【实测】
+- 使用 `isValidApiUrl` 的 UI：`Explore.ets:20`（默认 true）、`IndexRecommend.ets:24`（默认 true）、`Me.ets:14`（默认 true）、`ApiSetPage.ets:17`（默认 false）、`ApiDialog.ets:11`。【代码】
+
+### 4.3 网络服务【代码】
+-

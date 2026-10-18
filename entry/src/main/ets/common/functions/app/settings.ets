@@ -1,10 +1,11 @@
 import { LogUtil, ToastUtil } from "@pura/harmony-utils"
 import { StorageConstants } from "../../constants/StorageConstants"
-import { CacheSet, CacheSetItem,
+import { ApiConfig, CacheSet, CacheSetItem,
   FloatLyric,
   FloatLyricItem, LyricStyle, LyricStyleItem } from "../../entities/local/Settings"
 import PreferencesUtils from "../../utils/data/PreferencesUtils"
 import { preferences } from "@kit.ArkData"
+import { checkValidUrl } from "../common/get"
 
 /**
  * 设置项
@@ -16,11 +17,19 @@ const TAG = '[settings] '
  */
 export async function initSettings() {
   const SetPerf = StorageConstants.SET_PERF
+  // 旧版本只有 apiUrl，没有结构化字段
+  const isApiHostExist = await PreferencesUtils.hasPreferenceValue(SetPerf, StorageConstants.API_HOST)
 
   // 并行处理无依赖的配置项
   await Promise.all([
     // API
     handleSetting<string>(StorageConstants.API_URL, ''),
+    handleSetting<string>(StorageConstants.API_PROTOCOL, 'http'),
+    handleSetting<string>(StorageConstants.API_HOST, ''),
+    handleSetting<string>(StorageConstants.API_PORT, ''),
+    handleSetting<string>(StorageConstants.API_PATH, ''),
+    handleSetting<string>(StorageConstants.API_USER, ''),
+    handleSetting<string>(StorageConstants.API_PASSWORD, ''),
     // Default Index
     handleSetting<number>(StorageConstants.DEFAULT_PAGE_INDEX, 0),
     // Play Quality
@@ -36,6 +45,14 @@ export async function initSettings() {
     // floatLyricStyle
     handleSetting<FloatLyric>(StorageConstants.FLOAT_LYRIC_STYLE, FloatLyricItem)
   ])
+
+  // 旧版本的 apiUrl 解析回填为结构化字段（apiUrl 本身保持不变）
+  if (!isApiHostExist) {
+    const legacyConfig = parseApiUrl(AppStorage.get<string>(StorageConstants.API_URL) ?? '')
+    if (legacyConfig) {
+      await putApiFields(legacyConfig)
+    }
+  }
 
   // 处理关联配置项（API URL）
   const results = await Promise.all([
@@ -90,4 +107,100 @@ async function handleSetting<T extends preferences.ValueType>(
     await PreferencesUtils.putPreferenceValue(storageArea, key, defaultValue)
   }
   AppStorage.setOrCreate(key, value)
+}
+
+/**
+ * 当前在线服务配置
+ */
+export function getApiConfig(): ApiConfig {
+  const config: ApiConfig = {
+    protocol: AppStorage.get<string>(StorageConstants.API_PROTOCOL) ?? 'http',
+    host: AppStorage.get<string>(StorageConstants.API_HOST) ?? '',
+    port: AppStorage.get<string>(StorageConstants.API_PORT) ?? '',
+    path: AppStorage.get<string>(StorageConstants.API_PATH) ?? '',
+    user: AppStorage.get<string>(StorageConstants.API_USER) ?? '',
+    password: AppStorage.get<string>(StorageConstants.API_PASSWORD) ?? ''
+  }
+  return config
+}
+
+/**
+ * 规范化在线服务配置
+ * 去除首尾空格; 主机去掉协议前缀与末尾斜杠; 非法端口(非数字/超出1-65535)视为空; 路径统一为 '/xxx' 或 ''
+ */
+export function normalizeApiConfig(config: ApiConfig): ApiConfig {
+  const host = config.host.trim().replace(/^https?:\/\//i, '').replace(/\/+$/, '')
+  let port = config.port.trim()
+  const portNum = Number(port)
+  port = /^\d+$/.test(port) && portNum >= 1 && portNum <= 65535 ? portNum.toString() : ''
+  const path = config.path.trim().replace(/^\/+/, '').replace(/\/+$/, '')
+  const normalized: ApiConfig = {
+    protocol: config.protocol.trim().toLowerCase() === 'https' ? 'https' : 'http',
+    host: host,
+    port: port,
+    path: path ? '/' + path : '',
+    user: config.user.trim(),
+    password: config.password
+  }
+  return normalized
+}
+
+/**
+ * 组合 API 基础地址: {协议}://{主机}[:{端口}]{路径}，主机为空时返回 ''
+ */
+export function buildApiUrl(config: ApiConfig): string {
+  const c = normalizeApiConfig(config)
+  if (!c.host) {
+    return ''
+  }
+  return `${c.protocol}://${c.host}${c.port ? ':' + c.port : ''}${c.path}`
+}
+
+/**
+ * 解析单字符串 API 地址，无法解析时返回 undefined
+ */
+export function parseApiUrl(url: string): ApiConfig | undefined {
+  const match = /^(https?):\/\/([^\/:?#\s]+)(?::(\d+))?(\/[^?#\s]*)?$/i.exec(url.trim())
+  if (!match) {
+    return undefined
+  }
+  const config: ApiConfig = {
+    protocol: match[1],
+    host: match[2],
+    port: match[3] ?? '',
+    path: match[4] ?? '',
+    user: '',
+    password: ''
+  }
+  return normalizeApiConfig(config)
+}
+
+/**
+ * 保存在线服务配置并检查连通性
+ * 设置页与发现页配置面板共用
+ */
+export function saveApiConfig(config: ApiConfig): Promise<boolean> {
+  const normalized = normalizeApiConfig(config)
+  const apiUrl = buildApiUrl(normalized)
+  putApiFields(normalized)
+  putApiSetting(StorageConstants.API_URL, apiUrl)
+  ToastUtil.showToast('配置已保存，正在检查服务是否可用…')
+  return checkValidUrl()
+}
+
+function putApiFields(config: ApiConfig): Promise<void[]> {
+  return Promise.all([
+    putApiSetting(StorageConstants.API_PROTOCOL, config.protocol),
+    putApiSetting(StorageConstants.API_HOST, config.host),
+    putApiSetting(StorageConstants.API_PORT, config.port),
+    putApiSetting(StorageConstants.API_PATH, config.path),
+    putApiSetting(StorageConstants.API_USER, config.user),
+    putApiSetting(StorageConstants.API_PASSWORD, config.password)
+  ])
+}
+
+// 先同步写 AppStorage（后续请求立即使用新值），再持久化
+function putApiSetting(key: string, value: string): Promise<void> {
+  AppStorage.setOrCreate(key, value)
+  return PreferencesUtils.putPreferenceValue(StorageConstants.SET_PERF, key, value)
 }

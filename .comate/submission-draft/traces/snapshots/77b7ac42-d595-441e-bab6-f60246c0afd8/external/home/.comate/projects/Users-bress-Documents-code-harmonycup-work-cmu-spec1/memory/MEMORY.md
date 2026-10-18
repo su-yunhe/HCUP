@@ -1,0 +1,1 @@
+- [cmu-spec1 build/test env](reference_build_env.md) — JAVA_HOME/SDK env for hvigorw, emulator 127.0.0.1:5555, local API docker on :3000 (10.0.2.2)

@@ -1,0 +1,14 @@
+"""场景二：发现页未配置引导 + 底部配置面板。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.cmu_helpers import (DEAD_PORT, HOST, PROXY_PORT, T7, T9, T10, CmuTestCase,
+                                      RecordingProxy)
+
+PORT = str(PROXY_PORT)
+SHEET = BY.key("explore_api_sheet")
+
+
+class TestS2ExploreGuide(CmuTestCase):
+    proxy: RecordingProxy

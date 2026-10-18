@@ -25,6 +25,8 @@ const TAG = 'AppInit'
 
 export async function appInit() {
   AppStorage.setOrCreate(StorageConstants.APP_LOADING, true)
+  // 连通性检查完成前视为不可用，避免未检查的配置显示为"正常"
+  AppStorage.setOrCreate(StorageConstants.VALID_API_URL, false)
   await initSettings()
   initApp()
   await initPlayQueue()

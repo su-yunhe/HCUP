@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from '@ohos/axios'
 import { LogUtil } from '@pura/harmony-utils'
 import { StorageConstants } from '../../constants/StorageConstants'
-import { getApiUrl, getCookie } from '../../functions/common/get'
+import { getApiAuthorization, getApiUrl, getCookie } from '../../functions/common/get'
 
 const TAG = '[RequestUtil] '
 
@@ -15,6 +15,13 @@ const instance = axios.create({
 instance.interceptors.request.use(async (request: InternalAxiosRequestConfig ) => {
   // baseUrl
   request.baseURL = !request.params.baseUrl ? await getApiUrl() : request.params.baseUrl
+  // Authorization (仅用于在线服务, 配置了用户/密码时)
+  if(!request.params.baseUrl) {
+    const authorization = getApiAuthorization()
+    if(authorization) {
+      request.headers.set('Authorization', authorization)
+    }
+  }
   // timeout
   request.timeout = request.params.timeout ?? 15000
   // Cookie

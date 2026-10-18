@@ -1,0 +1,212 @@
+<file>
+     1→import { Explore } from '../common/view/Explore'
+     2→import { BottomBarComponent } from '../components/play/BottomBarComponent';
+     3→import Constants from '../common/constants/Constants';
+     4→import {
+     5→  AlbumParam,
+     6→  ArtistParam,
+     7→  CommonParam } from '../common/entities/local/PageParams';
+     8→import { UserLists } from '../common/view/userLists/UserLists';
+     9→import { Me } from '../common/view/Me';
+    10→import { StorageConstants } from '../common/constants/StorageConstants';
+    11→import BreakpointUtils from '../common/utils/system/BreakpointUtils';
+    12→import { EmitterUtil } from '@pura/harmony-utils';
+    13→import { EmitterConstants } from '../common/constants/EmitterConstants';
+    14→import { PageMap } from '../common/model/PageMap';
+    15→import WindowUtils from '../common/utils/system/WindowUtils';
+    16→import { FloatLyric, FloatLyricItem } from '../common/entities/local/Settings';
+    17→import { App } from '@kit.ArkUI';
+    18→
+    19→@Entry
+    20→@Component
+    21→struct Index {
+    22→  @Provide('pageInfos') pageInfos: NavPathStack = new NavPathStack()
+    23→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    24→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    25→  @StorageProp(StorageConstants.BREAKPOINT_WIDTH) widBp: string = 'sm'
+    26→  @StorageProp(StorageConstants.DEFAULT_PAGE_INDEX) index: number = 0
+    27→  @StorageProp(StorageConstants.FLOAT_LYRIC_STYLE) floatLyric: FloatLyric = FloatLyricItem
+    28→  @StorageProp(StorageConstants.BREAKPOINT_WIDTH) breakpointWD: string = 'sm'
+    29→  @State currentHour: number = 0
+    30→  @State tabCurrentIndex: number = 0
+    31→  @State categoryTabIndex: number = 0
+    32→  @State contentTabIndex: number = 0
+    33→  private tabController: TabsController = new TabsController()
+    34→  async aboutToAppear(): Promise<void> {
+    35→    App.setImageCacheCount(Constants.CACHE_DISK_MAX_SIZE)
+    36→    App.setImageRawDataCacheSize(Constants.CACHE_DISK_MAX_SIZE)
+    37→    BreakpointUtils.register()
+    38→    setTimeout(() => {
+    39→      this.tabCurrentIndex = this.index
+    40→    }, 1)
+    41→    // const isFirstLaunch = await PreferencesUtils.getPreferenceValue<boolean>(StorageConstants.USER_PREF, 'isFirstLaunch', true)
+    42→    // if(isFirstLaunch) {
+    43→    //   PreferencesUtils.putPreferenceValue(StorageConstants.USER_PREF, 'isFirstLaunch', false)
+    44→    // }
+    45→    EmitterUtil.onSubscribe(EmitterConstants.PUSH_PAGE, <T extends ArtistParam | AlbumParam>(param: CommonParam<T>) => {
+    46→      if(!this.pageInfos.getAllPathName().includes(param.pageName)) {
+    47→        this.pageInfos.pushPathByName(param.pageName, param.param, this.pageInfos.size() === 0 && this.widBp === 'lg' ? false : true)
+    48→      } else {
+    49→        this.pageInfos.replacePath({ name: param.pageName, param: param.param }, { launchMode: LaunchMode.MOVE_TO_TOP_SINGLETON })
+    50→      }
+    51→    })
+    52→  }
+    53→
+    54→  aboutToDisappear(): void {
+    55→    BreakpointUtils.unregister()
+    56→  }
+    57→
+    58→  onPageShow(): void {
+    59→    this.currentHour = new Date().getHours()
+    60→    if(this.floatLyric.on) WindowUtils.createLyricsFloatWindow()
+    61→  }
+    62→
+    63→  private getMenuItems(): NavigationMenuItem[] {
+    64→    let items: NavigationMenuItem[] = []
+    65→    if(this.index !== 2) {
+    66→      items.push({
+    67→        value: 'Search',
+    68→        icon: $r('app.media.ic_public_search_filled'),
+    69→        action: () => {
+    70→          this.pageInfos.clear()
+    71→          this.pageInfos.pushPathByName('SearchPage', null, (this.widBp === 'lg') && this.pageInfos.size() === 0 ? false : true)
+    72→        }
+    73→      })
+    74→    }
+    75→    if(this.pageInfos.size() > 0 && this.breakpointWD === 'lg') {
+    76→      items.push({
+    77→        value: 'Clear',
+    78→        icon: $r('app.media.ic_public_cancel'),
+    79→        action: () => {
+    80→          this.pageInfos.clear()
+    81→        }
+    82→      })
+    83→    }
+    84→    // if(this.index === 1) {
+    85→    //   items.push({
+    86→    //     value: 'AddPlayList',
+    87→    //     icon: $r('app.media.ic_public_add_norm'),
+    88→    //     action: () => {
+    89→    //       this.addPlayListDialog.open()
+    90→    //     }
+    91→    //   })
+    92→    // }
+    93→    if(this.index === 2) {
+    94→      items.push({
+    95→        value: 'Settings',
+    96→        icon: $r('app.media.ic_public_settings'),
+    97→        action: () => {
+    98→          AppStorage.setOrCreate('isShowSettings', true)
+    99→        }
+   100→      })
+   101→    }
+   102→    return items
+   103→  }
+   104→
+   105→  build() {
+   106→    Navigation(this.pageInfos) {
+   107→      Stack({ alignContent: Alignment.Bottom }) {
+   108→        Tabs({ controller: this.tabController, index: this.tabCurrentIndex }) {
+   109→          TabContent() { Explore({ currentHour: this.currentHour }) }
+   110→          TabContent() { UserLists({ categoryTabIndex: this.categoryTabIndex, contentTabIndex: this.contentTabIndex }) }
+   111→          TabContent() { Me({ breakpoint: this.widBp }) }
+   112→        }
+   113→        .height('100%')
+   114→        .width('100%')
+   115→        .barHeight(0)
+   116→        .edgeEffect(EdgeEffect.None)
+   117→        .animationDuration(300)
+   118→        .onAnimationStart((from, target) => {
+   119→          this.index = target
+   120→        })
+   121→        .onChange((index) => { this.index = index })
+   122→
+   123→        BottomBarComponent()
+   124→          .padding({
+   125→            left: Constants.PADDING_EDGE_DEFAULT,
+   126→            right: Constants.PADDING_EDGE_DEFAULT,
+   127→            bottom: Constants.PADDING_EDGE_DEFAULT + 54
+   128→          })
+   129→          .backgroundColor(Color.Transparent)
+   130→      }
+   131→    }
+   132→    .height('100%')
+   133→    .width('100%')
+   134→    .navBarWidth('50%')
+   135→    .navBarPosition(NavBarPosition.Start)
+   136→    .mode((this.widBp == 'lg' && this.pageInfos.size() > 0) ? NavigationMode.Split : NavigationMode.Stack)
+   137→    .enableModeChangeAnimation(true)
+   138→    .titleMode(NavigationTitleMode.Mini)
+   139→    .title(this.index === 1 ? this.CategoryTabBar : this.index === 0 ? $r('app.string.Explore') : $r('app.string.Me'))
+   140→    .menus(this.getMenuItems())
+   141→    .hideBackButton(true)
+   142→    .backgroundColor($r('app.color.background'))
+   143→    .navDestination(PageMap)
+   144→    .toolbarConfiguration(this.ToolBar(), { backgroundBlurStyle: BlurStyle.Regular, barStyle: BarStyle.STACK, backgroundColor: Color.Transparent })
+   145→    .animation({ duration: 500, curve: Curve.Smooth })
+   146→  }
+   147→
+   148→  @Builder ToolBar() {
+   149→    Row() {
+   150→      this.ToolBarItem(0, $r('app.media.ic_gallery_discover'), $r('app.media.ic_gallery_discover_filled'), $r('app.string.Explore'))
+   151→      this.ToolBarItem(1, $r('app.media.ic_public_drawer'), $r('app.media.ic_public_drawer_filled'), $r('app.string.Lists'))
+   152→      this.ToolBarItem(2, $r('app.media.ic_public_contacts'), $r('app.media.ic_public_contacts_filled'), $r('app.string.Me'))
+   153→    }
+   154→    .backgroundColor(Color.Transparent)
+   155→    .justifyContent(FlexAlign.SpaceEvenly)
+   156→    .width('100%')
+   157→  }
+   158→
+   159→  @Builder ToolBarItem(index: number, icon: ResourceStr, activeIcon: ResourceStr, text: string | ResourceStr) {
+   160→    Column({ space: 3 }) {
+   161→      Image(this.index == index ? activeIcon : icon)
+   162→        .width(Constants.SIZE_ICON_BUTTON_BAR)
+   163→        .fillColor(this.index == index ? $r('app.color.app_red') : Color.Gray)
+   164→      Text(text)
+   165→        .fontSize(Constants.FONT_SIZE_BAR)
+   166→        .fontColor(this.index == index ? $r('app.color.app_red') : Color.Gray)
+   167→    }
+   168→    .layoutWeight(1)
+   169→    .onClick(() => {
+   170→      this.tabController.changeIndex(index)
+   171→    })
+   172→  }
+   173→
+   174→  @Builder CategoryTabBar() {
+   175→    Column() {
+   176→      Row({ space: Constants.PADDING_EDGE_DEFAULT }) {
+   177→        this.CategoryBarButtonItem($r('app.string.Playlist'), 0)
+   178→        this.CategoryBarButtonItem($r('app.string.Album'), 1)
+   179→        this.CategoryBarButtonItem($r('app.string.Radio'), 2)
+   180→      }
+   181→      .backgroundColor($r('app.color.main'))
+   182→      .borderRadius(Constants.RADIUS_CARD)
+   183→      .justifyContent(FlexAlign.Center)
+   184→      .padding({ left: Constants.PADDING_EDGE_DEFAULT, right: Constants.PADDING_EDGE_DEFAULT })
+   185→    }
+   186→    .width('100%')
+   187→    .height('100%')
+   188→    .justifyContent(FlexAlign.Center)
+   189→  }
+   190→
+   191→  @Builder CategoryBarButtonItem(title: string | ResourceStr, index: number) {
+   192→    Button() {
+   193→      Text(title)
+   194→        .maxFontSize(18)
+   195→        .minFontSize(8)
+   196→        .fontColor(this.categoryTabIndex === index ? $r('app.color.app_red') : Color.Gray)
+   197→        .fontWeight(FontWeight.Bold)
+   198→        .maxLines(1)
+   199→    }
+   200→    .width(50)
+   201→    .height(30)
+   202→    .backgroundColor(Color.Transparent)
+   203→    .padding(5)
+   204→    .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.7 })
+   205→    .onClick(() => {
+   206→      this.contentTabIndex = this.categoryTabIndex = index
+   207→    })
+   208→  }
+   209→}
+</file>
+<metadata>The file has 209 lines in total.</metadata>

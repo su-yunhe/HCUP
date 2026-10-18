@@ -90,10 +90,14 @@ export struct SettingsPage {
       CommonSettingsCard({
         title: $r('app.string.SET_CLOUDSERVICE'),
         action: () => {
-          this.settingsPageInfos.pushPathByName('ApiSetPage', null)
+          // 快速连点时只进入一层
+          if(!this.settingsPageInfos.getAllPathName().includes('ApiSetPage')) {
+            this.settingsPageInfos.pushPathByName('ApiSetPage', null)
+          }
         }
       })
     }
+    .id('settings_online_service')
     ListItem() {
       CommonSettingsCard({
         title: $r('app.string.SET_DATAANDCACHE'),

@@ -1,0 +1,65 @@
+## 5. 网络状态机
+
+### 5.1 保存配置 / 连通性检查（设置页与发现页面板共用）
+
+```mermaid
+stateDiagram-v2
+    [*] --> Idle: 进入页面/打开面板（不发请求，显示已存状态）
+    Idle --> Idle: 编辑输入（不持久化、不发请求）
+    Idle --> [*]: 返回/关闭/取消（不保存、不发请求）
+    Idle --> Saving: 点击"保存配置"
+    Saving --> Invalid: 组合地址为空（不发请求）
+    Saving --> Checking: 持久化字段+apiUrl，Toast T7，发 GET /inner/version
+    Checking --> Checking: 在途时再次点击保存（不再发请求，或只保留最新一次结果）
+    Checking --> Valid: code==200
+    Checking --> Invalid: 非200/网络错误/15s超时
+    Valid --> Idle: 状态显示"正常"
+    Invalid --> Idle: 状态显示"不可用"
+```
+
+| 用户动作 | 是否发请求 | 状态变化 | 请求结束后 |
+| --- | --- | --- | --- |
+| 进入配置页 / 打开面板 | 否 | 显示 `isValidApiUrl` 当前值 | — |
+| 编辑输入 | 否 | 无 | — |
+| 返回 / 关闭 / 取消 | 否 | 无 | — |
+| 点"保存配置"（地址非空） | 是，1 次 `/inner/version` | 立即 Toast；状态保持旧值至结果返回（U7） | 写 `isValidApiUrl`，状态文本刷新；在途锁释放 |
+| 点"保存配置"（主机为空） | 否 | `isValidApiUrl=false` | — |
+| 在途时再次点保存 | 否（推荐） | 无 | 只有最新一次保存的结果可写回 |
+| 冷启动 | 是，1 次（`appInit.ets:35`） | 未完成前见 U7 | 同上 |
+
+### 5.2 发现页在线内容
+
+```mermaid
+stateDiagram-v2
+    [*] --> Guide: isValidApiUrl=false（未配置/不可用）
+    [*] --> Loading: isValidApiUrl=true（冷启动检查通过）
+    Guide --> Guide: 下拉刷新（不发请求）
+    Guide --> SheetOpen: 点击"设置在线服务"
+    SheetOpen --> Guide: 下滑/点遮罩/返回（不保存不请求）
+    SheetOpen --> Checking: 点击"保存配置"（面板关闭）
+    Checking --> Guide: 检查失败
+    Checking --> Loading: 检查成功（isValidApiUrl false→true）
+    Loading --> Loaded: /toplist + /personalized 成功
+    Loading --> Failed: 任一失败（loading 标志复位）
+    Loaded --> Loading: 下拉刷新（5s 冷却仍适用于手动刷新）
+    Failed --> Loading: 下拉刷新
+    Loaded --> Guide: 配置改为不可用
+```
+
+| 用户动作 | 是否发内容请求 | loading 绑定 | 结束后 |
+| --- | --- | --- | --- |
+| 未配置时冷启动/切到发现 | 否 | 无 | 显示 T9/T10 |
+| 点"设置在线服务" | 否 | 无 | 面板打开 |
+| 面板取消 | 否 | 无 | 引导保留 |
+| 面板保存，检查成功 | 是：`/toplist`、`/personalized` 各 1 次，强制请求（不受缓存非空、登录态、刷新冷却影响） | 请求发出时置 true，`finally` 置 false | 引导消失，显示内容 |
+| 面板保存，检查失败 | 否 | 无 | 引导保留 |
+| 已配置可用时冷启动 | 是（检查通过后） | 同上 | 显示内容 |
+| 未配置时下拉刷新 | 否 | 刷新指示立即复位 | 引导保留 |
+
+## 6. UNCONFIRMED_ASSUMPTION 汇总（请判断）
+
+| 编号 | 问题 | 可选假设 | 推荐 | 理由 |
+| --- | --- | --- | --- | --- |
+| U1 | S1-1"'设置'页面"对应哪个入口文案 | a) 保留基线 `应用设置`（我的页卡片 + 我的 Tab 右上设置菜单）；b) 改名为 `设置` | a | 官方测试"沿现有应用流程进入目标页面"；同上游另几道题共用这个入口，改名风险更大；Spec 给的是页面类别名而非按钮文案。 |
+| U2 | 配置页标题 | a) `在线服务配置`（S1-概述用词）；b) `在线服务`（与选项同名） | a | 与 S1-概述一致；又避免与选项 `在线服务` 同文案造成全等匹配歧义（返回栈/面板叠层时两者可能同时在 UI 树里）。 |
+| U3 | "请求（HTTP/HTTPS）"的呈现 | a) 标签 `请求` + 两个可见选项 `HTTP`/`HTTPS`（Radio 或分段按钮）；b) 标签原样写 `请求（HTTP/HTTPS）`；c) 下拉 Select | a | 答疑 Q1 字段表字段名为"请求"、值为"HTTP"，说明括号内是取值；两个选项都可见时测试可直接 `BY.text("HTTPS")` 点击，Sele

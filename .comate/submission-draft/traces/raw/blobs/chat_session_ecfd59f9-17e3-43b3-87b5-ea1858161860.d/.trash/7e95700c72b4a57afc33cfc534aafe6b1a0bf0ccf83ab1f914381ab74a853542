@@ -1,0 +1,11 @@
+class RecordingProxy:
+    """记录请求的转发代理；/inner/version 可人为延迟，用于构造“检查在途”。"""
+
+    def __init__(self, port: int = PROXY_PORT, upstream: str = UPSTREAM):
+        self.requests: list[tuple[str, str | None]] = []
+        self.delay = 0.0
+        proxy = self
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self):  # noqa: N802
+                proxy.requests.append((self.p

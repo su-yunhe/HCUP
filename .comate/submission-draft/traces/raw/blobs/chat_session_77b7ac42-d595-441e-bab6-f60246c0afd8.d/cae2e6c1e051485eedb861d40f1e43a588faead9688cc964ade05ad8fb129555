@@ -1,0 +1,174 @@
+<file>
+     1→import { ToastUtil } from "@pura/harmony-utils"
+     2→import Constants from "../../common/constants/Constants"
+     3→import { StorageConstants } from "../../common/constants/StorageConstants"
+     4→import { checkValidUrl } from "../../common/functions/common/get"
+     5→import PreferencesUtils from "../../common/utils/data/PreferencesUtils"
+     6→import { ExplainButton } from "../../components/buttons/ExplainButton"
+     7→
+     8→/**
+     9→ * 自定义API服务器地址
+    10→ * Sheet
+    11→ */
+    12→@Component
+    13→export struct ApiSetPage {
+    14→  @StorageLink(StorageConstants.IS_CUSTOM_COOKIE) isCustomCookie: boolean = false
+    15→  @StorageProp(StorageConstants.CUSTOM_COOKIE) customCookie: string = ''
+    16→  @StorageProp(StorageConstants.API_URL) customApiUrl: string = ''
+    17→  @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = false
+    18→  @StorageProp(StorageConstants.BREAKPOINT_WIDTH) breakpoint: string = 'sm'
+    19→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    20→
+    21→  build() {
+    22→    NavDestination() {
+    23→      Scroll() {
+    24→        Column({ space: 20 }) {
+    25→          Text() {
+    26→            Span(`用户云服务状态: `)
+    27→            Span(`${this.validApiUrl ? '正常' : '不可用'}`)
+    28→              .fontWeight(FontWeight.Bold)
+    29→              .fontColor(this.validApiUrl ? Color.Green : $r('app.color.app_red'))
+    30→          }
+    31→          .width('100%')
+    32→          .textAlign(TextAlign.Center)
+    33→          .fontColor($r('app.color.reverse'))
+    34→          .fontSize(Constants.FONT_SIZE_COMMON)
+    35→          .padding(Constants.PADDING_EDGE_DEFAULT)
+    36→          this.SetApiUrl()
+    37→          if(this.validApiUrl) {
+    38→            this.SetCookie()
+    39→          }
+    40→        }
+    41→        .padding({ top: Constants.PADDING_EDGE_DEFAULT, left: Constants.PADDING_EDGE_DEFAULT, right: Constants.PADDING_EDGE_DEFAULT, bottom: px2vp(this.bottomRectHeight) + Constants.PADDING_EDGE_TEXT })
+    42→        .width('100%')
+    43→        .constraintSize({
+    44→          minWidth: 200,
+    45→          maxWidth: 600
+    46→        })
+    47→      }
+    48→      .width('100%')
+    49→      .scrollBar(BarState.Off)
+    50→    }
+    51→    .backgroundColor($r('app.color.background'))
+    52→    .title($r('app.string.SET_CLOUDSERVICE'))
+    53→  }
+    54→
+    55→  @Builder SetApiUrl() {
+    56→    Column({ space: 10 }) {
+    57→      Row() {
+    58→        Row({ space: 5 }) {
+    59→          Text($r('app.string.SET_CLOUDSERVICE')).LeftText()
+    60→        }
+    61→      }
+    62→      .width('100%')
+    63→      .justifyContent(FlexAlign.SpaceBetween)
+    64→
+    65→      Column({ space: 10 }) {
+    66→        TextInput({ text: this.customApiUrl })
+    67→          .width('100%')
+    68→          .onChange((text) => this.customApiUrl = text)
+    69→          .borderRadius(Constants.RADIUS_IMG)
+    70→        Button('保存配置')
+    71→          .setButton()
+    72→          .onClick(() => {
+    73→            this.setCustomApiUrl()
+    74→          })
+    75→      }
+    76→      .width('100%')
+    77→    }
+    78→    .itemStyle()
+    79→  }
+    80→
+    81→  @Builder SetCookie() {
+    82→    Column({ space: 10 }) {
+    83→      Row() {
+    84→        Row({ space: 5 }) {
+    85→          Text('(高级) 手动设置Cookie').LeftText()
+    86→          ExplainButton({ title: '手动设置Cookie',
+    87→            msg: '注意: 若您使用应用内登录，请勿开启此选项\n\n' +
+    88→              '设置后每次API请求都将使用该Cookie, 包括登录、用户信息等获取, 重启后生效\n\n' +
+    89→              'Cookie只需要其中key为MUSIC_U的数据即可\n' +
+    90→              '例如: MUSIC_U=XXXXX'
+    91→          })
+    92→        }
+    93→        Toggle({ type: ToggleType.Switch, isOn: this.isCustomCookie })
+    94→          .height(24)
+    95→          .width(48)
+    96→          .selectedColor($r('app.color.app_red'))
+    97→          .onChange((isOn) => {
+    98→            animateTo({ duration: 100, curve: Curve.EaseInOut }, () => {
+    99→              this.toggleCustomCookie(isOn)
+   100→            })
+   101→          })
+   102→      }
+   103→      .width('100%')
+   104→      .justifyContent(FlexAlign.SpaceBetween)
+   105→
+   106→      if(this.isCustomCookie) {
+   107→        Column({ space: 10 }) {
+   108→          TextArea({ text: this.customCookie })
+   109→            .width('100%')
+   110→            .onChange((text) => this.customCookie = text)
+   111→            .borderRadius(Constants.RADIUS_IMG)
+   112→            .height(150)
+   113→            .textAlign(TextAlign.Start)
+   114→          Button('保存Cookie')
+   115→            .setButton()
+   116→            .onClick(() => {
+   117→              this.setCustomCookie()
+   118→            })
+   119→        }
+   120→        .justifyContent(FlexAlign.Center)
+   121→        .width('100%')
+   122→      }
+   123→    }
+   124→    .itemStyle()
+   125→  }
+   126→
+   127→  toggleCustomCookie(isOn: boolean) {
+   128→    this.isCustomCookie = isOn
+   129→    AppStorage.setOrCreate(StorageConstants.IS_CUSTOM_COOKIE, this.isCustomCookie)
+   130→    PreferencesUtils.putPreferenceValue(StorageConstants.SET_PERF, StorageConstants.IS_CUSTOM_COOKIE, this.isCustomCookie)
+   131→  }
+   132→
+   133→  setCustomApiUrl() {
+   134→    AppStorage.setOrCreate(StorageConstants.API_URL,this.customApiUrl)
+   135→    PreferencesUtils.putPreferenceValue(StorageConstants.SET_PERF ,StorageConstants.API_URL,this.customApiUrl)
+   136→    ToastUtil.showToast('配置已保存, 正在检查云服务是否可用...')
+   137→    checkValidUrl()
+   138→  }
+   139→
+   140→  setCustomCookie() {
+   141→    let cookie = this.customCookie.trim()
+   142→    if (!cookie.endsWith('; OS=pc')) {
+   143→      cookie += '; OS=pc'
+   144→    }
+   145→    AppStorage.setOrCreate(StorageConstants.CUSTOM_COOKIE, cookie)
+   146→    PreferencesUtils.putPreferenceValue(StorageConstants.SET_PERF ,StorageConstants.CUSTOM_COOKIE, cookie)
+   147→    ToastUtil.showToast('配置已保存')
+   148→  }
+   149→
+   150→  @Styles itemStyle() {
+   151→    .backgroundColor($r('app.color.main'))
+   152→    .padding(Constants.PADDING_EDGE_DEFAULT)
+   153→    .margin({ left: Constants.PADDING_EDGE_DEFAULT, right: Constants.PADDING_EDGE_DEFAULT })
+   154→    .borderRadius(Constants.RADIUS_CARD)
+   155→  }
+   156→}
+   157→
+   158→@Extend(Text) function LeftText() {
+   159→  .fontSize(Constants.FONT_SIZE_COMMON)
+   160→  .fontWeight(FontWeight.Bold)
+   161→}
+   162→
+   163→@Extend(Button) function setButton() {
+   164→  .fontSize(Constants.FONT_SIZE_COMMON)
+   165→  .fontColor($r('app.color.app_red'))
+   166→  .borderColor($r('app.color.app_red'))
+   167→  .backgroundColor(Color.Transparent)
+   168→  .borderWidth(1)
+   169→  .width(150)
+   170→  .padding({ left: Constants.PADDING_EDGE_DEFAULT, right: Constants.PADDING_EDGE_DEFAULT })
+   171→}
+</file>
+<metadata>The file has 171 lines in total.</metadata>

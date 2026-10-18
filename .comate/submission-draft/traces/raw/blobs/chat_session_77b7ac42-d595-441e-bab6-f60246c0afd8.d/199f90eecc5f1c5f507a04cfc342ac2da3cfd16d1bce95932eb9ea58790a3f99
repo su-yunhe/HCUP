@@ -1,0 +1,223 @@
+<file>
+     1→import { DialogUtil, ToastUtil } from "@pura/harmony-utils"
+     2→import { getLoginStatus, logOut } from "../../api/loginApi"
+     3→import Constants from "../constants/Constants"
+     4→import { StorageConstants } from "../constants/StorageConstants"
+     5→import { User, UserItem } from "../entities/user/User"
+     6→import { initUserInfo } from "../functions/app/appInit"
+     7→import { SettingsPage } from "../../pages/settings/SettingsPage"
+     8→import { CircleImageButton } from "../../components/buttons/CircleButton"
+     9→
+    10→@Component
+    11→export struct Me {
+    12→  @StorageProp(StorageConstants.IS_LOGGED) isLogged: boolean = false
+    13→  @StorageProp(StorageConstants.USER) user: User = UserItem
+    14→  @StorageProp(StorageConstants.VALID_API_URL) isValidAPI: boolean = true
+    15→  @StorageProp(StorageConstants.VALID_COOKIE) isValidCookie: boolean = true
+    16→  @StorageProp(StorageConstants.COOKIE) cookie: string = ''
+    17→  @StorageProp(StorageConstants.APP_LOADING) appLoading: boolean = true
+    18→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    19→  @State isRefreshing: boolean = false
+    20→  @Prop breakpoint: string = 'sm'
+    21→  @StorageLink('isShowSettings') isShowSettings: boolean = false
+    22→  @Consume('pageInfos') pageInfos: NavPathStack
+    23→
+    24→  private settingsSheetOptions: SheetOptions = {
+    25→    preferType: SheetType.CENTER,
+    26→    height: SheetSize.LARGE,
+    27→    dragBar: false,
+    28→    showClose: false,
+    29→    scrollSizeMode: ScrollSizeMode.FOLLOW_DETENT,
+    30→    backgroundColor: $r('app.color.background'),
+    31→    onDisappear: () => { this.isShowSettings = false }
+    32→  }
+    33→
+    34→  async aboutToAppear(): Promise<void> {
+    35→    if(this.isValidAPI && this.cookie && !this.isLogged) {
+    36→      this.appLoading = true
+    37→      await getLoginStatus(this.cookie)
+    38→      this.appLoading = false
+    39→    }
+    40→  }
+    41→
+    42→  private async handleRefresh() {
+    43→    this.isRefreshing = true
+    44→    ToastUtil.showToast('正在刷新登录状态')
+    45→    try {
+    46→      await initUserInfo()
+    47→    } finally {
+    48→      this.isRefreshing = false
+    49→    }
+    50→  }
+    51→
+    52→  build() {
+    53→    Scroll() {
+    54→      Column({ space: 10 }) {
+    55→        Column() {
+    56→          if (this.isLogged) {
+    57→            Row({ space: 20 }) {
+    58→              CircleImageButton({ imgUrl: this.user.data.profile.avatarUrl + '?param=256y256', wid: 64 })
+    59→              Text(this.user.data.profile.nickname).textStyle(Constants.FONT_SIZE_TITLE).fontWeight(FontWeight.Bold)
+    60→              Text(this.user.data.account.vipType == 110 ? 'SVIP' : 'VIP')
+    61→                .fontColor(Color.White)
+    62→                .fontSize(12)
+    63→                .padding({ left: 10, right: 10, bottom: 5, top: 5 })
+    64→                .backgroundColor(this.user.data.account.vipType === 110 ? Color.Orange : $r('app.color.app_red'))
+    65→                .borderRadius(Constants.RADIUS_CARD)
+    66→                .visibility(this.user.data.account.vipType === 0 ? Visibility.None : Visibility.Visible)
+    67→            }
+    68→            .justifyContent(FlexAlign.Center)
+    69→            .width('100%')
+    70→            .padding({ bottom: 10 })
+    71→          } else if(this.appLoading) {
+    72→            LoadingProgress().width(40)
+    73→          } else if(this.isValidAPI) {
+    74→            Row({ space: 20 }) {
+    75→              CircleImageButton({ imgUrl: $r('app.media.ic_user_portrait'), wid: 64 })
+    76→              Text('未登录').textStyle(Constants.FONT_SIZE_TITLE).fontWeight(FontWeight.Bold)
+    77→              this.RefreshButton()
+    78→            }
+    79→            .justifyContent(FlexAlign.Center)
+    80→            .width('100%')
+    81→            .padding({ bottom: 10 })
+    82→          }
+    83→        }
+    84→        .height(80)
+    85→
+    86→        Column() {
+    87→          this.ItemCard($r('app.media.ic_public_settings_filled'), $r('app.string.Settings'), () => {
+    88→            this.isShowSettings = true
+    89→          })
+    90→        }
+    91→        .itemColumnStyle()
+    92→
+    93→        Column() {
+    94→          this.ItemCard($r('app.media.ic_public_folder_filled'), $r('app.string.LocalSongs'), () => {
+    95→            if(this.pageInfos.size() === 0) {
+    96→              this.pageInfos.pushPathByName('LocalSongPage', null, this.breakpoint === 'lg' ? false : true)
+    97→            } else {
+    98→              this.pageInfos.replacePath({ name: 'LocalSongPage', param: null }, { launchMode: LaunchMode.MOVE_TO_TOP_SINGLETON })
+    99→            }
+   100→          })
+   101→        }
+   102→        .itemColumnStyle()
+   103→
+   104→        Column().padding(30)
+   105→
+   106→        if(this.isValidAPI && !this.appLoading) {
+   107→          if(this.isLogged) {
+   108→            this.LoginButton($r('app.color.app_red'), $r('app.string.Logout'), () => {
+   109→              this.LogOut()
+   110→            })
+   111→          } else {
+   112→            this.LoginButton(Color.Blue, $r('app.string.Login'), () => {
+   113→              this.pageInfos.pushPathByName('LoginPage', null, this.breakpoint === 'lg' && this.pageInfos.size() === 0 ? false : true)
+   114→            })
+   115→          }
+   116→        }
+   117→      }
+   118→      .width('100%')
+   119→      .height('auto')
+   120→      .constraintSize({
+   121→        minWidth: 200,
+   122→        maxWidth: 500
+   123→      })
+   124→      .backgroundColor($r('app.color.background'))
+   125→      .padding({ left: 20, right: 20, bottom: px2vp(this.bottomRectHeight) + Constants.HEIGHT_MINI + 64 })
+   126→      .bindSheet(this.isShowSettings, this.Settings(), this.settingsSheetOptions)
+   127→    }
+   128→    .width('100%')
+   129→    .height('100%')
+   130→    .align(Alignment.Top)
+   131→    .scrollBar(BarState.Off)
+   132→  }
+   133→
+   134→  @Builder ItemCard(icon: ResourceStr | string, text: string | ResourceStr, action: () => void) {
+   135→    Button() {
+   136→      Row({ space: 10 }) {
+   137→        Image(icon).iconStyle()
+   138→        Text(text).textStyle(16).fontWeight(FontWeight.Medium).textAlign(TextAlign.Start).layoutWeight(1)
+   139→        Image($r('app.media.ic_public_arrow_right')).iconStyle()
+   140→      }
+   141→    }
+   142→    .backgroundColor(Color.Transparent)
+   143→    .width('100%')
+   144→    .padding(Constants.PADDING_EDGE_DEFAULT)
+   145→    .onClick(action)
+   146→  }
+   147→
+   148→  @Builder LoginButton(color: Color | string | ResourceStr, text: string | ResourceStr, action: () => void) {
+   149→    Button() {
+   150→      Row({ space: 10 }) {
+   151→        Text(text)
+   152→          .textStyle(Constants.FONT_SIZE_COMMON + 2)
+   153→          .textAlign(TextAlign.Center)
+   154→          .fontColor(Color.White)
+   155→      }
+   156→    }
+   157→    .backgroundColor(color)
+   158→    .width('100%')
+   159→    .padding(Constants.PADDING_EDGE_DEFAULT)
+   160→    .onClick(action)
+   161→  }
+   162→
+   163→  @Builder RefreshButton() {
+   164→    if(this.isRefreshing) {
+   165→      LoadingProgress().width(Constants.FONT_SIZE_COMMON).aspectRatio(1)
+   166→    } else {
+   167→      Image($r('app.media.ic_public_refresh'))
+   168→        .width(Constants.FONT_SIZE_COMMON)
+   169→        .aspectRatio(1)
+   170→        .fillColor($r('app.color.reverse'))
+   171→        .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.7 })
+   172→        .onClick(() => {
+   173→          this.handleRefresh()
+   174→        })
+   175→    }
+   176→  }
+   177→
+   178→  @Builder Settings() {
+   179→    SettingsPage()
+   180→  }
+   181→
+   182→  private LogOut() {
+   183→    DialogUtil.showPrimaryDialog({
+   184→      title: '确认',
+   185→      message: '是否退出登录?',
+   186→      primaryButton: "取消",
+   187→      secondaryButton: {
+   188→        value: '确认',
+   189→        fontColor: Color.Red,
+   190→        action: async () => {
+   191→          let result = await logOut()
+   192→          if(result) {
+   193→            ToastUtil.showToast('成功退出登录')
+   194→          } else {
+   195→            ToastUtil.showToast('退出登录时出错')
+   196→          }
+   197→        }
+   198→      }
+   199→    })
+   200→  }
+   201→}
+   202→
+   203→@Extend(Text) function textStyle(size: number = Constants.FONT_SIZE_COMMON) {
+   204→  .fontSize(size)
+   205→  .textAlign(TextAlign.Center)
+   206→  .fontColor($r('app.color.reverse'))
+   207→}
+   208→
+   209→@Extend(Image) function iconStyle() {
+   210→  .width(Constants.SIZE_ICON_BUTTON_BAR)
+   211→  .fillColor(Color.Gray)
+   212→  .draggable(false)
+   213→}
+   214→
+   215→@Extend(Column) function itemColumnStyle() {
+   216→  .backgroundColor($r('app.color.main'))
+   217→  .borderRadius(Constants.RADIUS_CARD)
+   218→  .width('100%')
+   219→  .padding(5)
+   220→}
+</file>
+<metadata>The file has 220 lines in total.</metadata>

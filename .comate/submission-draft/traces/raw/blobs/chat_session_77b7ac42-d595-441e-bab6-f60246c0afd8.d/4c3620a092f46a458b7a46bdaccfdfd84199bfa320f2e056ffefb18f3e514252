@@ -1,0 +1,161 @@
+<file>
+     1→import { DateUtil, ToastUtil } from "@pura/harmony-utils"
+     2→import { setHeartMode } from "../../api/songApi"
+     3→import { IndexCard } from "../../components/cards/IndexCard"
+     4→import Constants from "../constants/Constants"
+     5→import { StorageConstants } from "../constants/StorageConstants"
+     6→import { PlayList } from "../entities/playlist/PlayList"
+     7→import { playNext, playQueue } from "../functions/play/playControl"
+     8→import PlayQueueUtils from "../utils/play/PlayQueueUtils"
+     9→
+    10→interface item {
+    11→  imgUrl: string | ResourceStr
+    12→  wid?: number
+    13→  title: string | ResourceStr
+    14→  desc: string | ResourceStr
+    15→  action: () => void
+    16→}
+    17→
+    18→@Component
+    19→export struct IndexRecommend {
+    20→  @Consume('pageInfos') pageInfos: NavPathStack
+    21→  @Prop isLogged: boolean
+    22→  @StorageProp(StorageConstants.USER_PLAYLISTS) playLists: PlayList[] = []
+    23→  @StorageProp(StorageConstants.BREAKPOINT_WIDTH) breakpoint: string = 'sm'
+    24→  @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = true
+    25→  @StorageLink(StorageConstants.IS_PLAYER_LOADING) isPlayerLoading: boolean = false
+    26→
+    27→  private dailyAction = () => {
+    28→    if(this.pageInfos.size() === 0) {
+    29→      this.pageInfos.pushPathByName('DailyListPage', null, this.breakpoint === 'lg' ? false : true)
+    30→    } else {
+    31→      this.pageInfos.replacePathByName('DailyListPage', null)
+    32→    }
+    33→  }
+    34→
+    35→  private fmAction = async () => {
+    36→    if(!this.isPlayerLoading) {
+    37→      this.isPlayerLoading = true
+    38→      try {
+    39→        AppStorage.setOrCreate(StorageConstants.IS_PERSONAL_FM, true)
+    40→        await PlayQueueUtils.cleanQueue()
+    41→        ToastUtil.showToast('开始播放私人FM')
+    42→        playNext()
+    43→      } catch (e) {
+    44→        ToastUtil.showToast('获取私人FM曲目失败')
+    45→      } finally {
+    46→        setTimeout(() => {
+    47→          this.isPlayerLoading = false
+    48→        }, 1000)
+    49→      }
+    50→    } else {
+    51→      ToastUtil.showToast('正在加载, 请稍后')
+    52→    }
+    53→  }
+    54→
+    55→  private cloudAction = () => {
+    56→    if(this.isLogged) {
+    57→      if(!this.pageInfos.getAllPathName().includes('CloudPage')) {
+    58→        this.pageInfos.pushPathByName('CloudPage', null, this.pageInfos.size() === 0 && this.breakpoint === 'lg' ? false : true)
+    59→      } else {
+    60→        this.pageInfos.replacePath({ name: 'CloudPage', param: null }, { launchMode: LaunchMode.MOVE_TO_TOP_SINGLETON })
+    61→      }
+    62→    } else {
+    63→      ToastUtil.showToast('请登录后再试')
+    64→    }
+    65→  }
+    66→
+    67→  private heartModeAction = async () => {
+    68→    if(this.isLogged) {
+    69→      if(!this.isPlayerLoading) {
+    70→        try {
+    71→          this.isPlayerLoading = true
+    72→          ToastUtil.showToast('开始播放心动歌单')
+    73→          await setHeartMode(PlayQueueUtils.getCurrentSong().id, this.playLists[0].id)
+    74→          playQueue(0)
+    75→        } catch (e) {
+    76→          ToastUtil.showToast('获取心动歌单失败: ' + e.message)
+    77→        } finally {
+    78→          setTimeout(() => {
+    79→            this.isPlayerLoading = false
+    80→          }, 1000)
+    81→        }
+    82→      } else {
+    83→        ToastUtil.showToast('正在加载, 请稍后')
+    84→      }
+    85→    } else {
+    86→      ToastUtil.showToast('请登录后再试')
+    87→    }
+    88→  }
+    89→
+    90→  private localSongAction = () => {
+    91→    if(this.pageInfos.size() === 0) {
+    92→      this.pageInfos.pushPathByName('LocalSongPage', null, this.breakpoint === 'lg' ? false : true)
+    93→    } else {
+    94→      this.pageInfos.replacePath({ name: 'LocalSongPage', param: null }, { launchMode: LaunchMode.MOVE_TO_TOP_SINGLETON })
+    95→    }
+    96→  }
+    97→
+    98→  private items: item[] = [
+    99→    {
+   100→      imgUrl: $r('app.media.index_calendar'),
+   101→      title: $r('app.string.Daily_recommend'),
+   102→      wid: 30,
+   103→      desc: DateUtil.getTodayStr('yyyy-MM-dd'),
+   104→      action: this.dailyAction
+   105→    },
+   106→    {
+   107→      imgUrl: $r('app.media.index_cloud'),
+   108→      title: $r('app.string.Cloud'),
+   109→      desc: '享受云端乐库',
+   110→      action: this.cloudAction
+   111→    },
+   112→    {
+   113→      imgUrl: $r('app.media.index_radio'),
+   114→      wid: 40,
+   115→      title: $r('app.string.Personal_fm'),
+   116→      desc: '探索多种曲风',
+   117→      action: this.fmAction
+   118→    },
+   119→    {
+   120→      imgUrl: $r('app.media.index_heart'),
+   121→      title: $r('app.string.Heart_list'),
+   122→      desc: '智能播放',
+   123→      action: this.heartModeAction
+   124→    },
+   125→    {
+   126→      imgUrl: $r('app.media.index_local'),
+   127→      title: $r('app.string.LocalSongs'),
+   128→      desc: '随时随地畅听',
+   129→      action: this.localSongAction
+   130→    },
+   131→  ]
+   132→
+   133→  private getItems(): item[] {
+   134→    return this.validApiUrl ? this.items : this.items.slice(-1)
+   135→  }
+   136→
+   137→  build() {
+   138→    List({ space: Constants.PADDING_EDGE_DEFAULT }) {
+   139→      ListItem().width(10)
+   140→
+   141→      ForEach(this.getItems(), (item: item, index) => {
+   142→        IndexCard({
+   143→          imgUrl: item.imgUrl,
+   144→          wid: item?.wid,
+   145→          title: item.title,
+   146→          desc: item.desc,
+   147→          clickAction: item.action
+   148→        })
+   149→      })
+   150→
+   151→      ListItem().width(10)
+   152→    }
+   153→    .padding({ top: Constants.PADDING_EDGE_DEFAULT, bottom: Constants.PADDING_EDGE_DEFAULT })
+   154→    .width('100%')
+   155→    .scrollBar(BarState.Off)
+   156→    .listDirection(Axis.Horizontal)
+   157→  }
+   158→}
+</file>
+<metadata>The file has 158 lines in total.</metadata>

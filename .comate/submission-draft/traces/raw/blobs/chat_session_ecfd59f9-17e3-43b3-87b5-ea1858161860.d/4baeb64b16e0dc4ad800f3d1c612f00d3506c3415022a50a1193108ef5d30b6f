@@ -1,0 +1,15 @@
+    def open_api_page(self) -> None:
+        """冷启动后：我的 → 应用设置 → 在线服务 → 在线服务配置页。"""
+        self.click_text("我的")
+        self.click_text("应用设置")
+        self.click_text("在线服务")
+        self.require_text("在线服务配置", "未进入在线服务配置页")
+        self.require_component(BY.key("api_host_input"), "配置页缺少主机输入框")
+
+    def close_settings(self) -> None:
+        """从配置页返回到设置列表，再关闭设置面板。"""
+        self.driver.press_back()
+        self.driver.wait(1)
+        if self.find_or_none(BY.text("应用设置"), timeout=2):
+            self.driver.press_back()
+            self.driver.wait(1)

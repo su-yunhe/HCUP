@@ -1,0 +1,3 @@
+- 证据等级：SPEC_EXPLICIT（点击进入）；页面标题 UNCONFIRMED_ASSUMPTION → 已决（U2）：`在线服务配置`
+- 原子行为：点击 A2 选项后在设置面板的 Navigation 栈内 push 配置页（沿用 `pushPathByName('ApiSetPage')`）。NavDestination 标题恰为 `在线服务配置`；页内小标题（基线 `ApiSetPage.ets:59` 的 `云服务设置`）不得改成 `在线服务`，可删去或改为 `在线服务配置` 以外的非冲突文案。
+- 可观察结果：配置页可见，标题 `BY.text("在线服务配置")` 命中，包含 A4 表单与 A8 状态；页内不存在 text 恰为 `在线服务` 的组件。

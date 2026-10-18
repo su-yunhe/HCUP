@@ -1,0 +1,728 @@
+Command executed successfully.
+Exit code: 0
+Output:
+diff --git a/build-profile.json5 b/build-profile.json5
+index fd282fb..4826e79 100644
+--- a/build-profile.json5
++++ b/build-profile.json5
+@@ -11,7 +11,8 @@
+             "caseSensitiveCheck": true,
+             "useNormalizedOHMUrl": true
+           }
+-        }
++        },
++        "targetSdkVersion": "6.1.0(23)"
+       }
+     ],
+     "buildModeSet": [
+diff --git a/entry/src/main/ets/common/constants/StorageConstants.ets b/entry/src/main/ets/common/constants/StorageConstants.ets
+index b0fe296..dabb369 100644
+--- a/entry/src/main/ets/common/constants/StorageConstants.ets
++++ b/entry/src/main/ets/common/constants/StorageConstants.ets
+@@ -269,6 +269,16 @@ export class StorageConstants {
+    * @description AppStorage & Preference
+    */
+   static readonly API_URL: string = 'apiUrl'
++  /**
++   * 在线服务结构化配置（组合后写入 API_URL）
++   * @description AppStorage & Preference
++   */
++  static readonly API_PROTOCOL: string = 'apiProtocol'
++  static readonly API_HOST: string = 'apiHost'
++  static readonly API_PORT: string = 'apiPort'
++  static readonly API_PATH: string = 'apiPath'
++  static readonly API_USER: string = 'apiUser'
++  static readonly API_PASSWORD: string = 'apiPassword'
+   static readonly CUSTOM_COOKIE: string = 'customCookie'
+   static readonly IS_CUSTOM_COOKIE: string = 'isCustomCookie'
+   /**
+diff --git a/entry/src/main/ets/common/entities/local/Settings.ets b/entry/src/main/ets/common/entities/local/Settings.ets
+index fadc091..be2d39f 100644
+--- a/entry/src/main/ets/common/entities/local/Settings.ets
++++ b/entry/src/main/ets/common/entities/local/Settings.ets
+@@ -35,6 +35,18 @@ export interface CacheSet {
+   staticCacheMaxSize: number
+ }
+ 
++/**
++ * 在线服务配置
++ */
++export interface ApiConfig {
++  protocol: string // 'http' | 'https'
++  host: string
++  port: string
++  path: string
++  user: string
++  password: string
++}
++
+ export const CacheSetItem: CacheSet = {
+   songCacheMaxSize: 1024 * 1024 * 1024,
+   staticCacheMaxSize: 1024 * 1024 * 1024
+diff --git a/entry/src/main/ets/common/functions/app/appInit.ets b/entry/src/main/ets/common/functions/app/appInit.ets
+index 2d7d617..bb661ec 100644
+--- a/entry/src/main/ets/common/functions/app/appInit.ets
++++ b/entry/src/main/ets/common/functions/app/appInit.ets
+@@ -25,6 +25,8 @@ const TAG = 'AppInit'
+ 
+ export async function appInit() {
+   AppStorage.setOrCreate(StorageConstants.APP_LOADING, true)
++  // 连通性检查完成前视为不可用，避免未检查的配置显示为"正常"
++  AppStorage.setOrCreate(StorageConstants.VALID_API_URL, false)
+   await initSettings()
+   initApp()
+   await initPlayQueue()
+diff --git a/entry/src/main/ets/common/functions/app/settings.ets b/entry/src/main/ets/common/functions/app/settings.ets
+index 861cf49..1a8b738 100644
+--- a/entry/src/main/ets/common/functions/app/settings.ets
++++ b/entry/src/main/ets/common/functions/app/settings.ets
+@@ -1,10 +1,11 @@
+ import { LogUtil, ToastUtil } from "@pura/harmony-utils"
+ import { StorageConstants } from "../../constants/StorageConstants"
+-import { CacheSet, CacheSetItem,
++import { ApiConfig, CacheSet, CacheSetItem,
+   FloatLyric,
+   FloatLyricItem, LyricStyle, LyricStyleItem } from "../../entities/local/Settings"
+ import PreferencesUtils from "../../utils/data/PreferencesUtils"
+ import { preferences } from "@kit.ArkData"
++import { checkValidUrl } from "../common/get"
+ 
+ /**
+  * 设置项
+@@ -16,11 +17,19 @@ const TAG = '[settings] '
+  */
+ export async function initSettings() {
+   const SetPerf = StorageConstants.SET_PERF
++  // 旧版本只有 apiUrl，没有结构化字段
++  const isApiHostExist = await PreferencesUtils.hasPreferenceValue(SetPerf, StorageConstants.API_HOST)
+ 
+   // 并行处理无依赖的配置项
+   await Promise.all([
+     // API
+     handleSetting<string>(StorageConstants.API_URL, ''),
++    handleSetting<string>(StorageConstants.API_PROTOCOL, 'http'),
++    handleSetting<string>(StorageConstants.API_HOST, ''),
++    handleSetting<string>(StorageConstants.API_PORT, ''),
++    handleSetting<string>(StorageConstants.API_PATH, ''),
++    handleSetting<string>(StorageConstants.API_USER, ''),
++    handleSetting<string>(StorageConstants.API_PASSWORD, ''),
+     // Default Index
+     handleSetting<number>(StorageConstants.DEFAULT_PAGE_INDEX, 0),
+     // Play Quality
+@@ -37,6 +46,14 @@ export async function initSettings() {
+     handleSetting<FloatLyric>(StorageConstants.FLOAT_LYRIC_STYLE, FloatLyricItem)
+   ])
+ 
++  // 旧版本的 apiUrl 解析回填为结构化字段（apiUrl 本身保持不变）
++  if (!isApiHostExist) {
++    const legacyConfig = parseApiUrl(AppStorage.get<string>(StorageConstants.API_URL) ?? '')
++    if (legacyConfig) {
++      await putApiFields(legacyConfig)
++    }
++  }
++
+   // 处理关联配置项（API URL）
+   const results = await Promise.all([
+     PreferencesUtils.hasPreferenceValue(SetPerf, StorageConstants.IS_CUSTOM_COOKIE),
+@@ -90,4 +107,100 @@ async function handleSetting<T extends preferences.ValueType>(
+     await PreferencesUtils.putPreferenceValue(storageArea, key, defaultValue)
+   }
+   AppStorage.setOrCreate(key, value)
++}
++
++/**
++ * 当前在线服务配置
++ */
++export function getApiConfig(): ApiConfig {
++  const config: ApiConfig = {
++    protocol: AppStorage.get<string>(StorageConstants.API_PROTOCOL) ?? 'http',
++    host: AppStorage.get<string>(StorageConstants.API_HOST) ?? '',
++    port: AppStorage.get<string>(StorageConstants.API_PORT) ?? '',
++    path: AppStorage.get<string>(StorageConstants.API_PATH) ?? '',
++    user: AppStorage.get<string>(StorageConstants.API_USER) ?? '',
++    password: AppStorage.get<string>(StorageConstants.API_PASSWORD) ?? ''
++  }
++  return config
++}
++
++/**
++ * 规范化在线服务配置
++ * 去除首尾空格; 主机去掉协议前缀与末尾斜杠; 非法端口(非数字/超出1-65535)视为空; 路径统一为 '/xxx' 或 ''
++ */
++export function normalizeApiConfig(config: ApiConfig): ApiConfig {
++  const host = config.host.trim().replace(/^https?:\/\//i, '').replace(/\/+$/, '')
++  let port = config.port.trim()
++  const portNum = Number(port)
++  port = /^\d+$/.test(port) && portNum >= 1 && portNum <= 65535 ? portNum.toString() : ''
++  const path = config.path.trim().replace(/^\/+/, '').replace(/\/+$/, '')
++  const normalized: ApiConfig = {
++    protocol: config.protocol.trim().toLowerCase() === 'https' ? 'https' : 'http',
++    host: host,
++    port: port,
++    path: path ? '/' + path : '',
++    user: config.user.trim(),
++    password: config.password
++  }
++  return normalized
++}
++
++/**
++ * 组合 API 基础地址: {协议}://{主机}[:{端口}]{路径}，主机为空时返回 ''
++ */
++export function buildApiUrl(config: ApiConfig): string {
++  const c = normalizeApiConfig(config)
++  if (!c.host) {
++    return ''
++  }
++  return `${c.protocol}://${c.host}${c.port ? ':' + c.port : ''}${c.path}`
++}
++
++/**
++ * 解析单字符串 API 地址，无法解析时返回 undefined
++ */
++export function parseApiUrl(url: string): ApiConfig | undefined {
++  const match = /^(https?):\/\/([^\/:?#\s]+)(?::(\d+))?(\/[^?#\s]*)?$/i.exec(url.trim())
++  if (!match) {
++    return undefined
++  }
++  const config: ApiConfig = {
++    protocol: match[1],
++    host: match[2],
++    port: match[3] ?? '',
++    path: match[4] ?? '',
++    user: '',
++    password: ''
++  }
++  return normalizeApiConfig(config)
++}
++
++/**
++ * 保存在线服务配置并检查连通性
++ * 设置页与发现页配置面板共用
++ */
++export function saveApiConfig(config: ApiConfig): Promise<boolean> {
++  const normalized = normalizeApiConfig(config)
++  const apiUrl = buildApiUrl(normalized)
++  putApiFields(normalized)
++  putApiSetting(StorageConstants.API_URL, apiUrl)
++  ToastUtil.showToast('配置已保存，正在检查服务是否可用…')
++  return checkValidUrl()
++}
++
++function putApiFields(config: ApiConfig): Promise<void[]> {
++  return Promise.all([
++    putApiSetting(StorageConstants.API_PROTOCOL, config.protocol),
++    putApiSetting(StorageConstants.API_HOST, config.host),
++    putApiSetting(StorageConstants.API_PORT, config.port),
++    putApiSetting(StorageConstants.API_PATH, config.path),
++    putApiSetting(StorageConstants.API_USER, config.user),
++    putApiSetting(StorageConstants.API_PASSWORD, config.password)
++  ])
++}
++
++// 先同步写 AppStorage（后续请求立即使用新值），再持久化
++function putApiSetting(key: string, value: string): Promise<void> {
++  AppStorage.setOrCreate(key, value)
++  return PreferencesUtils.putPreferenceValue(StorageConstants.SET_PERF, key, value)
+ }
+\ No newline at end of file
+diff --git a/entry/src/main/ets/common/functions/common/get.ets b/entry/src/main/ets/common/functions/common/get.ets
+index 1b63a46..4cf9077 100644
+--- a/entry/src/main/ets/common/functions/common/get.ets
++++ b/entry/src/main/ets/common/functions/common/get.ets
+@@ -1,4 +1,5 @@
+ import { LogUtil } from "@pura/harmony-utils";
++import { util } from "@kit.ArkTS";
+ import { StorageConstants } from "../../constants/StorageConstants";
+ import { CacheSet, CacheSetItem } from "../../entities/local/Settings";
+ import { Artist } from "../../entities/song/Song";
+@@ -33,29 +34,68 @@ export async function getCookie(): Promise<string> {
+ interface InnerVersion {
+   code: number
+ }
++
++let checkSeq: number = 0
++let checkingKey: string | undefined = undefined
++let checkingTask: Promise<boolean> | undefined = undefined
++
+ /**
+  * 检查API URL连通性
++ * 同一配置的检查在途时不重复发请求；配置变化后旧请求的结果作废，不会覆盖新结果
+  * @returns
+  */
+-export async function checkValidUrl(): Promise<boolean> {
++export function checkValidUrl(): Promise<boolean> {
++  const apiUrl = AppStorage.get<string>(StorageConstants.API_URL) ?? ''
++  const key = `${apiUrl}\n${getApiAuthorization()}`
++  if (checkingTask && checkingKey === key) {
++    return checkingTask
++  }
++  const seq = ++checkSeq
++  if (!apiUrl) {
++    checkingKey = undefined
++    checkingTask = undefined
++    AppStorage.setOrCreate(StorageConstants.VALID_API_URL, false)
++    return Promise.resolve(false)
++  }
++  checkingKey = key
++  const task = requestInnerVersion().then((valid: boolean) => {
++    if (seq === checkSeq) {
++      AppStorage.setOrCreate(StorageConstants.VALID_API_URL, valid)
++      checkingKey = undefined
++      checkingTask = undefined
++    }
++    return valid
++  })
++  checkingTask = task
++  return task
++}
++
++async function requestInnerVersion(): Promise<boolean> {
+   try {
+     const response = await commonRequest<InnerVersion>({
+       url: '/inner/version',
+       params: {}
+     })
+-    if (response.code === 200) {
+-      AppStorage.setOrCreate(StorageConstants.VALID_API_URL, true)
+-      return true
+-    } else {
+-      AppStorage.setOrCreate(StorageConstants.VALID_API_URL, false)
+-      return false
+-    }
++    return response.code === 200
+   } catch (e) {
+-    AppStorage.setOrCreate(StorageConstants.VALID_API_URL, false)
+     return false
+   }
+ }
+ 
++/**
++ * 在线服务认证头
++ * 配置了用户或密码时返回 HTTP Basic 认证值，否则返回 ''
++ */
++export function getApiAuthorization(): string {
++  const user = AppStorage.get<string>(StorageConstants.API_USER) ?? ''
++  const password = AppStorage.get<string>(StorageConstants.API_PASSWORD) ?? ''
++  if (!user && !password) {
++    return ''
++  }
++  const bytes = new util.TextEncoder().encodeInto(`${user}:${password}`)
++  return 'Basic ' + new util.Base64Helper().encodeToStringSync(bytes)
++}
++
+ export async function getLocalSongArtistsString(localSongArtists: string): Promise<string> {
+   let artists: string = localSongArtists
+   try {
+diff --git a/entry/src/main/ets/common/utils/request/RequestUtil.ets b/entry/src/main/ets/common/utils/request/RequestUtil.ets
+index 15915c2..f58b75d 100644
+--- a/entry/src/main/ets/common/utils/request/RequestUtil.ets
++++ b/entry/src/main/ets/common/utils/request/RequestUtil.ets
+@@ -1,7 +1,7 @@
+ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from '@ohos/axios'
+ import { LogUtil } from '@pura/harmony-utils'
+ import { StorageConstants } from '../../constants/StorageConstants'
+-import { getApiUrl, getCookie } from '../../functions/common/get'
++import { getApiAuthorization, getApiUrl, getCookie } from '../../functions/common/get'
+ 
+ const TAG = '[RequestUtil] '
+ 
+@@ -15,6 +15,13 @@ const instance = axios.create({
+ instance.interceptors.request.use(async (request: InternalAxiosRequestConfig ) => {
+   // baseUrl
+   request.baseURL = !request.params.baseUrl ? await getApiUrl() : request.params.baseUrl
++  // Authorization (仅用于在线服务, 配置了用户/密码时)
++  if(!request.params.baseUrl) {
++    const authorization = getApiAuthorization()
++    if(authorization) {
++      request.headers.set('Authorization', authorization)
++    }
++  }
+   // timeout
+   request.timeout = request.params.timeout ?? 15000
+   // Cookie
+diff --git a/entry/src/main/ets/common/view/Explore.ets b/entry/src/main/ets/common/view/Explore.ets
+index 19cc5a6..2cc3f9f 100644
+--- a/entry/src/main/ets/common/view/Explore.ets
++++ b/entry/src/main/ets/common/view/Explore.ets
+@@ -1,4 +1,4 @@
+-import { DialogUtil, ToastUtil} from "@pura/harmony-utils";
++import { DialogUtil, LogUtil, ToastUtil} from "@pura/harmony-utils";
+ import Constants from "../constants/Constants";
+ import { TopListItem } from "../entities/recommend/TopList";
+ import { getTopList } from "../../api/topListApi";
+@@ -11,13 +11,17 @@ import { AppInfo, AppInfoClass } from "../entities/local/AppInfo";
+ import { RecommendDjRadio } from "../entities/dj/DjRecommend";
+ import { IndexRecommend } from "./IndexRecommend";
+ import { PersonalizedSkeletion } from "../../components/skeleton/Skeleton";
++import { ApiConfigForm } from "../../components/settings/ApiConfigForm";
++
++const TAG = '[Explore] '
+ 
+ @Component
+ export struct Explore {
+   @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+   @StorageProp('topRectHeight') topRectHeight: number = 0
+   @StorageProp(StorageConstants.IS_LOGGED) @Watch('getContent') isLogged: boolean = false
+-  @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = true
++  @StorageProp(StorageConstants.VALID_API_URL) @Watch('onValidApiUrlChange') validApiUrl: boolean = true
++  @StorageProp(StorageConstants.APP_LOADING) @Watch('onAppLoadingChange') appLoading: boolean = true
+   @StorageProp(StorageConstants.APP_INFO) appInfo: AppInfo = AppInfoClass
+   @StorageLink(StorageConstants.TOPLISTS) topList: Array<TopListItem> = []
+   @StorageLink(StorageConstants.PERSONALIZED_LIST) personalizedList: Array<PersonalListItem> = []
+@@ -28,15 +32,29 @@ export struct Explore {
+   @State isLoadingRecommendDjRadio: boolean = false
+   @State isRefreshing: boolean = false
+   @State lastRefreshTime: number = 0
++  @State isShowApiSheet: boolean = false
+   @Prop currentHour: number = 0
+   @State totalOpacity: number = 0
+   @Consume('pageInfos') pageInfos: NavPathStack
+   private refreshCooldown: number = 5000
++  private isOnlineContentLoaded: boolean = false
++  private apiSheetOptions: SheetOptions = {
++    preferType: SheetType.BOTTOM,
++    // 内容从顶部排布，软键盘弹出时"保存配置"不被遮挡
++    height: SheetSize.LARGE,
++    title: { title: '在线服务配置' },
++    backgroundColor: $r('app.color.background'),
++    onDisappear: () => { this.isShowApiSheet = false }
++  }
+ 
+   aboutToAppear() {
+     animateTo({ duration: 300, curve: Curve.Ease, delay: 100}, () => {
+       this.totalOpacity = 1
+     })
++    // 应用初始化（连通性检查）已完成后才创建的情况
++    if(!this.appLoading && this.validApiUrl) {
++      this.loadOnlineContent()
++    }
+   }
+ 
+   async getContent() {
+@@ -44,26 +62,77 @@ export struct Explore {
+     this.getPersonalizedList()
+   }
+ 
++  // 在线服务变为可用（保存配置检查通过）后刷新在线内容
++  onValidApiUrlChange() {
++    if(this.validApiUrl) {
++      this.loadOnlineContent()
++    } else {
++      this.isOnlineContentLoaded = false
++    }
++  }
++
++  // 冷启动连通性检查完成后加载在线内容（不要求登录）
++  onAppLoadingChange() {
++    if(!this.appLoading && this.validApiUrl) {
++      this.loadOnlineContent()
++    }
++  }
++
++  /**
++   * 加载在线内容（不受本地缓存、登录态和刷新冷却影响）
++   * 每次在线服务变为可用后只加载一次
++   */
++  private async loadOnlineContent() {
++    if(!this.validApiUrl || this.isOnlineContentLoaded) return
++    this.isOnlineContentLoaded = true
++    await Promise.all([this.loadTopList(), this.loadPersonalizedList()])
++  }
++
++  private async loadTopList() {
++    if(this.isLoadingTopList) return
++    this.isLoadingTopList = true
++    try {
++      this.topList = (await getTopList()) ?? []
++    } catch (e) {
++      LogUtil.error(TAG, 'getTopList Error: ' + e.message)
++    } finally {
++      this.isLoadingTopList = false
++    }
++  }
++
++  private async loadPersonalizedList() {
++    if(this.isLoadingPersonalized) return
++    this.isLoadingPersonalized = true
++    try {
++      this.personalizedList = (await getPersonalizedList()) ?? []
++    } catch (e) {
++      LogUtil.error(TAG, 'getPersonalizedList Error: ' + e.message)
++    } finally {
++      this.isLoadingPersonalized = false
++    }
++  }
++
+   private async getTopLists() {
+     if(this.topList.length == 0 && this.validApiUrl) {
+-      this.isLoadingTopList = true
+-      this.topList = await getTopList()
+-      this.isLoadingTopList = false
++      await this.loadTopList()
+     }
+     else return
+   }
+ 
+   private async getPersonalizedList() {
+     if(this.isLogged && this.personalizedList.length == 0 && this.validApiUrl) {
+-      this.isLoadingPersonalized = true
+-      this.personalizedList = await getPersonalizedList()
+-      this.isLoadingPersonalized = false
++      await this.loadPersonalizedList()
+     }
+     else return
+   }
+ 
+   private refreshContent = async () => {
+     this.isRefreshing = true
++    // 在线服务不可用时不请求内容
++    if(!this.validApiUrl) {
++      setTimeout(() => { this.isRefreshing = false }, 300)
++      return
++    }
+     const currentTime = new Date().getTime()
+     if (currentTime - this.lastRefreshTime < this.refreshCooldown) {
+       ToastUtil.showToast('操作过于频繁，请5秒后再试')
+@@ -137,6 +206,7 @@ export struct Explore {
+                 .listDirection(Axis.Horizontal)
+                 .scrollBar(BarState.Off)
+                 .width('100%')
++                .id('explore_personalized_list')
+               }
+             }
+             .padding({ top: 20 })
+@@ -209,9 +279,34 @@ export struct Explore {
+                 .scrollBar(BarState.Off)
+                 .width('100%')
+                 .height('auto')
++                .id('explore_toplist_list')
+               }
+             }
+             .padding({ top: 20 })
++          } else {
++            // 在线服务未配置/不可用时的引导
++            GridItem() {
++              Column({ space: 15 }) {
++                Text('如需连接在线内容，请设置在线服务')
++                  .id('explore_service_tip')
++                  .fontSize(Constants.FONT_SIZE_COMMON)
++                  .fontColor($r('app.color.reverse'))
++                  .textAlign(TextAlign.Center)
++                Button('设置在线服务')
++                  .id('explore_setup_button')
++                  .fontSize(Constants.FONT_SIZE_COMMON)
++                  .fontColor($r('app.color.app_red'))
++                  .borderColor($r('app.color.app_red'))
++                  .backgroundColor(Color.Transparent)
++                  .borderWidth(1)
++                  .padding({ left: 20, right: 20 })
++                  .onClick(() => {
++                    this.isShowApiSheet = true
++                  })
++              }
++              .width('100%')
++              .padding({ left: 20, right: 20, top: 20 })
++            }
+           }
+ 
+           GridItem()
+@@ -233,6 +328,26 @@ export struct Explore {
+     .width('100%')
+     .height('100%')
+     .opacity(this.totalOpacity)
++    .bindSheet(this.isShowApiSheet, this.ApiSheet(), this.apiSheetOptions)
++  }
++
++  @Builder
++  ApiSheet() {
++    Scroll() {
++      Column() {
++        ApiConfigForm({
++          onSaved: () => {
++            this.isShowApiSheet = false
++          }
++        })
++      }
++      .padding({ left: 20, right: 20, bottom: 20 })
++    }
++    .id('explore_api_sheet')
++    .width('100%')
++    .height('100%')
++    .align(Alignment.Top)
++    .scrollBar(BarState.Off)
+   }
+ 
+   @Builder
+diff --git a/entry/src/main/ets/pages/local/LocalSongPage.ets b/entry/src/main/ets/pages/local/LocalSongPage.ets
+index 7db3df9..cc0e5f0 100644
+--- a/entry/src/main/ets/pages/local/LocalSongPage.ets
++++ b/entry/src/main/ets/pages/local/LocalSongPage.ets
+@@ -174,7 +174,7 @@ export struct LocalSongPage {
+                   }
+                   else {
+                     Column({ space: 20 }) {
+-                      Text('本地文件列表为空').width('100%').textAlign(TextAlign.Center).padding({ left: 30, right: 30, top: 10 })
++                      Text('本地文件列表为空\n右上方入口支持上传本地音频').id('local_empty_tip').width('100%').textAlign(TextAlign.Center).padding({ left: 30, right: 30, top: 10 })
+                       if(this.filesList.length > 0) {
+                         Button('迁移旧版本数据').padding({ left: 10, right: 10, top: 5, bottom: 5 })
+                           .onClick(() => { this.isShowMigration = true })
+diff --git a/entry/src/main/ets/pages/settings/ApiSetPage.ets b/entry/src/main/ets/pages/settings/ApiSetPage.ets
+index c7ececa..f5cbebf 100644
+--- a/entry/src/main/ets/pages/settings/ApiSetPage.ets
++++ b/entry/src/main/ets/pages/settings/ApiSetPage.ets
+@@ -1,19 +1,18 @@
+ import { ToastUtil } from "@pura/harmony-utils"
+ import Constants from "../../common/constants/Constants"
+ import { StorageConstants } from "../../common/constants/StorageConstants"
+-import { checkValidUrl } from "../../common/functions/common/get"
+ import PreferencesUtils from "../../common/utils/data/PreferencesUtils"
+ import { ExplainButton } from "../../components/buttons/ExplainButton"
++import { ApiConfigForm } from "../../components/settings/ApiConfigForm"
+ 
+ /**
+- * 自定义API服务器地址
+- * Sheet
++ * 在线服务配置
++ * NavDestination
+  */
+ @Component
+ export struct ApiSetPage {
+   @StorageLink(StorageConstants.IS_CUSTOM_COOKIE) isCustomCookie: boolean = false
+   @StorageProp(StorageConstants.CUSTOM_COOKIE) customCookie: string = ''
+-  @StorageProp(StorageConstants.API_URL) customApiUrl: string = ''
+   @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = false
+   @StorageProp(StorageConstants.BREAKPOINT_WIDTH) breakpoint: string = 'sm'
+   @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+@@ -22,18 +21,10 @@ export struct ApiSetPage {
+     NavDestination() {
+       Scroll() {
+         Column({ space: 20 }) {
+-          Text() {
+-            Span(`用户云服务状态: `)
+-            Span(`${this.validApiUrl ? '正常' : '不可用'}`)
+-              .fontWeight(FontWeight.Bold)
+-              .fontColor(this.validApiUrl ? Color.Green : $r('app.color.app_red'))
++          Column() {
++            ApiConfigForm()
+           }
+-          .width('100%')
+-          .textAlign(TextAlign.Center)
+-          .fontColor($r('app.color.reverse'))
+-          .fontSize(Constants.FONT_SIZE_COMMON)
+-          .padding(Constants.PADDING_EDGE_DEFAULT)
+-          this.SetApiUrl()
++          .itemStyle()
+           if(this.validApiUrl) {
+             this.SetCookie()
+           }
+@@ -48,34 +39,9 @@ export struct ApiSetPage {
+       .width('100%')
+       .scrollBar(BarState.Off)
+     }
++    .id('api_set_page')
+     .backgroundColor($r('app.color.background'))
+-    .title($r('app.string.SET_CLOUDSERVICE'))
+-  }
+-
+-  @Builder SetApiUrl() {
+-    Column({ space: 10 }) {
+-      Row() {
+-        Row({ space: 5 }) {
+-          Text($r('app.string.SET_CLOUDSERVICE')).LeftText()
+-        }
+-      }
+-      .width('100%')
+-      .justifyContent(FlexAlign.SpaceBetween)
+-
+-      Column({ space: 10 }) {
+-        TextInput({ text: this.customApiUrl })
+-          .width('100%')
+-          .onChange((text) => this.customApiUrl = text)
+-          .borderRadius(Constants.RADIUS_IMG)
+-        Button('保存配置')
+-          .setButton()
+-          .onClick(() => {
+-            this.setCustomApiUrl()
+-          })
+-      }
+-      .width('100%')
+-    }
+-    .itemStyle()
++    .title('在线服务配置')
+   }
+ 
+   @Builder SetCookie() {
+@@ -130,13 +96,6 @@ export struct ApiSetPage {
+     PreferencesUtils.putPreferenceValue(StorageConstants.SET_PERF, StorageConstants.IS_CUSTOM_COOKIE, this.isCustomCookie)
+   }
+ 
+-  setCustomApiUrl() {
+-    AppStorage.setOrCreate(StorageConstants.API_URL,this.customApiUrl)
+-    PreferencesUtils.putPreferenceValue(StorageConstants.SET_PERF ,StorageConstants.API_URL,this.customApiUrl)
+-    ToastUtil.showToast('配置已保存, 正在检查云服务是否可用...')
+-    checkValidUrl()
+-  }
+-
+   setCustomCookie() {
+     let cookie = this.customCookie.trim()
+     if (!cookie.endsWith('; OS=pc')) {
+diff --git a/entry/src/main/ets/pages/settings/SettingsPage.ets b/entry/src/main/ets/pages/settings/SettingsPage.ets
+index b33d8f4..b2fb0d1 100644
+--- a/entry/src/main/ets/pages/settings/SettingsPage.ets
++++ b/entry/src/main/ets/pages/settings/SettingsPage.ets
+@@ -90,10 +90,14 @@ export struct SettingsPage {
+       CommonSettingsCard({
+         title: $r('app.string.SET_CLOUDSERVICE'),
+         action: () => {
+-          this.settingsPageInfos.pushPathByName('ApiSetPage', null)
++          // 快速连点时只进入一层
++          if(!this.settingsPageInfos.getAllPathName().includes('ApiSetPage')) {
++            this.settingsPageInfos.pushPathByName('ApiSetPage', null)
++          }
+         }
+       })
+     }
++    .id('settings_online_service')
+     ListItem() {
+       CommonSettingsCard({
+         title: $r('app.string.SET_DATAANDCACHE'),
+diff --git a/entry/src/main/resources/base/element/string.json b/entry/src/main/resources/base/element/string.json
+index f99f737..fb8f288 100644
+--- a/entry/src/main/resources/base/element/string.json
++++ b/entry/src/main/resources/base/element/string.json
+@@ -50,7 +50,7 @@
+     },
+     {
+       "name": "SET_CLOUDSERVICE",
+-      "value": "Cloud Service"
++      "value": "Online Service"
+     },
+     {
+       "name": "SET_DATAANDCACHE",
+diff --git a/entry/src/main/resources/en_US/element/string.json b/entry/src/main/resources/en_US/element/string.json
+index 592d9a0..3e177f3 100644
+--- a/entry/src/main/resources/en_US/element/string.json
++++ b/entry/src/main/resources/en_US/element/string.json
+@@ -50,7 +50,7 @@
+     },
+     {
+       "name": "SET_CLOUDSERVICE",
+-      "value": "Cloud Service"
++      "value": "Online Service"
+     },
+     {
+       "name": "SET_DATAANDCACHE",
+diff --git a/entry/src/main/resources/zh_CN/element/string.json b/entry/src/main/resources/zh_CN/element/string.json
+index b5e5de1..7fb6de8 100644
+--- a/entry/src/main/resources/zh_CN/element/string.json
++++ b/entry/src/main/resources/zh_CN/element/string.json
+@@ -50,7 +50,7 @@
+     },
+     {
+       "name": "SET_CLOUDSERVICE",
+-      "value": "云服务设置"
++      "value": "在线服务"
+     },
+     {
+       "name": "SET_DATAANDCACHE",

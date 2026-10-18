@@ -1,0 +1,166 @@
+"""场景一：设置 → 在线服务 → 在线服务配置（结构化表单、保存提示、连通性检查）。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.cmu_helpers import (DEAD_PORT, HOST, PROXY_PORT, T7, CmuTestCase, RecordingProxy,
+                                      basic_auth)
+
+PORT = str(PROXY_PORT)
+
+
+class TestS1ApiConfig(CmuTestCase):
+    proxy: RecordingProxy
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        cls.proxy = RecordingProxy().__enter__()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.proxy.__exit__(None, None, None)
+
+    def setUp(self) -> None:
+        self.proxy.delay = 0.0
+        self.proxy.delay_prefix = None
+
+    def checks(self) -> int:
+        return len(self.proxy.paths("/inner/version"))
+
+    # A1-A9：入口、标题、六项输入、协议选项、状态、保存按钮
+    def test_01_form_structure(self):
+        self.restart()
+        self.open_api_page()
+        for label in ("主机", "端口", "请求", "路径", "用户", "密码", "HTTP", "HTTPS", "保存配置"):
+            self.require_text(label, f"配置页缺少 {label!r}", timeout=3)
+        for key in ("api_host_input", "api_port_input", "api_path_input", "api_user_input",
+                    "api_password_input", "api_protocol_http", "api_protocol_https", "api_save_button"):
+            self.require_component(BY.key(key), f"缺少组件 {key}", timeout=3)
+        self.assertIn(self.status(), ("正常", "不可用"))
+        self.assertIsNotNone(self.find_or_none(BY.text("正常"), 1) or self.find_or_none(BY.text("不可用"), 1),
+                             "状态值不是独立的 正常/不可用 文本")
+        self.assertIsNone(self.find_or_none(BY.text("在线服务"), 1), "配置页内不应出现与选项同名的文本")
+        self.assertTrue(self.require_component(BY.key("api_save_button"), "").isClickable())
+
+    # A11-A14：保存提示 + 真实检查请求 + 状态自动刷新（不可用 → 正常）
+    def test_02_save_toast_and_check(self):
+        self.restart()
+        self.open_api_page()
+        self.fill_form(host=HOST, port=DEAD_PORT)
+        self.assertEqual(self.save(), T7)
+        self.assertEqual(self.wait_status("不可用"), "不可用")
+
+        self.proxy.clear()
+        self.fill_form(host=HOST, port=PORT)
+        self.assertEqual(self.save(), T7)
+        self.assertEqual(self.wait_status("正常"), "正常", "检查通过后状态未自动变为 正常")
+        self.assertEqual(self.checks(), 1, f"保存一次应恰好发 1 次检查请求: {self.proxy.requests}")
+        self.assertIsNone(self.proxy.auth_of("/inner/version")[0], "未配置用户/密码时不应带认证头")
+
+    # A17：返回重进、冷启动后回显；冷启动自动检查
+    def test_03_persist_after_reenter_and_restart(self):
+        self.close_settings()
+        self.open_api_page()
+        self.assertEqual(self.input_value("api_host_input"), HOST)
+        self.assertEqual(self.input_value("api_port_input"), PORT)
+        self.proxy.clear()
+        self.restart()
+        self.assertTrue(self.wait_until(lambda: self.checks() >= 1, 10), "冷启动未检查服务")
+        self.open_api_page()
+        self.assertEqual(self.input_value("api_host_input"), HOST)
+        self.assertEqual(self.input_value("api_port_input"), PORT)
+        self.assertTrue(self.require_component(BY.key("api_protocol_http"), "").isChecked())
+        self.assertEqual(self.wait_status("正常"), "正常")
+        self.assertEqual(self.checks(), 1, "进入配置页不应额外发检查请求")
+
+    # A20：检查在途时连点保存，同一配置只发 1 次
+    def test_04_rapid_save_no_duplicate_request(self):
+        self.open_api_page()
+        self.proxy.clear()
+        self.proxy.delay = 3.0
+        save_btn = self.require_component(BY.key("api_save_button"), "缺少保存按钮")
+        for _ in range(3):
+            save_btn.click()
+            self.driver.wait(0.3)
+        self.driver.wait(4)
+        self.assertEqual(self.checks(), 1, f"连点产生了重复请求: {self.proxy.paths('/inner/version')}")
+        self.assertEqual(self.wait_status("正常"), "正常")
+
+    # A20：慢的旧检查（失败）晚返回，不得覆盖新配置的结果
+    def test_05_stale_result_ignored(self):
+        self.open_api_page()
+        self.proxy.clear()
+        self.proxy.delay = 5.0
+        self.proxy.delay_prefix = "/slow"
+        self.fill_form(host=HOST, port=PORT, path="slow")  # /slow/inner/version → 上游 404 → 不可用
+        self.save()
+        self.fill_form(host=HOST, port=PORT, path="")
+        self.save()
+        self.assertEqual(self.wait_status("正常"), "正常")
+        self.driver.wait(6)
+        self.assertEqual(self.proxy.paths("/inner/version")[0].split("?")[0], "/slow/inner/version")
+        self.assertEqual(self.status(), "正常", "旧请求晚返回覆盖了新结果")
+
+    # A16：用户/密码 → HTTP Basic 认证；清空后不再带
+    def test_06_basic_auth(self):
+        self.open_api_page()
+        self.proxy.clear()
+        self.fill_form(host=HOST, port=PORT, user="tester", password="p@ss")
+        self.save()
+        self.assertTrue(self.wait_until(lambda: self.checks() >= 1, 10))
+        self.assertEqual(self.proxy.auth_of("/inner/version")[-1], basic_auth("tester", "p@ss"))
+        self.proxy.clear()
+        self.fill_form(host=HOST, port=PORT)
+        self.save()
+        self.assertTrue(self.wait_until(lambda: self.checks() >= 1, 10))
+        self.assertIsNone(self.proxy.auth_of("/inner/version")[-1])
+        self.assertEqual(self.wait_status("正常"), "正常")
+
+    # A5/A15/A6：HTTPS 选择、路径规范化、非法端口
+    def test_07_protocol_path_port_normalization(self):
+        self.open_api_page()
+        self.fill_form(host=" http://" + HOST + "/ ", port="70000", protocol="HTTPS", path=" /api/ ")
+        self.save()
+        self.assertEqual(self.wait_status("不可用"), "不可用")
+        self.close_settings()
+        self.open_api_page()
+        self.assertEqual(self.input_value("api_host_input"), HOST)
+        self.assertEqual(self.input_value("api_port_input"), "")
+        self.assertEqual(self.input_value("api_path_input"), "/api")
+        self.assertTrue(self.require_component(BY.key("api_protocol_https"), "").isChecked())
+        self.assertFalse(self.require_component(BY.key("api_protocol_http"), "").isChecked())
+        # 点击选项文字也能切换
+        self.click_text("HTTPS")
+        self.find_or_none(BY.text("HTTP"), 2).click()
+        self.driver.wait(0.5)
+        self.assertTrue(self.require_component(BY.key("api_protocol_http"), "").isChecked())
+
+    # A22：修改未保存即返回 → 不持久化、不发请求
+    def test_08_unsaved_changes_discarded(self):
+        self.open_api_page()
+        self.fill_form(host=HOST, port=PORT)
+        self.save()
+        self.assertEqual(self.wait_status("正常"), "正常")
+        self.proxy.clear()
+        self.fill("api_host_input", "example.invalid")
+        self.close_settings()
+        self.open_api_page()
+        self.assertEqual(self.input_value("api_host_input"), HOST)
+        self.assertEqual(self.checks(), 0)
+        self.assertEqual(self.status(), "正常")
+
+    # A19：纯空格主机 → 允许保存（清除配置），提示 T7，不发请求，状态不可用
+    def test_09_blank_host_clears_config(self):
+        self.open_api_page()
+        self.proxy.clear()
+        self.fill_form(host="   ", port=PORT)
+        self.assertEqual(self.save(), T7)
+        self.assertEqual(self.wait_status("不可用", 5), "不可用")
+        self.driver.wait(1)
+        self.assertEqual(self.checks(), 0, "主机为空时不应发检查请求")
+        self.restart()
+        self.open_api_page()
+        self.assertEqual(self.input_value("api_host_input"), "")
+        self.assertEqual(self.status(), "不可用")
+        self.close_settings()

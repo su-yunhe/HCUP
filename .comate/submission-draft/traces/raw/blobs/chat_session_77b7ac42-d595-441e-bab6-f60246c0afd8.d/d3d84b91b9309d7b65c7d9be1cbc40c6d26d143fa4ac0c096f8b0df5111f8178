@@ -1,0 +1,79 @@
+Found 26 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 8: - 证据等级：`SPEC_EXPLICIT` = Spec 明文；`REASONABLE_DERIVATION` = 由 Spec/官方答疑/基线既有行为合理推导；`UNCONFIRMED_ASSUMPTION` = 原为待确认假设。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 9: - **假设决议（2026-10-18）**：第 6 节 U1–U12 共 12 项已由用户逐项确认，全部采用推荐方案。正文中涉及这些假设的条目保留原证据等级（表明它们不是 Spec 明文），并标注"已决（Ux）"，选定方案已直接写进原子行为 / 可观察结果，实现与自测以此为准。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 37: - 证据等级：SPEC_EXPLICIT（进入设置页）；入口文案 UNCONFIRMED_ASSUMPTION → 已决（U1）：保留基线 `应用设置`，不改名为 `设置`
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 53: - 证据等级：SPEC_EXPLICIT（点击进入）；页面标题 UNCONFIRMED_ASSUMPTION → 已决（U2）：`在线服务配置`
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 69: - 证据等级：SPEC_EXPLICIT（两个取值）；默认 HTTP 为 REASONABLE_DERIVATION（答疑 Q1 示例为 HTTP）；控件形态 UNCONFIRMED_ASSUMPTION → 已决（U3）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 77: - 证据等级：REASONABLE_DERIVATION（端口为数字）；非法值处理 UNCONFIRMED_ASSUMPTION → 已决（U6）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 157: - 证据等级：UNCONFIRMED_ASSUMPTION → 已决（U4）：HTTP Basic Auth
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 173: - 证据等级：UNCONFIRMED_ASSUMPTION → 已决（U8）：解析回填
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 181: - 证据等级：UNCONFIRMED_ASSUMPTION → 已决（U5）：允许保存，等价于清除配置
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 198: - 原子行为：保存并检查通过后，所有在线接口（登录状态、排行榜、推荐歌单等）都使用新地址。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 215: - 证据等级：SPEC_EXPLICIT（文案）；显示条件 UNCONFIRMED_ASSUMPTION → 已决（U10）：`!isValidApiUrl`
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 216: - 原子行为：只要 `isValidApiUrl` 为 false（未配置，或已配置但检查不通过），发现页原"推荐歌单/排行榜"内容区域位置就显示文本恰为 T9。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 229: ### B3 未配置时不加载推荐内容
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 230: - 来源：S2-概述"发现页不再直接加载推荐内容"
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 232: - 原子行为：不显示推荐歌单列表/骨架屏、排行榜列表；不发任何内容请求；下拉刷新也不发请求。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 233: - 可观察结果：无 `推荐歌单`、`排行榜`、`更多排行` 文本（基线未配置时已隐藏，实测）；服务端无 `/toplist` `/personalized`。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 255: - 证据等级：REASONABLE_DERIVATION（持久化、检查）；面板保存同样弹 T7 为 UNCONFIRMED_ASSUMPTION → 已决（U11）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 263: - 证据等级：SPEC_EXPLICIT（刷新加载）；内容范围 REASONABLE_DERIVATION（基线在线内容 = 推荐歌单 `/personalized` + 排行榜 `/toplist`，基线下拉刷新实测未登录也能拿到两者）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 264: - 原子行为：`isValidApiUrl` 变为 true 后立即（不受 5s 刷新冷却限制、不要求登录、不因本地缓存非空而跳过）请求 `/toplist` 与 `/personalized`，引导提示与按钮消失，显示 `推荐歌单`、`排行榜` 区块及数据卡片。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 265: - 可观察结果：T9/T10 不再存在；`推荐歌单`、`排行榜` 文本出现；推荐歌单卡片标题（服务端数据）出现；服务端日志出现 `/toplist`、`/personalized`。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 314: - 八维：入口=A13 后切 `发现` Tab；前置数据=服务可达；用户动作=切 Tab；UI=内容；数据=缓存；网络=`/toplist` `/personalized` 各 1 次；返回=不适用；边界=基线此路径不加载内容（实测保存后切回仅显示空 `推荐歌单`/`排行榜` 标题，无请求）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 337: - 证据等级：SPEC_EXPLICIT（文案）；组件形态 UNCONFIRMED_ASSUMPTION → 已决（U9）：一个 Text，内容含真实换行
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 353: - 证据等级：SPEC_EXPLICIT（选择本机音频）；保留中间说明弹窗 UNCONFIRMED_ASSUMPTION → 已决（U12）：保留
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 434: ## 6. 假设决议（2026-10-18 用户逐项确认，全部采用推荐方案）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 448: | U11 | 面板保存是否也弹 T7 | 弹，与设置页共用同一保存逻辑 | B6 | 不弹 | 同一个"保存配置"语义；多一个 Toast 不会让 Spec 断言失败。 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec1/spec/acceptance.md:
+  Line 462: | 最后一页 | 不适用：无分页 | 不适用：推荐歌单/排行榜为一次性横向列表，无分页 | 不适用：LazyForEach 一次加载全部 |

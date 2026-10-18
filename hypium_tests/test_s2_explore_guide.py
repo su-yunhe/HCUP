@@ -1,0 +1,150 @@
+"""场景二：发现页未配置引导 + 底部配置面板。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.cmu_helpers import (DEAD_PORT, HOST, PROXY_PORT, T7, T9, T10, CmuTestCase,
+                                      RecordingProxy)
+
+PORT = str(PROXY_PORT)
+SHEET = BY.key("explore_api_sheet")
+
+
+class TestS2ExploreGuide(CmuTestCase):
+    proxy: RecordingProxy
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        cls.proxy = RecordingProxy().__enter__()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        cls.proxy.__exit__(None, None, None)
+
+    def content_requests(self) -> list[str]:
+        return self.proxy.paths("/toplist") + self.proxy.paths("/personalized")
+
+    def assert_guide(self, timeout: float = 10) -> None:
+        self.require_text(T9, f"未显示引导文案 {T9!r}", timeout=timeout)
+        self.assertTrue(self.require_text(T10, f"未显示按钮 {T10!r}", timeout=3).isClickable())
+        self.assertFalse(self.exists(BY.text("推荐歌单")), "未配置时不应显示推荐歌单")
+        self.assertFalse(self.exists(BY.text("排行榜")), "未配置时不应显示排行榜")
+
+    def open_sheet(self) -> None:
+        if not self.exists(SHEET):
+            self.require_text(T10, "缺少设置在线服务按钮").click()
+        self.require_component(SHEET, "未弹出配置面板", timeout=5)
+        self.driver.wait(0.5)
+
+    def pull_refresh(self) -> None:
+        self.driver.swipe("DOWN", distance=50, swipe_time=0.6)
+        self.driver.wait(2)
+
+    # B1-B3：未配置（空主机）冷启动 → 引导；下拉刷新不发内容请求
+    def test_01_guide_when_unconfigured(self):
+        self.configure(host="")
+        self.restart()
+        self.assert_guide()
+        self.click_text("我的")
+        self.click_text("发现")
+        self.assert_guide(3)
+
+    # B3/B8：已配置但服务不可用 → 引导；下拉刷新不请求内容
+    def test_02_guide_when_unavailable(self):
+        self.configure(host=HOST, port=PORT, path="bad")  # /bad/inner/version → 上游 404 → 不可用
+        self.proxy.clear()
+        self.restart()
+        self.assert_guide()
+        self.pull_refresh()
+        self.assert_guide(3)
+        self.assertEqual(self.content_requests(), [], "服务不可用时不应请求在线内容")
+
+    # B4/B9/B10：点击按钮弹出底部面板；连点只一个；返回取消不保存不请求
+    def test_03_open_sheet_and_cancel(self):
+        self.proxy.clear()
+        btn = self.require_text(T10, "缺少设置在线服务按钮")
+        btn.click()
+        btn.click()
+        self.require_component(SHEET, "未弹出配置面板", timeout=5)
+        self.driver.wait(1)
+        self.assertEqual(len(self.driver.find_all_components(SHEET) or []), 1, "连点弹出了多个面板")
+        for label in ("主机", "端口", "请求", "路径", "用户", "密码", "保存配置"):
+            self.require_text(label, f"面板缺少 {label!r}", timeout=3)
+        self.assertEqual(self.input_value("api_path_input"), "/bad", "面板未回显已保存配置")
+        sheet_bottom = self.require_component(SHEET, "").getBounds().bottom
+        self.assertGreater(sheet_bottom, 2000, "配置面板不是从底部弹出")
+        self.fill("api_host_input", "example.invalid")
+        self.driver.press_back()  # 收起键盘
+        self.driver.wait(0.5)
+        if self.exists(SHEET):
+            self.driver.press_back()
+        self.assertTrue(self.wait_gone(SHEET), "返回后面板未关闭")
+        self.assert_guide(3)
+        self.require_text(T10, "").click()
+        self.require_component(SHEET, "未再次弹出配置面板", timeout=5)
+        self.assertEqual(self.input_value("api_host_input"), HOST, "取消后不应保存未提交的输入")
+        self.assertEqual(self.proxy.requests, [], "打开/取消面板不应发请求")
+
+    # B5/B6/B8：面板保存失败配置 → 面板关闭、提示、引导保留、不请求内容
+    def test_04_sheet_save_failure_keeps_guide(self):
+        self.open_sheet()
+        self.proxy.clear()
+        self.fill_form(host=HOST, port=DEAD_PORT)
+        self.assertEqual(self.save(), T7)
+        self.assertTrue(self.wait_gone(BY.key("api_host_input")), "保存后面板未关闭")
+        self.driver.wait(2)
+        self.assert_guide(3)
+        self.assertEqual(self.content_requests(), [])
+
+    # B5-B7：面板保存可用配置 → 面板关闭、提示、发现页加载在线内容
+    def test_05_sheet_save_loads_content(self):
+        self.open_sheet()
+        self.proxy.clear()
+        self.fill_form(host=HOST, port=PORT)
+        self.assertEqual(self.save(), T7)
+        self.assertTrue(self.wait_gone(BY.key("api_host_input")), "保存后面板未关闭")
+        self.assertTrue(self.wait_gone(BY.text(T9), 10), "检查通过后引导未消失")
+        self.require_text("推荐歌单", "未显示推荐歌单", timeout=10)
+        self.require_component(BY.key("explore_toplist_list"), "未显示排行榜", timeout=10)
+        self.assertTrue(self.wait_until(lambda: self.proxy.paths("/toplist") and self.proxy.paths("/personalized"),
+                                        10), f"未请求在线内容: {self.proxy.requests}")
+        self.assertEqual(len(self.proxy.paths("/inner/version")), 1)
+
+    # B7：切 Tab 回来内容仍在、不重复请求
+    def test_06_switch_tab_keeps_content(self):
+        self.driver.wait(2)
+        before = len(self.content_requests())
+        self.click_text("我的")
+        self.click_text("发现")
+        self.require_text("推荐歌单", "切回后推荐歌单消失", timeout=3)
+        self.driver.wait(1)
+        self.assertEqual(len(self.content_requests()), before, "切 Tab 不应重复请求")
+
+    # B12：已配置（未登录）冷启动自动加载在线内容
+    def test_07_restart_loads_content(self):
+        self.proxy.clear()
+        self.restart()
+        self.require_text("推荐歌单", "冷启动未显示推荐歌单", timeout=10)
+        self.assertFalse(self.exists(BY.text(T9)))
+        self.assertTrue(self.wait_until(lambda: self.proxy.paths("/toplist") and self.proxy.paths("/personalized"),
+                                        10), f"冷启动未请求在线内容: {self.proxy.requests}")
+
+    # B14/B13：设置页改为不可用 → 回到引导；再改回可用 → 内容恢复
+    def test_08_settings_change_updates_explore(self):
+        self.open_api_page()
+        self.fill_form(host="", port="")
+        self.save()
+        self.close_settings()
+        self.click_text("发现")
+        self.assert_guide(5)
+        self.proxy.clear()
+        self.open_api_page()
+        self.fill_form(host=HOST, port=PORT)
+        self.save()
+        self.assertEqual(self.wait_status("正常"), "正常")
+        self.close_settings()
+        self.click_text("发现")
+        self.require_text("推荐歌单", "设置页配置成功后发现页未加载内容", timeout=10)
+        self.assertTrue(self.wait_until(lambda: self.proxy.paths("/toplist") and self.proxy.paths("/personalized"),
+                                        10), f"未请求在线内容: {self.proxy.requests}")

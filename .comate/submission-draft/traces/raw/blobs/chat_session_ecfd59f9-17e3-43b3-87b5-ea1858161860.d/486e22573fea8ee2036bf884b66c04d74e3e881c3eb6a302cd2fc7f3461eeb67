@@ -1,0 +1,174 @@
+"""cmu-spec1 自测公共辅助：应用导航、在线服务表单操作、服务端请求观测。"""
+from __future__ import annotations
+
+import base64
+import threading
+import time
+import urllib.request
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+from hypium import BY
+
+from harness.driver import HarnessTestCase
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+# 模拟器访问宿主机
+HOST = "10.0.2.2"
+# 本机 docker 容器 netease_cloud_music_api（真实兼容服务）
+API_PORT = "3000"
+UPSTREAM = "http://127.0.0.1:3000"
+# 测试内置的记录代理端口：记录每个请求的路径与 Authorization 头，再转发给真实服务
+PROXY_PORT = 3901
+# 无服务监听的端口（连接被拒绝，检查立即失败）
+DEAD_PORT = "3999"
+
+T7 = "配置已保存，正在检查服务是否可用…"
+T9 = "如需连接在线内容，请设置在线服务"
+T10 = "设置在线服务"
+T12 = "本地文件列表为空\n右上方入口支持上传本地音频"
+
+FIELDS = ("api_host_input", "api_port_input", "api_path_input", "api_user_input", "api_password_input")
+
+
+# ---------------- 服务端观测 ----------------
+# 真实服务带 2 分钟响应缓存，命中缓存的请求不写日志，所以请求计数统一经本代理观测。
+
+class RecordingProxy:
+    """记录请求的转发代理；/inner/version 可人为延迟，用于构造“检查在途”。
+
+    delay_prefix 非空时只延迟以该前缀开头的 /inner/version（如配置路径 /slow），其余照常返回。
+    """
+
+    def __init__(self, port: int = PROXY_PORT, upstream: str = UPSTREAM):
+        self.requests: list[tuple[str, str | None]] = []
+        self.delay = 0.0
+        self.delay_prefix: str | None = None
+        proxy = self
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self):  # noqa: N802
+                proxy.requests.append((self.path, self.headers.get("Authorization")))
+                if "/inner/version" in self.path and proxy.delay and (
+                        not proxy.delay_prefix or self.path.startswith(proxy.delay_prefix)):
+                    time.sleep(proxy.delay)
+                try:
+                    with urllib.request.urlopen(upstream + self.path, timeout=10) as resp:
+                        body = resp.read()
+                except Exception:  # noqa: BLE001
+                    body = b'{"code":500}'
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def log_message(self, *args):
+                pass
+
+        self.httpd = ThreadingHTTPServer(("0.0.0.0", port), Handler)
+        self.thread = threading.Thread(target=self.httpd.serve_forever, daemon=True)
+
+    def __enter__(self):
+        self.thread.start()
+        return self
+
+    def __exit__(self, *exc):
+        self.httpd.shutdown()
+        self.httpd.server_close()
+
+    def clear(self) -> None:
+        self.requests.clear()
+
+    def paths(self, prefix: str) -> list[str]:
+        """以 prefix 开头（忽略查询串）的请求路径。"""
+        return [p for p, _ in self.requests if p.split("?", 1)[0].endswith(prefix)]
+
+    def auth_of(self, prefix: str) -> list[str | None]:
+        return [a for p, a in self.requests if p.split("?", 1)[0].endswith(prefix)]
+
+
+def basic_auth(user: str, password: str) -> str:
+    return "Basic " + base64.b64encode(f"{user}:{password}".encode()).decode()
+
+
+# ---------------- 应用导航与表单 ----------------
+
+class CmuTestCase(HarnessTestCase):
+    """本题测试基类：冷启动、进入在线服务配置页、填写并保存表单。"""
+
+    def restart(self, wait: float = 3) -> None:
+        self.driver.stop_app(BUNDLE)
+        self.driver.wait(1)
+        self.driver.start_app(BUNDLE)
+        self.require_component(BY.key("__NavigationField__Text__MainTitle__"), "应用未能冷启动", timeout=20)
+        self.driver.wait(wait)
+
+    def click_text(self, text: str, timeout: float = 15) -> None:
+        comp = self.require_text(text, f"未找到文案 {text!r}", timeout=timeout)
+        comp.click()
+        self.driver.wait(0.8)
+
+    def click_key(self, key: str, timeout: float = 15) -> None:
+        comp = self.require_component(BY.key(key), f"未找到组件 id={key!r}", timeout=timeout)
+        comp.click()
+        self.driver.wait(0.8)
+
+    def open_api_page(self) -> None:
+        """冷启动后：我的 → 应用设置 → 在线服务 → 在线服务配置页。"""
+        self.click_text("我的")
+        self.click_text("应用设置")
+        self.click_text("在线服务")
+        self.require_text("在线服务配置", "未进入在线服务配置页")
+        self.require_component(BY.key("api_host_input"), "配置页缺少主机输入框")
+
+    def close_settings(self) -> None:
+        """从配置页返回到设置列表，再关闭设置面板。"""
+        self.driver.press_back()
+        self.driver.wait(1)
+        if self.find_or_none(BY.text("应用设置"), timeout=2):
+            self.driver.press_back()
+            self.driver.wait(1)
+
+    def input_value(self, key: str) -> str:
+        comp = self.require_component(BY.key(key), f"未找到输入框 {key}")
+        return comp.getText() or ""
+
+    def fill(self, key: str, value: str) -> None:
+        comp = self.require_component(BY.key(key), f"未找到输入框 {key}")
+        comp.clearText()
+        if value:
+            comp.inputText(value)
+        self.driver.wait(0.3)
+
+    def fill_form(self, host: str = "", port: str = "", protocol: str = "HTTP", path: str = "",
+                  user: str = "", password: str = "") -> None:
+        for key, value in zip(FIELDS, (host, port, path, user, password)):
+            self.fill(key, value)
+        self.click_key("api_protocol_https" if protocol == "HTTPS" else "api_protocol_http")
+
+    def save(self) -> str | None:
+        """点击“保存配置”，返回捕获到的 Toast 文本。"""
+        self.driver.start_listen_toast()
+        self.click_key("api_save_button")
+        return self.driver.get_latest_toast(timeout=5)
+
+    def status(self) -> str:
+        return self.require_component(BY.key("api_status"), "未找到连通性状态").getText()
+
+    def wait_status(self, expected: str, timeout: float = 20) -> str:
+        deadline = time.monotonic() + timeout
+        value = self.status()
+        while value != expected and time.monotonic() < deadline:
+            self.driver.wait(0.5)
+            value = self.status()
+        return value
+
+    def configure(self, host: str, port: str = "", **kwargs) -> None:
+        """冷启动并经设置页保存一份配置，结束后回到发现页。"""
+        self.restart()
+        self.open_api_page()
+        self.fill_form(host=host, port=port, **kwargs)
+        self.save()
+        self.driver.wait(2)
+        self.close_settings()
+        self.click_text("发现")

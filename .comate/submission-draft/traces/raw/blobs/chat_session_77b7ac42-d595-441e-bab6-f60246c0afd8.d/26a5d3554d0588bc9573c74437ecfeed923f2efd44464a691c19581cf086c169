@@ -1,0 +1,2 @@
+| 点"保存配置"（地址非空） | 是，1 次 `/inner/version` | 立即 Toast T7；状态保持旧值至结果返回（已决 U7） | 写 `isValidApiUrl`，状态文本刷新；在途锁释放 |
+| 点"保存配置"（主机为空） | 否 | 立即 Toast T7；`isValidApiUrl=false`（已决 U5） | — |

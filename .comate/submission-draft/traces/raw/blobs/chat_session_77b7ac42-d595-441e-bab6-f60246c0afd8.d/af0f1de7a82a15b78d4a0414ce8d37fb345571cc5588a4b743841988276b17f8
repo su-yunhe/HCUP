@@ -1,0 +1,4 @@
+- 证据等级：REASONABLE_DERIVATION（持久化、检查）；面板保存同样弹 T7 为 UNCONFIRMED_ASSUMPTION → 已决（U11）
+- 原子行为：与 A10、A11、A12 完全一致（同一保存逻辑、同一 Toast T7）。
+- 可观察结果：Toast T7；之后进入设置 → `在线服务` 可看到相同字段；服务端收到 1 次 `/inner/version`。
+- 八维：入口=B5；前置数据=服务可达；用户动作=保存；UI=Toast T7；数据=首选项；网络=1 次检查；返回=不适用；边界=同 A20。

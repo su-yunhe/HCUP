@@ -1,0 +1,8 @@
+## 3. Spec 描述的入口当前在哪
+
+单页应用：`resources/base/profile/main_pages.json` 只有 `pages/Index`（以及悬浮歌词 `pages/lyrics/FloatingLyrics`），其余页面都是 Navigation 子页。
+
+### 场景一："设置" → "在线服务"
+- 实测路径（坐标为 1308×2880 下的点击位置）：底部 `我的`(1090,2720) → `应用设置` 卡片(650,743) → 弹出设置面板 → `云服务设置`(650,1162) → 配置页。【实测】
+- `我的` Tab：`pages/Index.ets:111`（`TabContent() { Me(...) }`），底栏按钮 `pages/Index.ets:152`。【代码】
+- `应用设置` 卡片：`common/view/Me.ets:

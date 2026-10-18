@@ -1,0 +1,18 @@
+    def open_api_page(self) -> None:
+        """我的 → 应用设置 → 在线服务 → 在线服务配置页（已在配置页则不动）。"""
+        if self.exists(BY.key("api_host_input")) and self.exists(BY.key("api_set_page")):
+            return
+        self.close_settings()
+        self.click_text("我的")
+        self.click_text("应用设置")
+        self.click_text("在线服务")
+        self.require_text("在线服务配置", "未进入在线服务配置页")
+        self.require_component(BY.key("api_host_input"), "配置页缺少主机输入框")
+
+    def close_settings(self) -> None:
+        """返回直到配置页与设置面板都关闭（第一次返回可能只是收起软键盘）。"""
+        for _ in range(4):
+            if not self.exists(BY.key("api_host_input")) and not self.exists(BY.key("settings_online_service")):
+                return
+            self.driver.press_back()
+            self.driver.wait(1)

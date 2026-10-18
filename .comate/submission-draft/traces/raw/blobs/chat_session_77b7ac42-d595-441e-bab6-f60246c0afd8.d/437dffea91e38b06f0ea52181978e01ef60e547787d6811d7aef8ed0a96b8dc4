@@ -1,0 +1,36 @@
+# cmu-spec1 基线现状记录（baseline-notes）
+
+标注约定：【实测】= 本阶段在本机构建或在模拟器上实际操作看到的；【代码】= 读代码得出，附 `文件:行号`（路径相对 `entry/src/main/ets/`，另注明的除外）；【推断】= 推测；【未验证】= 没有实际跑过。
+本阶段没有改任何业务代码。
+
+## 1. 基线快照标识
+
+- 分支 `dev`，HEAD = `d03903a79a1fc825d8219e57b496c34b4861957d`（"chore: 记录 ohpm install 重建的依赖锁文件"，只改了 `oh-package-lock.json5`），父提交 = `17549abcf6ffa4ee3ff90115945646b4a0018688`（"Harmony Cup sanitized baseline snapshot"）。【实测】
+- 原有 tag：`base/cmu-spec1` → `17549ab`。本阶段新打 `baseline-cmu-spec1` → `d03903a`（也就是本次构建/安装的提交）。【实测】
+- **`spec/metadata.json` 不存在**【实测】，`base_commit` 无从核对。【推断】`17549ab` 就是题包快照。1-do / 2-submit 都要读这个文件，需要从准备流程补拷（Agent 不得访问题包，只能由人补）。
+- 会话开始时工作区就有一处未提交修改：`build-profile.json5` 新增 `"targetSdkVersion": "6.1.0(23)"`，不是本阶段改的。本次构建带着这处修改进行；去掉它能否构建【未验证】。`spec/`、`logs/` 未跟踪。
+
+## 2. 构建基线状态
+
+环境（本机 PATH 里没有工具链，需要手动导出）：
+
+```bash
+export JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home   # 不设会报 "Unable to locate a Java Runtime"，打包阶段失败
+export DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk
+export PATH="$JAVA_HOME/bin:/Applications/DevEco-Studio.app/Contents/tools/node/bin:/Applications/DevEco-Studio.app/Contents/tools/hvigor/bin:/Applications/DevEco-Studio.app/Contents/tools/ohpm/bin:/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains:$PATH"
+hvigorw clean --no-daemon
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon > logs/baseline-build.log 2>&1
+hdc -t 127.0.0.1:5555 install -r entry/build/default/outputs/default/entry-default-unsigned.hap
+```
+
+- 结果：`BUILD SUCCESSFUL`（clean 后全量约 11s），0 个 `ArkTS:ERROR`。【实测】完整日志：`logs/baseline-build.log`（2297 行）。
+- 产物：`entry/build/default/outputs/default/entry-default-unsigned.hap`（4,756,869 字节，sha256 前缀 `5c50cd1b4e0dc274`）。未签名（`hvigor WARN: No signingConfig found for product default`），但模拟器上 `install -r` 成功（`logs/baseline-install.log`）。【实测】
+- 构建后 `git status` 没有出现 `BuildProfile.ets` 噪声。【实测】
+- 已有告警（后续对比"是否新增"用这个基线）：【实测】
+  - `ArkTS:WARN` 共 736 条，其中 `oh_modules/` 三方库 607 条，`entry/src` 129 条。
+  - `entry/src` 129 条按类别：`Function may throw exceptions` 45、`'px2vp' has been deprecated` 45、`'animateTo' has been deprecated` 14、`'getContext' has been deprecated` 9、`'matchMediaSync'` 6、`backgroundTaskManager` 能力 3、`'vp2px'` 3、`'key' can only be used for testing directories` 2、`@Entry` 导出 struct 1、`'decode'` 1。
+  - 本题可能改到的文件里已有的告警：`pages/settings/ApiSetPage.ets:41`（px2vp）、`:98`（animateTo）；`common/view/Explore.ets:37`（animateTo）、`:218`、`:244`（px2vp）；`pages/local/LocalSongPage.ets:164`、`:338`、`:342`（animateTo）、`:207`（px2vp）、`:324`（key）；`pages/settings/SettingsPage.ets:44`（px2vp）；`common/view/Me.ets:125`（px2vp）。行号会随修改漂移，对比时按"文件 + 类别 + 条数"比。
+  - 资源合并告警：`'page_show' conflict` 7 条、`'lib_name' conflict` 3 条、`agcit_pura_harmony_utils` / `agcit_agc_ui_skeleton` 各 1 条（来自三方库资源）。
+- 设备：`127.0.0.1:5555`，`emulator 6.1.0.115`，API 23，aarch64，1308×2880；`harness.env_check` 输出"✓ 环境与官方评测规格一致"。【实测】bundleName `cc.chenlvin.cloudmusic`，安装后 `bm dump` 的 `updateTime` 已更新为本次安装时间。【实测】
+
+<!-- APPEND_3 -->

@@ -1,0 +1,4 @@
+- 证据等级：SPEC_EXPLICIT（文案）；显示条件 UNCONFIRMED_ASSUMPTION → 已决（U10）：`!isValidApiUrl`
+- 原子行为：只要 `isValidApiUrl` 为 false（未配置，或已配置但检查不通过），发现页原"推荐歌单/排行榜"内容区域位置就显示文本恰为 T9。
+- 可观察结果：`BY.text("如需连接在线内容，请设置在线服务")` 全等命中。
+- 八维：入口=全新安装冷启动，默认首页即发现页（`defaultPageIndex=0`）；前置数据=`apiUrl` 为空，或配置了不可达地址；用户动作=无；UI=提示文本；数据=不适用；网络=不发 `/toplist`、`/personalized`；返回=从其他 

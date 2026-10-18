@@ -1,0 +1,23 @@
+    def configure(self, host: str, port: str = "", **kwargs) -> None:
+        """冷启动并经设置页保存一份配置，结束后回到发现页。"""
+        self.restart()
+        self.open_api_page()
+        self.fill_form(host=host, port=port, **kwargs)
+        self.save()
+        self.driver.wait(2)
+        self.close_settings()
+        self.click_text("发现")
+
+    def wait_until(self, predicate, timeout: float = 20, interval: float = 0.5) -> bool:
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            if predicate():
+                return True
+            self.driver.wait(interval)
+        return predicate()
+
+    def wait_gone(self, by, timeout: float = 10) -> bool:
+        return self.wait_until(lambda: self.driver.find_component(by) is None, timeout=timeout)
+
+    def exists(self, by) -> bool:
+        return self.driver.find_component(by) is not None

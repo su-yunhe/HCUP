@@ -1,0 +1,3 @@
+- 证据等级：REASONABLE_DERIVATION（端口为数字）；非法值处理 UNCONFIRMED_ASSUMPTION → 已决（U6）
+- 原子行为：端口输入框为数字类型；空端口表示使用协议默认端口（组合 URL 时省略 `:port`）；非数字、0、大于 65535 等非法值同样视为空端口，不拦截、不弹 Spec 以外的提示。
+- 可观察结果：输入 `3000` 后 TextInput text 为 `30

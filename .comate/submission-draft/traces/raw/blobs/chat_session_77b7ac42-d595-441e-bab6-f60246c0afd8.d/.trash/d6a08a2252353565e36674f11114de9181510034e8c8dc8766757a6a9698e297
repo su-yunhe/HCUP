@@ -1,0 +1,18 @@
+# cmu-spec1 基线现状记录（baseline-notes）
+
+标注约定：【实测】= 本阶段在本机构建或在模拟器上实际操作看到的；【代码】= 读代码得出，附 `文件:行号`（路径相对 `entry/src/main/ets/`，另注明的除外）；【推断】= 推测；【未验证】= 没有实际跑过。
+本阶段没有改任何业务代码。
+
+## 1. 基线快照标识
+
+- 分支 `dev`，HEAD = `d03903a79a1fc825d8219e57b496c34b4861957d`（"chore: 记录 ohpm install 重建的依赖锁文件"，只改了 `oh-package-lock.json5`），父提交 = `17549abcf6ffa4ee3ff90115945646b4a0018688`（"Harmony Cup sanitized baseline snapshot"）。【实测】
+- 原有 tag：`base/cmu-spec1` → `17549ab`。本阶段新打 `baseline-cmu-spec1` → `d03903a`（也就是本次构建/安装的提交）。【实测】
+- **`spec/metadata.json` 不存在**【实测】，`base_commit` 无从核对。【推断】`17549ab` 就是题包快照。1-do / 2-submit 都要读这个文件，需要从准备流程补拷（Agent 不得访问题包，只能由人补）。
+- 会话开始时工作区就有一处未提交修改：`build-profile.json5` 新增 `"targetSdkVersion": "6.1.0(23)"`，不是本阶段改的。本次构建带着这处修改进行；去掉它能否构建【未验证】。`spec/`、`logs/` 未跟踪。
+
+## 2. 构建基线状态
+
+环境（本机 PATH 里没有工具链，需要手动导出）：
+
+```bash
+export JAVA_HOME=/Applications/DevEco-Studio.app/Contents/j

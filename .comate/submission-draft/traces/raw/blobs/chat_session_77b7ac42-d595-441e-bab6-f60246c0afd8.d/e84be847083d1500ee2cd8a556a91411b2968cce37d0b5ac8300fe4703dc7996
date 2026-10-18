@@ -1,0 +1,140 @@
+<file>
+     1→import { VersionCard } from '../../components/settings/TextContent'
+     2→import Constants from '../../common/constants/Constants'
+     3→import { SetDefaultHomePage } from '../../components/settings/SetDefaultHomePage'
+     4→import { WebPageParam } from '../../common/entities/local/PageParams'
+     5→import { CommonSettingsCard } from '../../components/cards/SettingsCard'
+     6→import { SettingsPageMap } from '../../common/model/PageMap'
+     7→
+     8→/**
+     9→ * 设置页面
+    10→ */
+    11→@Component
+    12→export struct SettingsPage {
+    13→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    14→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    15→  @Provide('settingsPageInfos') settingsPageInfos: NavPathStack = new NavPathStack()
+    16→
+    17→  build() {
+    18→    Navigation(this.settingsPageInfos) {
+    19→      Stack() {
+    20→        Scroll() {
+    21→          Column({ space: 10 }) {
+    22→            List({ space: 10 }) {
+    23→              ListItemGroup() {
+    24→                SetDefaultHomePage()
+    25→              }
+    26→              .listItemGroupStyle()
+    27→
+    28→              ListItemGroup() {
+    29→                this.PlaySettings()
+    30→              }
+    31→              .listItemGroupStyle()
+    32→
+    33→              ListItemGroup() {
+    34→                this.MainSettings()
+    35→              }
+    36→              .listItemGroupStyle()
+    37→
+    38→              ListItemGroup() {
+    39→                VersionCard()
+    40→                this.OtherItems()
+    41→              }
+    42→              .listItemGroupStyle()
+    43→
+    44→              ListItem().height(px2vp(this.bottomRectHeight))
+    45→            }
+    46→            .scrollBar(BarState.Auto)
+    47→            .width('100%')
+    48→            .height('100%')
+    49→            .layoutWeight(1)
+    50→            .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+    51→          }
+    52→        }
+    53→        .width('100%')
+    54→        .height('100%')
+    55→        .scrollBar(BarState.Off)
+    56→        .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+    57→      }
+    58→      .width('100%')
+    59→      .height('100%')
+    60→    }
+    61→    .backgroundColor($r('app.color.background'))
+    62→    .title($r('app.string.Settings'))
+    63→    .mode(NavigationMode.Stack)
+    64→    .titleMode(NavigationTitleMode.Mini)
+    65→    .navDestination(SettingsPageMap)
+    66→    .padding({ top: Constants.PADDING_EDGE_DEFAULT })
+    67→  }
+    68→
+    69→  @Builder PlaySettings() {
+    70→    ListItem() {
+    71→      CommonSettingsCard({
+    72→        title: $r('app.string.SET_PLAYANDLYRIC'),
+    73→        action: () => {
+    74→          this.settingsPageInfos.pushPathByName('PlaySettingsPage', null)
+    75→        }
+    76→      })
+    77→    }
+    78→    ListItem() {
+    79→      CommonSettingsCard({
+    80→        title: $r('app.string.SET_SONGCARD'),
+    81→        action: () => {
+    82→          this.settingsPageInfos.pushPathByName('SongClickActionPage', null)
+    83→        }
+    84→      })
+    85→    }
+    86→  }
+    87→
+    88→  @Builder MainSettings() {
+    89→    ListItem() {
+    90→      CommonSettingsCard({
+    91→        title: $r('app.string.SET_CLOUDSERVICE'),
+    92→        action: () => {
+    93→          this.settingsPageInfos.pushPathByName('ApiSetPage', null)
+    94→        }
+    95→      })
+    96→    }
+    97→    ListItem() {
+    98→      CommonSettingsCard({
+    99→        title: $r('app.string.SET_DATAANDCACHE'),
+   100→        action: () => {
+   101→          this.settingsPageInfos.pushPathByName('CacheManagePage', null)
+   102→        }
+   103→      })
+   104→    }
+   105→  }
+   106→
+   107→  @Builder OtherItems() {
+   108→    CommonSettingsCard({
+   109→      title: $r('app.string.SET_FEEDBACK'),
+   110→      action: () => {
+   111→        let param: WebPageParam = {
+   112→          title: `建议与反馈`, url: 'https://www.wjx.cn/vm/PeLnYfc.aspx# '
+   113→        }
+   114→        this.settingsPageInfos.pushPathByName('WebPage', param)
+   115→      }
+   116→    })
+   117→  }
+   118→}
+   119→
+   120→@Extend(ListItemGroup) function listItemGroupStyle() {
+   121→  .divider({ strokeWidth: 0.1, startMargin: 10, endMargin: 10, color: Color.Gray })
+   122→  .backgroundColor($r('app.color.main'))
+   123→  .borderRadius(Constants.RADIUS_CARD)
+   124→  .margin({ left: 20, right: 20 })
+   125→  .padding({
+   126→    left: Constants.PADDING_EDGE_DEFAULT,
+   127→    right: Constants.PADDING_EDGE_DEFAULT,
+   128→    top: Constants.PADDING_INNER_DEFAULT,
+   129→    bottom: Constants.PADDING_INNER_DEFAULT
+   130→  })
+   131→  .constraintSize({
+   132→    minHeight: 60,
+   133→    maxHeight: '100%'
+   134→  })
+   135→}
+   136→
+   137→
+</file>
+<metadata>The file has 137 lines in total.</metadata>

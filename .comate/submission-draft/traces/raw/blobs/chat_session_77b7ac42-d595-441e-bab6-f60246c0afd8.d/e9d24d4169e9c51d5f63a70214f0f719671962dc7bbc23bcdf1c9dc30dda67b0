@@ -1,0 +1,96 @@
+<file>
+     1→import { LogUtil, ToastUtil } from "@pura/harmony-utils"
+     2→import { StorageConstants } from "../../constants/StorageConstants"
+     3→import { CacheSet, CacheSetItem,
+     4→  FloatLyric,
+     5→  FloatLyricItem, LyricStyle, LyricStyleItem } from "../../entities/local/Settings"
+     6→import PreferencesUtils from "../../utils/data/PreferencesUtils"
+     7→import { preferences } from "@kit.ArkData"
+     8→
+     9→/**
+    10→ * 设置项
+    11→ */
+    12→const TAG = '[settings] '
+    13→
+    14→/**
+    15→ * 初始化应用设置
+    16→ */
+    17→export async function initSettings() {
+    18→  const SetPerf = StorageConstants.SET_PERF
+    19→
+    20→  // 并行处理无依赖的配置项
+    21→  await Promise.all([
+    22→    // API
+    23→    handleSetting<string>(StorageConstants.API_URL, ''),
+    24→    // Default Index
+    25→    handleSetting<number>(StorageConstants.DEFAULT_PAGE_INDEX, 0),
+    26→    // Play Quality
+    27→    handleSetting<number>(StorageConstants.PLAY_QUALITY, 0),
+    28→    // SongCard Click Action
+    29→    handleSetting<number>(StorageConstants.SONG_CLICK_ACTION, 2),
+    30→    // Lyric
+    31→    handleSetting<LyricStyle>(StorageConstants.LYRIC_STYLE, LyricStyleItem),
+    32→    // CacheSettings
+    33→    handleSetting<CacheSet>(StorageConstants.CACHE_SETTINGS, CacheSetItem),
+    34→    // mixWithOthers
+    35→    handleSetting<boolean>(StorageConstants.MIX_WITH_OTHERS, false),
+    36→    // floatLyricStyle
+    37→    handleSetting<FloatLyric>(StorageConstants.FLOAT_LYRIC_STYLE, FloatLyricItem)
+    38→  ])
+    39→
+    40→  // 处理关联配置项（API URL）
+    41→  const results = await Promise.all([
+    42→    PreferencesUtils.hasPreferenceValue(SetPerf, StorageConstants.IS_CUSTOM_COOKIE),
+    43→  ])
+    44→  const isCustomCookieExist = results[0]
+    45→
+    46→  // 手动Cookie设置
+    47→  if (!isCustomCookieExist) {
+    48→    await Promise.all([
+    49→      PreferencesUtils.putPreferenceValue(SetPerf, StorageConstants.IS_CUSTOM_COOKIE, false),
+    50→      PreferencesUtils.putPreferenceValue(SetPerf, StorageConstants.CUSTOM_COOKIE, 'MUSIC_U=')
+    51→    ])
+    52→    AppStorage.setOrCreate(StorageConstants.IS_CUSTOM_COOKIE, false)
+    53→    AppStorage.setOrCreate(StorageConstants.CUSTOM_COOKIE, 'MUSIC_U=')
+    54→  } else {
+    55→    const customResults = await Promise.all([
+    56→      PreferencesUtils.getPreferenceValue(SetPerf, StorageConstants.IS_CUSTOM_COOKIE, false),
+    57→      PreferencesUtils.getPreferenceValue(SetPerf, StorageConstants.CUSTOM_COOKIE, 'MUSIC_U=')
+    58→    ])
+    59→    const isCustom = customResults[0]
+    60→    const cookie = customResults[1]
+    61→    AppStorage.setOrCreate(StorageConstants.IS_CUSTOM_COOKIE, isCustom)
+    62→    AppStorage.setOrCreate(StorageConstants.CUSTOM_COOKIE, cookie)
+    63→  }
+    64→
+    65→  // 私人FM
+    66→  AppStorage.setOrCreate(StorageConstants.IS_PERSONAL_FM, false)
+    67→  AppStorage.setOrCreate(StorageConstants.PERSONAL_FM_MODE, 0)
+    68→}
+    69→
+    70→export async function changeSettings<T extends preferences.ValueType>(name: string, value: T) {
+    71→  try {
+    72→    await PreferencesUtils.putPreferenceValue(StorageConstants.SET_PERF, name, value)
+    73→    AppStorage.setOrCreate(name, value)
+    74→  } catch (e) {
+    75→    ToastUtil.showToast('更改设置失败')
+    76→    LogUtil.error(TAG, 'Error while changing settings: ' + e.message)
+    77→  }
+    78→}
+    79→
+    80→async function handleSetting<T extends preferences.ValueType>(
+    81→  key: string,
+    82→  defaultValue: T,
+    83→  storageArea: string = StorageConstants.SET_PERF
+    84→): Promise<void> {
+    85→  const exists = await PreferencesUtils.hasPreferenceValue(storageArea, key)
+    86→  let value: T = exists
+    87→    ? (await PreferencesUtils.getPreferenceValue(storageArea, key, defaultValue))
+    88→    : defaultValue
+    89→  if (!exists) {
+    90→    await PreferencesUtils.putPreferenceValue(storageArea, key, defaultValue)
+    91→  }
+    92→  AppStorage.setOrCreate(key, value)
+    93→}
+</file>
+<metadata>The file has 93 lines in total.</metadata>

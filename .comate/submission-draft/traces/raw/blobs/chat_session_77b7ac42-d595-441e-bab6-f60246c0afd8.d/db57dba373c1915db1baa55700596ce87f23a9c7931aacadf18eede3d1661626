@@ -1,0 +1,28 @@
+## 7. 前置环境需求
+
+| 需求 | 是否需要 | 本地能否满足 | 说明 |
+| --- | --- | --- | --- |
+| 登录账号 | 否 | — | Spec 不涉及登录；`/personalized`、`/toplist` 未登录可用（第 4.6 节第 5 步实测）。 |
+| 在线服务（服务端） | 是（场景一检查、场景二加载） | 能 | 本机 Docker 容器 `netease_cloud_music_api`（镜像 `binaryify/netease_cloud_music_api`，`0.0.0.0:3000`），`GET /inner/version` → `{"code":200,"data":{"version":"4.27.0"}}`；模拟器用 `http://10.0.2.2:3000` 可达（状态 `正常`，实测）。请求可用 `docker logs netease_cloud_music_api` 观察。正式评测由官方准备服务（答疑 Q2）。本机局域网 IP 当前为 `192.168.1.97`，模拟器上残留的 `172.24.16.249` 不可达。 |
+| 不可达服务（失败路径） | 是 | 能 | 任意不可达地址即可；注意超时 15s。 |
+| WebDAV | 否 | — | 本题不涉及。 |
+| 本机音频文件 | 是（场景三第 3 步） | 能，需手动准备 | 设备上原本没有音频（选择器 `没有文件`）。可 `hdc file send` 到 `/storage/media/100/local/files/Docs/Download/`，文件名用 `歌手 - 歌名.mp3`；内容可以是若干个静音 MPEG 帧（本次实测可上传）。 |
+| 全新安装状态 | 是（场景二"尚未配置"、场景三"列表为空"） | 能，未执行 | 本次通过把 `apiUrl` 清空来模拟未配置。真正的全新状态需 `bm clean -n cc.chenlvin.cloudmusic -d` 或卸载重装，会清掉模拟器上该 bundle 的全部数据（同上游其他题共用这个 bundleName），本阶段没有做。 |
+| 外网 | 否（但有副作用） | 未验证 | 启动时 `getAppInfo()` 访问 `https://api.chenlvin.cc`，失败会弹 Toast `获取应用信息失败`（`api/chenlvinApi.ets:19`）。本次启动没有看到这个 Toast，但没专门验证；若评测环境断外网，这个 Toast 可能与 T7 等 Toast 断言撞时间。 |
+
+## 8. 测试可观测性风险
+
+1. **几乎没有稳定 id**：全工程只有 `.id('search')`（`LocalSongPage.ets:104`）。配置页输入框、状态、保存按钮、发现页内容区都只能按文本/类型+顺序定位。【代码】
+2. **全等匹配 vs 拼接文本**：Hypium `BY.text` 默认 `MatchPattern.EQUALS`；基线状态行是 Span 拼接，UI 树里为 `用户云服务状态: 正常`，`BY.text("正常")` 找不到。【实测+代码】
+3. **同名文本**：
+   - 设置面板打开时，`发现`/`播单` 同时出现在 Radio（text 即 value）、旁边的 Text、底部 Tab 上。【实测】协议选项若也用 Radio + Text，会有两个 text 为 `HTTP` 的组件。
+   - `本地曲库` 同时是"我的"页卡片、发现页卡片、页面标题（不同时可见）。【实测】
+   - 现状 `云服务设置` 同时是设置项、配置页标题、配置页小标题；改为 `在线服务` 后若标题也叫 `在线服务`，返回栈/面板叠层时会出现两个全等匹配。【实测+推断】
+   - `保存配置` 将同时存在于设置页与发现页面板，二者不会同时在 UI 树中（设置在"我的"Tab，面板在"发现"Tab；不活跃 Tab 不在 UI 树里，实测）。【推断】
+   - `设置` 二字全等的组件在基线中不存在（只有 `应用设置`、`云服务设置` 等）。【实测】
+4. **Toast 短暂**：约 2s 内存在，dumpLayout 能抓到（type=`Toast`）；断言需在点击后立即轮询，或用 Hypium `start_listen_toast` / `check_toast`。【实测】
+5. **菜单 id 由序号生成**：本地曲库上传按钮 `__NavdestinationField__NavigationMenu__MenuItem2__`，首页右上 `__NavigationField__NavigationMenu__MenuItem1__` 随 Tab 不同含义不同；改 `menus` 顺序会改 id。【实测】
+6. **启动过渡态**：`Explore`/`IndexRecommend`/`Me` 里 `validApiUrl` 默认 true，检查返回前按"可用"布局渲染；地址不可达时最长 15s 才变为不可用布局（第 4.6 节第 1 步）。引导文案若依赖 `!validApiUrl`，在"已配置但不可达"时最长 15s 后才出现；未配置（空地址）时 1.5s 内即为不可用（实测）。
+7. **在线内容依赖服务端数据**：推荐歌单卡片标题是服务端返回的随机内容，断言应查区块标题/组件 id/数量而不是具体歌单名。
+8. **系统文件选择器在应用外**：选择文件要操作系统 Picker（`最近`/`浏览`、`我的手机` → `Download`），单击文件即返回，不需要点 `完成`（单击单文件实测）。
+9. **设备共享**：同 bundleName 被上游其他题使用，自测前必须重装本题 HAP，并核对 `bm dump -n cc.chenlvin.cloudmusic` 的 `updateTime`。

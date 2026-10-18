@@ -1,0 +1,2 @@
+- 证据等级：UNCONFIRMED_ASSUMPTION → 已决（U4）：HTTP Basic Auth
+- 原子行为：用户名或密码任一非空时，所有经 `RequestUtil` 的请求（含 `/inner/version` 检查）都带 HTTP Basic 认证（`Authorization: Basic base64(用户:密码)`）；两者都为空时请求与基线完全一致。不拼进 URL 

@@ -1,0 +1,72 @@
+Command executed successfully.
+Exit code: 0
+Output:
+]
+]
+test_01_form_structure (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_01_form_structure) ... [2026-10-18 09:42:52,492] [8417992448] [DeviceTest] [INFO] [init DeccVariable cur case object]
+ok
+test_02_save_toast_and_check (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_02_save_toast_and_check) ... [2026-10-18 09:43:04,428] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, cc.chenlvin.cloudmusic)</div>]
+ok
+test_03_persist_after_reenter_and_restart (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_03_persist_after_reenter_and_restart) ... [2026-10-18 09:43:36,626] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.press_back(127.0.0.1:5555)</div>]
+FAIL
+test_04_rapid_save_no_duplicate_request (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_04_rapid_save_no_duplicate_request) ... [2026-10-18 09:43:58,391] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('api_save_button'))</div>]
+FAIL
+test_05_stale_result_ignored (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_05_stale_result_ignored) ... [2026-10-18 09:44:13,511] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('api_host_input'))</div>]
+FAIL
+test_06_basic_auth (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_06_basic_auth) ... [2026-10-18 09:44:28,629] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('api_host_input'))</div>]
+FAIL
+test_07_protocol_path_port_normalization (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_07_protocol_path_port_normalization) ... [2026-10-18 09:44:43,751] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('api_host_input'))</div>]
+FAIL
+test_08_unsaved_changes_discarded (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_08_unsaved_changes_discarded) ... [2026-10-18 09:44:58,851] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('api_host_input'))</div>]
+FAIL
+test_09_blank_host_clears_config (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_09_blank_host_clears_config) ... [2026-10-18 09:45:13,985] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('api_host_input'))</div>]
+FAIL
+
+======================================================================
+FAIL: test_03_persist_after_reenter_and_restart (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_03_persist_after_reenter_and_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec1/hypium_tests/test_s1_api_config.py", line 64, in test_03_persist_after_reenter_and_restart
+    self.open_api_page()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec1/hypium_tests/cmu_helpers.py", line 120, in open_api_page
+    self.click_text("在线服务")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec1/hypium_tests/cmu_helpers.py", line 107, in click_text
+    comp = self.require_text(text, f"未找到文案 {text!r}", timeout=timeout)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/test-harness/harness/driver.py", line 55, in require_text
+    return self.require_component(BY.text(text), message, timeout=timeout)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/test-harness/harness/driver.py", line 50, in require_component
+    self.fail(message)
+    ~~~~~~~~~^^^^^^^^^
+AssertionError: 未找到文案 '在线服务'
+
+======================================================================
+FAIL: test_04_rapid_save_no_duplicate_request (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_04_rapid_save_no_duplicate_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec1/hypium_tests/test_s1_api_config.py", line 81, in test_04_rapid_save_no_duplicate_request
+    save_btn = self.require_component(BY.key("api_save_button"), "缺少保存按钮")
+               ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/test-harness/harness/driver.py", line 50, in require_component
+    self.fail(message)
+    ~~~~~~~~~^^^^^^^^^
+AssertionError: 缺少保存按钮
+
+======================================================================
+FAIL: test_05_stale_result_ignored (hypium_tests.test_s1_api_config.TestS1ApiConfig.test_05_stale_result_ignored)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec1/hypium_tests/test_s1_api_config.py", line 94, in test_05_stale_result_ignored
+    self.fill_form(host=HOST, port=PORT, path="slow")  # /slow/inner/version → 上游 404 → 不可用
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec1/hypium_tests/cmu_helpers.py", line 146, in fill_form
+    self.fill(key, value)
+    ~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec1/hypium_tests/cmu_helpers.py", line 137, in fill
+    comp = self.require_component(BY.key(key), f"未找到输入框 {key}")
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/test-harness/harness/driver.py", line 50, in require_component
+    self.fail(message)

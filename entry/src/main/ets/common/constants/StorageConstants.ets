@@ -269,6 +269,16 @@ export class StorageConstants {
    * @description AppStorage & Preference
    */
   static readonly API_URL: string = 'apiUrl'
+  /**
+   * 在线服务结构化配置（组合后写入 API_URL）
+   * @description AppStorage & Preference
+   */
+  static readonly API_PROTOCOL: string = 'apiProtocol'
+  static readonly API_HOST: string = 'apiHost'
+  static readonly API_PORT: string = 'apiPort'
+  static readonly API_PATH: string = 'apiPath'
+  static readonly API_USER: string = 'apiUser'
+  static readonly API_PASSWORD: string = 'apiPassword'
   static readonly CUSTOM_COOKIE: string = 'customCookie'
   static readonly IS_CUSTOM_COOKIE: string = 'isCustomCookie'
   /**

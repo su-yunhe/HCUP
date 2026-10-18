@@ -1,0 +1,22 @@
+### A10 保存即持久化（沿用基线存储方式）
+- 来源：S1-3、答疑 Q2"服务地址沿用基线已有的配置及存储方式"
+- 证据等级：REASONABLE_DERIVATION
+- 原子行为：点击保存后，六项字段分别写入 Preferences `Settings`；同时把组合出的基础地址写入既有键 `apiUrl`（AppStorage + Preferences），全应用继续经 `RequestUtil` 读 `apiUrl` 发请求。
+- 可观察结果：重启后表单回显各项；`Settings` 首选项里 `apiUrl` = 组合地址（如 `http://10.0.2.2:3000`）。
+- 八维：入口=A9；前置数据=无；用户动作=点击保存；UI=无直接 UI（见 A11）；数据=写首选项 + AppStorage；网络=见 A12；返回=重进页面回显；边界=只改了部分字段时其余字段保持原值（"部分操作"）。
+- 稳定选择器：不适用（数据项，用重启后回显验证）。
+
+### A11 保存后提示文案
+- 来源：S1-4
+- 证据等级：SPEC_EXPLICIT
+- 原子行为：点击保存立即弹出 Toast，文本恰为 T7 `配置已保存，正在检查服务是否可用…`。
+- 可观察结果：UI 树出现 type=Toast、text 全等 T7（基线实测 Toast 可被 dumpLayout 捕获）；或 Hypium `check_toast` / `get_latest_toast`。
+- 八维：入口=A9；前置数据=无；用户动作=点击保存；UI=Toast；数据=不适用；网络=提示与检查请求同时发生，提示不等待结果；返回=不适用；边界=空主机时是否仍提示（U5）；连点时每次点击是否都提示（A20）。
+- 稳定选择器：Toast 文本（系统组件无法设 id）。
+
+### A12 保存后真实发起连通性检查
+- 来源：S1-4"随后自动更新连通状态"；答疑 Q1"请勿……跳过服务检查"
+- 证据等级：REASONABLE_DERIVATION（请求接口沿用基线 `checkValidUrl` → `GET {apiUrl}/inner/version`，code===200 视为可用）
+- 原子行为：保存后用新地址发起一次检查请求，结果写 `isValidApiUrl`。
+- 可观察结果：服务端收到 `GET /inner/version`（本地可用 `docker logs netease_cloud_music_api` 观察，基线实测会带 `cookie`、`realIP` 参数）。
+- 八维：入口=A9；前置数据=可达的兼容服务；用户动作=点击保存；UI=A13/A14；数据=AppStorage `isValidApiUrl`；网络=每次保存恰好 1 次检查请求，超时 15s（基线 RequestUtil 默认）；返回=离开页面不取消请求，结果仍写回；边界=组合地址为空时不发请求直接判不可用（

@@ -1,0 +1,18 @@
+class RecordingProxy:
+    """记录请求的转发代理；/inner/version 可人为延迟，用于构造“检查在途”。
+
+    delay_prefix 非空时只延迟以该前缀开头的 /inner/version（如配置路径 /slow），其余照常返回。
+    """
+
+    def __init__(self, port: int = PROXY_PORT, upstream: str = UPSTREAM):
+        self.requests: list[tuple[str, str | None]] = []
+        self.delay = 0.0
+        self.delay_prefix: str | None = None
+        proxy = self
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self):  # noqa: N802
+                proxy.requests.append((self.path, self.headers.get("Authorization")))
+                if "/inner/version" in self.path and proxy.delay and (
+                        not proxy.delay_prefix or self.path.startswith(proxy.delay_prefix)):
+                    time.sleep(proxy.delay)

@@ -1,0 +1,4 @@
+        self.assertEqual(len(self.proxy.paths("/inner/version")), 1)
+        self.assertTrue(self.wait_until(
+            lambda: len(self.driver.find_all_components(BY.type("PersonalizedCard")) or []) > 0
+            or self.exists(BY.text("更多排行")), 10))

@@ -1,0 +1,10 @@
+## 7. 前置环境需求
+
+| 需求 | 是否需要 | 本地能否满足 | 说明 |
+| --- | --- | --- | --- |
+| 登录账号 | 否 | — | Spec 不涉及登录；`/personalized`、`/toplist` 未登录可用（第 4.6 节第 5 步实测）。 |
+| 在线服务（服务端） | 是（场景一检查、场景二加载） | 能 | 本机 Docker 容器 `netease_cloud_music_api`（镜像 `binaryify/netease_cloud_music_api`，`0.0.0.0:3000`），`GET /inner/version` → `{"code":200,"data":{"version":"4.27.0"}}`；模拟器用 `http://10.0.2.2:3000` 可达（状态 `正常`，实测）。请求可用 `docker logs netease_cloud_music_api` 观察。正式评测由官方准备服务（答疑 Q2）。本机局域网 IP 当前为 `192.168.1.97`，模拟器上残留的 `172.24.16.249` 不可达。 |
+| 不可达服务（失败路径） | 是 | 能 | 任意不可达地址即可；注意超时 15s。 |
+| WebDAV | 否 | — | 本题不涉及。 |
+| 本机音频文件 | 是（场景三第 3 步） | 能，需手动准备 | 设备上原本没有音频（选择器 `没有文件`）。可 `hdc file send` 到 `/storage/media/100/local/files/Docs/Download/`，文件名用 `歌手 - 歌名.mp3`；内容可以是若干个静音 MPEG 帧（本次实测可上传）。 |
+| 全新安装状态 | 是（场景二"尚未配置"、场景三"列表为空"） | 能，未执行 | 本次通过把 `apiUrl` 清空来模拟未配置。真正的全新状态需 `bm clean -n cc.chenlvin.cloudmusic -d` 或卸载重装，会清掉模拟器上该 bundle 的全部数据（同上游其他题共用这个 bundleName）

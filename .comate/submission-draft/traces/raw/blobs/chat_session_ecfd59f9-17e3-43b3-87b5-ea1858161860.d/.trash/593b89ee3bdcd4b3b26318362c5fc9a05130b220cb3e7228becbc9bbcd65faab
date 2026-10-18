@@ -1,0 +1,11 @@
+"""临时探针：配置页输入后返回的界面状态。"""
+from hypium import BY
+
+from hypium_tests.cmu_helpers import CmuTestCase
+
+
+class Probe(CmuTestCase):
+    def dump(self, tag):
+        texts = [c.getText() for c in (self.driver.find_all_components(BY.type("Text")) or [])]
+        print(tag, "host_input:", self.exists(BY.key("api_host_input")),
+              "settings_item:", self.exists(BY.key("settings_online_service")), [t for t in texts if t][:25])

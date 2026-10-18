@@ -1,0 +1,23 @@
+## 3. Spec 描述的入口当前在哪
+
+单页应用：`resources/base/profile/main_pages.json` 只有 `pages/Index`（以及悬浮歌词 `pages/lyrics/FloatingLyrics`），其余页面都是 Navigation 子页。
+
+### 场景一："设置" → "在线服务"
+- 实测路径（坐标为 1308×2880 下的点击位置）：底部 `我的`(1090,2720) → `应用设置` 卡片(650,743) → 弹出设置面板 → `云服务设置`(650,1162) → 配置页。【实测】
+- `我的` Tab：`pages/Index.ets:111`（`TabContent() { Me(...) }`），底栏按钮 `pages/Index.ets:152`。【代码】
+- `应用设置` 卡片：`common/view/Me.ets:86-91` 置 `isShowSettings=true` → `common/view/Me.ets:126` `bindSheet(this.isShowSettings, this.Settings(), this.settingsSheetOptions)`，面板类型 `SheetType.CENTER`（`Me.ets:24-32`），内容是 `SettingsPage()`（`Me.ets:178-180`）。另一入口："我的"Tab 标题栏右上设置菜单 `pages/Index.ets:93-101`（写 AppStorage `isShowSettings`）。【代码】
+- 设置面板：`pages/settings/SettingsPage.ets:18` 自带 `Navigation(this.settingsPageInfos)`，标题 `$r('app.string.Settings')` = `应用设置`（`resources/zh_CN/element/string.json:28-29`）。【代码+实测】
+- `云服务设置` 项：`pages/settings/SettingsPage.ets:88-96`，文案 `$r('app.string.SET_CLOUDSERVICE')` = `云服务设置`（`resources/zh_CN/element/string.json:52-53`；base `Cloud Service`，`resources/base/element/string.json:52-53`），点击 `pushPathByName('ApiSetPage', null)`（`:93`）。【代码+实测】
+- 路由：`common/model/PageMap.ets:95-97`（`SettingsPageMap` 中 `'ApiSetPage'` → `ApiSetPage()`）。【代码】
+- 配置页：`pages/settings/ApiSetPage.ets:13-156`，NavDestination 标题同为 `云服务设置`（`:52`），页内小标题也是 `云服务设置`（`:59`）。【代码+实测】
+
+### 场景二："发现"页
+- 发现页 = `pages/Index.ets:109` `TabContent() { Explore(...) }`；默认首页 `defaultPageIndex` 默认 0（`common/functions/app/settings.ets:25`；`pages/Index.ets:26,38-40`），冷启动即进发现页。【代码+实测】
+- 在线内容区：`common/view/Explore.ets:116-215` `if(this.validApiUrl) { 推荐歌单(117-142) ... 排行榜(166-214) }`。不可用时整块不渲染，**没有任何引导文案或按钮**。【代码+实测】
+- 快捷卡片：`common/view/IndexRecommend.ets:133-135` 不可用时只保留最后一张 `本地曲库`。【代码+实测】
+- 底部配置面板：基线没有。`components/dialog/ApiDialog.ets` 是一个单输入框的 CustomDialog（标题 `启用在线服务`，按钮 `设置` / `确认并关闭`），**全工程没有任何引用**（grep 确认）。【代码】
+
+### 场景三："本地曲库"
+- 路由名 `LocalSongPage`：`common/model/PageMap.ets:37-39`。【代码】
+- 入口一：`我的` → `本地曲库` 卡片 `common/view/Me.ets:93-101`；入口二：发现页 `本地曲库` 卡片 `common/view/IndexRecommend.ets:90-96,125-130`（未配置时也显示）。【代码+实测】
+- 空列表文案：`pages/local/LocalSongPage.ets:

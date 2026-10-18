@@ -1,0 +1,9 @@
+    def configure(self, host: str, port: str = "", **kwargs) -> None:
+        """冷启动并经设置页保存一份配置，结束后回到发现页。"""
+        self.restart()
+        self.open_api_page()
+        self.fill_form(host=host, port=port, **kwargs)
+        self.save()
+        self.driver.wait(2)
+        self.close_settings()
+        self.click_text("发现")

@@ -1,4 +1,4 @@
-import { DialogUtil, ToastUtil} from "@pura/harmony-utils";
+import { DialogUtil, LogUtil, ToastUtil} from "@pura/harmony-utils";
 import Constants from "../constants/Constants";
 import { TopListItem } from "../entities/recommend/TopList";
 import { getTopList } from "../../api/topListApi";
@@ -11,13 +11,17 @@ import { AppInfo, AppInfoClass } from "../entities/local/AppInfo";
 import { RecommendDjRadio } from "../entities/dj/DjRecommend";
 import { IndexRecommend } from "./IndexRecommend";
 import { PersonalizedSkeletion } from "../../components/skeleton/Skeleton";
+import { ApiConfigForm } from "../../components/settings/ApiConfigForm";
+
+const TAG = '[Explore] '
 
 @Component
 export struct Explore {
   @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
   @StorageProp('topRectHeight') topRectHeight: number = 0
   @StorageProp(StorageConstants.IS_LOGGED) @Watch('getContent') isLogged: boolean = false
-  @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = true
+  @StorageProp(StorageConstants.VALID_API_URL) @Watch('onValidApiUrlChange') validApiUrl: boolean = true
+  @StorageProp(StorageConstants.APP_LOADING) @Watch('onAppLoadingChange') appLoading: boolean = true
   @StorageProp(StorageConstants.APP_INFO) appInfo: AppInfo = AppInfoClass
   @StorageLink(StorageConstants.TOPLISTS) topList: Array<TopListItem> = []
   @StorageLink(StorageConstants.PERSONALIZED_LIST) personalizedList: Array<PersonalListItem> = []
@@ -28,15 +32,30 @@ export struct Explore {
   @State isLoadingRecommendDjRadio: boolean = false
   @State isRefreshing: boolean = false
   @State lastRefreshTime: number = 0
+  @State isShowApiSheet: boolean = false
   @Prop currentHour: number = 0
   @State totalOpacity: number = 0
   @Consume('pageInfos') pageInfos: NavPathStack
   private refreshCooldown: number = 5000
+  private isOnlineContentLoaded: boolean = false
+  private apiSheetOptions: SheetOptions = {
+    preferType: SheetType.BOTTOM,
+    // 内容从顶部排布，软键盘弹出时"保存配置"不被遮挡
+    height: SheetSize.LARGE,
+    title: { title: '在线服务配置' },
+    backgroundColor: $r('app.color.background'),
+    // 关闭动画开始前即复位，关闭过程中再次点击"设置在线服务"也能重新弹出
+    onWillDisappear: () => { this.isShowApiSheet = false }
+  }
 
   aboutToAppear() {
     animateTo({ duration: 300, curve: Curve.Ease, delay: 100}, () => {
       this.totalOpacity = 1
     })
+    // 应用初始化（连通性检查）已完成后才创建的情况
+    if(!this.appLoading && this.validApiUrl) {
+      this.loadOnlineContent()
+    }
   }
 
   async getContent() {
@@ -44,26 +63,77 @@ export struct Explore {
     this.getPersonalizedList()
   }
 
+  // 在线服务变为可用（保存配置检查通过）后刷新在线内容
+  onValidApiUrlChange() {
+    if(this.validApiUrl) {
+      this.loadOnlineContent()
+    } else {
+      this.isOnlineContentLoaded = false
+    }
+  }
+
+  // 冷启动连通性检查完成后加载在线内容（不要求登录）
+  onAppLoadingChange() {
+    if(!this.appLoading && this.validApiUrl) {
+      this.loadOnlineContent()
+    }
+  }
+
+  /**
+   * 加载在线内容（不受本地缓存、登录态和刷新冷却影响）
+   * 每次在线服务变为可用后只加载一次
+   */
+  private async loadOnlineContent() {
+    if(!this.validApiUrl || this.isOnlineContentLoaded) return
+    this.isOnlineContentLoaded = true
+    await Promise.all([this.loadTopList(), this.loadPersonalizedList()])
+  }
+
+  private async loadTopList() {
+    if(this.isLoadingTopList) return
+    this.isLoadingTopList = true
+    try {
+      this.topList = (await getTopList()) ?? []
+    } catch (e) {
+      LogUtil.error(TAG, 'getTopList Error: ' + e.message)
+    } finally {
+      this.isLoadingTopList = false
+    }
+  }
+
+  private async loadPersonalizedList() {
+    if(this.isLoadingPersonalized) return
+    this.isLoadingPersonalized = true
+    try {
+      this.personalizedList = (await getPersonalizedList()) ?? []
+    } catch (e) {
+      LogUtil.error(TAG, 'getPersonalizedList Error: ' + e.message)
+    } finally {
+      this.isLoadingPersonalized = false
+    }
+  }
+
   private async getTopLists() {
     if(this.topList.length == 0 && this.validApiUrl) {
-      this.isLoadingTopList = true
-      this.topList = await getTopList()
-      this.isLoadingTopList = false
+      await this.loadTopList()
     }
     else return
   }
 
   private async getPersonalizedList() {
     if(this.isLogged && this.personalizedList.length == 0 && this.validApiUrl) {
-      this.isLoadingPersonalized = true
-      this.personalizedList = await getPersonalizedList()
-      this.isLoadingPersonalized = false
+      await this.loadPersonalizedList()
     }
     else return
   }
 
   private refreshContent = async () => {
     this.isRefreshing = true
+    // 在线服务不可用时不请求内容
+    if(!this.validApiUrl) {
+      setTimeout(() => { this.isRefreshing = false }, 300)
+      return
+    }
     const currentTime = new Date().getTime()
     if (currentTime - this.lastRefreshTime < this.refreshCooldown) {
       ToastUtil.showToast('操作过于频繁，请5秒后再试')
@@ -137,6 +207,7 @@ export struct Explore {
                 .listDirection(Axis.Horizontal)
                 .scrollBar(BarState.Off)
                 .width('100%')
+                .id('explore_personalized_list')
               }
             }
             .padding({ top: 20 })
@@ -209,9 +280,34 @@ export struct Explore {
                 .scrollBar(BarState.Off)
                 .width('100%')
                 .height('auto')
+                .id('explore_toplist_list')
               }
             }
             .padding({ top: 20 })
+          } else {
+            // 在线服务未配置/不可用时的引导
+            GridItem() {
+              Column({ space: 15 }) {
+                Text('如需连接在线内容，请设置在线服务')
+                  .id('explore_service_tip')
+                  .fontSize(Constants.FONT_SIZE_COMMON)
+                  .fontColor($r('app.color.reverse'))
+                  .textAlign(TextAlign.Center)
+                Button('设置在线服务')
+                  .id('explore_setup_button')
+                  .fontSize(Constants.FONT_SIZE_COMMON)
+                  .fontColor($r('app.color.app_red'))
+                  .borderColor($r('app.color.app_red'))
+                  .backgroundColor(Color.Transparent)
+                  .borderWidth(1)
+                  .padding({ left: 20, right: 20 })
+                  .onClick(() => {
+                    this.isShowApiSheet = true
+                  })
+              }
+              .width('100%')
+              .padding({ left: 20, right: 20, top: 20 })
+            }
           }
 
           GridItem()
@@ -233,6 +329,26 @@ export struct Explore {
     .width('100%')
     .height('100%')
     .opacity(this.totalOpacity)
+    .bindSheet(this.isShowApiSheet, this.ApiSheet(), this.apiSheetOptions)
+  }
+
+  @Builder
+  ApiSheet() {
+    Scroll() {
+      Column() {
+        ApiConfigForm({
+          onSaved: () => {
+            this.isShowApiSheet = false
+          }
+        })
+      }
+      .padding({ left: 20, right: 20, bottom: 20 })
+    }
+    .id('explore_api_sheet')
+    .width('100%')
+    .height('100%')
+    .align(Alignment.Top)
+    .scrollBar(BarState.Off)
   }
 
   @Builder

@@ -1,0 +1,123 @@
+<file>
+     1→import { AlbumPage } from "../../pages/art/AlbumPage"
+     2→import { ArtistPage } from "../../pages/art/ArtistPage"
+     3→import { CommentPage } from "../../pages/list/CommentPage"
+     4→import { TopListPage } from "../../pages/list/TopListPage"
+     5→import { DebugPage } from "../../pages/local/DebugPage"
+     6→import { LocalSongPage } from "../../pages/local/LocalSongPage"
+     7→import { LoginPage } from "../../pages/login/LoginPage"
+     8→import { QrCodeLogin } from "../../pages/login/QrCodeLogin"
+     9→import { WebLogin } from "../../pages/login/WebLogin"
+    10→import { CloudPage } from "../../pages/playlist/CloudPage"
+    11→import { DailyListPage } from "../../pages/playlist/DailyListPage"
+    12→import { DjRadioPage } from "../../pages/playlist/DjRadioPage"
+    13→import { PlayListPage } from "../../pages/playlist/PlayListPage"
+    14→import { SearchPage } from "../../pages/search/SearchPage"
+    15→import { AboutPage } from "../../pages/settings/AboutPage"
+    16→import { ApiSetPage } from "../../pages/settings/ApiSetPage"
+    17→import { CacheManagePage } from "../../pages/settings/CacheManagePage"
+    18→import { DonatePage } from "../../pages/settings/DonatePage"
+    19→import { FloatLyricPage } from "../../pages/settings/FloatLyricPage"
+    20→import { PlaySettingsPage } from "../../pages/settings/PlaySettingsPage"
+    21→import { SettingsPage } from "../../pages/settings/SettingsPage"
+    22→import { SongClickActionPage } from "../../pages/settings/SongClickActionPage"
+    23→import { WebPage } from "../../pages/web/WebPage"
+    24→import {
+    25→  AlbumParam,
+    26→  ArtistParam,
+    27→  CommentParam,
+    28→  DjRadioParam,
+    29→  PlayListPageParam,
+    30→  WebPageParam } from "../entities/local/PageParams"
+    31→
+    32→@Builder
+    33→export function PageMap(name: string, param: Object) {
+    34→  if(name === 'SettingsPage') {
+    35→    SettingsPage()
+    36→  }
+    37→  else if(name === 'LocalSongPage') {
+    38→    LocalSongPage()
+    39→  }
+    40→  else if(name === 'CloudPage') {
+    41→    CloudPage()
+    42→  }
+    43→  else if(name === 'DailyListPage') {
+    44→    DailyListPage()
+    45→  }
+    46→  else if(name === 'SearchPage') {
+    47→    SearchPage()
+    48→  }
+    49→  else if(name === 'PlayListPage') {
+    50→    PlayListPage({ param: param as PlayListPageParam })
+    51→  }
+    52→  else if(name === 'ArtistPage') {
+    53→    ArtistPage({ param: param as ArtistParam })
+    54→  }
+    55→  else if(name === 'AlbumPage') {
+    56→    AlbumPage({ param: param as AlbumParam })
+    57→  }
+    58→  else if(name === 'DjRadioPage') {
+    59→    DjRadioPage({ param: param as DjRadioParam })
+    60→  }
+    61→  else if(name === 'CommentPage') {
+    62→    CommentPage({ param: param as CommentParam })
+    63→  }
+    64→  else if(name === 'LoginPage') {
+    65→    LoginPage()
+    66→  }
+    67→  else if(name === 'QrCodeLogin') {
+    68→    QrCodeLogin()
+    69→  }
+    70→  else if(name === 'WebLogin') {
+    71→    WebLogin()
+    72→  }
+    73→  else if(name === 'WebPage') {
+    74→    WebPage({ param: param as WebPageParam })
+    75→  }
+    76→  else if(name == 'TopListPage') {
+    77→    TopListPage()
+    78→  }
+    79→  else if(name == 'DebugPage') {
+    80→    DebugPage()
+    81→  }
+    82→}
+    83→
+    84→@Builder
+    85→export function SettingsPageMap(name: string, param: Object) {
+    86→  if(name === 'SongClickActionPage') {
+    87→    SongClickActionPage()
+    88→  }
+    89→  else if(name === 'PlaySettingsPage') {
+    90→    PlaySettingsPage()
+    91→  }
+    92→  else if(name === 'FloatLyricPage') {
+    93→    FloatLyricPage()
+    94→  }
+    95→  else if(name === 'ApiSetPage') {
+    96→    ApiSetPage()
+    97→  }
+    98→  else if(name === 'CacheManagePage') {
+    99→    CacheManagePage()
+   100→  }
+   101→  else if(name === 'WebPage') {
+   102→    WebPage({ param: param as WebPageParam })
+   103→  }
+   104→  else if(name === 'AboutPage') {
+   105→    AboutPage()
+   106→  }
+   107→  else if(name === 'DonatePage') {
+   108→    DonatePage()
+   109→  }
+   110→  else if(name === 'DebugPage') {
+   111→    DebugPage()
+   112→  }
+   113→}
+   114→
+   115→@Builder
+   116→export function PlaySettingsPageMap(name: string, param: Object) {
+   117→  if(name === 'FloatLyricPage') {
+   118→    FloatLyricPage()
+   119→  }
+   120→}
+</file>
+<metadata>The file has 120 lines in total.</metadata>

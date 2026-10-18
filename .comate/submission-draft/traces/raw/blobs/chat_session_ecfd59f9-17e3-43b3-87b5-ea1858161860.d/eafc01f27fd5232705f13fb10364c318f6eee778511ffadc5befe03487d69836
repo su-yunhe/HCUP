@@ -1,0 +1,2 @@
+- Local compatible API server: docker container `netease_cloud_music_api` on host port 3000; emulator reaches it at http://10.0.2.2:3000. `docker logs netease_cloud_music_api` shows request paths, but the server has a ~2-minute response cache and cache hits are NOT logged — for request counting use the recording proxy in hypium_tests/cmu_helpers.py (host port 3901 → 3000).
+- No `timeout` binary on this Mac (zsh: command not found).

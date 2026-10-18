@@ -1,0 +1,419 @@
+<file>
+     1→import { DialogUtil, LogUtil, ToastUtil} from "@pura/harmony-utils";
+     2→import Constants from "../constants/Constants";
+     3→import { TopListItem } from "../entities/recommend/TopList";
+     4→import { getTopList } from "../../api/topListApi";
+     5→import { TopListItemCard } from "../../components/cards/TopListItemCard";
+     6→import { StorageConstants } from "../constants/StorageConstants";
+     7→import { getPersonalizedList } from "../../api/playListApi";
+     8→import { PersonalListItem } from "../entities/recommend/Personalized";
+     9→import { PersonalizedCard } from "../../components/cards/PersonalizedCard";
+    10→import { AppInfo, AppInfoClass } from "../entities/local/AppInfo";
+    11→import { RecommendDjRadio } from "../entities/dj/DjRecommend";
+    12→import { IndexRecommend } from "./IndexRecommend";
+    13→import { PersonalizedSkeletion } from "../../components/skeleton/Skeleton";
+    14→import { ApiConfigForm } from "../../components/settings/ApiConfigForm";
+    15→
+    16→const TAG = '[Explore] '
+    17→
+    18→@Component
+    19→export struct Explore {
+    20→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    21→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    22→  @StorageProp(StorageConstants.IS_LOGGED) @Watch('getContent') isLogged: boolean = false
+    23→  @StorageProp(StorageConstants.VALID_API_URL) @Watch('onValidApiUrlChange') validApiUrl: boolean = true
+    24→  @StorageProp(StorageConstants.APP_LOADING) @Watch('onAppLoadingChange') appLoading: boolean = true
+    25→  @StorageProp(StorageConstants.APP_INFO) appInfo: AppInfo = AppInfoClass
+    26→  @StorageLink(StorageConstants.TOPLISTS) topList: Array<TopListItem> = []
+    27→  @StorageLink(StorageConstants.PERSONALIZED_LIST) personalizedList: Array<PersonalListItem> = []
+    28→  @StorageLink(StorageConstants.RECOMMENDED_DJ) recommendDjRadioList: Array<RecommendDjRadio> = []
+    29→  @StorageProp(StorageConstants.BREAKPOINT_WIDTH) breakpoint: string = 'sm'
+    30→  @State isLoadingTopList: boolean = false
+    31→  @State isLoadingPersonalized: boolean = false
+    32→  @State isLoadingRecommendDjRadio: boolean = false
+    33→  @State isRefreshing: boolean = false
+    34→  @State lastRefreshTime: number = 0
+    35→  @State isShowApiSheet: boolean = false
+    36→  @Prop currentHour: number = 0
+    37→  @State totalOpacity: number = 0
+    38→  @Consume('pageInfos') pageInfos: NavPathStack
+    39→  private refreshCooldown: number = 5000
+    40→  private isOnlineContentLoaded: boolean = false
+    41→  private apiSheetOptions: SheetOptions = {
+    42→    preferType: SheetType.BOTTOM,
+    43→    // 内容从顶部排布，软键盘弹出时"保存配置"不被遮挡
+    44→    height: SheetSize.LARGE,
+    45→    title: { title: '在线服务配置' },
+    46→    backgroundColor: $r('app.color.background'),
+    47→    onDisappear: () => { this.isShowApiSheet = false }
+    48→  }
+    49→
+    50→  aboutToAppear() {
+    51→    animateTo({ duration: 300, curve: Curve.Ease, delay: 100}, () => {
+    52→      this.totalOpacity = 1
+    53→    })
+    54→    // 应用初始化（连通性检查）已完成后才创建的情况
+    55→    if(!this.appLoading && this.validApiUrl) {
+    56→      this.loadOnlineContent()
+    57→    }
+    58→  }
+    59→
+    60→  async getContent() {
+    61→    this.getTopLists()
+    62→    this.getPersonalizedList()
+    63→  }
+    64→
+    65→  // 在线服务变为可用（保存配置检查通过）后刷新在线内容
+    66→  onValidApiUrlChange() {
+    67→    if(this.validApiUrl) {
+    68→      this.loadOnlineContent()
+    69→    } else {
+    70→      this.isOnlineContentLoaded = false
+    71→    }
+    72→  }
+    73→
+    74→  // 冷启动连通性检查完成后加载在线内容（不要求登录）
+    75→  onAppLoadingChange() {
+    76→    if(!this.appLoading && this.validApiUrl) {
+    77→      this.loadOnlineContent()
+    78→    }
+    79→  }
+    80→
+    81→  /**
+    82→   * 加载在线内容（不受本地缓存、登录态和刷新冷却影响）
+    83→   * 每次在线服务变为可用后只加载一次
+    84→   */
+    85→  private async loadOnlineContent() {
+    86→    if(!this.validApiUrl || this.isOnlineContentLoaded) return
+    87→    this.isOnlineContentLoaded = true
+    88→    await Promise.all([this.loadTopList(), this.loadPersonalizedList()])
+    89→  }
+    90→
+    91→  private async loadTopList() {
+    92→    if(this.isLoadingTopList) return
+    93→    this.isLoadingTopList = true
+    94→    try {
+    95→      this.topList = (await getTopList()) ?? []
+    96→    } catch (e) {
+    97→      LogUtil.error(TAG, 'getTopList Error: ' + e.message)
+    98→    } finally {
+    99→      this.isLoadingTopList = false
+   100→    }
+   101→  }
+   102→
+   103→  private async loadPersonalizedList() {
+   104→    if(this.isLoadingPersonalized) return
+   105→    this.isLoadingPersonalized = true
+   106→    try {
+   107→      this.personalizedList = (await getPersonalizedList()) ?? []
+   108→    } catch (e) {
+   109→      LogUtil.error(TAG, 'getPersonalizedList Error: ' + e.message)
+   110→    } finally {
+   111→      this.isLoadingPersonalized = false
+   112→    }
+   113→  }
+   114→
+   115→  private async getTopLists() {
+   116→    if(this.topList.length == 0 && this.validApiUrl) {
+   117→      await this.loadTopList()
+   118→    }
+   119→    else return
+   120→  }
+   121→
+   122→  private async getPersonalizedList() {
+   123→    if(this.isLogged && this.personalizedList.length == 0 && this.validApiUrl) {
+   124→      await this.loadPersonalizedList()
+   125→    }
+   126→    else return
+   127→  }
+   128→
+   129→  private refreshContent = async () => {
+   130→    this.isRefreshing = true
+   131→    // 在线服务不可用时不请求内容
+   132→    if(!this.validApiUrl) {
+   133→      setTimeout(() => { this.isRefreshing = false }, 300)
+   134→      return
+   135→    }
+   136→    const currentTime = new Date().getTime()
+   137→    if (currentTime - this.lastRefreshTime < this.refreshCooldown) {
+   138→      ToastUtil.showToast('操作过于频繁，请5秒后再试')
+   139→    } else {
+   140→      try {
+   141→        Promise.all([
+   142→          this.topList = await getTopList(),
+   143→          this.personalizedList = await getPersonalizedList(),
+   144→        ])
+   145→        this.lastRefreshTime = currentTime
+   146→        ToastUtil.showToast('刷新成功')
+   147→      } catch (e) {
+   148→        ToastUtil.showToast('内容刷新失败: ' + e.message)
+   149→      }
+   150→    }
+   151→    this.isRefreshing = false
+   152→  }
+   153→
+   154→  build() {
+   155→    Column() {
+   156→      Refresh({ refreshing: this.isRefreshing }) {
+   157→        Grid() {
+   158→          if(this.appInfo.data.Announcement.isShow) {
+   159→            GridItem() {
+   160→              this.Announcement()
+   161→            }
+   162→          }
+   163→          GridItem() {
+   164→            Search({
+   165→              placeholder: $r('app.string.Search_content'),
+   166→              icon: '/resources/base/media/ic_public_search_filled.svg',
+   167→            })
+   168→              .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+   169→              .focusable(false)
+   170→              .onClick(() => {
+   171→                this.pageInfos.clear()
+   172→                this.pageInfos.pushPathByName('SearchPage', null, this.breakpoint === 'lg' && this.pageInfos.size() === 0 ? false : true)
+   173→              })
+   174→              .layoutWeight(1)
+   175→          }
+   176→          .padding({ left: 20, right: 20 })
+   177→
+   178→          GridItem() {
+   179→            Column({ space: 5 }) {
+   180→              this.Intro(this.getGreeting(this.currentHour), () => {})
+   181→              IndexRecommend({ isLogged: this.isLogged })
+   182→            }
+   183→          }
+   184→
+   185→          if(this.validApiUrl) {
+   186→            GridItem() {
+   187→              Column({ space: 5 }) {
+   188→                this.Intro('推荐歌单', () => {})
+   189→                // 推荐歌单
+   190→                List() {
+   191→                  ListItem().width(5)
+   192→                  ListItem().width(5)
+   193→                  if(this.isLoadingPersonalized || this.isRefreshing) {
+   194→                    ForEach(Constants.ARRAY_LENGTH_10, (item: number) => {
+   195→                      PersonalizedSkeletion()
+   196→                    })
+   197→                  } else {
+   198→                    ForEach(this.personalizedList, (item: PersonalListItem, index) => {
+   199→                      PersonalizedCard({ item: item }).padding(5)
+   200→                    }, (item: PersonalListItem) => item.id.toString())
+   201→                  }
+   202→                  ListItem().width(5)
+   203→                  ListItem().width(5)
+   204→                }
+   205→                .lanes(2)
+   206→                .listDirection(Axis.Horizontal)
+   207→                .scrollBar(BarState.Off)
+   208→                .width('100%')
+   209→                .id('explore_personalized_list')
+   210→              }
+   211→            }
+   212→            .padding({ top: 20 })
+   213→
+   214→            // GridItem() {
+   215→            //   Column({ space: 5 }) {
+   216→            //     this.Intro('推荐电台', () => {})
+   217→            //     // 推荐歌单
+   218→            //     List() {
+   219→            //       ListItem().width(5)
+   220→            //       ListItem().width(5)
+   221→            //       ForEach(this.recommendDjRadioList, (item: RecommendDjRadio) => {
+   222→            //         ListItem() {
+   223→            //           DjRadioRecommendCard({ djRadio: item }).padding(10)
+   224→            //         }
+   225→            //       }, (item: PersonalListItem) => item.id.toString())
+   226→            //       ListItem().width(5)
+   227→            //       ListItem().width(5)
+   228→            //     }
+   229→            //     .listDirection(Axis.Horizontal)
+   230→            //     .scrollBar(BarState.Off)
+   231→            //     .width('100%')
+   232→            //   }
+   233→            // }
+   234→            // .padding({ top: 20 })
+   235→
+   236→            GridItem() {
+   237→              Column({ space: 15 }) {
+   238→                this.Intro('排行榜', () => {
+   239→                  this.pageInfos.pushPathByName('TopListPage', null, this.breakpoint === 'lg' && this.pageInfos.size() === 0 ? false : true)
+   240→                })
+   241→                // 排行榜
+   242→                List() {
+   243→                  ListItem().width(15)
+   244→                  ForEach(this.topList.slice(0, 10), (item: TopListItem) => {
+   245→                    ListItem() {
+   246→                      TopListItemCard({ topListItem: item, breakpoint: this.breakpoint }).padding(5)
+   247→                    }
+   248→                  })
+   249→                  ListItem() {
+   250→                    Button() {
+   251→                      Column({ space: 5 }) {
+   252→                        Stack({ alignContent: Alignment.Center }) {
+   253→                          Image($r('app.media.bg4'))
+   254→                            .width(120)
+   255→                            .aspectRatio(1)
+   256→                            .borderRadius(Constants.RADIUS_CARD)
+   257→                            .draggable(false)
+   258→                          Text('更多排行')
+   259→                            .fontSize(Constants.FONT_SIZE_COMMON + 3)
+   260→                            .fontWeight(FontWeight.Bold)
+   261→                            .fontColor(Color.White)
+   262→                        }
+   263→                        .width(120)
+   264→                        .aspectRatio(1)
+   265→                        .backgroundColor(Color.Transparent)
+   266→                      }
+   267→                    }
+   268→                    .backgroundColor(Color.Transparent)
+   269→                    .borderRadius(Constants.RADIUS_CARD)
+   270→                    .type(ButtonType.Normal)
+   271→                    .width(120)
+   272→                    .aspectRatio(1)
+   273→                    .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+   274→                    .onClick(() => { this.pageInfos.pushPathByName('TopListPage', null, this.breakpoint === 'lg' && this.pageInfos.size() === 0 ? false : true) })
+   275→                  }.padding(5)
+   276→                  ListItem().width(15)
+   277→                }
+   278→                .listDirection(Axis.Horizontal)
+   279→                .scrollBar(BarState.Off)
+   280→                .width('100%')
+   281→                .height('auto')
+   282→                .id('explore_toplist_list')
+   283→              }
+   284→            }
+   285→            .padding({ top: 20 })
+   286→          } else {
+   287→            // 在线服务未配置/不可用时的引导
+   288→            GridItem() {
+   289→              Column({ space: 15 }) {
+   290→                Text('如需连接在线内容，请设置在线服务')
+   291→                  .id('explore_service_tip')
+   292→                  .fontSize(Constants.FONT_SIZE_COMMON)
+   293→                  .fontColor($r('app.color.reverse'))
+   294→                  .textAlign(TextAlign.Center)
+   295→                Button('设置在线服务')
+   296→                  .id('explore_setup_button')
+   297→                  .fontSize(Constants.FONT_SIZE_COMMON)
+   298→                  .fontColor($r('app.color.app_red'))
+   299→                  .borderColor($r('app.color.app_red'))
+   300→                  .backgroundColor(Color.Transparent)
+   301→                  .borderWidth(1)
+   302→                  .padding({ left: 20, right: 20 })
+   303→                  .onClick(() => {
+   304→                    this.isShowApiSheet = true
+   305→                  })
+   306→              }
+   307→              .width('100%')
+   308→              .padding({ left: 20, right: 20, top: 20 })
+   309→            }
+   310→          }
+   311→
+   312→          GridItem()
+   313→            .height(px2vp(this.bottomRectHeight) + 115)
+   314→        }
+   315→        .height('100%')
+   316→        .width('100%')
+   317→        .edgeEffect(EdgeEffect.Spring)
+   318→        .scrollBar(BarState.Off)
+   319→        .rowsGap(15)
+   320→        .columnsTemplate('1fr')
+   321→        .layoutDirection(GridDirection.Column)
+   322→        .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+   323→        .backToTop(true)
+   324→      }
+   325→      .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+   326→      .onRefreshing(this.refreshContent)
+   327→    }
+   328→    .width('100%')
+   329→    .height('100%')
+   330→    .opacity(this.totalOpacity)
+   331→    .bindSheet(this.isShowApiSheet, this.ApiSheet(), this.apiSheetOptions)
+   332→  }
+   333→
+   334→  @Builder
+   335→  ApiSheet() {
+   336→    Scroll() {
+   337→      Column() {
+   338→        ApiConfigForm({
+   339→          onSaved: () => {
+   340→            this.isShowApiSheet = false
+   341→          }
+   342→        })
+   343→      }
+   344→      .padding({ left: 20, right: 20, bottom: 20 })
+   345→    }
+   346→    .id('explore_api_sheet')
+   347→    .width('100%')
+   348→    .height('100%')
+   349→    .align(Alignment.Top)
+   350→    .scrollBar(BarState.Off)
+   351→  }
+   352→
+   353→  @Builder
+   354→  Loading(ht: number | string = '100%') {
+   355→    Column() {
+   356→      LoadingProgress().width(Constants.SIZE_LOADING_PROGRESS_DEFAULT)
+   357→    }
+   358→    .height(ht)
+   359→    .padding({ bottom: px2vp(this.topRectHeight) + 60 })
+   360→    .width('100%')
+   361→    .justifyContent(FlexAlign.Center)
+   362→  }
+   363→
+   364→  @Builder
+   365→  Announcement() {
+   366→    Row() {
+   367→      Text(this.appInfo.data.Announcement.message)
+   368→        .width('100%')
+   369→        .textAlign(TextAlign.Center)
+   370→        .fontColor($r('app.color.main'))
+   371→        .fontSize(Constants.FONT_SIZE_COMMON)
+   372→        .padding({ top: 5, bottom: 5 })
+   373→        .layoutWeight(1)
+   374→        .textOverflow({ overflow: TextOverflow.MARQUEE })
+   375→        .onClick(() => {
+   376→          DialogUtil.showConfirmDialog({
+   377→            title: this.appInfo.data.Announcement.title,
+   378→            message: this.appInfo.data.Announcement.message
+   379→          })
+   380→        })
+   381→    }
+   382→    .backgroundColor('#fff8b8b8')
+   383→  }
+   384→
+   385→  @Builder Intro(title: string, action: () => void) {
+   386→    Row({ space: 5 }) {
+   387→      Text(title)
+   388→        .textStyle(18)
+   389→      Image($r('app.media.ic_public_arrow_right'))
+   390→        .width(Constants.SIZE_ICON_BUTTON_BAR)
+   391→        .fillColor($r('app.color.reverse'))
+   392→    }
+   393→    .width('100%')
+   394→    .justifyContent(FlexAlign.Start)
+   395→    .clickEffect({ level: ClickEffectLevel.LIGHT, scale: 0.9 })
+   396→    .onClick(action)
+   397→  }
+   398→
+   399→  private getGreeting(hour: number): string {
+   400→    if (hour >= 5 && hour < 7) return '清晨好'
+   401→    if (hour >= 7 && hour < 9) return '早上好'
+   402→    if (hour >= 9 && hour < 11) return '上午好'
+   403→    if (hour >= 11 && hour < 13) return '中午好'
+   404→    if (hour >= 13 && hour < 18) return '下午好'
+   405→    if (hour >= 18 && hour < 24) return '晚上好'
+   406→    if (hour >= 0 && hour < 5) return '夜已深, 注意休息'
+   407→    return '探索您喜爱的内容'
+   408→  }
+   409→}
+   410→
+   411→@Extend(Text) function textStyle(size: number) {
+   412→  .fontSize(size)
+   413→  .fontWeight(FontWeight.Bold)
+   414→  .fontColor($r('app.color.reverse'))
+   415→  .padding({ left: 20 })
+   416→}
+</file>
+<metadata>The file has 416 lines in total.</metadata>

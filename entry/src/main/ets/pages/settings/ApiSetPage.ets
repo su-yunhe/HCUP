@@ -1,19 +1,18 @@
 import { ToastUtil } from "@pura/harmony-utils"
 import Constants from "../../common/constants/Constants"
 import { StorageConstants } from "../../common/constants/StorageConstants"
-import { checkValidUrl } from "../../common/functions/common/get"
 import PreferencesUtils from "../../common/utils/data/PreferencesUtils"
 import { ExplainButton } from "../../components/buttons/ExplainButton"
+import { ApiConfigForm } from "../../components/settings/ApiConfigForm"
 
 /**
- * 自定义API服务器地址
- * Sheet
+ * 在线服务配置
+ * NavDestination
  */
 @Component
 export struct ApiSetPage {
   @StorageLink(StorageConstants.IS_CUSTOM_COOKIE) isCustomCookie: boolean = false
   @StorageProp(StorageConstants.CUSTOM_COOKIE) customCookie: string = ''
-  @StorageProp(StorageConstants.API_URL) customApiUrl: string = ''
   @StorageProp(StorageConstants.VALID_API_URL) validApiUrl: boolean = false
   @StorageProp(StorageConstants.BREAKPOINT_WIDTH) breakpoint: string = 'sm'
   @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
@@ -22,18 +21,10 @@ export struct ApiSetPage {
     NavDestination() {
       Scroll() {
         Column({ space: 20 }) {
-          Text() {
-            Span(`用户云服务状态: `)
-            Span(`${this.validApiUrl ? '正常' : '不可用'}`)
-              .fontWeight(FontWeight.Bold)
-              .fontColor(this.validApiUrl ? Color.Green : $r('app.color.app_red'))
+          Column() {
+            ApiConfigForm()
           }
-          .width('100%')
-          .textAlign(TextAlign.Center)
-          .fontColor($r('app.color.reverse'))
-          .fontSize(Constants.FONT_SIZE_COMMON)
-          .padding(Constants.PADDING_EDGE_DEFAULT)
-          this.SetApiUrl()
+          .itemStyle()
           if(this.validApiUrl) {
             this.SetCookie()
           }
@@ -48,34 +39,9 @@ export struct ApiSetPage {
       .width('100%')
       .scrollBar(BarState.Off)
     }
+    .id('api_set_page')
     .backgroundColor($r('app.color.background'))
-    .title($r('app.string.SET_CLOUDSERVICE'))
-  }
-
-  @Builder SetApiUrl() {
-    Column({ space: 10 }) {
-      Row() {
-        Row({ space: 5 }) {
-          Text($r('app.string.SET_CLOUDSERVICE')).LeftText()
-        }
-      }
-      .width('100%')
-      .justifyContent(FlexAlign.SpaceBetween)
-
-      Column({ space: 10 }) {
-        TextInput({ text: this.customApiUrl })
-          .width('100%')
-          .onChange((text) => this.customApiUrl = text)
-          .borderRadius(Constants.RADIUS_IMG)
-        Button('保存配置')
-          .setButton()
-          .onClick(() => {
-            this.setCustomApiUrl()
-          })
-      }
-      .width('100%')
-    }
-    .itemStyle()
+    .title('在线服务配置')
   }
 
   @Builder SetCookie() {
@@ -128,13 +94,6 @@ export struct ApiSetPage {
     this.isCustomCookie = isOn
     AppStorage.setOrCreate(StorageConstants.IS_CUSTOM_COOKIE, this.isCustomCookie)
     PreferencesUtils.putPreferenceValue(StorageConstants.SET_PERF, StorageConstants.IS_CUSTOM_COOKIE, this.isCustomCookie)
-  }
-
-  setCustomApiUrl() {
-    AppStorage.setOrCreate(StorageConstants.API_URL,this.customApiUrl)
-    PreferencesUtils.putPreferenceValue(StorageConstants.SET_PERF ,StorageConstants.API_URL,this.customApiUrl)
-    ToastUtil.showToast('配置已保存, 正在检查云服务是否可用...')
-    checkValidUrl()
   }
 
   setCustomCookie() {

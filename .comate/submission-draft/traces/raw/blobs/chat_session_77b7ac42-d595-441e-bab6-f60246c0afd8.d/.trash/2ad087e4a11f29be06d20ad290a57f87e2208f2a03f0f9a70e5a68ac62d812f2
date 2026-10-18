@@ -1,0 +1,21 @@
+## 5. 网络状态机
+
+### 5.1 保存配置 / 连通性检查（设置页与发现页面板共用）
+
+```mermaid
+stateDiagram-v2
+    [*] --> Idle: 进入页面/打开面板（不发请求，显示已存状态）
+    Idle --> Idle: 编辑输入（不持久化、不发请求）
+    Idle --> [*]: 返回/关闭/取消（不保存、不发请求）
+    Idle --> Saving: 点击"保存配置"
+    Saving --> Invalid: 组合地址为空（不发请求）
+    Saving --> Checking: 持久化字段+apiUrl，Toast T7，发 GET /inner/version
+    Checking --> Checking: 在途时再次点击保存（不再发请求，或只保留最新一次结果）
+    Checking --> Valid: code==200
+    Checking --> Invalid: 非200/网络错误/15s超时
+    Valid --> Idle: 状态显示"正常"
+    Invalid --> Idle: 状态显示"不可用"
+```
+
+| 用户动作 | 是否发请求 | 状态变化 | 请求结束后 |
+|

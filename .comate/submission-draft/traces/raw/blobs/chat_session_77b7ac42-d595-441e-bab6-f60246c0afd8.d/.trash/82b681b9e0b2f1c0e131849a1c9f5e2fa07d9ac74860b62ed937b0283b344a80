@@ -1,0 +1,28 @@
+## 4. 相关现状
+
+### 4.1 配置页组件（`pages/settings/ApiSetPage.ets`）【代码】
+- 状态：`@StorageProp(API_URL) customApiUrl`、`@StorageProp(VALID_API_URL) validApiUrl`（`:14-19`）。
+- 状态行：`Text(){ Span('用户云服务状态: ') Span('正常'|'不可用') }`（`:25-35`），UI 树里是一整串 `用户云服务状态: 正常`。【实测】
+- 表单：只有一个 `TextInput({ text: this.customApiUrl })`（`:66-69`）+ `Button('保存配置')`（`:70-74`）。
+- 保存：`setCustomApiUrl()`（`:133-138`）= `AppStorage.setOrCreate(API_URL)` + `PreferencesUtils.putPreferenceValue(SET_PERF, API_URL)` + `ToastUtil.showToast('配置已保存, 正在检查云服务是否可用...')` + `checkValidUrl()`（不 await、没有在途保护）。
+- 可用时额外显示 `(高级) 手动设置Cookie` 区（`:37-39`、`:81-125`）。
+
+### 4.2 状态模型 / 本地存储【代码】
+- 键：`StorageConstants.API_URL = 'apiUrl'`（`common/constants/StorageConstants.ets:271`，AppStorage + Preference）；`VALID_API_URL = 'isValidApiUrl'`（`:44`，只在 AppStorage）；首选项文件名 `SET_PERF = 'Settings'`（`:198`）。
+- 启动加载：`initSettings()` → `handleSetting<string>(API_URL, '')`（`common/functions/app/settings.ets:21-23`），没有就写默认值 `''`，再 `AppStorage.setOrCreate`（`:80-93`）。通用写法 `changeSettings(name, value)`（`:70-78`）。
+- 本机模拟器上首选项文件 `/data/app/el2/100/base/cc.chenlvin.cloudmusic/haps/entry/preferences/Settings` 是 XML，可在 shell 下读到，便于自测核对持久化。【实测】
+- 使用 `isValidApiUrl` 的 UI：`Explore.ets:20`（默认 true）、`IndexRecommend.ets:24`（默认 true）、`Me.ets:14`（默认 true）、`ApiSetPage.ets:17`（默认 false）、`ApiDialog.ets:11`。【代码】
+
+### 4.3 网络服务【代码】
+- `common/utils/request/RequestUtil.ets:11-13` axios 实例，超时 15000ms；请求拦截器 `:15-29`：`baseURL = params.baseUrl || getApiUrl()`（`getApiUrl` 读 AppStorage `apiUrl`，`common/functions/common/get.ets:14-16`），追加 `cookie`、`realIP` 参数；不支持认证头。`commonRequest` 返回 `response.data`（`:46-49`）。
+- 连通性检查：`checkValidUrl()`（`common/functions/common/get.ets:40-57`）`GET /inner/version`，`code === 200` → `isValidApiUrl=true`，否则或异常 → false；没有并发控制，旧请求晚到会覆盖新结果。
+- 启动顺序：`EntryAbility.ets:24-30` 先加载 3 个首选项再 `await appInit()`；`appInit()`（`common/functions/app/appInit.ets:26-40`）：`initSettings` → … → `getAppInfo()`（请求外网 `https://api.chenlvin.cc/api/cloudmusic/app`，`Constants.ets:8`、`api/chenlvinApi.ets:10-21`，失败 Toast `获取应用信息失败`）→ `checkValidUrl()`（`:35`）→ 可用才 `initUserInfo()`（登录态）。
+- 在线内容接口：`getTopList()` `GET /toplist`（`api/topListApi.ets:9-16`，成功写首选项缓存）；`getPersonalizedList()` `GET /personalized`（`api/playListApi.ets:137-145`，写 AppStorage + 首选项）。
+
+### 4.4 发现页状态（`common/view/Explore.ets`）【代码】
+- `isLogged` 带 `@Watch('getContent')`（`:19`）——**只有登录态变化才拉内容**；`validApiUrl` 没有 Watch（`:20`）。
+- `getTopLists()`（`:47-54`）只在缓存为空且可用时请求；`getPersonalizedList()`（`:56-63`）还要求已登录。两者都没有 try/finally，请求抛错时 `isLoadingTopList` / `isLoadingPersonalized` 会停在 true（骨架屏不消失）。
+- 下拉刷新 `refreshContent`（`:65-83`）：5s 冷却，不检查 `validApiUrl`，未登录也会请求 `/toplist` 和 `/personalized`，成功 Toast `刷新成功`。
+- 缓存：启动时从 `UserPreference` 读 `topLists`、`personalizedList` 进 AppStorage（`appInit.ets:76-77,85-86`）。
+
+### 4.5 本地曲库（`pages/local/LocalSongPage.ets`）【代码】

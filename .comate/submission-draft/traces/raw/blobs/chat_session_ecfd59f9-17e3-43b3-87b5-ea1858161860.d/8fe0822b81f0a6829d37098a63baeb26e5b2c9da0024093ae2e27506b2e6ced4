@@ -1,0 +1,332 @@
+<file>
+    20→@Component
+    21→export struct LocalSongPage {
+    22→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    23→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    24→  @StorageProp(StorageConstants.BREAKPOINT_WIDTH) breakpoint: string = 'sm'
+    25→  @State filesList: string[] = []
+    26→  @State searchKeyword: string = ''
+    27→  @State filteredSongs: LocalSong[] = new Array()
+    28→  @State isSorted: boolean = false
+    29→  @State isSelecting: boolean = false
+    30→  @State selectedSongs: LocalSong[] = []
+    31→  @State localSongs: LocalSong[] = []
+    32→  @State isShowMigration: boolean = false
+    33→  @State dataSource: LazyData<LocalSong> = new LazyData()
+    34→  @State dataSourceFiltered: LazyData<LocalSong> = new LazyData()
+    35→  @State isLoading: boolean = false
+    36→  private originalOrderList: LocalSong[] = []
+    37→  @Consume('pageInfos') pageInfos: NavPathStack
+    38→
+    39→  menus: NavigationMenuItem[] = [
+    40→    {
+    41→      value: 'Search',
+    42→      icon: $r('app.media.ic_public_search_filled'),
+    43→      action: () => {
+    44→        this.getUIContext().getFocusController().requestFocus('search')
+    45→      }
+    46→    },
+    47→    {
+    48→      value: 'Upload',
+    49→      icon: $r('app.media.ic_public_upload_filled'),
+    50→      action: () => {
+    51→        DialogUtil.showPrimaryDialog({
+    52→          title: '上传文件',
+    53→          message: '支持上传本机音频文件至缓存目录\n' +
+    54→            '支持格式为.mp3 .flac\n\n' +
+    55→            '* 文件名格式：歌手 - 歌名.flac* \n\n' +
+    56→            '文件名格式不正确会导致无法识别\n' +
+    57→            '在线播放时，将自动匹配文件名调取本地文件进行播放',
+    58→          primaryButton: "取消",
+    59→          secondaryButton: {
+    60→            value: '上传',
+    61→            action: () => {
+    62→              this.handleUpload()
+    63→            }
+    64→          }
+    65→        })
+    66→      }
+    67→    }
+    68→  ]
+    69→
+    70→  async aboutToAppear(): Promise<void> {
+    71→    this.isLoading = true
+    72→    this.refreshList()
+    73→    this.filesList = await FileUtils.getFileName()
+    74→    this.isLoading = false
+    75→    EmitterUtil.onSubscribe(EmitterConstants.REFRESH_LOCALSONGS, () => {
+    76→      this.refreshList()
+    77→    })
+    78→  }
+    79→
+    80→  aboutToDisappear(): void {
+    81→    EmitterUtil.unSubscribe(EmitterConstants.REFRESH_LOCALSONGS)
+    82→  }
+    83→
+    84→  build() {
+    85→    NavDestination() {
+    86→      Stack({ alignContent: Alignment.Bottom }) {
+    87→        if(this.isLoading) {
+    88→          Column() {
+    89→            LoadingProgress()
+    90→              .width(Constants.SIZE_LOADING_PROGRESS_DEFAULT)
+    91→          }
+    92→          .height('100%')
+    93→          .width('100%')
+    94→          .justifyContent(FlexAlign.Center)
+    95→        } else {
+    96→          Column() {
+    97→            Column() {
+    98→              Grid() {
+    99→                GridItem() {
+   100→                  Search({
+   101→                    placeholder: $r('app.string.Search_content'),
+   102→                    icon: '/resources/base/media/ic_public_search_filled.svg'
+   103→                  })
+   104→                    .id('search')
+   105→                    .height(Constants.HEIGHT_SEARCH)
+   106→                    .width('100%')
+   107→                    .searchButton('搜索')
+   108→                    .onChange((value) => {
+   109→                      if(value == '') {
+   110→                        this.filteredSongs = []
+   111→                        this.selectedSongs = []
+   112→                        this.searchKeyword = ''
+   113→                      }
+   114→                    })
+   115→                    .onSubmit((value) => {
+   116→                      this.searchKeyword = value
+   117→                      this.handelSearch()
+   118→                    })
+   119→                }
+   120→                GridItem() {
+   121→                  if (this.localSongs.length > 0) {
+   122→                    Row() {
+   123→                      Text(this.isSelecting ? `已选 ${this.selectedSongs.length} 项` : `共 ${this.localSongs.length} 首歌曲`)
+   124→                        .fontSize(Constants.FONT_SIZE_COMMON)
+   125→                      Row({ space: 20 }) {
+   126→                        if(!this.isSelecting) {
+   127→                          // Image($r('app.media.ic_files_name_drive'))
+   128→                          //   .width(Constants.SIZE_ICON_BUTTON_BAR)
+   129→                          //   .aspectRatio(1)
+   130→                          //   .fillColor(this.isSorted ? $r('app.color.blue') : Color.Gray)
+   131→                          //   .onClick(() => {
+   132→                          //     this.isSorted = !this.isSorted
+   133→                          //     if (this.searchKeyword) {
+   134→                          //       this.filteredSongs = this.getSortedList(this.filteredSongs)
+   135→                          //     }
+   136→                          //   })
+   137→                        } else {
+   138→                          if(this.selectedSongs.length > 0) {
+   139→                            Image($r('app.media.ic_public_delete'))
+   140→                              .width(Constants.SIZE_ICON_BUTTON_BAR)
+   141→                              .aspectRatio(1)
+   142→                              .fillColor(Color.Gray)
+   143→                              .onClick(() => {
+   144→                                this.handleDelete()
+   145→                              })
+   146→                            Image($r('app.media.ic_public_folder'))
+   147→                              .width(Constants.SIZE_ICON_BUTTON_BAR)
+   148→                              .aspectRatio(1)
+   149→                              .fillColor(Color.Gray)
+   150→                              .onClick(() => {
+   151→                                FileUtils.saveFile(this.selectedSongs)
+   152→                              })
+   153→                          }
+   154→                          CheckboxGroup({ group: 'fileCard' })
+   155→                            .width(Constants.SIZE_ICON_BUTTON_BAR - 5)
+   156→                            .height(Constants.SIZE_ICON_BUTTON_BAR - 5)
+   157→                        }
+   158→
+   159→                        Image($r('app.media.ic_gallery_material_select_checkbox'))
+   160→                          .width(Constants.SIZE_ICON_BUTTON_BAR)
+   161→                          .aspectRatio(1)
+   162→                          .fillColor(this.isSelecting ? $r('app.color.blue') : Color.Gray)
+   163→                          .onClick(() => {
+   164→                            animateTo({ duration: 100, curve: Curve.EaseInOut }, () => {
+   165→                              this.isSelecting = !this.isSelecting
+   166→                              this.selectedSongs = []
+   167→                            })
+   168→                          })
+   169→                      }
+   170→                      .height(30)
+   171→                    }
+   172→                    .justifyContent(FlexAlign.SpaceBetween)
+   173→                    .width('100%')
+   174→                  }
+   175→                  else {
+   176→                    Column({ space: 20 }) {
+   177→                      Text('本地文件列表为空\n右上方入口支持上传本地音频').id('local_empty_tip').width('100%').textAlign(TextAlign.Center).padding({ left: 30, right: 30, top: 10 })
+   178→                      if(this.filesList.length > 0) {
+   179→                        Button('迁移旧版本数据').padding({ left: 10, right: 10, top: 5, bottom: 5 })
+   180→                          .onClick(() => { this.isShowMigration = true })
+   181→                          .bindSheet(this.isShowMigration, this.Migration(), {
+   182→                            preferType: SheetType.CENTER,
+   183→                            height: SheetSize.MEDIUM,
+   184→                            dragBar: false,
+   185→                            showClose: false,
+   186→                            backgroundColor: Color.Transparent,
+   187→                            blurStyle: BlurStyle.Regular,
+   188→                            onDisappear: () => { this.isShowMigration = false }
+   189→                          })
+   190→                      }
+   191→                    }
+   192→                  }
+   193→                }
+   194→
+   195→                GridItem() {
+   196→                  GridRow({ columns: { xs: 1, sm: 1, md: 1, lg: 2, xl: 2 } }) {
+   197→                    if(!this.searchKeyword) {
+   198→                      this.ListContent(this.dataSource)
+   199→                    } else {
+   200→                      this.ListContent(this.dataSourceFiltered)
+   201→                    }
+   202→                  }
+   203→                }
+   204→                .width('100%')
+   205→
+   206→                GridItem()
+   207→                  .height(px2vp(this.bottomRectHeight) + Constants.HEIGHT_MINI)
+   208→              }
+   209→              .edgeEffect(EdgeEffect.Spring)
+   210→              .scrollBar(BarState.Off)
+   211→              .rowsGap(10)
+   212→              .columnsGap(10)
+   213→              .columnsTemplate('1fr')
+   214→              .layoutDirection(GridDirection.Column)
+   215→              .backgroundColor($r('app.color.background'))
+   216→              .height('100%')
+   217→              .width('100%')
+   218→              .padding({ left: 10, right: 10 })
+   219→              .layoutWeight(1)
+   220→              .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+   221→              .backToTop(true)
+   222→            }
+   223→            .justifyContent(FlexAlign.Center)
+   224→            .layoutWeight(1)
+   225→            .width('100%')
+   226→          }
+   227→          .width('100%')
+   228→          .height('100%')
+   229→        }
+   230→
+   231→        BottomBarComponent()
+   232→          .padding({ left: Constants.PADDING_EDGE_DEFAULT, right: Constants.PADDING_EDGE_DEFAULT })
+   233→          .backgroundColor(Color.Transparent)
+   234→          .visibility(this.breakpoint === 'lg' ? Visibility.None : Visibility.Visible)
+   235→      }
+   236→      .backgroundColor($r('app.color.background'))
+   237→      .height('100%')
+   238→    }
+   239→    .title($r('app.string.LocalSongs'))
+   240→    .menus(this.menus)
+   241→    .backgroundColor($r('app.color.background'))
+   242→  }
+   243→
+   244→  private handelSearch() {
+   245→    try {
+   246→      this.selectedSongs = []
+   247→      if (!this.searchKeyword) {
+   248→        this.dataSourceFiltered.setData([])
+   249→      }
+   250→      const keyword = this.searchKeyword.trim().toLowerCase()
+   251→      this.dataSourceFiltered.setData(this.localSongs.filter((item: LocalSong) => {
+   252→        return item.songFile.toString().toLowerCase().includes(keyword)
+   253→      }))
+   254→    } catch (e) {
+   255→      ToastUtil.showToast('搜索时出错')
+   256→      LogUtil.error(TAG, 'Error while handelSearch: ' + e.message)
+   257→    }
+   258→  }
+   259→
+   260→  private async refreshList() {
+   261→    this.localSongs = (await RelationalStoreUtils.getAllSongs()).reverse()
+   262→    this.originalOrderList = [...this.localSongs]
+   263→    this.isSelecting = false
+   264→    this.selectedSongs = []
+   265→    this.dataSource.setData(this.localSongs)
+   266→    this.dataSource.notifyDataReload()
+   267→  }
+   268→
+   269→  private async handleUpload() {
+   270→    PickerUtil.selectDocument({
+   271→      maxSelectNumber: 99,
+   272→      fileSuffixFilters: ['音频 | .mp3,.flac,.MP3,.FLAC']
+   273→    }).then((uris) => {
+   274→      FileUtils.saveFilesToDirectory(uris).then(async (result) => {
+   275→        if(result) {
+   276→          ToastUtil.showToast(`上传 ${result} 个文件`)
+   277→          await this.refreshList()
+   278→        }
+   279→      })
+   280→    })
+   281→  }
+   282→
+   283→  private getSortedList(list: LocalSong[]): LocalSong[] {
+   284→    return this.isSorted ?
+   285→    [...list].sort((a, b) => a.songFile.localeCompare(b.songFile)) :
+   286→    this.originalOrderList.filter(f => list.some(l => l.songFile === f.songFile))
+   287→  }
+   288→
+   289→  private handleDelete() {
+   290→    DialogUtil.showPrimaryDialog({
+   291→      title: '确认',
+   292→      message: `是否删除选中的 ${this.selectedSongs.length} 个文件?`,
+   293→      primaryButton: "取消",
+   294→      secondaryButton: {
+   295→        value: '删除',
+   296→        fontColor: Color.Red,
+   297→        action: async () => {
+   298→          await FileUtils.deleteFile(this.selectedSongs)
+   299→          setTimeout(async () => {
+   300→            await this.refreshList()
+   301→          }, 100)
+   302→        }
+   303→      }
+   304→    })
+   305→  }
+   306→
+   307→  @Builder ListContent(dataSource: LazyData<LocalSong>) {
+   308→    LazyForEach(dataSource,
+   309→      (item: LocalSong, index: number) => {
+   310→        GridCol() {
+   311→          Row({ space: 5 }) {
+   312→            FileCard({
+   313→              localSong: item
+   314→            })
+   315→              .padding({ left: 5, right: 5 })
+   316→              .layoutWeight(1)
+   317→            if(this.isSelecting) {
+   318→              this.CardCheckBox(item)
+   319→            }
+   320→          }
+   321→          .width('100%')
+   322→          .padding({ bottom: Constants.PADDING_EDGE_DEFAULT })
+   323→        }
+   324→        .key(item.id + this.searchKeyword)
+   325→      },(item: LocalSong) => item.songFile.toString() + this.searchKeyword)
+   326→  }
+   327→  @Builder Migration() {
+   328→    LocalMigrationSheet({ isShowMigration: this.isShowMigration })
+   329→  }
+   330→
+   331→  @Builder CardCheckBox(localSong: LocalSong) {
+   332→    Checkbox({ group: 'fileCard' })
+   333→      .shape(CheckBoxShape.ROUNDED_SQUARE)
+   334→      .width(Constants.SIZE_ICON_BUTTON_BAR)
+   335→      .aspectRatio(1)
+   336→      .onChange((value) => {
+   337→        if(value) {
+   338→          animateTo({ duration: 100, curve: Curve.Ease }, () => {
+   339→            this.selectedSongs.push(localSong)
+   340→          })
+   341→        } else {
+   342→          animateTo({ duration: 100, curve: Curve.Ease }, () => {
+   343→            this.selectedSongs = this.selectedSongs.filter(item => item.name !== localSong.name)
+   344→          })
+   345→        }
+   346→      })
+   347→  }
+   348→}
+</file>
+<metadata>The file has 348 lines in total.</metadata>

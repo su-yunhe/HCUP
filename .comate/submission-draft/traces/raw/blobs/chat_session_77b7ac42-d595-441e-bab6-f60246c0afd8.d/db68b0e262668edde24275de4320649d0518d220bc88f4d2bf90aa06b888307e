@@ -1,0 +1,7 @@
+输入：`spec/requirement.md`（3 个场景）、`spec/metadata.json`（`base_commit` = `17549abcf6ffa4ee3ff90115945646b4a0018688`）、官网"具体赛题技术答疑"（2026-10-18 读取）、基线代码与基线实机操作（见 `spec/baseline-notes.md`）。
+本文件只做需求拆解，不含实现。
+
+## 0. 约定
+
+- 证据等级：`SPEC_EXPLICIT` = Spec 明文；`REASONABLE_DERIVATION` = 由 Spec/官方答疑/基线既有行为合理推导；`UNCONFIRMED_ASSUMPTION` = 原为待确认假设。
+- **假设决议（2026-10-18）**：第 6 节 U1–U12 共 12 项已由用户逐项确认，全部采用推荐方案。正文中涉及这些假设的条目保留原证据等级（表明它们不是 Spec 明文），并标注"已决（Ux）"，选定方案已直接写进原子行为 / 可观察结果，实现与自测以此为准。
