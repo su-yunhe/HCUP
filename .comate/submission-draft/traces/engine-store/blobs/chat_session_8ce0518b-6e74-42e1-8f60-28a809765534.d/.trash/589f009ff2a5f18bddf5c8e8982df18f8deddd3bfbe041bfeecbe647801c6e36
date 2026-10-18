@@ -1,0 +1,28 @@
+    NavDestination() {
+      Column() {
+        if (this.list.length > 0) {
+          List() {
+            ForEach(this.list, (item: Sentence) => {
+              ListItem() {
+                Column({ space: 8 }) {
+                  Text(item.content)
+                    .width('100%')
+                    .lineHeight(24)
+                  Text(item.from)
+                    .width('100%')
+                    .fontSize(ThemeConst.FontSize_14)
+                    .fontColor(ThemeConst.FontColor_BlockTitle)
+                }
+                .width('100%')
+                .padding(ThemeConst.P_16)
+              }
+              .id(`sentence_bookmarks_item_${item.id}`)
+              .onClick(() => {
+                pushPathFrom(this.pageStack, PAGE_NAME, 'SentenceDetailPage', item.id)
+              })
+            }, (item: Sentence) => item.id.toString())
+          }
+          .id('sentence_bookmarks_list')
+          .width('100%')
+          .height('100%')
+          .divider({ strokeWidth: 1, color: ThemeConst.CardBackGroundColor_Normal })

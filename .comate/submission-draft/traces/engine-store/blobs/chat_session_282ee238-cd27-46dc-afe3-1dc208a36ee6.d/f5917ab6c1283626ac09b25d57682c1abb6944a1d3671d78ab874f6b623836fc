@@ -1,0 +1,3 @@
+- 证据等级：SPEC_EXPLICIT（"内容必须变化"为 REASONABLE_DERIVATION，见 U5）
+- 原子行为：点刷新 → 重新随机查询 → 替换内容与出处，并同步该条的收藏态。
+- 可观察结果：`sentence_content` 文字变化（数据 ≥2 条时）；`sentence_from` 同步变化；收藏图标反映新句子的收藏态（A27）。

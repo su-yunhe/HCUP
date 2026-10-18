@@ -29,6 +29,8 @@ Spec 里一句"显示历史记录"可能对应去重、排序、上限、点击�
 | 本工程 `spec/metadata.json` | `base_commit` |
 | 工程源码 | 未修改的基线 |
 
+需要阅读http://swe-openharmony.tech/ 中的具体赛题技术答疑，看是否有解答本题相关的内容。
+
 # 输出一：spec/acceptance.md
 
 对 Spec 里每个场景的每个步骤，逐条拆成验收项。每条包含：

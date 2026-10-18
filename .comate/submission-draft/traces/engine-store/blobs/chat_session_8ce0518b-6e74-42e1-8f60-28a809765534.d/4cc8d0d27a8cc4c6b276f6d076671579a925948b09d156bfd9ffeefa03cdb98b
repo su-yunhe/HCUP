@@ -1,0 +1,7 @@
+    def title(self) -> str | None:
+        """当前栈顶 NavDestination 标题。"""
+        for key in ("__NavdestinationField__Text__MainTitle__",):
+            c = self.driver.find_component(BY.key(key, MatchPattern.CONTAINS))
+            if c is not None:
+                return c.getText()
+        return None

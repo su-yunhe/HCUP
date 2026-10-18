@@ -1,0 +1,216 @@
+Found 32 matches
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 1: import { DbTableConst, Icon, String, ThemeConst } from 'constants';
+  Line 2: import { DataWrapper, Logger } from 'utils';
+  Line 3: import { fileIo as fs, picker } from '@kit.CoreFileKit';
+  Line 4: import { common } from '@kit.AbilityKit';
+  Line 5: import { BusinessError } from '@kit.BasicServicesKit';
+  Line 6: import { BlockTitle } from 'uicomponents';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 7: import util from '@ohos.util';
+  Line 8: import { JSON } from '@kit.ArkTS';
+  Line 9: import { ClassicPoem } from 'classicalliterature_classicpoem';
+  Line 10: import { Sentence } from 'classicalliterature_sentence';
+  Line 11: import { AntitheticalCouplet } from 'chinese_antitheticalcouplet';
+  Line 12: import { WorldCulturalHeritage } from 'china_worldcultureheritage';
+  Line 13: import { Character } from 'chinese_character';
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 28:   @Local classicalliteratureClassicpoemCount: number = 0;
+  Line 29:   @Local classicalliteratureClassicpoemError: BusinessError | null = null;
+  Line 30:   @Local classicalliteratureClassicpoemLoading: boolean = false;
+  Line 31:   @Local classicalliteratureSentenceTotal: number = 0;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 32:   @Local classicalliteratureSentenceCount: number = 0;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 33:   @Local classicalliteratureSentenceError: BusinessError | null = null;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 34:   @Local classicalliteratureSentenceLoading: boolean = false;
+  Line 35:   @Local chineseAntitheticalcoupletTotal: number = 0;
+  Line 36:   @Local chineseAntitheticalcoupletCount: number = 0;
+  Line 37:   @Local chineseAntitheticalcoupletError: BusinessError | null = null;
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 68:       if (info.table == DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE) {
+  Line 69:         this.classicalliteratureClassicpoemCount++
+  Line 70:       } else if (info.table == DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE) {
+  Line 71:         this.classicalliteratureSentenceCount++
+  Line 72:       } else if (info.table == DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE) {
+  Line 73:         this.chineseAntitheticalcoupletCount++
+  Line 74:       } else if (info.table == DbTableConst.CHINESE_CHARACTER_TABLE) {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 130:             this.classicalliteratureClassicpoemError = error
+  Line 131:           }
+  Line 132:           uris.forEach((uri: string) => {
+  Line 133:             let wrapper = JSON.parse(readData(uri)) as DataWrapper<ClassicPoem>
+  Line 134:             if (wrapper) {
+  Line 135:               this.classicalliteratureClassicpoemTotal = wrapper.total
+  Line 136:               logger.info(`classicalliteratureClassicpoemTotal = ${this.classicalliteratureClassicpoemTotal}`)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 144:       })
+  Line 145:       Item({
+  Line 146:         title: String.classicalliterature_sentence,
+  Line 147:         total: this.classicalliteratureSentenceTotal,
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 148:         count: this.classicalliteratureSentenceCount,
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 149:         error: this.classicalliteratureSentenceError,
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 150:         loading: this.classicalliteratureSentenceLoading,
+  Line 151:         loadingStatusChange: (() => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 151:         loadingStatusChange: (() => {
+  Line 152:           this.classicalliteratureSentenceLoading = true
+  Line 153:         }),
+  Line 154:         clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+  Line 155:           if (error) {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 153:         }),
+  Line 154:         clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+  Line 155:           if (error) {
+  Line 156:             this.classicalliteratureSentenceLoading = false
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 157:             this.classicalliteratureSentenceError = error
+  Line 158:           }
+  Line 159:           uris.forEach((uri: string) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 158:           }
+  Line 159:           uris.forEach((uri: string) => {
+  Line 160:             let wrapper = JSON.parse(readData(uri)) as DataWrapper<Sentence>
+  Line 161:             if (wrapper) {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 161:             if (wrapper) {
+  Line 162:               this.classicalliteratureSentenceTotal = wrapper.total
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 163:               wrapper.data.forEach((obj: Sentence) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 164:                 DatasetViewModel.insertClassicalLiteratureSentenceToDb(obj);
+  Line 165:               })
+  Line 166:             }
+  Line 167:           })
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 165:               })
+  Line 166:             }
+  Line 167:           })
+  Line 168:           this.classicalliteratureSentenceLoading = false
+  Line 169:         })
+  Line 170:       })
+  Line 171:       BlockTitle({ title: String.chinese })
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 183:             this.chineseAntitheticalcoupletLoading = false
+  Line 184:           }
+  Line 185:           uris.forEach((uri: string) => {
+  Line 186:             let wrapper = JSON.parse(readData(uri)) as DataWrapper<AntitheticalCouplet>
+  Line 187:             if (wrapper) {
+  Line 188:               this.chineseAntitheticalcoupletTotal = wrapper.total
+  Line 189:               wrapper.data.forEach((obj: AntitheticalCouplet) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 209:             this.chineseCharacterError = error
+  Line 210:           }
+  Line 211:           uris.forEach((uri: string) => {
+  Line 212:             let wrapper = JSON.parse(readData(uri)) as DataWrapper<Character>
+  Line 213:             if (wrapper) {
+  Line 214:               this.chineseCharacterTotal = wrapper.total
+  Line 215:               wrapper.data.forEach((obj: Character) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 235:             this.chineseExpressionError = error
+  Line 236:           }
+  Line 237:           uris.forEach((uri: string) => {
+  Line 238:             let wrapper = JSON.parse(readData(uri)) as DataWrapper<Expression>
+  Line 239:             if (wrapper) {
+  Line 240:               this.chineseExpressionTotal = wrapper.total
+  Line 241:               wrapper.data.forEach((obj: Expression) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 261:             this.chineseIdiomError = error
+  Line 262:           }
+  Line 263:           uris.forEach((uri: string) => {
+  Line 264:             let wrapper = JSON.parse(readData(uri)) as DataWrapper<Idiom>
+  Line 265:             if (wrapper) {
+  Line 266:               this.chineseIdiomTotal = wrapper.total
+  Line 267:               wrapper.data.forEach((obj: Idiom) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 287:             this.chineseKnowledgeError = error
+  Line 288:           }
+  Line 289:           uris.forEach((uri: string) => {
+  Line 290:             let wrapper = JSON.parse(readData(uri)) as DataWrapper<Knowledge>
+  Line 291:             if (wrapper) {
+  Line 292:               this.chineseKnowledgeTotal = wrapper.total
+  Line 293:               wrapper.data.forEach((obj: Knowledge) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 313:             this.chineseQuoteError = error
+  Line 314:           }
+  Line 315:           uris.forEach((uri: string) => {
+  Line 316:             let wrapper = JSON.parse(readData(uri)) as DataWrapper<Quote>
+  Line 317:             if (wrapper) {
+  Line 318:               this.chineseQuoteTotal = wrapper.total
+  Line 319:               wrapper.data.forEach((obj: Quote) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 339:             this.chinaWorldcultureheritageLoading = false
+  Line 340:           }
+  Line 341:           uris.forEach((uri: string) => {
+  Line 342:             let wrapper = JSON.parse(readData(uri)) as DataWrapper<WorldCulturalHeritage>
+  Line 343:             if (wrapper) {
+  Line 344:               this.chinaWorldcultureheritageTotal = wrapper.total
+  Line 345:               wrapper.data.forEach((obj: WorldCulturalHeritage) => {
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 407:                 // 请在组件内获取context，确保this.getUIContext().getHostContext()返回结果为UIAbilityContext
+  Line 408:                 let context = this.getUIContext().getHostContext() as common.UIAbilityContext;
+  Line 409: 
+  Line 410:                 let documentSelectOptions = new picker.DocumentSelectOptions();
+  Line 411:                 let uris: string[] = [];
+  Line 412:                 let error: BusinessError | null = null
+  Line 413:                 documentSelectOptions.defaultFilePathUri = "file://docs/storage/Users/currentUser/Download"
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 412:                 let error: BusinessError | null = null
+  Line 413:                 documentSelectOptions.defaultFilePathUri = "file://docs/storage/Users/currentUser/Download"
+  Line 414:                 // 创建文件选择器实例
+  Line 415:                 const documentViewPicker = new picker.DocumentViewPicker(context);
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 416:                 documentViewPicker.select(documentSelectOptions).then((documentSelectResult: Array<string>) => {
+  Line 417:                   //文件选择成功后，返回被选中文档的URI结果集。
+  Line 418:                   uris = documentSelectResult
+  Line 419:                   this.clickEventCallback(uris, error)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 417:                   //文件选择成功后，返回被选中文档的URI结果集。
+  Line 418:                   uris = documentSelectResult
+  Line 419:                   this.clickEventCallback(uris, error)
+  Line 420:                   logger.info('documentViewPicker.select to file succeed and uris are:' + uris);
+  Line 421:                 }).catch((err: BusinessError) => {
+  Line 422:                   this.clickEventCallback(uris, error)
+
+/Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/ets/view/ImportDataList.ets:
+  Line 421:                 }).catch((err: BusinessError) => {
+  Line 422:                   this.clickEventCallback(uris, error)
+  Line 423:                   logger.error(`Invoke documentViewPicker.select failed, code is ${err.code}, message is ${err.message}`);
+  Line 424:                 })
+  Line 425:               }
+  Line 426:             })

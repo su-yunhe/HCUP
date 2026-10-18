@@ -1,0 +1,10 @@
+## 7. 前置环境需求
+
+- 登录账号 / 服务端 / WebDAV：**不需要**。本题全部功能基于本地 RDB [代码]。
+- 测试数据：**需要**。全新安装时 `classicalliterature_sentence`、`classicalliterature_classicpoem` 均为空 [实测：经典诗文页空白]。写入途径：
+  1. 设置 → 同步数据：从 `https://p1-cdn.jingmo.ruaruan.com/api/` 拉取（`NetworkConst.ets:7`，`DatasetViewModel.ets:58-73`）。
+     本次实测：页面能列出远端数量（经典诗文 955、诗文名句 10000），但点同步时模拟器 DNS 解析失败
+     （hilog：`Failed to resolve the host name`；模拟器内 `ping` 该域名返回 `Try again`），界面显示 `code = undefined, msg = undefined`
+     （`SyncDataList.ets:299-301` 把字符串当 BusinessError 读，基线问题，只记录）。**同步不可依赖**。
+  2. 设置 → 导入数据：系统文件选择器选 JSON 文件（`ImportDataList.ets:404-424`），格式 `{"total": n, "data": [...], "next_page": null}`。
+     本次实测可

@@ -1,0 +1,14 @@
+  return obj;
+}
+
+/**
+ * @throws
+ */
+function parse(resultSet: relationalStore.ResultSet): Sentence {
+  return new Sentence(
+    resultSet.getLong(resultSet.getColumnIndex('id')),
+    resultSet.getString(resultSet.getColumnIndex('content')),
+    resultSet.getString(resultSet.getColumnIndex('from_txt')),
+    resultSet.getLong(resultSet.getColumnIndex('poem_id')),
+  )
+}

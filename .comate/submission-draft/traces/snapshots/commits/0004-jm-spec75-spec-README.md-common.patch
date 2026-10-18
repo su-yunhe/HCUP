@@ -1,0 +1,42 @@
+From 6dfdf331667e5d81e4b70fb25609e063b6b91cb9 Mon Sep 17 00:00:00 2001
+From: bress <1980039406@qq.com>
+Date: Thu, 15 Oct 2026 20:56:20 +0800
+Subject: [PATCH 4/5] =?UTF-8?q?jm-spec75:=20spec/README.md=20=E6=94=B9?=
+ =?UTF-8?q?=E7=94=A8=E7=9B=B8=E5=AF=B9=E8=B7=AF=E5=BE=84=E5=BC=95=E7=94=A8?=
+ =?UTF-8?q?=20common?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ spec/README.md | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/spec/README.md b/spec/README.md
+index 6a98d232e8972328a5e19a65fa8981eda1c8165c..bb64ff23704c970f0b17a50c205ce6d050a5badf 100644
+--- a/spec/README.md
++++ b/spec/README.md
+@@ -1,9 +1,9 @@
+ # spec/
+ 
+-本目录只放**本题专属**内容。通用四阶段任务书不在这里，统一放在：
++本目录只放**本题专属**内容。通用四阶段任务书不在这里，统一放在（路径相对本工程）：
+ 
+ ```
+-/Users/bress/Documents/code/harmonycup-work/common/spec-harness/
++../common/spec-harness/
+ ├── 0-analyze.md     阶段 0：验收矩阵 + 基线理解（不改代码）
+ ├── 1-do.md          阶段 1：功能开发 + 自测
+ ├── 2-submit.md      阶段 2：单题提交材料
+@@ -14,7 +14,7 @@
+ 在本工程目录打开 Agent 会话，引用对应阶段的任务书即可，例如：
+ 
+ ```
+-@/Users/bress/Documents/code/harmonycup-work/common/spec-harness/1-do.md 完成这个任务
++@../common/spec-harness/1-do.md 完成这个任务
+ ```
+ 
+ ## 本目录文件
+-- 
+2.39.5 (Apple Git-154)
+

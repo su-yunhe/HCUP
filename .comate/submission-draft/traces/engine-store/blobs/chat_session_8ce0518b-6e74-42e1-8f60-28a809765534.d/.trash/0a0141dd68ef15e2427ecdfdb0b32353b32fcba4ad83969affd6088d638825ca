@@ -1,0 +1,43 @@
+from hypium import UiDriver, BY, MatchPattern
+
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+d.set_implicit_wait_time(0)
+B = "com.hefengbao.jingmo.hw"
+d.stop_app(B)
+d.start_app(B, "EntryAbility", wait_time=3)
+d.wait(2)
+d.click(d.find_component(BY.key("home_menu_sentence")))
+d.wait(2)
+for c in d.find_all_components(BY.key("__Navdestination", MatchPattern.STARTS_WITH)) or []:
+    print("navkey", c.getKey(), repr(c.getText()), c.getType())
+bm = d.find_component(BY.key("sentence_toolbar_bookmark"))
+t = d.find_component(BY.type("Text").within(BY.key("sentence_toolbar_bookmark")))
+print("label within:", t.getText() if t else None, "selected", bm.isSelected(), bm.getAllProperties())
+d.start_listen_toast()
+d.click(bm)
+d.wait(1)
+print("toast:", d.get_latest_toast(timeout=3))
+t = d.find_component(BY.type("Text").within(BY.key("sentence_toolbar_bookmark")))
+print("label after:", t.getText() if t else None, "selected", d.find_component(BY.key("sentence_toolbar_bookmark")).isSelected())
+content = d.find_component(BY.key("sentence_content")).getText()
+d.click(d.find_component(BY.key("sentence_toolbar_bookmarks")))
+d.wait(2)
+for c in d.find_all_components(BY.key("__Navdestination", MatchPattern.STARTS_WITH)) or []:
+    print("navkey2", c.getKey(), repr(c.getText()))
+print("lower page content visible?", d.find_component(BY.key("sentence_content")))
+print("index page visible?", d.find_component(BY.key("sentence_index_page")))
+items = d.find_all_components(BY.key("sentence_bookmarks_item_", MatchPattern.STARTS_WITH)) or []
+print("items", [i.getKey() for i in items], "content", content)
+d.click(items[0])
+d.wait(2)
+print("detail content", d.find_component(BY.key("sentence_content")).getText())
+print("detail texts", [c.getText() for c in d.find_all_components(BY.type("Text"))])
+d.click(d.find_component(BY.key("sentence_detail_bookmark")))
+d.wait(1)
+d.press_back(); d.wait(1)
+print("after unbookmark list items", [i.getKey() for i in d.find_all_components(BY.key("sentence_bookmarks_item_", MatchPattern.STARTS_WITH)) or []], d.find_component(BY.key("sentence_bookmarks_empty")))
+d.press_back(); d.wait(1)
+t = d.find_component(BY.type("Text").within(BY.key("sentence_toolbar_bookmark")))
+print("index label after back:", t.getText() if t else None)
+d.click(d.find_component(BY.key("sentence_toolbar_image")))
+d.wai

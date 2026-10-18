@@ -1,0 +1,5 @@
+- 证据等级：UNCONFIRMED_ASSUMPTION（已定案 U12）
+- 原子行为：用 `componentSnapshot` 截取当前名句卡片（内容 + 出处），以半模态（bindSheet）展示生成的图片，可关闭；本期不保存相册。
+- 可观察结果：出现 `sentence_image_preview` 容器且其中有 Image；关闭后回到首页，名句不变。
+- 入口/前置：同 A2。 用户动作：单击生成图片 → 关闭。
+- UI 结果：预览出现/消失。 数据结果：不写 DB，不写相册。 网络结果：不适用（§0.2）。

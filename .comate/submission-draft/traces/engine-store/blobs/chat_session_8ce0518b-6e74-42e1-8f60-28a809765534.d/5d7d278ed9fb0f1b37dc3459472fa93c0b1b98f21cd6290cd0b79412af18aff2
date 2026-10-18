@@ -1,0 +1,205 @@
+import { relationalStore } from '@kit.ArkData';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { DbCRUDConst, DbTableConst } from 'constants';
+import { Logger } from 'utils';
+import DbUtil from 'utils/src/main/ets/data/DbUtil';
+
+let logger: Logger = new Logger('Sentence');
+
+export class Sentence {
+  id: number;
+  content: string;
+  from: string;
+  poem_id: number | null;
+
+  constructor(
+    id: number,
+    content: string,
+    from: string,
+    poem_id: number | null
+  ) {
+    this.id = id;
+    this.content = content;
+    this.from = from;
+    this.poem_id = poem_id;
+  }
+}
+
+export async function createSentence(obj: Sentence) {
+  const valuesBucket: relationalStore.ValuesBucket = {
+    'id': obj.id,
+    'content': obj.content,
+    'from_txt': obj.from,
+    'poem_id': obj.poem_id,
+  }
+
+  DbUtil.objectiveRDB?.insert(
+    DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE,
+    valuesBucket,
+    relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+  ).then((rowId: number) => {
+    logger.info(`Insert is successful, rowId = ${rowId}`)
+  }).catch((err: BusinessError) => {
+    logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+  })
+}
+
+export async function readRandomSentence(): Promise<Sentence | null> {
+  let obj: Sentence | null = null
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CLASSICALLITERATURE_SENTENCE)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return obj;
+}
+
+/**
+ * 随机读取一条 id 不等于 exceptId 的名句；表中只有 exceptId 一条时返回 null
+ */
+export async function readRandomSentenceExcept(exceptId: number): Promise<Sentence | null> {
+  return querySentence(DbCRUDConst.READ_RANDOM_CLASSICALLITERATURE_SENTENCE_EXCEPT, [exceptId]);
+}
+
+export async function readSentence(id: number): Promise<Sentence | null> {
+  return querySentence(DbCRUDConst.READ_CLASSICALLITERATURE_SENTENCE, [id]);
+}
+
+/**
+ * 名句关联的诗词：poem_id 非空非 0，且诗词表中存在该 id 时返回 poem_id，否则返回 null
+ */
+export async function readSentencePoemId(obj: Sentence): Promise<number | null> {
+  if (obj.poem_id === null || obj.poem_id === 0) {
+    return null;
+  }
+  let exists = false
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_CLASSICALLITERATURE_CLASSICPOEM, [obj.poem_id])
+    .then((resultSet: relationalStore.ResultSet) => {
+      exists = resultSet.rowCount > 0
+      resultSet.close()
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+  return exists ? obj.poem_id : null;
+}
+
+export async function isSentenceBookmarked(id: number): Promise<boolean> {
+  let bookmarked = false
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_BOOKMARK, [BOOKMARKABLE_MODEL, id])
+    .then((resultSet: relationalStore.ResultSet) => {
+      bookmarked = resultSet.rowCount > 0
+      resultSet.close()
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+  return bookmarked;
+}
+
+/**
+ * 收藏名句，已收藏时不重复写入
+ * @returns 操作完成后是否为已收藏状态
+ */
+export async function bookmarkSentence(id: number): Promise<boolean> {
+  if (await isSentenceBookmarked(id)) {
+    return true;
+  }
+  const valuesBucket: relationalStore.ValuesBucket = {
+    'bookmarkable_id': id,
+    'bookmarkable_model': BOOKMARKABLE_MODEL,
+  }
+  await DbUtil.objectiveRDB?.insert(DbTableConst.BOOKMARKS_TABLE, valuesBucket)
+    .then((rowId: number) => {
+      logger.info(`Insert bookmark is successful, rowId = ${rowId}`)
+    }).catch((err: BusinessError) => {
+      logger.error(`Insert bookmark is failed, code is ${err.code},message is ${err.message}`)
+    });
+  return isSentenceBookmarked(id);
+}
+
+/**
+ * 取消收藏名句
+ * @returns 操作完成后是否为已收藏状态
+ */
+export async function unbookmarkSentence(id: number): Promise<boolean> {
+  const predicates = new relationalStore.RdbPredicates(DbTableConst.BOOKMARKS_TABLE);
+  predicates.equalTo('bookmarkable_model', BOOKMARKABLE_MODEL).and().equalTo('bookmarkable_id', id);
+  await DbUtil.objectiveRDB?.delete(predicates)
+    .then((rows: number) => {
+      logger.info(`Delete bookmark is successful, rows = ${rows}`)
+    }).catch((err: BusinessError) => {
+      logger.error(`Delete bookmark is failed, code is ${err.code},message is ${err.message}`)
+    });
+  return isSentenceBookmarked(id);
+}
+
+/**
+ * 已收藏的名句，最新收藏在前
+ */
+export async function readBookmarkedSentences(): Promise<Sentence[]> {
+  let list: Sentence[] = []
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_BOOKMARKED_CLASSICALLITERATURE_SENTENCE_LIST,
+    [BOOKMARKABLE_MODEL])
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          list.push(parse(resultSet))
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return list;
+}
+
+const BOOKMARKABLE_MODEL: string = DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE;
+
+async function querySentence(sql: string, bindArgs: Array<relationalStore.ValueType>): Promise<Sentence | null> {
+  let obj: Sentence | null = null
+
+  await DbUtil.objectiveRDB?.querySql(sql, bindArgs)
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }
+        resultSet.close()
+      } catch (error) {
+        let err = error as BusinessError
+        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+      }
+    }).catch((err: BusinessError) => {
+      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    });
+
+  return obj;
+}
+
+/**
+ * @throws
+ */
+function parse(resultSet: relationalStore.ResultSet): Sentence {
+  const poemIdIndex = resultSet.getColumnIndex('poem_id');
+  return new Sentence(
+    resultSet.getLong(resultSet.getColumnIndex('id')),
+    resultSet.getString(resultSet.getColumnIndex('content')),
+    resultSet.getString(resultSet.getColumnIndex('from_txt')),
+    resultSet.isColumnNull(poemIdIndex) ? null : resultSet.getLong(poemIdIndex),
+  )
+}

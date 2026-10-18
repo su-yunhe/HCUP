@@ -1,0 +1,10 @@
+    NavDestination() {
+      if (this.list.length > 0) {
+        List() {
+          ForEach(this.list, (item: Sentence) => {
+            ListItem() {
+              Column({ space: 8 }) {
+                Text(item.content)
+                  .width('100%')
+                  .lineHeight(24)
+            

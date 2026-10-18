@@ -1,0 +1,55 @@
+import { image } from '@kit.ImageKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { Icon, String, ThemeConst } from 'constants';
+import { Logger } from 'utils';
+import {
+  bookmarkSentence,
+  isSentenceBookmarked,
+  readRandomSentence,
+  readRandomSentenceExcept,
+  readSentencePoemId,
+  Sentence,
+  unbookmarkSentence
+} from '../model/Sentence';
+import { SentenceView } from '../view/SentenceView';
+import { ToolbarItem } from '../view/ToolbarItem';
+import { pushPathFrom } from '../utils/NavUtil';
+
+const PAGE_NAME: string = 'SentenceIndexPage';
+let logger: Logger = new Logger(PAGE_NAME);
+
+@Builder
+export function SentenceIndexPageBuilder() {
+  SentenceIndexPage();
+}
+
+@ComponentV2
+export struct SentenceIndexPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local sentence: Sentence | null = null;
+  @Local poemId: number | null = null;
+  @Local bookmarked: boolean = false;
+  @Local loaded: boolean = false;
+  @Local showImage: boolean = false;
+  @Local pixelMap: image.PixelMap | undefined = undefined;
+  // 异步操作未完成前忽略重复点击
+  private refreshing: boolean = false;
+  private bookmarking: boolean = false;
+
+  aboutToAppear(): void {
+    this.refresh()
+  }
+
+  async refresh() {
+    if (this.refreshing) {
+      return
+    }
+    this.refreshing = true
+    try {
+      const current = this.sentence
+      let next = current ? await readRandomSentenceExcept(current.id) : await readRandomSentence()
+      if (!next) {
+        // 只有一条数据或查询失败时保持当前名句
+        next = current
+      }
+      if (next) {

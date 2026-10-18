@@ -1,0 +1,56 @@
+# jm-spec75 验收矩阵
+
+需求原文：`spec/requirement.md`（下文引号内文字均逐字摘自原文）。基线现状详见 `spec/baseline-notes.md`。
+
+## 0. 通用约定
+
+### 0.1 证据等级
+
+- `SPEC_EXPLICIT`：Spec 明文。
+- `REASONABLE_DERIVATION`：由 Spec 合理推导，或为保证明文项可测而必需。
+- `UNCONFIRMED_ASSUMPTION`：Spec 未覆盖且有多种合理解读，汇总在 §4，待你拍板。
+
+### 0.2 适用于全部条目的维度默认值（条目中写"同 §0.2"即指此处）
+
+- 入口：冷启动 App → 等待约 2s 启动页（`products/default/src/main/ets/pages/Index.ets:9-11`）→ 主页 → 点击"诗文名句"。
+- 前置数据：本地 RDB `jingmo.db` 中已有 `classicalliterature_sentence` 与 `classicalliterature_classicpoem` 数据。
+  基线全新安装时两表为空，数据只能经"设置→同步数据/导入数据"写入（见 baseline-notes §7）。
+- 网络结果：**不适用**。本题四个场景的数据全部来自本地 RDB（随机读、收藏读写、按 id 查诗词），
+  Spec 未出现任何联网动作；基线 `readRandomSentence` 也是本地查询（`features/classicalliterature/sentence/src/main/ets/model/Sentence.ets:47-66`）。
+  实现时**不得**为本题新增网络请求。
+- 返回结果：系统返回键与标题栏返回按钮（系统 key `__NavdestinationField__BackButton__Back__`）行为一致。
+
+### 0.3 已核实的数据事实（影响多个条目）
+
+- 名句字段：`id / content / from / poem_id`（模型 `Sentence.ets:9-26`；表列 `from_txt`，`commons/constants/src/main/ets/DbConst.ets:40-42`）。
+- 诗词字段：`id / dynasty / writer / title / subtitle / preface / content / ...`（`features/classicalliterature/classicpoem/src/main/ets/model/ClassicPoem.ets:9-24`）。
+- 官方数据集（应用自带 CDN，v3）实测：名句 10000 条，**`poem_id` 全部为 `null`**；诗词 955 条，id 1–955；
+  名句 `content` 有 1049 条重复；`from` 全部为"作者《标题》"格式；按 作者+标题 能匹配上诗词的约 1173 条。
+  → 用官方数据集时"查看原文"永远不会出现，正向用例只能依赖测试方自备数据（`poem_id` 非空）。见 §4 U3/U4。
+
+### 0.4 稳定选择器建议（基线全部缺失，均"需在实现时补 `.id()`"）
+
+| id | 组件 | 说明 |
+| --- | --- | --- |
+| `home_menu_sentence` | 主页"诗文名句"格子 | `features/home/src/main/ets/view/MenuList.ets:27-31` |
+| `sentence_index_page` | 名句首页 NavDestination | 标题"诗文名句" |
+| `sentence_content` | 名句内容 Text | 首页与详情页共用视图时各页唯一 |
+| `sentence_from` | 名句出处 Text | 同上 |
+| `sentence_view_original` | "查看原文"入口 | 仅关联诗词时存在于树中 |
+| `sentence_toolbar_bookmark` | 收藏切换按钮 | 需能区分已/未收藏状态，见 U1/U6 |
+| `sentence_toolbar_image` | 生成图片按钮 | |
+| `sentence_toolbar_refresh` | 刷新按钮 | |
+| `sentence_toolbar_bookmarks` | 收藏列表入口按钮 | 见 U1 |
+| `sentence_bookmarks_page` | 收藏列表页 NavDestination | |
+| `sentence_bookmarks_list` | 收藏 List | |
+| `sentence_bookmarks_item_<sentenceId>` | 收藏列表项 | 按名句 id 唯一，规避 content 重复 |
+| `sentence_bookmarks_empty` | 空列表提示 | |
+| `sentence_detail_page` | 名句详情页 NavDestination | |
+| `poem_detail_page` | 诗词详情页 NavDestination | |
+| `poem_detail_title` / `poem_detail_writer` / `poem_detail_dynasty` / `poem_detail_content` | 诗词详情字段 | 见 U10 |
+| `sentence_image_preview` | 生成图片结果容器 | 见 U12 |
+
+注意：若沿用 `NavDestination.toolbarConfiguration`（基线经典诗文页的写法），工具栏项**不能**设置自定义 id，
+系统只生成 `__NavdestinationField__ToolBar__MenuItem<n>__`，且 `hideItemValue: true` 时文字不进 UI 树（基线实测）。见 U1。
+
+<!-- APPEND_SECTION_1 -->

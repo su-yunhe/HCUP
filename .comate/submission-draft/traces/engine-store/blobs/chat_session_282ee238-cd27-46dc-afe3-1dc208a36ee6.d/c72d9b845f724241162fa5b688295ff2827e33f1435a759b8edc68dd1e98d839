@@ -1,0 +1,25 @@
+| id | 组件 | 可见文字（已定案） |
+| --- | --- | --- |
+| `home_menu_sentence` | 主页"诗文名句"格子 | "诗文名句"（`features/home/src/main/ets/view/MenuList.ets:27-31`） |
+| `sentence_index_page` | 名句首页 NavDestination | 标题"诗文名句" |
+| `sentence_content` | 名句内容 Text | `content` 原文；首页与详情页共用视图时各页唯一 |
+| `sentence_from` | 名句出处 Text | `from` 原文，不加前缀（U8） |
+| `sentence_view_original` | "查看原文"入口 | "查看原文"；仅关联诗词时存在于树中 |
+| `sentence_empty` | 首页空态提示 | "暂无数据，请到设置-同步数据中同步"（U4） |
+| `sentence_toolbar_bookmark` | 收藏切换按钮 | 未收藏"收藏本句" / 已收藏"已收藏"（U1/U6） |
+| `sentence_toolbar_image` | 生成图片按钮 | "生成图片" |
+| `sentence_toolbar_refresh` | 刷新按钮 | "刷新" |
+| `sentence_toolbar_bookmarks` | 收藏列表入口按钮 | "收藏"（U1） |
+| `sentence_bookmarks_page` | 收藏列表页 NavDestination | 标题"收藏"（U9） |
+| `sentence_bookmarks_list` | 收藏 List | — |
+| `sentence_bookmarks_item_<sentenceId>` | 收藏列表项 | 内容 + 出处两行；按名句 id 唯一，规避 content 重复 |
+| `sentence_bookmarks_empty` | 空列表提示 | "暂无收藏"（U9） |
+| `sentence_detail_page` | 名句详情页 NavDestination | 标题见 §4 U11 |
+| `sentence_detail_bookmark` | 详情页收藏切换按钮 | 同 `sentence_toolbar_bookmark`（U11） |
+| `poem_detail_page` | 诗词详情页 NavDestination | 标题为诗词 `title`（U10） |
+| `poem_detail_title` / `poem_detail_writer` / `poem_detail_dynasty` / `poem_detail_content` | 诗词详情字段，各自独立 Text | 分别为 `title` / `writer` / `dynasty` / `content` 原值（U10） |
+| `sentence_image_preview` | 生成图片半模态预览容器 | 内含 Image（U12） |
+
+工具栏实现（已定案 U1）：自建底部 Row + Button，文字可见并加 `.id()`；不使用 `NavDestination.toolbarConfiguration`。
+原因：`toolbarConfiguration` 的项不能设置自定义 id，系统只生成 `__NavdestinationField__ToolBar__MenuItem<n>__`，且 `hideItemValue: true` 时文字不进 UI 树（基线实测）。
+从左到右顺序：收藏本句/已收藏、生成图片、刷新、收藏。

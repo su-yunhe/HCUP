@@ -1,0 +1,50 @@
+## 1. 状态机
+
+本题不是网络类需求（§0.2），但"随机读""收藏写库""按 id 查诗词"都是异步 RDB 操作，
+为避免"先改 UI 稍后补写库"导致的状态不一致，按下列状态机约束实现。
+
+### 1.1 名句首页（`sentence_index_page`）
+
+```
+[进入页面] --aboutToAppear--> LOADING --查询成功且有数据--> SHOWN(s, bookmarked?)
+                                  \--RDB 未就绪/空表/异常--> EMPTY
+SHOWN --点刷新--> LOADING'(保留当前 s 显示，刷新按钮防重入) --成功--> SHOWN(s', 重新查询 s' 的收藏态)
+                                                       \--失败--> SHOWN(s, 不变)
+SHOWN --点收藏切换--> WRITING(按钮防重入) --写库成功--> SHOWN(s, bookmarked = !old)
+                                             \--写库失败--> SHOWN(s, bookmarked = old)
+SHOWN --点收藏入口--> push 收藏列表页；返回时 onShown 重新查询 s 的收藏态（s 本身不变）
+SHOWN --点查看原文--> push 诗词详情页(poemId)；返回时 s 不变、不重新随机
+EMPTY --点刷新--> LOADING（重试）
+EMPTY --点收藏/生成图片/查看原文--> 无操作，不崩溃
+```
+
+规则：
+
+- 收藏图标状态只在**写库成功后**改变，并以 DB 查询结果为准，不做乐观更新。
+- 刷新/收藏在异步未完成前重复点击不得产生并发写入或重复收藏记录。
+- 页面重新可见（从子页面返回）时不得重新随机，只刷新收藏态。
+
+### 1.2 收藏列表页（`sentence_bookmarks_page`）
+
+```
+[进入/onShown] --> LOADING --> LIST(n≥1) | EMPTY(n=0)
+LIST --点列表项--> push 名句详情页(sentenceId)
+[从详情页返回] --> 重新查询（反映可能的取消收藏）
+```
+
+### 1.3 名句详情页（`sentence_detail_page`）
+
+```
+[进入(sentenceId)] --> LOADING --> SHOWN(s, poem?) | NOT_FOUND
+SHOWN 中 poem 存在（poem_id 非空且诗词表有该 id）--> 显示"查看原文"
+SHOWN --点查看原文--> push 诗词详情页(poemId)；返回后仍是同一条 s
+```
+
+### 1.4 诗词详情页（`poem_detail_page`）
+
+```
+[进入(poemId)] --> LOADING --> SHOWN(poem) | NOT_FOUND（显示空态，不崩溃）
+SHOWN --返回--> pop 回上一名句页面（首页或详情页）
+```
+
+<!-- APPEND_SECTION_2 -->

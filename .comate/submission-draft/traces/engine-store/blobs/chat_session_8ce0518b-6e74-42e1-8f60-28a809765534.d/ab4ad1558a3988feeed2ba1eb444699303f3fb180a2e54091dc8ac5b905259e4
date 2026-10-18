@@ -1,0 +1,46 @@
+import { ClassicPoem, readClassicPoem } from '../model/ClassicPoem';
+import { ClassicPoemView } from '../view/ClassicPoemView';
+
+@Builder
+export function ClassicPoemDetailPageBuilder() {
+  ClassicPoemDetailPage();
+}
+
+/**
+ * 按 id 展示一首诗词，路由参数为诗词 id（number）
+ */
+@ComponentV2
+export struct ClassicPoemDetailPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local classicPoem: ClassicPoem | null = null;
+  @Local loaded: boolean = false;
+
+  build() {
+    NavDestination() {
+      if (this.classicPoem) {
+        Scroll() {
+          ClassicPoemView({
+            classicPoem: this.classicPoem
+          })
+        }
+        .align(Alignment.Top)
+        .height('100%')
+      } else if (this.loaded) {
+        Text('暂无数据')
+          .width('100%')
+          .textAlign(TextAlign.Center)
+          .padding(16)
+      }
+    }
+    .title(this.classicPoem ? this.classicPoem.title : '')
+    .id('poem_detail_page')
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack
+      const poemId = ctx.pathInfo.param as number
+      readClassicPoem(poemId).then((value: ClassicPoem | null) => {
+        this.classicPoem = value
+        this.loaded = true
+      })
+    })
+  }
+}

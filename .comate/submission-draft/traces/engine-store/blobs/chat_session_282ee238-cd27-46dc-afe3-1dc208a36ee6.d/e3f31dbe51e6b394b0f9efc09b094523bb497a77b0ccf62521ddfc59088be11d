@@ -1,0 +1,108 @@
+Command executed successfully.
+Exit code: 0
+Output:
+      this.chineseCharacterLocalVersion = PrefUtil.getChineseCharacterVersion()
+    } else if (key == PrefConst.CHINESE_EXPRESSION) {
+      this.chineseExpressionLocalVersion = PrefUtil.getChineseExpressionVersion()
+    } else if (key == PrefConst.CHINESE_IDIOM) {
+      this.chineseIdiomLocalVersion = PrefUtil.getChineseIdiomVersion()
+    } else if (key == PrefConst.CHINESE_KNOWLEDGE) {
+      this.chineseKnowledgeLocalVersion = PrefUtil.getChineseKnowledgeVersion()
+    } else if (key == PrefConst.CHINESE_QUOTE) {
+      this.chineseQuoteLocalVersion = PrefUtil.getChineseQuoteVersion()
+    } else if (key == PrefConst.CHINA_WORLDCULTUREHERITAGE) {
+      this.chinaWorldCulturalHeritageLocalVersion = PrefUtil.getChinaWorldCulturalHeritageVersion()
+    }
+  }
+
+  aboutToAppear(): void {
+    this.dataset.forEach((item: Dataset) => {
+      if (item.name == PrefConst.CLASSICALLITERATURE_CLASSICPOEM) {
+        this.classicalliteratureClassicpoemRemoteVersion = item.version;
+        this.classicalliteratureClassicpoemTotal = item.count;
+      } else if (item.name == PrefConst.CLASSICALLITERATURE_SENTENCE) {
+        this.classicalliteratureSentenceRemoteVersion = item.version;
+        this.classicalliteratureSentenceTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_ANTITHETICALCOUPLET) {
+        this.chineseAntitheticalCoupletRemoteVersion = item.version;
+        this.chineseAntitheticalCoupletTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_CHARACTER) {
+        this.chineseCharacterRemoteVersion = item.version;
+        this.chineseCharacterTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_EXPRESSION) {
+        this.chineseExpressionRemoteVersion = item.version;
+        this.chineseExpressionTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_IDIOM) {
+        this.chineseIdiomRemoteVersion = item.version;
+        this.chineseIdiomTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_KNOWLEDGE) {
+        this.chineseKnowledgeRemoteVersion = item.version;
+        this.chineseKnowledgeTotal = item.count;
+      } else if (item.name == PrefConst.CHINESE_QUOTE) {
+        this.chineseQuoteRemoteVersion = item.version;
+        this.chineseQuoteTotal = item.count;
+      } else if (item.name == PrefConst.CHINA_WORLDCULTUREHERITAGE) {
+        this.chinaWorldCulturalHeritageRemoteVersion = item.version;
+        this.chinaWorldCulturalHeritageTotal = item.count;
+      }
+    })
+    try {
+169:          this.syncClassicalLiteratureSentence(1)
+170-        }
+171-      })
+172-      BlockTitle({ title: String.chinese })
+173-      Item({
+174-        title: String.chinese_antitheticalcouplet,
+175-        remoteVersion: this.chineseAntitheticalCoupletRemoteVersion,
+176-        localVersion: this.chineseAntitheticalCoupletLocalVersion,
+177-        total: this.chineseAntitheticalCoupletTotal,
+178-        progress: this.chineseAntitheticalCoupletCount,
+179-        loading: this.chineseAntitheticalCoupletLoading,
+180-        error: this.chineseAntitheticalCoupletLoadingError,
+181-        clickEvent: (): void => {
+182-          this.syncChineseAntitheticalCouplet(1)
+183-        }
+184-      })
+185-      Item({
+186-        title: String.chinese_character,
+187-        remoteVersion: this.chineseCharacterRemoteVersion,
+188-        localVersion: this.chineseCharacterLocalVersion,
+189-        total: this.chineseCharacterTotal,
+190-        progress: this.chineseCharacterCount,
+191-        loading: this.chineseCharacterLoading,
+192-        error: this.chineseCharacterLoadingError,
+193-        clickEvent: (): void => {
+194-          this.syncChineseCharacter(1)
+195-        }
+196-      })
+197-      Item({
+198-        title: String.chinese_expression,
+199-        remoteVersion: this.chineseExpressionRemoteVersion,
+200-        localVersion: this.chineseExpressionLocalVersion,
+201-        total: this.chineseExpressionTotal,
+202-        progress: this.chineseExpressionCount,
+203-        loading: this.chineseExpressionLoading,
+204-        error: this.chineseExpressionLoadingError,
+205-        clickEvent: (): void => {
+206-          this.syncChineseExpression(1)
+207-        }
+208-      })
+209-      Item({
+284:  syncClassicalLiteratureSentence(page: number) {
+285-    this.classicalliteratureSentenceLoading = true;
+286-    DatasetViewModel.getClassicalLiteratureSentenceList(this.classicalliteratureSentenceRemoteVersion, page)
+287-      .then((wrapper: DataWrapper<Sentence>) => {
+288-        wrapper.data.map((obj: Sentence) => {
+289-          DatasetViewModel.insertClassicalLiteratureSentenceToDb(obj);
+290-          this.classicalliteratureSentenceCount++;
+291-        })
+292-        if (wrapper.next_page) {
+293:          this.syncClassicalLiteratureSentence(wrapper.next_page);
+294-        }
+295-        if (!wrapper.next_page) {
+296-          PrefUtil.saveClassicalLiteratureSentenceVersion(this.classicalliteratureSentenceRemoteVersion)
+297-          this.classicalliteratureSentenceLoading = false;
+298-        }
+299-      }).catch((error: BusinessError) => {
+300-      this.classicalliteratureSentenceLoadingError = `code = ${error.code}, msg = ${error.message}`;
+301:      logger.error(`syncClassicalLiteratureSentence, code = ${error.code}, msg = ${error.message}`);

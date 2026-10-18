@@ -1,0 +1,7 @@
+- 原子行为：按 `poem_id` 精确读取，不得复用经典诗文页的随机逻辑（基线 `ClassicPoemIndexPage` 只会随机，`ClassicPoemIndexPage.ets:15-23`）。
+- 可观察结果：标题 = `classicpoem.title`，作者 = `writer`，朝代 = `dynasty`，正文 = `content`，均与 `poem_id` 对应行一致。
+- 入口/前置/动作：同 A24。
+- UI 结果：四个字段可见；字段的展示形式见 U10（基线 `ClassicPoemView` 把朝代与作者合并为"【宋】苏轼"一行）。
+- 数据结果：只读。 网络结果：不适用（§0.2）。 返回结果：A26。
+- 边界条件：subtitle/preface 为空时不显示空行；注释、译文等可选字段可沿用 `ClassicPoemView` 一并展示（"等完整信息"）；
+  正文较长 → 页面可滚动。

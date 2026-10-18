@@ -1,0 +1,12 @@
+    def title(self) -> str | None:
+        """当前栈顶 NavDestination 标题（系统 key，NavDestination 未设 id 时不带后缀）。"""
+        c = self.driver.find_component(BY.key("__NavdestinationField__Text__MainTitle__"))
+        return c.getText() if c is not None else None
+
+    def wait_title(self, expected: str, timeout: float = 10) -> str | None:
+        deadline = time.monotonic() + timeout
+        title = self.title()
+        while title != expected and time.monotonic() < deadline:
+            self.driver.wait(0.3)
+            title = self.title()
+        return title

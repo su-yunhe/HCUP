@@ -1,0 +1,129 @@
+Command executed successfully.
+Exit code: 0
+Output:
+> hvigor UP-TO-DATE :default:default@PreBuild...  
+> hvigor UP-TO-DATE :home:default@PreBuild...  
+> hvigor UP-TO-DATE :constants:default@PreBuild...  
+> hvigor UP-TO-DATE :settings:default@PreBuild...  
+> hvigor UP-TO-DATE :worldcultureheritage:default@PreBuild...  
+> hvigor UP-TO-DATE :utils:default@PreBuild...  
+> hvigor UP-TO-DATE :antitheticalcouplet:default@PreBuild...  
+> hvigor UP-TO-DATE :character:default@PreBuild...  
+> hvigor UP-TO-DATE :expression:default@PreBuild...  
+> hvigor UP-TO-DATE :idiom:default@PreBuild...  
+> hvigor UP-TO-DATE :knowledge:default@PreBuild...  
+> hvigor UP-TO-DATE :quote:default@PreBuild...  
+> hvigor UP-TO-DATE :classicpoem:default@PreBuild...  
+> hvigor UP-TO-DATE :uicomponents:default@PreBuild...  
+> hvigor UP-TO-DATE :sentence:default@PreBuild...  
+> hvigor Finished :default:clean... after 55 ms 
+> hvigor Finished :utils:clean... after 2 ms 
+> hvigor Finished :uicomponents:clean... after 2 ms 
+> hvigor Finished :home:clean... after 2 ms 
+> hvigor Finished :settings:clean... after 3 ms 
+> hvigor Finished :constants:clean... after 3 ms 
+> hvigor Finished :classicpoem:clean... after 2 ms 
+> hvigor Finished :character:clean... after 2 ms 
+> hvigor Finished :sentence:clean... after 2 ms 
+> hvigor Finished :bookmark:clean... after 1 ms 
+111:> hvigor WARN: Warning: 'app_name' conflict, first declared.
+115:Warning: 'page_text_font_size' conflict, first declared.
+119:Warning: 'page_text_font_size' conflict, first declared.
+123:Warning: 'settings' conflict, first declared.
+127:Warning: 'page_text_font_size' conflict, first declared.
+131:Warning: 'page_text_font_size' conflict, first declared.
+135:Warning: 'page_show' conflict, first declared.
+139:Warning: 'page_text_font_size' conflict, first declared.
+143:Warning: 'page_show' conflict, first declared.
+147:Warning: 'page_text_font_size' conflict, first declared.
+151:Warning: 'page_show' conflict, first declared.
+155:Warning: 'page_text_font_size' conflict, first declared.
+159:Warning: 'page_show' conflict, first declared.
+163:Warning: 'page_text_font_size' conflict, first declared.
+167:Warning: 'page_show' conflict, first declared.
+171:Warning: 'page_text_font_size' conflict, first declared.
+175:Warning: 'page_show' conflict, first declared.
+179:Warning: 'page_text_font_size' conflict, first declared.
+183:Warning: 'page_show' conflict, first declared.
+187:Warning: the media of 'app_icon.png' does not have a base resource.
+188:Warning: the media of 'icon.png' does not have a base resource.
+189:Warning: the media of 'icon_startwindow.png' does not have a base resource.
+223:> hvigor WARN: No signingConfig found for product default
+features/bookmark:
+Index.ets
+build-profile.json5
+consumer-rules.txt
+hvigorfile.ts
+obfuscation-rules.txt
+oh-package-lock.json5
+oh-package.json5
+oh_modules
+src
+
+features/china:
+worldcultureheritage
+
+features/chinese:
+antitheticalcouplet
+character
+expression
+idiom
+knowledge
+quote
+
+features/classicalliterature:
+classicpoem
+sentence
+
+features/home:
+BuildProfile.ets
+Index.ets
+build
+build-profile.json5
+consumer-rules.txt
+hvigorfile.ts
+obfuscation-rules.txt
+oh-package-lock.json5
+oh-package.json5
+oh_modules
+src
+
+features/settings:
+BuildProfile.ets
+Index.ets
+build
+build-profile.json5
+consumer-rules.txt
+hvigorfile.ts
+obfuscation-rules.txt
+oh-package-lock.json5
+oh-package.json5
+oh_modules
+src
+
+features/traditionalculture:
+color
+festival
+solarterm
+default-default-unsigned.hap
+mapping
+pack.info
+#!/usr/bin/env bash
+# 为远端的每个基线分支在根目录下建一个同名 worktree。
+# 队友 clone main 后执行一次；之后 sync.sh 会自动调用它来补齐新增的基线。可重复执行。
+# 用法: common/scripts/setup.sh [--no-fetch]   （--no-fetch 供 sync.sh 在已 fetch 后调用）
+set -u
+. "$(dirname "$0")/lib.sh"
+
+[ "${1:-}" = "--no-fetch" ] || git fetch -q --prune origin || exit 1
+
+for b in $(git for-each-ref --format='%(refname:lstrip=3)' refs/remotes/origin); do
+  case "$b" in main|HEAD) continue ;; esac
+  [ -e "$b" ] && continue
+  echo "+ $b"
+  if git show-ref -q --verify "refs/heads/$b"; then
+    git worktree add -q "$b" "$b"
+  else
+    git worktree add -q --track -b "$b" "$b" "origin/$b"
+  fi
+done

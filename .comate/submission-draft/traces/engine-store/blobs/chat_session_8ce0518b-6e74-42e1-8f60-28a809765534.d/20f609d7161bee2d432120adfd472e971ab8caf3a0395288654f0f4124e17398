@@ -1,0 +1,4 @@
+    def absent(self, by, settle: float = 1.0) -> bool:
+        """等待页面稳定后确认组件不存在。"""
+        self.driver.wait(settle)
+        return self.driver.find_component(by) is None

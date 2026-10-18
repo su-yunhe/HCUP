@@ -1,0 +1,10 @@
+### 4.4 状态模型、数据层、网络、本地存储
+
+- 状态管理：全部页面用 V2 装饰器（`@ComponentV2`、`@Local`、`@Param`、`@Consumer/@Provider('NavPathStack')`）[代码，见 4.2 与 `HomePage.ets:4-6`]。
+- RDB：`commons/utils/src/main/ets/data/DbUtil.ets`
+  - 库名 `jingmo.db`，`SecurityLevel.S1`，`ICU_TOKENIZER`（15-19）。
+  - `init` 在 `EntryAbility.onWindowStageCreate` 调用（`products/default/src/main/ets/entryability/EntryAbility.ets:24`），回调式异步；
+    `storeVersion == 0` 时建全部表并置 version=1（32-113）。
+  - 第 24 行在判断 `error` 之前就读 `rdbStore.version`，出错时会抛异常 [代码，基线问题，只记录]。
+  - 模块里通过 `import DbUtil from 'utils/src/main/ets/data/DbUtil'` 直接拿单例（`Sentence.ets:5`），`utils/Index.ets` 未导出 DbUtil。
+- SQL 常量

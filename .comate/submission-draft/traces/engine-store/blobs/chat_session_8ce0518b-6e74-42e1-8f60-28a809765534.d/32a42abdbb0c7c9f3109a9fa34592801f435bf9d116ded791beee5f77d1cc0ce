@@ -1,0 +1,7 @@
+    def bookmark_item_keys(self) -> list[str]:
+        items = self.driver.find_all_components(BY.key(K_BOOKMARKS_ITEM, MatchPattern.STARTS_WITH)) or []
+        items.sort(key=lambda c: c.getBounds().top)
+        return [self.driver.get_component_property(c, "key") if hasattr(self.driver, "get_component_property")
+                else "" for c in items]
+
+    def bookmark_items(self) -> list:

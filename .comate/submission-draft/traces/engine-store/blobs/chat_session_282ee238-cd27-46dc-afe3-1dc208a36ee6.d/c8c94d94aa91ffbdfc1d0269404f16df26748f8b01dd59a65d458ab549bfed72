@@ -1,0 +1,113 @@
+Command executed successfully.
+Exit code: 0
+Output:
+total 112
+drwxr-xr-x  10 bress  staff   320 Oct 17 22:46 .
+drwxr-xr-x  21 bress  staff   672 Oct 17 22:43 ..
+-rw-r--r--   1 bress  staff  4997 Oct 17 22:46 0-analyze.md
+-rw-r--r--   1 bress  staff  7589 Oct 17 22:46 1-do.md
+-rw-r--r--   1 bress  staff  8883 Oct 17 22:46 2-submit.md
+-rw-r--r--   1 bress  staff  9206 Oct 17 22:46 3-package.md
+-rw-r--r--   1 bress  staff  1134 Oct 15 21:28 README.md
+-rw-r--r--   1 bress  staff   145 Oct 14 21:26 metadata.json
+-rw-r--r--   1 bress  staff  2370 Oct 14 21:26 requirement.md
+-rw-r--r--   1 bress  staff   552 Oct 15 20:36 submit-input.yaml
+# 实现诗文名句模块首屏功能及路由跳转
+
+## 场景一
+
+### 场景概述
+
+用户在主页进入"诗文名句"模块，首页随机展示一条诗文名句，并提供工具栏操作入口。
+
+### 操作步骤与预期结果
+
+1. 用户在主页点击"诗文名句"模块入口，进入"诗文名句"首页。
+2. 首页随机展示一条诗文名句，显示名句内容、出处等信息。
+3. 页面底部工具栏提供收藏和生成图片等操作按钮。
+4. 用户可刷新查看下一条随机名句。
+
+## 场景二
+
+### 场景概述
+
+用户在"诗文名句"首页收藏当前名句，并通过"收藏"页面再次查看。
+
+### 操作步骤与预期结果
+
+1. 用户在"诗文名句"首页看到一条喜欢的名句，点击收藏按钮。
+2. 收藏成功，工具栏收藏图标变为已收藏状态。
+3. 用户进入底部"收藏"页面，可找到刚才收藏的名句条目。
+
+## 场景三
+
+### 场景概述
+
+用户从"诗文名句"首页跳转到收藏列表页，查看所有已收藏的名句。
+
+### 操作步骤与预期结果
+
+1. 用户在"诗文名句"首页点击工具栏的"收藏"入口按钮。
+2. 跳转至诗文名句收藏列表页，展示所有已收藏的名句。
+3. 用户点击某条名句，进入名句详情页查看完整内容。
+
+## 场景四
+
+### 场景概述
+
+用户在名句详情页（无论是首页内联展示，还是通过收藏夹进入的独立详情页）除了看到名句内容、出处之外，如果该名句本身摘自词库中一首完整的诗词原文，还能看到一个"查看原文"入口。用户点击该入口，跳转到该诗词自己的详情页，查看标题、作者、朝代、正文等完整原文信息，而不是停留在原名句页面。
+
+### 操作步骤与预期结果
+
+1. 用户查看一条名句的详情，若该名句关联了词库中一首完整的诗词原文（即数据中记录了其出处诗词），页面在名句内容、出处之后展示"查看原文"入口；若该名句没有关联的完整诗词原文，则不展示该入口。
+2. 用户点击"查看原文"入口。
+3. 页面跳转到该名句所属诗词的详情页，展示该诗词的标题、作者、朝代、正文等完整信息（而不是停留在原名句页面，也不是弹出提示或原地展开）。
+4. 用户可以从该诗词详情页返回，回到之前查看的名句页面。
+{
+  "base_commit": "ff2fb39980fae320da49cd5c0470a37f3d83c369",
+  "baseline_bundle": "repo_bundles/jingmo-for-harmonyos-ff2fb39980-base.bundle"
+}
+# spec/
+
+本目录只放**本题专属**内容。通用四阶段任务书不在这里，统一放在（路径相对本工程）：
+
+```
+../common/spec-harness/
+├── 0-analyze.md     阶段 0：验收矩阵 + 基线理解（不改代码）
+├── 1-do.md          阶段 1：功能开发 + 自测
+├── 2-submit.md      阶段 2：单题提交材料
+├── 3-package.md     阶段 3：阶段级打包（跨题，一次）
+└── team.yaml        团队级信息（全队共用，填一次）
+```
+
+在本工程目录打开 Agent 会话，引用对应阶段的任务书即可，例如：
+
+```
+@../common/spec-harness/1-do.md 完成这个任务
+```
+
+## 本目录文件
+
+| 文件 | 说明 |
+| --- | --- |
+| `requirement.md` | 本题 Spec 原文，复制自题包 |
+| `metadata.json` | 本题 `base_commit` 与基线 bundle，复制自题包 |
+| `submit-input.yaml` | 题目级信息，阶段 2 前由你填写 |
+| `acceptance.md` | 验收矩阵，阶段 0 产出 |
+| `baseline-notes.md` | 基线理解结论，阶段 0 产出 |
+| `history/` | 早期实际使用过的任务书，作为过程记录保留（若存在） |
+AppScope
+LICENSE
+README.md
+build-profile.json5
+code-linter.json5
+commons
+features
+hvigor
+hvigorfile.ts
+logs
+oh-package-lock.json5
+oh-package.json5
+oh_modules
+products
+spec

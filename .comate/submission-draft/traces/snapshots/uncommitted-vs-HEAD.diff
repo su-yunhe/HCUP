@@ -1,0 +1,28 @@
+diff --git a/spec/0-analyze.md b/spec/0-analyze.md
+index 13ae398fdad4e72ab8d2408dd20588c8b604f30e..42c8b8cca744076c711795f63388e99c9d024d1b 100644
+--- a/spec/0-analyze.md
++++ b/spec/0-analyze.md
+@@ -29,6 +29,8 @@ Spec 里一句"显示历史记录"可能对应去重、排序、上限、点击
+ | 本工程 `spec/metadata.json` | `base_commit` |
+ | 工程源码 | 未修改的基线 |
+ 
++需要阅读http://swe-openharmony.tech/ 中的具体赛题技术答疑，看是否有解答本题相关的内容。
++
+ # 输出一：spec/acceptance.md
+ 
+ 对 Spec 里每个场景的每个步骤，逐条拆成验收项。每条包含：
+diff --git a/spec/2-submit.md b/spec/2-submit.md
+index 6f1644eb7fe5ecbab38b6ff15b9b2a89a407249b..f16b8b6a59e5910528a0d6c4c8a969ab1859462f 100644
+--- a/spec/2-submit.md
++++ b/spec/2-submit.md
+@@ -41,8 +41,8 @@
+ 
+ | 引擎 sessionUuid | IDE 侧边栏会话 ID（可选） | 用途（可选，如 实现/测试设计/修复） |
+ | --- | --- | --- |
+-|  |  |  |
+-|  |  |  |
++| 282ee238-cd27-46dc-afe3-1dc208a36ee6 |  |  |
++| 8ce0518b-6e74-42e1-8f60-28a809765534 |  |  |
+ |  |  |  |
+ 
+ 表中 sessionUuid 全部为空时，不得自行检索会话补全，`traces/` 与会话相关字段全部标 `【待补充】`，并在交付说明中提醒我补填。

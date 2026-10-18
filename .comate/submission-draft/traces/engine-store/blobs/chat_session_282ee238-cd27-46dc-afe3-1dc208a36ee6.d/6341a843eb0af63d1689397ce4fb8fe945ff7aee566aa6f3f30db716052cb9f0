@@ -1,0 +1,602 @@
+Command executed successfully.
+Exit code: 0
+Output:
+=== home/src/main/ets/view/MenuList.ets
+     1	import { Item, Title } from './Menu';
+     2	import { String } from 'constants';
+     3	
+     4	@ComponentV2
+     5	export struct MenuList {
+     6	  @Param @Require @Once pageStack: NavPathStack;
+     7	
+     8	  build() {
+     9	    Scroll() {
+    10	      Grid() {
+    11	        GridItem() {
+    12	          Title({
+    13	            title: String.classicalliterature
+    14	          })
+    15	        }
+    16	        .columnStart(0)
+    17	        .columnEnd(1)
+    18	
+    19	        GridItem() {
+    20	          Item({
+    21	            title: String.classicalliterature_classicpoem
+    22	          }).onClick(() => {
+    23	            this.pageStack.pushPathByName('ClassicPoemIndexPage', null)
+    24	          })
+    25	        }
+    26	
+    27	        GridItem() {
+    28	          Item({
+    29	            title: String.classicalliterature_sentence
+    30	          })
+    31	        }
+    32	
+    33	        GridItem() {
+    34	          Title({
+    35	            title: String.chinese
+    36	          })
+    37	        }
+    38	        .columnStart(0)
+    39	        .columnEnd(1)
+    40	
+    41	        GridItem() {
+    42	          Item({
+    43	            title: String.chinese_character
+    44	          })
+    45	        }
+    46	
+    47	        GridItem() {
+    48	          Item({
+    49	            title: String.chinese_expression
+    50	          })
+    51	        }
+    52	
+    53	        GridItem() {
+    54	          Item({
+    55	            title: String.chinese_idiom
+    56	          })
+    57	        }
+    58	
+    59	        GridItem() {
+    60	          Item({
+    61	            title: String.chinese_antitheticalcouplet
+    62	          })
+    63	        }
+    64	
+    65	        GridItem() {
+    66	          Item({
+    67	            title: String.chinese_quote
+    68	          })
+    69	        }
+    70	
+    71	        GridItem() {
+    72	          Item({
+    73	            title: String.chinese_modernpoetry
+    74	          })
+    75	        }
+    76	
+    77	        GridItem() {
+    78	          Item({
+    79	            title: String.chinese_knowledge
+    80	          })
+    81	        }
+    82	
+    83	        GridItem() {
+    84	          Title({
+    85	            title: String.traditionalculture
+    86	          })
+    87	        }
+    88	        .columnStart(0)
+    89	        .columnEnd(1)
+    90	
+    91	        GridItem() {
+    92	          Item({
+    93	            title: String.traditionalculture_festival
+    94	          })
+    95	        }
+    96	
+    97	        GridItem() {
+    98	          Item({
+    99	            title: String.traditionalculture_solarterm
+   100	          })
+   101	        }
+   102	
+   103	        GridItem() {
+   104	          Item({
+   105	            title: String.traditionalculture_color
+   106	          })
+   107	        }
+   108	
+   109	        GridItem() {
+   110	          Title({
+   111	            title: String.china
+   112	          })
+   113	        }
+   114	        .columnStart(0)
+   115	        .columnEnd(1)
+   116	
+   117	        GridItem() {
+   118	          Item({
+   119	            title: String.china_worldcultureheritage
+   120	          })
+   121	        }
+   122	      }
+   123	      .width('100%')
+   124	      .height('100%')
+   125	      .columnsGap(12)
+   126	      .rowsGap(12)
+   127	      .columnsTemplate('1fr 1fr')
+   128	      .padding(8)
+   129	    }
+   130	  }
+   131	}=== home/src/main/ets/pages/HomePage.ets
+     1	import { TopBar } from '../view/TopBar';
+     2	import { MenuList } from '../view/MenuList';
+     3	
+     4	@ComponentV2
+     5	export struct HomePage {
+     6	  @Provider('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+     7	
+     8	  build() {
+     9	    Navigation(this.pageStack) {
+    10	      Column() {
+    11	        TopBar({ pageStack: this.pageStack })
+    12	        MenuList({ pageStack: this.pageStack })
+    13	      }
+    14	    }
+    15	    .mode(NavigationMode.Stack)
+    16	    .titleMode(NavigationTitleMode.Mini)
+    17	    .hideTitleBar(true)
+    18	    .hideToolBar(true)
+    19	  }
+    20	}
+=== bookmark/src/main/ets/pages/BookmarkIndexPage.ets
+     1	import { String } from 'constants';
+     2	
+     3	@Builder
+     4	export function BookmarkIndexPageBuilder() {
+     5	  BookmarkIndexPage();
+     6	}
+     7	
+     8	@ComponentV2
+     9	export struct BookmarkIndexPage {
+    10	  @Consumer("NavPathStack") pageStack: NavPathStack = new NavPathStack()
+    11	
+    12	  build() {
+    13	    NavDestination() {
+    14	
+    15	    }
+    16	    .title(String.bookmark)
+    17	    .onReady((ctx: NavDestinationContext) => {
+    18	      this.pageStack = ctx.pathStack;
+    19	    })
+    20	  }
+    21	}
+=== bookmark/src/main/ets/model/Bookmark.ets
+     1	export class bookmark {
+     2	  id: number = 0;
+     3	  bookmarkable_id: number = 0;
+     4	  bookmarkable_model: string = '';
+     5	}=== classicalliterature/sentence/src/main/ets/pages/MainPage.ets
+     1	@Component
+     2	export struct MainPage {
+     3	  @State message: string = 'Hello World';
+     4	
+     5	  build() {
+     6	    Row() {
+     7	      Column() {
+     8	        Text(this.message)
+     9	          .fontSize($r('app.float.page_text_font_size'))
+    10	          .fontWeight(FontWeight.Bold)
+    11	          .onClick(() => {
+    12	            this.message = 'Welcome';
+    13	          })
+    14	      }
+    15	      .width('100%')
+    16	    }
+    17	    .height('100%')
+    18	  }
+    19	}
+=== classicalliterature/sentence/src/main/ets/model/Sentence.ets
+     1	import { relationalStore } from '@kit.ArkData';
+     2	import { BusinessError } from '@kit.BasicServicesKit';
+     3	import { DbCRUDConst, DbTableConst } from 'constants';
+     4	import { Logger } from 'utils';
+     5	import DbUtil from 'utils/src/main/ets/data/DbUtil';
+     6	
+     7	let logger: Logger = new Logger('Sentence');
+     8	
+     9	export class Sentence {
+    10	  id: number;
+    11	  content: string;
+    12	  from: string;
+    13	  poem_id: number | null;
+    14	
+    15	  constructor(
+    16	    id: number,
+    17	    content: string,
+    18	    from: string,
+    19	    poem_id: number | null
+    20	  ) {
+    21	    this.id = id;
+    22	    this.content = content;
+    23	    this.from = from;
+    24	    this.poem_id = poem_id;
+    25	  }
+    26	}
+    27	
+    28	export async function createSentence(obj: Sentence) {
+    29	  const valuesBucket: relationalStore.ValuesBucket = {
+    30	    'id': obj.id,
+    31	    'content': obj.content,
+    32	    'from_txt': obj.from,
+    33	    'poem_id': obj.poem_id,
+    34	  }
+    35	
+    36	  DbUtil.objectiveRDB?.insert(
+    37	    DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE,
+    38	    valuesBucket,
+    39	    relationalStore.ConflictResolution.ON_CONFLICT_REPLACE
+    40	  ).then((rowId: number) => {
+    41	    logger.info(`Insert is successful, rowId = ${rowId}`)
+    42	  }).catch((err: BusinessError) => {
+    43	    logger.error(`Insert is failed, code is ${err.code},message is ${err.message}`)
+    44	  })
+    45	}
+    46	
+    47	export async function readRandomSentence(): Promise<Sentence | null> {
+    48	  let obj: Sentence | null = null
+    49	
+    50	  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_RANDOM_CLASSICALLITERATURE_SENTENCE)
+    51	    .then((resultSet: relationalStore.ResultSet) => {
+    52	      try {
+    53	        while (resultSet.goToNextRow()) {
+    54	          obj = parse(resultSet)
+    55	        }
+    56	        resultSet.close()
+    57	      } catch (error) {
+    58	        let err = error as BusinessError
+    59	        logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    60	      }
+    61	    }).catch((err: BusinessError) => {
+    62	      logger.error(`Query is failed, code is ${err.code},message is ${err.message}`)
+    63	    });
+    64	
+    65	  return obj;
+    66	}
+    67	
+    68	/**
+    69	 * @throws
+    70	 */
+    71	function parse(resultSet: relationalStore.ResultSet): Sentence {
+    72	  return new Sentence(
+    73	    resultSet.getLong(resultSet.getColumnIndex('id')),
+    74	    resultSet.getString(resultSet.getColumnIndex('content')),
+    75	    resultSet.getString(resultSet.getColumnIndex('from_txt')),
+    76	    resultSet.getLong(resultSet.getColumnIndex('poem_id')),
+    77	  )
+    78	}=== classicalliterature/sentence/Index.ets
+     1	export { MainPage } from './src/main/ets/pages/MainPage';
+     2	
+     3	export { Sentence, createSentence, readRandomSentence } from './src/main/ets/model/Sentence';
+=== classicalliterature/sentence/src/main/module.json5
+     1	{
+     2	  "module": {
+     3	    "name": "sentence",
+     4	    "type": "har",
+     5	    "deviceTypes": [
+     6	      "default",
+     7	      "tablet",
+     8	      "2in1"
+     9	    ]
+    10	  }
+    11	}
+=== classicalliterature/sentence/oh-package.json5
+     1	{
+     2	  "name": "classicalliterature_sentence",
+     3	  "version": "1.0.0",
+     4	  "description": "古诗文-诗文名句模块",
+     5	  "main": "Index.ets",
+     6	  "author": "hefengbao",
+     7	  "license": "Apache-2.0",
+     8	  "dependencies": {
+     9	    "constants": "file:../../../commons/constants",
+    10	    "utils": "file:../../../commons/utils"
+    11	  }
+    12	}
+./bookmark/.gitignore
+./bookmark/Index.ets
+./bookmark/build-profile.json5
+./bookmark/consumer-rules.txt
+./bookmark/hvigorfile.ts
+./bookmark/obfuscation-rules.txt
+./bookmark/oh-package-lock.json5
+./bookmark/oh-package.json5
+./bookmark/src/main/ets/model/Bookmark.ets
+./bookmark/src/main/ets/pages/BookmarkIndexPage.ets
+./bookmark/src/main/module.json5
+./bookmark/src/main/resources/base/element/float.json
+./bookmark/src/main/resources/base/element/string.json
+./bookmark/src/main/resources/base/profile/route_map.json
+./bookmark/src/ohosTest/ets/test/Ability.test.ets
+./bookmark/src/ohosTest/ets/test/List.test.ets
+./bookmark/src/ohosTest/module.json5
+./bookmark/src/test/List.test.ets
+./bookmark/src/test/LocalUnit.test.ets
+./china/worldcultureheritage/.gitignore
+./china/worldcultureheritage/BuildProfile.ets
+./china/worldcultureheritage/Index.ets
+./china/worldcultureheritage/build-profile.json5
+./china/worldcultureheritage/consumer-rules.txt
+./china/worldcultureheritage/hvigorfile.ts
+./china/worldcultureheritage/obfuscation-rules.txt
+./china/worldcultureheritage/oh-package-lock.json5
+./china/worldcultureheritage/oh-package.json5
+./china/worldcultureheritage/src/main/ets/model/WorldCulturalHeritage.ets
+./china/worldcultureheritage/src/main/ets/pages/MainPage.ets
+./china/worldcultureheritage/src/main/module.json5
+./china/worldcultureheritage/src/main/resources/base/element/float.json
+./china/worldcultureheritage/src/main/resources/base/element/string.json
+./china/worldcultureheritage/src/ohosTest/ets/test/Ability.test.ets
+./china/worldcultureheritage/src/ohosTest/ets/test/List.test.ets
+./china/worldcultureheritage/src/ohosTest/module.json5
+./china/worldcultureheritage/src/test/List.test.ets
+./china/worldcultureheritage/src/test/LocalUnit.test.ets
+./chinese/antitheticalcouplet/.gitignore
+./chinese/antitheticalcouplet/BuildProfile.ets
+./chinese/antitheticalcouplet/Index.ets
+./chinese/antitheticalcouplet/build-profile.json5
+./chinese/antitheticalcouplet/consumer-rules.txt
+./chinese/antitheticalcouplet/hvigorfile.ts
+./chinese/antitheticalcouplet/obfuscation-rules.txt
+./chinese/antitheticalcouplet/oh-package-lock.json5
+./chinese/antitheticalcouplet/oh-package.json5
+./chinese/antitheticalcouplet/src/main/ets/model/AntitheticalCouplet.ets
+./chinese/antitheticalcouplet/src/main/ets/pages/MainPage.ets
+./chinese/antitheticalcouplet/src/main/module.json5
+./chinese/antitheticalcouplet/src/main/resources/base/element/float.json
+./chinese/antitheticalcouplet/src/main/resources/base/element/string.json
+./chinese/antitheticalcouplet/src/ohosTest/ets/test/Ability.test.ets
+./chinese/antitheticalcouplet/src/ohosTest/ets/test/List.test.ets
+./chinese/antitheticalcouplet/src/ohosTest/module.json5
+./chinese/antitheticalcouplet/src/test/List.test.ets
+./chinese/antitheticalcouplet/src/test/LocalUnit.test.ets
+./chinese/character/.gitignore
+./chinese/character/BuildProfile.ets
+./chinese/character/Index.ets
+./chinese/character/build-profile.json5
+./chinese/character/consumer-rules.txt
+./chinese/character/hvigorfile.ts
+./chinese/character/obfuscation-rules.txt
+./chinese/character/oh-package-lock.json5
+./chinese/character/oh-package.json5
+./chinese/character/src/main/ets/model/Character.ets
+./chinese/character/src/main/ets/pages/MainPage.ets
+./chinese/character/src/main/module.json5
+./chinese/character/src/main/resources/base/element/float.json
+./chinese/character/src/main/resources/base/element/string.json
+./chinese/character/src/ohosTest/ets/test/Ability.test.ets
+./chinese/character/src/ohosTest/ets/test/List.test.ets
+./chinese/character/src/ohosTest/module.json5
+./chinese/character/src/test/List.test.ets
+./chinese/character/src/test/LocalUnit.test.ets
+./chinese/expression/.gitignore
+./chinese/expression/BuildProfile.ets
+./chinese/expression/Index.ets
+./chinese/expression/build-profile.json5
+./chinese/expression/consumer-rules.txt
+./chinese/expression/hvigorfile.ts
+./chinese/expression/obfuscation-rules.txt
+./chinese/expression/oh-package-lock.json5
+./chinese/expression/oh-package.json5
+./chinese/expression/src/main/ets/model/Expression.ets
+./chinese/expression/src/main/ets/pages/MainPage.ets
+./chinese/expression/src/main/module.json5
+./chinese/expression/src/main/resources/base/element/float.json
+./chinese/expression/src/main/resources/base/element/string.json
+./chinese/expression/src/ohosTest/ets/test/Ability.test.ets
+./chinese/expression/src/ohosTest/ets/test/List.test.ets
+./chinese/expression/src/ohosTest/module.json5
+./chinese/expression/src/test/List.test.ets
+./chinese/expression/src/test/LocalUnit.test.ets
+./chinese/idiom/.gitignore
+./chinese/idiom/BuildProfile.ets
+./chinese/idiom/Index.ets
+./chinese/idiom/build-profile.json5
+./chinese/idiom/consumer-rules.txt
+./chinese/idiom/hvigorfile.ts
+./chinese/idiom/obfuscation-rules.txt
+./chinese/idiom/oh-package-lock.json5
+./chinese/idiom/oh-package.json5
+./chinese/idiom/src/main/ets/model/Idiom.ets
+./chinese/idiom/src/main/ets/pages/MainPage.ets
+./chinese/idiom/src/main/module.json5
+./chinese/idiom/src/main/resources/base/element/float.json
+./chinese/idiom/src/main/resources/base/element/string.json
+./chinese/idiom/src/ohosTest/ets/test/Ability.test.ets
+./chinese/idiom/src/ohosTest/ets/test/List.test.ets
+./chinese/idiom/src/ohosTest/module.json5
+./chinese/idiom/src/test/List.test.ets
+./chinese/idiom/src/test/LocalUnit.test.ets
+./chinese/knowledge/.gitignore
+./chinese/knowledge/BuildProfile.ets
+./chinese/knowledge/Index.ets
+./chinese/knowledge/build-profile.json5
+./chinese/knowledge/consumer-rules.txt
+./chinese/knowledge/hvigorfile.ts
+./chinese/knowledge/obfuscation-rules.txt
+./chinese/knowledge/oh-package-lock.json5
+./chinese/knowledge/oh-package.json5
+./chinese/knowledge/src/main/ets/model/Knowledge.ets
+./chinese/knowledge/src/main/ets/pages/MainPage.ets
+./chinese/knowledge/src/main/module.json5
+./chinese/knowledge/src/main/resources/base/element/float.json
+./chinese/knowledge/src/main/resources/base/element/string.json
+./chinese/knowledge/src/ohosTest/ets/test/Ability.test.ets
+./chinese/knowledge/src/ohosTest/ets/test/List.test.ets
+./chinese/knowledge/src/ohosTest/module.json5
+./chinese/knowledge/src/test/List.test.ets
+./chinese/knowledge/src/test/LocalUnit.test.ets
+./chinese/quote/.gitignore
+./chinese/quote/BuildProfile.ets
+./chinese/quote/Index.ets
+./chinese/quote/build-profile.json5
+./chinese/quote/consumer-rules.txt
+./chinese/quote/hvigorfile.ts
+./chinese/quote/obfuscation-rules.txt
+./chinese/quote/oh-package-lock.json5
+./chinese/quote/oh-package.json5
+./chinese/quote/src/main/ets/model/Quote.ets
+./chinese/quote/src/main/ets/pages/MainPage.ets
+./chinese/quote/src/main/module.json5
+./chinese/quote/src/main/resources/base/element/float.json
+./chinese/quote/src/main/resources/base/element/string.json
+./chinese/quote/src/ohosTest/ets/test/Ability.test.ets
+./chinese/quote/src/ohosTest/ets/test/List.test.ets
+./chinese/quote/src/ohosTest/module.json5
+./chinese/quote/src/test/List.test.ets
+./chinese/quote/src/test/LocalUnit.test.ets
+./classicalliterature/classicpoem/.gitignore
+./classicalliterature/classicpoem/BuildProfile.ets
+./classicalliterature/classicpoem/Index.ets
+./classicalliterature/classicpoem/build-profile.json5
+./classicalliterature/classicpoem/consumer-rules.txt
+./classicalliterature/classicpoem/hvigorfile.ts
+./classicalliterature/classicpoem/obfuscation-rules.txt
+./classicalliterature/classicpoem/oh-package-lock.json5
+./classicalliterature/classicpoem/oh-package.json5
+./classicalliterature/classicpoem/src/main/ets/model/ClassicPoem.ets
+./classicalliterature/classicpoem/src/main/ets/pages/ClassicPoemIndexPage.ets
+./classicalliterature/classicpoem/src/main/ets/view/ClassicPoemView.ets
+./classicalliterature/classicpoem/src/main/module.json5
+./classicalliterature/classicpoem/src/main/resources/base/profile/route_map.json
+./classicalliterature/classicpoem/src/ohosTest/ets/test/Ability.test.ets
+./classicalliterature/classicpoem/src/ohosTest/ets/test/List.test.ets
+./classicalliterature/classicpoem/src/ohosTest/module.json5
+./classicalliterature/classicpoem/src/test/List.test.ets
+./classicalliterature/classicpoem/src/test/LocalUnit.test.ets
+./classicalliterature/sentence/.gitignore
+./classicalliterature/sentence/BuildProfile.ets
+./classicalliterature/sentence/Index.ets
+./classicalliterature/sentence/build-profile.json5
+./classicalliterature/sentence/consumer-rules.txt
+./classicalliterature/sentence/hvigorfile.ts
+./classicalliterature/sentence/obfuscation-rules.txt
+./classicalliterature/sentence/oh-package-lock.json5
+./classicalliterature/sentence/oh-package.json5
+./classicalliterature/sentence/src/main/ets/model/Sentence.ets
+./classicalliterature/sentence/src/main/ets/pages/MainPage.ets
+./classicalliterature/sentence/src/main/module.json5
+./classicalliterature/sentence/src/main/resources/base/element/float.json
+./classicalliterature/sentence/src/main/resources/base/element/string.json
+./classicalliterature/sentence/src/ohosTest/ets/test/Ability.test.ets
+./classicalliterature/sentence/src/ohosTest/ets/test/List.test.ets
+./classicalliterature/sentence/src/ohosTest/module.json5
+./classicalliterature/sentence/src/test/List.test.ets
+./classicalliterature/sentence/src/test/LocalUnit.test.ets
+./home/.gitignore
+./home/BuildProfile.ets
+./home/Index.ets
+./home/build-profile.json5
+./home/consumer-rules.txt
+./home/hvigorfile.ts
+./home/obfuscation-rules.txt
+./home/oh-package-lock.json5
+./home/oh-package.json5
+./home/src/main/ets/pages/HomePage.ets
+./home/src/main/ets/view/Menu.ets
+./home/src/main/ets/view/MenuList.ets
+./home/src/main/ets/view/TopBar.ets
+./home/src/main/module.json5
+./home/src/ohosTest/ets/test/Ability.test.ets
+./home/src/ohosTest/ets/test/List.test.ets
+./home/src/ohosTest/module.json5
+./home/src/test/List.test.ets
+./home/src/test/LocalUnit.test.ets
+./settings/.gitignore
+./settings/BuildProfile.ets
+./settings/Index.ets
+./settings/build-profile.json5
+./settings/consumer-rules.txt
+./settings/hvigorfile.ts
+./settings/obfuscation-rules.txt
+./settings/oh-package-lock.json5
+./settings/oh-package.json5
+./settings/src/main/ets/model/Dataset.ets
+./settings/src/main/ets/pages/AboutPage.ets
+./settings/src/main/ets/pages/CollectedUserInfoPage.ets
+./settings/src/main/ets/pages/ImportDataPage.ets
+./settings/src/main/ets/pages/PrivacyPage.ets
+./settings/src/main/ets/pages/SettingPage.ets
+./settings/src/main/ets/pages/SharedUserInfoPage.ets
+./settings/src/main/ets/pages/SyncDataPage.ets
+./settings/src/main/ets/pages/TosPage.ets
+./settings/src/main/ets/view/CheckDataset.ets
+./settings/src/main/ets/view/ImportDataList.ets
+./settings/src/main/ets/view/SyncDataList.ets
+./settings/src/main/ets/viewmodel/DatasetViewModel.ets
+./settings/src/main/module.json5
+./settings/src/main/resources/base/element/float.json
+./settings/src/main/resources/base/element/string.json
+./settings/src/main/resources/base/media/ic_public_folder.svg
+./settings/src/main/resources/base/media/ic_public_help.svg
+./settings/src/main/resources/base/profile/route_map.json
+./settings/src/ohosTest/ets/test/Ability.test.ets
+./settings/src/ohosTest/ets/test/List.test.ets
+./settings/src/ohosTest/module.json5
+./settings/src/test/List.test.ets
+./settings/src/test/LocalUnit.test.ets
+./traditionalculture/color/.gitignore
+./traditionalculture/color/Index.ets
+./traditionalculture/color/build-profile.json5
+./traditionalculture/color/consumer-rules.txt
+./traditionalculture/color/hvigorfile.ts
+./traditionalculture/color/obfuscation-rules.txt
+./traditionalculture/color/oh-package.json5
+./traditionalculture/color/src/main/ets/components/MainPage.ets
+./traditionalculture/color/src/main/ets/model/ChineseColor.ets
+./traditionalculture/color/src/main/module.json5
+./traditionalculture/color/src/main/resources/base/element/float.json
+./traditionalculture/color/src/main/resources/base/element/string.json
+./traditionalculture/color/src/ohosTest/ets/test/Ability.test.ets
+./traditionalculture/color/src/ohosTest/ets/test/List.test.ets
+./traditionalculture/color/src/ohosTest/module.json5
+./traditionalculture/color/src/test/List.test.ets
+./traditionalculture/color/src/test/LocalUnit.test.ets
+./traditionalculture/festival/.gitignore
+./traditionalculture/festival/Index.ets
+./traditionalculture/festival/build-profile.json5
+./traditionalculture/festival/consumer-rules.txt
+./traditionalculture/festival/hvigorfile.ts
+./traditionalculture/festival/obfuscation-rules.txt
+./traditionalculture/festival/oh-package.json5
+./traditionalculture/festival/src/main/ets/model/Festival.ets
+./traditionalculture/festival/src/main/ets/pages/MainPage.ets
+./traditionalculture/festival/src/main/module.json5
+./traditionalculture/festival/src/main/resources/base/element/float.json
+./traditionalculture/festival/src/main/resources/base/element/string.json
+./traditionalculture/festival/src/ohosTest/ets/test/Ability.test.ets
+./traditionalculture/festival/src/ohosTest/ets/test/List.test.ets
+./traditionalculture/festival/src/ohosTest/module.json5
+./traditionalculture/festival/src/test/List.test.ets
+./traditionalculture/festival/src/test/LocalUnit.test.ets
+./traditionalculture/solarterm/.gitignore
+./traditionalculture/solarterm/Index.ets
+./traditionalculture/solarterm/build-profile.json5
+./traditionalculture/solarterm/consumer-rules.txt
+./traditionalculture/solarterm/hvigorfile.ts
+./traditionalculture/solarterm/obfuscation-rules.txt
+./traditionalculture/solarterm/oh-package.json5
+./traditionalculture/solarterm/src/main/ets/model/SolarTerm.ets
+./traditionalculture/solarterm/src/main/ets/pages/MainPage.ets
+./traditionalculture/solarterm/src/main/module.json5
+./traditionalculture/solarterm/src/main/resources/base/element/float.json
+./traditionalculture/solarterm/src/main/resources/base/element/string.json
+./traditionalculture/solarterm/src/ohosTest/ets/test/Ability.test.ets
+./traditionalculture/solarterm/src/ohosTest/ets/test/List.test.ets
+./traditionalculture/solarterm/src/ohosTest/module.json5
+./traditionalculture/solarterm/src/test/List.test.ets
+./traditionalculture/solarterm/src/test/LocalUnit.test.ets

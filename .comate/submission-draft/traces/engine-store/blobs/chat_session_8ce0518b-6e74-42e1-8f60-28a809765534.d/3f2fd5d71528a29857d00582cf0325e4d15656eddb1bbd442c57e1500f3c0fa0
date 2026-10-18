@@ -1,0 +1,20 @@
+  static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE: string =
+    'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+      ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+      ' order by random() limit 1) limit 1';
+  static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE_EXCEPT: string =
+    'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+      ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+      ' where id != ? order by random() limit 1) limit 1';
+  static readonly READ_CLASSICALLITERATURE_CLASSICPOEM: string =
+    'select * from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE + ' where id = ? limit 1';
+  static readonly READ_CLASSICALLITERATURE_SENTENCE: string =
+    'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE + ' where id = ? limit 1';
+  static readonly READ_BOOKMARK: string =
+    'select * from ' + DbTableConst.BOOKMARKS_TABLE +
+      ' where bookmarkable_model = ? and bookmarkable_id = ? limit 1';
+  static readonly READ_BOOKMARKED_CLASSICALLITERATURE_SENTENCE_LIST: string =
+    'select s.* from ' + DbTableConst.BOOKMARKS_TABLE + ' b inner join ' +
+    DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE + ' s on s.id = b.bookmarkable_id' +
+      ' where b.bookmarkable_model = ? order by b.id desc';
+}

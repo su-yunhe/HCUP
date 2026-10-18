@@ -1,0 +1,7 @@
+- 可观察结果：`sentence_detail_page` 出现，标题"名句详情"；内容 Text 与所点项内容完全一致；出处可见；底部有收藏切换按钮 `sentence_detail_bookmark`，显示"已收藏"（已定案 U11）。
+- 入口：收藏列表页。 前置数据：收藏 ≥1 条。 用户动作：单击某项。
+- UI 结果：详情页可见，内容不截断（列表项若做了截断，详情必须完整）；详情页不提供刷新、生成图片、收藏入口。
+- 数据结果：只读（按 id 查名句）。 网络结果：不适用（§0.2）。 返回结果：A19。
+- 边界条件：快速连点同一项 → 只 push 一层；所点名句已被删除（DB 中不存在）→ 空态不崩溃；
+  在详情页点 `sentence_detail_bookmark` → 取消收藏，文字变"收藏本句"，再点恢复（同 A10/A12 规则）。
+- 稳定选择器：`sentence_bookmarks_item_<id>`、`sentence_detail_page`、`sentence_content`、`sentence_from`、`sentence_detail_bookmark`。

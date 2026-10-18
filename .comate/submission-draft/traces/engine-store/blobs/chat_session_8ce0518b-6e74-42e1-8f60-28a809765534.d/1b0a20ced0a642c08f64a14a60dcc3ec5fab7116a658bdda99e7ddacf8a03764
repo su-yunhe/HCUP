@@ -1,0 +1,185 @@
+"""本题（诗文名句）各测试文件共用的导航与读取辅助。
+
+前置数据：设备上已导入官方诗词/名句数据集；场景四另需导入 make_fixture.py 生成的
+fixtures/jm_sentence_poem_link.json（设置→导入数据→诗文名句）。
+"""
+from __future__ import annotations
+
+import json
+import re
+import time
+from pathlib import Path
+
+from hypium import BY, MatchPattern
+
+from harness.driver import HarnessTestCase
+
+BUNDLE = "com.hefengbao.jingmo.hw"
+ABILITY = "EntryAbility"
+FIXTURE = Path(__file__).parent / "fixtures" / "jm_sentence_poem_link.json"
+MISSING_POEM_ID = 99999
+
+K_HOME_MENU = "home_menu_sentence"
+K_INDEX = "sentence_index_page"
+K_CONTENT = "sentence_content"
+K_FROM = "sentence_from"
+K_ORIGINAL = "sentence_view_original"
+K_EMPTY = "sentence_empty"
+K_BOOKMARK = "sentence_toolbar_bookmark"
+K_IMAGE = "sentence_toolbar_image"
+K_REFRESH = "sentence_toolbar_refresh"
+K_BOOKMARKS = "sentence_toolbar_bookmarks"
+K_BOOKMARKS_PAGE = "sentence_bookmarks_page"
+K_BOOKMARKS_EMPTY = "sentence_bookmarks_empty"
+K_BOOKMARKS_ITEM = "sentence_bookmarks_item_"
+K_DETAIL = "sentence_detail_page"
+K_DETAIL_BOOKMARK = "sentence_detail_bookmark"
+K_POEM = "poem_detail_page"
+K_POEM_TITLE = "poem_detail_title"
+K_POEM_WRITER = "poem_detail_writer_dynasty"
+K_POEM_CONTENT = "poem_detail_content"
+K_PREVIEW = "sentence_image_preview"
+
+FROM_PATTERN = re.compile(r"^(.+)《(.+)》$")
+
+
+def load_fixture() -> dict[tuple[str, str], int]:
+    """(content, from) -> poem_id；不在 fixture 中的名句 poem_id 为 null。"""
+    data = json.loads(FIXTURE.read_text(encoding="utf-8"))["data"]
+    return {(d["content"], d["from"]): d["poem_id"] for d in data}
+
+
+def is_linked(poem_id: int | None) -> bool:
+    return poem_id not in (None, 0, MISSING_POEM_ID)
+
+
+class SentenceTestCase(HarnessTestCase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        # 判断"不存在"时不需要隐式等待，轮询由 find_or_none 负责
+        cls.driver.set_implicit_wait_time(0)
+
+    # ---------- 查找 ----------
+
+    def find_key(self, key: str, timeout: float = 10):
+        return self.find_or_none(BY.key(key), timeout=timeout)
+
+    def require_key(self, key: str, message: str, timeout: float = 10):
+        return self.require_component(BY.key(key), message, timeout=timeout)
+
+    def absent(self, by, settle: float = 1.0) -> bool:
+        """等待页面稳定后确认组件不存在。"""
+        self.driver.wait(settle)
+        return self.driver.find_component(by) is None
+
+    def text_of(self, key: str, timeout: float = 10) -> str:
+        return self.require_key(key, f"未找到 {key}", timeout=timeout).getText()
+
+    def label_of(self, key: str) -> str:
+        """自建工具栏项内 Text 的文字。"""
+        item = self.require_key(key, f"未找到工具栏项 {key}")
+        text = self.driver.find_component(BY.type("Text").within(BY.key(key)))
+        if text is not None:
+            return text.getText()
+        b = item.getBounds()
+        for t in self.driver.find_all_components(BY.type("Text")) or []:
+            tb = t.getBounds()
+            if b.left <= tb.left and tb.right <= b.right and b.top <= tb.top and tb.bottom <= b.bottom:
+                return t.getText()
+        self.fail(f"工具栏项 {key} 内没有文字")
+
+    def wait_label(self, key: str, expected: str, timeout: float = 5) -> str:
+        deadline = time.monotonic() + timeout
+        label = self.label_of(key)
+        while label != expected and time.monotonic() < deadline:
+            self.driver.wait(0.3)
+            label = self.label_of(key)
+        return label
+
+    def title(self) -> str | None:
+        """当前栈顶 NavDestination 标题（系统 key，NavDestination 未设 id 时不带后缀）。"""
+        c = self.driver.find_component(BY.key("__NavdestinationField__Text__MainTitle__"))
+        return c.getText() if c is not None else None
+
+    def wait_title(self, expected: str, timeout: float = 10) -> str | None:
+        deadline = time.monotonic() + timeout
+        title = self.title()
+        while title != expected and time.monotonic() < deadline:
+            self.driver.wait(0.3)
+            title = self.title()
+        return title
+
+    def bookmark_items(self) -> list:
+        items = self.driver.find_all_components(BY.key(K_BOOKMARKS_ITEM, MatchPattern.STARTS_WITH)) or []
+        items.sort(key=lambda c: c.getBounds().top)
+        return items
+
+    def bookmark_item_texts(self) -> list[str]:
+        """收藏列表各项的名句内容（每项第一行），按从上到下顺序。"""
+        result = []
+        for item in self.bookmark_items():
+            b = item.getBounds()
+            texts = [t for t in (self.driver.find_all_components(BY.type("Text")) or [])
+                     if b.top <= t.getBounds().top and t.getBounds().bottom <= b.bottom]
+            texts.sort(key=lambda t: t.getBounds().top)
+            result.append(texts[0].getText() if texts else "")
+        return result
+
+    # ---------- 导航 ----------
+
+    def restart(self) -> None:
+        self.driver.stop_app(BUNDLE)
+        self.driver.start_app(BUNDLE, ABILITY, wait_time=2)
+        self.require_key(K_HOME_MENU, "冷启动后未进入主页", timeout=20)
+
+    def enter_index(self, restart: bool = True) -> None:
+        if restart:
+            self.restart()
+        self.driver.click(self.require_key(K_HOME_MENU, "主页缺少诗文名句入口"))
+        self.require_key(K_INDEX, "未进入诗文名句首页")
+        content = self.find_key(K_CONTENT, timeout=10)
+        if content is None:
+            self.require_precondition(False, "名句表为空，请先导入数据")
+
+    def current(self) -> tuple[str, str]:
+        return self.text_of(K_CONTENT), self.text_of(K_FROM)
+
+    def refresh(self) -> tuple[str, str]:
+        before = self.current()
+        self.driver.click(self.require_key(K_REFRESH, "缺少刷新按钮"))
+        deadline = time.monotonic() + 5
+        now = self.current()
+        while now == before and time.monotonic() < deadline:
+            self.driver.wait(0.3)
+            now = self.current()
+        return now
+
+    def back(self) -> None:
+        self.driver.press_back()
+        self.driver.wait(1)
+
+    def open_bookmarks(self) -> None:
+        self.driver.click(self.require_key(K_BOOKMARKS, "缺少收藏入口"))
+        self.require_key(K_BOOKMARKS_PAGE, "未进入收藏列表页")
+        self.driver.wait(1)
+
+    def clear_bookmarks(self) -> None:
+        """从名句首页进入收藏列表，经详情页逐条取消收藏，最后回到名句首页。"""
+        self.open_bookmarks()
+        for _ in range(50):
+            items = self.bookmark_items()
+            if not items:
+                break
+            self.driver.click(items[0])
+            self.require_key(K_DETAIL, "未进入名句详情页")
+            if self.wait_label(K_DETAIL_BOOKMARK, "已收藏") == "已收藏":
+                self.driver.click(self.require_key(K_DETAIL_BOOKMARK, "缺少详情页收藏按钮"))
+                self.wait_label(K_DETAIL_BOOKMARK, "收藏本句")
+            self.back()
+            self.require_key(K_BOOKMARKS_PAGE, "未返回收藏列表页")
+            self.driver.wait(0.5)
+        self.require_key(K_BOOKMARKS_EMPTY, "清空收藏后未显示空态")
+        self.back()
+        self.require_key(K_INDEX, "未返回名句首页")

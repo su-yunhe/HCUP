@@ -1,0 +1,17 @@
+        .width('100%')
+      }
+      .width('100%')
+      .height('100%')
+      .backgroundColor(ThemeConst.CardBackGroundColor_Normal)
+      .bindSheet(this.showImage, this.imagePreview(), {
+        height: SheetSize.MEDIUM,
+        onDisappear: () => {
+          this.showImage = false
+          this.pixelMap?.release()
+          this.pixelMap = undefined
+        }
+      })
+    }
+    .title(String.classicalliterature_sentence)
+    .id('sentence_index_page')
+    .onReady((ctx: NavDestinationContext) => {

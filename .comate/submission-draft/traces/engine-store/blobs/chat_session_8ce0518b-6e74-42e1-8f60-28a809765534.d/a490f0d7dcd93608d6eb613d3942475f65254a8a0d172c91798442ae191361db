@@ -1,0 +1,134 @@
+"""场景一：主页进入"诗文名句"首页，随机展示名句，底部工具栏与刷新。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.sentence_helpers import (
+    K_BOOKMARK, K_BOOKMARKS, K_CONTENT, K_EMPTY, K_FROM, K_HOME_MENU, K_IMAGE, K_INDEX, K_PREVIEW, K_REFRESH,
+    SentenceTestCase,
+)
+
+
+class TestScenario1Index(SentenceTestCase):
+
+    def test_01_enter_from_home(self):
+        """A1/A2：主页点击"诗文名句"进入首页，展示名句内容与出处。"""
+        self.enter_index()
+        self.assertEqual(self.wait_title("诗文名句"), "诗文名句", "首页标题不是“诗文名句”")
+        self.assertIsNone(self.driver.find_component(BY.key(K_HOME_MENU)), "进入后主页格子仍可见")
+        content, source = self.current()
+        self.assertTrue(content.strip(), "名句内容为空")
+        self.assertTrue(source.strip(), "出处为空")
+        self.assertRegex(source, r"^.+《.+》$", "出处应原样显示 from 字段（作者《标题》）")
+        self.assertTrue(self.absent(BY.key(K_EMPTY), settle=0), "有数据时不应显示空态")
+        b_content = self.require_key(K_CONTENT, "缺少名句内容").getBounds()
+        b_from = self.require_key(K_FROM, "缺少出处").getBounds()
+        self.assertLess(b_content.top, b_from.top, "出处应在名句内容之下")
+
+    def test_02_toolbar_buttons(self):
+        """A4/A5/A6：底部工具栏依次为 收藏本句、生成图片、刷新、收藏。"""
+        self.enter_index()
+        keys = [K_BOOKMARK, K_IMAGE, K_REFRESH, K_BOOKMARKS]
+        labels = [self.label_of(k) for k in keys]
+        self.assertEqual(labels, ["收藏本句", "生成图片", "刷新", "收藏"])
+        bounds = [self.require_key(k, f"缺少 {k}").getBounds() for k in keys]
+        lefts = [b.left for b in bounds]
+        self.assertEqual(lefts, sorted(lefts), "工具栏按钮顺序不对")
+        content_bottom = self.require_key(K_CONTENT, "缺少名句内容").getBounds().bottom
+        w, h = self.driver.get_display_size()
+        for b in bounds:
+            self.assertGreater(b.top, content_bottom, "工具栏应在名句下方")
+            self.assertGreater(b.top, h * 0.8, "工具栏应位于页面底部")
+        self.assertEqual(len(self.driver.find_all_components(BY.text("收藏")) or []), 1, "同屏只应有一个“收藏”")
+
+    def test_03_refresh_shows_next(self):
+        """A7：刷新展示下一条随机名句，页面不跳转。"""
+        self.enter_index()
+        seen = {self.current()}
+        for _ in range(5):
+            before = self.current()
+            now = self.refresh()
+            self.assertNotEqual(now, before, "刷新后名句未变化")
+            seen.add(now)
+            self.assertEqual(self.title(), "诗文名句", "刷新后不应跳转页面")
+        self.assertGreaterEqual(len(seen), 5)
+        # 刷新不入栈：返回一次回到主页
+        self.back()
+        self.require_key(K_HOME_MENU, "刷新后返回一次应回到主页")
+
+    def test_04_random_on_reenter(self):
+        """A3：多次进入首页展示的名句不总是同一条。"""
+        seen = set()
+        self.restart()
+        for _ in range(4):
+            self.enter_index(restart=False)
+            seen.add(self.current())
+            self.back()
+            self.require_key(K_HOME_MENU, "返回后未回到主页")
+        self.assertGreater(len(seen), 1, "多次进入总是同一条名句")
+
+    def test_05_back_to_home_and_reenter(self):
+        """A31：系统返回键与标题栏返回都回到主页，重进正常。"""
+        self.enter_index()
+        self.back()
+        self.require_key(K_HOME_MENU, "系统返回后未回到主页")
+        self.enter_index(restart=False)
+        self.title_back()
+        self.require_key(K_HOME_MENU, "标题栏返回后未回到主页")
+        self.require_component(BY.text("经典诗文"), "主页“经典诗文”格子不可见")
+
+    def test_06_double_click_entry(self):
+        """A1 边界：快速连点入口只进入一层。"""
+        self.restart()
+        self.driver.double_click(self.require_key(K_HOME_MENU, "缺少入口"))
+        self.require_key(K_INDEX, "未进入首页")
+        self.require_key(K_CONTENT, "未展示名句")
+        self.back()
+        self.require_key(K_HOME_MENU, "连点后返回一次应回到主页")
+
+    def test_07_rapid_refresh(self):
+        """A7 边界：快速连点刷新不崩溃，仍展示一条名句。"""
+        self.enter_index()
+        refresh = self.require_key(K_REFRESH, "缺少刷新")
+        for _ in range(3):
+            self.driver.double_click(refresh)
+        self.driver.wait(1.5)
+        content, source = self.current()
+        self.assertTrue(content and source, "连点刷新后名句缺失")
+        self.assertEqual(self.title(), "诗文名句")
+
+    def test_08_generate_image(self):
+        """A8：生成图片弹出预览，返回键先关闭预览，名句不变。"""
+        self.enter_index()
+        before = self.current()
+        self.driver.click(self.require_key(K_IMAGE, "缺少生成图片"))
+        self.require_key(K_PREVIEW, "未出现图片预览")
+        self.require_component(BY.type("Image").within(BY.key(K_PREVIEW)), "预览中没有图片")
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        self.assertIsNone(self.driver.find_component(BY.key(K_PREVIEW)), "返回键未关闭预览")
+        self.require_key(K_INDEX, "关闭预览后不在首页")
+        self.assertEqual(self.current(), before, "关闭预览后名句变化")
+        # 重复点击只出现一个预览
+        self.driver.double_click(self.require_key(K_IMAGE, "缺少生成图片"))
+        self.require_key(K_PREVIEW, "未出现图片预览")
+        self.assertEqual(len(self.driver.find_all_components(BY.key(K_PREVIEW)) or []), 1)
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        self.require_key(K_INDEX, "关闭预览后不在首页")
+
+    def test_09_restart_and_reenter(self):
+        """A2 边界：重启应用后重进仍展示名句。"""
+        self.enter_index()
+        self.enter_index(restart=True)
+        content, source = self.current()
+        self.assertTrue(content and source)
+
+    def test_10_classic_poem_regression(self):
+        """A32：经典诗文流程不受影响。"""
+        self.restart()
+        self.driver.click(self.require_component(BY.text("经典诗文"), "缺少经典诗文入口"))
+        self.assertEqual(self.wait_title("经典诗文"), "经典诗文")
+        self.require_key("poem_detail_content", "经典诗文页未展示诗词正文")
+        self.back()
+        self.require_key(K_HOME_MENU, "未回到主页")

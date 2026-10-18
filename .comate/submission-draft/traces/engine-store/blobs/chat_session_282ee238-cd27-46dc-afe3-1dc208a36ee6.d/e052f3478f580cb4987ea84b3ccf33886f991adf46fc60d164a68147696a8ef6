@@ -1,0 +1,158 @@
+Command executed successfully.
+Exit code: 0
+Output:
+# common
+
+所有赛题共用的资源，属于 `main` 分支，跟着 `common/scripts/sync.sh` 同步。
+
+- `scripts/`：工作区管理脚本，用法见根目录 README。
+- 其他：文档、prompt、AGENTS 模板、检查脚本、测试数据等，按需新建子目录。
+
+使用约定：
+
+- 不要把这里的文件提交进任何赛题分支，否则会混进该题的补丁。
+- 赛题里需要用到时，优先用相对路径 `../common/xxx` 引用。
+- 必须出现在赛题目录里的（比如构建时要读的配置），用软链接，并加到本地排除列表，不提交：
+
+  ```bash
+  cd jm-spec7
+  ln -s ../common/xxx xxx
+  echo "/xxx" >> "$(git rev-parse --git-common-dir)/info/exclude"
+  ```
+
+  队友环境下所有 worktree 共用一个 exclude 文件，写一次即可。
+
+## 已有内容
+
+| 目录 | 用途 |
+| --- | --- |
+| `scripts/` | 工作区管理脚本，用法见根目录 README |
+| `spec-harness/` | 通用四阶段任务书（分析 / 开发 / 单题材料 / 阶段打包）与团队级信息 `team.yaml`，见其 `README.md` |
+| `test-harness/` | Hypium 自测框架，各题 `hypium_tests/` 继承其 `HarnessTestCase`，见其 `README.md` |
+| `skills/` | HarmonyOS / ArkTS 相关 Agent Skills（3 个），安装方式、来源与许可说明见其 `README.md` |
+| `.venv/` | 自测用 Python 3.13 环境，已装 `hypium==6.1.0.210`；本机生成，已在 `common/.gitignore` 中排除，不进仓库 |
+
+各赛题 Agent 对本目录**只读**，不得修改；本目录**不得放入任何题目专属内容**（某题的分析、代码、会话信息等），
+否则会通过任务书把一道题的信息带进另一道题的 Agent。
+# test-harness：通用自测框架
+
+目标：为每道题提供**统一**的设备连接、环境校验、Hypium 封装和测试运行/报告方式；
+各题自己的测试点（断言逻辑）单独编写，放在各题工程的 `hypium_tests/` 下，不属于本框架。
+
+本框架不是官方评测器，只用于本地自测，帮助在提交前用同款工具链（Hypium + hdc）验证功能，
+降低"本地通过、正式评测翻车"的概率。官方评测环境规格（Pura 90 Pro Max 模拟器、HarmonyOS 6.1.0 / API 23、
+1308 × 2880 / 560 dpi）已内置在 `harness/env_check.py` 中。
+
+## 目录结构
+
+```
+test-harness/
+├── README.md                本文件
+├── requirements.txt         框架自身的 Python 依赖（hypium==6.1.0.210）
+└── harness/                 通用库，与赛题无关
+    ├── __init__.py
+    ├── device.py             设备发现、选择、连接（封装 hdc / UiDriver.connect）
+    ├── env_check.py          环境校验：对照官方模拟器规格，检查屏幕分辨率/dpi/系统版本
+    ├── driver.py             HarnessTestCase：带超时重试的查找/等待/断言辅助方法
+    ├── window.py             按窗口名从 hidumper 读取 [x y w h]（悬浮窗等不在 UI 树里的窗口）
+    ├── app.py                应用生命周期与导航：restart_app、click_text_path
+    ├── runner.py             测试运行器：发现并执行某道题工程下的测试文件，汇总报告
+    └── report.py             统一的结果报告：pass / fail / error / skip 分开统计，skip 不算通过
+```
+
+## 使用方式
+
+以下命令中 `COMMON` 指工作区的 `common/` 绝对路径，在题目工程目录里可用 `COMMON="$(cd ../common && pwd)"` 得到。
+需要 `hdc` 在 PATH 中（DevEco 的 `sdk/default/openharmony/toolchains`）。
+
+### 1. 环境（每台机器建一次）
+
+`$COMMON/.venv` 不进仓库，按 `requirements.txt` 在本机创建：
+
+```bash
+python3 -m venv "$COMMON/.venv"
+"$COMMON/.venv/bin/python" -m pip install -r "$COMMON/test-harness/requirements.txt" \
+    --index-url https://repo.huaweicloud.com/repository/pypi/simple
+```
+
+### 2. 校验模拟器是否匹配官方规格
+
+```bash
+PYTHONPATH="$COMMON/test-harness" "$COMMON/.venv/bin/python" -m harness.env_check
+```
+
+不一致会给出告警，但不阻塞自测。
+
+### 3. 跑某道题的测试
+
+**先安装本题刚构建的 HAP。** 同一上游项目的多道题共用同一个 bundleName，
+模拟器上装的可能是别的题的产物，直接跑会测错对象。
+
+```bash
+cd <本题工程目录>/logs        # Hypium 会在当前目录生成 reports/，在 logs/ 下运行避免污染工程根目录
+PYTHONPATH="$COMMON/test-harness" "$COMMON/.venv/bin/python" -m harness.runner \
+    --project "$(cd .. && pwd)" --device <设备序列号> --json "$PWD/selftest.json"
+```
+
+`runner` 会：
+1. 调用 `env_check` 做一次环境校验并记录在报告头部（不阻塞；`--skip-env-check` 可跳过）
+2. 自动发现 `<project>/hypium_tests/test_*.py` 下的所有测试
+3. 执行并输出统一格式的通过/失败报告（终端 + 可选 JSON 文件）
+
+### 4. 给本题写测试点
+
+1. 在本题工程下建 `hypium_tests/__init__.py` 与 `hypium_tests/test_<场景>.py`
+2. 测试类继承 `harness.driver.HarnessTestCase`，可直接使用：
+   `self.driver`、`self.find_or_none()`、`self.require_component()`、`self.require_text()`、
+   `self.require_type()`、`self.require_precondition()`（前置不满足记为 skip，不算通过）
+3. 只写本题 Spec 描述的断言逻辑，不用关心设备连接、重试、报告格式
+
+建议在被测组件上设置稳定的 `.id()`，测试里用 `BY.key("<id>")` 定位，比按文本或类型+顺序定位更稳。
+Warning: the media of 'icon.png' does not have a base resource.
+Warning: the media of 'icon_startwindow.png' does not have a base resource.
+
+> hvigor Finished :default:default@CompileResource... after 135 ms 
+> hvigor Finished :home:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :character:default@DoNativeStrip... after 1 ms 
+> hvigor Finished :sentence:default@DoNativeStrip... after 1 ms 
+> hvigor Finished :worldcultureheritage:default@DoNativeStrip... after 1 ms 
+> hvigor Finished :idiom:default@DoNativeStrip... after 1 ms 
+> hvigor Finished :antitheticalcouplet:default@DoNativeStrip... after 1 ms 
+> hvigor Finished :knowledge:default@DoNativeStrip... after 1 ms 
+> hvigor Finished :quote:default@DoNativeStrip... after 1 ms 
+> hvigor Finished :classicpoem:default@DoNativeStrip... after 1 ms 
+> hvigor Finished :default:default@BuildJS... after 1 ms 
+> hvigor Finished :home:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :expression:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :default:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :expression:default@ProcessLibs... after 1 ms 
+> hvigor Finished :default:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :expression:default@DoNativeStrip... after 4 ms 
+> hvigor Finished :settings:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :settings:default@ProcessLibs... after 2 ms 
+> hvigor Finished :settings:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :home:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :home:default@ProcessLibs... after 3 ms 
+> hvigor Finished :home:default@DoNativeStrip... after 4 ms 
+> hvigor Finished :default:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :default:default@ProcessLibs... after 6 ms 
+> hvigor Finished :default:default@DoNativeStrip... after 3 ms 
+> hvigor Finished :default:default@CacheNativeLibs... after 5 ms 
+> hvigor Finished :default:default@CompileArkTS... after 4 s 13 ms 
+> hvigor Finished :default:default@GeneratePkgModuleJson... after 2 ms 
+> hvigor Finished :default:default@ProcessCompiledResources... after 1 ms 
+> hvigor Finished :default:default@PackageHap... after 365 ms 
+> hvigor Finished :default:default@PackingCheck... after 4 ms 
+> hvigor WARN: No signingConfig found for product default
+> hvigor Finished :default:default@SignHap... after 1 ms 
+> hvigor Finished :default:default@CollectDebugSymbol... after 1 ms 
+> hvigor Finished :default:assembleHap... after 1 ms 
+> hvigor BUILD SUCCESSFUL in 6 s 767 ms 
+[Info]App install path:/Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/build/default/outputs/default/default-default-unsigned.hap msg:error: failed to install bundle. code:9568263 error: install version downgrade. 
+AppMod finish
+total 56
+drwxr-xr-x   5 bress  staff    160 Oct 15 11:38 .
+drwxr-xr-x  21 bress  staff    672 Oct 17 22:43 ..
+-rw-r--r--   1 bress  staff  17567 Oct 15 11:38 baseline-build.log
+-rw-r--r--   1 bress  staff   1243 Oct 15 11:38 baseline-clean.log
+-rw-r--r--   1 bress  staff    252 Oct 15 11:38 baseline-install.log

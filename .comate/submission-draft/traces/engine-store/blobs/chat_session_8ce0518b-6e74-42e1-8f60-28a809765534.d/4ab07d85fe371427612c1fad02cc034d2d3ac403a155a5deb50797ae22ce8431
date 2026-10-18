@@ -1,0 +1,97 @@
+Command executed successfully.
+Exit code: 0
+Output:
+../common/test-harness:
+README.md
+harness
+requirements.txt
+
+../common/test-harness/harness:
+__init__.py
+__pycache__
+app.py
+device.py
+driver.py
+env_check.py
+report.py
+runner.py
+window.py
+ls: hypium_tests: No such file or directory
+logs:
+baseline-build.log
+baseline-clean.log
+baseline-install.log
+# test-harness：通用自测框架
+
+目标：为每道题提供**统一**的设备连接、环境校验、Hypium 封装和测试运行/报告方式；
+各题自己的测试点（断言逻辑）单独编写，放在各题工程的 `hypium_tests/` 下，不属于本框架。
+
+本框架不是官方评测器，只用于本地自测，帮助在提交前用同款工具链（Hypium + hdc）验证功能，
+降低"本地通过、正式评测翻车"的概率。官方评测环境规格（Pura 90 Pro Max 模拟器、HarmonyOS 6.1.0 / API 23、
+1308 × 2880 / 560 dpi）已内置在 `harness/env_check.py` 中。
+
+## 目录结构
+
+```
+test-harness/
+├── README.md                本文件
+├── requirements.txt         框架自身的 Python 依赖（hypium==6.1.0.210）
+└── harness/                 通用库，与赛题无关
+    ├── __init__.py
+    ├── device.py             设备发现、选择、连接（封装 hdc / UiDriver.connect）
+    ├── env_check.py          环境校验：对照官方模拟器规格，检查屏幕分辨率/dpi/系统版本
+    ├── driver.py             HarnessTestCase：带超时重试的查找/等待/断言辅助方法
+    ├── window.py             按窗口名从 hidumper 读取 [x y w h]（悬浮窗等不在 UI 树里的窗口）
+    ├── app.py                应用生命周期与导航：restart_app、click_text_path
+    ├── runner.py             测试运行器：发现并执行某道题工程下的测试文件，汇总报告
+    └── report.py             统一的结果报告：pass / fail / error / skip 分开统计，skip 不算通过
+```
+
+## 使用方式
+
+以下命令中 `COMMON` 指工作区的 `common/` 绝对路径，在题目工程目录里可用 `COMMON="$(cd ../common && pwd)"` 得到。
+需要 `hdc` 在 PATH 中（DevEco 的 `sdk/default/openharmony/toolchains`）。
+
+### 1. 环境（每台机器建一次）
+
+`$COMMON/.venv` 不进仓库，按 `requirements.txt` 在本机创建：
+
+```bash
+python3 -m venv "$COMMON/.venv"
+"$COMMON/.venv/bin/python" -m pip install -r "$COMMON/test-harness/requirements.txt" \
+    --index-url https://repo.huaweicloud.com/repository/pypi/simple
+```
+
+### 2. 校验模拟器是否匹配官方规格
+
+```bash
+PYTHONPATH="$COMMON/test-harness" "$COMMON/.venv/bin/python" -m harness.env_check
+```
+
+不一致会给出告警，但不阻塞自测。
+
+### 3. 跑某道题的测试
+
+**先安装本题刚构建的 HAP。** 同一上游项目的多道题共用同一个 bundleName，
+模拟器上装的可能是别的题的产物，直接跑会测错对象。
+
+```bash
+cd <本题工程目录>/logs        # Hypium 会在当前目录生成 reports/，在 logs/ 下运行避免污染工程根目录
+PYTHONPATH="$COMMON/test-harness" "$COMMON/.venv/bin/python" -m harness.runner \
+    --project "$(cd .. && pwd)" --device <设备序列号> --json "$PWD/selftest.json"
+```
+
+`runner` 会：
+1. 调用 `env_check` 做一次环境校验并记录在报告头部（不阻塞；`--skip-env-check` 可跳过）
+2. 自动发现 `<project>/hypium_tests/test_*.py` 下的所有测试
+3. 执行并输出统一格式的通过/失败报告（终端 + 可选 JSON 文件）
+
+### 4. 给本题写测试点
+
+1. 在本题工程下建 `hypium_tests/__init__.py` 与 `hypium_tests/test_<场景>.py`
+2. 测试类继承 `harness.driver.HarnessTestCase`，可直接使用：
+   `self.driver`、`self.find_or_none()`、`self.require_component()`、`self.require_text()`、
+   `self.require_type()`、`self.require_precondition()`（前置不满足记为 skip，不算通过）
+3. 只写本题 Spec 描述的断言逻辑，不用关心设备连接、重试、报告格式
+
+建议在被测组件上设置稳定的 `.id()`，测试里用 `BY.key("<id>")` 定位，比按文本或类型+顺序定位更稳。

@@ -1,0 +1,7 @@
+工具栏实现（已定案 U1）：自建底部 Row + Button，文字可见并加 `.id()`；不使用 `NavDestination.toolbarConfiguration`。
+原因：`toolbarConfiguration` 的项不能设置自定义 id，系统只生成 `__NavdestinationField__ToolBar__MenuItem<n>__`，且 `hideItemValue: true` 时文字不进 UI 树（基线实测）。
+从左到右顺序：收藏本句/已收藏、生成图片、刷新、收藏。
+
+页面级 id（`sentence_index_page`、`sentence_bookmarks_page`、`sentence_detail_page`、`poem_detail_page`）实现时设在 NavDestination **内的根容器**上，
+不设在 NavDestination 本身：实测给 NavDestination 设 id 后，系统 key 会被追加该 id（变成 `__NavdestinationField__Text__MainTitle__sentence_index_page`），
+按 §0.2 的系统返回按钮 key 精确匹配会失败。

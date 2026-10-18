@@ -1,0 +1,26 @@
+from hypium import UiDriver, BY, MatchPattern
+
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+d.set_implicit_wait_time(0)
+B = "com.hefengbao.jingmo.hw"
+d.stop_app(B)
+d.start_app(B, "EntryAbility", wait_time=3)
+d.wait(2)
+d.click(d.find_component(BY.key("home_menu_sentence")))
+d.wait(2)
+for c in d.find_all_components(BY.key("__Navdestination", MatchPattern.STARTS_WITH)) or []:
+    print("navkey", c.getKey(), repr(c.getText()), c.getType())
+bm = d.find_component(BY.key("sentence_toolbar_bookmark"))
+t = d.find_component(BY.type("Text").within(BY.key("sentence_toolbar_bookmark")))
+print("label within:", t.getText() if t else None, "selected", bm.isSelected(), bm.getAllProperties())
+d.start_listen_toast()
+d.click(bm)
+d.wait(1)
+print("toast:", d.get_latest_toast(timeout=3))
+t = d.find_component(BY.type("Text").within(BY.key("sentence_toolbar_bookmark")))
+print("label after:", t.getText() if t else None, "selected", d.find_component(BY.key("sentence_toolbar_bookmark")).isSelected())
+content = d.find_component(BY.key("sentence_content")).getText()
+d.click(d.find_component(BY.key("sentence_toolbar_bookmarks")))
+d.wait(2)
+for c in d.find_all_components(BY.key("__Navdestination", MatchPattern.STARTS_WITH)) or []:
+    print("n

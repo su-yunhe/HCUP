@@ -1,0 +1,21 @@
+import json, subprocess, sys
+HDC = '/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/hdc'
+T = ['-t', '127.0.0.1:5555']
+local = sys.argv[1] if len(sys.argv) > 1 else 'logs/tmp_layout.json'
+subprocess.run([HDC] + T + ['shell', 'uitest', 'dumpLayout', '-p', '/data/local/tmp/jm75.json'], capture_output=True)
+subprocess.run([HDC] + T + ['file', 'recv', '/data/local/tmp/jm75.json', local], capture_output=True)
+d = json.load(open(local))
+
+
+def w(n, dep=0):
+    a = n['attributes']
+    t = a.get('text', '')
+    k = a.get('key', '') or a.get('id', '')
+    ty = a.get('type', '')
+    if t or k or ty in ('Navigation', 'NavDestination', 'Tabs', 'TabBar', 'Image', 'Button', 'Toolbar', 'ToolBarItem', 'TitleBar'):
+        print('  ' * min(dep, 14) + ty, repr(t), 'key=' + k, a.get('bounds', ''), 'click=' + a.get('clickable', ''))
+    for c in n.get('children', []):
+        w(c, dep + 1)
+
+
+w(d)

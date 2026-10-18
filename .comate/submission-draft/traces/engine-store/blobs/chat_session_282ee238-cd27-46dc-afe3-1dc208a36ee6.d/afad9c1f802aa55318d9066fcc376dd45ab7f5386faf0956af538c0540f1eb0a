@@ -1,0 +1,117 @@
+<file>
+     1→import { preferences } from '@kit.ArkData';
+     2→import { BusinessError } from '@kit.BasicServicesKit';
+     3→import { Logger } from '../log/Logger';
+     4→import { PrefConst } from 'constants';
+     5→
+     6→export class PrefUtil {
+     7→  preference?: preferences.Preferences;
+     8→  logger: Logger = new Logger('PrefUtil');
+     9→
+    10→  init(context: Context) {
+    11→    let options: preferences.Options = { name: PrefConst.PREF_NAME, storageType: preferences.StorageType.GSKV };
+    12→    try {
+    13→      this.preference = preferences.getPreferencesSync(context, options);
+    14→    } catch (error) {
+    15→      let err = error as BusinessError
+    16→      this.logger.error(`Init pref failed, code = ${err.code}, messge = ${err.message}`)
+    17→    }
+    18→  }
+    19→
+    20→  saveChinaWorldCulturalHeritageVersion(version: number) {
+    21→    this.setNumber(PrefConst.CHINA_WORLDCULTUREHERITAGE, version)
+    22→  }
+    23→
+    24→  getChinaWorldCulturalHeritageVersion(): number {
+    25→    return this.getNumber(PrefConst.CHINA_WORLDCULTUREHERITAGE)
+    26→  }
+    27→
+    28→  saveChineseAntitheticalCoupletVersion(version: number) {
+    29→    this.setNumber(PrefConst.CHINESE_ANTITHETICALCOUPLET, version)
+    30→  }
+    31→
+    32→  getChineseAntitheticalCoupletVersion(): number {
+    33→    return this.getNumber(PrefConst.CHINESE_ANTITHETICALCOUPLET)
+    34→  }
+    35→
+    36→  saveChineseCharacterVersion(version: number) {
+    37→    this.setNumber(PrefConst.CHINESE_CHARACTER, version)
+    38→  }
+    39→
+    40→  getChineseCharacterVersion(): number {
+    41→    return this.getNumber(PrefConst.CHINESE_CHARACTER)
+    42→  }
+    43→
+    44→  saveChineseExpressionVersion(version: number) {
+    45→    this.setNumber(PrefConst.CHINESE_EXPRESSION, version)
+    46→  }
+    47→
+    48→  getChineseExpressionVersion(): number {
+    49→    return this.getNumber(PrefConst.CHINESE_EXPRESSION)
+    50→  }
+    51→
+    52→  saveChineseIdiomVersion(version: number) {
+    53→    this.setNumber(PrefConst.CHINESE_IDIOM, version)
+    54→  }
+    55→
+    56→  getChineseIdiomVersion(): number {
+    57→    return this.getNumber(PrefConst.CHINESE_IDIOM)
+    58→  }
+    59→
+    60→  saveChineseKnowledgeVersion(version: number) {
+    61→    this.setNumber(PrefConst.CHINESE_KNOWLEDGE, version)
+    62→  }
+    63→
+    64→  getChineseKnowledgeVersion(): number {
+    65→    return this.getNumber(PrefConst.CHINESE_KNOWLEDGE)
+    66→  }
+    67→
+    68→  saveChineseQuoteVersion(version: number) {
+    69→    this.setNumber(PrefConst.CHINESE_QUOTE, version)
+    70→  }
+    71→
+    72→  getChineseQuoteVersion(): number {
+    73→    return this.getNumber(PrefConst.CHINESE_QUOTE)
+    74→  }
+    75→
+    76→  saveClassicalLiteratureClassicPoemVersion(version: number) {
+    77→    this.setNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM, version)
+    78→  }
+    79→
+    80→  getClassicalLiteratureClassicPoemVersion(): number {
+    81→    return this.getNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
+    82→  }
+    83→
+    84→  saveClassicalLiteratureSentenceVersion(version: number) {
+    85→    this.setNumber(PrefConst.CLASSICALLITERATURE_SENTENCE, version)
+    86→  }
+    87→
+    88→  getClassicalLiteratureSentenceVersion(): number {
+    89→    return this.getNumber(PrefConst.CLASSICALLITERATURE_SENTENCE)
+    90→  }
+    91→
+    92→  private setNumber(key: string, data: number) {
+    93→    try {
+    94→      this.preference?.putSync(key, data)
+    95→    } catch (error) {
+    96→      let err = error as BusinessError
+    97→      this.logger.error(`save data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
+    98→    }
+    99→  }
+   100→
+   101→  private getNumber(key: string, defaultValue: number = 0): number {
+   102→    let value = 0
+   103→    try {
+   104→      value = this.preference?.getSync(key, defaultValue) as number
+   105→    } catch (error) {
+   106→      let err = error as BusinessError
+   107→      this.logger.error(`get data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
+   108→    }
+   109→
+   110→    return value;
+   111→  }
+   112→}
+   113→
+   114→export default new PrefUtil()
+</file>
+<metadata>The file has 114 lines in total.</metadata>

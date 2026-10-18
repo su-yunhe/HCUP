@@ -1,0 +1,23 @@
+import { image } from '@kit.ImageKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { Icon, String, ThemeConst } from 'constants';
+import { Logger } from 'utils';
+import {
+  bookmarkSentence,
+  isSentenceBookmarked,
+  readRandomSentence,
+  readRandomSentenceExcept,
+  readSentencePoemId,
+  Sentence,
+  unbookmarkSentence
+} from '../model/Sentence';
+import { SentenceView } from '../view/SentenceView';
+import { ToolbarItem } from '../view/ToolbarItem';
+import { pushPathFrom } from '../utils/NavUtil';
+
+const PAGE_NAME: string = 'SentenceIndexPage';
+let logger: Logger = new Logger(PAGE_NAME);
+
+@Builder
+export function SentenceIndexPageBuilder() {
+  SentenceIndex

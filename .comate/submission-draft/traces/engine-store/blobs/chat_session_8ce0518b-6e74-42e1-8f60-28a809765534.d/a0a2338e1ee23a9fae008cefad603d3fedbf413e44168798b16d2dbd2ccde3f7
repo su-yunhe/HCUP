@@ -1,0 +1,14 @@
+---
+name: jm-spec75 build & emulator environment
+description: How to build/install/self-test jm-spec75 on this Mac and what test data is on the emulator (sync broken, import works, poem_id fixture imported)
+type: project
+---
+
+hvigorw needs JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home (no system Java; PackageHap fails otherwise). Install with `hdc -t 127.0.0.1:5555 install -r` (unsigned HAP installs fine).
+
+Hypium self-tests: must run with sandbox escalation (localhost port to emulator is refused inside sandbox) and hdc on PATH. `start_app` needs the ability name `EntryAbility` (common/harness `restart_app` without it fails with "Fail to get main ability"); hypium_tests/sentence_helpers.py handles this.
+
+Emulator DNS can't resolve jingmo CDN, so 设置→同步数据 fails. 设置→导入数据 works: dataset JSONs in /storage/media/100/local/files/Docs/Download/ (jm_poem_v3_1.json, jm_sentence_v3_1.json, jm_sentence_poem_link.json). As of 2026-10-17 the emulator DB has the official data plus jm_sentence_poem_link.json imported (2162 sentences overwritten: 1162 with real poem_id, 800 with poem_id 99999, 200 with 0). Re-importing jm_sentence_v3_1.json restores all-null poem_id.
+
+**Why:** official sentence dataset has poem_id all null, so 查看原文 tests need the fixture from hypium_tests/make_fixture.py; the picker selects the file on a single tap (no confirm button).
+**How to apply:** verify files/data still exist before self-tests (shared bundle across tasks); scenario-4 tests depend on the fixture being imported.

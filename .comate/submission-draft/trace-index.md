@@ -1,0 +1,175 @@
+# 运行记录索引
+
+> 下文路径除特别说明外均**相对成果包根目录**：本题材料在 `tasks/jm-spec75/`，轨迹在 `traces/jm-spec75/`。
+> 在单题草稿中，二者分别对应本工程 `.comate/submission-draft/` 及其下的 `traces/`，由 `3-package.md` 搬入成果包。
+> 会话内工具调用编号（如 `#29`）按调用先后计数，与 `traces/jm-spec75/markdown/<sessionUuid>.md` 的"工具调用 #n"一致；子代理调用编号形如 `#7.n`。
+
+- 题目 ID：jm-spec75
+- AI 在本题实际参与的研发环节、用途及对应原始会话／事件范围（每道作答的赛题均须填写）：
+  - **阶段 0 需求分析与基线理解**，会话 `282ee238-cd27-46dc-afe3-1dc208a36ee6`。解题部分为消息 [0]–[5]（2026-10-17 22:46:19 – 23:26:46），工具调用 #1–#106，包括：
+    - 读需求与基线代码，委派 Explore 子代理只读梳理基线（#7，子代理调用 #7.1–#7.56）；
+    - clean 构建、安装基线并留下 `logs/baseline-*.log`（#6、#17–#20）；
+    - 在模拟器上实测基线 UI；"同步数据"失败后改走"导入数据"（#21–#40）；
+    - 从应用内置数据源下载数据集，分析 `poem_id`（#28–#31）；
+    - 产出 `spec/acceptance.md`、`spec/baseline-notes.md`（#46–#63）；
+    - 人工给出决策"U1~U12 均采用推荐"后，AI 据此更新 `spec/acceptance.md`（消息 [4]–[5]，#69–#106）。
+  - **阶段 1 功能开发与自测**，会话 `8ce0518b-6e74-42e1-8f60-28a809765534`。解题部分为消息 [0]–[1]（2026-10-17 23:28:10 – 2026-10-18 00:15:46），工具调用 #1–#139，包括：
+    - 全部业务代码改动：首页入口、sentence 模块三页面与路由、数据层、classicpoem 详情页（#49–#69、#73–#76、#102–#106）；
+    - Hypium 自测脚本与 fixture（#85–#87、#93–#96、#107–#115、#122–#123）；
+    - 构建、安装、自测与日志（#70、#77、#116、#119、#124–#126）；
+    - 清理临时文件，并更新 `spec/acceptance.md` §0.4（#129–#138）。
+  - 两个会话末尾（2026-10-18 08:47–08:48）各有一轮用户发起的 `comate-session-ids` 查询（282ee238 的消息 [6]–[7]、8ce0518b 的消息 [2]–[3]）。这两轮只查询会话 ID，不涉及研发。
+  - 本次材料整理（`2-submit.md`）所在的会话不在指定会话表内，未纳入 `traces/`。
+- 基线构建准备：脚本配置版本、执行时间及输出记录路径（见 tools/prepare_baseline.py）：
+  - 配置版本 `harmony-cup-build-v1`，执行时间 2026-10-12 15:46:39；`dry_run: false`，`changes: []`；`ohpm install` 与 `hvigorw assembleHap` 均成功（`BUILD SUCCESSFUL`）。
+  - 输出记录：题包 `reports/build-baselines/jm-spec75.log`（20560 字节，SHA-256 `489de54a896ac1ac241602790c11e197297ca19399d2b342606408fc5d52c7ec`）。该文件没有复制进本题材料。
+  - 工程 `logs/baseline-build.log`、`logs/baseline-clean.log`、`logs/baseline-install.log` 不是准备脚本的输出。它们由会话 282ee238 在 2026-10-17 22:51 重新构建、安装基线时生成（#6、#17、#20），覆盖了 2026-10-15 提交 `f163668` 中的旧版本。
+- Agent 名称及版本：
+  - Comate IDE 内置 Agent 模式。各条用户消息的 `payload.agent` 为 `{"agentId": 1, "agentName": "Agent", "agentImage": "zulu"}`，助手消息的 `agentInfo` 为 `{"avatar": "zulu", "name": "Agent"}`。
+  - 客户端：Comate `1.108.2`（`product.json`：commit `1be0a96de7277a7cc5fe17575b718320c25ee558-269811928`，date `2026-09-10T13:07:29.247Z`，quality `stable`）。
+  - 扩展：`BaiduComate.comate`（文心快码）`4.13.4`。
+  - 以上版本读取自整理时（2026-10-18）的安装包。`product.json` 与扩展 `package.json` 的修改时间均为 2026-09-10，早于两个会话，因此推断会话期间版本相同；会话记录本身没有记录客户端版本。
+- 模型名称、版本及运行参数：
+  - 两个会话的全部轮次相同：`displayName` `opus 5.5`，`modelId` `Opus 5.5_143_69ecd21d3a3e213032bd925cfe9637c5`，`requestType` `COMATE_MULTIPLE_MODE`，`mode` `MAX`。
+  - effort：282ee238 为 `high`，8ce0518b 为 `xhigh`。权限模式 `localPermissionMode` 为 `rule-auto`，`isSpec` 为 false。
+  - 上下文上限 1,000,000。各轮 `tokenUsage.contextUsed` 依次为：282ee238 141598 / 201405 / 262290 / 265040，8ce0518b 245664 / 247921。
+  - 原生记录只有上下文占用，没有输入/输出 token 计数，也没有 temperature 等采样参数。
+- 本题实际使用的 Skill、系统提示、工具及编排配置版本和保存位置：
+  - **任务书（阶段提示）**：通用任务书 `common/spec-harness` 位于 harmonycup-work 仓库，版本为 commit `d4f913f3daac0b018a3c23bf2b1570fe170c66e2`（2026-10-17 20:30:27 +0800，早于两个会话；整理时 `spec-harness/` 下仅 `team.yaml` 有未提交改动）。四个文件的 SHA-256：
+    - `0-analyze.md`：`d14d67c866e04221bc25d0d353ceb22542832d4a21d1dfc803c3dd110fda7780`
+    - `1-do.md`：`91924e64d6422d1a878fe5d6baf5f435b2b6614f35c45abfeefb304a681720ef`
+    - `2-submit.md`：`3ffb9bbffecc8731d4abcc24453e628a2224d24b708a1fc0dbb69e7ee6d9df08`
+    - `3-package.md`：`9916ad6cc883f4bbd1efa00ba8df573c01ca5098fda89fee06772f14a8faa0bd`
+  - 两个会话实际 `@` 引用的是工程内副本 `spec/0-analyze.md`、`spec/1-do.md`。会话 282ee238 的 #1 列出这两个文件大小为 4997 / 7589 字节、时间为 2026-10-17 22:46，与上述版本相同。工程提交 `7b43e65` 中这两份副本的 SHA-256 也与上述值一致。
+  - 保存位置：成果包 `system-config/spec-harness/`（由 `3-package.md` 放入），以及 `tasks/jm-spec75/project/spec/`。
+  - **历史任务书**：本工程没有 `spec/history/`。提交 `9d6a7c4`（2026-10-14）曾在 `spec/` 放过四份早期任务书，提交 `4fc360e`（2026-10-15）将其删除，内容见 `traces/jm-spec75/snapshots/commits/0001-chore-spec.patch`。两个会话都创建于 2026-10-17，使用的是上一条所述版本。
+  - **Skill**：解题过程中没有调用任何 Skill，工具序列中没有 Skill 调用。`comate-session-ids`（用户本机 `~/.comate/skills/comate-session-ids/`）只在会话末尾由用户主动选择调用（`knowledgeList` 中 `type: SELECT_SKILL`），用于查询会话 ID。
+  - **子代理**：内置 `Explore` 子代理 1 次（282ee238 #7，`taskId` `Explore_12263084`），只读梳理基线。其内部过程（56 次工具调用）嵌套保存在该调用的 `children` 中。
+  - **工具**：只用了 Comate 内置工具。282ee238 主过程 108 次：edit_file 47、run_command 42、write_file 5、grep_content 5、read_file 3、create_task 2、update_task 2、delete_file 1、delegate_subagent 1；子代理内部另有 56 次（run_command 26、read_file 30）。8ce0518b 共 141 次：read_file 37、run_command 32、edit_file 28、write_file 22（其中 1 次 skipped）、update_task 10、create_task 5、grep_content 5、glob_path 2。两个会话都没有调用网页检索或网页抓取类工具。
+  - **规则**：各消息的 `appliedRules`、`appliedRuleNames` 均为空。
+  - **自动记忆**（本工作区的 auto memory，用户本机 `~/.comate/projects/<工作区>/memory/MEMORY.md`、`project_env.md`）：由 282ee238 写入（#66、#67），8ce0518b 开始时读取（#1），结束时更新（#134、#136、#137）。写入内容见对应 `write_file` 参数。
+  - **自测框架**：`common/test-harness`（成果包 `system-config/test-harness/`），Python 3.13 虚拟环境，`hypium==6.1.0.210`。
+  - Comate 客户端内置的系统提示不在本地记录中，无法导出。
+- 运行期间配置变更及原因（无则填"无"）：
+  - 自动记忆文件由 AI 在会话中写入和更新（见上一条），内容是构建环境要点和模拟器数据状态，供后续阶段复用。
+  - 两个会话结束后，人工改动了工程内的两份任务书副本（均未提交，差异见 `traces/jm-spec75/snapshots/uncommitted-vs-HEAD.diff`）：
+    - `spec/0-analyze.md` 新增一行"需要阅读http://swe-openharmony.tech/ 中的具体赛题技术答疑，看是否有解答本题相关的内容。"，文件修改时间 2026-10-18 00:26:08。会话 282ee238 开始时该文件为 4997 字节的原版，所以两个指定会话都没有用到这一行。
+    - `spec/2-submit.md` 填写了会话表，修改时间 2026-10-18 08:48:47，供本次材料整理使用。
+  - 除上述两项外未发现其他配置变更。是否另有未留痕的变更：【待补充】
+- 主会话 ID：
+  - 阶段 0：引擎 sessionUuid `282ee238-cd27-46dc-afe3-1dc208a36ee6`；IDE 侧边栏会话 ID【待补充】
+  - 阶段 1：引擎 sessionUuid `8ce0518b-6e74-42e1-8f60-28a809765534`；IDE 侧边栏会话 ID【待补充】
+  - 对应关系：sessionUuid 是 Comate 引擎的会话标识，它同时是 `comate_chat_sessions.jsonl` 中的 `sessionUuid`、明细文件名 `chat_session_<sessionUuid>`，以及 hook 日志中的 conversationId。
+  - 侧边栏 ID 未能核实，原因如下：
+    - 会话表没有填写侧边栏 ID。
+    - 两个会话在 2026-10-18 08:47–08:48 各自运行过 `comate-session-ids`，输出均为 `sidebar session ID: UNDETERMINED (generating sessions: 0); candidates:`（空），见 282ee238 #108、8ce0518b #141。
+    - 两个会话的 `isSpec` 均为 false，不是 Spec 模式会话。
+  - 普通会话的侧边栏 ID 是否等于 sessionUuid 没有验证，因此没有填写。
+  - 原生记录中的其他标识：`context.conversationId` 为 7090953（282ee238）和 7091231（8ce0518b），`context.taskId` 为 12263065 和 12263872，`executedDeviceId` 为 `ef05a3a1-a35a-41c2-8045-751319af3cdc`。这些都不是侧边栏会话 ID。
+- 关联会话及子会话 ID：
+  - 子会话：`Explore_12263084`，Explore 子代理，嵌套在 282ee238 的 #7 中。`~/.comate-engine/store/agents/` 下没有它的独立文件，完整过程以嵌套记录为准。
+  - 关联：8ce0518b 以 282ee238 产出的 `spec/acceptance.md`、`spec/baseline-notes.md` 及自动记忆为输入。
+  - 除会话表所列两个会话外，没有纳入其他会话。
+- 解题过程中产生的全部相关原始日志、DB 或原生轨迹文件路径及读取方式：
+  - `traces/jm-spec75/engine-store/` 保持原客户端 `~/.comate-engine/store/` 的相对布局，内容逐字节复制：
+    - `chat_session_282ee238-cd27-46dc-afe3-1dc208a36ee6`（481309 字节，SHA-256 `efe20b3c35c62cf07777c5a84ca26c65a115885af0cfb24ea6df7425e176a50f`）
+    - `chat_session_8ce0518b-6e74-42e1-8f60-28a809765534`（327244 字节，SHA-256 `ad6d46ce2eba33ce493e6f47454f399cab7ee5cacf66c73a3be3472a7b27469f`）
+    - `blobs/chat_session_<sessionUuid>.d/`：工具输出。282ee238 有 199 个、8ce0518b 有 164 个，文件名即内容的 SHA-256，已逐个校验一致。另有原样保留的 `.trash/` 与 `.detail-prev-*`，共 495 个文件。
+    - `comate_chat_sessions.filtered.jsonl`：会话索引中按上述两个 sessionUuid 过滤出的 2 行。
+    - `terminals/`：两个会话中后台或长输出命令的终端输出，文件名为该命令的 `taskId`。282ee238 有 `7ma7yz.output`、`4sykso.txt`、`48bqq2.txt`，8ce0518b 有 `a5hu27.txt`。
+  - 读取方式：
+    - 明细是单个 JSON 对象，`messages[]` 按时间排列；用户消息在 `payload` 中，助手消息在 `elements[].children[]` 中，`type` 为 `REASON`（思考）、`TEXT`（回复）或 `TOOL`（工具调用，含 `params`、`toolState`、`result`）。
+    - `result.output` 为 `{"$blob": "sha256:<h>"}` 时，内容在 `blobs/chat_session_<sessionUuid>.d/<h>`。
+    - 子代理过程在 `delegate_subagent` 调用的 `children` 中。
+  - Markdown 副本：`traces/jm-spec75/markdown/<sessionUuid>.md`，由原生明细转换而来，不是 IDE 导出。
+- 失败、重试、未采用的候选方案及选择过程的记录位置（均在上述原生明细中，Markdown 副本同号可查）：
+  - 282ee238：
+    - 首轮助手消息 [1] 的 `status` 为 `cancelled`（22:53:10 中断）。中断时 #26 退出码为 130，用户随后在 22:53:40 发送"继续"（消息 [2]）。
+    - #21 因变量展开失败（`command not found: hdc -t ...`）退出码为 1，#23 改用完整路径重试。
+    - "同步数据"失败：界面显示 `code = undefined, msg = undefined`，模拟器 DNS 解析不了数据源域名（#32、#34），于是放弃同步，改为下载后"导入数据"（#35–#40）。
+    - 临时文件在 #45、#64 删除，内容仍保留在记录中。
+  - 8ce0518b：
+    - 首次构建出现新增 ArkTS 告警 `Function may throw exceptions`（#71、#72），对 showToast 加 try/catch 修复（#73–#76），之后重新构建（#77）。
+    - 冒烟脚本先因沙箱拒绝本地端口报 `Connection refused`（#79），再因 `Fail to get main ability` 失败（#80），补上 `EntryAbility` 后通过（#81、#82）。
+    - 未采用方案：最初把页面级 id 设在 NavDestination 上，实测发现系统标题和返回按钮的 key 会被加上该 id 作后缀（#99），于是改设在根容器上（#100–#103），并同步更新 `spec/acceptance.md` §0.4（#133）。
+    - 首次全量自测 22/23 通过，`test_01_enter_from_home` 失败，原因是转场期间断言过早（#119–#121）。修改用例（#122、#123）后单测通过（#124），再 clean 构建、安装（#125），全量 23/23 通过（#126）。
+    - #135 `write_file` 被拒（要求先读 `MEMORY.md`），#136 读取后由 #137 写入。
+  - 选择过程：282ee238 消息 [3] 给出待决问题 U1–U12 及推荐方案，人工在消息 [4] 中决定"U1~U12均采用推荐"。
+- 实际提示、工具调用及返回结果、检索与代码修改、构建和自测记录位置：
+  - 用户提示：各会话 `messages[].payload.query`、`rawMessage`、`knowledgeList`。282ee238 共 4 条，依次为 `@0-analyze.md 完成这个任务`、`继续`、`U1~U12均采用推荐，据此更新 @acceptance.md 文档`、`/ comate-session-ids 查询当前会话`。8ce0518b 共 2 条，依次为 `@1-do.md 完成这个任务`、`/ comate-session-ids 查询当前会话`。
+  - 工具调用及返回结果：原生明细，以及 `blobs/`、`terminals/`。
+  - 代码与文档修改：
+    - AI 写入的内容在对应 `write_file` / `edit_file` 的 `params` 中，282ee238 写的是 `spec/acceptance.md`、`spec/baseline-notes.md`。
+    - 8ce0518b 写入了 `final.diff` 中全部 16 个业务代码与配置文件、`hypium_tests/` 下 6 个脚本，以及 `spec/acceptance.md`；fixture JSON 由它在 #87 运行 `make_fixture.py` 生成。
+    - `logs/` 下的文件都由两个会话中的构建、安装、自测命令输出生成。
+    - `spec/` 中的任务书副本、`requirement.md`、`metadata.json`、`README.md`、`submit-input.yaml` 不是这两个会话写入的，来源见各提交。
+    - 两个会话都没有执行 `git commit`。
+    - 版本快照：`traces/jm-spec75/snapshots/commits/`（自 base_commit 起 5 个提交的 `git format-patch --binary`）、`traces/jm-spec75/snapshots/uncommitted-vs-HEAD.diff`、`traces/jm-spec75/snapshots/git-log.txt`。
+  - 构建记录：`tasks/jm-spec75/logs/baseline-{clean,build,install}.log`（282ee238 生成）、`tasks/jm-spec75/logs/{clean,build,install}.log`（8ce0518b #125 生成）。
+  - 自测记录：`tasks/jm-spec75/logs/selftest.json`、`selftest.log`、`reports/2026-10-17-23-50-46/task_log.log`（8ce0518b #126，23/23 通过）。
+- 导出时间、方法与读取方式：
+  - 原生记录：2026-10-18 08:55:31（北京时间）用 `cp -p` / `cp -Rp` 从 `~/.comate-engine/store/` 按 sessionUuid 复制。复制后用 `cmp`、`diff -rq` 核对与原件一致。会话索引行按 sessionUuid `grep` 获取。
+  - Markdown 副本：2026-10-18 08:56:46 由 Python 脚本从复制后的原生明细转换生成。工具输出超过 4000 字符的部分做了截断，并注明对应 blob。
+  - Git 快照：2026-10-18 08:57:20 用 `git format-patch`、`git diff`、`git log` 导出。
+  - 读取方式见上文"读取方式"。
+- 成果冻结时间（北京时间，与 `solution.md` 一致）：2026-10-18 08:49（`3-package.md` 打包时统一为成果包冻结时间）
+- 官方工程基线标识（本次题包 metadata.base_commit 发布提交号）、最终提交版本标识：
+  - 基线：`ff2fb39980fae320da49cd5c0470a37f3d83c369`（`spec/metadata.json`；工程中的 tag `base/jm-spec75`、`baseline-jm-spec75` 均指向它）
+  - 最终版本：分支 `dev` 的 HEAD `7b43e65d714ddc8f534f8ea3f8668e4beffc35fc`，加上未提交的工作树改动（`spec/0-analyze.md`、`spec/2-submit.md`）。
+  - 工作树内容（不含 `.comate/submission-draft/`）的 git tree 对象为 `8c1d347b5f610d66889a8ebe2bc6c32903ada0c0`。`3-package.md` 打版本标识时，只要内容不变，tree 对象就应保持该值。
+- 基线至提交版本的完整差异位置（建议 changes/final.diff，含新增、修改、删除；二进制变更另列文件及摘要）：
+  - `tasks/jm-spec75/changes/final.diff`：1430021 字节，SHA-256 `fda03105154ef542cc4da3fe44a4556eb240099280644c1fd662efa8336a9e9b`。
+  - 生成命令：`git diff --binary --full-index ff2fb39980fae320da49cd5c0470a37f3d83c369 -- . ':(exclude).comate/submission-draft'`，比较对象是工作树。
+  - 覆盖 42 个文件：修改 8 个、新增 34 个、删除 0 个，范围包括 `spec/`、`hypium_tests/`、`logs/`。
+  - 二进制变更：无（diff 中没有 `GIT binary patch` 段）。`hypium_tests/fixtures/jm_sentence_poem_link.json` 是 292221 字节的单行 JSON 文本，已完整包含在 diff 中。
+  - 除 `.comate/submission-draft/` 外，没有其他未跟踪文件。
+- 与提交源码的对应关系：
+  - 2026-10-18 08:57 做了校验：把本工程仓库 clone 到临时目录并 `checkout ff2fb39`，`git apply --check --binary final.diff` 通过，随后实际应用。
+  - 应用结果与工程工作树一致：
+    - 二者 `git add -A && git write-tree` 得到相同的 tree `8c1d347b5f610d66889a8ebe2bc6c32903ada0c0`；
+    - `diff -rq`（排除 `.git`、`build`、`oh_modules`、`.hvigor`、`.idea`、`.comate`）无差异；
+    - 抽查 7 个关键文件的 SHA-256 一致：`SentenceIndexPage.ets`、`MenuList.ets`、`DbConst.ets`、fixture JSON、`spec/0-analyze.md`、`spec/2-submit.md`、`logs/selftest.json`。
+  - 应用时 git 提示了 6 处空白告警：日志行尾空格、文件末尾空行。这不影响应用结果。临时目录已删除。
+  - `tasks/jm-spec75/project/` 应排除 `.comate/submission-draft/`（本目录材料已分别搬到 `tasks/`、`traces/`），否则与 `final.diff` 不对应。
+- 人工操作及相关记录位置：
+  - 以下操作人在 git 中的记录为 `bress`（commit author / committer），对应哪位队员：【待补充】
+  - 会话内的人工提示与决策见上文用户提示列表：发起两个阶段会话；22:53 中断阶段 0 首轮后发送"继续"；23:22 对 U1–U12 作出决策。
+  - 任务书准备：2026-10-17 22:46 把 `common/spec-harness/` 的任务书复制到 `spec/`。依据是 282ee238 #1 的 `ls` 结果；工作区提交 `d4f913f` 的说明为"允许把任务书复制到各题 spec/ 使用"。
+  - git 提交：自基线起 5 个提交（`traces/jm-spec75/snapshots/git-log.txt`）均不在两个会话的工具调用中。其中 `7b43e65`（2026-10-18 00:19:42）在 8ce0518b 结束（00:15:46）之后提交，内容为该会话的代码、测试、日志与 spec 产出。
+  - 会话结束后对任务书副本的改动见"运行期间配置变更"。
+  - 模拟器操作：自测数据导入由 AI 在会话中通过 `hdc` 与 UI 自动化完成（282ee238 #35–#40，8ce0518b #89–#91）。人工是否另做过模拟器操作：【待补充】
+- 人工修改索引位置（可使用 `human-changes.md`；无则注明"无人工直接修改代码"）：【待补充】
+  - `spec/submit-input.yaml` 的 `human_edits` 为空，未提供结论。
+  - 可供判断的客观事实如下，不构成结论：
+    - `final.diff` 中 16 个业务代码与配置文件、6 个测试脚本，在 8ce0518b 中均有对应的 `write_file` / `edit_file` 记录；
+    - 它们的文件修改时间都落在该会话的工作时段内（2026-10-17 23:30:56 – 23:49:59）；
+    - 会话结束后修改时间晚于会话的只有 `spec/0-analyze.md`、`spec/2-submit.md` 两个过程文件。
+- 人工修改的操作人、目的、文件、代码差异、修改前后版本及对应原始记录位置：【待补充】
+  - 已知的人工改动只涉及过程文件，不涉及代码：`spec/0-analyze.md`（新增一行提示）、`spec/2-submit.md`（填写会话表）。
+  - 修改前版本为 HEAD `7b43e65`，修改后为工作树（tree `8c1d347…`），差异见 `traces/jm-spec75/snapshots/uncommitted-vs-HEAD.diff`。
+  - 操作人：【待补充】
+- 公开资料检索与代码复用记录位置，以及 `sources.md` 中的对应来源条目：
+  - 两个会话（含子代理）都没有调用网页检索或网页抓取工具。
+  - 工具参数中出现的外部网络访问只有 282ee238 #28、#29 的 `curl`，目标为应用自身的数据源 `https://p1-cdn.jingmo.ruaruan.com/api/`，即基线代码中"同步数据"所用的地址（`spec/baseline-notes.md` §7 引用 `NetworkConst.ets:7`）。下载的文件为 `dataset_v2.json`（只读取前 1500 字节）、`classicalliterature_sentence_v3_{1,2,3}.json`、`classicalliterature_classicpoem_v3_1.json`，用途是分析数据，以及把其中两份导入模拟器作测试数据。宿主机副本已在 #45 删除。
+  - 由此派生的 `hypium_tests/fixtures/jm_sentence_poem_link.json` 只用于自测，不进入应用代码。
+  - 代码复用：只复用了基线工程自身的代码（如 `ClassicPoemView`），没有引入外部代码。
+  - 对应 `sources.md` 条目见 `sources.fragment.md`。用户声明的额外来源（`extra_sources`）：【待补充】
+- 本题工作目录，以及赛题来源保护措施在本题运行中的配置位置（见 `solution.md`）：
+  - 工作目录为 `harmonycup-work/jm-spec75/`，两个会话的 `workspaceDirectory` 均为该目录。
+  - 来源保护配置：`spec/0-analyze.md`、`spec/1-do.md` 开头的"禁止事项"（成果包 `system-config/spec-harness/` 与 `tasks/jm-spec75/project/spec/`）；团队措施见 `solution.md`。
+  - 整理时对两个会话（含子代理）全部工具参数做了检索：
+    - 未出现 `SWE-OpenHarmony`、`harmonycup-work/` 下其他题目录或 `../` 越界路径（`../common` 除外）；
+    - 未出现 github / gitee / gitcode 等代码托管地址；
+    - 工程外访问只涉及 DevEco Studio 安装目录、`~/.ohos`、`~/Library/Huawei`（查看 SDK 配置）、`/tmp` 临时文件、模拟器目录、自动记忆目录和 `comate-session-ids` 脚本。
+  - 以上只是对记录做的检索，网络层是否另有屏蔽配置以本记录无法验证。
+- 脱敏范围（无则填"无"）：无。
+  - 原生记录原样复制，保留了本机绝对路径（含用户名）、`executedDeviceId` 等信息。`snapshots/commits/*.patch` 的 `From:` 头含提交者邮箱。
+  - 整理时按密钥、令牌、私钥等模式检索了两个会话的明细与 blob，未发现命中。是否需要脱敏：【待补充】
+- 记录缺失及原因（无则填"无"）：
+  1. IDE 侧边栏会话 ID 未能核实，原因见"主会话 ID"。
+  2. IDE"导出本地"的 Markdown 未提供，`md_export_dir` 为空。`traces/jm-spec75/markdown/` 是脚本转换的副本。
+  3. 首次全量自测（2026-10-17 23:44）的 Hypium 报告目录 `logs/reports/2026-10-17-23-44-25` 已被 AI 在清理步骤（8ce0518b #131）删除，`logs/selftest.json`、`selftest.log` 也被最终一次运行覆盖。该次运行的控制台输出保存在 8ce0518b #119 的输出 blob 中。
+  4. 会话中的临时脚本和数据（`/tmp/jm75_*.py`、`/tmp/jm75/`、`logs/tmp_*`）已在会话内删除（282ee238 #45、#64，8ce0518b #131）。脚本内容保留在对应 `write_file` 参数中（如 8ce0518b #78、#90、#98），下载的数据集文件本身没有保留。
+  5. Comate 客户端内置的系统提示，以及模型输入/输出 token 计数，原生记录中都没有。
+  6. 子代理 `Explore_12263084` 没有独立的记录文件，过程以嵌套记录为准。
+

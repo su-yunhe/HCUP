@@ -1,0 +1,10 @@
+[进入页面] --aboutToAppear--> LOADING --查询成功且有数据--> SHOWN(s, bookmarked?)
+                                  \--RDB 未就绪/空表/异常--> EMPTY
+SHOWN --点刷新--> LOADING'(保留当前 s 显示，刷新按钮防重入) --成功--> SHOWN(s', 重新查询 s' 的收藏态)
+                                                       \--失败--> SHOWN(s, 不变)
+SHOWN --点收藏切换--> WRITING(按钮防重入) --写库成功--> SHOWN(s, bookmarked = !old)
+                                             \--写库失败--> SHOWN(s, bookmarked = old)
+SHOWN --点收藏入口--> push 收藏列表页；返回时 onShown 重新查询 s 的收藏态（s 本身不变）
+SHOWN --点查看原文--> push 诗词详情页(poemId)；返回时 s 不变、不重新随机
+EMPTY --点刷新--> LOADING（重试）
+EMPTY --点收藏/生成图片/查看原文--> 无操作，不崩溃

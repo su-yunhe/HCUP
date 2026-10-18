@@ -1,0 +1,12 @@
+---
+name: jm-spec75 build & emulator environment
+description: How to build/install jm-spec75 on this Mac and how to get test data onto the emulator (sync is broken, import works)
+type: project
+---
+
+hvigorw needs JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home (no system Java; PackageHap fails otherwise). Install with `hdc -t 127.0.0.1:5555 install -r`.
+
+Emulator DNS can't resolve jingmo CDN, so 设置→同步数据 fails. 设置→导入数据 works: dataset JSONs pushed to /storage/media/100/local/files/Docs/Download/ (jm_poem_v3_1.json, jm_sentence_v3_1.json) as of 2026-10-17.
+
+**Why:** discovered during stage-0 baseline analysis; official sentence dataset has poem_id all null, so 查看原文 positive tests need hand-made data.
+**How to apply:** reuse these steps in stage 1 self-tests; verify files still exist on the emulator first (shared bundle across tasks).

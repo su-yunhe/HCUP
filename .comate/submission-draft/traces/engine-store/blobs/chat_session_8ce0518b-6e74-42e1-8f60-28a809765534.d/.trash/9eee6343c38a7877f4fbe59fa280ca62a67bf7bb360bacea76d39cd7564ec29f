@@ -1,0 +1,16 @@
+import sys
+from hypium import UiDriver, BY
+
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+B = "com.hefengbao.jingmo.hw"
+FILE = sys.argv[1] if len(sys.argv) > 1 else "jm_sentence_poem_link.json"
+d.stop_app(B)
+d.start_app(B, "EntryAbility", wait_time=3)
+d.wait(2)
+# 主页右上角设置图标
+imgs = d.find_all_components(BY.type("Image")) or []
+top = sorted(imgs, key=lambda c: (c.getBounds().top, -c.getBounds().left))[0]
+d.click(top)
+d.wait(1.5)
+d.click(d.find_component(BY.text("导入数据")))
+d.w

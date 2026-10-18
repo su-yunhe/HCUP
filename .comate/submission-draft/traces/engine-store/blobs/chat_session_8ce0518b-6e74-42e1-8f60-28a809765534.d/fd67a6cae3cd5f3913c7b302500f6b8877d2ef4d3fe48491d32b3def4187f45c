@@ -1,0 +1,6 @@
+    def back(self) -> None:
+        """标题栏返回按钮（与系统返回键一致）。"""
+        self.driver.press_back()
+        self.driver.wait(1)
+
+    def title_back(self) -> None:

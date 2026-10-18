@@ -1,0 +1,7 @@
+- 可观察结果：四个独立 Text：`poem_detail_title` = `title`，`poem_detail_writer` = `writer`，`poem_detail_dynasty` = `dynasty`，`poem_detail_content` = `content`，均与 `poem_id` 对应行一致；导航标题为诗名 `title`。
+- 入口/前置/动作：同 A24。
+- UI 结果（已定案 U10）：标题、作者、朝代、正文各自独立成 Text（便于精确匹配"苏轼""宋"）；之后按需附注释、译文等可选字段。
+  不修改 `ClassicPoemView`（其"【宋】苏轼"合并写法保留给经典诗文页，保证 A32）。
+- 数据结果：只读。 网络结果：不适用（§0.2）。 返回结果：A26。
+- 边界条件：subtitle/preface 为空时不显示空行；正文较长 → 页面可滚动；诗词表无该 id → 空态不崩溃。
+- 稳定选择器：`poem_detail_title`、`poem_detail_writer`、`poem_detail_dynasty`、`poem_detail_content`。

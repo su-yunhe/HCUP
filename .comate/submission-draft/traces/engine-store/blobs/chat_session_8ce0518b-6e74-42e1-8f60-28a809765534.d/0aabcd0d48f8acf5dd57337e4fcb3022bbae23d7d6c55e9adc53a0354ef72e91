@@ -1,0 +1,19 @@
+    NavDestination() {
+      if (this.classicPoem) {
+        Scroll() {
+          ClassicPoemView({
+            classicPoem: this.classicPoem
+          })
+        }
+        .align(Alignment.Top)
+        .height('100%')
+      } else if (this.loaded) {
+        Text('暂无数据')
+          .width('100%')
+          .textAlign(TextAlign.Center)
+          .padding(16)
+      }
+    }
+    .title(this.classicPoem ? this.classicPoem.title : '')
+    .id('poem_detail_page')
+    .onReady(

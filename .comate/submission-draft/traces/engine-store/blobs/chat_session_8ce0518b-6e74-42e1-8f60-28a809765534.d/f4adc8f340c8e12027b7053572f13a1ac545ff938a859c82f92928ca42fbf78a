@@ -1,0 +1,2 @@
+        self.assertEqual(len(self.driver.find_all_components(
+            BY.key(K_BOOKMARKS_ITEM, __import__("hypium").MatchPattern.STARTS_WITH)) or []), 1)

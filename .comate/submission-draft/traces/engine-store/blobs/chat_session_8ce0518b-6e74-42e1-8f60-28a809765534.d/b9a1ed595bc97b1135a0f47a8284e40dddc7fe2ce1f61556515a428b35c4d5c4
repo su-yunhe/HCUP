@@ -1,0 +1,118 @@
+import { Icon, ThemeConst } from 'constants';
+import {
+  bookmarkSentence,
+  isSentenceBookmarked,
+  readSentence,
+  readSentencePoemId,
+  Sentence,
+  unbookmarkSentence
+} from '../model/Sentence';
+import { SentenceView } from '../view/SentenceView';
+import { ToolbarItem } from '../view/ToolbarItem';
+import { pushPathFrom } from '../utils/NavUtil';
+
+const PAGE_NAME: string = 'SentenceDetailPage';
+
+@Builder
+export function SentenceDetailPageBuilder() {
+  SentenceDetailPage();
+}
+
+/**
+ * 名句详情，路由参数为名句 id（number）
+ */
+@ComponentV2
+export struct SentenceDetailPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local sentence: Sentence | null = null;
+  @Local poemId: number | null = null;
+  @Local bookmarked: boolean = false;
+  @Local loaded: boolean = false;
+  // 异步操作未完成前忽略重复点击
+  private bookmarking: boolean = false;
+
+  async load(id: number) {
+    const sentence = await readSentence(id)
+    if (sentence) {
+      this.poemId = await readSentencePoemId(sentence)
+      this.bookmarked = await isSentenceBookmarked(sentence.id)
+    }
+    this.sentence = sentence
+    this.loaded = true
+  }
+
+  async toggleBookmark() {
+    const current = this.sentence
+    if (!current || this.bookmarking) {
+      return
+    }
+    this.bookmarking = true
+    try {
+      const bookmark = !this.bookmarked
+      this.bookmarked = bookmark ? await bookmarkSentence(current.id) : await unbookmarkSentence(current.id)
+      if (bookmark && this.bookmarked) {
+        try {
+          this.getUIContext().getPromptAction().showToast({ message: '收藏成功' })
+        } catch (error) {
+          let err = error as BusinessError
+          logger.error(`showToast is failed, code is ${err.code},message is ${err.message}`)
+        }
+      }
+    } finally {
+      this.bookmarking = false
+    }
+  }
+
+  build() {
+    NavDestination() {
+      Column() {
+        Scroll() {
+          Column() {
+            if (this.sentence) {
+              SentenceView({
+                sentence: this.sentence,
+                poemId: this.poemId,
+                viewOriginal: (poemId: number) => {
+                  pushPathFrom(this.pageStack, PAGE_NAME, 'ClassicPoemDetailPage', poemId)
+                }
+              })
+            } else if (this.loaded) {
+              Text('暂无数据')
+                .width('100%')
+                .textAlign(TextAlign.Center)
+                .padding(ThemeConst.P_16)
+            }
+          }
+          .width('100%')
+          .padding(ThemeConst.P_16)
+        }
+        .layoutWeight(1)
+        .align(Alignment.Top)
+
+        if (this.sentence) {
+          Row() {
+            ToolbarItem({
+              itemId: 'sentence_detail_bookmark',
+              icon: this.bookmarked ? Icon.ic_bookmark : Icon.ic_bookmark_border,
+              label: this.bookmarked ? '已收藏' : '收藏本句',
+              selected: this.bookmarked,
+              action: () => {
+                this.toggleBookmark()
+              }
+            }).layoutWeight(1)
+          }
+          .width('100%')
+        }
+      }
+      .width('100%')
+      .height('100%')
+      .backgroundColor(ThemeConst.CardBackGroundColor_Normal)
+    }
+    .title('名句详情')
+    .id('sentence_detail_page')
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack
+      this.load(ctx.pathInfo.param as number)
+    })
+  }
+}

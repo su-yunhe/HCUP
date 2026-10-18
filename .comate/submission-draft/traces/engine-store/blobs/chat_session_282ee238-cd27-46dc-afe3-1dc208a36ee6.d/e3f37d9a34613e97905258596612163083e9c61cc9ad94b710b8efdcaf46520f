@@ -1,0 +1,121 @@
+<file>
+     1→import { relationalStore } from '@kit.ArkData';
+     2→import { BusinessError } from '@kit.BasicServicesKit';
+     3→import { Logger } from '../log/Logger';
+     4→import { DbMigrationConst } from 'constants';
+     5→
+     6→/**
+     7→ * 官方文档：https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/data-persistence-by-rdb-store
+     8→ */
+     9→export class DbUtil {
+    10→  objectiveRDB?: relationalStore.RdbStore;
+    11→  private logger: Logger = new Logger('RDBStoreUtil')
+    12→
+    13→  init(context: Context) {
+    14→
+    15→    const STORE_CONFIG: relationalStore.StoreConfig = {
+    16→      name: 'jingmo.db',
+    17→      securityLevel: relationalStore.SecurityLevel.S1,
+    18→      tokenizer: relationalStore.Tokenizer.ICU_TOKENIZER
+    19→    };
+    20→
+    21→    relationalStore.getRdbStore(context, STORE_CONFIG,
+    22→      async (error: BusinessError, rdbStore: relationalStore.RdbStore) => {
+    23→        this.objectiveRDB = rdbStore
+    24→        let storeVersion: number = rdbStore.version;
+    25→        if (error) {
+    26→          this.logger.error(`Get RdbStore failed, code is ${error.code},message is ${error.message}`)
+    27→          return;
+    28→        }
+    29→        this.logger.info('Get RdbStore successfully.')
+    30→
+    31→        // 数据表迁移
+    32→        if (storeVersion == 0) {
+    33→          try {
+    34→            await rdbStore.execute(DbMigrationConst.CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE)
+    35→          } catch (e) {
+    36→            const err = e as BusinessError;
+    37→            this.logger.error(`Failed to CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE. Code:${err.code}, message:${err.message}`);
+    38→          }
+    39→
+    40→          try {
+    41→            await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_CLASSICPOEM_TABLE)
+    42→          } catch (e) {
+    43→            const err = e as BusinessError;
+    44→            this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_CLASSICPOEM_TABLE. Code:${err.code}, message:${err.message}`);
+    45→          }
+    46→
+    47→          try {
+    48→            await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_SENTENCE_TABLE)
+    49→          } catch (e) {
+    50→            const err = e as BusinessError;
+    51→            this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_SENTENCE_TABLE. Code:${err.code}, message:${err.message}`);
+    52→          }
+    53→
+    54→          try {
+    55→            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_ANTITHETICALCOUPLET_TABLE)
+    56→          } catch (e) {
+    57→            const err = e as BusinessError;
+    58→            this.logger.error(`Failed to CREATE_CHINESE_ANTITHETICALCOUPLET_TABLE. Code:${err.code}, message:${err.message}`);
+    59→          }
+    60→
+    61→          try {
+    62→            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_CHARACTER_TABLE)
+    63→          } catch (e) {
+    64→            const err = e as BusinessError;
+    65→            this.logger.error(`Failed to CREATE_CHINESE_CHARACTER_TABLE. Code:${err.code}, message:${err.message}`);
+    66→          }
+    67→
+    68→          try {
+    69→            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_EXPRESSION_TABLE)
+    70→          } catch (e) {
+    71→            const err = e as BusinessError;
+    72→            this.logger.error(`Failed to CREATE_CHINESE_EXPRESSION_TABLE. Code:${err.code}, message:${err.message}`);
+    73→          }
+    74→
+    75→          try {
+    76→            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_IDIOM_TABLE)
+    77→          } catch (e) {
+    78→            const err = e as BusinessError;
+    79→            this.logger.error(`Failed to CREATE_CHINESE_IDIOM_TABLE. Code:${err.code}, message:${err.message}`);
+    80→          }
+    81→
+    82→          try {
+    83→            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_KNOWLEDGE_TABLE)
+    84→          } catch (e) {
+    85→            const err = e as BusinessError;
+    86→            this.logger.error(`Failed to CREATE_CHINESE_KNOWLEDGE_TABLE Code:${err.code}, message:${err.message}`);
+    87→          }
+    88→
+    89→          try {
+    90→            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_MODERNPOETRY_TABLE)
+    91→          } catch (e) {
+    92→            const err = e as BusinessError;
+    93→            this.logger.error(`Failed to CREATE_CHINESE_MODERNPOETRY_TABLE. Code:${err.code}, message:${err.message}`);
+    94→          }
+    95→
+    96→          try {
+    97→            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_QUOTE_TABLE)
+    98→          } catch (e) {
+    99→            const err = e as BusinessError;
+   100→            this.logger.error(`Failed to CREATE_CHINESE_QUOTE_TABLE. Code:${err.code}, message:${err.message}`);
+   101→          }
+   102→
+   103→          try {
+   104→            await rdbStore.execute(DbMigrationConst.CREATE_BOOKMARKS_TABLE)
+   105→          } catch (e) {
+   106→            const err = e as BusinessError;
+   107→            this.logger.error(`Failed to CREATE_BOOKMARKS_TABLE. Code:${err.code}, message:${err.message}`);
+   108→          }
+   109→
+   110→          storeVersion = 1
+   111→        }
+   112→
+   113→        rdbStore.version = storeVersion
+   114→      })
+   115→  }
+   116→}
+   117→
+   118→export default new DbUtil();
+</file>
+<metadata>The file has 118 lines in total.</metadata>

@@ -1,0 +1,26 @@
+## 3. Spec 描述的入口当前在哪
+
+实际操作结果 [实测，uitest dumpLayout]：
+
+- 冷启动先显示启动页"献给\n\n喜欢中华文字、文学、文化的人"约 2s，再进入主页（`products/default/src/main/ets/pages/Index.ets:8-20`）。
+- 主页：顶部"京墨文库" + 设置图标；下方 2 列网格，分组"古诗文 / 现代汉语 / 传统文化 / 中国"。
+  "古诗文"下有"经典诗文"（左）和"诗文名句"（右，bounds `[675,515][1280,693]`）。
+- **点击"诗文名句"：无任何反应**，仍停留主页（点击后 UI 树中无 NavDestination）。
+- 点击"经典诗文"：进入标题"经典诗文"的页面；空库时只有标题与底部一个刷新按钮；同步/导入数据后显示一首随机诗词。
+- 主页没有底部 Tab 栏，App 内也不存在任何"收藏"入口。
+
+对应代码 [代码]：
+
+- 入口页：`products/default/src/main/ets/pages/Index.ets:15-19` → `HomePage`。
+- 主页：`features/home/src/main/ets/pages/HomePage.ets:5-19`，`@Provider('NavPathStack') pageStack` + `Navigation(this.pageStack)`，`hideTitleBar(true)`、`hideToolBar(true)`、`NavigationMode.Stack`。
+- 菜单网格：`features/home/src/main/ets/view/MenuList.ets`
+  - "经典诗文"：`MenuList.ets:19-25`，`onClick → this.pageStack.pushPathByName('ClassicPoemIndexPage', null)`（第 23 行）。
+  - "诗文名句"：`MenuList.ets:27-31`，**没有 onClick**。
+  - 其他格子（汉字、词语……世界遗产名录）同样无 onClick。
+- 设置入口：`features/home/src/main/ets/view/TopBar.ets:13-16`，`pushPathByName("SettingPage", null)`。
+- 格子组件：`features/home/src/main/ets/view/Menu.ets:3-23`（`Item`，纯 Text，无 id）。
+- 路由注册方式：系统路由表 `routerMap`。HAR 模块 `module.json5` 声明 `"routerMap": "$profile:route_map"`，
+  例：`features/classicalliterature/classicpoem/src/main/module.json5:10`，
+  `classicpoem/src/main/resources/base/profile/route_map.json:1-12`（`name: ClassicPoemIndexPage`，`buildFunction: ClassicPoemIndexPageBuilder`）。
+- 依赖链：`products/default/oh-package.json5:8-11` 只依赖 `home`、`utils`；`features/home/oh-package.json5:8-12` 依赖 `constants`、`settings`、`classicalliterature_classicpoem`；
+  `features/settings/oh-package.json5:18` 依赖 `classicalliterature_sentence`。即 sentence 模块目前**经 

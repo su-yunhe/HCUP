@@ -1,0 +1,146 @@
+"""场景二/三：收藏当前名句、收藏列表页、名句详情页。"""
+from __future__ import annotations
+
+from hypium import BY, MatchPattern
+
+from hypium_tests.sentence_helpers import (
+    K_BOOKMARK, K_BOOKMARKS, K_BOOKMARKS_EMPTY, K_BOOKMARKS_ITEM, K_BOOKMARKS_PAGE, K_CONTENT, K_DETAIL,
+    K_DETAIL_BOOKMARK, K_FROM, K_INDEX, SentenceTestCase,
+)
+
+
+class TestScenario23Bookmark(SentenceTestCase):
+
+    def setUp(self):
+        self.enter_index()
+        self.clear_bookmarks()
+
+    def bookmark_current(self, expect_toast: bool = True) -> tuple[str, str]:
+        self.assertEqual(self.label_of(K_BOOKMARK), "收藏本句", "当前名句应为未收藏态")
+        current = self.current()
+        self.driver.start_listen_toast()
+        self.driver.click(self.require_key(K_BOOKMARK, "缺少收藏按钮"))
+        self.assertEqual(self.wait_label(K_BOOKMARK, "已收藏"), "已收藏", "收藏后按钮未变为已收藏")
+        if expect_toast:
+            self.assertEqual(self.driver.get_latest_toast(timeout=3), "收藏成功", "收藏后未提示“收藏成功”")
+        return current
+
+    def test_01_bookmark_and_find_in_list(self):
+        """A9/A10/A13/A14：收藏后图标变已收藏，进入收藏页能找到该条，返回后名句与收藏态不变。"""
+        content, source = self.bookmark_current()
+        self.assertTrue(self.require_key(K_BOOKMARK, "缺少收藏按钮").isSelected(), "已收藏态 selected 应为 true")
+        self.open_bookmarks()
+        self.assertEqual(self.title(), "收藏")
+        self.assertEqual(self.bookmark_item_texts(), [content], "收藏列表应只含刚收藏的名句")
+        self.require_component(BY.text(source), "收藏列表项缺少出处")
+        self.back()
+        self.require_key(K_INDEX, "未返回名句首页")
+        self.assertEqual(self.current(), (content, source), "返回后名句变化")
+        self.assertEqual(self.label_of(K_BOOKMARK), "已收藏", "返回后收藏态丢失")
+
+    def test_02_list_all_newest_first(self):
+        """A15/A17/A27：收藏多条后全部展示且最新在前；刷新后收藏态跟随新名句。"""
+        first = self.bookmark_current()
+        self.refresh()
+        self.assertEqual(self.wait_label(K_BOOKMARK, "收藏本句"), "收藏本句", "刷新到新名句后应为未收藏态")
+        second = self.bookmark_current()
+        self.refresh()
+        third = self.bookmark_current()
+        self.open_bookmarks()
+        self.assertEqual(self.bookmark_item_texts(), [third[0], second[0], first[0]], "收藏列表应按收藏时间倒序")
+
+    def test_03_detail_and_back(self):
+        """A18/A19：点击列表项进入名句详情页，展示完整内容；返回到收藏列表，再返回到首页。"""
+        content, source = self.bookmark_current()
+        self.open_bookmarks()
+        self.driver.click(self.bookmark_items()[0])
+        self.require_key(K_DETAIL, "未进入名句详情页")
+        self.assertEqual(self.wait_title("名句详情"), "名句详情")
+        self.assertEqual(self.text_of(K_CONTENT), content, "详情页内容与列表项不一致")
+        self.assertEqual(self.text_of(K_FROM), source, "详情页出处不一致")
+        self.assertEqual(self.wait_label(K_DETAIL_BOOKMARK, "已收藏"), "已收藏")
+        self.back()
+        self.require_key(K_BOOKMARKS_PAGE, "详情页返回后应回到收藏列表")
+        self.assertEqual(self.bookmark_item_texts(), [content])
+        self.title_back()
+        self.require_key(K_INDEX, "收藏列表返回后应回到名句首页")
+        self.assertEqual(self.current(), (content, source))
+
+    def test_04_unbookmark_in_detail(self):
+        """A28/A16：详情页取消收藏后返回列表，该项消失并显示空态；首页收藏态同步。"""
+        self.bookmark_current()
+        self.open_bookmarks()
+        self.driver.click(self.bookmark_items()[0])
+        self.require_key(K_DETAIL, "未进入名句详情页")
+        self.wait_label(K_DETAIL_BOOKMARK, "已收藏")
+        self.driver.start_listen_toast()
+        self.driver.click(self.require_key(K_DETAIL_BOOKMARK, "缺少详情页收藏按钮"))
+        self.assertEqual(self.wait_label(K_DETAIL_BOOKMARK, "收藏本句"), "收藏本句")
+        self.assertNotEqual(self.driver.get_latest_toast(timeout=2), "收藏成功", "取消收藏不应提示收藏成功")
+        # 再点恢复收藏，再取消，验证可反复切换
+        self.driver.click(self.require_key(K_DETAIL_BOOKMARK, "缺少详情页收藏按钮"))
+        self.assertEqual(self.wait_label(K_DETAIL_BOOKMARK, "已收藏"), "已收藏")
+        self.driver.click(self.require_key(K_DETAIL_BOOKMARK, "缺少详情页收藏按钮"))
+        self.assertEqual(self.wait_label(K_DETAIL_BOOKMARK, "收藏本句"), "收藏本句")
+        self.back()
+        self.require_key(K_BOOKMARKS_EMPTY, "取消收藏后列表应为空态")
+        self.assertEqual(self.text_of(K_BOOKMARKS_EMPTY), "暂无收藏")
+        self.assertEqual(self.bookmark_items(), [])
+        self.back()
+        self.require_key(K_INDEX, "未返回首页")
+        self.assertEqual(self.wait_label(K_BOOKMARK, "收藏本句"), "收藏本句", "首页收藏态未同步")
+
+    def test_05_unbookmark_on_index(self):
+        """A12：首页再次点击取消收藏，按钮回到未收藏态，列表不再包含。"""
+        self.bookmark_current()
+        self.driver.click(self.require_key(K_BOOKMARK, "缺少收藏按钮"))
+        self.assertEqual(self.wait_label(K_BOOKMARK, "收藏本句"), "收藏本句")
+        self.assertFalse(self.require_key(K_BOOKMARK, "缺少收藏按钮").isSelected())
+        self.open_bookmarks()
+        self.require_key(K_BOOKMARKS_EMPTY, "取消收藏后列表应为空")
+
+    def test_06_rapid_bookmark_no_duplicate(self):
+        """A30：快速连点收藏，最终状态与列表一致且不产生重复条目。"""
+        content, _ = self.current()
+        self.driver.double_click(self.require_key(K_BOOKMARK, "缺少收藏按钮"))
+        self.driver.wait(1.5)
+        label = self.label_of(K_BOOKMARK)
+        self.open_bookmarks()
+        texts = self.bookmark_item_texts()
+        if label == "已收藏":
+            self.assertEqual(texts, [content], "已收藏态时列表应恰有一条")
+        else:
+            self.assertEqual(texts, [], "未收藏态时列表应为空")
+        self.back()
+        # 已收藏态下再连点“收藏”多次（每次等待完成），列表仍至多一条
+        if self.label_of(K_BOOKMARK) == "收藏本句":
+            self.driver.click(self.require_key(K_BOOKMARK, "缺少收藏按钮"))
+            self.wait_label(K_BOOKMARK, "已收藏")
+        self.open_bookmarks()
+        self.assertEqual(self.bookmark_item_texts(), [content])
+        self.assertEqual(len(self.driver.find_all_components(
+            BY.key(K_BOOKMARKS_ITEM, MatchPattern.STARTS_WITH)) or []), 1)
+
+    def test_07_persist_after_restart(self):
+        """A11：收藏后重启应用，收藏列表仍包含该条。"""
+        content, _ = self.bookmark_current()
+        self.enter_index(restart=True)
+        self.open_bookmarks()
+        self.assertEqual(self.bookmark_item_texts(), [content], "重启后收藏丢失")
+
+    def test_08_empty_list(self):
+        """A16：无收藏时收藏列表显示空态；返回后重进仍为空态。"""
+        self.open_bookmarks()
+        self.assertEqual(self.text_of(K_BOOKMARKS_EMPTY), "暂无收藏")
+        self.back()
+        self.open_bookmarks()
+        self.require_key(K_BOOKMARKS_EMPTY, "重进后应仍为空态")
+
+    def test_09_double_click_bookmarks_entry(self):
+        """A14 边界：快速连点收藏入口只进入一层。"""
+        from hypium_tests.sentence_helpers import K_BOOKMARKS
+        self.driver.double_click(self.require_key(K_BOOKMARKS, "缺少收藏入口"))
+        self.require_key(K_BOOKMARKS_PAGE, "未进入收藏列表")
+        self.driver.wait(1)
+        self.back()
+        self.require_key(K_INDEX, "连点后返回一次应回到首页")

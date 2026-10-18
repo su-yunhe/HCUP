@@ -1,0 +1,99 @@
+commit 7b43e65d714ddc8f534f8ea3f8668e4beffc35fc
+Author: bress
+Date:   2026-10-18 00:19:42 +0800
+CommitDate: 2026-10-18 00:19:42 +0800
+
+    jm-spec75: 诗文名句模块首屏与路由跳转实现、自测用例、构建与自测日志、spec 分析产出及任务书副本
+
+
+ commons/constants/src/main/ets/DbConst.ets         |   15 +
+ features/classicalliterature/classicpoem/Index.ets |    2 +-
+ .../classicpoem/src/main/ets/model/ClassicPoem.ets |   21 +
+ .../src/main/ets/pages/ClassicPoemDetailPage.ets   |   51 +
+ .../src/main/ets/view/ClassicPoemView.ets          |    3 +
+ .../src/main/resources/base/profile/route_map.json |    8 +
+ .../sentence/src/main/ets/model/Sentence.ets       |  130 +-
+ .../src/main/ets/pages/SentenceBookmarksPage.ets   |   78 +
+ .../src/main/ets/pages/SentenceDetailPage.ets      |  121 +
+ .../src/main/ets/pages/SentenceIndexPage.ets       |  214 ++
+ .../sentence/src/main/ets/utils/NavUtil.ets        |   10 +
+ .../sentence/src/main/ets/view/SentenceView.ets    |   48 +
+ .../sentence/src/main/ets/view/ToolbarItem.ets     |   39 +
+ .../sentence/src/main/module.json5                 |    3 +-
+ .../src/main/resources/base/profile/route_map.json |   28 +
+ features/home/src/main/ets/view/MenuList.ets       |    6 +
+ hypium_tests/__init__.py                           |    0
+ hypium_tests/fixtures/jm_sentence_poem_link.json   |    1 +
+ hypium_tests/make_fixture.py                       |   58 +
+ hypium_tests/sentence_helpers.py                   |  201 ++
+ hypium_tests/test_scenario1_index.py               |  134 ++
+ hypium_tests/test_scenario23_bookmark.py           |  145 ++
+ hypium_tests/test_scenario4_original.py            |  142 ++
+ logs/baseline-build.log                            |   36 +-
+ logs/baseline-clean.log                            |    8 +-
+ logs/baseline-install.log                          |    2 +-
+ logs/build.log                                     |  227 ++
+ logs/clean.log                                     |   21 +
+ logs/install.log                                   |    2 +
+ logs/reports/2026-10-17-23-50-46/task_log.log      | 2294 +++++++++++++++++++
+ logs/selftest.json                                 |  122 +
+ logs/selftest.log                                  | 2381 ++++++++++++++++++++
+ spec/0-analyze.md                                  |   85 +
+ spec/1-do.md                                       |  132 ++
+ spec/2-submit.md                                   |  127 ++
+ spec/3-package.md                                  |  141 ++
+ spec/acceptance.md                                 |  617 +++++
+ spec/baseline-notes.md                             |  191 ++
+ 38 files changed, 7818 insertions(+), 26 deletions(-)
+commit 6dfdf331667e5d81e4b70fb25609e063b6b91cb9
+Author: bress
+Date:   2026-10-15 20:56:20 +0800
+CommitDate: 2026-10-15 20:56:20 +0800
+
+    jm-spec75: spec/README.md 改用相对路径引用 common
+
+
+ spec/README.md | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+commit 4fc360ef38f10bf244d36d774df605e9afd8680c
+Author: bress
+Date:   2026-10-15 20:47:06 +0800
+CommitDate: 2026-10-15 20:47:06 +0800
+
+    jm-spec75: 通用任务书移至 common/spec-harness，新增本题 spec/README.md 与 submit-input.yaml
+
+
+ spec/0-analyze.md      |  83 -----------------------------
+ spec/1-do.md           | 119 ------------------------------------------
+ spec/2-submit.md       | 113 ----------------------------------------
+ spec/3-package.md      | 138 -------------------------------------------------
+ spec/README.md         |  29 +++++++++++
+ spec/submit-input.yaml |   6 +++
+ 6 files changed, 35 insertions(+), 453 deletions(-)
+commit f163668ba999bcdccc41f8fefff2b7ee8ec48c2c
+Author: bress
+Date:   2026-10-15 19:44:46 +0800
+CommitDate: 2026-10-15 19:44:46 +0800
+
+    log
+
+
+ logs/baseline-build.log   | 227 ++++++++++++++++++++++++++++++++++++++++++++++
+ logs/baseline-clean.log   |  21 +++++
+ logs/baseline-install.log |   2 +
+ 3 files changed, 250 insertions(+)
+commit 9d6a7c49c8238905f2387209c81494ca3362cbcd
+Author: bress
+Date:   2026-10-14 21:27:14 +0800
+CommitDate: 2026-10-14 21:27:14 +0800
+
+    chore: 补充 spec 四步任务书与本题需求
+
+
+ spec/0-analyze.md   |  83 +++++++++++++++++++++++++++++++
+ spec/1-do.md        | 119 ++++++++++++++++++++++++++++++++++++++++++++
+ spec/2-submit.md    | 113 ++++++++++++++++++++++++++++++++++++++++++
+ spec/3-package.md   | 138 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ spec/metadata.json  |   4 ++
+ spec/requirement.md |  51 +++++++++++++++++++
+ 6 files changed, 508 insertions(+)

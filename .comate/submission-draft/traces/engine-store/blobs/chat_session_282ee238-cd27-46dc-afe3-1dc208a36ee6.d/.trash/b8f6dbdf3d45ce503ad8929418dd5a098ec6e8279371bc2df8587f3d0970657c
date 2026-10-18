@@ -1,0 +1,17 @@
+## 7. 前置环境需求
+
+- 登录账号 / 服务端 / WebDAV：**不需要**。本题全部功能基于本地 RDB [代码]。
+- 测试数据：**需要**。全新安装时 `classicalliterature_sentence`、`classicalliterature_classicpoem` 均为空 [实测：经典诗文页空白]。写入途径：
+  1. 设置 → 同步数据：从 `https://p1-cdn.jingmo.ruaruan.com/api/` 拉取（`NetworkConst.ets:7`，`DatasetViewModel.ets:58-73`）。
+     本次实测：页面能列出远端数量（经典诗文 955、诗文名句 10000），但点同步时模拟器 DNS 解析失败
+     （hilog：`Failed to resolve the host name`；模拟器内 `ping` 该域名返回 `Try again`），界面显示 `code = undefined, msg = undefined`
+     （`SyncDataList.ets:299-301` 把字符串当 BusinessError 读，基线问题，只记录）。**同步不可依赖**。
+  2. 设置 → 导入数据：系统文件选择器选 JSON 文件（`ImportDataList.ets:404-424`），格式 `{"total": n, "data": [...], "next_page": null}`。
+     本次实测可用：在宿主机从同一 CDN 下载 `classicalliterature_classicpoem_v3_1.json`、`classicalliterature_sentence_v3_1.json`（各一页即全集），
+     `hdc file send` 到模拟器 `/storage/media/100/local/files/Docs/Download/`（文件名 `jm_poem_v3_1.json`、`jm_sentence_v3_1.json`，**已保留在模拟器上**供后续阶段复用），
+     在导入页分别选择后显示 955 / 10000，之后经典诗文页能正常显示随机诗词 [实测]。
+- 场景四正向用例的数据：官方数据集 10000 条名句 `poem_id` **全部为 null** [实测，宿主机分析下载的 JSON]，
+  所以仅靠官方数据无法出现"查看原文"。自测需要自造 `poem_id` 指向已有诗词 id 的名句并通过"导入数据"写入。
+  可用的真实配对样例（按"作者《标题》"与诗词 writer+title 匹配得到，仅供造数据）：
+  名句 id 3"十年生死两茫茫，不思量，自难忘。"→ 诗词 id 400《江城子·乙卯正月二十日夜记梦》；
+ 

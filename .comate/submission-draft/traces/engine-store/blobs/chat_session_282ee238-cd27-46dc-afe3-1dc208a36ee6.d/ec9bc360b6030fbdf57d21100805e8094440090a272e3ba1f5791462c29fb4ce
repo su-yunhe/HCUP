@@ -1,0 +1,8 @@
+- 可观察结果：标题 Text = `title`；作者与朝代在同一 Text 中显示为"【`dynasty`】`writer`"（如"【宋】苏轼"）；正文 Text = `content`；均与 `poem_id` 对应行一致。
+- 入口/前置/动作：同 A24。
+- UI 结果（已定案 U10）：新路由复用 `ClassicPoemView` 渲染，与经典诗文页展示一致（标题、"【朝代】作者"、序言、正文、注释/译文/创作背景/赏析/点评）。
+  仅在 `ClassicPoemView` 内给标题、作者朝代、正文三个 Text 补 `.id()`，不改变其布局和文字，保证 A32。
+  残留风险：官方若精确匹配单独的"苏轼"或"宋"会失败，包含匹配可通过。
+- 数据结果：只读。 网络结果：不适用（§0.2）。 返回结果：A26。
+- 边界条件：preface 为空时不显示；正文较长 → 页面可滚动；诗词表无该 id → 空态不崩溃。
+- 稳定选择器：`poem_detail_page`、`poem_detail_title`、`poem_detail_writer_dynasty`、`poem_detail_content`。

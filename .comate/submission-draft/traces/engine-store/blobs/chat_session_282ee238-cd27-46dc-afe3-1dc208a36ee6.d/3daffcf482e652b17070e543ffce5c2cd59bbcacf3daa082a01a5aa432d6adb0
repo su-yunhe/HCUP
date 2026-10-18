@@ -1,0 +1,687 @@
+<file>
+     1→commons/constants/.gitignore
+     2→commons/constants/BuildProfile.ets
+     3→commons/constants/Index.ets
+     4→commons/constants/build-profile.json5
+     5→commons/constants/consumer-rules.txt
+     6→commons/constants/hvigorfile.ts
+     7→commons/constants/obfuscation-rules.txt
+     8→commons/constants/oh-package.json5
+     9→commons/constants/src/main/ets/DbConst.ets
+    10→commons/constants/src/main/ets/Icon.ets
+    11→commons/constants/src/main/ets/NetworkConst.ets
+    12→commons/constants/src/main/ets/PrefConst.ets
+    13→commons/constants/src/main/ets/String.ets
+    14→commons/constants/src/main/ets/ThemeConst.ets
+    15→commons/constants/src/main/module.json5
+    16→commons/constants/src/main/resources/base/element/float.json
+    17→commons/constants/src/main/resources/base/element/string.json
+    18→commons/constants/src/main/resources/base/media/ic_bookmark.svg
+    19→commons/constants/src/main/resources/base/media/ic_bookmark_border.svg
+    20→commons/constants/src/main/resources/base/media/ic_public_cloud_download.svg
+    21→commons/constants/src/main/resources/base/media/ic_public_delete.svg
+    22→commons/constants/src/main/resources/base/media/ic_public_download.svg
+    23→commons/constants/src/main/resources/base/media/ic_public_folder.svg
+    24→commons/constants/src/main/resources/base/media/ic_public_refresh.svg
+    25→commons/constants/src/main/resources/base/media/ic_public_search.svg
+    26→commons/constants/src/main/resources/base/media/ic_public_settings.svg
+    27→commons/constants/src/main/resources/base/media/ic_public_todo.svg
+    28→commons/constants/src/main/resources/base/media/ic_public_todo_filled.svg
+    29→commons/uicomponents/.gitignore
+    30→commons/uicomponents/BuildProfile.ets
+    31→commons/uicomponents/Index.ets
+    32→commons/uicomponents/build-profile.json5
+    33→commons/uicomponents/consumer-rules.txt
+    34→commons/uicomponents/hvigorfile.ts
+    35→commons/uicomponents/obfuscation-rules.txt
+    36→commons/uicomponents/oh-package-lock.json5
+    37→commons/uicomponents/oh-package.json5
+    38→commons/uicomponents/src/main/ets/components/BlockComponent.ets
+    39→commons/uicomponents/src/main/ets/components/ContentComponent.ets
+    40→commons/uicomponents/src/main/module.json5
+    41→commons/utils/.gitignore
+    42→commons/utils/BuildProfile.ets
+    43→commons/utils/Index.ets
+    44→commons/utils/build-profile.json5
+    45→commons/utils/consumer-rules.txt
+    46→commons/utils/hvigorfile.ts
+    47→commons/utils/obfuscation-rules.txt
+    48→commons/utils/oh-package-lock.json5
+    49→commons/utils/oh-package.json5
+    50→commons/utils/src/main/ets/data/DbUtil.ets
+    51→commons/utils/src/main/ets/data/PrefUtil.ets
+    52→commons/utils/src/main/ets/log/Logger.ets
+    53→commons/utils/src/main/ets/network/HttpUtil.ets
+    54→commons/utils/src/main/module.json5
+    55→=== commons/constants/Index.ets
+    56→     1	export { DbMigrationConst, DbCRUDConst, DbTableConst } from './src/main/ets/DbConst';
+    57→     2	
+    58→     3	export { Icon } from './src/main/ets/Icon';
+    59→     4	
+    60→     5	export { NetworkConst } from './src/main/ets/NetworkConst';
+    61→     6	
+    62→     7	export { PrefConst } from './src/main/ets/PrefConst';
+    63→     8	
+    64→     9	export { String } from './src/main/ets/String';
+    65→    10	
+    66→    11	export { ThemeConst } from './src/main/ets/ThemeConst';=== commons/constants/src/main/ets/String.ets
+    67→     1	export class String {
+    68→     2	  static readonly app_name: Resource = $r('app.string.app_name');
+    69→     3	  static readonly china: Resource = $r('app.string.china');
+    70→     4	  static readonly china_worldcultureheritage: Resource = $r('app.string.china_worldcultureheritage');
+    71→     5	  static readonly chinese: Resource = $r('app.string.chinese');
+    72→     6	  static readonly chinese_antitheticalcouplet: Resource = $r('app.string.chinese_antitheticalcouplet');
+    73→     7	  static readonly chinese_character: Resource = $r('app.string.chinese_character');
+    74→     8	  static readonly chinese_expression: Resource = $r('app.string.chinese_expression');
+    75→     9	  static readonly chinese_idiom: Resource = $r('app.string.chinese_idiom');
+    76→    10	  static readonly chinese_knowledge: Resource = $r('app.string.chinese_knowledge');
+    77→    11	  static readonly chinese_lyric: Resource = $r('app.string.chinese_lyric');
+    78→    12	  static readonly chinese_modernpoetry: Resource = $r('app.string.chinese_modernpoetry');
+    79→    13	  static readonly chinese_proverb: Resource = $r('app.string.chinese_proverb');
+    80→    14	  static readonly chinese_quote: Resource = $r('app.string.chinese_quote');
+    81→    15	  static readonly chinese_riddle: Resource = $r('app.string.chinese_riddle');
+    82→    16	  static readonly chinese_tonguetwister: Resource = $r('app.string.chinese_tonguetwister');
+    83→    17	  static readonly chinese_wisecrack: Resource = $r('app.string.chinese_wisecrack');
+    84→    18	  static readonly classicalliterature: Resource = $r('app.string.classicalliterature');
+    85→    19	  static readonly classicalliterature_classicpoem: Resource = $r('app.string.classicalliterature_classicpoem');
+    86→    20	  static readonly classicalliterature_people: Resource = $r('app.string.classicalliterature_people');
+    87→    21	  static readonly classicalliterature_sentence: Resource = $r('app.string.classicalliterature_sentence');
+    88→    22	  static readonly classicalliterature_writing: Resource = $r('app.string.classicalliterature_writing');
+    89→    23	  static readonly traditionalculture: Resource = $r('app.string.traditionalculture');
+    90→    24	  static readonly traditionalculture_calendar: Resource = $r('app.string.traditionalculture_calendar');
+    91→    25	  static readonly traditionalculture_color: Resource = $r('app.string.traditionalculture_color');
+    92→    26	  static readonly traditionalculture_festival: Resource = $r('app.string.traditionalculture_festival');
+    93→    27	  static readonly traditionalculture_solarterm: Resource = $r('app.string.traditionalculture_solarterm');
+    94→    28	  static readonly http_error_message: Resource = $r('app.string.http_error_message');
+    95→    29	  static readonly refresh: Resource = $r('app.string.refresh');
+    96→    30	  static readonly settings: Resource = $r('app.string.settings');
+    97→    31	  static readonly bookmark: Resource = $r('app.string.bookmark');
+    98→    32	}=== commons/constants/src/main/ets/ThemeConst.ets
+    99→     1	export class ThemeConst {
+   100→     2	  static readonly BackGroundColor_Clicked = "#f1f3f5";
+   101→     3	  static readonly BackGroundColor_Normal = '#ffffff';
+   102→     4	  static readonly CardBackGroundColor_Clicked = "#ffeaebec";
+   103→     5	  static readonly CardBackGroundColor_Normal = '#f1f3f5';
+   104→     6	  static readonly FontColor_BlockTitle = '#ff7a7a7a';
+   105→     7	  static readonly FontSize_BlockTitle = 14;
+   106→     8	  static readonly FontSize_14 = 14;
+   107→     9	  static readonly P_8: Length = 8;
+   108→    10	  static readonly P_16: Length = 16;
+   109→    11	  static readonly PY_16: Padding = { top: 16, bottom: 16 };
+   110→    12	  static readonly P_X16_Y8: Padding = {
+   111→    13	    left: 16,
+   112→    14	    top: 8,
+   113→    15	    right: 16,
+   114→    16	    bottom: 8
+   115→    17	  };
+   116→    18	}=== commons/constants/src/main/ets/NetworkConst.ets
+   117→     1	export class NetworkConst {
+   118→     2	  static readonly HTTP_CODE_200: number = 200;
+   119→     3	  static readonly HTTP_CONNECT_TIMEOUT: number = 600000; //单位：ms
+   120→     4	  static readonly HTTP_READ_TIMEOUT: number = 600000;
+   121→     5	  static readonly PRIVACY_LINK: string = 'https://jingmo.ruaruan.com/docs/privacy-policy/';
+   122→     6	  static readonly TOS_LINK: string = 'https://jingmo.ruaruan.com/docs/user-agreement/';
+   123→     7	  static readonly BASE_URL1: string = "https://p1-cdn.jingmo.ruaruan.com/api/";
+   124→     8	  static readonly BASE_URL2: string = "https://p2-cdn.jingmo.ruaruan.com/api/";
+   125→     9	  static readonly BASE_URL3: string = "https://p3-cdn.jingmo.ruaruan.com/api/";
+   126→    10	  static readonly DATASET: string = "dataset_v2";
+   127→    11	  static readonly CHINA_WORLDCULTUREHERITAGE: string = "china_worldcultureheritage";
+   128→    12	  static readonly CHINESE_ANTITHETICALCOUPLET: string = "chinese_antitheticalcouplet";
+   129→    13	  static readonly CHINESE_CHARACTER: string = "chinese_character";
+   130→    14	  static readonly CHINESE_EXPRESSION: string = "chinese_expression";
+   131→    15	  static readonly CHINESE_IDIOM: string = "chinese_idiom";
+   132→    16	  static readonly CHINESE_KNOWLEDGE: string = "chinese_knowledge";
+   133→    17	  static readonly CHINESE_LYRIC: string = "chinese_lyric";
+   134→    18	  static readonly CHINESE_MODERNPOETRY: string = "chinese_modernpoetry";
+   135→    19	  static readonly CHINESE_PROVERB: string = "chinese_proverb";
+   136→    20	  static readonly CHINESE_QUOTE: string = "chinese_quote";
+   137→    21	  static readonly CHINESE_RIDDLE: string = "chinese_riddle";
+   138→    22	  static readonly CHINESE_TONGUETWISTER: string = "chinese_tonguetwister";
+   139→    23	  static readonly CHINESE_WISECRACK: string = "chinese_wisecrack";
+   140→    24	  static readonly CLASSICALLITERATURE_CLASSICPOEM: string = "classicalliterature_classicpoem";
+   141→    25	  static readonly CLASSICALLITERATURE_PEOPLE: string = "classicalliterature_people";
+   142→    26	  static readonly CLASSICALLITERATURE_SENTENCE: string = "classicalliterature_sentence";
+   143→    27	  static readonly CLASSICALLITERATURE_WRITING: string = "classicalliterature_writing";
+   144→    28	}=== commons/constants/src/main/ets/Icon.ets
+   145→     1	export class Icon {
+   146→     2	  static readonly ic_bookmark: Resource = $r('app.media.ic_bookmark');
+   147→     3	  static readonly ic_bookmark_border: Resource = $r('app.media.ic_bookmark_border');
+   148→     4	  static readonly ic_public_cloud_download: Resource = $r('app.media.ic_public_cloud_download');
+   149→     5	  static readonly ic_public_delete: Resource = $r('app.media.ic_public_delete');
+   150→     6	  static readonly ic_public_download: Resource = $r('app.media.ic_public_download');
+   151→     7	  static readonly ic_public_folder: Resource = $r('app.media.ic_public_folder');
+   152→     8	  static readonly ic_public_refresh: Resource = $r('app.media.ic_public_refresh');
+   153→     9	  static readonly ic_public_search: Resource = $r('app.media.ic_public_search');
+   154→    10	  static readonly ic_public_settings: Resource = $r('app.media.ic_public_settings');
+   155→    11	  static readonly ic_public_todo: Resource = $r('app.media.ic_public_todo');
+   156→    12	  static readonly ic_public_todo_filled: Resource = $r('app.media.ic_public_todo_filled');
+   157→    13	}=== commons/constants/src/main/ets/DbConst.ets
+   158→     1	export class DbTableConst {
+   159→     2	  static readonly BOOKMARKS_TABLE: string = 'bookmarks';
+   160→     3	  static readonly CLASSICALLITERATURE_CLASSICPOEM_TABLE: string = 'classicalliterature_classicpoem';
+   161→     4	  static readonly CLASSICALLITERATURE_CLASSICPOEM_FTS_TABLE: string = 'classicalliterature_classicpoem_fts';
+   162→     5	  static readonly CLASSICALLITERATURE_WRITING_TABLE: string = "classicalliterature_writing";
+   163→     6	  static readonly CLASSICALLITERATURE_SENTENCE_TABLE: string = "classicalliterature_sentence";
+   164→     7	  static readonly CLASSICALLITERATURE_SENTENCE_FTS_TABLE: string = "classicalliterature_sentence_fts";
+   165→     8	  static readonly CLASSICALLITERATURE_PEOPLE_TABLE: string = "classicalliterature_people";
+   166→     9	  static readonly CHINESE_CHARACTER_TABLE: string = "chinese_character";
+   167→    10	  static readonly CHINESE_EXPRESSION_TABLE: string = "chinese_expression";
+   168→    11	  static readonly CHINESE_IDIOM_TABLE: string = "chinese_idiom";
+   169→    12	  static readonly CHINESE_WISECRACK_TABLE: string = "chinese_wisecrack";
+   170→    13	  static readonly CHINESE_RIDDLE_TABLE: string = "chinese_riddle";
+   171→    14	  static readonly CHINESE_PROVERB_TABLE: string = "chinese_proverb";
+   172→    15	  static readonly CHINESE_TONGUETWISTER_TABLE: string = "chinese_tonguetwister";
+   173→    16	  static readonly CHINESE_ANTITHETICALCOUPLET_TABLE: string = "chinese_antitheticalcouplet";
+   174→    17	  static readonly CHINESE_LYRIC_TABLE: string = "chinese_lyric";
+   175→    18	  static readonly CHINESE_KNOWLEDGE_TABLE: string = "chinese_knowledge";
+   176→    19	  static readonly CHINESE_KNOWLEDGE_FTS_TABLE: string = "chinese_knowledge_fts";
+   177→    20	  static readonly CHINESE_QUOTE_TABLE: string = "chinese_quote";
+   178→    21	  static readonly CHINESE_QUOTE_FTS_TABLE: string = "chinese_quote_fts";
+   179→    22	  static readonly CHINESE_MODERNPOETRY_TABLE: string = "chinese_modernpoetry";
+   180→    23	  static readonly CHINESE_MODERNPOETRY_FTS_TABLE: string = "chinese_modernpoetry_fts";
+   181→    24	  static readonly CHINA_WORLDCULTUREHERITAGE_TABLE: string = "china_worldcultureheritage";
+   182→    25	}
+   183→    26	
+   184→    27	// 为了保证平稳升级，所有的修改、删除操作都通过 SQL 语句完成,即不更改以前版本的 SQL 语句
+   185→    28	export class DbMigrationConst {
+   186→    29	  // Version 0
+   187→    30	  static readonly CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE: string =
+   188→    31	    'create table if not exists ' + DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE +
+   189→    32	      ' (id integer primary key autoincrement not null, type text not null, name text not null, year text not null, ' +
+   190→    33	      'year2 text, level text not null, address text not null, image text not null, content text not null)';
+   191→    34	  static readonly CREATE_CLASSICALLITERATURE_CLASSICPOEM_TABLE: string =
+   192→    35	    'create table if not exists ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+   193→    36	      ' (id integer primary key autoincrement not null, dynasty text not null, writer text not null,' +
+   194→    37	      ' writer_introduction text, title text not null, subtitle text, preface text, content text not null,' +
+   195→    38	      ' annotation text, translation text, creative_background text, explain text, comment text, collection text,' +
+   196→    39	      ' category text )';
+   197→    40	  static readonly CREATE_CLASSICALLITERATURE_SENTENCE_TABLE: string =
+   198→    41	    'create table if not exists ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+   199→    42	      ' (id integer primary key autoincrement not null, content text not null, from_txt text not null, poem_id integer)';
+   200→    43	  static readonly CREATE_CHINESE_ANTITHETICALCOUPLET_TABLE: string =
+   201→    44	    'create table if not exists ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
+   202→    45	      ' (id integer primary key autoincrement not null, body text not null, description text, image text)';
+   203→    46	  static readonly CREATE_CHINESE_CHARACTER_TABLE: string =
+   204→    47	    'create table if not exists ' + DbTableConst.CHINESE_CHARACTER_TABLE +
+   205→    48	      ' (id integer primary key autoincrement not null, character text not null, character2 text, pinyin text not null, ' +
+   206→    49	      'radical text, stroke integer, wubi text, explanations text, explanations2 text)';
+   207→    50	  static readonly CREATE_CHINESE_EXPRESSION_TABLE: string =
+   208→    51	    'create table if not exists ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+   209→    52	      ' (id integer not null primary key autoincrement, word text not null, pinyin text not null, explanation text, ' +
+   210→    53	      'example text, source text, quote text, similar text, opposite text, usage text, story text, notice text, ' +
+   211→    54	      'spelling text)';
+   212→    55	  static readonly CREATE_CHINESE_IDIOM_TABLE: string =
+   213→    56	    'create table if not exists ' + DbTableConst.CHINESE_IDIOM_TABLE +
+   214→    57	      ' (id integer not null primary key autoincrement, word text not null, pinyin text not null, abbr text not null,  ' +
+   215→    58	      'explanation text, example text, source text, quote text, similar text, opposite text, usage text, story text, ' +
+   216→    59	      'notice text, spelling text)';
+   217→    60	  static readonly CREATE_CHINESE_KNOWLEDGE_TABLE: string =
+   218→    61	    'create table if not exists ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+   219→    62	      ' (id integer primary key autoincrement not null, content text not null, label text not null, url text)';
+   220→    63	  static readonly CREATE_CHINESE_MODERNPOETRY_TABLE: string =
+   221→    64	    'create table if not exists ' + DbTableConst.CHINESE_MODERNPOETRY_TABLE +
+   222→    65	      ' (id integer primary key autoincrement not null, title text not null, author text not null, ' +
+   223→    66	      'content text not null, zhu text, yi text, shang text, author_info text)';
+   224→    67	  static readonly CREATE_CHINESE_QUOTE_TABLE: string =
+   225→    68	    'create table if not exists ' + DbTableConst.CHINESE_QUOTE_TABLE +
+   226→    69	      ' (id integer primary key autoincrement not null, content text not null, author text, from_txt text not null)';
+   227→    70	  static readonly CREATE_BOOKMARKS_TABLE: string =
+   228→    71	    'create table if not exists ' + DbTableConst.BOOKMARKS_TABLE +
+   229→    72	      ' (id integer primary key autoincrement not null, bookmarkable_id integer, bookmarkable_model text)';
+   230→    73	}
+   231→    74	
+   232→    75	export class DbCRUDConst {
+   233→    76	  static readonly READ_CHINA_WORLDCULTUREHERITAGE: string =
+   234→    77	    'select * from ' + DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE +
+   235→    78	      'where id = ? limit 1';
+   236→    79	  static readonly READ_RANDOM_CHINESE_ANTITHETICALCOUPLET: string =
+   237→    80	    'select * from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
+   238→    81	      ' where id = (select id from ' + DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE +
+   239→    82	      ' order by random() limit 1) limit 1';
+   240→    83	  static readonly READ_RANDOM_CHINESE_CHARACTER: string =
+   241→    84	    'select * from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
+   242→    85	      ' where id = (select id from ' + DbTableConst.CHINESE_CHARACTER_TABLE +
+   243→    86	      ' order by random() limit 1) limit 1';
+   244→    87	  static readonly READ_RANDOM_CHINESE_EXPRESSION: string =
+   245→    88	    'select * from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+   246→    89	      ' where id = (select id from ' + DbTableConst.CHINESE_EXPRESSION_TABLE +
+   247→    90	      ' order by random() limit 1) limit 1';
+   248→    91	  static readonly READ_RANDOM_CHINESE_IDIOM: string =
+   249→    92	    'select * from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+   250→    93	      ' where id = (select id from ' + DbTableConst.CHINESE_IDIOM_TABLE +
+   251→    94	      ' order by random() limit 1) limit 1';
+   252→    95	  static readonly READ_RANDOM_CHINESE_KNOWLEDGE: string =
+   253→    96	    'select * from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+   254→    97	      ' where id = (select id from ' + DbTableConst.CHINESE_KNOWLEDGE_TABLE +
+   255→    98	      ' order by random() limit 1) limit 1';
+   256→    99	  static readonly READ_RANDOM_CHINESE_QUOTE: string =
+   257→   100	    'select * from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+   258→   101	      ' where id = (select id from ' + DbTableConst.CHINESE_QUOTE_TABLE +
+   259→   102	      ' order by random() limit 1) limit 1';
+   260→   103	  static readonly READ_RANDOM_CLASSICALLITERATURE_CLASSICPOEM: string =
+   261→   104	    'select * from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+   262→   105	      ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE +
+   263→   106	      ' order by random() limit 1) limit 1';
+   264→   107	  static readonly READ_RANDOM_CLASSICALLITERATURE_SENTENCE: string =
+   265→   108	    'select * from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+   266→   109	      ' where id = (select id from ' + DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE +
+   267→   110	      ' order by random() limit 1) limit 1';
+   268→   111	}=== commons/constants/src/main/ets/PrefConst.ets
+   269→     1	export class PrefConst {
+   270→     2	  static readonly PREF_NAME: string = "jingmo_pref";
+   271→     3	  static readonly CLASSICALLITERATURE_CLASSICPOEM: string = "classicalliterature_classicpoem";
+   272→     4	  static readonly CLASSICALLITERATURE_WRITING: string = "classicalliterature_writing";
+   273→     5	  static readonly CLASSICALLITERATURE_SENTENCE: string = "classicalliterature_sentence";
+   274→     6	  static readonly CLASSICALLITERATURE_PEOPLE: string = "classicalliterature_people";
+   275→     7	  static readonly CHINESE_CHARACTER: string = "chinese_character";
+   276→     8	  static readonly CHINESE_EXPRESSION: string = "chinese_expression";
+   277→     9	  static readonly CHINESE_IDIOM: string = "chinese_idiom";
+   278→    10	  static readonly CHINESE_WISECRACK: string = "chinese_wisecrack";
+   279→    11	  static readonly CHINESE_RIDDLE: string = "chinese_riddle";
+   280→    12	  static readonly CHINESE_PROVERB: string = "chinese_proverb";
+   281→    13	  static readonly CHINESE_TONGUETWISTER: string = "chinese_tonguetwister";
+   282→    14	  static readonly CHINESE_ANTITHETICALCOUPLET: string = "chinese_antitheticalcouplet";
+   283→    15	  static readonly CHINESE_LYRIC: string = "chinese_lyric";
+   284→    16	  static readonly CHINESE_KNOWLEDGE: string = "chinese_knowledge";
+   285→    17	  static readonly CHINESE_QUOTE: string = "chinese_quote";
+   286→    18	  static readonly CHINESE_MODERNPOETRY: string = "chinese_modernpoetry";
+   287→    19	  static readonly CHINA_WORLDCULTUREHERITAGE: string = "china_worldcultureheritage";
+   288→    20	  static readonly CLASSICALLITERATURE_CLASSICPOEM_ID: string = "classicalliterature_classicpoem_id";
+   289→    21	  static readonly CLASSICALLITERATURE_WRITING_ID: string = "classicalliterature_writing_id";
+   290→    22	  static readonly CLASSICALLITERATURE_SENTENCE_ID: string = "classicalliterature_sentence_id";
+   291→    23	  static readonly CLASSICALLITERATURE_PEOPLE_ID: string = "classicalliterature_people_id";
+   292→    24	  static readonly CHINESE_CHARACTER_ID: string = "chinese_character_id";
+   293→    25	  static readonly CHINESE_EXPRESSION_ID: string = "chinese_expression_id";
+   294→    26	  static readonly CHINESE_IDIOM_ID: string = "chinese_idiom_id";
+   295→    27	  static readonly CHINESE_WISECRACK_ID: string = "chinese_wisecrack_id";
+   296→    28	  static readonly CHINESE_RIDDLE_ID: string = "chinese_riddle_id";
+   297→    29	  static readonly CHINESE_PROVERB_ID: string = "chinese_proverb_id";
+   298→    30	  static readonly CHINESE_TONGUETWISTER_ID: string = "chinese_tonguetwister_id";
+   299→    31	  static readonly CHINESE_ANTITHETICALCOUPLET_ID: string = "chinese_antitheticalcouplet_id";
+   300→    32	  static readonly CHINESE_LYRIC_ID: string = "chinese_lyric_id";
+   301→    33	  static readonly CHINESE_KNOWLEDGE_ID: string = "chinese_knowledge_id";
+   302→    34	  static readonly CHINESE_QUOTE_ID: string = "chinese_quote_id";
+   303→    35	  static readonly CHINESE_MODERNPOETRY_ID: string = "chinese_modernpoetry_id";
+   304→    36	  static readonly CHINA_WORLDCULTUREHERITAG_ID: string = "china_worldcultureheritage_id";
+   305→    37	}=== commons/utils/Index.ets
+   306→     1	export { httpRequestGet, ResponseResult, DataWrapper } from './src/main/ets/network/HttpUtil';
+   307→     2	
+   308→     3	export { Logger } from './src/main/ets/log/Logger';=== commons/utils/src/main/ets/network/HttpUtil.ets
+   309→     1	import { http } from '@kit.NetworkKit';
+   310→     2	import { BusinessError } from '@kit.BasicServicesKit';
+   311→     3	import { NetworkConst } from 'constants';
+   312→     4	import { Logger } from '../log/Logger';
+   313→     5	
+   314→     6	let logger: Logger = new Logger('HttpUtils')
+   315→     7	
+   316→     8	export async function httpRequestGet(url: string): Promise<ResponseResult> {
+   317→     9	  let httpRequest = http.createHttp();
+   318→    10	
+   319→    11	  //配置参考：https://developer.huawei.com/consumer/cn/doc/harmonyos-references/js-apis-http#httprequestoptions
+   320→    12	  const requestConfig: http.HttpRequestOptions = {
+   321→    13	    method: http.RequestMethod.GET,
+   322→    14	    readTimeout: NetworkConst.HTTP_READ_TIMEOUT,
+   323→    15	    connectTimeout: NetworkConst.HTTP_READ_TIMEOUT,
+   324→    16	    maxLimit: 100 * 1024 * 1024,
+   325→    17	    header: {
+   326→    18	      'Content-Type': 'application/json'
+   327→    19	    },
+   328→    20	    extraData: {}
+   329→    21	  }
+   330→    22	
+   331→    23	  let result = new ResponseResult()
+   332→    24	
+   333→    25	  return httpRequest.request(url, requestConfig).then((response: http.HttpResponse) => {
+   334→    26	    if (response.responseCode === NetworkConst.HTTP_CODE_200) {
+   335→    27	      result.data = `${response.result}`
+   336→    28	    } else {
+   337→    29	      result.msg = `${$r('app.string.http_error_message')}&${response.responseCode}`;
+   338→    30	      logger.info(result.msg)
+   339→    31	    }
+   340→    32	    httpRequest.destroy();
+   341→    33	    return result;
+   342→    34	  }).catch((error: BusinessError) => {
+   343→    35	    result.msg = `${$r('app.string.http_error_message')}} => ${error.message}`;
+   344→    36	    logger.info(result.msg)
+   345→    37	    httpRequest.destroy();
+   346→    38	    return result;
+   347→    39	  })
+   348→    40	}
+   349→    41	
+   350→    42	export class ResponseResult {
+   351→    43	  /**
+   352→    44	   * 网络请求错误
+   353→    45	   */
+   354→    46	  msg: string | null;
+   355→    47	  /**
+   356→    48	   * api 返回的数据
+   357→    49	   */
+   358→    50	  data: string | null;
+   359→    51	
+   360→    52	  constructor() {
+   361→    53	    this.msg = null;
+   362→    54	    this.data = null;
+   363→    55	  }
+   364→    56	}
+   365→    57	
+   366→    58	export class DataWrapper<T> {
+   367→    59	  total: number;
+   368→    60	  data: T[];
+   369→    61	  next_page: number | null;
+   370→    62	
+   371→    63	  constructor() {
+   372→    64	    this.total = 0;
+   373→    65	    this.data = [];
+   374→    66	    this.next_page = null
+   375→    67	  }
+   376→    68	}=== commons/utils/src/main/ets/log/Logger.ets
+   377→     1	import { hilog } from '@kit.PerformanceAnalysisKit';
+   378→     2	
+   379→     3	export class Logger {
+   380→     4	  private readonly domain: number = 0xFF00;
+   381→     5	  private readonly format: string = '%{public}s, %{public}s';
+   382→     6	  private prefix: string = 'JINGMO';
+   383→     7	
+   384→     8	  constructor(tag: string) {
+   385→     9	    this.prefix += '@' + tag
+   386→    10	  }
+   387→    11	
+   388→    12	  public debug(...args: string[]): void {
+   389→    13	    hilog.debug(this.domain, this.prefix, this.format, args);
+   390→    14	  }
+   391→    15	
+   392→    16	  public info(...args: string[]): void {
+   393→    17	    hilog.info(this.domain, this.prefix, this.format, args);
+   394→    18	  }
+   395→    19	
+   396→    20	  public warn(...args: string[]): void {
+   397→    21	    hilog.warn(this.domain, this.prefix, this.format, args);
+   398→    22	  }
+   399→    23	
+   400→    24	  public error(...args: string[]): void {
+   401→    25	    hilog.error(this.domain, this.prefix, this.format, args);
+   402→    26	  }
+   403→    27	}=== commons/utils/src/main/ets/data/DbUtil.ets
+   404→     1	import { relationalStore } from '@kit.ArkData';
+   405→     2	import { BusinessError } from '@kit.BasicServicesKit';
+   406→     3	import { Logger } from '../log/Logger';
+   407→     4	import { DbMigrationConst } from 'constants';
+   408→     5	
+   409→     6	/**
+   410→     7	 * 官方文档：https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/data-persistence-by-rdb-store
+   411→     8	 */
+   412→     9	export class DbUtil {
+   413→    10	  objectiveRDB?: relationalStore.RdbStore;
+   414→    11	  private logger: Logger = new Logger('RDBStoreUtil')
+   415→    12	
+   416→    13	  init(context: Context) {
+   417→    14	
+   418→    15	    const STORE_CONFIG: relationalStore.StoreConfig = {
+   419→    16	      name: 'jingmo.db',
+   420→    17	      securityLevel: relationalStore.SecurityLevel.S1,
+   421→    18	      tokenizer: relationalStore.Tokenizer.ICU_TOKENIZER
+   422→    19	    };
+   423→    20	
+   424→    21	    relationalStore.getRdbStore(context, STORE_CONFIG,
+   425→    22	      async (error: BusinessError, rdbStore: relationalStore.RdbStore) => {
+   426→    23	        this.objectiveRDB = rdbStore
+   427→    24	        let storeVersion: number = rdbStore.version;
+   428→    25	        if (error) {
+   429→    26	          this.logger.error(`Get RdbStore failed, code is ${error.code},message is ${error.message}`)
+   430→    27	          return;
+   431→    28	        }
+   432→    29	        this.logger.info('Get RdbStore successfully.')
+   433→    30	
+   434→    31	        // 数据表迁移
+   435→    32	        if (storeVersion == 0) {
+   436→    33	          try {
+   437→    34	            await rdbStore.execute(DbMigrationConst.CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE)
+   438→    35	          } catch (e) {
+   439→    36	            const err = e as BusinessError;
+   440→    37	            this.logger.error(`Failed to CREATE_CHINA_WORLDCULTUREHERITAGE_TABLE. Code:${err.code}, message:${err.message}`);
+   441→    38	          }
+   442→    39	
+   443→    40	          try {
+   444→    41	            await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_CLASSICPOEM_TABLE)
+   445→    42	          } catch (e) {
+   446→    43	            const err = e as BusinessError;
+   447→    44	            this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_CLASSICPOEM_TABLE. Code:${err.code}, message:${err.message}`);
+   448→    45	          }
+   449→    46	
+   450→    47	          try {
+   451→    48	            await rdbStore.execute(DbMigrationConst.CREATE_CLASSICALLITERATURE_SENTENCE_TABLE)
+   452→    49	          } catch (e) {
+   453→    50	            const err = e as BusinessError;
+   454→    51	            this.logger.error(`Failed to CREATE_CLASSICALLITERATURE_SENTENCE_TABLE. Code:${err.code}, message:${err.message}`);
+   455→    52	          }
+   456→    53	
+   457→    54	          try {
+   458→    55	            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_ANTITHETICALCOUPLET_TABLE)
+   459→    56	          } catch (e) {
+   460→    57	            const err = e as BusinessError;
+   461→    58	            this.logger.error(`Failed to CREATE_CHINESE_ANTITHETICALCOUPLET_TABLE. Code:${err.code}, message:${err.message}`);
+   462→    59	          }
+   463→    60	
+   464→    61	          try {
+   465→    62	            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_CHARACTER_TABLE)
+   466→    63	          } catch (e) {
+   467→    64	            const err = e as BusinessError;
+   468→    65	            this.logger.error(`Failed to CREATE_CHINESE_CHARACTER_TABLE. Code:${err.code}, message:${err.message}`);
+   469→    66	          }
+   470→    67	
+   471→    68	          try {
+   472→    69	            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_EXPRESSION_TABLE)
+   473→    70	          } catch (e) {
+   474→    71	            const err = e as BusinessError;
+   475→    72	            this.logger.error(`Failed to CREATE_CHINESE_EXPRESSION_TABLE. Code:${err.code}, message:${err.message}`);
+   476→    73	          }
+   477→    74	
+   478→    75	          try {
+   479→    76	            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_IDIOM_TABLE)
+   480→    77	          } catch (e) {
+   481→    78	            const err = e as BusinessError;
+   482→    79	            this.logger.error(`Failed to CREATE_CHINESE_IDIOM_TABLE. Code:${err.code}, message:${err.message}`);
+   483→    80	          }
+   484→    81	
+   485→    82	          try {
+   486→    83	            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_KNOWLEDGE_TABLE)
+   487→    84	          } catch (e) {
+   488→    85	            const err = e as BusinessError;
+   489→    86	            this.logger.error(`Failed to CREATE_CHINESE_KNOWLEDGE_TABLE Code:${err.code}, message:${err.message}`);
+   490→    87	          }
+   491→    88	
+   492→    89	          try {
+   493→    90	            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_MODERNPOETRY_TABLE)
+   494→    91	          } catch (e) {
+   495→    92	            const err = e as BusinessError;
+   496→    93	            this.logger.error(`Failed to CREATE_CHINESE_MODERNPOETRY_TABLE. Code:${err.code}, message:${err.message}`);
+   497→    94	          }
+   498→    95	
+   499→    96	          try {
+   500→    97	            await rdbStore.execute(DbMigrationConst.CREATE_CHINESE_QUOTE_TABLE)
+   501→    98	          } catch (e) {
+   502→    99	            const err = e as BusinessError;
+   503→   100	            this.logger.error(`Failed to CREATE_CHINESE_QUOTE_TABLE. Code:${err.code}, message:${err.message}`);
+   504→   101	          }
+   505→   102	
+   506→   103	          try {
+   507→   104	            await rdbStore.execute(DbMigrationConst.CREATE_BOOKMARKS_TABLE)
+   508→   105	          } catch (e) {
+   509→   106	            const err = e as BusinessError;
+   510→   107	            this.logger.error(`Failed to CREATE_BOOKMARKS_TABLE. Code:${err.code}, message:${err.message}`);
+   511→   108	          }
+   512→   109	
+   513→   110	          storeVersion = 1
+   514→   111	        }
+   515→   112	
+   516→   113	        rdbStore.version = storeVersion
+   517→   114	      })
+   518→   115	  }
+   519→   116	}
+   520→   117	
+   521→   118	export default new DbUtil();=== commons/utils/src/main/ets/data/PrefUtil.ets
+   522→     1	import { preferences } from '@kit.ArkData';
+   523→     2	import { BusinessError } from '@kit.BasicServicesKit';
+   524→     3	import { Logger } from '../log/Logger';
+   525→     4	import { PrefConst } from 'constants';
+   526→     5	
+   527→     6	export class PrefUtil {
+   528→     7	  preference?: preferences.Preferences;
+   529→     8	  logger: Logger = new Logger('PrefUtil');
+   530→     9	
+   531→    10	  init(context: Context) {
+   532→    11	    let options: preferences.Options = { name: PrefConst.PREF_NAME, storageType: preferences.StorageType.GSKV };
+   533→    12	    try {
+   534→    13	      this.preference = preferences.getPreferencesSync(context, options);
+   535→    14	    } catch (error) {
+   536→    15	      let err = error as BusinessError
+   537→    16	      this.logger.error(`Init pref failed, code = ${err.code}, messge = ${err.message}`)
+   538→    17	    }
+   539→    18	  }
+   540→    19	
+   541→    20	  saveChinaWorldCulturalHeritageVersion(version: number) {
+   542→    21	    this.setNumber(PrefConst.CHINA_WORLDCULTUREHERITAGE, version)
+   543→    22	  }
+   544→    23	
+   545→    24	  getChinaWorldCulturalHeritageVersion(): number {
+   546→    25	    return this.getNumber(PrefConst.CHINA_WORLDCULTUREHERITAGE)
+   547→    26	  }
+   548→    27	
+   549→    28	  saveChineseAntitheticalCoupletVersion(version: number) {
+   550→    29	    this.setNumber(PrefConst.CHINESE_ANTITHETICALCOUPLET, version)
+   551→    30	  }
+   552→    31	
+   553→    32	  getChineseAntitheticalCoupletVersion(): number {
+   554→    33	    return this.getNumber(PrefConst.CHINESE_ANTITHETICALCOUPLET)
+   555→    34	  }
+   556→    35	
+   557→    36	  saveChineseCharacterVersion(version: number) {
+   558→    37	    this.setNumber(PrefConst.CHINESE_CHARACTER, version)
+   559→    38	  }
+   560→    39	
+   561→    40	  getChineseCharacterVersion(): number {
+   562→    41	    return this.getNumber(PrefConst.CHINESE_CHARACTER)
+   563→    42	  }
+   564→    43	
+   565→    44	  saveChineseExpressionVersion(version: number) {
+   566→    45	    this.setNumber(PrefConst.CHINESE_EXPRESSION, version)
+   567→    46	  }
+   568→    47	
+   569→    48	  getChineseExpressionVersion(): number {
+   570→    49	    return this.getNumber(PrefConst.CHINESE_EXPRESSION)
+   571→    50	  }
+   572→    51	
+   573→    52	  saveChineseIdiomVersion(version: number) {
+   574→    53	    this.setNumber(PrefConst.CHINESE_IDIOM, version)
+   575→    54	  }
+   576→    55	
+   577→    56	  getChineseIdiomVersion(): number {
+   578→    57	    return this.getNumber(PrefConst.CHINESE_IDIOM)
+   579→    58	  }
+   580→    59	
+   581→    60	  saveChineseKnowledgeVersion(version: number) {
+   582→    61	    this.setNumber(PrefConst.CHINESE_KNOWLEDGE, version)
+   583→    62	  }
+   584→    63	
+   585→    64	  getChineseKnowledgeVersion(): number {
+   586→    65	    return this.getNumber(PrefConst.CHINESE_KNOWLEDGE)
+   587→    66	  }
+   588→    67	
+   589→    68	  saveChineseQuoteVersion(version: number) {
+   590→    69	    this.setNumber(PrefConst.CHINESE_QUOTE, version)
+   591→    70	  }
+   592→    71	
+   593→    72	  getChineseQuoteVersion(): number {
+   594→    73	    return this.getNumber(PrefConst.CHINESE_QUOTE)
+   595→    74	  }
+   596→    75	
+   597→    76	  saveClassicalLiteratureClassicPoemVersion(version: number) {
+   598→    77	    this.setNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM, version)
+   599→    78	  }
+   600→    79	
+   601→    80	  getClassicalLiteratureClassicPoemVersion(): number {
+   602→    81	    return this.getNumber(PrefConst.CLASSICALLITERATURE_CLASSICPOEM)
+   603→    82	  }
+   604→    83	
+   605→    84	  saveClassicalLiteratureSentenceVersion(version: number) {
+   606→    85	    this.setNumber(PrefConst.CLASSICALLITERATURE_SENTENCE, version)
+   607→    86	  }
+   608→    87	
+   609→    88	  getClassicalLiteratureSentenceVersion(): number {
+   610→    89	    return this.getNumber(PrefConst.CLASSICALLITERATURE_SENTENCE)
+   611→    90	  }
+   612→    91	
+   613→    92	  private setNumber(key: string, data: number) {
+   614→    93	    try {
+   615→    94	      this.preference?.putSync(key, data)
+   616→    95	    } catch (error) {
+   617→    96	      let err = error as BusinessError
+   618→    97	      this.logger.error(`save data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
+   619→    98	    }
+   620→    99	  }
+   621→   100	
+   622→   101	  private getNumber(key: string, defaultValue: number = 0): number {
+   623→   102	    let value = 0
+   624→   103	    try {
+   625→   104	      value = this.preference?.getSync(key, defaultValue) as number
+   626→   105	    } catch (error) {
+   627→   106	      let err = error as BusinessError
+   628→   107	      this.logger.error(`get data failed, key = ${key}, code = ${err.code}, messge = ${err.message}`)
+   629→   108	    }
+   630→   109	
+   631→   110	    return value;
+   632→   111	  }
+   633→   112	}
+   634→   113	
+   635→   114	export default new PrefUtil()=== commons/uicomponents/Index.ets
+   636→     1	export { BlockTitle } from './src/main/ets/components/BlockComponent';
+   637→     2	
+   638→     3	export { BoldTitle, Content } from './src/main/ets/components/ContentComponent';
+   639→=== commons/uicomponents/src/main/ets/components/ContentComponent.ets
+   640→     1	import { ThemeConst } from 'constants';
+   641→     2	
+   642→     3	@ComponentV2
+   643→     4	export struct BoldTitle {
+   644→     5	  @Param @Require @Once text: string
+   645→     6	
+   646→     7	  build() {
+   647→     8	    Text(this.text)
+   648→     9	      .fontWeight(FontWeight.Bold)
+   649→    10	      .padding(ThemeConst.P_X16_Y8)
+   650→    11	      .width('100%')
+   651→    12	      .textAlign(TextAlign.Start)
+   652→    13	  }
+   653→    14	}
+   654→    15	
+   655→    16	@ComponentV2
+   656→    17	export struct Content {
+   657→    18	  @Param @Require text: string
+   658→    19	
+   659→    20	  build() {
+   660→    21	    Text(this.text)
+   661→    22	      .padding(ThemeConst.P_X16_Y8)
+   662→    23	      .width('100%')
+   663→    24	      .lineHeight(24)
+   664→    25	  }
+   665→    26	}=== commons/uicomponents/src/main/ets/components/BlockComponent.ets
+   666→     1	import { ThemeConst } from 'constants';
+   667→     2	
+   668→     3	@ComponentV2
+   669→     4	export struct BlockTitle {
+   670→     5	  @Param @Require @Once title: string | Resource = '其他'
+   671→     6	
+   672→     7	  build() {
+   673→     8	    Text(this.title)
+   674→     9	      .width('100%')
+   675→    10	      .padding({
+   676→    11	        left: 16,
+   677→    12	        top: 8,
+   678→    13	        right: 16,
+   679→    14	        bottom: 8
+   680→    15	      })
+   681→    16	      .fontColor(ThemeConst.FontColor_BlockTitle)
+   682→    17	      .fontSize(ThemeConst.FontSize_BlockTitle)
+   683→    18	  }
+   684→    19	}
+</file>
+<metadata>The file has 684 lines in total.</metadata>

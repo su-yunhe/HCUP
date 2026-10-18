@@ -1,0 +1,703 @@
+<file>
+    65→    65	      }
+    66→    66	    }
+    67→    67	  ]
+    68→    68	}     1	import { ThemeConst } from 'constants';
+    69→     2	import { BlockTitle } from 'uicomponents';
+    70→     3	
+    71→     4	@Builder
+    72→     5	export function SettingPageBuilder() {
+    73→     6	  SettingPage();
+    74→     7	}
+    75→     8	
+    76→     9	@ComponentV2
+    77→    10	export struct SettingPage {
+    78→    11	  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+    79→    12	
+    80→    13	  build() {
+    81→    14	    NavDestination() {
+    82→    15	      Scroll() {
+    83→    16	        Column() {
+    84→    17	          BlockTitle({ title: $r('app.string.feature') })
+    85→    18	          Item({ title: $r('app.string.sync_data') })
+    86→    19	            .onClick(() => {
+    87→    20	              this.pageStack.pushPathByName('SyncDataPage', null)
+    88→    21	            })
+    89→    22	          Item({ title: $r('app.string.import_data') })
+    90→    23	            .onClick(() => {
+    91→    24	              this.pageStack.pushPathByName('ImportDataPage', null)
+    92→    25	            })
+    93→    26	          BlockTitle({ title: $r('app.string.privacy') })
+    94→    27	          Item({ title: $r('app.string.tos') })
+    95→    28	            .onClick(() => {
+    96→    29	              this.pageStack.pushPathByName("TosPage", null)
+    97→    30	            })
+    98→    31	          Item({ title: $r('app.string.privacy_policy') })
+    99→    32	            .onClick(() => {
+   100→    33	              this.pageStack.pushPathByName("PrivacyPage", null)
+   101→    34	            })
+   102→    35	          Item({ title: $r('app.string.collected_user_info') })
+   103→    36	            .onClick(() => {
+   104→    37	              this.pageStack.pushPathByName("CollectedUserInfoPage", null)
+   105→    38	            })
+   106→    39	          Item({ title: $r('app.string.shared_user_info') })
+   107→    40	            .onClick(() => {
+   108→    41	              this.pageStack.pushPathByName("SharedUserInfoPage", null)
+   109→    42	            })
+   110→    43	          BlockTitle({ title: $r('app.string.other') })
+   111→    44	          Item({ title: $r('app.string.about') })
+   112→    45	            .onClick(() => {
+   113→    46	              this.pageStack.pushPathByName('AboutPage', null)
+   114→    47	            })
+   115→    48	        }
+   116→    49	        .height('100%')
+   117→    50	      }
+   118→    51	      .height('100%')
+   119→    52	    }
+   120→    53	    .title($r('app.string.settings'))
+   121→    54	    .onReady((ctx: NavDestinationContext) => {
+   122→    55	      this.pageStack = ctx.pathStack
+   123→    56	    })
+   124→    57	  }
+   125→    58	}
+   126→    59	
+   127→    60	@Preview
+   128→    61	@ComponentV2
+   129→    62	struct Item {
+   130→    63	  @Param @Once title: string | Resource = '关于'
+   131→    64	
+   132→    65	  build() {
+   133→    66	    Text(this.title)
+   134→    67	      .width('100%')
+   135→    68	      .padding({
+   136→    69	        left: 16,
+   137→    70	        top: 12,
+   138→    71	        right: 16,
+   139→    72	        bottom: 12
+   140→    73	      })
+   141→    74	      .stateStyles({
+   142→    75	        normal: {
+   143→    76	          .backgroundColor(ThemeConst.BackGroundColor_Normal)
+   144→    77	        },
+   145→    78	        clicked: {
+   146→    79	          .backgroundColor(ThemeConst.BackGroundColor_Clicked)
+   147→    80	        }
+   148→    81	      })
+   149→    82	  }
+   150→    83	}
+   151→     1	import { ImportDataList } from '../view/ImportDataList';
+   152→     2	
+   153→     3	@Builder
+   154→     4	export function ImportDataPageBuilder(){
+   155→     5	  ImportDataPage()
+   156→     6	}
+   157→     7	
+   158→     8	@ComponentV2
+   159→     9	export struct ImportDataPage {
+   160→    10	  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack()
+   161→    11	
+   162→    12	  build() {
+   163→    13	    NavDestination(){
+   164→    14	      Scroll(){
+   165→    15	        ImportDataList()
+   166→    16	          .padding(16)
+   167→    17	      }
+   168→    18	      .align(Alignment.TopStart)
+   169→    19	      .width('100%')
+   170→    20	      .height('100%')
+   171→    21	    }
+   172→    22	    .title($r('app.string.import_data'))
+   173→    23	    .onReady((ctx: NavDestinationContext) => {
+   174→    24	      this.pageStack = ctx.pathStack
+   175→    25	    })
+   176→    26	  }
+   177→    27	}     1	import { DbTableConst, Icon, String, ThemeConst } from 'constants';
+   178→     2	import { DataWrapper, Logger } from 'utils';
+   179→     3	import { fileIo as fs, picker } from '@kit.CoreFileKit';
+   180→     4	import { common } from '@kit.AbilityKit';
+   181→     5	import { BusinessError } from '@kit.BasicServicesKit';
+   182→     6	import { BlockTitle } from 'uicomponents';
+   183→     7	import util from '@ohos.util';
+   184→     8	import { JSON } from '@kit.ArkTS';
+   185→     9	import { ClassicPoem } from 'classicalliterature_classicpoem';
+   186→    10	import { Sentence } from 'classicalliterature_sentence';
+   187→    11	import { AntitheticalCouplet } from 'chinese_antitheticalcouplet';
+   188→    12	import { WorldCulturalHeritage } from 'china_worldcultureheritage';
+   189→    13	import { Character } from 'chinese_character';
+   190→    14	import { Expression } from 'chinese_expression';
+   191→    15	import { Idiom } from 'chinese_idiom';
+   192→    16	import { Knowledge } from 'chinese_knowledge';
+   193→    17	import { Quote } from 'chinese_quote';
+   194→    18	import { relationalStore } from '@kit.ArkData';
+   195→    19	import DbUtil from 'utils/src/main/ets/data/DbUtil';
+   196→    20	
+   197→    21	import DatasetViewModel from '../viewmodel//DatasetViewModel';
+   198→    22	
+   199→    23	let logger: Logger = new Logger('ImportDataList')
+   200→    24	
+   201→    25	@ComponentV2
+   202→    26	export struct ImportDataList {
+   203→    27	  @Local classicalliteratureClassicpoemTotal: number = 0;
+   204→    28	  @Local classicalliteratureClassicpoemCount: number = 0;
+   205→    29	  @Local classicalliteratureClassicpoemError: BusinessError | null = null;
+   206→    30	  @Local classicalliteratureClassicpoemLoading: boolean = false;
+   207→    31	  @Local classicalliteratureSentenceTotal: number = 0;
+   208→    32	  @Local classicalliteratureSentenceCount: number = 0;
+   209→    33	  @Local classicalliteratureSentenceError: BusinessError | null = null;
+   210→    34	  @Local classicalliteratureSentenceLoading: boolean = false;
+   211→    35	  @Local chineseAntitheticalcoupletTotal: number = 0;
+   212→    36	  @Local chineseAntitheticalcoupletCount: number = 0;
+   213→    37	  @Local chineseAntitheticalcoupletError: BusinessError | null = null;
+   214→    38	  @Local chineseAntitheticalcoupletLoading: boolean = false;
+   215→    39	  @Local chineseCharacterTotal: number = 0;
+   216→    40	  @Local chineseCharacterCount: number = 0;
+   217→    41	  @Local chineseCharacterError: BusinessError | null = null;
+   218→    42	  @Local chineseCharacterLoading: boolean = false;
+   219→    43	  @Local chineseExpressionTotal: number = 0;
+   220→    44	  @Local chineseExpressionCount: number = 0;
+   221→    45	  @Local chineseExpressionError: BusinessError | null = null;
+   222→    46	  @Local chineseExpressionLoading: boolean = false;
+   223→    47	  @Local chineseIdiomTotal: number = 0;
+   224→    48	  @Local chineseIdiomCount: number = 0;
+   225→    49	  @Local chineseIdiomError: BusinessError | null = null;
+   226→    50	  @Local chineseIdiomLoading: boolean = false;
+   227→    51	  @Local chineseKnowledgeTotal: number = 0;
+   228→    52	  @Local chineseKnowledgeCount: number = 0;
+   229→    53	  @Local chineseKnowledgeError: BusinessError | null = null;
+   230→    54	  @Local chineseKnowledgeLoading: boolean = false;
+   231→    55	  @Local chineseQuoteTotal: number = 0;
+   232→    56	  @Local chineseQuoteCount: number = 0;
+   233→    57	  @Local chineseQuoteError: BusinessError | null = null;
+   234→    58	  @Local chineseQuoteLoading: boolean = false;
+   235→    59	  @Local chinaWorldcultureheritageTotal: number = 0;
+   236→    60	  @Local chinaWorldcultureheritageCount: number = 0;
+   237→    61	  @Local chinaWorldcultureheritageError: BusinessError | null = null;
+   238→    62	  @Local chinaWorldcultureheritageLoading: boolean = false;
+   239→    63	
+   240→    64	  changeInfos = (changeInfos: Array<relationalStore.ChangeInfo>) => {
+   241→    65	    for (let i = 0; i < changeInfos.length; i++) {
+   242→    66	      let info = changeInfos[i]
+   243→    67	      logger.info(`changeInfos: table = ${info.table}, type = ${info.type}, inserted = ${info.inserted}, updated = ${info.updated}`);
+   244→    68	      if (info.table == DbTableConst.CLASSICALLITERATURE_CLASSICPOEM_TABLE) {
+   245→    69	        this.classicalliteratureClassicpoemCount++
+   246→    70	      } else if (info.table == DbTableConst.CLASSICALLITERATURE_SENTENCE_TABLE) {
+   247→    71	        this.classicalliteratureSentenceCount++
+   248→    72	      } else if (info.table == DbTableConst.CHINESE_ANTITHETICALCOUPLET_TABLE) {
+   249→    73	        this.chineseAntitheticalcoupletCount++
+   250→    74	      } else if (info.table == DbTableConst.CHINESE_CHARACTER_TABLE) {
+   251→    75	        this.chineseCharacterCount++
+   252→    76	      } else if (info.table == DbTableConst.CHINESE_EXPRESSION_TABLE) {
+   253→    77	        this.chineseExpressionCount++
+   254→    78	      } else if (info.table == DbTableConst.CHINESE_IDIOM_TABLE) {
+   255→    79	        this.chineseIdiomCount++
+   256→    80	      } else if (info.table == DbTableConst.CHINESE_KNOWLEDGE_TABLE) {
+   257→    81	        this.chineseKnowledgeCount++
+   258→    82	      } else if (info.table == DbTableConst.CHINESE_QUOTE_TABLE) {
+   259→    83	        this.chineseQuoteCount++
+   260→    84	      } else if (info.table == DbTableConst.CHINA_WORLDCULTUREHERITAGE_TABLE) {
+   261→    85	        this.chinaWorldcultureheritageCount++
+   262→    86	      }
+   263→    87	    }
+   264→    88	  }
+   265→    89	
+   266→    90	  aboutToAppear(): void {
+   267→    91	    try {
+   268→    92	      DbUtil.objectiveRDB?.on(
+   269→    93	        'dataChange',
+   270→    94	        relationalStore.SubscribeType.SUBSCRIBE_TYPE_LOCAL_DETAILS,
+   271→    95	        this.changeInfos
+   272→    96	      )
+   273→    97	    } catch (error) {
+   274→    98	      logger.error(`add dataChange failed, error = ${error}`)
+   275→    99	    }
+   276→   100	  }
+   277→   101	
+   278→   102	  aboutToRecycle(): void {
+   279→   103	    try {
+   280→   104	      DbUtil.objectiveRDB?.off
+   281→   105	      (
+   282→   106	        'dataChange',
+   283→   107	        relationalStore.SubscribeType.SUBSCRIBE_TYPE_LOCAL_DETAILS,
+   284→   108	        this.changeInfos
+   285→   109	      )
+   286→   110	    } catch (error) {
+   287→   111	      logger.error(`off dataChange failed, error = ${error}`)
+   288→   112	    }
+   289→   113	  }
+   290→   114	
+   291→   115	  build() {
+   292→   116	    Column() {
+   293→   117	      BlockTitle({ title: String.classicalliterature })
+   294→   118	      Item({
+   295→   119	        title: String.classicalliterature_classicpoem,
+   296→   120	        total: this.classicalliteratureClassicpoemTotal,
+   297→   121	        count: this.classicalliteratureClassicpoemCount,
+   298→   122	        error: this.classicalliteratureClassicpoemError,
+   299→   123	        loading: this.classicalliteratureClassicpoemLoading,
+   300→   124	        loadingStatusChange: (() => {
+   301→   125	          this.classicalliteratureClassicpoemLoading = true
+   302→   126	        }),
+   303→   127	        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+   304→   128	          if (error) {
+   305→   129	            this.classicalliteratureClassicpoemLoading = false
+   306→   130	            this.classicalliteratureClassicpoemError = error
+   307→   131	          }
+   308→   132	          uris.forEach((uri: string) => {
+   309→   133	            let wrapper = JSON.parse(readData(uri)) as DataWrapper<ClassicPoem>
+   310→   134	            if (wrapper) {
+   311→   135	              this.classicalliteratureClassicpoemTotal = wrapper.total
+   312→   136	              logger.info(`classicalliteratureClassicpoemTotal = ${this.classicalliteratureClassicpoemTotal}`)
+   313→   137	              wrapper.data.forEach((obj: ClassicPoem) => {
+   314→   138	                DatasetViewModel.insertClassicalLiteratureClassicPoemToDb(obj);
+   315→   139	              })
+   316→   140	            }
+   317→   141	          })
+   318→   142	          this.classicalliteratureClassicpoemLoading = false
+   319→   143	        })
+   320→   144	      })
+   321→   145	      Item({
+   322→   146	        title: String.classicalliterature_sentence,
+   323→   147	        total: this.classicalliteratureSentenceTotal,
+   324→   148	        count: this.classicalliteratureSentenceCount,
+   325→   149	        error: this.classicalliteratureSentenceError,
+   326→   150	        loading: this.classicalliteratureSentenceLoading,
+   327→   151	        loadingStatusChange: (() => {
+   328→   152	          this.classicalliteratureSentenceLoading = true
+   329→   153	        }),
+   330→   154	        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+   331→   155	          if (error) {
+   332→   156	            this.classicalliteratureSentenceLoading = false
+   333→   157	            this.classicalliteratureSentenceError = error
+   334→   158	          }
+   335→   159	          uris.forEach((uri: string) => {
+   336→   160	            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Sentence>
+   337→   161	            if (wrapper) {
+   338→   162	              this.classicalliteratureSentenceTotal = wrapper.total
+   339→   163	              wrapper.data.forEach((obj: Sentence) => {
+   340→   164	                DatasetViewModel.insertClassicalLiteratureSentenceToDb(obj);
+   341→   165	              })
+   342→   166	            }
+   343→   167	          })
+   344→   168	          this.classicalliteratureSentenceLoading = false
+   345→   169	        })
+   346→   170	      })
+   347→   171	      BlockTitle({ title: String.chinese })
+   348→   172	      Item({
+   349→   173	        title: String.chinese_antitheticalcouplet,
+   350→   174	        total: this.chineseAntitheticalcoupletTotal,
+   351→   175	        count: this.chineseAntitheticalcoupletCount,
+   352→   176	        error: this.chineseAntitheticalcoupletError,
+   353→   177	        loading: this.chineseAntitheticalcoupletLoading,
+   354→   178	        loadingStatusChange: (() => {
+   355→   179	          this.chineseAntitheticalcoupletLoading = true
+   356→   180	        }),
+   357→   181	        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+   358→   182	          if (error) {
+   359→   183	            this.chineseAntitheticalcoupletLoading = false
+   360→   184	          }
+   361→   185	          uris.forEach((uri: string) => {
+   362→   186	            let wrapper = JSON.parse(readData(uri)) as DataWrapper<AntitheticalCouplet>
+   363→   187	            if (wrapper) {
+   364→   188	              this.chineseAntitheticalcoupletTotal = wrapper.total
+   365→   189	              wrapper.data.forEach((obj: AntitheticalCouplet) => {
+   366→   190	                DatasetViewModel.insertChineseAntitheticalCoupletToDb(obj);
+   367→   191	              })
+   368→   192	            }
+   369→   193	          })
+   370→   194	          this.chineseAntitheticalcoupletLoading = false
+   371→   195	        })
+   372→   196	      })
+   373→   197	      Item({
+   374→   198	        title: String.chinese_character,
+   375→   199	        total: this.chineseCharacterTotal,
+   376→   200	        count: this.chineseCharacterCount,
+   377→   201	        error: this.chineseCharacterError,
+   378→   202	        loading: this.chineseCharacterLoading,
+   379→   203	        loadingStatusChange: (() => {
+   380→   204	          this.chineseCharacterLoading = true
+   381→   205	        }),
+   382→   206	        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+   383→   207	          if (error) {
+   384→   208	            this.chineseCharacterLoading = false
+   385→   209	            this.chineseCharacterError = error
+   386→   210	          }
+   387→   211	          uris.forEach((uri: string) => {
+   388→   212	            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Character>
+   389→   213	            if (wrapper) {
+   390→   214	              this.chineseCharacterTotal = wrapper.total
+   391→   215	              wrapper.data.forEach((obj: Character) => {
+   392→   216	                DatasetViewModel.insertChineseCharacterToDb(obj);
+   393→   217	              })
+   394→   218	            }
+   395→   219	          })
+   396→   220	          this.chineseCharacterLoading = false
+   397→   221	        })
+   398→   222	      })
+   399→   223	      Item({
+   400→   224	        title: String.chinese_expression,
+   401→   225	        total: this.chineseExpressionTotal,
+   402→   226	        count: this.chineseExpressionCount,
+   403→   227	        error: this.chineseExpressionError,
+   404→   228	        loading: this.chineseExpressionLoading,
+   405→   229	        loadingStatusChange: (() => {
+   406→   230	          this.chineseExpressionLoading = true
+   407→   231	        }),
+   408→   232	        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+   409→   233	          if (error) {
+   410→   234	            this.chineseExpressionLoading = false
+   411→   235	            this.chineseExpressionError = error
+   412→   236	          }
+   413→   237	          uris.forEach((uri: string) => {
+   414→   238	            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Expression>
+   415→   239	            if (wrapper) {
+   416→   240	              this.chineseExpressionTotal = wrapper.total
+   417→   241	              wrapper.data.forEach((obj: Expression) => {
+   418→   242	                DatasetViewModel.insertChineseExpressionToDb(obj);
+   419→   243	              })
+   420→   244	            }
+   421→   245	          })
+   422→   246	          this.chineseExpressionLoading = false
+   423→   247	        })
+   424→   248	      })
+   425→   249	      Item({
+   426→   250	        title: String.chinese_idiom,
+   427→   251	        total: this.chineseIdiomTotal,
+   428→   252	        count: this.chineseIdiomCount,
+   429→   253	        error: this.chineseIdiomError,
+   430→   254	        loading: this.chineseIdiomLoading,
+   431→   255	        loadingStatusChange: (() => {
+   432→   256	          this.chineseIdiomLoading = true
+   433→   257	        }),
+   434→   258	        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+   435→   259	          if (error) {
+   436→   260	            this.chineseIdiomLoading = false
+   437→   261	            this.chineseIdiomError = error
+   438→   262	          }
+   439→   263	          uris.forEach((uri: string) => {
+   440→   264	            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Idiom>
+   441→   265	            if (wrapper) {
+   442→   266	              this.chineseIdiomTotal = wrapper.total
+   443→   267	              wrapper.data.forEach((obj: Idiom) => {
+   444→   268	                DatasetViewModel.insertChineseIdiomToDb(obj);
+   445→   269	              })
+   446→   270	            }
+   447→   271	          })
+   448→   272	          this.chineseIdiomLoading = false
+   449→   273	        })
+   450→   274	      })
+   451→   275	      Item({
+   452→   276	        title: String.chinese_knowledge,
+   453→   277	        total: this.chineseKnowledgeTotal,
+   454→   278	        count: this.chineseKnowledgeCount,
+   455→   279	        error: this.chineseKnowledgeError,
+   456→   280	        loading: this.chineseKnowledgeLoading,
+   457→   281	        loadingStatusChange: (() => {
+   458→   282	          this.chineseKnowledgeLoading = true
+   459→   283	        }),
+   460→   284	        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+   461→   285	          if (error) {
+   462→   286	            this.chineseKnowledgeLoading = false
+   463→   287	            this.chineseKnowledgeError = error
+   464→   288	          }
+   465→   289	          uris.forEach((uri: string) => {
+   466→   290	            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Knowledge>
+   467→   291	            if (wrapper) {
+   468→   292	              this.chineseKnowledgeTotal = wrapper.total
+   469→   293	              wrapper.data.forEach((obj: Knowledge) => {
+   470→   294	                DatasetViewModel.insertChineseKnowledgeToDb(obj);
+   471→   295	              })
+   472→   296	            }
+   473→   297	          })
+   474→   298	          this.chineseKnowledgeLoading = false
+   475→   299	        })
+   476→   300	      })
+   477→   301	      Item({
+   478→   302	        title: String.chinese_quote,
+   479→   303	        total: this.chineseQuoteTotal,
+   480→   304	        count: this.chineseQuoteCount,
+   481→   305	        error: this.chineseQuoteError,
+   482→   306	        loading: this.chineseQuoteLoading,
+   483→   307	        loadingStatusChange: (() => {
+   484→   308	          this.chineseQuoteLoading = true
+   485→   309	        }),
+   486→   310	        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+   487→   311	          if (error) {
+   488→   312	            this.chineseQuoteLoading = false
+   489→   313	            this.chineseQuoteError = error
+   490→   314	          }
+   491→   315	          uris.forEach((uri: string) => {
+   492→   316	            let wrapper = JSON.parse(readData(uri)) as DataWrapper<Quote>
+   493→   317	            if (wrapper) {
+   494→   318	              this.chineseQuoteTotal = wrapper.total
+   495→   319	              wrapper.data.forEach((obj: Quote) => {
+   496→   320	                DatasetViewModel.insertChineseQuoteToDb(obj);
+   497→   321	              })
+   498→   322	            }
+   499→   323	          })
+   500→   324	          this.chineseQuoteLoading = false
+   501→   325	        })
+   502→   326	      })
+   503→   327	      BlockTitle({ title: String.china })
+   504→   328	      Item({
+   505→   329	        title: String.china_worldcultureheritage,
+   506→   330	        total: this.chinaWorldcultureheritageTotal,
+   507→   331	        count: this.chinaWorldcultureheritageCount,
+   508→   332	        error: this.chinaWorldcultureheritageError,
+   509→   333	        loading: this.chinaWorldcultureheritageLoading,
+   510→   334	        loadingStatusChange: (() => {
+   511→   335	          this.chinaWorldcultureheritageLoading = true
+   512→   336	        }),
+   513→   337	        clickEventCallback: ((uris: string[], error: BusinessError | null) => {
+   514→   338	          if (error) {
+   515→   339	            this.chinaWorldcultureheritageLoading = false
+   516→   340	          }
+   517→   341	          uris.forEach((uri: string) => {
+   518→   342	            let wrapper = JSON.parse(readData(uri)) as DataWrapper<WorldCulturalHeritage>
+   519→   343	            if (wrapper) {
+   520→   344	              this.chinaWorldcultureheritageTotal = wrapper.total
+   521→   345	              wrapper.data.forEach((obj: WorldCulturalHeritage) => {
+   522→   346	                DatasetViewModel.insertChinaWorldCulturalHeritageToDb(obj);
+   523→   347	              })
+   524→   348	            }
+   525→   349	          })
+   526→   350	          this.chinaWorldcultureheritageLoading = false
+   527→   351	        })
+   528→   352	      })
+   529→   353	    }
+   530→   354	    .width('100%')
+   531→   355	  }
+   532→   356	}
+   533→   357	
+   534→   358	@ComponentV2
+   535→   359	struct Item {
+   536→   360	  @Param @Require @Once title: Resource | string;
+   537→   361	  @Param @Require total: number;
+   538→   362	  @Param @Require count: number;
+   539→   363	  @Param @Require error: BusinessError | null;
+   540→   364	  @Param @Require loading: boolean;
+   541→   365	  @Event loadingStatusChange: () => void = () => {
+   542→   366	  };
+   543→   367	  @Event clickEventCallback: (uris: string[], error: BusinessError | null) => void = () => {
+   544→   368	  }
+   545→   369	
+   546→   370	  build() {
+   547→   371	    Column() {
+   548→   372	      Row() {
+   549→   373	        Column() {
+   550→   374	          Text(this.title)
+   551→   375	        }
+   552→   376	        .alignItems(HorizontalAlign.Start)
+   553→   377	
+   554→   378	        Blank()
+   555→   379	        if (this.count) {
+   556→   380	          Text(this.count.toString())
+   557→   381	            .fontSize(ThemeConst.FontSize_14)
+   558→   382	            .fontColor(Color.Gray)
+   559→   383	            .margin({ right: 16 })
+   560→   384	        }
+   561→   385	        if (this.loading) {
+   562→   386	          LoadingProgress()
+   563→   387	            .width(36)
+   564→   388	            .height(36)
+   565→   389	            .color(Color.Black)
+   566→   390	        } else {
+   567→   391	          Image(Icon.ic_public_folder)
+   568→   392	            .height(36)
+   569→   393	            .width(36)
+   570→   394	            .padding(8)
+   571→   395	            .stateStyles({
+   572→   396	              normal: {
+   573→   397	                .backgroundColor(ThemeConst.BackGroundColor_Normal)
+   574→   398	              },
+   575→   399	              clicked: {
+   576→   400	                .backgroundColor(ThemeConst.BackGroundColor_Clicked)
+   577→   401	                .borderRadius(18)
+   578→   402	              }
+   579→   403	            })
+   580→   404	            .onClick(() => {
+   581→   405	              if (!this.loading) {
+   582→   406	                this.loadingStatusChange()
+   583→   407	                // 请在组件内获取context，确保this.getUIContext().getHostContext()返回结果为UIAbilityContext
+   584→   408	                let context = this.getUIContext().getHostContext() as common.UIAbilityContext;
+   585→   409	
+   586→   410	                let documentSelectOptions = new picker.DocumentSelectOptions();
+   587→   411	                let uris: string[] = [];
+   588→   412	                let error: BusinessError | null = null
+   589→   413	                documentSelectOptions.defaultFilePathUri = "file://docs/storage/Users/currentUser/Download"
+   590→   414	                // 创建文件选择器实例
+   591→   415	                const documentViewPicker = new picker.DocumentViewPicker(context);
+   592→   416	                documentViewPicker.select(documentSelectOptions).then((documentSelectResult: Array<string>) => {
+   593→   417	                  //文件选择成功后，返回被选中文档的URI结果集。
+   594→   418	                  uris = documentSelectResult
+   595→   419	                  this.clickEventCallback(uris, error)
+   596→   420	                  logger.info('documentViewPicker.select to file succeed and uris are:' + uris);
+   597→   421	                }).catch((err: BusinessError) => {
+   598→   422	                  this.clickEventCallback(uris, error)
+   599→   423	                  logger.error(`Invoke documentViewPicker.select failed, code is ${err.code}, message is ${err.message}`);
+   600→   424	                })
+   601→   425	              }
+   602→   426	            })
+   603→   427	        }
+   604→   428	        if (this.error) {
+   605→   429	          Text(`code = ${this.error.code}, message = ${this.error.message}`)
+   606→   430	            .width('100%')
+   607→   431	            .padding(ThemeConst.P_X16_Y8)
+   608→   432	            .textAlign(TextAlign.Start)
+   609→   433	            .fontColor(Color.Red)
+   610→   434	        }
+   611→   435	      }
+   612→   436	      .width('100%')
+   613→   437	      .padding(16)
+   614→   438	      .alignItems(VerticalAlign.Center)
+   615→   439	    }
+   616→   440	  }
+   617→   441	}
+   618→   442	
+   619→   443	function readData(uri: string): string {
+   620→   444	  let text = '';
+   621→   445	  try {
+   622→   446	    let file = fs.openSync(uri, fs.OpenMode.READ_ONLY);
+   623→   447	    let stat = fs.statSync(file.path)
+   624→   448	    let arrayBuffer = new ArrayBuffer(stat.size);
+   625→   449	    fs.readSync(file.fd, arrayBuffer);
+   626→   450	    text = util.TextDecoder.create('utf-8').decodeToString(new Uint8Array(arrayBuffer))
+   627→   451	    logger.info(`readData = ${text}`)
+   628→   452	    //读取完成后关闭fd。
+   629→   453	    fs.closeSync(file);
+   630→   454	  } catch (error) {
+   631→   455	    let err = error as BusinessError
+   632→   456	    logger.error(`read data failed, code = ${err.code}, message = ${err.message}`)
+   633→   457	  }
+   634→   458	
+   635→   459	  return text
+   636→   460	}     1	import { BusinessError } from '@kit.BasicServicesKit';
+   637→     2	import Dataset from '../model/Dataset';
+   638→     3	import { DataWrapper, httpRequestGet, Logger, ResponseResult } from 'utils';
+   639→     4	import { NetworkConst } from 'constants';
+   640→     5	import { createWorldCulturalHeritage, WorldCulturalHeritage } from 'china_worldcultureheritage';
+   641→     6	import { AntitheticalCouplet, createAntitheticalCouplet } from 'chinese_antitheticalcouplet';
+   642→     7	import { Character, createCharacter } from 'chinese_character';
+   643→     8	import { createExpression, Expression } from 'chinese_expression';
+   644→     9	import { createIdiom, Idiom } from 'chinese_idiom';
+   645→    10	import { createKnowledge, Knowledge } from 'chinese_knowledge';
+   646→    11	import { createQuote, Quote, } from 'chinese_quote';
+   647→    12	import { ClassicPoem, createClassicPoem } from 'classicalliterature_classicpoem';
+   648→    13	import { createSentence, Sentence } from 'classicalliterature_sentence';
+   649→    14	
+   650→    15	class DatasetViewModel {
+   651→    16	  private logger: Logger = new Logger('DatasetViewModel');
+   652→    17	
+   653→    18	  getDatasetList(): Promise<Dataset[]> {
+   654→    19	    return new Promise((resolve: Function, reject: Function) => {
+   655→    20	      let url = `${NetworkConst.BASE_URL1}${NetworkConst.DATASET}.json`;
+   656→    21	      httpRequestGet(url).then((result: ResponseResult) => {
+   657→    22	        if (result.msg === null) {
+   658→    23	          resolve(JSON.parse(result.data as string) as Dataset[])
+   659→    24	        } else {
+   660→    25	          this.logger.error(result.msg)
+   661→    26	          reject(result.msg)
+   662→    27	        }
+   663→    28	      }).catch((error: string) => {
+   664→    29	        this.logger.error(error)
+   665→    30	        reject(error)
+   666→    31	      })
+   667→    32	    })
+   668→    33	  }
+   669→    34	
+   670→    35	  getClassicalLiteratureClassicPoemList(version: number, page: number): Promise<DataWrapper<ClassicPoem>> {
+   671→    36	    return new Promise((resolve: Function, reject: Function) => {
+   672→    37	      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CLASSICALLITERATURE_CLASSICPOEM}_v${version}_${page}.json`;
+   673→    38	      httpRequestGet(url).then((result: ResponseResult) => {
+   674→    39	        if (result.msg === null) {
+   675→    40	          let wrapper: DataWrapper<ClassicPoem> = JSON.parse(result.data as string)
+   676→    41	          resolve(wrapper)
+   677→    42	        } else {
+   678→    43	          reject(result.msg)
+   679→    44	        }
+   680→    45	      }).catch((error: string) => {
+   681→    46	        this.logger.error(`getClassicalLiteratureClassicPoemList failed, error = ${error}`)
+   682→    47	        reject(error)
+   683→    48	      })
+   684→    49	    })
+   685→    50	  }
+   686→    51	
+   687→    52	  async insertClassicalLiteratureClassicPoemToDb(obj: ClassicPoem) {
+   688→    53	    await createClassicPoem(obj).catch((error: BusinessError) => {
+   689→    54	      this.logger.error(`insertClassicalLiteratureClassicPoemToDb error, code = :${error.code}, message = ${error.message}`)
+   690→    55	    })
+   691→    56	  }
+   692→    57	
+   693→    58	  getClassicalLiteratureSentenceList(version: number, page: number): Promise<DataWrapper<Sentence>> {
+   694→    59	    return new Promise((resolve: Function, reject: Function) => {
+   695→    60	      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CLASSICALLITERATURE_SENTENCE}_v${version}_${page}.json`;
+   696→    61	      httpRequestGet(url).then((result: ResponseResult) => {
+   697→    62	        if (result.msg === null) {
+   698→    63	          let wrapper: DataWrapper<Sentence> = JSON.parse(result.data as string)
+   699→    64	          resolve(wrapper)
+   700→    65	        } else {
+   701→    66	          reject(result.msg)
+   702→    67	        }
+   703→    68	      }).catch((error: string) => {
+   704→    69	        this.logger.error(`getClassicalLiteratureSentenceList failed, error = ${error}`)
+   705→    70	        reject(error)
+   706→    71	      })
+   707→    72	    })
+   708→    73	  }
+   709→    74	
+   710→    75	  async insertClassicalLiteratureSentenceToDb(obj: Sentence) {
+   711→    76	    await createSentence(obj).catch((error: BusinessError) => {
+   712→    77	      this.logger.error(`insertClassicalLiteratureSentenceToDb error, code = :${error.code}, message = ${error.message}`)
+   713→    78	    })
+   714→    79	  }
+   715→    80	
+   716→    81	  getChineseAntitheticalCoupletList(version: number, page: number): Promise<DataWrapper<AntitheticalCouplet>> {
+   717→    82	    return new Promise((resolve: Function, reject: Function) => {
+   718→    83	      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CHINESE_ANTITHETICALCOUPLET}_v${version}_${page}.json`;
+   719→    84	      httpRequestGet(url).then((result: ResponseResult) => {
+   720→    85	        if (result.msg === null) {
+   721→    86	          let wrapper: DataWrapper<AntitheticalCouplet> = JSON.parse(result.data as string)
+   722→    87	          resolve(wrapper)
+   723→    88	        } else {
+   724→    89	          reject(result.msg)
+   725→    90	        }
+   726→    91	      }).catch((error: string) => {
+   727→    92	        this.logger.error(`getChineseAntitheticalCoupletList failed, error = ${error}`)
+   728→    93	        reject(error)
+   729→    94	      })
+   730→    95	    })
+   731→    96	  }
+   732→    97	
+   733→    98	  async insertChineseAntitheticalCoupletToDb(obj: AntitheticalCouplet) {
+   734→    99	    await createAntitheticalCouplet(obj).catch((error: BusinessError) => {
+   735→   100	      this.logger.error(`insertChineseAntitheticalCoupletToDb error, code = :${error.code}, message = ${error.message}`)
+   736→   101	    })
+   737→   102	  }
+   738→   103	
+   739→   104	  getChineseCharacterList(version: number, page: number): Promise<DataWrapper<Character>> {
+   740→   105	    return new Promise((resolve: Function, reject: Function) => {
+   741→   106	      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CHINESE_CHARACTER}_v${version}_${page}.json`;
+   742→   107	      httpRequestGet(url).then((result: ResponseResult) => {
+   743→   108	        if (result.msg === null) {
+   744→   109	          let wrapper: DataWrapper<Character> = JSON.parse(result.data as string)
+   745→   110	          resolve(wrapper)
+   746→   111	        } else {
+   747→   112	          reject(result.msg)
+   748→   113	        }
+   749→   114	      }).catch((error: string) => {
+   750→   115	        this.logger.error(`getChineseCharacterList failed, error = ${error}`)
+   751→   116	        reject(error)
+   752→   117	      })
+   753→   118	    })
+   754→   119	  }
+   755→   120	
+   756→   121	  async insertChineseCharacterToDb(obj: Character) {
+   757→   122	    await createCharacter(obj).catch((error: BusinessError) => {
+   758→   123	      this.logger.error(`insertChineseCharacterToDb error, code = :${error.code}, message = ${error.message}`)
+   759→   124	    })
+   760→   125	  }
+   761→   126	
+   762→   127	  getChineseExpressionList(version: number, page: number): Promise<DataWrapper<Expression>> {
+   763→   128	    return new Promise((resolve: Function, reject: Function) => {
+   764→   129	      let url = `${NetworkConst.BASE_URL1}${NetworkConst.CHINESE_EXPRESSION}_v${version}_${page}.json`;
+</file>
+<metadata>The file has 908 lines in total.</metadata>

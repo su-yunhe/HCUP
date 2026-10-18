@@ -1,0 +1,12 @@
+from hypium import UiDriver, BY, MatchPattern
+
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+d.set_implicit_wait_time(0)
+B = "com.hefengbao.jingmo.hw"
+d.stop_app(B)
+d.start_app(B, "EntryAbility", wait_time=3)
+d.wait(2)
+d.click(d.find_component(BY.key("home_menu_sentence")))
+d.wait(2)
+for c in d.find_all_components(BY.key("__Navdestination", MatchPattern.STARTS_WITH)) or []:
+    print("navkey", c.getKey(), repr(c.getText()), c.g

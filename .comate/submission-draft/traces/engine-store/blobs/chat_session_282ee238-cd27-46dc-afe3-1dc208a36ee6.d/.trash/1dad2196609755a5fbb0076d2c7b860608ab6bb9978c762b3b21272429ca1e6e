@@ -1,0 +1,3 @@
+基线有 `features/bookmark`（标题"收藏夹"，空页面），但没有入口、没被任何 HAP 依赖、`route_map.json` 键名写成 `routeMap`（其他模块是 `routerMap`），见 baseline-notes §4。
+
+**定案**：不接入全局模块。收藏列表页放在 sent

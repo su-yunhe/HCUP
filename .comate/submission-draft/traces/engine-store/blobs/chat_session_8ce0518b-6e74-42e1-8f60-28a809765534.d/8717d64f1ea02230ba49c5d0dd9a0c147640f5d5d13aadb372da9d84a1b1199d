@@ -1,0 +1,208 @@
+import { image } from '@kit.ImageKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { Icon, String, ThemeConst } from 'constants';
+import { Logger } from 'utils';
+import {
+  bookmarkSentence,
+  isSentenceBookmarked,
+  readRandomSentence,
+  readRandomSentenceExcept,
+  readSentencePoemId,
+  Sentence,
+  unbookmarkSentence
+} from '../model/Sentence';
+import { SentenceView } from '../view/SentenceView';
+import { ToolbarItem } from '../view/ToolbarItem';
+import { pushPathFrom } from '../utils/NavUtil';
+
+const PAGE_NAME: string = 'SentenceIndexPage';
+let logger: Logger = new Logger(PAGE_NAME);
+
+@Builder
+export function SentenceIndexPageBuilder() {
+  SentenceIndexPage();
+}
+
+@ComponentV2
+export struct SentenceIndexPage {
+  @Consumer('NavPathStack') pageStack: NavPathStack = new NavPathStack();
+  @Local sentence: Sentence | null = null;
+  @Local poemId: number | null = null;
+  @Local bookmarked: boolean = false;
+  @Local loaded: boolean = false;
+  @Local showImage: boolean = false;
+  @Local pixelMap: image.PixelMap | undefined = undefined;
+  // 异步操作未完成前忽略重复点击
+  private refreshing: boolean = false;
+  private bookmarking: boolean = false;
+
+  aboutToAppear(): void {
+    this.refresh()
+  }
+
+  async refresh() {
+    if (this.refreshing) {
+      return
+    }
+    this.refreshing = true
+    try {
+      const current = this.sentence
+      let next = current ? await readRandomSentenceExcept(current.id) : await readRandomSentence()
+      if (!next) {
+        // 只有一条数据或查询失败时保持当前名句
+        next = current
+      }
+      if (next) {
+        const poemId = await readSentencePoemId(next)
+        const bookmarked = await isSentenceBookmarked(next.id)
+        this.sentence = next
+        this.poemId = poemId
+        this.bookmarked = bookmarked
+      }
+    } finally {
+      this.loaded = true
+      this.refreshing = false
+    }
+  }
+
+  async toggleBookmark() {
+    const current = this.sentence
+    if (!current || this.bookmarking) {
+      return
+    }
+    this.bookmarking = true
+    try {
+      const bookmark = !this.bookmarked
+      const bookmarked = bookmark ? await bookmarkSentence(current.id) : await unbookmarkSentence(current.id)
+      if (this.sentence?.id === current.id) {
+        this.bookmarked = bookmarked
+      }
+      if (bookmark && bookmarked) {
+        this.getUIContext().getPromptAction().showToast({ message: '收藏成功' })
+      }
+    } finally {
+      this.bookmarking = false
+    }
+  }
+
+  generateImage() {
+    if (!this.sentence || this.showImage) {
+      return
+    }
+    this.getUIContext().getComponentSnapshot().get('sentence_card')
+      .then((pixelMap: image.PixelMap) => {
+        this.pixelMap = pixelMap
+        this.showImage = true
+      }).catch((err: BusinessError) => {
+      logger.error(`Snapshot is failed, code is ${err.code},message is ${err.message}`)
+    })
+  }
+
+  @Builder
+  imagePreview() {
+    Column() {
+      if (this.pixelMap) {
+        Image(this.pixelMap)
+          .width('100%')
+          .objectFit(ImageFit.Contain)
+      }
+    }
+    .id('sentence_image_preview')
+    .width('100%')
+    .padding(16)
+  }
+
+  build() {
+    NavDestination() {
+      Column() {
+        Scroll() {
+          Column() {
+            if (this.sentence) {
+              SentenceView({
+                sentence: this.sentence,
+                poemId: this.poemId,
+                viewOriginal: (poemId: number) => {
+                  pushPathFrom(this.pageStack, PAGE_NAME, 'ClassicPoemDetailPage', poemId)
+                }
+              })
+            } else if (this.loaded) {
+              Text('暂无数据，请到设置-同步数据中同步')
+                .id('sentence_empty')
+                .width('100%')
+                .textAlign(TextAlign.Center)
+                .padding(ThemeConst.P_16)
+            }
+          }
+          .width('100%')
+          .padding(ThemeConst.P_16)
+        }
+        .layoutWeight(1)
+        .align(Alignment.Top)
+
+        Row() {
+          ToolbarItem({
+            itemId: 'sentence_toolbar_bookmark',
+            icon: this.bookmarked ? Icon.ic_bookmark : Icon.ic_bookmark_border,
+            label: this.bookmarked ? '已收藏' : '收藏本句',
+            selected: this.bookmarked,
+            action: () => {
+              this.toggleBookmark()
+            }
+          }).layoutWeight(1)
+          ToolbarItem({
+            itemId: 'sentence_toolbar_image',
+            icon: Icon.ic_public_download,
+            label: '生成图片',
+            action: () => {
+              this.generateImage()
+            }
+          }).layoutWeight(1)
+          ToolbarItem({
+            itemId: 'sentence_toolbar_refresh',
+            icon: Icon.ic_public_refresh,
+            label: '刷新',
+            action: () => {
+              this.refresh()
+            }
+          }).layoutWeight(1)
+          ToolbarItem({
+            itemId: 'sentence_toolbar_bookmarks',
+            icon: Icon.ic_public_todo,
+            label: '收藏',
+            action: () => {
+              pushPathFrom(this.pageStack, PAGE_NAME, 'SentenceBookmarksPage', null)
+            }
+          }).layoutWeight(1)
+        }
+        .width('100%')
+      }
+      .width('100%')
+      .height('100%')
+      .backgroundColor(ThemeConst.CardBackGroundColor_Normal)
+      .bindSheet(this.showImage, this.imagePreview(), {
+        height: SheetSize.MEDIUM,
+        onDisappear: () => {
+          this.showImage = false
+          this.pixelMap?.release()
+          this.pixelMap = undefined
+        }
+      })
+    }
+    .title(String.classicalliterature_sentence)
+    .id('sentence_index_page')
+    .onReady((ctx: NavDestinationContext) => {
+      this.pageStack = ctx.pathStack
+    })
+    .onShown(() => {
+      // 从子页面返回时只刷新收藏态，不重新随机
+      const current = this.sentence
+      if (current && !this.refreshing) {
+        isSentenceBookmarked(current.id).then((bookmarked: boolean) => {
+          if (this.sentence?.id === current.id) {
+            this.bookmarked = bookmarked
+          }
+        })
+      }
+    })
+  }
+}

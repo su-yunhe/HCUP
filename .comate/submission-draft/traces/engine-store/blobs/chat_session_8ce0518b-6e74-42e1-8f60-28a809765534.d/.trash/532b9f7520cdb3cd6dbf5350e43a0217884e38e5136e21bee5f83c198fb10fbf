@@ -1,0 +1,47 @@
+"""场景四："查看原文"入口与诗词详情页。
+
+依赖 fixtures/jm_sentence_poem_link.json 已导入设备（见 make_fixture.py）。每条名句的期望由该文件决定：
+poem_id 指向存在的诗词 → 显示入口；poem_id 为 null/0/不存在的诗词 → 不显示入口。
+"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.sentence_helpers import (
+    FROM_PATTERN, K_BOOKMARK, K_CONTENT, K_DETAIL, K_FROM, K_HOME_MENU, K_INDEX, K_ORIGINAL, K_POEM, K_POEM_CONTENT,
+    K_POEM_TITLE, K_POEM_WRITER, MISSING_POEM_ID, SentenceTestCase, is_linked, load_fixture,
+)
+
+MAX_REFRESH = 80
+
+
+class TestScenario4Original(SentenceTestCase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        cls.fixture = load_fixture()
+
+    def expected(self, sentence: tuple[str, str]) -> int | None:
+        return self.fixture.get(sentence)
+
+    def refresh_until(self, predicate) -> tuple[str, str] | None:
+        sentence = self.current()
+        for _ in range(MAX_REFRESH):
+            if predicate(self.expected(sentence)):
+                return sentence
+            sentence = self.refresh()
+        return None
+
+    def assert_original_matches(self, sentence: tuple[str, str]) -> None:
+        poem_id = self.expected(sentence)
+        self.driver.wait(0.8)
+        entry = self.driver.find_component(BY.key(K_ORIGINAL))
+        text_entry = self.driver.find_component(BY.text("查看原文"))
+        if is_linked(poem_id):
+            self.assertIsNotNone(entry, f"关联诗词 {poem_id} 的名句应显示“查看原文”: {sentence}")
+            self.assertIsNotNone(text_entry)
+            self.assertGreater(entry.getBounds().top, self.require_key(K_FROM, "缺少出处").getBounds().top,
+                               "“查看原文”应在出处之后")
+        else:
+            self.assertIsNone(entry, f"poem_id={poem_id} 的名句不应显示“查看原文”: {sentence

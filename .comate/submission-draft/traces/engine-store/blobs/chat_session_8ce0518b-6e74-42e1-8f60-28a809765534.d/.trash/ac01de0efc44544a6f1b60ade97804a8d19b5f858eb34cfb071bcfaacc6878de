@@ -1,0 +1,12 @@
+  return obj;
+}
+
+export async function readClassicPoem(id: number): Promise<ClassicPoem | null> {
+  let obj: ClassicPoem | null = null
+
+  await DbUtil.objectiveRDB?.querySql(DbCRUDConst.READ_CLASSICALLITERATURE_CLASSICPOEM, [id])
+    .then((resultSet: relationalStore.ResultSet) => {
+      try {
+        while (resultSet.goToNextRow()) {
+          obj = parse(resultSet)
+        }

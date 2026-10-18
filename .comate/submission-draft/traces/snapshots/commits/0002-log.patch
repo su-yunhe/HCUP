@@ -1,0 +1,285 @@
+From f163668ba999bcdccc41f8fefff2b7ee8ec48c2c Mon Sep 17 00:00:00 2001
+From: bress <1980039406@qq.com>
+Date: Thu, 15 Oct 2026 19:44:46 +0800
+Subject: [PATCH 2/5] log
+
+---
+ logs/baseline-build.log   | 227 ++++++++++++++++++++++++++++++++++++++
+ logs/baseline-clean.log   |  21 ++++
+ logs/baseline-install.log |   2 +
+ 3 files changed, 250 insertions(+)
+ create mode 100644 logs/baseline-build.log
+ create mode 100644 logs/baseline-clean.log
+ create mode 100644 logs/baseline-install.log
+
+diff --git a/logs/baseline-build.log b/logs/baseline-build.log
+new file mode 100644
+index 0000000000000000000000000000000000000000..fd7e3e1dffe31bff8f11f753788a2c37fab4f894
+--- /dev/null
++++ b/logs/baseline-build.log
+@@ -0,0 +1,227 @@
++> hvigor [32mUP-TO-DATE :default:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :home:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :constants:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :settings:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :worldcultureheritage:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :utils:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :antitheticalcouplet:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :character:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :expression:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :idiom:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :knowledge:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :quote:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :classicpoem:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :uicomponents:default@PreBuild...  [39m
++> hvigor [32mUP-TO-DATE :sentence:default@PreBuild...  [39m
++> hvigor [32mFinished :default:default@CreateModuleInfo... after 1 ms [39m
++> hvigor [32mFinished :default:default@GenerateMetadata... after 2 ms [39m
++> hvigor [32mFinished :default:default@PreCheckSyscap... after 1 ms [39m
++> hvigor [32mFinished :default:default@GeneratePkgContextInfo... after 5 ms [39m
++> hvigor [32mFinished :default:default@GeneratePkgSdkInfo... after 2 ms [39m
++> hvigor [32mFinished :default:default@ProcessIntegratedHsp... after 1 ms [39m
++> hvigor [32mUP-TO-DATE :constants:default@CreateHarBuildProfile...  [39m
++> hvigor [32mFinished :constants:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :constants:default@MergeProfile... after 2 ms [39m
++> hvigor [32mFinished :default:default@SyscapTransform... after 8 ms [39m
++> hvigor [32mFinished :default:default@ProcessRouterMap... after 4 ms [39m
++> hvigor [32mFinished :default:default@ProcessShareConfig... after 2 ms [39m
++> hvigor [32mFinished :default:default@ProcessStartupConfig... after 1 ms [39m
++> hvigor [32mUP-TO-DATE :utils:default@CreateHarBuildProfile...  [39m
++> hvigor [32mUP-TO-DATE :uicomponents:default@CreateHarBuildProfile...  [39m
++> hvigor [32mFinished :constants:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :utils:default@MergeProfile... after 1 ms [39m
++> hvigor [32mFinished :uicomponents:default@MergeProfile... after 1 ms [39m
++> hvigor [32mFinished :default:default@GenerateLoaderJson... after 6 ms [39m
++> hvigor [32mUP-TO-DATE :character:default@CreateHarBuildProfile...  [39m
++> hvigor [32mUP-TO-DATE :sentence:default@CreateHarBuildProfile...  [39m
++> hvigor [32mUP-TO-DATE :worldcultureheritage:default@CreateHarBuildProfile...  [39m
++> hvigor [32mUP-TO-DATE :idiom:default@CreateHarBuildProfile...  [39m
++> hvigor [32mUP-TO-DATE :antitheticalcouplet:default@CreateHarBuildProfile...  [39m
++> hvigor [32mUP-TO-DATE :knowledge:default@CreateHarBuildProfile...  [39m
++> hvigor [32mUP-TO-DATE :quote:default@CreateHarBuildProfile...  [39m
++> hvigor [32mUP-TO-DATE :classicpoem:default@CreateHarBuildProfile...  [39m
++> hvigor [32mFinished :utils:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :uicomponents:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :constants:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :character:default@MergeProfile... after 1 ms [39m
++> hvigor [32mFinished :sentence:default@MergeProfile... after 1 ms [39m
++> hvigor [32mFinished :worldcultureheritage:default@MergeProfile... after 1 ms [39m
++> hvigor [32mFinished :idiom:default@MergeProfile... after 1 ms [39m
++> hvigor [32mFinished :antitheticalcouplet:default@MergeProfile... after 1 ms [39m
++> hvigor [32mFinished :knowledge:default@MergeProfile... after 1 ms [39m
++> hvigor [32mFinished :quote:default@MergeProfile... after 1 ms [39m
++> hvigor [32mFinished :classicpoem:default@MergeProfile... after 1 ms [39m
++> hvigor [32mUP-TO-DATE :expression:default@CreateHarBuildProfile...  [39m
++> hvigor [32mFinished :utils:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :uicomponents:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :constants:default@ProcessLibs... after 3 ms [39m
++> hvigor [32mFinished :expression:default@MergeProfile... after 1 ms [39m
++> hvigor [32mUP-TO-DATE :settings:default@CreateHarBuildProfile...  [39m
++> hvigor [32mFinished :character:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :sentence:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :worldcultureheritage:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :idiom:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :antitheticalcouplet:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :knowledge:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :quote:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :classicpoem:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :constants:default@DoNativeStrip... after 6 ms [39m
++> hvigor [32mFinished :settings:default@MergeProfile... after 1 ms [39m
++> hvigor [32mUP-TO-DATE :home:default@CreateHarBuildProfile...  [39m
++> hvigor [32mFinished :character:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :sentence:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :worldcultureheritage:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :idiom:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :antitheticalcouplet:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :knowledge:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :quote:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :classicpoem:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :utils:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :uicomponents:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :home:default@MergeProfile... after 2 ms [39m
++> hvigor [32mFinished :default:default@CreateBuildProfile... after 1 ms [39m
++> hvigor [32mFinished :expression:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :utils:default@ProcessLibs... after 1 ms [39m
++> hvigor [32mFinished :uicomponents:default@ProcessLibs... after 1 ms [39m
++> hvigor [32mFinished :default:default@MergeProfile... after 4 ms [39m
++> hvigor [32mFinished :expression:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :utils:default@DoNativeStrip... after 2 ms [39m
++> hvigor [32mFinished :uicomponents:default@DoNativeStrip... after 1 ms [39m
++> hvigor [32mFinished :default:default@MakePackInfo... after 2 ms [39m
++> hvigor [32mFinished :default:default@ProcessProfile... after 61 ms [39m
++> hvigor [32mFinished :settings:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :character:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :sentence:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :worldcultureheritage:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :idiom:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :antitheticalcouplet:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :knowledge:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :quote:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :classicpoem:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :default:default@ProcessResource... after 2 ms [39m
++> hvigor [32mFinished :settings:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :character:default@ProcessLibs... after 2 ms [39m
++> hvigor [32mFinished :sentence:default@ProcessLibs... after 1 ms [39m
++> hvigor [32mFinished :worldcultureheritage:default@ProcessLibs... after 1 ms [39m
++> hvigor [32mFinished :idiom:default@ProcessLibs... after 1 ms [39m
++> hvigor [32mFinished :antitheticalcouplet:default@ProcessLibs... after 1 ms [39m
++> hvigor [32mFinished :knowledge:default@ProcessLibs... after 1 ms [39m
++> hvigor [32mFinished :quote:default@ProcessLibs... after 1 ms [39m
++> hvigor [32mFinished :classicpoem:default@ProcessLibs... after 1 ms [39m
++> hvigor [33mWARN: Warning: 'app_name' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/AppScope/resources/base/element/string.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/commons/constants/src/main/resources/base/element/string.json
++Warning: 'page_text_font_size' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/src/main/resources/base/element/float.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/commons/constants/src/main/resources/base/element/float.json
++Warning: 'page_text_font_size' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/src/main/resources/base/element/float.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/resources/base/element/float.json
++Warning: 'settings' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/commons/constants/src/main/resources/base/element/string.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/settings/src/main/resources/base/element/string.json
++Warning: 'page_text_font_size' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/src/main/resources/base/element/float.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/china/worldcultureheritage/src/main/resources/base/element/float.json
++Warning: 'page_text_font_size' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/src/main/resources/base/element/float.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/antitheticalcouplet/src/main/resources/base/element/float.json
++Warning: 'page_show' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/china/worldcultureheritage/src/main/resources/base/element/string.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/antitheticalcouplet/src/main/resources/base/element/string.json
++Warning: 'page_text_font_size' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/src/main/resources/base/element/float.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/character/src/main/resources/base/element/float.json
++Warning: 'page_show' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/china/worldcultureheritage/src/main/resources/base/element/string.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/character/src/main/resources/base/element/string.json
++Warning: 'page_text_font_size' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/src/main/resources/base/element/float.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/expression/src/main/resources/base/element/float.json
++Warning: 'page_show' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/china/worldcultureheritage/src/main/resources/base/element/string.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/expression/src/main/resources/base/element/string.json
++Warning: 'page_text_font_size' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/src/main/resources/base/element/float.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/idiom/src/main/resources/base/element/float.json
++Warning: 'page_show' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/china/worldcultureheritage/src/main/resources/base/element/string.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/idiom/src/main/resources/base/element/string.json
++Warning: 'page_text_font_size' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/src/main/resources/base/element/float.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/knowledge/src/main/resources/base/element/float.json
++Warning: 'page_show' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/china/worldcultureheritage/src/main/resources/base/element/string.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/knowledge/src/main/resources/base/element/string.json
++Warning: 'page_text_font_size' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/src/main/resources/base/element/float.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/quote/src/main/resources/base/element/float.json
++Warning: 'page_show' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/china/worldcultureheritage/src/main/resources/base/element/string.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/chinese/quote/src/main/resources/base/element/string.json
++Warning: 'page_text_font_size' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/src/main/resources/base/element/float.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/classicalliterature/sentence/src/main/resources/base/element/float.json
++Warning: 'page_show' conflict, first declared.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/china/worldcultureheritage/src/main/resources/base/element/string.json
++but declared again.
++at /Users/bress/Documents/code/harmonycup-work/jm-spec75/features/classicalliterature/sentence/src/main/resources/base/element/string.json
++Warning: the media of 'app_icon.png' does not have a base resource.
++Warning: the media of 'icon.png' does not have a base resource.
++Warning: the media of 'icon_startwindow.png' does not have a base resource.
++[39m
++> hvigor [32mFinished :default:default@CompileResource... after 135 ms [39m
++> hvigor [32mFinished :home:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :character:default@DoNativeStrip... after 1 ms [39m
++> hvigor [32mFinished :sentence:default@DoNativeStrip... after 1 ms [39m
++> hvigor [32mFinished :worldcultureheritage:default@DoNativeStrip... after 1 ms [39m
++> hvigor [32mFinished :idiom:default@DoNativeStrip... after 1 ms [39m
++> hvigor [32mFinished :antitheticalcouplet:default@DoNativeStrip... after 1 ms [39m
++> hvigor [32mFinished :knowledge:default@DoNativeStrip... after 1 ms [39m
++> hvigor [32mFinished :quote:default@DoNativeStrip... after 1 ms [39m
++> hvigor [32mFinished :classicpoem:default@DoNativeStrip... after 1 ms [39m
++> hvigor [32mFinished :default:default@BuildJS... after 1 ms [39m
++> hvigor [32mFinished :home:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :expression:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :default:default@ConfigureCmake... after 1 ms [39m
++> hvigor [32mFinished :expression:default@ProcessLibs... after 1 ms [39m
++> hvigor [32mFinished :default:default@BuildNativeWithCmake... after 1 ms [39m
++> hvigor [32mFinished :expression:default@DoNativeStrip... after 4 ms [39m
++> hvigor [32mFinished :settings:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :settings:default@ProcessLibs... after 2 ms [39m
++> hvigor [32mFinished :settings:default@DoNativeStrip... after 2 ms [39m
++> hvigor [32mFinished :home:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :home:default@ProcessLibs... after 3 ms [39m
++> hvigor [32mFinished :home:default@DoNativeStrip... after 4 ms [39m
++> hvigor [32mFinished :default:default@BuildNativeWithNinja... after 1 ms [39m
++> hvigor [32mFinished :default:default@ProcessLibs... after 6 ms [39m
++> hvigor [32mFinished :default:default@DoNativeStrip... after 3 ms [39m
++> hvigor [32mFinished :default:default@CacheNativeLibs... after 5 ms [39m
++> hvigor [32mFinished :default:default@CompileArkTS... after 4 s 13 ms [39m
++> hvigor [32mFinished :default:default@GeneratePkgModuleJson... after 2 ms [39m
++> hvigor [32mFinished :default:default@ProcessCompiledResources... after 1 ms [39m
++> hvigor [32mFinished :default:default@PackageHap... after 365 ms [39m
++> hvigor [32mFinished :default:default@PackingCheck... after 4 ms [39m
++> hvigor [33mWARN: No signingConfig found for product default[39m
++> hvigor [32mFinished :default:default@SignHap... after 1 ms [39m
++> hvigor [32mFinished :default:default@CollectDebugSymbol... after 1 ms [39m
++> hvigor [32mFinished :default:assembleHap... after 1 ms [39m
++> hvigor [32mBUILD SUCCESSFUL in 6 s 767 ms [39m
+diff --git a/logs/baseline-clean.log b/logs/baseline-clean.log
+new file mode 100644
+index 0000000000000000000000000000000000000000..5177aba49bf239e01dd397fa27ad95687834d020
+--- /dev/null
++++ b/logs/baseline-clean.log
+@@ -0,0 +1,21 @@
++> hvigor [32mFinished :default:clean... after 55 ms [39m
++> hvigor [32mFinished :utils:clean... after 2 ms [39m
++> hvigor [32mFinished :uicomponents:clean... after 2 ms [39m
++> hvigor [32mFinished :home:clean... after 2 ms [39m
++> hvigor [32mFinished :settings:clean... after 3 ms [39m
++> hvigor [32mFinished :constants:clean... after 3 ms [39m
++> hvigor [32mFinished :classicpoem:clean... after 2 ms [39m
++> hvigor [32mFinished :character:clean... after 2 ms [39m
++> hvigor [32mFinished :sentence:clean... after 2 ms [39m
++> hvigor [32mFinished :bookmark:clean... after 1 ms [39m
++> hvigor [32mFinished :worldcultureheritage:clean... after 2 ms [39m
++> hvigor [32mFinished :expression:clean... after 2 ms [39m
++> hvigor [32mFinished :idiom:clean... after 2 ms [39m
++> hvigor [32mFinished :antitheticalcouplet:clean... after 2 ms [39m
++> hvigor [32mFinished :knowledge:clean... after 2 ms [39m
++> hvigor [32mFinished :quote:clean... after 2 ms [39m
++> hvigor [32mFinished :color:clean... after 1 ms [39m
++> hvigor [32mFinished :festival:clean... after 1 ms [39m
++> hvigor [32mFinished :solarterm:clean... after 1 ms [39m
++> hvigor [32mFinished ::clean... after 1 ms [39m
++> hvigor [32mBUILD SUCCESSFUL in 1 s 239 ms [39m
+diff --git a/logs/baseline-install.log b/logs/baseline-install.log
+new file mode 100644
+index 0000000000000000000000000000000000000000..2b5e4cba53ee2d13597ea18c10852b4394cf404e
+--- /dev/null
++++ b/logs/baseline-install.log
+@@ -0,0 +1,2 @@
++[Info]App install path:/Users/bress/Documents/code/harmonycup-work/jm-spec75/products/default/build/default/outputs/default/default-default-unsigned.hap msg:error: failed to install bundle. code:9568263 error: install version downgrade. 
++AppMod finish
+-- 
+2.39.5 (Apple Git-154)
+

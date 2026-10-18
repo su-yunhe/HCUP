@@ -1,0 +1,45 @@
+import sys
+from hypium import UiDriver, BY
+
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+B = "com.hefengbao.jingmo.hw"
+FILE = sys.argv[1] if len(sys.argv) > 1 else "jm_sentence_poem_link.json"
+d.stop_app(B)
+d.start_app(B, "EntryAbility", wait_time=3)
+d.wait(2)
+# 主页右上角设置图标
+imgs = d.find_all_components(BY.type("Image")) or []
+top = sorted(imgs, key=lambda c: (c.getBounds().top, -c.getBounds().left))[0]
+d.click(top)
+d.wait(1.5)
+d.click(d.find_component(BY.text("导入数据")))
+d.wait(1.5)
+row_text = [c for c in d.find_all_components(BY.text("诗文名句"))][0]
+rb = row_text.getBounds()
+cy = (rb.top + rb.bottom) // 2
+folder = [c for c in d.find_all_components(BY.type("Image")) if c.getBounds().top < cy < c.getBounds().bottom][0]
+d.click(folder)
+d.wait(3)
+f = None
+for _ in range(10):
+    f = d.find_component(BY.text(FILE))
+    if f:
+        break
+    d.wait(1)
+if not f:
+    texts = [c.getText() for c in d.find_all_components(BY.type("Text")) or []]
+    print("picker texts:", texts)
+    sys.exit(1)
+d.click(f)
+d.wait(2)
+texts = [c.getText() for c in d.find_all_components(BY.type("Text")) or []]
+print("after click:", texts[:40])
+for label in ("完成", "确定", "选择"):
+    b = d.find_component(BY.text(label))
+    if b:
+        d.click(b)
+        print("clicked", label)
+        break
+d.wait(8)
+texts = [c.getText() for c in d.find_all_components(BY.type("Text")) or []]
+print("import page:", texts)

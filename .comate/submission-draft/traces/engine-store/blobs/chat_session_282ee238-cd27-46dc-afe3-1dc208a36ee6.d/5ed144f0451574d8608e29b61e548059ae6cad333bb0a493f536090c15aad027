@@ -1,0 +1,22 @@
+| id | 组件 | 说明 |
+| --- | --- | --- |
+| `home_menu_sentence` | 主页"诗文名句"格子 | `features/home/src/main/ets/view/MenuList.ets:27-31` |
+| `sentence_index_page` | 名句首页 NavDestination | 标题"诗文名句" |
+| `sentence_content` | 名句内容 Text | 首页与详情页共用视图时各页唯一 |
+| `sentence_from` | 名句出处 Text | 同上 |
+| `sentence_view_original` | "查看原文"入口 | 仅关联诗词时存在于树中 |
+| `sentence_toolbar_bookmark` | 收藏切换按钮 | 需能区分已/未收藏状态，见 U1/U6 |
+| `sentence_toolbar_image` | 生成图片按钮 | |
+| `sentence_toolbar_refresh` | 刷新按钮 | |
+| `sentence_toolbar_bookmarks` | 收藏列表入口按钮 | 见 U1 |
+| `sentence_bookmarks_page` | 收藏列表页 NavDestination | |
+| `sentence_bookmarks_list` | 收藏 List | |
+| `sentence_bookmarks_item_<sentenceId>` | 收藏列表项 | 按名句 id 唯一，规避 content 重复 |
+| `sentence_bookmarks_empty` | 空列表提示 | |
+| `sentence_detail_page` | 名句详情页 NavDestination | |
+| `poem_detail_page` | 诗词详情页 NavDestination | |
+| `poem_detail_title` / `poem_detail_writer` / `poem_detail_dynasty` / `poem_detail_content` | 诗词详情字段 | 见 U10 |
+| `sentence_image_preview` | 生成图片结果容器 | 见 U12 |
+
+注意：若沿用 `NavDestination.toolbarConfiguration`（基线经典诗文页的写法），工具栏项**不能**设置自定义 id，
+系统只生成 `__NavdestinationField__ToolBar__MenuItem<n>__`，且 `hideItemValue: true` 时文字不进 UI 树（基线实测）。见 U1。

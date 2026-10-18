@@ -1,0 +1,13 @@
+    def absent(self, by, settle: float = 1.0) -> bool:
+        """等待页面稳定后确认组件不存在。"""
+        self.driver.wait(settle)
+        return self.driver.find_component(by) is None
+
+    def gone(self, by, timeout: float = 5) -> bool:
+        """轮询等待组件消失（如转场动画结束）。"""
+        deadline = time.monotonic() + timeout
+        while self.driver.find_component(by) is not None:
+            if time.monotonic() > deadline:
+                return False
+            self.driver.wait(0.3)
+        return True

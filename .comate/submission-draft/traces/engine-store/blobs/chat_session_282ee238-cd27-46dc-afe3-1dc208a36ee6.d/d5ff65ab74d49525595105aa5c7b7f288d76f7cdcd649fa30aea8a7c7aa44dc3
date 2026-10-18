@@ -1,0 +1,5 @@
+[进入(sentenceId)] --> LOADING --> SHOWN(s, poem?, bookmarked?) | NOT_FOUND
+SHOWN 中 poem 存在（poem_id 非空非 0 且诗词表有该 id）--> 显示"查看原文"
+SHOWN --点查看原文--> push 诗词详情页(poemId)；返回后仍是同一条 s
+SHOWN --点 sentence_detail_bookmark--> WRITING --成功--> SHOWN(s, bookmarked = !old)（与 §1.1 同规则）
+[返回收藏列表] --> 列表 onShown 重新查询（取消收藏的项消失）

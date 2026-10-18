@@ -1,0 +1,14 @@
+import sys, time, json
+from hypium import UiDriver, BY
+
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+B = "com.hefengbao.jingmo.hw"
+d.stop_app(B)
+d.start_app(B, wait_time=3)
+d.wait(2)
+c = d.find_component(BY.key("home_menu_sentence"))
+print("home_menu_sentence", c, c.getBounds() if c else None)
+d.click(c)
+d.wait(2)
+for k in ["sentence_index_page", "sentence_content", "sentence_from", "sentence_view_original", "sentence_empty",
+          "sentence_toolbar_bookmark", "sentence_toolbar_image", "sentence_toolbar_refresh", "sentence

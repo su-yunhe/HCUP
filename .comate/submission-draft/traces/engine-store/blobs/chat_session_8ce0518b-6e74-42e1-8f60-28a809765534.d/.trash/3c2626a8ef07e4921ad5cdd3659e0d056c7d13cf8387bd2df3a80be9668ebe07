@@ -1,0 +1,20 @@
+import { Sentence } from '../model/Sentence';
+import { ThemeConst } from 'constants';
+
+/**
+ * 名句内容 + 出处，关联诗词时在其后展示"查看原文"入口
+ */
+@ComponentV2
+export struct SentenceView {
+  @Param @Require sentence: Sentence;
+  @Param poemId: number | null = null;
+  @Event viewOriginal: (poemId: number) => void = (poemId: number) => {
+  };
+
+  build() {
+    Column() {
+      // 生成图片时截取该卡片
+      Column({ space: 16 }) {
+        Text(this.sentence.content)
+          .id('sentence_content')
+          .wid

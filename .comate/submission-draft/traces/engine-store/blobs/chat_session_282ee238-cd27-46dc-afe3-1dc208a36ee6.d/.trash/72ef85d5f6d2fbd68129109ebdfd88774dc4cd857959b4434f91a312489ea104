@@ -1,0 +1,14 @@
+## 1. 状态机
+
+本题不是网络类需求（§0.2），但"随机读""收藏写库""按 id 查诗词"都是异步 RDB 操作，
+为避免"先改 UI 稍后补写库"导致的状态不一致，按下列状态机约束实现。
+
+### 1.1 名句首页（`sentence_index_page`）
+
+```
+[进入页面] --aboutToAppear--> LOADING --查询成功且有数据--> SHOWN(s, bookmarked?)
+                                  \--RDB 未就绪/空表/异常--> EMPTY
+SHOWN --点刷新--> LOADING'(保留当前 s 显示，刷新按钮防重入) --成功--> SHOWN(s', 重新查询 s' 的收藏态)
+                                                       \--失败--> SHOWN(s, 不变)
+SHOWN --点收藏切换--> WRITING(按钮防重入) --写库成功--> SHOWN(s, bookmarked = !old)
+                                             \--写库失败--> SHOWN(s, bookmarked

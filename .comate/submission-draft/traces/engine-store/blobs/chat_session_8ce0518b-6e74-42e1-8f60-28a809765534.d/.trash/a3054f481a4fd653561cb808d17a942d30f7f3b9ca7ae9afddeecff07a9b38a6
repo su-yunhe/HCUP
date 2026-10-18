@@ -1,0 +1,26 @@
+"""场景二/三：收藏当前名句、收藏列表页、名句详情页。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.sentence_helpers import (
+    K_BOOKMARK, K_BOOKMARKS_EMPTY, K_BOOKMARKS_ITEM, K_BOOKMARKS_PAGE, K_CONTENT, K_DETAIL, K_DETAIL_BOOKMARK, K_FROM,
+    K_INDEX, SentenceTestCase,
+)
+
+
+class TestScenario23Bookmark(SentenceTestCase):
+
+    def setUp(self):
+        self.enter_index()
+        self.clear_bookmarks()
+
+    def bookmark_current(self, expect_toast: bool = True) -> tuple[str, str]:
+        self.assertEqual(self.label_of(K_BOOKMARK), "收藏本句", "当前名句应为未收藏态")
+        current = self.current()
+        self.driver.start_listen_toast()
+        self.driver.click(self.require_key(K_BOOKMARK, "缺少收藏按钮"))
+        self.assertEqual(self.wait_label(K_BOOKMARK, "已收藏"), "已收藏", "收藏后按钮未变为已收藏")
+        if expect_toast:
+            self.assertEqual(self.driver.get_latest_toast(timeout=3), "收藏成功", "收藏后未提示“收藏成功”")
+    

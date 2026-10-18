@@ -1,0 +1,40 @@
+"""场景一：主页进入"诗文名句"首页，随机展示名句，底部工具栏与刷新。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.sentence_helpers import (
+    K_BOOKMARK, K_BOOKMARKS, K_CONTENT, K_EMPTY, K_FROM, K_HOME_MENU, K_IMAGE, K_INDEX, K_PREVIEW, K_REFRESH,
+    SentenceTestCase,
+)
+
+
+class TestScenario1Index(SentenceTestCase):
+
+    def test_01_enter_from_home(self):
+        """A1/A2：主页点击"诗文名句"进入首页，展示名句内容与出处。"""
+        self.enter_index()
+        self.assertEqual(self.wait_title("诗文名句"), "诗文名句", "首页标题不是“诗文名句”")
+        self.assertIsNone(self.driver.find_component(BY.key(K_HOME_MENU)), "进入后主页格子仍可见")
+        content, source = self.current()
+        self.assertTrue(content.strip(), "名句内容为空")
+        self.assertTrue(source.strip(), "出处为空")
+        self.assertRegex(source, r"^.+《.+》$", "出处应原样显示 from 字段（作者《标题》）")
+        self.assertTrue(self.absent(BY.key(K_EMPTY), settle=0), "有数据时不应显示空态")
+        b_content = self.require_key(K_CONTENT, "缺少名句内容").getBounds()
+        b_from = self.require_key(K_FROM, "缺少出处").getBounds()
+        self.assertLess(b_content.top, b_from.top, "出处应在名句内容之下")
+
+    def test_02_toolbar_buttons(self):
+        """A4/A5/A6：底部工具栏依次为 收藏本句、生成图片、刷新、收藏。"""
+        self.enter_index()
+        keys = [K_BOOKMARK, K_IMAGE, K_REFRESH, K_BOOKMARKS]
+        labels = [self.label_of(k) for k in keys]
+        self.assertEqual(labels, ["收藏本句", "生成图片", "刷新", "收藏"])
+        bounds = [self.require_key(k, f"缺少 {k}").getBounds() for k in keys]
+        lefts = [b.left for b in bounds]
+        self.assertEqual(lefts, sorted(lefts), "工具栏按钮顺序不对")
+        content_bottom = self.require_key(K_CONTENT, "缺少名句内容").getBounds().bottom
+        w, h = self.driver.get_display_size()
+        for b in bounds:
+            self.assertGreater(b.to

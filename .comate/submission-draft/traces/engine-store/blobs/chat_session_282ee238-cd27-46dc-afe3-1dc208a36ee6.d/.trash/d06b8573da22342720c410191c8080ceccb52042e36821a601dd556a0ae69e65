@@ -1,0 +1,7 @@
+基线有 `features/bookmark`（标题"收藏夹"，空页面），但没有入口、没被任何 HAP 依赖、`route_map.json` 键名写成 `routeMap`（其他模块是 `routerMap`），见 baseline-notes §4。
+推荐：**不接入**，收藏列表页放在 sentence 模块内（场景三写的是"诗文名句收藏列表页"）；只复用 `bookmarks` 表结构。
+
+### U3 "关联了词库中一首完整的诗词原文"的判定口径
+
+- 假设 a（推荐）：`poem_id` 非空、非 0，且诗词表存在该 id。证据：Spec 括注"即数据中记录了其出处诗词"；模型与表已有 `poem_id` 字段。
+- 假设 b：按 `from`（"作者《标题》"）匹配诗词 `w

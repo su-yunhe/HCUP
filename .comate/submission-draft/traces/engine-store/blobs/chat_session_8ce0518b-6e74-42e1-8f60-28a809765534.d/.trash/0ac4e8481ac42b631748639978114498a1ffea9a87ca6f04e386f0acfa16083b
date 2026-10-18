@@ -1,0 +1,85 @@
+"""本题（诗文名句）各测试文件共用的导航与读取辅助。
+
+前置数据：设备上已导入官方诗词/名句数据集；场景四另需导入 make_fixture.py 生成的
+fixtures/jm_sentence_poem_link.json（设置→导入数据→诗文名句）。
+"""
+from __future__ import annotations
+
+import json
+import re
+import time
+from pathlib import Path
+
+from hypium import BY, MatchPattern
+
+from harness.driver import HarnessTestCase
+
+BUNDLE = "com.hefengbao.jingmo.hw"
+ABILITY = "EntryAbility"
+FIXTURE = Path(__file__).parent / "fixtures" / "jm_sentence_poem_link.json"
+MISSING_POEM_ID = 99999
+
+K_HOME_MENU = "home_menu_sentence"
+K_INDEX = "sentence_index_page"
+K_CONTENT = "sentence_content"
+K_FROM = "sentence_from"
+K_ORIGINAL = "sentence_view_original"
+K_EMPTY = "sentence_empty"
+K_BOOKMARK = "sentence_toolbar_bookmark"
+K_IMAGE = "sentence_toolbar_image"
+K_REFRESH = "sentence_toolbar_refresh"
+K_BOOKMARKS = "sentence_toolbar_bookmarks"
+K_BOOKMARKS_PAGE = "sentence_bookmarks_page"
+K_BOOKMARKS_EMPTY = "sentence_bookmarks_empty"
+K_BOOKMARKS_ITEM = "sentence_bookmarks_item_"
+K_DETAIL = "sentence_detail_page"
+K_DETAIL_BOOKMARK = "sentence_detail_bookmark"
+K_POEM = "poem_detail_page"
+K_POEM_TITLE = "poem_detail_title"
+K_POEM_WRITER = "poem_detail_writer_dynasty"
+K_POEM_CONTENT = "poem_detail_content"
+K_PREVIEW = "sentence_image_preview"
+
+FROM_PATTERN = re.compile(r"^(.+)《(.+)》$")
+
+
+def load_fixture() -> dict[tuple[str, str], int]:
+    """(content, from) -> poem_id；不在 fixture 中的名句 poem_id 为 null。"""
+    data = json.loads(FIXTURE.read_text(encoding="utf-8"))["data"]
+    return {(d["content"], d["from"]): d["poem_id"] for d in data}
+
+
+def is_linked(poem_id: int | None) -> bool:
+    return poem_id not in (None, 0, MISSING_POEM_ID)
+
+
+class SentenceTestCase(HarnessTestCase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        # 判断"不存在"时不需要隐式等待，轮询由 find_or_none 负责
+        cls.driver.set_implicit_wait_time(0)
+
+    # ---------- 查找 ----------
+
+    def by_key(self, key: str):
+        return BY.key(key)
+
+    def find_key(self, key: str, timeout: float = 10):
+        return self.find_or_none(BY.key(key), timeout=timeout)
+
+    def require_key(self, key: str, message: str, timeout: float = 10):
+        return self.require_component(BY.key(key), message, timeout=timeout)
+
+    def absent(self, by, settle: float = 1.0) -> bool:
+        """等待页面稳定后确认组件不存在。"""
+        self.driver.wait(settle)
+        return self.driver.find_component(by) is None
+
+    def text_of(self, key: str, timeout: float = 10) -> str:
+        return self.require_key(key, f"未找到 {key}", timeout=timeout).getText()
+
+    def label_of(self, key: str) -> str:
+        """自建工具栏项内 Text 的文字。"""
+       
