@@ -1,0 +1,16 @@
+import json
+import re
+import shutil
+import subprocess
+import time
+import urllib.parse
+import urllib.request
+
+from hypium import BY
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+KEYWORD = "晴天"
+S

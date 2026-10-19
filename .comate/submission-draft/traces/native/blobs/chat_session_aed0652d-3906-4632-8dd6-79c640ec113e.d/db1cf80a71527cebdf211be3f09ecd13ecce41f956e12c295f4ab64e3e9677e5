@@ -1,0 +1,2 @@
+- Emulator `127.0.0.1:5555` (API 23, 1308x2880): on 2026-10-18 it could not resolve external DNS, so AVPlayer failed with 5411001 and progress stayed at 0:00. On 2026-10-19, after the host changed networks, audio played fine even though `ping` still failed DNS. This depends on the network, so play a song and confirm progress moves before each self-test.
+- Self-test with full songs only (`freeTrialInfo` null, e.g. 晴天(深情版) id 2652820720). VIP songs return 30s trial clips (e.g. 夜曲 id 2725685941 stops at 0:30).

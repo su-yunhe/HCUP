@@ -1,0 +1,4 @@
+  // 进度条总长：优先用歌曲信息时长，本地文件没有歌曲信息时用播放器时长
+  get maxDuration(): number {
+    if (this.song.duration > 0) { return this.song.duration }
+    return this.time >= 0 ? Audi

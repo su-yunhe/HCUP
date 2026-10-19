@@ -1,0 +1,12 @@
+    def test_02_repeat_play_within_3s_is_throttled(self):
+        """3 秒内再次点"播放"：提示“操作过于频繁”，迷你播放器保持当前歌曲。"""
+        self.restart()
+        self.search()
+        self.play_from_sheet()
+        self.open_sheet()
+        self.driver.start_listen_toast()
+        self.driver.click(BY.key("song_sheet_play"))
+        self.assertEqual(self.driver.get_latest_toast(timeout=3), "操作过于频繁")
+        self.assertEqual(self.text_of("mini_player_title"), self.song.name)
+
+    def test_03_empty_and_blank_keyword_not_searched(self):

@@ -1,0 +1,5 @@
+    # 按文本点击时命中的是树中第一个同文本组件：要求歌名在首屏唯一，且之前没有同文本的歌手行
+    texts = [t for info in infos for t in (info.name, info.artists)]
+    names = [info.name for info in infos]
+    result = [info for i, info in enumerate(infos)
+              if info.id in urls and names.count(info.name) == 1 and texts.index(info.name) == 2 * i]

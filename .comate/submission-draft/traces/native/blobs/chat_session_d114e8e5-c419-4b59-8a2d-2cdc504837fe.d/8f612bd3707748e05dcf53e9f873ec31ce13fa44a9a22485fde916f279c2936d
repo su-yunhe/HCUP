@@ -1,0 +1,5 @@
+        candidates = playable_songs()
+        self.require_precondition(bool(candidates), "本地 API 不可达，无法挑选可播放的第二首歌")
+        others = [n for n in candidates if n != SONG]
+        self.require_precondition(bool(others), "搜索结果中没有另一首可播放的歌")
+        other = others[0]

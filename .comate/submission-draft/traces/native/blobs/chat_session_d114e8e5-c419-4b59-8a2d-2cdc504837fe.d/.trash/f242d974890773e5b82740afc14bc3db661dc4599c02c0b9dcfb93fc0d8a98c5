@@ -1,0 +1,17 @@
+  build() {
+    Stack() {
+      if (this.isLoading == true) {
+        Column() {
+          SpinKit({ spinType: SpinType.spinO, spinSize: 60, spinColor: Color.Gray }).width(60)
+        }.height('100%').width('100%').justifyContent(FlexAlign.Center)
+      } else {
+        Column({ space: 10 }) {
+          ListHead({ title: this.playList.name })
+          List() {
+            ForEach(this.list, (item: Song, index) => {
+              ListItem() {
+                SongCard({ song: item, sid: index, hasAnimation: this.hasAnimation })
+              }
+            });
+            // 添加加载更多
+ 

@@ -1,0 +1,7 @@
+        self.start_playing()
+        b = self.require_text(f'"{KEYWORD}" 的搜索结果', "不在结果页").getBounds()
+        # 结果页标题行最左侧是返回按钮
+        self.driver.click((b.left - 60 if b.left > 120 else 100, (b.top + b.bottom) // 2))
+        if not self.exists("search_input", timeout=5):
+            self.driver.press_back()
+        self.assertTrue(self.exists("search_input", timeout=8), "未回到首页")

@@ -1,0 +1,99 @@
+<file>
+   120→
+   121→    def exists(self, key: str, timeout: float = 0) -> bool:
+   122→        """不经隐式等待判断 id 是否在当前 UI 树中；timeout>0 时轮询等待出现。"""
+   123→        self.driver.set_implicit_wait_time(0)
+   124→        try:
+   125→            deadline = time.monotonic() + timeout
+   126→            while True:
+   127→                if self.driver.find_component(BY.key(key)) is not None:
+   128→                    return True
+   129→                if time.monotonic() >= deadline:
+   130→                    return False
+   131→                self.driver.wait(0.3)
+   132→        finally:
+   133→            self.driver.set_implicit_wait_time(5)
+   134→
+   135→    def gone(self, key: str, timeout: float = 5) -> bool:
+   136→        """轮询等待 id 从 UI 树中消失。"""
+   137→        deadline = time.monotonic() + timeout
+   138→        while self.exists(key):
+   139→            if time.monotonic() >= deadline:
+   140→                return False
+   141→            self.driver.wait(0.3)
+   142→        return True
+   143→
+   144→    def text_of(self, key: str) -> str:
+   145→        return self.require_component(BY.key(key), f"未找到组件 {key}", timeout=8).getText()
+   146→
+   147→    def time_of(self, key: str) -> int:
+   148→        text = self.text_of(key)
+   149→        self.assertRegex(text, TIME_RE, f"{key} 时间格式不是 m:ss: {text!r}")
+   150→        return to_sec(text)
+   151→
+   152→    def center(self, key: str) -> tuple[int, int]:
+   153→        b = self.require_component(BY.key(key), f"未找到组件 {key}").getBounds()
+   154→        return (b.left + b.right) // 2, (b.top + b.bottom) // 2
+   155→
+   156→    def restart(self) -> None:
+   157→        restart_app(self.driver, BUNDLE, wait_time=2)
+   158→        self.require_component(BY.key("search_input"), "冷启动后未进入首页", timeout=20)
+   159→
+   160→    def search(self, keyword: str = KEYWORD) -> None:
+   161→        self.driver.input_text(BY.key("search_input"), keyword)
+   162→        self.driver.click(BY.key("search_button"))
+   163→        self.require_text(f'"{keyword}" 的搜索结果', "未进入搜索结果页", timeout=20)
+   164→
+   165→    def open_sheet(self, song: str = SONG) -> None:
+   166→        self.driver.click(self.require_text(song, f"搜索结果中没有 {song}", timeout=20))
+   167→        self.require_component(BY.key("song_sheet_play"), "点击歌曲后未弹出操作面板", timeout=8)
+   168→
+   169→    def play_from_sheet(self, song: str = SONG) -> None:
+   170→        self.open_sheet(song)
+   171→        self.driver.click(BY.key("song_sheet_play"))
+   172→        self.assertTrue(self.exists("mini_player", timeout=15), "点击播放后底部未出现迷你播放器")
+   173→        self.assertTrue(self.wait_title("mini_player_title", song), "迷你播放器标题不是当前歌曲")
+   174→
+   175→    def wait_title(self, key: str, song: str, timeout: float = 10) -> bool:
+   176→        deadline = time.monotonic() + timeout
+   177→        while time.monotonic() < deadline:
+   178→            c = self.driver.find_component(BY.key(key))
+   179→            if c is not None and c.getText() == song:
+   180→                return True
+   181→            self.driver.wait(0.5)
+   182→        return False
+   183→
+   184→    def wait_playing(self, key: str = "mini_player_time", min_sec: int = 1, timeout: float = 20) -> int:
+   185→        """等到进度时间 ≥ min_sec 秒（确认音频真的在播），返回当时读数；超时记为前置不满足。"""
+   186→        deadline = time.monotonic() + timeout
+   187→        sec = 0
+   188→        while time.monotonic() < deadline:
+   189→            sec = self.time_of(key)
+   190→            if sec >= min_sec:
+   191→                return sec
+   192→            self.driver.wait(1)
+   193→        self.require_precondition(False, f"{timeout}s 内进度未走动（{key}={sec}s），音频流可能拉不到")
+   194→        return sec
+   195→
+   196→    def start_playing(self) -> None:
+   197→        """冷启动 → 搜索 → 面板播放 → 确认在播。"""
+   198→        self.restart()
+   199→        self.search()
+   200→        self.play_from_sheet()
+   201→        self.wait_playing()
+   202→
+   203→    def open_play_page(self, via: str = "mini_player_cover") -> None:
+   204→        if via == "mini_player":
+   205→            self.driver.click(self.center("mini_player"))
+   206→        else:
+   207→            self.driver.click(BY.key(via))
+   208→        self.assertTrue(self.exists("play_page", timeout=8), f"点击 {via} 未进入播放页")
+   209→        self.driver.wait(0.8)  # 等入场转场结束
+   210→
+   211→    def close_play_page(self) -> None:
+   212→        self.driver.click(BY.key("play_page_down"))
+   213→        self.assertTrue(self.gone("play_page", timeout=8), "点击向下箭头后播放页未关闭")
+   214→        self.assertTrue(self.exists("mini_player", timeout=8), "收起播放页后迷你播放器未显示")
+   215→
+</file>
+<metadata>The file has 215 lines in total.</metadata>

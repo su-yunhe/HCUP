@@ -1,0 +1,3 @@
+        others = [s.name for s in playable_songs() or [] if s.name != self.song.name]
+        self.require_precondition(bool(others), "搜索结果首屏中没有另一首可播放的歌")
+        other = others[0]

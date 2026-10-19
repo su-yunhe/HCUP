@@ -1,0 +1,4 @@
+- The full write-up is in the project's spec/baseline-notes.md §2 and §7.
+- UI dump (uitest/hypium) on this emulator: `.accessibilityText()` does NOT show up in any dump attribute; `.accessibilityDescription()` shows as `description` (findable via `BY.description`). Verified 2026-10-19.
+- In this project's ArkTS toolchain, `get foo()` getters inside a `@Component` struct evaluated to NaN in build (2026-10-19); use plain methods instead.
+- API container logs (`docker logs --since <unix> netease_cloud_music_api`) print one `[OK] /path?query` line per request — u

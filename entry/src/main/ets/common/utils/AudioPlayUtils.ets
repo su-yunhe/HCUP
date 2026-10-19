@@ -12,6 +12,8 @@ const TAG = '[AudioPlayUtils] '
 
 class AudioPlayUtils {
   mPlayer: EfAVPlayer = new EfAVPlayer()
+  private isSeeking: boolean = false // seek 完成前忽略 timeUpdate，避免进度回跳到旧位置
+  private seekTimer: number = -1
 
   async init() {
     try {
@@ -31,7 +33,7 @@ class AudioPlayUtils {
       this.mPlayer.play()
       AppStorage.setOrCreate('player-isplaying',true)
       this.mPlayer.onTimeUpdate((time) => {
-        AppStorage.setOrCreate('player-time',time)
+        if (!this.isSeeking) { AppStorage.setOrCreate('player-time',time) }
       })
     } catch (e) {
       AppStorage.setOrCreate('player-isplaying',false)
@@ -52,11 +54,39 @@ class AudioPlayUtils {
       LogUtil.info(TAG + '开始播放: ' + fileName)
       AppStorage.setOrCreate('player-isplaying',true)
       this.mPlayer.onTimeUpdate((time) => {
-        AppStorage.setOrCreate('player-time',time)
+        if (!this.isSeeking) { AppStorage.setOrCreate('player-time',time) }
       })
     } catch (e) {
       AppStorage.setOrCreate('player-isplaying',false)
       LogUtil.error(TAG + '播放失败 play error: ' + JSON.stringify(e))
+    }
+  }
+
+  /**
+   * 跳转到指定进度（ms）
+   * 立即写入 player-time，seekDone 之前忽略 timeUpdate
+   */
+  async seek(time: number) {
+    AppStorage.setOrCreate('player-time', time)
+    const avPlayer = this.mPlayer.getAVPlayer()
+    if (!avPlayer) { return }
+    this.isSeeking = true
+    clearTimeout(this.seekTimer)
+    // seekDone 未回调时兜底恢复进度更新
+    this.seekTimer = setTimeout(() => { this.isSeeking = false }, 2000)
+    avPlayer.off('seekDone')
+    avPlayer.on('seekDone', (seekTime: number) => {
+      clearTimeout(this.seekTimer)
+      this.isSeeking = false
+      LogUtil.info(TAG + 'seekDone: ' + seekTime)
+    })
+    try {
+      await this.mPlayer.seek(time)
+      LogUtil.info(TAG + '跳转播放: ' + time)
+    } catch (e) {
+      clearTimeout(this.seekTimer)
+      this.isSeeking = false
+      LogUtil.error(TAG + '跳转失败: ' + JSON.stringify(e))
     }
   }
 

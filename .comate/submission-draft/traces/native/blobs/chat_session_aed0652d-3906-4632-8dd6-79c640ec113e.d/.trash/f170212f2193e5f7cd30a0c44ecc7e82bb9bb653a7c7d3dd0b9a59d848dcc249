@@ -1,0 +1,8 @@
+# 基线理解结论（cmu-spec102）
+
+标注约定：**[代码]** = 读源码得出（附 `文件:行号`，路径相对 `entry/src/main/ets/`）；**[实测]** = 在模拟器上构建、安装、操作得到（证据在 `logs/baseline/`）；**[推断]** = 我的推测，没有验证；**[Spec]** = requirement.md 原文。
+
+## 1 基线快照标识
+
+- `spec/metadata.json` 的 `base_commit` = `00b3d8f4f471f31f024860c8d6dbac5df3f27756`。仓库里原本就有 tag `base/cmu-spec102` 指向它。
+- 当前 HEAD = `9b19192c998aca785325ee978f7d1445cd7f57

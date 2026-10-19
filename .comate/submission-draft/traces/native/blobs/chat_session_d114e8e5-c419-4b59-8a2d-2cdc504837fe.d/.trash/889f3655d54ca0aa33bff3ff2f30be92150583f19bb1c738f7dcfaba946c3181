@@ -1,0 +1,4 @@
+    def restart(self, clean_cache: bool = False) -> None:
+        """冷启动应用。clean_cache=True 时先清应用缓存（基线 HTTP 请求开了 usingCache，
+        不清的话重复的同一请求可能直接命中缓存、不到达服务端）；偏好设置（API 地址）不受影响。"""
+        if clean_cach

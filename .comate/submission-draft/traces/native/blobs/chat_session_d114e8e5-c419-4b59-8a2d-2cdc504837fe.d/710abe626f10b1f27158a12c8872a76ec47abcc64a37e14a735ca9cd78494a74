@@ -1,0 +1,32 @@
+import sys, time
+from hypium import UiDriver, BY
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+d.set_implicit_wait_time(3)
+B = "cc.chenlvin.cloudmusic"
+def t(k):
+    c = d.find_component(BY.key(k))
+    return None if c is None else (c.getText(), c.getBounds())
+step = sys.argv[1] if len(sys.argv) > 1 else "all"
+if step in ("all", "play"):
+    d.stop_app(B); d.start_app(B, wait_time=3)
+    print("mini at start:", t("mini_player"))
+    d.input_text(BY.key("search_input"), "晴天")
+    d.click(BY.key("search_button"))
+    d.wait(3)
+    first = d.find_component(BY.text("晴天(深情版)"))
+    print("first", first and first.getBounds())
+    d.click(first); d.wait(1.5)
+    d.click(BY.key("song_sheet_play")); d.wait(4)
+for k in ["mini_player", "mini_player_cover", "mini_player_title", "mini_player_artist", "mini_player_time", "mini_player_pause_btn", "mini_player_play_btn"]:
+    print(k, t(k))
+d.wait(3)
+print("time later", t("mini_player_time"))
+if step in ("all", "page"):
+    d.click(BY.key("mini_player_cover")); d.wait(1.5)
+    for k in ["play_page", "play_page_down", "play_page_title", "play_page_artist", "play_page_slider", "play_page_current_time", "play_page_duration", "play_page_pause_btn", "mini_player"]:
+        print(k, t(k))
+    c = d.find_component(BY.key("play_page_down"))
+    print("down desc", d.get_component_property(c, "description") if c else None)
+    print("by text 向下箭头", d.find_component(BY.text("向下箭头")))
+    print("by desc", d.find_component(BY.description("向下箭头")))
+    d.capture_screen("/tmp/cmu102_play.jpeg")

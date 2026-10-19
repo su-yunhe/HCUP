@@ -1,0 +1,35 @@
+import json
+import re
+import shutil
+import subprocess
+import time
+import urllib.parse
+import urllib.request
+
+from hypium import BY
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+KEYWORD = "晴天"
+SONG = "晴天(深情版)"
+ARTIST = "Lucky小爱"
+API_CONTAINER = "netease_cloud_music_api"
+HOST_API = "http://127.0.0.1:3000"  # 宿主机访问本地 API（应用内填的是 10.0.2.2:3000）
+TIME_RE = re.compile(r"^\d+:\d{2}$")
+
+
+def playable_songs(keyword: str = KEYWORD) -> list[str] | None:
+    """按与应用相同的搜索接口查出能拿到播放地址的歌名（歌名在结果中唯一）；服务不可达时返回 None。"""
+    try:
+        q = urllib.parse.quote(keyword)
+        with urllib.request.urlopen(f"{HOST_API}/search?keywords={q}", timeout=15) as r:
+            songs = json.load(r)["result"]["songs"]
+        ids = ",".join(str(s["id"]) for s in songs)
+        with urllib.request.urlopen(f"{HOST_API}/song/url/v1?id={ids}&level=standard", timeout=15) as r:
+            ok = {d["id"] for d in json.load(r)["data"] if d.get("url")}
+    except (OSError, ValueError, KeyError):
+        return None
+    names = [s["name"] for s in songs]
+    return [s["name"] for s in songs if s["id"] in ok and names.count(s["name"]) == 1]

@@ -1,0 +1,38 @@
+### 场景二：搜索 → 面板 → 播放 → 迷你栏
+
+#### A14 首页搜索得到歌曲列表（基线已有，不能回退）
+- 来源：S2-1、S2-概述"通过首页搜索框" ｜ 证据：SPEC_EXPLICIT
+- 原子行为：在首页搜索框输入关键词 → 点蓝色搜索按钮 → 进入搜索结果页，列表展示歌曲。
+- 可观察结果：出现文本 `"<关键词>" 的搜索结果`；`List` 下至少 1 项，每项显示歌名和歌手。
+- 入口：首页 `TextInput`（占位 `请输入搜索内容`）+ 右侧圆形搜索按钮 ｜ 前置数据：API 可用 ｜ 用户动作：输入并点击
+- UI 结果：加载中显示 SpinKit，加载完显示列表 ｜ 数据结果：无持久化
+- 网络结果：点击时发 1 次 `POST {api}/search?keywords=<encodeURIComponent(kw)>`（songApi.ets:15-31）；空关键词不发请求
+- 返回结果：返回首页后搜索框保留关键词（基线实测，b08）
+- 边界条件：空输入 → toast `请输入搜索内容`，不跳转；纯空格 → 基线会跳转并发请求（见 §4，U9）；结果为空 → 基线一直转圈（baseline-notes §6 基线缺陷）
+- 稳定选择器：基线没有 id；建议补 `search_input`、`search_button`（可选，不影响功能）
+
+#### A15 点击歌曲弹出操作面板（基线已有）
+- 来源：S2-2 ｜ 证据：SPEC_EXPLICIT
+- 原子行为：点结果列表中的一项 → 弹出半模态面板（`bindSheet`，高 70%）。
+- 可观察结果：面板内有歌名 Text、歌手 Text、`时长 m:ss`、Button 文本 `播放`、Button 文本 `下载`、音质 Select。
+- 入口：搜索结果页列表项（`SongCard` Button）｜ 前置数据：A14 ｜ 用户动作：单击列表项
+- UI 结果：面板盖住列表下部，也会盖住迷你栏（迷你栏在面板下层，仍在 UI 树里）
+- 数据结果：无 ｜ 网络结果：打开面板不发请求（封面地址在列表项 aboutToAppear 时已经通过 `/song/detail` 取好，SongCard.ets:19-26）
+- 返回结果：下拉或点遮罩关闭面板 → 回到列表，不发请求、迷你栏不变
+- 边界条件：取消（关面板）不播放；面板打开时 `BY.text('播放')` 必须唯一（A13 的约束）
+- 稳定选择器：建议补 `song_sheet_play`（面板"播放"按钮），文本 `播放` 保持不变
+
+#### A16 点击"播放"：关面板 + 发 1 次取播放地址请求
+- 来源：S2-3 ｜ 证据：SPEC_EXPLICIT（动作）+ REASONABLE_DERIVATION（请求时序，来自基线代码）
+- 原子行为：点面板 `播放` → 面板立即关闭 → 发 1 次 `/song/url/v1?id=<id>&level=<quality>` → 成功后启动播放。
+- 可观察结果：面板消失；出现 toast `开始播放歌曲: <歌名>`；随后迷你栏出现或刷新（A17-A19）。
+- 入口：A15 面板 ｜ 前置数据：API 可用；不需要登录 ｜ 用户动作：单击 `播放`
+- UI 结果：请求期间没有额外 loading UI（面板已经关了）；迷你栏只在请求成功**之后**才更新，不允许先改 UI 再补请求
+- 数据结果：成功时写 AppStorage `player-mode=1`、`player-ispaused=false`、`player-isplaying`、`player-song`、`player-artists`、`player-picurl`（playerControl.ets:20-25）；建议同时把 `player-time` 置 0（A20）
+- 网络结果：未登录 → `HttpRequest.Request()`，POST；已登录 → 开了"公共 Cookie"走 `RequestWithVipType()`（GET），否则仍走 POST（songApi.ets:53-68）。每次点击正好 1 次
+- 返回结果：不适用（不跳页）
+- 边界条件：3 秒内重复点 → toast `操作过于频繁`，不发请求（SongSheet.ets:77-85）；请求失败 → A21
+- 稳定选择器：`song_sheet_play`（建议补）或文本 `播放`
+
+#### A17 播放成功后迷你栏显示歌曲标题
+- 来源：S2-4、S2

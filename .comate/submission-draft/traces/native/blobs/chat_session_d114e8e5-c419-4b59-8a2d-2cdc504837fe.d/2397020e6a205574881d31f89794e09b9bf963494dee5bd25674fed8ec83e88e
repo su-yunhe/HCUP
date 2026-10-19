@@ -1,0 +1,7 @@
+export JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home
+export DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk
+export PATH=$JAVA_HOME/bin:/Applications/DevEco-Studio.app/Contents/tools/node/bin:/Applications/DevEco-Studio.app/Contents/tools/ohpm/bin:/Applications/DevEco-Studio.app/Contents/tools/hvigor/bin:/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains:$PATH
+P=/Users/bress/Documents/code/harmonycup-work/cmu-spec102
+build_install() {
+  (cd $P && hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon > logs/build.log 2>&1; echo build_exit=$?; grep -E "BUILD|ERROR" logs/build.log | head -20; echo warns=$(grep -c "ArkTS:WARN" logs/build.log); hdc -t 127.0.0.1:5555 install -r entry/build/default/outputs/default/entry-default-unsigned.hap 2>&1 | tee logs/install.log)
+}

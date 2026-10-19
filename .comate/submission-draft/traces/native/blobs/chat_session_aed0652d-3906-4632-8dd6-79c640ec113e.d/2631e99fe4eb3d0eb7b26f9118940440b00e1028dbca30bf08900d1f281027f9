@@ -1,0 +1,259 @@
+<file>
+     1→import { DialogUtil, PasteboardUtil, ToastUtil } from '@pura/harmony-utils'
+     2→import Constants from '../common/constants/Constants'
+     3→import { SettingsHead } from '../components/head/SettingsHead'
+     4→import { router } from '@kit.ArkUI'
+     5→import PreferencesUtils from '../common/utils/PreferencesUtils'
+     6→import { ExplainButton } from '../components/buttons/ExplainButton'
+     7→import { QualityType } from '../common/entities/SongDownload'
+     8→import { DialogAction } from '@pura/harmony-utils/src/main/ets/entity/constraint'
+     9→import FileUtils from '../common/utils/FileUtils'
+    10→
+    11→/**
+    12→ * 设置页面
+    13→ */
+    14→@Entry
+    15→@Component
+    16→struct Settings {
+    17→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    18→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    19→
+    20→  build() {
+    21→    Stack() {
+    22→      Column({ space: 10 }) {
+    23→        SettingsHead().padding({ bottom: 20 })
+    24→
+    25→        List({ space: 20 }) {
+    26→          ListItem() { hasAnimation() }
+    27→          ListItem() { isUsePubCookie() }
+    28→          ListItem() { setPlayQuality() }
+    29→          ListItem() { customApiUrl() }
+    30→          ListItem() { removeCache() }
+    31→          ListItem() { Divider() }
+    32→          ListItem() { Version() }
+    33→          ListItem() { Privacy() }
+    34→          ListItem() { Feedback() }
+    35→        }
+    36→        .scrollBar(BarState.Auto)
+    37→        .width('100%').layoutWeight(1)
+    38→
+    39→        Bottom()
+    40→      }
+    41→    }
+    42→    .padding({ top: px2vp(this.topRectHeight) })
+    43→    .width('100%')
+    44→    .height('100%')
+    45→    .backgroundColor($r('app.color.main'))
+    46→  }
+    47→}
+    48→
+    49→/**
+    50→ * 动画开关
+    51→ */
+    52→@Component struct hasAnimation {
+    53→  @StorageLink('set-hasAnimation') hasAnimation: boolean = true
+    54→  build() {
+    55→    Row() {
+    56→      Text('歌曲列表动画').LeftText()
+    57→      Toggle({ type: ToggleType.Switch, isOn:this.hasAnimation }).height(24).width(48)
+    58→        .onChange(async () => { this.hasAnimation = !this.hasAnimation; AppStorage.setOrCreate('set-hasAnimation',this.hasAnimation); await PreferencesUtils.putPreferenceValue('Settings','hasAnimation',this.hasAnimation)})
+    59→    }.width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left:30, right: 30})
+    60→  }
+    61→}
+    62→
+    63→/**
+    64→ * 是否使用公共Cookie
+    65→ */
+    66→@Component struct isUsePubCookie {
+    67→  @StorageLink('set-isUsePubCookie') isUsePubCookie: boolean = true
+    68→  build() {
+    69→    Row() {
+    70→      Row({ space: 5 }) {
+    71→        Text('使用公共Cookie').LeftText()
+    72→        ExplainButton()
+    73→          .onClick(() => {
+    74→            DialogUtil.showConfirmDialog({title:'公共 Cookie', message:'该功能仅对非VIP用户生效\n开启后，非VIP用户将使用公共Cookie\n' +
+    75→              '获取完整的下载链接/歌曲Url'})
+    76→          })
+    77→      }
+    78→      Toggle({ type: ToggleType.Switch, isOn:this.isUsePubCookie }).height(24).width(48)
+    79→        .onChange(async () => { this.isUsePubCookie = !this.isUsePubCookie; AppStorage.setOrCreate('set-isUsePubCookie',this.isUsePubCookie); await PreferencesUtils.putPreferenceValue('Settings','isUsePubCookie',this.isUsePubCookie)})
+    80→    }.width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left:30, right: 30})
+    81→  }
+    82→}
+    83→
+    84→/**
+    85→ * 设置播放音质
+    86→ */
+    87→@Component struct setPlayQuality {
+    88→  @StorageLink('set-playQuality') playQuality:QualityType = "standard"
+    89→  @State selected:number | undefined = 0
+    90→
+    91→  async aboutToAppear(): Promise<void> {
+    92→    this.selected = await AppStorage.get('set-playQuality')
+    93→  }
+    94→  build() {
+    95→    Row() {
+    96→      Text('在线播放音质').LeftText()
+    97→      Select([{ value: '标准' }, { value: '高' }, { value: '极高' }, { value: '无损' }])
+    98→        .selected(this.selected)
+    99→        .value(this.selected ? Constants.QUALITY_NAME[this.selected] : '标准')
+   100→        .width(100)
+   101→        .onSelect((index: number) => {
+   102→          AppStorage.setOrCreate('set-playQuality',index)
+   103→          PreferencesUtils.putPreferenceValue('Settings', 'playQuality', index)
+   104→        })
+   105→    }
+   106→    .width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left:30, right: 30})
+   107→  }
+   108→}
+   109→
+   110→/**
+   111→ * 自定义API地址
+   112→ */
+   113→@Component struct customApiUrl {
+   114→  @StorageLink('set-isCustomApiUrl') isCustomApiUrl: boolean = false
+   115→  @StorageProp('set-customApiUrl') customApiUrl: string = ''
+   116→  build() {
+   117→    Column({ space: 5 }) {
+   118→      Row() {
+   119→        Text('自定义API服务器地址').LeftText()
+   120→        Toggle({ type: ToggleType.Switch, isOn: this.isCustomApiUrl }).height(24).width(48)
+   121→          .onChange(async () => {
+   122→            this.isCustomApiUrl = !this.isCustomApiUrl;
+   123→            AppStorage.setOrCreate('set-isCustomApiUrl', this.isCustomApiUrl);
+   124→            await PreferencesUtils.putPreferenceValue('Settings', 'isCustomApiUrl', this.isCustomApiUrl)
+   125→          })
+   126→      }.width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left: 30, right: 30 })
+   127→      if(this.isCustomApiUrl) {
+   128→        Row({ space: 10 }) {
+   129→          TextInput({ text: this.customApiUrl })
+   130→            .layoutWeight(4)
+   131→            .onChange((text) => this.customApiUrl = text)
+   132→          Button('设置')
+   133→            .layoutWeight(1)
+   134→            .onClick(async () => {
+   135→              AppStorage.setOrCreate('set-customApiUrl',this.customApiUrl)
+   136→              await PreferencesUtils.putPreferenceValue('Settings','customApiUrl',this.customApiUrl)
+   137→              ToastUtil.showToast('设置成功，API地址：\n' + this.customApiUrl)
+   138→          })
+   139→        }
+   140→        .justifyContent(FlexAlign.Center)
+   141→        .width('80%')
+   142→      }
+   143→    }
+   144→    .width('100%')
+   145→  }
+   146→}
+   147→
+   148→/**
+   149→ * 清理缓存
+   150→ */
+   151→@Component struct removeCache {
+   152→  build() {
+   153→    Row() {
+   154→      Text('清除缓存').LeftText()
+   155→      Button('清理')
+   156→        .backgroundColor(Color.Transparent)
+   157→        .borderWidth(2)
+   158→        .borderColor(Color.Gray)
+   159→        .fontColor($r('app.color.reverse'))
+   160→        .onClick(() => {
+   161→          DialogUtil.showPrimaryDialog({
+   162→            title: '确认',
+   163→            message: '清理缓存\n请勿在下载过程中清理，否则可能导致下载内容异常',
+   164→            primaryButton: "取消",
+   165→            secondaryButton: "清理",
+   166→            onAction: async (action) => {
+   167→              if(action == DialogAction.TWO) {
+   168→                FileUtils.removeCache()
+   169→              }
+   170→            }
+   171→          })
+   172→        })
+   173→    }.width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left:30, right: 30})
+   174→  }
+   175→}
+   176→
+   177→/**
+   178→ * 显示版本号
+   179→ */
+   180→@Component struct Version {
+   181→  build() {
+   182→    Row() {
+   183→      Text('当前版本').LeftText()
+   184→      Text(Constants.VERSION + Constants.VER_DESC).RightText()
+   185→    }.width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left:30, right: 30})
+   186→  }
+   187→}
+   188→
+   189→/**
+   190→ * 反馈
+   191→ */
+   192→@Component struct Feedback {
+   193→  build() {
+   194→    Row() {
+   195→      Text('建议与反馈').LeftText()
+   196→      Text('前往反馈').RightText().textAlign(TextAlign.End).decoration({type: TextDecorationType.Underline})
+   197→    }.width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left:30, right: 30})
+   198→    .onClick(() => {
+   199→      router.pushUrl({
+   200→        url:'pages/WebPage',
+   201→        params: {title:'建议与反馈', url:'https://www.wjx.cn/vm/PeLnYfc.aspx#'}
+   202→      })
+   203→    })
+   204→  }
+   205→}
+   206→
+   207→/**
+   208→ * 隐私政策
+   209→ */
+   210→@Component struct Privacy {
+   211→  build() {
+   212→    Row() {
+   213→      Text('隐私政策').LeftText()
+   214→      Text('前往查看本软件的隐私政策').RightText().decoration({type: TextDecorationType.Underline})
+   215→        .onClick(() => {
+   216→          router.pushUrl({
+   217→            url:'pages/WebPage',
+   218→            params: {title:'隐私政策', url:'https://docs.chenlvin.cc/cloudmusic/#/privacy'}
+   219→          })
+   220→        })
+   221→    }.width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left:30, right: 30})
+   222→  }
+   223→}
+   224→
+   225→/**
+   226→ * 底部信息
+   227→ */
+   228→@Component struct Bottom {
+   229→  build() {
+   230→    Column() {
+   231→      Text('云音汇 @Chenlvin\n' +
+   232→        'GitHub: CloudMusic-HarmonyOSNext').BottomText()
+   233→    }
+   234→    .width('100%')
+   235→    .height(50)
+   236→  }
+   237→}
+   238→
+   239→
+   240→@Extend(Text) function LeftText() {
+   241→  .fontSize(16)
+   242→  .fontWeight(FontWeight.Bold)
+   243→}
+   244→
+   245→@Extend(Text) function RightText() {
+   246→  .fontSize(16)
+   247→}
+   248→
+   249→@Extend(Text) function BottomText() {
+   250→  .fontSize(12)
+   251→  .textAlign(TextAlign.Center)
+   252→  .onClick(() => {
+   253→    PasteboardUtil.setDataText('https://github.com/Chenlvin/CloudMusic-HarmonyOSNext')
+   254→    ToastUtil.showToast('已复制链接到剪贴板')
+   255→  })
+   256→}
+</file>
+<metadata>The file has 256 lines in total.</metadata>

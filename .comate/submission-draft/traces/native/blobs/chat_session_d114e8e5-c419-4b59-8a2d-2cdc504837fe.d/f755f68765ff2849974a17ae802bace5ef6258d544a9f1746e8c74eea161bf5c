@@ -1,0 +1,4 @@
+    texts = [t for info in infos for t in (info.name, info.artists)]
+    result = [info for i, info in enumerate(infos)
+              if info.id in urls and texts.count(info.name) == 1 or
+              (info.id in urls and texts.index(info.name) == 2 * i and [x.name for x in infos].count(info.name) == 1)]

@@ -1,0 +1,14 @@
+---
+name: Local build/emulator environment quirks
+description: hvigorw needs JAVA_HOME from DevEco jbr; emulator 127.0.0.1:5555 cannot resolve external DNS so online audio never plays; API via local docker :3000
+type: reference
+---
+
+- hvigorw/hdc are not on PATH. Build needs `JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home` (otherwise PackageHap fails "Unable to locate a Java Runtime"), `DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk`, plus tools/node, tools/hvigor/bin, sdk/default/openharmony/toolchains on PATH. Unsigned HAP installs fine on the emulator.
+- Emulator `127.0.0.1:5555` (API 23, 1308x2880): on 2026-10-18 it could not resolve external DNS, so AVPlayer failed with 5411001 and progress stayed at 0:00. On 2026-10-19, after the host changed networks, audio played fine even though `ping` still failed DNS. This depends on the network, so play a song and confirm progress moves before each self-test.
+- Self-test with full songs only (`freeTrialInfo` null, e.g. 晴天(深情版) id 2652820720). VIP songs return 30s trial clips (e.g. 夜曲 id 2725685941 stops at 0:30).
+- The NeteaseCloudMusicApi docker container runs on host :3000. In the app, set Settings → 自定义API服务器地址 to `http://10.0.2.2:3000`; it was verified working on 2026-10-19. Don't use the host LAN IP, because it changes between networks (the old 192.168.1.97 stopped working). The setting persists across `install -r`.
+- The full write-up is in the project's spec/baseline-notes.md §2 and §7.
+- UI dump (uitest/hypium) on this emulator: `.accessibilityText()` does NOT show up in any dump attribute; `.accessibilityDescription()` shows as `description` (findable via `BY.description`). Verified 2026-10-19.
+- In this project's ArkTS toolchain, `get foo()` getters inside a `@Component` struct evaluated to NaN in build (2026-10-19); use plain methods instead.
+- API container logs (`docker logs --since <unix> netease_cloud_music_api`) print one `[OK] /path?query` line per request — usable to assert requests were/weren't sent.

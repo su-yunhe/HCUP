@@ -1,0 +1,101 @@
+import { Song, SongClass } from "../../common/entities/SongsResult"
+import { changeDuration } from "../../common/functions/functions"
+import { pauseMusic, resumeMusic } from "../../common/functions/playerControl"
+
+const PLAY_PAGE_URL = 'pages/PlayPage'
+let isOpeningPlayPage: boolean = false // 防止快速连点重复打开播放页
+
+/**
+ * 底部播放控制栏（迷你播放器）
+ */
+@Component
+export struct MiniPlayer {
+  @StorageProp('player-hasSong') hasSong: boolean = false
+  @StorageProp('player-mode') playmode: number = 1
+  @StorageProp('player-fileName') fileName: string = ''
+  @StorageProp('player-song') song: Song = SongClass
+  @StorageProp('player-artists') artists: string = ''
+  @StorageProp('player-ispaused') isPaused: boolean = false
+  @StorageProp('player-picurl') picUrl: string = ''
+  @StorageProp('player-time') time: number = 0
+  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+
+  openPlayPage() {
+    const router = this.getUIContext().getRouter()
+    if (isOpeningPlayPage || router.getState().name === 'PlayPage') { return }
+    isOpeningPlayPage = true
+    router.pushUrl({ url: PLAY_PAGE_URL }).finally(() => {
+      setTimeout(() => { isOpeningPlayPage = false }, 500)
+    })
+  }
+
+  build() {
+    if (this.hasSong) {
+      Column() {
+        Row({ space: 10 }) {
+          Image(this.playmode == 1 && this.picUrl && this.picUrl != 'NULL' ?
+            this.picUrl + '?param=100y100' : $r('app.media.ic_music_fill'))
+            .id('mini_player_cover')
+            .width(48)
+            .height(48)
+            .borderRadius(5)
+            .backgroundColor($r('app.color.background'))
+            .fillColor($r('app.color.reverse'))
+            .onClick(() => { this.openPlayPage() })
+
+          Column({ space: 2 }) {
+            Text(this.playmode == 0 ? this.fileName : this.song.name)
+              .id('mini_player_title')
+              .textStyle(16)
+            Text(this.artists)
+              .id('mini_player_artist')
+              .textStyle(12)
+              .opacity(0.7)
+          }
+          .layoutWeight(1)
+          .alignItems(HorizontalAlign.Start)
+
+          Text(changeDuration(this.time))
+            .id('mini_player_time')
+            .fontSize(14)
+            .fontColor($r('app.color.reverse'))
+
+          // 暂停、继续
+          if (!this.isPaused) {
+            Button({ type: ButtonType.Circle }) {
+              Image($r('app.media.ic_public_pause')).width(28).fillColor($r('app.color.reverse'))
+            }
+            .id('mini_player_pause_btn')
+            .width(44)
+            .height(44)
+            .backgroundColor(Color.Transparent)
+            .onClick(() => { pauseMusic() })
+          } else {
+            Button({ type: ButtonType.Circle }) {
+              Image($r('app.media.ic_play_fill')).width(28).fillColor($r('app.color.reverse'))
+            }
+            .id('mini_player_play_btn')
+            .width(44)
+            .height(44)
+            .backgroundColor(Color.Transparent)
+            .onClick(() => { resumeMusic() })
+          }
+        }
+        .id('mini_player')
+        .width('100%')
+        .height(64)
+        .padding({ left: 15, right: 10 })
+        .onClick(() => { this.openPlayPage() })
+      }
+      .width('100%')
+      .padding({ bottom: this.getUIContext().px2vp(this.bottomRectHeight) })
+      .backgroundColor($r('app.color.background'))
+    }
+  }
+}
+
+@Extend(Text) function textStyle(size: number) {
+  .fontSize(size)
+  .fontColor($r('app.color.reverse'))
+  .maxLines(1)
+  .textOverflow({ overflow:

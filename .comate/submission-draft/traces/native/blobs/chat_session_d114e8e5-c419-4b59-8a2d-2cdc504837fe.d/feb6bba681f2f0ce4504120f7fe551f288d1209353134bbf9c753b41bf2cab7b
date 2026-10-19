@@ -1,0 +1,44 @@
+    def test_01_play_from_sheet_shows_mini_player(self):
+        """取消面板不请求；面板点"播放"：发 1 次取播放地址请求，迷你播放器显示标题、歌手、播放中，时间从 0:00 起递增。"""
+        self.require_precondition(wait_api_cache_expired(SONG_URL_PATH), "读不到本地 API 容器日志")
+        self.restart()
+        self.search()
+        self.assertFalse(self.exists("mini_player"), "播放前结果页不应显示迷你播放器")
+
+        # 取消：打开面板后返回键关闭，不请求、不播放
+        self.open_sheet()
+        since = time.time() - 1
+        self.driver.press_back()
+        self.assertTrue(self.gone("song_sheet_play", timeout=5), "返回键未关闭面板")
+        self.driver.wait(2)
+        self.assertFalse(self.exists("mini_player"), "取消面板后不应出现迷你播放器")
+        self.require_text(f'"{KEYWORD}" 的搜索结果', "取消面板后应停留在搜索结果页", timeout=3)
+        self.assertEqual(api_requests("/song/url/v1", since), 0, "取消面板不应请求播放地址")
+
+        # 播放
+        self.open_sheet()
+        self.require_text("播放", "面板缺少“播放”按钮")
+        since = time.time() - 1
+        self.driver.click(BY.key("song_sheet_play"))
+        self.assertTrue(self.gone("song_sheet_play", timeout=5), "点击播放后面板未关闭")
+        self.assertTrue(self.exists("mini_player", timeout=15), "播放后底部未出现迷你播放器")
+        self.assertEqual(self.text_of("mini_player_title"), SONG)
+        self.assertEqual(self.text_of("mini_player_artist"), ARTIST)
+        self.assertTrue(self.exists("mini_player_pause_btn"), "开始播放后迷你播放器应为播放中")
+        self.assertLessEqual(self.time_of("mini_player_time"), 3, "刚开始播放时进度应从 0:00 起")
+        t1 = self.wait_playing(min_sec=1)
+        self.driver.wait(4)
+        self.assertGreater(self.time_of("mini_player_time"), t1, "播放中迷你播放器时间应递增")
+        count = api_requests("/song/url/v1", since)
+        self.assertEqual(count, 1, f"点一次播放应恰好请求 1 次 /song/url/v1，实际 {count}")
+
+    def test_02_repeat_play_within_3s_is_throttled(self):
+        """3 秒内再次点"播放"：提示“操作过于频繁”，迷你播放器保持当前歌曲。"""
+        self.restart()
+        self.search()
+        self.play_from_sheet()
+        self.open_sheet()
+        self.driver.start_listen_toast()
+        self.driver.click(BY.key("song_sheet_play"))
+        self.assertEqual(self.driver.get_latest_toast(timeout=3), "操作过于频繁")
+        self.assertEqual(self.text_of("mini_player_title"), SONG)

@@ -23,6 +23,8 @@ export async function playMusicByUrl(song:Song,artists:string,picUrl:string,isLo
       AppStorage.setOrCreate('player-song',song)
       AppStorage.setOrCreate('player-artists',artists)
       AppStorage.setOrCreate('player-picurl',picUrl)
+      AppStorage.setOrCreate('player-time', 0)
+      AppStorage.setOrCreate('player-hasSong', true)
       await AudioPlayUtils.mPlayer.reset()
       await ContinuousTask.stopTask()
       ContinuousTask.startPlay(1, songPlay.data[0].url)
@@ -49,6 +51,8 @@ export async function playMusicWithFile(fileName:string) {
       AppStorage.setOrCreate('player-isplaying', false)
       AppStorage.setOrCreate('player-song', SongClass)
       AppStorage.setOrCreate('player-artists', fileName)
+      AppStorage.setOrCreate('player-time', 0)
+      AppStorage.setOrCreate('player-hasSong', true)
       await AudioPlayUtils.mPlayer.reset()
       await ContinuousTask.stopTask()
       ContinuousTask.startPlay(0, fileName)
@@ -65,6 +69,7 @@ export async function playMusicWithFile(fileName:string) {
 export async function stopMusic() {
   await AudioPlayUtils.stop().then(() => {
     AppStorage.setOrCreate('player-isplaying',false)
+    AppStorage.setOrCreate('player-hasSong', false)
     AudioPlayUtils.mPlayer.release()
   })
 }
@@ -79,4 +84,8 @@ export async function resumeMusic() {
   await AudioPlayUtils.resume().then(() => {
     AppStorage.setOrCreate('player-ispaused',false)
   })
+}
+
+export async function seekMusic(time: number) {
+  await AudioPlayUtils.seek(time)
 }

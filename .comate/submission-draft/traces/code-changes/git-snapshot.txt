@@ -1,0 +1,138 @@
+# 冻结时工程版本快照（cmu-spec102）
+生成时间（北京时间）: 2026-10-19 12:33:41
+base_commit: 00b3d8f4f471f31f024860c8d6dbac5df3f27756
+HEAD: 9b19192c998aca785325ee978f7d1445cd7f5791
+branch: dev
+提交版本工作树 tree 摘要（临时索引 git add -A，排除 .comate/submission-draft/）: 8ba7a8ed89c0134cc4e62c59cc8f002aad0dffba
+final.diff SHA-256: 7a95a7d4e90a4d2015a2aa579c678c24f07703284c60c5210b5e2d1b57506004
+
+## git log base_commit..HEAD
+9b19192c998aca785325ee978f7d1445cd7f5791 2026-10-14 17:24:26 +0800 bress <1980039406@qq.com>
+    chore: 记录 ohpm install 重建的依赖锁文件
+
+## git status --porcelain（不含 .comate/）
+ M build-profile.json5
+ M entry/src/main/ets/common/functions/playerControl.ets
+ M entry/src/main/ets/common/utils/AudioPlayUtils.ets
+ M entry/src/main/ets/components/main/SearchComponent.ets
+ M entry/src/main/ets/components/sheets/SongSheet.ets
+ M entry/src/main/ets/pages/Index.ets
+ M entry/src/main/ets/pages/PlayListPage.ets
+ M entry/src/main/ets/pages/SongsListPage.ets
+ M entry/src/main/resources/base/profile/main_pages.json
+?? entry/src/main/ets/components/main/MiniPlayer.ets
+?? entry/src/main/ets/pages/PlayPage.ets
+?? hypium_tests/__init__.py
+?? hypium_tests/helpers.py
+?? hypium_tests/test_s1_mini_play_page.py
+?? hypium_tests/test_s2_search_play.py
+?? hypium_tests/test_s3_return_home.py
+?? hypium_tests/test_s4_seek_sync.py
+?? logs/baseline-build.log
+?? logs/baseline-clean.log
+?? logs/baseline-install.log
+?? logs/baseline/b01-index.jpeg
+?? logs/baseline/b01-index.json
+?? logs/baseline/b02-search.jpeg
+?? logs/baseline/b02-search.json
+?? logs/baseline/b03-sheet.jpeg
+?? logs/baseline/b03-sheet.json
+?? logs/baseline/b04-after-play.jpeg
+?? logs/baseline/b04-after-play.json
+?? logs/baseline/b05-popup.jpeg
+?? logs/baseline/b05-popup.json
+?? logs/baseline/b06-popup-later.json
+?? logs/baseline/b07-paused.jpeg
+?? logs/baseline/b07-paused.json
+?? logs/baseline/b08-index-after.jpeg
+?? logs/baseline/b08-index-after.json
+?? logs/baseline/b09-menu.jpeg
+?? logs/baseline/b09-menu.json
+?? logs/baseline/b10-settings.jpeg
+?? logs/baseline/b10-settings.json
+?? logs/baseline/b11-before-restart.json
+?? logs/baseline/b12-after-restart.json
+?? logs/baseline/v1-settings.json
+?? logs/baseline/v2-settings-after-restart.json
+?? logs/build.log
+?? logs/install.log
+?? logs/reports/2026-10-19-11-24-38/task_log.log
+?? logs/reports/2026-10-19-11-32-28/task_log.log
+?? logs/reports/2026-10-19-11-33-38/task_log.log
+?? logs/reports/2026-10-19-11-37-44/task_log.log
+?? logs/reports/2026-10-19-11-48-25/task_log.log
+?? logs/reports/2026-10-19-11-55-25/task_log.log
+?? logs/selftest.json
+?? logs/selftest.log
+?? spec/0-analyze.md
+?? spec/1-do.md
+?? spec/2-submit.md
+?? spec/3-package.md
+?? spec/acceptance.md
+?? spec/baseline-notes.md
+?? spec/metadata.json
+?? spec/requirement.md
+
+## 相对 base_commit 的变更（name-status）
+M	build-profile.json5
+M	entry/src/main/ets/common/functions/playerControl.ets
+M	entry/src/main/ets/common/utils/AudioPlayUtils.ets
+A	entry/src/main/ets/components/main/MiniPlayer.ets
+M	entry/src/main/ets/components/main/SearchComponent.ets
+M	entry/src/main/ets/components/sheets/SongSheet.ets
+M	entry/src/main/ets/pages/Index.ets
+M	entry/src/main/ets/pages/PlayListPage.ets
+A	entry/src/main/ets/pages/PlayPage.ets
+M	entry/src/main/ets/pages/SongsListPage.ets
+M	entry/src/main/resources/base/profile/main_pages.json
+A	hypium_tests/__init__.py
+A	hypium_tests/helpers.py
+A	hypium_tests/test_s1_mini_play_page.py
+A	hypium_tests/test_s2_search_play.py
+A	hypium_tests/test_s3_return_home.py
+A	hypium_tests/test_s4_seek_sync.py
+A	logs/baseline-build.log
+A	logs/baseline-clean.log
+A	logs/baseline-install.log
+A	logs/baseline/b01-index.jpeg
+A	logs/baseline/b01-index.json
+A	logs/baseline/b02-search.jpeg
+A	logs/baseline/b02-search.json
+A	logs/baseline/b03-sheet.jpeg
+A	logs/baseline/b03-sheet.json
+A	logs/baseline/b04-after-play.jpeg
+A	logs/baseline/b04-after-play.json
+A	logs/baseline/b05-popup.jpeg
+A	logs/baseline/b05-popup.json
+A	logs/baseline/b06-popup-later.json
+A	logs/baseline/b07-paused.jpeg
+A	logs/baseline/b07-paused.json
+A	logs/baseline/b08-index-after.jpeg
+A	logs/baseline/b08-index-after.json
+A	logs/baseline/b09-menu.jpeg
+A	logs/baseline/b09-menu.json
+A	logs/baseline/b10-settings.jpeg
+A	logs/baseline/b10-settings.json
+A	logs/baseline/b11-before-restart.json
+A	logs/baseline/b12-after-restart.json
+A	logs/baseline/v1-settings.json
+A	logs/baseline/v2-settings-after-restart.json
+A	logs/build.log
+A	logs/install.log
+A	logs/reports/2026-10-19-11-24-38/task_log.log
+A	logs/reports/2026-10-19-11-32-28/task_log.log
+A	logs/reports/2026-10-19-11-33-38/task_log.log
+A	logs/reports/2026-10-19-11-37-44/task_log.log
+A	logs/reports/2026-10-19-11-48-25/task_log.log
+A	logs/reports/2026-10-19-11-55-25/task_log.log
+A	logs/selftest.json
+A	logs/selftest.log
+M	oh-package-lock.json5
+A	spec/0-analyze.md
+A	spec/1-do.md
+A	spec/2-submit.md
+A	spec/3-package.md
+A	spec/acceptance.md
+A	spec/baseline-notes.md
+A	spec/metadata.json
+A	spec/requirement.md

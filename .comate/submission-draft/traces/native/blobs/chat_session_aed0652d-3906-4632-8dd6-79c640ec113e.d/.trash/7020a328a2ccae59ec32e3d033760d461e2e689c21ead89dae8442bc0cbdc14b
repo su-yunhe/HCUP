@@ -1,0 +1,26 @@
+## 4 相关现状
+
+### 4.1 播放状态模型：全局 AppStorage，没有 ViewModel [代码]
+
+| key | 含义 | 写入位置 | 读取位置 |
+| --- | --- | --- | --- |
+| `player-isplaying` | 当前有没有活动的播放会话。暂停时**不会**变 false | 置 true：AudioPlayUtils.ets:32/53（调用 `play()` 后立刻置，不等真正开播）；置 false：playerControl.ets:22/49（开新歌前）、:67（stop）、AudioPlayUtils.ets:37/58（异常）、appInit.ets:18（启动） | PlayController.ets:12（`@StorageLink`） |
+| `player-ispaused` | 是否暂停 | playerControl.ets:21/48（false）、:74（pause→true）、:80（resume→false）；ContinuousTask.ets:57/59/60（paused / stopped / completed → true） | PlayController.ets:17 |
+| `player-song` | 当前 `Song` 对象 | playerControl.ets:23；mode 0 时写空对象 `SongClass`（:50） | PlayController.ets:15 |
+| `player-artists` | 歌手字符串（`getArtists` 用 `', '` 拼接）；mode 0 时写的是文件名 | playerControl.ets:24/51 | PlayController.ets:16 |
+| `player-picurl` | 封面 URL，渲染时再拼 `?param=NxN` | playerControl.ets:25 | PlayController.ets:18、:91 |
+| `player-time` | 当前进度，**毫秒** | AudioPlayUtils.ets:34/55（timeUpdate 回调）。**切歌时不会复位** | PlayController.ets:19、:87、:94-95 |
+| `player-mode` | 1 = 在线 URL，0 = 本地文件 | playerControl.ets:20/46 | PlayController.ets:13 |
+| `player-fileName` | 本地文件名 | playerControl.ets:47 | PlayController.ets:14 |
+| `set-playQuality` | 音质下标 0-3 | Settings.ets:102、appInit.ets:66-73 | playerControl.ets:16、PlayController.ets:20 |
+
+### 4.2 数据模型 [代码]
+
+- `Song { id, name, artists: Artist[], duration }`，duration 单位是**毫秒**（common/entities/SongsResult.ets:6-11）；空对象常量 `SongClass`（:21-31，id = 0）。
+- 时间格式化 `changeDuration(ms)` → `m:ss`，分钟不补零（common/functions/functions.ets:41-46）。
+- 歌手拼接 `getArtists()`（functions.ets:28-34）。
+
+### 4.3 网络服务 [代码][实测]
+
+- 基地址：`getApiUrl()`（functions.ets:14-21）。打开"自定义API服务器地址"时用 `set-customApiUrl`，否则用 `Constants.ROOT_URL = 'http://111.229.38.178:3000'`（common/constants/Constants.ets:13）。
+- 请求封装 `HttpRequest`（common/utils/HttpRequestUtils.ets）：`Request()` 是 POST（:28-63），`R

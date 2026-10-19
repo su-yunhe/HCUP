@@ -1,0 +1,8 @@
+## 4 相关现状
+
+### 4.1 播放状态模型：全局 AppStorage，没有 ViewModel [代码]
+
+| key | 含义 | 写入位置 | 读取位置 |
+| --- | --- | --- | --- |
+| `player-isplaying` | 当前有没有活动的播放会话。暂停时**不会**变 false | 置 true：AudioPlayUtils.ets:32/53（调用 `play()` 后立刻置，不等真正开播）；置 false：playerControl.ets:22/49（开新歌前）、:67（stop）、AudioPlayUtils.ets:37/58（异常）、appInit.ets:18（启动） | PlayController.ets:12（`@StorageLink`） |
+| `

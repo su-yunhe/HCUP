@@ -1,0 +1,11 @@
+# 验收矩阵：底部播放控制栏与播放页关联（cmu-spec102）
+
+依据：`spec/requirement.md`（下称 Spec）。基线现状与文件行号见 `spec/baseline-notes.md`。
+
+## 0 约定
+
+- 场景/步骤编号：`S1-2` 表示 Spec 场景一第 2 步；`S1-概述` 表示场景概述段。
+- 证据等级：`SPEC_EXPLICIT`（Spec 明文）／`REASONABLE_DERIVATION`（合理推导）／`UNCONFIRMED_ASSUMPTION`（待确认假设）。
+- 名词：**迷你栏** = Spec 中的"底部播放控制栏""迷你播放控制栏""迷你播放栏""迷你播放器""底部迷你播放器""底部播放器"（Spec 混用，视为同一组件）；**播放页** = "全屏播放页""播放页"。
+- 基线没有迷你栏，也没有播放页（代码实证，见 baseline-notes §3、§6）。所以下面所有"稳定选择器"都需要在实现时补 `.id()`。建议 id 统一列在 §6。
+- 公共前置 P0：API 服务可访问（本地是 docker NeteaseCloudMusicApi，应用"设置 → 自定义API服务器地址"指向它）；**不需要登录**（基线未登录时搜索、取播放地址都正常，已实测）。

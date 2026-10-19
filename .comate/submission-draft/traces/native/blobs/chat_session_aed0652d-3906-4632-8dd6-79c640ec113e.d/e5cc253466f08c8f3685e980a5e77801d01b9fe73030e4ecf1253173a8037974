@@ -1,0 +1,19 @@
+# 临时探查脚本：解析 uitest dumpLayout，列出带文本/id 的节点。验证结束后删除。
+import json
+import sys
+
+SKIP = ("StatusBar", "status_bar", "TimeView", "Signal", "Wifi", "Battery", "Live", "sbg_", "Ethernet", "ClockStatus")
+
+
+def walk(node, out):
+    a = node.get("attributes", {})
+    t, text, key = a.get("type", ""), a.get("text", ""), a.get("id", "")
+    if not any(s in key for s in SKIP) and (text or t in ("Button", "TextInput", "Toggle")):
+        out.append(f"{t} text={text!r} id={key!r} bounds={a.get('bounds', '')}")
+    for c in node.get("children", []):
+        walk(c, out)
+
+
+lines = []
+walk(json.load(open(sys.argv[1], encoding="utf-8")), lines)
+print("\n".join(lines))

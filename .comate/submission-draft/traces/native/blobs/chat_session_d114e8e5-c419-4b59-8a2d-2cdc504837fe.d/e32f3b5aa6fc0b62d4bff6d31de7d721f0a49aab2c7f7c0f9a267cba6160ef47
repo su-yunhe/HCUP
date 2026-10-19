@@ -1,0 +1,9 @@
+      AppStorage.setOrCreate('player-isplaying',true)
+      this.mPlayer.onTimeUpdate((time) => {
+        AppStorage.setOrCreate('player-time',time)
+      })
+    } catch (e) {
+      AppStorage.setOrCreate('player-isplaying',false)
+      LogUtil.error(TAG + '播放失败 play error: ' + JSON.stringify(e))
+    }
+  }

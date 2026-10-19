@@ -1,0 +1,16 @@
+    def test_04_switch_song_updates_mini_player_and_resets_time(self):
+        """已在播 A 时从面板播放 B：迷你播放器换成 B，进度从 0:00 开始。"""
+        self.start_playing()
+        self.driver.wait(4)
+        self.assertGreaterEqual(self.time_of("mini_player_time"), 3)
+        items = self.driver.find_all_components(BY.type("Button")) or []
+        # 结果列表中另选一首（不同于当前歌曲）：取列表第 2 项的歌名
+        names = [t.getText() for t in (self.driver.find_all_components(BY.type("Text")) or [])]
+        other = next((n for n in names if n and n not in (SONG, ARTIST) and "晴天" in n
+                      and "搜索结果" not in n), None)
+        self.require_precondition(other is not None and bool(items), "结果列表中找不到另一首歌")
+        self.driver.wait(3)  # 面板“播放”有 3 秒防抖
+        self.open_sheet(other)
+        self.driver.click(BY.key("song_sheet_play"))
+        self.assertTrue(self.wait_title("mini_player_title", other, timeout=15), f"切歌后迷你播放器标题不是 {other}")
+        self.assertLessEqual(self.time_of("mini_player_time"), 2, "切歌后进度应从 0:00 开始，不沿用上一首")

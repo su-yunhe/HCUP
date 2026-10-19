@@ -1,0 +1,84 @@
+"""场景二：首页搜索 → 结果列表 → 操作面板 → 播放 → 底部迷你播放器显示歌曲信息。"""
+from __future__ import annotations
+
+import time
+
+from hypium import BY
+
+from hypium_tests.helpers import ARTIST, KEYWORD, SONG, PlayerTestCase, api_requests
+
+
+class TestS2SearchPlay(PlayerTestCase):
+
+    def test_01_play_from_sheet_shows_mini_player(self):
+        """面板点"播放"：发 1 次取播放地址请求，迷你播放器显示标题、歌手、播放中，时间从 0:00 起递增。"""
+        self.restart()
+        self.search()
+        self.assertFalse(self.exists("mini_player"), "播放前结果页不应显示迷你播放器")
+        self.open_sheet()
+        self.require_text("播放", "面板缺少“播放”按钮")
+        since = time.time() - 1
+        self.driver.click(BY.key("song_sheet_play"))
+        self.assertTrue(self.gone("song_sheet_play", timeout=5), "点击播放后面板未关闭")
+        self.assertTrue(self.exists("mini_player", timeout=15), "播放后底部未出现迷你播放器")
+        self.assertEqual(self.text_of("mini_player_title"), SONG)
+        self.assertEqual(self.text_of("mini_player_artist"), ARTIST)
+        self.assertTrue(self.exists("mini_player_pause_btn"), "开始播放后迷你播放器应为播放中")
+        self.assertLessEqual(self.time_of("mini_player_time"), 3, "刚开始播放时进度应从 0:00 起")
+        t1 = self.wait_playing(min_sec=1)
+        self.driver.wait(4)
+        self.assertGreater(self.time_of("mini_player_time"), t1, "播放中迷你播放器时间应递增")
+        count = api_requests("/song/url/v1", since)
+        self.require_precondition(count is not None, "读不到本地 API 容器日志")
+        self.assertEqual(count, 1, f"点一次播放应恰好请求 1 次 /song/url/v1，实际 {count}")
+
+    def test_02_cancel_sheet_does_not_play(self):
+        """打开面板后取消（返回键关闭）：不请求播放地址，不出现迷你播放器。"""
+        self.restart()
+        self.search()
+        self.open_sheet()
+        since = time.time() - 1
+        self.driver.press_back()
+        self.assertTrue(self.gone("song_sheet_play", timeout=5), "返回键未关闭面板")
+        self.driver.wait(2)
+        self.assertFalse(self.exists("mini_player"), "取消面板后不应出现迷你播放器")
+        self.require_text(f'"{KEYWORD}" 的搜索结果', "取消面板后应停留在搜索结果页", timeout=3)
+        count = api_requests("/song/url/v1", since)
+        self.require_precondition(count is not None, "读不到本地 API 容器日志")
+        self.assertEqual(count, 0, "取消面板不应请求播放地址")
+
+    def test_03_empty_and_blank_keyword_not_searched(self):
+        """空输入、纯空格：提示“请输入搜索内容”，不跳转、不发 /search 请求。"""
+        self.restart()
+        since = time.time() - 1
+        self.driver.start_listen_toast()
+        self.driver.click(BY.key("search_button"))
+        self.assertEqual(self.driver.get_latest_toast(timeout=3), "请输入搜索内容")
+        self.driver.input_text(BY.key("search_input"), "   ")
+        self.driver.start_listen_toast()
+        self.driver.click(BY.key("search_button"))
+        self.assertEqual(self.driver.get_latest_toast(timeout=3), "请输入搜索内容")
+        self.driver.click(BY.key("search_button"))
+        self.driver.wait(2)
+        self.assertTrue(self.exists("search_input"), "空白关键词不应离开首页")
+        self.assertIsNone(self.driver.find_component(BY.text('"   " 的搜索结果')), "空白关键词不应进入结果页")
+        count = api_requests("/search", since)
+        self.require_precondition(count is not None, "读不到本地 API 容器日志")
+        self.assertEqual(count, 0, "空白关键词不应发起搜索请求")
+
+    def test_04_switch_song_updates_mini_player_and_resets_time(self):
+        """已在播 A 时从面板播放 B：迷你播放器换成 B，进度从 0:00 开始。"""
+        self.start_playing()
+        self.driver.wait(4)
+        self.assertGreaterEqual(self.time_of("mini_player_time"), 3)
+        items = self.driver.find_all_components(BY.type("Button")) or []
+        # 结果列表中另选一首（不同于当前歌曲）：取列表第 2 项的歌名
+        names = [t.getText() for t in (self.driver.find_all_components(BY.type("Text")) or [])]
+        other = next((n for n in names if n and n not in (SONG, ARTIST) and "晴天" in n
+                      and "搜索结果" not in n), None)
+        self.require_precondition(other is not None and bool(items), "结果列表中找不到另一首歌")
+        self.driver.wait(3)  # 面板“播放”有 3 秒防抖
+        self.open_sheet(other)
+        self.driver.click(BY.key("song_sheet_play"))
+        self.assertTrue(self.wait_title("mini_player_title", other, timeout=15), f"切歌后迷你播放器标题不是 {other}")
+        self.assertLessEqual(self.time_of("mini_player_time"), 2, "切歌后进度应从 0:00 开始，不沿用上一首")

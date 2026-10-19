@@ -1,0 +1,4 @@
+      AppStorage.setOrCreate('player-song',song)
+      AppStorage.setOrCreate('player-artists',artists)
+      AppStorage.setOrCreate('player-picurl',picUrl)
+      await AudioPlayUtils.mPlayer.reset()

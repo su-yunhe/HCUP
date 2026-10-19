@@ -1,0 +1,15 @@
+    def test_01_play_from_sheet_shows_mini_player(self):
+        """面板点"播放"：发 1 次取播放地址请求，迷你播放器显示标题、歌手、播放中，时间从 0:00 起递增。"""
+        self.restart(clean_cache=True)
+        self.search()
+        self.assertFalse(self.exists("mini_player"), "播放前结果页不应显示迷你播放器")
+        self.open_sheet()
+        self.require_text("播放", "面板缺少“播放”按钮")
+        since = time.time() - 1
+        self.driver.click(BY.key("song_sheet_play"))
+        self.assertTrue(self.gone("song_sheet_play", timeout=5), "点击播放后面板未关闭")
+        self.assertTrue(self.exists("mini_player", timeout=15), "播放后底部未出现迷你播放器")
+        self.assertEqual(self.text_of("mini_player_title"), SONG)
+        self.assertEqual(self.text_of("mini_player_artist"), ARTIST)
+        self.assertTrue(self.exists("mini_player_pause_btn"), "开始播放后迷你播放器应为播放中")
+        self.assertLessEqual(self.time_of("mini_player_time"), 3, "刚

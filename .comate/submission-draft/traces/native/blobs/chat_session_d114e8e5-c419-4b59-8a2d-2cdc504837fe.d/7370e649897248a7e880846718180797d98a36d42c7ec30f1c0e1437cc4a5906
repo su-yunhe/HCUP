@@ -1,0 +1,9 @@
+    isOpeningPlayPage = true
+    try {
+      router.pushUrl({ url: PLAY_PAGE_URL }).finally(() => {
+        setTimeout(() => { isOpeningPlayPage = false }, 500)
+      })
+    } catch (e) {
+      isOpeningPlayPage = false
+    }
+  }

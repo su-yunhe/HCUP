@@ -1,0 +1,9 @@
+from hypium import UiDriver, BY
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+d.set_implicit_wait_time(3)
+B = "cc.chenlvin.cloudmusic"
+d.stop_app(B); d.start_app(B, wait_time=3)
+d.input_text(BY.key("search_input"), "晴天")
+d.click(BY.key("search_button"))
+d.wait(4)
+print([t.getText() for t in d.find_all_components(BY.type("Text"))][:40])

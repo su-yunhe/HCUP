@@ -1,0 +1,9 @@
+export async function resumeMusic() {
+  await AudioPlayUtils.resume().then(() => {
+    AppStorage.setOrCreate('player-ispaused',false)
+  })
+}
+
+export async function seekMusic(time: number) {
+  await AudioPlayUtils.seek(time)
+}

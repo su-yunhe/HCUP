@@ -1,0 +1,16 @@
+"""场景二：首页搜索 → 结果列表 → 操作面板 → 播放 → 底部迷你播放器显示歌曲信息。"""
+from __future__ import annotations
+
+import time
+
+from hypium import BY
+
+from hypium_tests.helpers import ARTIST, KEYWORD, SONG, PlayerTestCase, api_requests
+
+
+class TestS2SearchPlay(PlayerTestCase):
+
+    def test_01_play_from_sheet_shows_mini_player(self):
+        """面板点"播放"：发 1 次取播放地址请求，迷你播放器显示标题、歌手、播放中，时间从 0:00 起递增。"""
+        self.restart()
+        s

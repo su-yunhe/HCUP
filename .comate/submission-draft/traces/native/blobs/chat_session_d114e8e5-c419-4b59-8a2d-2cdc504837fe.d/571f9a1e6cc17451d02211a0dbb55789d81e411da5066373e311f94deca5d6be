@@ -1,0 +1,72 @@
+"""本题（底部播放控制栏与播放页关联）自测的公共步骤。
+
+前置：应用"设置 → 自定义API服务器地址"已指向可用的 NeteaseCloudMusicApi（本地 http://10.0.2.2:3000），
+模拟器能拉到音频流。自测歌曲从搜索结果里挑：能取到播放地址、非试听片段、时长 ≥ 2 分钟、
+歌名在结果中唯一且位于列表前几项（上游搜索结果会变，不能写死歌名）。
+"""
+from __future__ import annotations
+
+import datetime
+import json
+import re
+import shutil
+import subprocess
+import time
+import urllib.parse
+import urllib.request
+from dataclasses import dataclass
+
+from hypium import BY
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+KEYWORD = "晴天"
+API_CONTAINER = "netease_cloud_music_api"
+HOST_API = "http://127.0.0.1:3000"  # 宿主机访问本地 API（应用内填的是 10.0.2.2:3000）
+TIME_RE = re.compile(r"^\d+:\d{2}$")
+VISIBLE_ITEMS = 8  # 结果页首屏能看到的列表项数（保守值）
+
+
+@dataclass
+class SongInfo:
+    id: int
+    name: str
+    artists: str  # 与应用 getArtists() 一致：', ' 拼接
+    duration: int  # ms
+    full: bool  # 能取到完整版（非试听）播放地址
+
+    @property
+    def url_path(self) -> str:
+        """应用默认音质下取播放地址的请求路径（用于在 API 日志中计数）。"""
+        return f"/song/url/v1?id={self.id}&level=standard"
+
+
+_songs_cache: dict[str, list[SongInfo]] = {}
+
+
+def playable_songs(keyword: str = KEYWORD) -> list[SongInfo] | None:
+    """按与应用相同的搜索接口，列出首屏内能取到播放地址、歌名唯一的歌曲（保持结果顺序）；服务不可达时返回 None。"""
+    if keyword in _songs_cache:
+        return _songs_cache[keyword]
+    try:
+        q = urllib.parse.quote(keyword)
+        with urllib.request.urlopen(f"{HOST_API}/search?keywords={q}", timeout=15) as r:
+            songs = json.load(r)["result"]["songs"]
+        ids = ",".join(str(s["id"]) for s in songs)
+        with urllib.request.urlopen(f"{HOST_API}/song/url/v1?id={ids}&level=standard", timeout=15) as r:
+            urls = {d["id"]: d for d in json.load(r)["data"] if d.get("url")}
+    except (OSError, ValueError, KeyError):
+        return None
+    names = [s["name"] for s in songs]
+    result = [SongInfo(s["id"], s["name"], ", ".join(a["name"] for a in s["artists"]), s["duration"],
+                       urls[s["id"]].get("freeTrialInfo") is None)
+              for s in songs[:VISIBLE_ITEMS] if s["id"] in urls and names.count(s["name"]) == 1]
+    _songs_cache[keyword] = result
+    return result
+
+
+def main_song(keyword: str = KEYWORD) -> SongInfo | None:
+    """自测主歌曲：完整版、时长 ≥ 2 分钟（跳转到后半段需要足够长度）。"""
+    return next((s for s in playable_songs(keyword) or [] if s.full and s.duration >= 120_000), None)

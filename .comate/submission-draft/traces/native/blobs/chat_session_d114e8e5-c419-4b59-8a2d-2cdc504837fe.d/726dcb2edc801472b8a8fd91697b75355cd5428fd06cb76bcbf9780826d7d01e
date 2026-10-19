@@ -1,0 +1,11 @@
+def wait_api_cache_expired(path: str, window: float = 125) -> bool:
+    """等到 window 秒内服务端没有收到过 path（含 query）的请求，保证下一次同 URL 请求会真正到达并留下日志。"""
+    lines = _api_log_lines(time.time() - window, timestamps=True)
+    if lines is None:
+        return False
+    stamps = [line.split(" ", 1)[0] for line in lines if path in line]
+    if stamps:
+        # docker 时间戳形如 2026-10-19T03:24:56.369976588Z，截到微秒再解析
+        last = datetime.datetime.fromisoformat(stamps[-1][:26] + "+00:00").timestamp()
+        time.sleep(max(0.0, last + window - time.time()))
+    return True

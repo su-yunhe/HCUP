@@ -1,0 +1,6 @@
+    names = [s["name"] for s in songs]
+    result = [SongInfo(s["id"], s["name"], ", ".join(a["name"] for a in s["artists"]), s["duration"],
+                       urls[s["id"]].get("freeTrialInfo") is None)
+              for s in songs[:VISIBLE_ITEMS] if s["id"] in urls and names.count(s["name"]) == 1]
+    _songs_cache[keyword] = result
+    return result

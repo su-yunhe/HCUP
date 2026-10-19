@@ -1,0 +1,5 @@
+      AppStorage.setOrCreate('player-song', SongClass)
+      AppStorage.setOrCreate('player-artists', fileName)
+      AppStorage.setOrCreate('player-time', 0)
+      AppStorage.setOrCreate('player-hasSong', true)
+      await AudioPlayUtils.mPlayer.reset()

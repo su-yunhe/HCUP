@@ -1,0 +1,67 @@
+Found 22 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/baseline-notes.md:
+  Line 131: | 音频流 / 外网 DNS | **需要**（S4 进度递增、跳转，S1-4 暂停 / 播放的可观测效果） | **不满足**。模拟器解析不了外网域名：`ping m701.music.126.net` 返回 `Try again`，ping IP `223.5.5.5` 能通；AVPlayer 报 `IO Cannot Find Host 5411001`，所以进度一直是 `0:00`。宿主机访问 CDN 正常 [实测]。搜索列表里的封面能显示，可能是图片缓存，**机制未验证** |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/baseline-notes.md:
+  Line 136: **需要你决定**：本地怎么让音频真的播起来，以便自测 A12/A19/A24/A29/A33-A37。可选方案（都不改提交的源码）：
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/baseline-notes.md:
+  Line 137: (a) 修好模拟器的 DNS（模拟器网络设置或重启模拟器，不确定是否可行）；
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/baseline-notes.md:
+  Line 138: (b) 在宿主机起一个 HTTP 静态服务放测试 mp3，同时把 API 服务的播放地址换成 `10.0.2.2` 下的地址（例如在本地 API 前面加一层返回改写的代理）。这只影响本地测试数据；
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/baseline-notes.md:
+  Line 139: (c) 接受这几项本地只能验证 UI 结构，不能验证进度递增，在 2-submit 里注明。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/baseline-notes.md:
+  Line 140: 我推荐 (b)：可控、可重复，和官方"准备相应服务"的思路一致。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/baseline-notes.md:
+  Line 151: 8. **资源加载失败时"播放中"是假的**（§6 基线缺陷）：在本地环境下，按"时间是否递增"做的断言一定失败，不能当作功能失败来看。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 12: - 公共前置 P1：要让"进度递增""跳转"真正发生，模拟器得能拉到音频流。本地模拟器现在解析不了外网域名，音频播不出来（baseline-notes §7），依赖真实播放的项目都标了 ⚠。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 170: - 原子行为：暂停态下在播放页点播放 → 收起 → 迷你栏显示播放中（暂停图标），时间继续增长。⚠ 依赖真实播放
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 244: - 原子行为：通过面板开始播放后，迷你栏显示播放中（暂停图标），时间从 `0:00` 开始增长。⚠ 增长依赖真实播放
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 248: - 边界条件：基线在调用 `play()` 后立刻置 `player-isplaying = true`，不等真实开播（AudioPlayUtils.ets:31-32）；播放资源加载失败时，图标是"播放中"但时间不动（本地实测），见 U8
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 295: - 可观察结果：返回首页后迷你栏仍是播放中，时间比返回前大或相等。⚠ 依赖真实播放
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 341: - 原子行为：播放中迷你栏时间至少每秒刷新一次。⚠ 依赖真实播放
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 354: - UI 结果：宽度接近整屏（便于按比例点击）｜ 数据结果：max 取 `player-song.duration`（毫秒）；mode 0 时 song 是空的，改用 `mPlayer.duration`
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 379: - 可观察结果：松手后 `play_page_slider` 的值 ≥ 0.5 × max；播放器从新位置继续播。⚠ 依赖真实播放
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 397: - 原子行为：不操作时，Slider value 跟着 `player-time` 前进。⚠ 依赖真实播放
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 415: - 原子行为：A36 之后不操作，迷你栏时间从跳转点继续往上走。⚠ 依赖真实播放
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 502: - 原子行为：mode 0 时迷你栏标题显示 `player-fileName`，歌手显示 `player-artists`（基线写的就是 fileName），封面用占位图。播放页同样可以进入，进度条 max 取播放器 duration。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 579: | 请求失败 | A21、§3.1 | url 为空 / 异常 → 按基线 toast，迷你栏不变；播放资源加载失败 → U8 | 基线实证 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 600: | U8 | 播放资源加载失败（AVPlayer error）时迷你栏显示什么 | A19、§3.1 | 不改基线（状态保持"播放中"、时间不动）。只有你认为官方环境也可能播不出来时，才考虑在 error 时置暂停态 | 超出 Spec 范围；改了可能影响右上角弹窗的既有行为 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 603: | U11 | 本地文件播放（mode 0）时迷你栏和播放页显示什么 | A46 | 标题显示文件名，封面用占位图，进度条 max 用播放器 duration | 基线 mode 0 时 `player-song` 是空对象；不做额外功能 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 604: | U12 | 播放页用新的 router 页面，还是模态（bindContentCover / bindSheet） | A5-A9、A44 | 新建 router 页面 `pages/PlayPage`，在 main_pages.json 注册；进入用 `pushUrl`，收起用 `router.back()` | 基线全部用 router；返回键天然可用；下层页面不在 UI 树里，没有文本歧义；不需要额外的隐藏标志位 |

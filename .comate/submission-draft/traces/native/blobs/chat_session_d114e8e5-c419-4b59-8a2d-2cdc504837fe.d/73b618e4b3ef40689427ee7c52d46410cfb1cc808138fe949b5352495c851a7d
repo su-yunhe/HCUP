@@ -1,0 +1,7 @@
+export async function stopMusic() {
+  await AudioPlayUtils.stop().then(() => {
+    AppStorage.setOrCreate('player-isplaying',false)
+    AppStorage.setOrCreate('player-hasSong', false)
+    AudioPlayUtils.mPlayer.release()
+  })
+}

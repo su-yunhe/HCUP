@@ -1,4 +1,5 @@
 import { IndexHead } from '../components/head/IndexHead'
+import { MiniPlayer } from '../components/main/MiniPlayer'
 import { PlayLists } from '../components/main/PlayLists'
 import { SearchComponent } from '../components/main/SearchComponent'
 
@@ -28,7 +29,9 @@ struct Index {
           }.width('100%')
           .layoutWeight(1)
         }
+        MiniPlayer()
       }
+      .height('100%')
     }
     .padding({ top: px2vp(this.topRectHeight) })
     .width('100%')

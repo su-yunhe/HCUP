@@ -1,0 +1,3 @@
+- 网络结果：点击时发 1 次 `POST {api}/search?keywords=<encodeURIComponent(kw)>`（songApi.ets:15-31）；空关键词不发请求
+- 返回结果：返回首页后搜索框保留关键词（基线实测，b08）
+- 边界条件：空输入 → toast `请输入搜索内容`，不跳转；纯空格 → 基线会跳转并发请求（见 §4，U9）；结果为空 → 基线一直转圈（baseline-notes §6 基线缺陷）

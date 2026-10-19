@@ -1,0 +1,17 @@
+def wait_api_cache_expired(path: str, window: float = 125) -> bool:
+    """等到 window 秒内服务端没有收到过 path（含 query）的请求，保证下一次同 URL 请求会真正到达并留下日志。"""
+    lines = _api_log_lines(time.time() - window)
+    if lines is None:
+        return False
+    hits = [line for line in lines if path in line]
+    if hits:
+        # 最近一次命中后再等满 window 秒（保守地按"刚刚发生"处理）
+        last = _api_log_lines(time.time() - window, timestamps=True) or []
+        stamps = [line.split(" ", 1)[0] for line in last if path in line]
+        wait = window
+        if stamps:
+            import datetime as _dt
+            ts = _dt.datetime.fromisoformat(stamps[-1][:26].rstrip("Z") + "+00:00").timestamp()
+            wait = max(0.0, ts + window - time.time())
+        time.sleep(wait)
+    return True

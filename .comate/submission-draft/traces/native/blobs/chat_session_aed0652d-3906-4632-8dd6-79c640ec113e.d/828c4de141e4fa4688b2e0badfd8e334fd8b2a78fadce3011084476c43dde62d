@@ -1,0 +1,127 @@
+<file>
+     1→import { ToastUtil } from "@pura/harmony-utils";
+     2→import Constants from "../../common/constants/Constants";
+     3→import { Song, SongClass } from "../../common/entities/SongsResult";
+     4→import { changeDuration } from "../../common/functions/functions";
+     5→import { playMusicByUrl } from "../../common/functions/playerControl";
+     6→import { DownloadDialog } from "../dialog/DownloadDialog";
+     7→
+     8→@Component
+     9→export struct SongSheet {
+    10→  song:Song = SongClass
+    11→  picUrl:string = ''
+    12→  artists:string = ''
+    13→
+    14→  @State duration:string = 'null'
+    15→  @State qualitySelected:number = 3
+    16→
+    17→  dialogController: CustomDialogController = new CustomDialogController({
+    18→    builder: DownloadDialog({
+    19→      song: this.song,
+    20→      picUrl: this.picUrl,
+    21→      artists: this.artists,
+    22→      duration: this.duration,
+    23→      quality: Constants.QUALITY[this.qualitySelected]
+    24→    }),
+    25→  })
+    26→
+    27→  @StorageProp("bottomRectHeight") bottomRectHeight: number = 0;
+    28→  @StorageProp('isValidCookie') isValidCookie:boolean = false
+    29→  @Link isShowSheet:boolean
+    30→  @State isPicLoading:boolean = true
+    31→  @State isPlayerLoading:boolean = false
+    32→
+    33→  aboutToAppear(): void {
+    34→    this.duration = changeDuration(this.song.duration)
+    35→  }
+    36→
+    37→  build() {
+    38→    Column({ space: 30 }) {
+    39→      Column({ space:10 }) {
+    40→        Stack() {
+    41→          // 图片加载动画
+    42→          if (this.isPicLoading) {
+    43→            LoadingProgress()
+    44→              .width(50)
+    45→              .height(50)
+    46→              .alignSelf(ItemAlign.Center);
+    47→          }
+    48→          Image(this.picUrl + '?param=256y256')
+    49→            .width(120)
+    50→            .borderRadius(5)
+    51→            .onComplete(() => {　this.isPicLoading = false　})
+    52→            .onError(() => {　this.isPicLoading = false　});
+    53→        }
+    54→        .width(120)
+    55→        .height(120); // Stack 大小与图片一致
+    56→
+    57→        Text(this.song.name).textStyle(22)
+    58→        Text(this.artists).textStyle(14)
+    59→        Divider()
+    60→        Text(`时长 ${this.duration}`).textStyle(12)
+    61→      }.width('100%')
+    62→      // 按钮
+    63→      Column({ space:15 }) {
+    64→        // 播放按钮
+    65→        Button() {
+    66→          Row({ space:5 }) {
+    67→            Image($r('app.media.ic_play_fill')).width(24).fillColor($r('app.color.reverse'))
+    68→            Text('播放').fontSize(20).fontColor($r('app.color.reverse'))
+    69→          }.padding({ left: 15, right: 15, top: 10, bottom: 10 })
+    70→        }
+    71→        .type(ButtonType.Normal)
+    72→        .borderRadius(20)
+    73→        .backgroundColor('transparent')
+    74→        .borderWidth(1)
+    75→        .borderColor(Color.Gray)
+    76→        .onClick(async () => {
+    77→          if(!this.isPlayerLoading) {
+    78→            this.isPlayerLoading = true
+    79→            this.isShowSheet = !this.isShowSheet
+    80→            await playMusicByUrl(this.song,this.artists,this.picUrl,this.isValidCookie).then(() => {
+    81→              setTimeout(() => {
+    82→                this.isPlayerLoading = false
+    83→              }, 3000)
+    84→            })
+    85→          } else { ToastUtil.showToast('操作过于频繁') }
+    86→        })
+    87→
+    88→        // 下载按钮
+    89→        Button() {
+    90→          Row({ space:5 }) {
+    91→            Image($r('app.media.ic_public_download_filled')).width(24).fillColor($r('app.color.reverse'))
+    92→            Text('下载').fontSize(20).fontColor($r('app.color.reverse'))
+    93→          }.padding({ left: 15, right: 15, top: 10, bottom: 10 })
+    94→        }
+    95→        .type(ButtonType.Normal)
+    96→        .borderRadius(20)
+    97→        .backgroundColor('transparent')
+    98→        .borderWidth(1)
+    99→        .borderColor(Color.Gray)
+   100→        .onClick(() => {
+   101→          this.dialogController.open()
+   102→          this.isShowSheet = false
+   103→        })
+   104→
+   105→        // 音质选择框
+   106→        Select([{ value: '标准' }, { value: '高' }, { value: '极高' }, { value: '无损' }])
+   107→          .selected(3)
+   108→          .value('无损')
+   109→          .onSelect((index: number) => { this.qualitySelected = index })
+   110→
+   111→      }.width('100%')
+   112→    }
+   113→    .width('100%')
+   114→    .height('100%')
+   115→    .padding({left:30, right:30 ,top: 30, bottom:px2vp(this.bottomRectHeight)})
+   116→    .backgroundColor(Color.Transparent)
+   117→  }
+   118→}
+   119→
+   120→@Extend(Text) function textStyle(size:number) {
+   121→  .fontSize(size)
+   122→  .fontColor($r('app.color.reverse'))
+   123→  .textAlign(TextAlign.Center)
+   124→}
+</file>
+<metadata>The file has 124 lines in total.</metadata>

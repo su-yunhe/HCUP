@@ -1,0 +1,8 @@
+    shown = songs[:VISIBLE_ITEMS]
+    infos = [SongInfo(s["id"], s["name"], ", ".join(a["name"] for a in s["artists"]), s["duration"],
+                      s["id"] in urls and urls[s["id"]].get("freeTrialInfo") is None) for s in shown]
+    # 按文本点击时命中的是树中第一个同文本组件：要求歌名在首屏唯一，且之前没有同文本的歌手行
+    texts = [t for info in infos for t in (info.name, info.artists)]
+    result = [info for i, info in enumerate(infos)
+              if info.id in urls and texts.count(info.name) == 1 or
+              (info.id in urls and texts.index(info.name) == 2 * i and [x.nam

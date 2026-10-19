@@ -1,0 +1,9 @@
+    def open_sheet(self, song: str = SONG) -> None:
+        self.driver.click(self.require_text(song, f"搜索结果中没有 {song}", timeout=20))
+        self.require_component(BY.key("song_sheet_play"), "点击歌曲后未弹出操作面板", timeout=8)
+
+    def play_from_sheet(self, song: str = SONG) -> None:
+        self.open_sheet(song)
+        self.driver.click(BY.key("song_sheet_play"))
+        self.assertTrue(self.exists("mini_player", timeout=15), "点击播放后底部未出现迷你播放器")
+        self.assertTrue(self.wait_title("mini_player_title", song), "迷你播放器标题不是当前歌曲")

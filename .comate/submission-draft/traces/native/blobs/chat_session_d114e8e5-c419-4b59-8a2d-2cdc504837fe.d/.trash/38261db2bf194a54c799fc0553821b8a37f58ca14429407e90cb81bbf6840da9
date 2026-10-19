@@ -1,0 +1,41 @@
+"""场景一：迷你播放器 ↔ 播放页（封面进入、向下箭头收起、播放/暂停状态一致）。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.helpers import ARTIST, SONG, PlayerTestCase
+
+
+class TestS1MiniPlayerPlayPage(PlayerTestCase):
+
+    def test_01_no_mini_player_before_playing(self):
+        """冷启动、尚未播放时不显示迷你播放器。"""
+        self.restart()
+        self.driver.wait(2)
+        self.assertFalse(self.exists("mini_player"), "未播放时不应显示迷你播放器")
+
+    def test_02_cover_opens_play_page_and_down_arrow_returns(self):
+        """点封面进入全屏播放页，播放页显示同一首；向下箭头收起后迷你播放器恢复显示。"""
+        self.start_playing()
+        b = self.require_component(BY.key("mini_player"), "无迷你播放器").getBounds()
+        w, h = self.driver.get_display_size()
+        self.assertGreaterEqual(b.bottom, h * 0.85, f"迷你播放器不在屏幕底部: {b}")
+        self.assertTrue(self.exists("mini_player_cover"), "迷你播放器没有专辑封面")
+        self.assertEqual(self.text_of("mini_player_artist"), ARTIST)
+
+        self.open_play_page("mini_player_cover")
+        self.assertFalse(self.exists("mini_player"), "播放页显示期间迷你播放器不应可见")
+        self.assertEqual(self.text_of("play_page_title"), SONG)
+        self.assertEqual(self.text_of("play_page_artist"), ARTIST)
+        self.assertTrue(self.exists("play_page_cover"), "播放页没有封面")
+        self.assertTrue(self.exists("play_page_down"), "播放页没有向下箭头")
+        self.assertIsNotNone(self.driver.find_component(BY.description("向下箭头")),
+                             "向下箭头按钮缺少无障碍描述")
+
+        self.close_play_page()
+        self.assertEqual(self.text_of("mini_player_title"), SONG)
+        self.assertEqual(self.text_of("mini_player_artist"), ARTIST)
+        self.assertTrue(self.exists("mini_player_pause_btn"), "收起后迷你播放器应仍为播放中")
+
+    def test_03_pause_resume_in_play_page_syncs_mini_player(self):
+        """播放页暂停 → 收起后迷你播放器为暂停态且时间不走；播放页继续 → 收起后为播放中

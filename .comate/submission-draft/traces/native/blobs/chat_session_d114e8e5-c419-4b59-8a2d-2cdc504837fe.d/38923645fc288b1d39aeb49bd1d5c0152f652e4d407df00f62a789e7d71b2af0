@@ -1,0 +1,11 @@
+class PlayerTestCase(HarnessTestCase):
+    """提供：冷启动、搜索、从面板播放、读取迷你栏/播放页状态等步骤。self.song 为本次自测的主歌曲。"""
+
+    song: SongInfo
+
+    def setUp(self) -> None:
+        song = main_song()
+        self.require_precondition(song is not None, f"本地 API 不可达，或“{KEYWORD}”首屏结果中没有可完整播放的歌曲")
+        self.song = song
+
+    def exists(self, key: str, timeout: float = 0) -> bool:

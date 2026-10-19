@@ -1,0 +1,61 @@
+Found 20 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/1-do.md:
+  Line 99: | 边界条件 | 空输入、纯空格、取消、重复点击、没有更多数据、部分操作如何处理？ |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/1-do.md:
+  Line 111: - [ ] 至少覆盖：首次进入、无数据、取消操作、返回后重进、重启应用、连续点击、空输入/纯空格
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/0-analyze.md:
+  Line 42: | 证据等级 | `SPEC_EXPLICIT`（Spec 明文）／`REASONABLE_DERIVATION`（合理推导）／`UNCONFIRMED_ASSUMPTION`（待确认假设） |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/0-analyze.md:
+  Line 50: - **边界条件要穷举**：空输入、纯空格、取消、关闭、重复点击、快速连点、无数据、最后一页、
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/0-analyze.md:
+  Line 55: - 标 `UNCONFIRMED_ASSUMPTION` 的项要单独汇总，附上你的推荐处理方式和理由。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 8: - 证据等级：`SPEC_EXPLICIT`（Spec 明文）／`REASONABLE_DERIVATION`（合理推导）／`UNCONFIRMED_ASSUMPTION`（待确认假设）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 76: - 来源：S1-1（"正在播放音乐"时"底部显示"，反推）｜ 证据：UNCONFIRMED_ASSUMPTION（见 U1）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 179: - 来源："播放控制栏"这个名字 + S1-4 ｜ 证据：UNCONFIRMED_ASSUMPTION（见 U2）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 198: - 边界条件：空输入 → toast `请输入搜索内容`，不跳转；纯空格 → 基线会跳转并发请求（见 §4，U9）；结果为空 → 基线一直转圈（baseline-notes §6 基线缺陷）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 385: - 返回结果：见 A36 ｜ 边界条件：拖到 0 → `0:00`；拖到末尾 → 进入 completed；连续两次 seek 以最后一次为准；试听片段歌曲拖到片段之外（例如 30 秒片段拖到 2:00）→ 行为待确认（U13）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 433: - 来源：S4 边界推导 ｜ 证据：UNCONFIRMED_ASSUMPTION（见 U6）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 445: - 来源：边界"重启应用后重进" ｜ 证据：UNCONFIRMED_ASSUMPTION（见 U1）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 454: - 来源：基线右上角弹窗 `结束播放`（PlayController.ets:136）和迷你栏的显示/隐藏关系 ｜ 证据：UNCONFIRMED_ASSUMPTION（见 U1）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 474: - 来源：S1"底部播放控制栏"作为全局组件推导 ｜ 证据：UNCONFIRMED_ASSUMPTION（见 U10）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 502: - 来源：基线"下载管理"页也能播放（FileCard.ets:34 → `playMusicWithFile`）｜ 证据：UNCONFIRMED_ASSUMPTION（见 U11）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 572: | 纯空格 | A14 | 基线 `if(this.searchKeyword)` 对 `"  "` 判为真，会跳转并请求 `keywords=%20%20`。本题不改（U9） | 基线实证 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 591: ## 5 UNCONFIRMED_ASSUMPTION 汇总（需要你拍板）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 593: | 编号 | 假设 | 涉及 | 推荐处理 | 理由 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 603: | U9 | 纯空格搜索 | A14 | 不改基线 | Spec 没提搜索校验；trim 属于范围外改动 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 609: ### 已确认的决定

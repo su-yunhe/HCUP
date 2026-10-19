@@ -1,0 +1,8 @@
+        self.start_playing()
+        title = self.require_text(f'"{KEYWORD}" 的搜索结果', "不在结果页").getBounds()
+        # 结果页标题行最左侧的按钮就是返回按钮（基线 BackButton，无 id）
+        buttons = [c for c in (self.driver.find_all_components(BY.type("Button")) or [])
+                   if c.getBounds().top < title.bottom and c.getBounds().right <= title.left]
+        self.assertTrue(buttons, "结果页标题左侧没有返回按钮")
+        self.driver.click(buttons[0])
+        self.assertTrue(self.exists("search_input", timeout=8), "未回到首页")

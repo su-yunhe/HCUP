@@ -1,0 +1,52 @@
+# 基线理解结论（cmu-spec102）
+
+标注约定：**[代码]** = 读源码得出（附 `文件:行号`，路径相对 `entry/src/main/ets/`）；**[实测]** = 在模拟器上构建、安装、操作得到（证据在 `logs/baseline/`）；**[推断]** = 我的推测，没有验证；**[Spec]** = requirement.md 原文。
+
+## 1 基线快照标识
+
+- `spec/metadata.json` 的 `base_commit` = `00b3d8f4f471f31f024860c8d6dbac5df3f27756`。仓库里原本就有 tag `base/cmu-spec102` 指向它。
+- 当前 HEAD = `9b19192c998aca785325ee978f7d1445cd7f5791`（分支 `dev`）。它和 base_commit 只差 `oh-package-lock.json5`（3 行，ohpm install 重建的锁文件），不含功能代码。
+- 本阶段新打了 tag：**`baseline-cmu-spec102` → `9b19192`**。
+- 开始本阶段时工作区就已经存在、不是本阶段做的改动：`build-profile.json5` 未提交，增加了 `"targetSdkVersion": "6.1.0(23)"`。去掉它能不能构建，**未验证**（没有动这个文件）。
+- `spec/` 整个目录未纳入 git（`git status` 显示 `?? spec/`）。`logs/` 是本阶段生成的。
+
+## 2 构建基线状态 [实测]
+
+命令（在工程根目录执行）。注意必须设置 `JAVA_HOME`，否则 `PackageHap` 会失败，报 `00308018 Unable to locate a Java Runtime`：
+
+```bash
+export JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home
+export DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk
+export PATH=$JAVA_HOME/bin:/Applications/DevEco-Studio.app/Contents/tools/node/bin:/Applications/DevEco-Studio.app/Contents/tools/ohpm/bin:/Applications/DevEco-Studio.app/Contents/tools/hvigor/bin:/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains:$PATH
+hvigorw clean --no-daemon
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon > logs/baseline-build.log 2>&1
+hdc -t 127.0.0.1:5555 install -r entry/build/default/outputs/default/entry-default-unsigned.hap
+```
+
+- 结果：`BUILD SUCCESSFUL`（clean 后全量编译约 9 秒）。产物 `entry/build/default/outputs/default/entry-default-unsigned.hap`，2,203,667 字节。日志：`logs/baseline-build.log`、`logs/baseline-clean.log`。
+- 未签名的 HAP 可以直接安装到模拟器：`install bundle successfully`（`logs/baseline-install.log`），安装后 `bm dump` 的 updateTime = `1792338243579`。
+- 构建后 git 只多了 `logs/`，**没有** `BuildProfile.ets` 之类的构建噪声文件被改写。
+- 已有告警清单（后续用来判断有没有新增告警）：
+  - `hvigor WARN: No signingConfig found for product default` ×1
+  - 资源重名：`'page_show' conflict` ×9，`'lib_name' conflict` ×3（来自 `@ohos/axios`、`@pura/harmony-utils` 的 string.json 和 entry 合并时）
+  - ArkTS WARN 一共 613 条：`oh_modules` 里 558 条（三方库），`entry/src` 里 55 条
+  - `entry/src` 的 55 条按消息分：`'px2vp' has been deprecated` 15、`Function may throw exceptions` 8、`'showToast' has been deprecated` 8、`'pushUrl' has been deprecated` 7、`'getParams' has been deprecated` 5、`backgroundTaskManager ... not supported on all devices` 3、`'getContext' has been deprecated` 3、`'replaceUrl'` 2、`'back'` 2、`'vp2px'` 1、`'decode'` 1
+  - 涉及本题的文件：SearchComponent.ets:28（pushUrl）、BackButton.ets:13（back）、SongsListPage.ets:22/50/64/74（getParams、px2vp）、SongSheet.ets:115（px2vp）、Index.ets:33（px2vp）、ContinuousTask.ets:16/39/40/41/69
+- **对开发阶段的影响**：新代码如果照搬基线写法，用了全局 `router.pushUrl` / `router.back` / `px2vp` / `promptAction.showToast`，会产生**新的** deprecated 告警。建议改用 `this.getUIContext().getRouter()`、`this.getUIContext().px2vp()` 等写法，或者接受并在 2-submit 里说明。
+
+## 3 Spec 入口当前在哪
+
+| Spec 入口 | 现状 | 证据 |
+| --- | --- | --- |
+| 首页 | `pages/Index` 是启动页：`EntryAbility.ets:29` `loadContent('pages/Index')` | [代码] |
+| 首页搜索框 | `components/main/SearchComponent.ets:14` TextInput（占位 `请输入搜索内容`），:20-33 搜索按钮 → :28 `router.pushUrl({url:'pages/SongsListPage', params:{searchKeyword}})`；空串时 :32 toast | [代码][实测 b01→b02] |
+| 搜索结果列表 | `pages/SongsListPage.ets`：:25-30 `onPageShow` 里靠 `hasLoaded` 防止重复加载；:57 标题 `"${kw}" 的搜索结果`；:58-69 List + `SongCard` | [代码][实测 b02] |
+| 歌曲操作面板 | `components/main/SongCard.ets:53-58` `bindSheet`（高 70%），点击切换 `isShowSheet` → `components/sheets/SongSheet.ets` | [代码][实测 b03] |
+| 面板"播放" | `SongSheet.ets:65-86`，文字 `播放`（:68）→ :79 先关面板 → :80 `playMusicByUrl(song, artists, picUrl, isValidCookie)`；:77/:85 用 3 秒锁防重复 | [代码][实测 b04] |
+| 迷你栏 / 底部播放控制栏 | **不存在**。只有右上角圆形"播控组件"`components/main/PlayController.ets`，挂在 SearchComponent.ets:35 和 ListHead.ets:15，点击弹出 `bindPopup`（标题、歌手、`m:ss / m:ss`、Progress、暂停/继续、`结束播放`） | [代码][实测 b05] |
+| 全屏播放页 / 向下箭头 / 进度条拖动 | **不存在**。`resources/base/profile/main_pages.json:2-12` 只注册了 9 个页面，没有播放页 | [代码] |
+| 返回首页 | 结果页左上角 `BackButton.ets:13` `router.back()`，或系统返回键 | [代码][实测] |
+
+页面路由方式：全工程都用 `@ohos.router` 的 `pushUrl` / `back` / `replaceUrl`，没有 Navigation / NavDestination。[代码，grep `router\.`]
+
+<!-- APPEND_NOTES -->

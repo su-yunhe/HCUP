@@ -1,0 +1,122 @@
+<file>
+     1→import { router } from '@kit.ArkUI'
+     2→import { Song } from '../common/entities/SongsResult'
+     3→import { SongCard } from '../components/main/SongCard'
+     4→import { playList } from '../common/entities/PlayList'
+     5→import { ListHead } from '../components/head/ListHead'
+     6→import { SpinKit, SpinType } from '@pura/spinkit'
+     7→import { LogUtil } from '@pura/harmony-utils'
+     8→import { getPlayListSongs } from '../api/playListApi'
+     9→
+    10→/**
+    11→ * 歌单二级页面
+    12→ */
+    13→
+    14→const TAG = '[PlayListPage] '
+    15→
+    16→@Entry
+    17→@Component
+    18→struct PlayListPage {
+    19→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    20→  @StorageProp('topRectHeight') topRectHeight: number = 0
+    21→
+    22→  private playList: playList = Object(router.getParams())['playList']
+    23→  private trackCount: number = Object(router.getParams())['trackCount']
+    24→
+    25→  @State hasLoaded: boolean = false // 判定是否已加载 避免重复加载
+    26→  @State isLoading: boolean = true
+    27→  @State list: Array<Song> = new Array()
+    28→  @State isLoadingMore: boolean = false
+    29→  @State hasMore: boolean = true
+    30→
+    31→  private currentOffset: number = 0 // 歌曲偏移量
+    32→  hasAnimation:boolean | undefined = false
+    33→
+    34→  async onPageShow(): Promise<void> {
+    35→    this.hasAnimation = AppStorage.get('set-hasAnimation')
+    36→    if (!this.hasLoaded) {
+    37→      await this.loadSongs(30, 0)
+    38→    }
+    39→  }
+    40→
+    41→  async loadSongs(limit: number, offset: number): Promise<void> {
+    42→    if (!this.hasMore) return // 没有更多歌曲直接返回
+    43→    if (offset === 0) {
+    44→      this.isLoading = true // 初次加载
+    45→    } else {
+    46→      this.isLoadingMore = true // 加载更多
+    47→    }
+    48→
+    49→    try {
+    50→      const result = await getPlayListSongs(this.playList.id, offset)
+    51→      this.list = [...this.list, ...result] // 合并歌曲列表
+    52→      this.currentOffset += limit
+    53→
+    54→      if (this.list.length >= this.trackCount) {
+    55→        this.hasMore = false
+    56→      }
+    57→    } catch (e) {
+    58→      LogUtil.error(TAG + 'Error fetching songs: ', e)
+    59→    } finally {
+    60→      this.isLoading = false
+    61→      this.isLoadingMore = false
+    62→      this.hasLoaded = true
+    63→    }
+    64→  }
+    65→
+    66→  build() {
+    67→    Stack() {
+    68→      if (this.isLoading == true) {
+    69→        Column() {
+    70→          SpinKit({ spinType: SpinType.spinO, spinSize: 60, spinColor: Color.Gray }).width(60)
+    71→        }.height('100%').width('100%').justifyContent(FlexAlign.Center)
+    72→      } else {
+    73→        Column({ space: 10 }) {
+    74→          ListHead({ title: this.playList.name })
+    75→          List() {
+    76→            ForEach(this.list, (item: Song, index) => {
+    77→              ListItem() {
+    78→                SongCard({ song: item, sid: index, hasAnimation: this.hasAnimation })
+    79→              }
+    80→            });
+    81→            // 添加加载更多
+    82→            if (this.isLoadingMore) {
+    83→              ListItem() {
+    84→                Column() {
+    85→                  SpinKit({ spinType: SpinType.spinO, spinSize: 30, spinColor: Color.Gray }).width(30)
+    86→                }.justifyContent(FlexAlign.Center).width('100%').height(50)
+    87→              }
+    88→            } else if (this.hasMore) {
+    89→              ListItem() {
+    90→                Text("点击加载更多")
+    91→                  .onClick(() => {
+    92→                    this.loadSongs(30, this.currentOffset)
+    93→                  })
+    94→                  .padding({ top:10, bottom:px2vp(this.bottomRectHeight) })
+    95→                  .fontColor($r('app.color.reverse'))
+    96→                  .width('100%')
+    97→                  .textAlign(TextAlign.Center)
+    98→              }
+    99→            } else if (!this.hasMore) {
+   100→              ListItem() {
+   101→                Text('没有更多了~').fontSize(16).textAlign(TextAlign.Center).width('100%').height(50);
+   102→              }
+   103→            }
+   104→          }
+   105→          .height('100%')
+   106→          .layoutWeight(1)
+   107→          .width('100%')
+   108→          .scrollBar(BarState.Auto)
+   109→        }
+   110→        .height('100%')
+   111→      }
+   112→
+   113→    }
+   114→    .width('100%')
+   115→    .height('100%')
+   116→    .padding({ top: px2vp(this.topRectHeight) })
+   117→    .backgroundColor($r('app.color.main'));
+   118→  }
+   119→}
+</file>
+<metadata>The file has 119 lines in total.</metadata>

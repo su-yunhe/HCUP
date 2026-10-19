@@ -69,6 +69,7 @@ export struct SongSheet {
           }.padding({ left: 15, right: 15, top: 10, bottom: 10 })
         }
         .type(ButtonType.Normal)
+        .id('song_sheet_play')
         .borderRadius(20)
         .backgroundColor('transparent')
         .borderWidth(1)

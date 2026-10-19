@@ -1,0 +1,2 @@
+7. 防止重复打开播放页 / 重复返回的保护。
+8. 纯空白关键词校验：基线 SearchComponent.ets:27 的 `if(this.searchKeyword)` 会让 `"   "` 通过，然后跳转并请求 `keywords=%20%20` [代码]。用户已决定要拦截（acceptance.md A47、D2）。

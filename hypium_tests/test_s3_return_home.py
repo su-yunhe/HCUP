@@ -1,0 +1,57 @@
+"""场景三：从搜索结果播放后返回首页，迷你播放器保持同一首；点击迷你播放器进入播放页显示同一首。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.helpers import KEYWORD, PlayerTestCase
+
+
+class TestS3ReturnHome(PlayerTestCase):
+
+    def test_01_return_home_keeps_song_and_opens_play_page(self):
+        """返回首页：迷你播放器仍是同一首且在播；点击迷你播放器进入播放页，显示同一首；收起回到首页。"""
+        self.start_playing()
+        title, artist = self.text_of("mini_player_title"), self.text_of("mini_player_artist")
+        t_before = self.time_of("mini_player_time")
+        self.driver.press_back()
+        self.assertTrue(self.exists("search_input", timeout=8), "返回后未回到首页")
+        self.assertIsNone(self.driver.find_component(BY.text(f'"{KEYWORD}" 的搜索结果')))
+        self.assertTrue(self.exists("mini_player", timeout=5), "返回首页后迷你播放器消失")
+        self.assertEqual(self.text_of("mini_player_title"), title)
+        self.assertEqual(self.text_of("mini_player_artist"), artist)
+        self.assertTrue(self.exists("mini_player_pause_btn"), "返回首页不应中断播放")
+        self.driver.wait(3)
+        self.assertGreater(self.time_of("mini_player_time"), t_before, "返回首页后进度应继续递增")
+
+        # 点击迷你播放器中心（软键盘不应遮挡）进入播放页
+        self.open_play_page("mini_player")
+        self.assertEqual(self.text_of("play_page_title"), self.song.name)
+        self.assertEqual(self.text_of("play_page_artist"), self.song.artists)
+        self.close_play_page()
+        self.assertTrue(self.exists("search_input"), "从首页进入播放页，收起后应回到首页")
+        self.assertEqual(self.text_of("mini_player_title"), title)
+
+    def test_02_back_to_home_via_back_button_then_search_again(self):
+        """用结果页左上角返回按钮回首页，再次搜索进入结果页，迷你播放器仍是同一首。"""
+        self.start_playing()
+        title = self.require_text(f'"{KEYWORD}" 的搜索结果', "不在结果页").getBounds()
+        # 结果页标题行最左侧的按钮就是返回按钮（基线 BackButton，无 id）
+        buttons = [c for c in (self.driver.find_all_components(BY.type("Button")) or [])
+                   if c.getBounds().top < title.bottom and c.getBounds().right <= title.left]
+        self.assertTrue(buttons, "结果页标题左侧没有返回按钮")
+        self.driver.click(buttons[0])
+        self.assertTrue(self.exists("search_input", timeout=8), "未回到首页")
+        self.assertEqual(self.text_of("mini_player_title"), self.song.name)
+        self.driver.click(BY.key("search_button"))
+        self.require_text(f'"{KEYWORD}" 的搜索结果', "再次搜索未进入结果页", timeout=20)
+        self.assertTrue(self.exists("mini_player", timeout=5), "结果页迷你播放器消失")
+        self.assertEqual(self.text_of("mini_player_title"), self.song.name)
+
+    def test_03_restart_clears_mini_player(self):
+        """播放中重启应用：迷你播放器不恢复；重新搜索播放照常出现。"""
+        self.start_playing()
+        self.restart()
+        self.driver.wait(2)
+        self.assertFalse(self.exists("mini_player"), "重启后不应恢复迷你播放器")
+        self.search()
+        self.play_from_sheet()

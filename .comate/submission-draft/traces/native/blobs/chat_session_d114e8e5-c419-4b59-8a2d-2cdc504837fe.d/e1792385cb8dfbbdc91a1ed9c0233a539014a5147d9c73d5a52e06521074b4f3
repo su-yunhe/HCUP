@@ -1,0 +1,257 @@
+Command executed successfully.
+Exit code: 0
+Output:
+appIcon.png
+background.png
+foreground.png
+ic_celiakeyboard_default.svg
+ic_music_fill.svg
+ic_play_fill.svg
+ic_public_app_filled.svg
+ic_public_back.svg
+ic_public_delete_filled.svg
+ic_public_devices_phone_filled.svg
+ic_public_download_filled.svg
+ic_public_help.svg
+ic_public_input_code.svg
+ic_public_more_filled.svg
+ic_public_pause.svg
+ic_public_search_filled.svg
+ic_public_settings_filled.svg
+ic_public_share_filled.svg
+ic_public_view_list_filled.svg
+ic_squares.svg
+ic_user_portrait.svg
+img.png
+layered_image.json
+startIcon.png
+{
+  "color": [
+    {
+      "name": "start_window_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "main",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "reverse",
+      "value": "#121212"
+    },
+    {
+      "name": "background",
+      "value": "#FFEAEAEA"
+    }
+  ]
+}base
+dark
+en_US
+zh_CN
+{
+  "color": [
+    {
+      "name": "start_window_background",
+      "value": "#121212"
+    },
+    {
+      "name": "main",
+      "value": "#FF212121"
+    },
+    {
+      "name": "reverse",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "background",
+      "value": "#121212"
+    }
+  ]
+}import { ToastUtil } from "@pura/harmony-utils";
+import { BackButton } from "../buttons/BackButton";
+import { CommonCircleButton } from "../buttons/CircleButton";
+import { PlayController } from "../main/PlayController";
+
+@Component
+export struct ListHead {
+  title:string = ''
+
+  build() {
+    Row({ space: 20 }) {
+      BackButton()
+      Text(`${this.title}`).fontSize(18).fontColor($r('app.color.reverse')).maxLines(1)
+        .textOverflow({ overflow: TextOverflow.Ellipsis }).layoutWeight(1).textAlign(TextAlign.Center)
+      PlayController()
+    }
+    .justifyContent(FlexAlign.SpaceBetween)
+    .padding({ left: 10, right: 10 })
+    .width('100%')
+    .backgroundColor(Color.Transparent)
+    .onClick(() => {
+      ToastUtil.showToast(`${this.title}`)
+    })
+  }
+}/**
+ * 圆形按钮组件
+ */
+import FileUtils from "../../common/utils/FileUtils"
+import File from "@system.file"
+import { DialogUtil, PickerUtil } from "@pura/harmony-utils"
+import { ButtonOptions } from "@kit.ArkUI"
+import { DialogAction } from "@pura/harmony-utils/src/main/ets/entity/constraint"
+
+@Component
+export struct CommonCircleButton {
+  ButtonImageName: string = ''
+  BgColor: string = 'transparent'
+
+  build() {
+    Column() {
+      Button({type: ButtonType.Circle}) {
+        Image($r(`app.media.${this.ButtonImageName}`))
+          .width(25)
+          .fillColor($r('app.color.reverse'))
+      }
+      .height(35)
+      .width(35)
+      .backgroundColor(this.BgColor)
+      .opacity(0.8)
+    }
+  }
+}
+
+@Component
+export struct SaveCircleButton {
+  @Link list:string[]
+  @State fileName:string = ''
+
+  build() {
+    Button() {
+      Image($r('app.media.ic_public_download_filled'))
+        .height(40)
+        .padding({ top:10, bottom:10, left:10, right:10 })
+        .fillColor(Color.White)
+    }
+    .type(ButtonType.Circle)
+    .backgroundColor(Color.Orange)
+    .height(60)
+    .onClick(() => {
+      FileUtils.saveFile(this.fileName)
+    })
+  }
+}
+
+@Component
+export struct DeleteCircleButton {
+  @Link list:string[]
+  @State fileName:string = ''
+  build() {
+    Button() {
+      Image($r('app.media.ic_public_delete_filled'))
+        .height(40)
+        .padding({ top:10, bottom:10, left:10, right:10 })
+        .fillColor(Color.White)
+    }
+    .type(ButtonType.Circle)
+    .backgroundColor(Color.Red)
+    .height(60)
+    .onClick(async () => {
+      DialogUtil.showPrimaryDialog({
+        title: '删除文件',
+        message:`确定删除 "${this.fileName}" ?`,
+        primaryButton: "取消",
+        secondaryButton: "删除",
+        onAction: async (action) => {
+          if(action == DialogAction.TWO) {
+            await FileUtils.deleteFile(this.fileName).then(async () => {
+              this.list = await FileUtils.getFileName()
+            })
+          }
+        }
+      })
+    })
+  }
+}import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
+import { hilog } from '@kit.PerformanceAnalysisKit';
+import { window } from '@kit.ArkUI';
+import { BusinessError } from '@kit.BasicServicesKit';
+import PreferencesUtils from '../common/utils/PreferencesUtils';
+import { getLoginInfo } from '../common/functions/getLoginInfo';
+import Constants from '../common/constants/Constants';
+import { LogUtil } from '@pura/harmony-utils';
+import { appInit } from '../common/functions/appInit';
+
+
+export default class EntryAbility extends UIAbility {
+  async onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): Promise<void> {
+    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
+
+    // 初始化
+    await PreferencesUtils.loadPreference(this.context, Constants.USER_PREF)
+    await PreferencesUtils.loadPreference(this.context, Constants.SET_PERF)
+    LogUtil.init(0x1010, 'Cloud Music', true)
+    appInit()
+
+  }
+
+  onDestroy(): void {
+    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onDestroy');
+  }
+
+  onWindowStageCreate(windowStage: window.WindowStage): void {
+    windowStage.loadContent('pages/Index', async (err, data) => {
+      if (err.code) {
+        return;
+      }
+
+      getLoginInfo()
+
+      let windowClass: window.Window = windowStage.getMainWindowSync(); // 获取应用主窗口
+      // 1. 设置窗口全屏
+      let isLayoutFullScreen = true;
+      windowClass.setWindowLayoutFullScreen(isLayoutFullScreen).then(() => {
+        console.info('Succeeded in setting the window layout to full-screen mode.');
+      }).catch((err: BusinessError) => {
+        console.error('Failed to set the window layout to full-screen mode. Cause:' + JSON.stringify(err));
+      });
+
+      // 2. 获取布局避让遮挡的区域
+      let type = window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR; // 以导航条避让为例
+      let avoidArea = windowClass.getWindowAvoidArea(type);
+      let bottomRectHeight = avoidArea.bottomRect.height; // 获取到导航条区域的高度
+      AppStorage.setOrCreate('bottomRectHeight', bottomRectHeight);
+
+      type = window.AvoidAreaType.TYPE_SYSTEM; // 以状态栏避让为例
+      avoidArea = windowClass.getWindowAvoidArea(type);
+      let topRectHeight = avoidArea.topRect.height; // 获取状态栏区域高度
+      AppStorage.setOrCreate('topRectHeight', topRectHeight);
+
+      // 3. 注册监听函数，动态获取避让区域数据
+      windowClass.on('avoidAreaChange', (data) => {
+        if (data.type === window.AvoidAreaType.TYPE_SYSTEM) {
+          let topRectHeight = data.area.topRect.height;
+          AppStorage.setOrCreate('topRectHeight', topRectHeight);
+        } else if (data.type == window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR) {
+          let bottomRectHeight = data.area.bottomRect.height;
+          AppStorage.setOrCreate('bottomRectHeight', bottomRectHeight);
+        }
+      });
+
+    });
+  }
+
+  onWindowStageDestroy(): void {
+    // Main window is destroyed, release UI related resources
+    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageDestroy');
+  }
+
+  onForeground(): void {
+    // Ability has brought to foreground
+    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onForeground');
+  }
+
+  onBackground(): void {
+    // Ability has back to background
+    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onBackground');
+  }
+}

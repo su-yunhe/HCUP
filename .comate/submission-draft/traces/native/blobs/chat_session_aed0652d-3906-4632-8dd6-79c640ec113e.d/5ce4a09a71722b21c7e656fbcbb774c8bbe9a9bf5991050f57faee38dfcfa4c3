@@ -1,0 +1,22 @@
+# 临时探查脚本：解析 uitest dumpLayout，列出有文本/id 或可点击的节点。分析结束后删除。
+import json
+import sys
+
+
+def walk(node, depth, out):
+    a = node.get("attributes", {})
+    t = a.get("type", "")
+    text = a.get("text", "")
+    key = a.get("id", "") or a.get("key", "")
+    b = a.get("bounds", "")
+    clickable = a.get("clickable", "")
+    if text or key or t in ("Button", "TextInput", "Slider", "Image", "Progress", "Toggle", "Select"):
+        out.append(f"{'  ' * min(depth, 12)}{t} text={text!r} id={key!r} bounds={b} click={clickable}")
+    for c in node.get("children", []):
+        walk(c, depth + 1, out)
+
+
+data = json.load(open(sys.argv[1], encoding="utf-8"))
+lines = []
+walk(data, 0, lines)
+print("\n".join(lines))

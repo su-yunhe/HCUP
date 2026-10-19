@@ -1,0 +1,179 @@
+Command executed successfully.
+Exit code: 0
+Output:
+{
+  "app": {
+    "signingConfigs": [],
+    "products": [
+      {
+        "name": "default",
+        "compatibleSdkVersion": "5.0.1(13)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        },
+        "targetSdkVersion": "6.1.0(23)"
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "apiType": "stageMode",
+  "buildOption": {
+  },
+  "buildOptionSet": [
+    {
+      "name": "release",
+      "arkOptions": {
+        "obfuscation": {
+          "ruleOptions": {
+            "enable": false,
+            "files": [
+              "./obfuscation-rules.txt"
+            ]
+          }
+        }
+      }
+    },
+  ],
+  "targets": [
+    {
+      "name": "default"
+    },
+    {
+      "name": "ohosTest",
+    }
+  ]
+}{
+  "app": {
+    "bundleName": "cc.chenlvin.cloudmusic",
+    "vendor": "chenlvin",
+    "versionCode": 112,
+    "versionName": "0.9.7",
+    "icon": "$media:startIcon",
+    "label": "$string:app_name"
+  }
+}
+{
+  "module": {
+    "name": "entry",
+    "type": "entry",
+    "description": "$string:module_desc",
+    "mainElement": "EntryAbility",
+    "deviceTypes": [
+      "phone",
+      "tablet",
+      "2in1"
+    ],
+    "deliveryWithInstall": true,
+    "installationFree": false,
+    "pages": "$profile:main_pages",
+    "abilities": [
+      {
+        "name": "EntryAbility",
+        "srcEntry": "./ets/entryability/EntryAbility.ets",
+        "description": "$string:EntryAbility_desc",
+        "icon": "$media:layered_image",
+        "label": "$string:EntryAbility_label",
+        "startWindowIcon": "$media:startIcon",
+        "startWindowBackground": "$color:start_window_background",
+        "exported": true,
+        "backgroundModes": [
+          "audioPlayback"
+        ],
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "action.system.home"
+            ],
+          }
+        ]
+      }
+    ],
+      "requestPermissions": [
+        {
+          "name": "ohos.permission.INTERNET",
+          "reason": '$string:REASON_INTERNET_PERMISSION'
+        },
+        {
+          "name": "ohos.permission.KEEP_BACKGROUND_RUNNING",
+          "reason": '$string:REASON_KEEP_BACKGROUND_RUNNING'
+        }
+      ]
+//    "extensionAbilities": [
+//      {
+//        "name": "EntryBackupAbility",
+//        "srcEntry": "./ets/entrybackupability/EntryBackupAbility.ets",
+//        "type": "backup",
+//        "exported": false,
+//        "metadata": [
+//          {
+//            "name": "ohos.extension.backup",
+//            "resource": "$profile:backup_config"
+//          }
+//        ],
+//      }
+//    ]
+  }
+}{
+  "modelVersion": "5.0.0",
+  "dependencies": {
+  },
+  "execution": {
+    // "analyze": "normal",                     /* Define the build analyze mode. Value: [ "normal" | "advanced" | false ]. Default: "normal" */
+    // "daemon": true,                          /* Enable daemon compilation. Value: [ true | false ]. Default: true */
+    // "incremental": true,                     /* Enable incremental compilation. Value: [ true | false ]. Default: true */
+    // "parallel": true,                        /* Enable parallel compilation. Value: [ true | false ]. Default: true */
+    // "typeCheck": false,                      /* Enable typeCheck. Value: [ true | false ]. Default: false */
+  },
+  "logging": {
+    // "level": "info"                          /* Define the log level. Value: [ "debug" | "info" | "warn" | "error" ]. Default: "info" */
+  },
+  "debugging": {
+    // "stacktrace": false                      /* Disable stacktrace compilation. Value: [ true | false ]. Default: false */
+  },
+  "nodeOptions": {
+    // "maxOldSpaceSize": 8192                  /* Enable nodeOptions maxOldSpaceSize compilation. Unit M. Used for the daemon process. Default: 8192*/
+    // "exposeGC": true                         /* Enable to trigger garbage collection explicitly. Default: true*/
+  }
+}
+/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony:
+ets
+js
+native
+previewer
+toolchains
+
+/Applications/DevEco-Studio.app/Contents/tools/hvigor/bin:
+hvigorw
+hvigorw.bat
+hvigorw.js
+127.0.0.1:5555		TCP	Connected	localhost

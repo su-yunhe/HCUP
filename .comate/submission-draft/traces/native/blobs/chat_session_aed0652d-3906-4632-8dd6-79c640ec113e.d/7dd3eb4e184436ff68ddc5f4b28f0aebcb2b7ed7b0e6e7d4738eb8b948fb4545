@@ -1,0 +1,31 @@
+Found 10 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/baseline-notes.md:
+  Line 132: | 歌曲版权 / 试听 | 自测要用完整版歌曲 | 没登录时，VIP 歌只返回 30 秒试听片段：`夜曲`（歌手 Xai小爱，id 2725685941）的 `freeTrialInfo.end=30`、`time=30040`，弹窗停在 `0:30 / 3:53` [实测]。`晴天(深情版)`（id 2652820720）的 `freeTrialInfo` 为 null，是完整版 [实测]。进度条 max 已确定用歌曲信息时长（acceptance.md D1），所以试听歌曲的进度条会比实际能播放的部分长，见 acceptance.md U13 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 12: - 公共前置 P1：要让"进度递增""跳转"真正发生，模拟器得能拉到音频流。依赖真实播放的项目都标了 ⚠。2026-10-18 实测播不出来（DNS 失败）；2026-10-19 复测已经能正常播放，进度在递增（baseline-notes §7）。这和网络环境有关，每次自测前先确认一下。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 13: - 公共前置 P2：自测用的歌必须是完整版，即 `/song/url/v1` 返回的 `freeTrialInfo` 为 null，例如 `晴天(深情版)`（id 2652820720）。VIP 歌只返回 30 秒试听片段，例如 `夜曲`（歌手 Xai小爱，id 2725685941）：实测进度停在 `0:30`，而歌曲时长是 `3:53`，没法验证"跳到后半段"（见 U13）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 355: - UI 结果：宽度接近整屏（便于按比例点击）｜ 数据结果：**max 取歌曲信息时长 `player-song.duration`（毫秒），不取播放器加载到的时长**（已确认，用户 2026-10-19 决定，见 §5 D1）。只有 mode 0（本地文件）没有歌曲信息、song.duration 是 0，这时才退回用 `mPlayer.duration`
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 357: - 边界条件：duration 为 0 时不能出现 NaN 或除零；单位统一用毫秒，或统一用秒，只要和显示文本自洽；试听片段歌曲的 max 仍是完整时长（U13）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 385: - 返回结果：见 A36 ｜ 边界条件：拖到 0 → `0:00`；拖到末尾 → 进入 completed；连续两次 seek 以最后一次为准；试听片段歌曲拖到片段之外（例如 30 秒片段拖到 2:00）→ 行为待确认（U13）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 589: | 试听片段歌曲 | A30、A33、U13 | 进度条 max 仍是完整时长（D1）；播放到 `0:30` 左右就 completed；拖到片段之外按 U13 处理 | 实测（`夜曲` id 2725685941 停在 `0:30 / 3:53`） |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 602: | U8 | 播放资源加载失败（AVPlayer error）时迷你栏显示什么 | A19、§3.1 | 不改基线（状态保持"播放中"、时间不动）。只有你认为官方环境也可能播不出来时，才考虑在 error 时置暂停态 | 超出 Spec 范围；改了可能影响右上角弹窗的既有行为 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 607: | U13 | 试听片段歌曲（只返回 30 秒）拖到片段之外时怎么表现 | A30、A33 | 不做特殊处理：照常 seek 到目标值，`player-time` 立即写入目标值，之后的实际表现交给 AVPlayer（多半直接 completed）。开发阶段用 `夜曲`（id 2725685941）实测一次并记录。自测和断言只用完整版歌曲（P2） | Spec 没提试听；接口只给了片段，应用无法播放片段之外的部分；官方测试用哪首歌未知，所以完整版歌曲的路径必须先保证 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/spec/acceptance.md:
+  Line 613: | D1 | 播放页进度条 max 用歌曲信息时长 `player-song.duration`，不用播放器加载到的时长；只有 mode 0 没有歌曲信息时退回 `mPlayer.duration` | A30、A32、A33 | 用户 2026-10-19 |

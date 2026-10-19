@@ -1,0 +1,80 @@
+"""场景四：迷你播放器进度时间与播放页进度条同步（跳转后收起，迷你播放器显示跳转后的位置并继续递增）。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.helpers import PlayerTestCase, TIME_RE, to_sec
+
+
+class TestS4SeekSync(PlayerTestCase):
+
+    def slider(self):
+        sliders = self.sliders()
+        self.assertEqual(len(sliders), 1, f"播放页应只有 1 个进度条，实际 {len(sliders)}")
+        return sliders[0]
+
+    def seek_to_fraction(self, frac: float) -> tuple[float, int]:
+        """点击进度条轨道跳到 frac 处，返回（Slider 值 ms，总时长 s）。"""
+        total = self.time_of("play_page_duration")
+        self.assertGreater(total, 0, "播放页总时长为 0")
+        value = self.set_slider(0, frac * total * 1000, 0, total * 1000)
+        return value, total
+
+    def test_01_mini_player_time_format_and_increment(self):
+        """迷你播放器显示当前进度 m:ss，从 0:00 起随播放递增。"""
+        self.restart()
+        self.search()
+        self.play_from_sheet()
+        first = self.text_of("mini_player_time")
+        self.assertRegex(first, TIME_RE)
+        self.assertLessEqual(to_sec(first), 3, f"起播时间应接近 0:00，实际 {first}")
+        t1 = self.wait_playing(min_sec=1)
+        self.driver.wait(3)
+        self.assertGreater(self.time_of("mini_player_time"), t1, "迷你播放器时间未随播放递增")
+
+    def test_02_seek_then_close_syncs_mini_player(self):
+        """播放页拖动到后半段 → 当前时间更新 → 收起后迷你播放器显示跳转后的位置并继续递增。"""
+        self.start_playing()
+        self.open_play_page("mini_player")
+        before = self.time_of("play_page_current_time")
+        t_slider = self.slider_value(self.slider())
+        self.driver.wait(3)
+        self.assertGreater(self.slider_value(self.slider()), t_slider, "播放中进度条应自动前进")
+
+        value, total = self.seek_to_fraction(0.6)
+        self.assertGreaterEqual(value, 0.5 * total * 1000, f"进度条未跳到后半段: {value}")
+        target = value / 1000
+        cur = self.time_of("play_page_current_time")
+        self.assertLessEqual(abs(cur - target), 2, f"跳转后当前时间 {cur}s 与进度条 {target:.0f}s 不符")
+        self.assertGreater(cur, before + 30, "跳转后当前时间应明显大于跳转前")
+
+        self.driver.wait(2)
+        t_page = self.time_of("play_page_current_time")
+        self.assertGreaterEqual(t_page, cur, "跳转后进度不应回跳")
+        self.close_play_page()
+        mini = self.time_of("mini_player_time")
+        self.assertGreaterEqual(mini, t_page, f"收起后迷你播放器时间 {mini}s 不应早于播放页 {t_page}s")
+        self.assertLessEqual(mini, t_page + 3, f"收起后迷你播放器时间 {mini}s 与播放页 {t_page}s 不同步")
+        self.assertGreaterEqual(mini, total // 2, "迷你播放器时间应体现跳转后的后半段位置")
+        self.driver.wait(4)
+        mini2 = self.time_of("mini_player_time")
+        self.assertGreater(mini2, mini, "收起后迷你播放器时间应继续递增")
+
+        # 再次进入播放页：进度条和时间从当前位置显示
+        self.open_play_page()
+        again = self.time_of("play_page_current_time")
+        self.assertLessEqual(abs(again - mini2), 3, f"再次进入播放页时间 {again}s 与迷你栏 {mini2}s 不符")
+        self.assertGreater(self.slider_value(self.slider()), total * 1000 * 0.5)
+
+    def test_03_seek_while_paused_keeps_paused(self):
+        """暂停时拖动进度条：跳到目标位置并保持暂停，收起后迷你播放器显示目标位置且不走。"""
+        self.start_playing()
+        self.open_play_page()
+        self.driver.click(BY.key("play_page_pause_btn"))
+        self.assertTrue(self.exists("play_page_play_btn", timeout=5))
+        value, total = self.seek_to_fraction(0.7)
+        target = int(value / 1000)
+        self.assertGreaterEqual(value, 0.5 * total * 1000, f"进度条未跳到后半段: {value}")
+        self.assertTrue(self.exists("play_page_play_btn"), "暂停时跳转后应保持暂停")
+        cur = self.time_of("play_page_current_time")
+        self.assertLessEqual(

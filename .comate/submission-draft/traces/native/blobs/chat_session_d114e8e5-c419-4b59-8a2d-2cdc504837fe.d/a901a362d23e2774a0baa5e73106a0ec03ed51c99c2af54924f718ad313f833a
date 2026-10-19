@@ -1,0 +1,16 @@
+import re
+import shutil
+import subprocess
+import time
+
+from hypium import BY
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+KEYWORD = "晴天"
+SONG = "晴天(深情版)"
+ARTIST = "Lucky小爱"
+API_CONTAINER = "netease_cloud_music_api"
+TIME_RE = re.compile(r"^\d+:\d{2}$")

@@ -1,6 +1,7 @@
 import { router } from '@kit.ArkUI'
 import { Song } from '../common/entities/SongsResult'
 import { SongCard } from '../components/main/SongCard'
+import { MiniPlayer } from '../components/main/MiniPlayer'
 import { playList } from '../common/entities/PlayList'
 import { ListHead } from '../components/head/ListHead'
 import { SpinKit, SpinType } from '@pura/spinkit'
@@ -64,52 +65,57 @@ struct PlayListPage {
   }
 
   build() {
-    Stack() {
-      if (this.isLoading == true) {
-        Column() {
-          SpinKit({ spinType: SpinType.spinO, spinSize: 60, spinColor: Color.Gray }).width(60)
-        }.height('100%').width('100%').justifyContent(FlexAlign.Center)
-      } else {
-        Column({ space: 10 }) {
-          ListHead({ title: this.playList.name })
-          List() {
-            ForEach(this.list, (item: Song, index) => {
-              ListItem() {
-                SongCard({ song: item, sid: index, hasAnimation: this.hasAnimation })
-              }
-            });
-            // 添加加载更多
-            if (this.isLoadingMore) {
-              ListItem() {
-                Column() {
-                  SpinKit({ spinType: SpinType.spinO, spinSize: 30, spinColor: Color.Gray }).width(30)
-                }.justifyContent(FlexAlign.Center).width('100%').height(50)
-              }
-            } else if (this.hasMore) {
-              ListItem() {
-                Text("点击加载更多")
-                  .onClick(() => {
-                    this.loadSongs(30, this.currentOffset)
-                  })
-                  .padding({ top:10, bottom:px2vp(this.bottomRectHeight) })
-                  .fontColor($r('app.color.reverse'))
-                  .width('100%')
-                  .textAlign(TextAlign.Center)
-              }
-            } else if (!this.hasMore) {
-              ListItem() {
-                Text('没有更多了~').fontSize(16).textAlign(TextAlign.Center).width('100%').height(50);
+    Column() {
+      Stack() {
+        if (this.isLoading == true) {
+          Column() {
+            SpinKit({ spinType: SpinType.spinO, spinSize: 60, spinColor: Color.Gray }).width(60)
+          }.height('100%').width('100%').justifyContent(FlexAlign.Center)
+        } else {
+          Column({ space: 10 }) {
+            ListHead({ title: this.playList.name })
+            List() {
+              ForEach(this.list, (item: Song, index) => {
+                ListItem() {
+                  SongCard({ song: item, sid: index, hasAnimation: this.hasAnimation })
+                }
+              });
+              // 添加加载更多
+              if (this.isLoadingMore) {
+                ListItem() {
+                  Column() {
+                    SpinKit({ spinType: SpinType.spinO, spinSize: 30, spinColor: Color.Gray }).width(30)
+                  }.justifyContent(FlexAlign.Center).width('100%').height(50)
+                }
+              } else if (this.hasMore) {
+                ListItem() {
+                  Text("点击加载更多")
+                    .onClick(() => {
+                      this.loadSongs(30, this.currentOffset)
+                    })
+                    .padding({ top:10, bottom:px2vp(this.bottomRectHeight) })
+                    .fontColor($r('app.color.reverse'))
+                    .width('100%')
+                    .textAlign(TextAlign.Center)
+                }
+              } else if (!this.hasMore) {
+                ListItem() {
+                  Text('没有更多了~').fontSize(16).textAlign(TextAlign.Center).width('100%').height(50);
+                }
               }
             }
+            .height('100%')
+            .layoutWeight(1)
+            .width('100%')
+            .scrollBar(BarState.Auto)
           }
           .height('100%')
-          .layoutWeight(1)
-          .width('100%')
-          .scrollBar(BarState.Auto)
         }
-        .height('100%')
-      }
 
+      }
+      .width('100%')
+      .layoutWeight(1)
+      MiniPlayer()
     }
     .width('100%')
     .height('100%')

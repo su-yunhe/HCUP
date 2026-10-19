@@ -1,0 +1,1 @@
+- The NeteaseCloudMusicApi docker container runs on host :3000. In the app, set Settings → 自定义API服务器地址 to `http://10.0.2.2:3000`; it was verified working on 2026-10-19. Don't use the host LAN IP, because it changes between networks (the old 192.168.1.97 stopped working). The setting persists across `install -r`.

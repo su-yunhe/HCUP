@@ -1,0 +1,169 @@
+<file>
+     1→import Constants from "../../common/constants/Constants"
+     2→import { Song, SongClass } from "../../common/entities/SongsResult"
+     3→import { changeDuration } from "../../common/functions/functions"
+     4→import { pauseMusic, resumeMusic, stopMusic } from "../../common/functions/playerControl"
+     5→import { DownloadDialog } from "../dialog/DownloadDialog"
+     6→
+     7→/**
+     8→ * 播控组件（右上角）
+     9→ */
+    10→@Component
+    11→export struct PlayController {
+    12→  @StorageLink('player-isplaying') isPlaying:boolean = false
+    13→  @StorageProp('player-mode') playmode:number = 1
+    14→  @StorageProp('player-fileName') fileName:string = ''
+    15→  @StorageProp('player-song') song:Song = SongClass
+    16→  @StorageProp('player-artists') artists:string = ''
+    17→  @StorageProp('player-ispaused') isPaused:boolean = false
+    18→  @StorageProp('player-picurl') picUrl:string = ''
+    19→  @StorageProp('player-time') time:number = 0
+    20→  @StorageProp('set-playQuality') playQuality:number = 0
+    21→  @State isShowPopup:boolean = false
+    22→  @State qualitySelected:number = 3
+    23→  artists1:string = 'this.artists'
+    24→  song1:Song = SongClass
+    25→  picUrl1:string = 'this.picUrl'
+    26→
+    27→  dialogController: CustomDialogController = new CustomDialogController({
+    28→    builder: DownloadDialog({
+    29→      song: this.song1,
+    30→      picUrl: this.picUrl1,
+    31→      artists: this.artists1,
+    32→      quality: Constants.QUALITY[this.qualitySelected],
+    33→      duration: changeDuration(this.song.duration)
+    34→    }),
+    35→  })
+    36→
+    37→  aboutToAppear(): void {
+    38→    this.song1 = this.song
+    39→    this.artists1 = this.artists
+    40→    this.picUrl1 = this.picUrl
+    41→  }
+    42→
+    43→  build() {
+    44→    if(this.isPlaying) {
+    45→      Button({type:ButtonType.Circle}) {
+    46→        Image($r('app.media.ic_music_fill')).width(20).fillColor(Color.White).margin(10)
+    47→      }
+    48→      .backgroundColor('#ffd25959')
+    49→      .onClick(() => { this.isShowPopup = !this.isShowPopup})
+    50→      .bindPopup(this.isShowPopup,{
+    51→        builder: this.ControllerPopup(),
+    52→        placement: Placement.LeftBottom,
+    53→        enableArrow: true,
+    54→        onStateChange: (e) => {
+    55→          if (!e.isVisible) {
+    56→            this.isShowPopup = false;
+    57→          }
+    58→        }
+    59→      })
+    60→    } else {
+    61→      Button({type:ButtonType.Circle}) {
+    62→        Image($r('app.media.ic_music_fill')).width(20).fillColor($r('app.color.reverse')).margin(10)
+    63→      }
+    64→      .backgroundColor(Color.Transparent)
+    65→      .backgroundColor(Color.Gray)
+    66→      .onClick(() => { this.isShowPopup = !this.isShowPopup})
+    67→      .bindPopup(this.isShowPopup,{
+    68→        builder: this.ControllerPopupNotPlaying(),
+    69→        placement: Placement.Bottom,
+    70→        enableArrow: true,
+    71→        onStateChange: (e) => {
+    72→          if (!e.isVisible) {
+    73→            this.isShowPopup = false;
+    74→          }
+    75→        }
+    76→      })
+    77→    }
+    78→  }
+    79→
+    80→  @Builder
+    81→  ControllerPopup() {
+    82→    Column({ space: 5 }) {
+    83→      Column({ space: 10 }) {
+    84→        if(this.playmode == 0) {
+    85→          Text(`正在播放本地文件`).textStyle(12).padding({ bottom: 10 })
+    86→          Text(this.fileName).textStyle(14)
+    87→          Text(`${changeDuration(this.time)}`).textStyle(16)
+    88→        }
+    89→        else {
+    90→          Text(`正在播放 [${Constants.QUALITY_NAME[this.playQuality]}]`).textStyle(12).padding({ bottom: 10 })
+    91→          Image(this.picUrl + '?param=256y256').width(120).height(120)
+    92→          Text(this.song.name).textStyle(20)
+    93→          Text(this.artists).textStyle(15)
+    94→          Text(`${changeDuration(this.time)} / ${changeDuration(this.song.duration)}`).textStyle(16)
+    95→          Progress({ value: this.time, total: this.song.duration })
+    96→            .width('80%')
+    97→          Row({ space: 5 }) {
+    98→            Select([{ value: '标准' }, { value: '高' }, { value: '极高' }, { value: '无损' }])
+    99→              .selected(3)
+   100→              .value('无损')
+   101→              .height(40)
+   102→              .onSelect((index: number) => {
+   103→                this.qualitySelected = index
+   104→              })
+   105→            Button({ type: ButtonType.Circle }) {
+   106→              Image($r('app.media.ic_public_download_filled'))
+   107→                .width(40)
+   108→                .padding({
+   109→                  left: 8,
+   110→                  right: 8,
+   111→                  top: 8,
+   112→                  bottom: 8
+   113→                })
+   114→            }
+   115→            .backgroundColor(Color.Gray)
+   116→            .onClick(() => {
+   117→              this.song1 = this.song
+   118→              this.artists1 = this.artists
+   119→              this.picUrl1 = this.picUrl
+   120→              this.dialogController.open()
+   121→            })
+   122→          }
+   123→        }
+   124→
+   125→        Row({ space: 5 }) {
+   126→          // 暂停、继续
+   127→          if (!this.isPaused) {
+   128→            Button(){ Image($r('app.media.ic_public_pause')).buttonImgStyle() }.onClick(() => { pauseMusic() }).backgroundColor(Color.Transparent)
+   129→          } else {
+   130→            Button(){ Image($r('app.media.ic_play_fill')).buttonImgStyle() }.onClick(() => { resumeMusic() }).backgroundColor(Color.Transparent)
+   131→          }
+   132→        }
+   133→        .padding({ top:20, bottom:30 })
+   134→        .justifyContent(FlexAlign.Center)
+   135→      }
+   136→      Text('结束播放').textStyle(10).onClick(() => { stopMusic() })
+   137→    }
+   138→    .width('100%')
+   139→    .padding({left:15, right:15, top:10, bottom:10})
+   140→    .backgroundColor(Color.Transparent)
+   141→    .backdropBlur(1)
+   142→  }
+   143→
+   144→  @Builder
+   145→  ControllerPopupNotPlaying() {
+   146→    Column({ space: 5 }) {
+   147→      Text('暂无播放曲目').textStyle(16)
+   148→    }
+   149→    .padding({left:10, right:10, top:10, bottom:10})
+   150→    .backgroundColor(Color.Transparent)
+   151→    .backdropBlur(1)
+   152→  }
+   153→}
+   154→
+   155→@Extend(Text) function textStyle(size:number) {
+   156→  .fontSize(size)
+   157→  .fontColor($r('app.color.reverse'))
+   158→  .maxLines(1)
+   159→  .padding({ left:20, right:20 })
+   160→  .textOverflow({ overflow: TextOverflow.MARQUEE })
+   161→}
+   162→
+   163→@Extend(Image) function buttonImgStyle() {
+   164→  .width(40)
+   165→  .fillColor($r('app.color.reverse'))
+   166→}
+</file>
+<metadata>The file has 166 lines in total.</metadata>

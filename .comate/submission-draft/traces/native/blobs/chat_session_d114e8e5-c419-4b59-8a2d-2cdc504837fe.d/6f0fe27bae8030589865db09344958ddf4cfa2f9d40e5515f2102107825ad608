@@ -1,0 +1,3 @@
+    def restart(self) -> None:
+        restart_app(self.driver, BUNDLE, wait_time=2)
+        self.require_component(BY.key("search_input"), "冷启动后未进入首页", timeout=20)

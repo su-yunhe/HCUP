@@ -1,0 +1,203 @@
+<file>
+   100→      }
+   101→      this.avPlayer.setVolume(this.volume)
+   102→    }
+   103→  }
+   104→
+   105→  /**
+   106→   * 用于初始化多媒体播放器。
+   107→   * @param options - 播放选项对象，默认为当前实例的 efPlayOptions。
+   108→   * @returns 多媒体播放器实例。
+   109→   */
+   110→  async init(options: EFPlayOptions = this.efPlayOptions) {
+   111→    if (!this.avPlayer) {
+   112→
+   113→      this.avPlayer = await media.createAVPlayer();
+   114→      this.setPlayOptions(options);
+   115→      this._onError();
+   116→      this._onStateChange();
+   117→      this._onTimeUpdate();
+   118→    }
+   119→
+   120→    return this.avPlayer;
+   121→  }
+   122→
+   123→  /**
+   124→   * 私有用于处理状态变化事件。
+   125→   */
+   126→  private async _onStateChange() {
+   127→    const avPlayer = await this.init();
+   128→
+   129→    avPlayer.on('stateChange', async (state: string, reason: media.StateChangeReason) => {
+   130→      this.state = state as EfAVPlayerState
+   131→      switch (state) {
+   132→        case 'idle':
+   133→          break;
+   134→        case 'initialized':
+   135→          avPlayer.prepare();
+   136→          break;
+   137→        case 'prepared':
+   138→          this.duration = avPlayer.duration;
+   139→          if (this.efPlayOptions.immediately) {
+   140→            avPlayer.play();
+   141→          }
+   142→          break;
+   143→        case 'playing':
+   144→          // this.avPlayer!.setVolume(this.efPlayOptions.volume)
+   145→          // this.volume = this.efPlayOptions.volume!
+   146→          this.avPlayer!.loop = !!this.efPlayOptions.loop;
+   147→          this.loop = !!this.efPlayOptions.loop;
+   148→          break;
+   149→        case 'paused':
+   150→          break;
+   151→        case 'completed':
+   152→          break;
+   153→        case 'stopped':
+   154→          break;
+   155→        case 'released':
+   156→          break;
+   157→        default:
+   158→          break;
+   159→      }
+   160→      this.stateChangeCallback && this.stateChangeCallback(state);
+   161→    });
+   162→  }
+   163→
+   164→  /**
+   165→   * 用于设置状态变化的回调函数。
+   166→   * @param callback - 状态变化的回调函数，接收状态参数并返回 void。
+   167→   */
+   168→  async onStateChange(callback: (state: EfAVPlayerState) => void) {
+   169→
+   170→    this.stateChangeCallback = callback;
+   171→  }
+   172→
+   173→  /**
+   174→   * 用于设置错误的回调函数。
+   175→   * @param callback - 错误的回调函数，接收错误对象并返回 void。
+   176→   */
+   177→  async onError(callback: (stateErr: Error) => void) {
+   178→    this.errorCallback = callback;
+   179→  }
+   180→
+   181→  /**
+   182→   * 私有用于处理错误事件。
+   183→   */
+   184→  private async _onError() {
+   185→    const avPlayer = await this.init();
+   186→    avPlayer.on("error", (err: BusinessError) => {
+   187→      console.error("EfAVPlayer", err.message, err.code)
+   188→      this.errorCallback && this.errorCallback(err);
+   189→    });
+   190→  }
+   191→
+   192→  /**
+   193→   * 私有用于处理时间更新事件。
+   194→   */
+   195→  private async _onTimeUpdate() {
+   196→    const avPlayer = await this.init();
+   197→    avPlayer.on("timeUpdate", (time: number) => {
+   198→      this.currentTime = time;
+   199→      this.timeUpdateCallback && this.timeUpdateCallback(time);
+   200→    });
+   201→  }
+   202→
+   203→  /**
+   204→   * 用于跳转到指定时间。
+   205→   * @param time - 要跳转的时间。
+   206→   */
+   207→  async seek(time: number) {
+   208→    const avPlayer = await this.init();
+   209→    avPlayer.seek(time);
+   210→  }
+   211→
+   212→  /**
+   213→   * 用于设置时间更新的回调函数。
+   214→   * @param callback - 时间更新的回调函数，接收时间参数并返回 void。
+   215→   */
+   216→  async onTimeUpdate(callback: (time: number) => void) {
+   217→    this.timeUpdateCallback = callback;
+   218→  }
+   219→
+   220→  /**
+   221→   * 用于停止播放。
+   222→   */
+   223→  async stop() {
+   224→    const avPlayer = await this.init();
+   225→    await avPlayer.stop();
+   226→  }
+   227→
+   228→  /**
+   229→   * 用于设置播放的 URL。
+   230→   * @param url - 要播放的资源 URL。
+   231→   */
+   232→  async setUrl(url: string) {
+   233→    const avPlayer = await this.init();
+   234→
+   235→    avPlayer.url = url;
+   236→  }
+   237→
+   238→  /**
+   239→   * 用于设置播放的文件描述符源。
+   240→   * @param url - 文件描述符源。
+   241→   */
+   242→  async setFdSrc(url: media.AVFileDescriptor) {
+   243→    const avPlayer = await this.init();
+   244→    avPlayer.fdSrc = url;
+   245→  }
+   246→
+   247→  /**
+   248→   * 用于设置播放的数据源描述符。
+   249→   * @param url - 数据源描述符。
+   250→   */
+   251→  async setDataSrc(url: media.AVDataSrcDescriptor) {
+   252→    const avPlayer = await this.init();
+   253→    avPlayer.dataSrc = url;
+   254→  }
+   255→
+   256→  /**
+   257→   * 用于播放多媒体。
+   258→   */
+   259→  async play() {
+   260→    const avPlayer = await this.init();
+   261→    avPlayer.play();
+   262→  }
+   263→
+   264→  /**
+   265→   * 用于暂停播放。
+   266→   */
+   267→  async pause() {
+   268→    const avPlayer = await this.init();
+   269→    avPlayer.pause();
+   270→  }
+   271→
+   272→  /**
+   273→   * 用于重置播放器
+   274→   */
+   275→  async reset() {
+   276→    await this.avPlayer?.reset()
+   277→  }
+   278→
+   279→  /**
+   280→   * 用于释放多媒体播放器资源。
+   281→   */
+   282→  async release() {
+   283→    await this.avPlayer?.release();
+   284→    this.avPlayer?.off("stateChange");
+   285→    this.avPlayer?.off("error");
+   286→    this.avPlayer?.off("timeUpdate");
+   287→    this.currentTime = 0;
+   288→    this.duration = 0;
+   289→    this.avPlayer = null;
+   290→    this.errorCallback = undefined;
+   291→    this.stateChangeCallback = undefined;
+   292→    this.timeUpdateCallback = undefined;
+   293→  }
+   294→
+   295→  async quickPlay(url: string, callback?: Function)
+   296→
+   297→  async quickPlay(url: media.AVFileDescriptor, callback?: Function)
+   298→
+   299→  async quickPlay(url: media.AVDataSrcDescriptor, callback?: Function)
+</file>
+<metadata>The file has 319 lines in total.</metadata>

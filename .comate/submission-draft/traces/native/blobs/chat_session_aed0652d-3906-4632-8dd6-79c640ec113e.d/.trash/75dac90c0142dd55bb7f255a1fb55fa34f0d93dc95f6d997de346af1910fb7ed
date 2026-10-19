@@ -1,0 +1,7 @@
+---
+name: Local build/emulator environment quirks
+description: hvigorw needs JAVA_HOME from DevEco jbr; emulator 127.0.0.1:5555 cannot resolve external DNS so online audio never plays; API via local docker :3000
+type: reference
+---
+
+- hvigorw/hdc are not on PATH. Build needs `JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home` (otherwise PackageHap fails "Unable to locate a Java Runtime"), `DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk`, plus tools/

@@ -1,0 +1,166 @@
+Found 55 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/pages/login/WebLogin.ets:
+  Line 100:       .bindSheet(this.isShowHelpSheet, this.HelpSheet(), {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/utils/AudioPlayUtils.ets:
+  Line 32:       AppStorage.setOrCreate('player-isplaying',true)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/utils/AudioPlayUtils.ets:
+  Line 34:         AppStorage.setOrCreate('player-time',time)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/utils/AudioPlayUtils.ets:
+  Line 37:       AppStorage.setOrCreate('player-isplaying',false)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/utils/AudioPlayUtils.ets:
+  Line 53:       AppStorage.setOrCreate('player-isplaying',true)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/utils/AudioPlayUtils.ets:
+  Line 55:         AppStorage.setOrCreate('player-time',time)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/utils/AudioPlayUtils.ets:
+  Line 58:       AppStorage.setOrCreate('player-isplaying',false)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/appInit.ets:
+  Line 18:     AppStorage.setOrCreate('player-isplaying',false)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 14: export async function playMusicByUrl(song:Song,artists:string,picUrl:string,isLogged:boolean) {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 20:       AppStorage.setOrCreate('player-mode', 1)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 21:       AppStorage.setOrCreate('player-ispaused',false)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 22:       AppStorage.setOrCreate('player-isplaying',false)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 23:       AppStorage.setOrCreate('player-song',song)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 24:       AppStorage.setOrCreate('player-artists',artists)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 25:       AppStorage.setOrCreate('player-picurl',picUrl)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 39: export async function playMusicWithFile(fileName:string) {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 46:       AppStorage.setOrCreate('player-mode', 0)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 47:       AppStorage.setOrCreate('player-fileName',fileName)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 48:       AppStorage.setOrCreate('player-ispaused', false)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 49:       AppStorage.setOrCreate('player-isplaying', false)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 50:       AppStorage.setOrCreate('player-song', SongClass)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 51:       AppStorage.setOrCreate('player-artists', fileName)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 67:     AppStorage.setOrCreate('player-isplaying',false)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 74:     AppStorage.setOrCreate('player-ispaused',true)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/functions/playerControl.ets:
+  Line 80:     AppStorage.setOrCreate('player-ispaused',false)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/pages/login/LoginPage.ets:
+  Line 23:             router.replaceUrl({ url:'pages/login/WebLogin' })
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/pages/login/LoginPage.ets:
+  Line 32:             router.replaceUrl({ url:'pages/login/QrCodeLogin' })
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/utils/ContinuousTask.ets:
+  Line 57:           if(state == 'paused') { AppStorage.setOrCreate('player-ispaused', true) }
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/utils/ContinuousTask.ets:
+  Line 59:           if(state == 'stopped') { AppStorage.setOrCreate('player-ispaused', true); session.destroy() }
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/common/utils/ContinuousTask.ets:
+  Line 60:           if(state == 'completed') { AppStorage.setOrCreate('player-ispaused', true) }
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/api/getLoginStatus.ets:
+  Line 33:         router.back()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/buttons/BackButton.ets:
+  Line 13:         router.back()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/head/IndexHead.ets:
+  Line 14:         .bindSheet(this.isShowSheet, this.Sheet(), {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/head/IndexHead.ets:
+  Line 42:           router.pushUrl({ url:'pages/Settings' })
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/head/IndexHead.ets:
+  Line 48:           router.pushUrl({ url:'pages/DownloadPage' })
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/sheets/MeSheet.ets:
+  Line 19:             router.pushUrl({ url:'pages/login/LoginPage' })
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/sheets/SongSheet.ets:
+  Line 5: import { playMusicByUrl } from "../../common/functions/playerControl";
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/sheets/SongSheet.ets:
+  Line 80:             await playMusicByUrl(this.song,this.artists,this.picUrl,this.isValidCookie).then(() => {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/pages/Settings.ets:
+  Line 199:       router.pushUrl({
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/pages/Settings.ets:
+  Line 216:           router.pushUrl({
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/SearchComponent.ets:
+  Line 28:             router.pushUrl({
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/FileCard.ets:
+  Line 4: import { playMusicWithFile } from "../../common/functions/playerControl"
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/FileCard.ets:
+  Line 34:           playMusicWithFile(this.fileName)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/PlayController.ets:
+  Line 12:   @StorageLink('player-isplaying') isPlaying:boolean = false
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/PlayController.ets:
+  Line 13:   @StorageProp('player-mode') playmode:number = 1
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/PlayController.ets:
+  Line 14:   @StorageProp('player-fileName') fileName:string = ''
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/PlayController.ets:
+  Line 15:   @StorageProp('player-song') song:Song = SongClass
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/PlayController.ets:
+  Line 16:   @StorageProp('player-artists') artists:string = ''
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/PlayController.ets:
+  Line 17:   @StorageProp('player-ispaused') isPaused:boolean = false
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/PlayController.ets:
+  Line 18:   @StorageProp('player-picurl') picUrl:string = ''
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/PlayController.ets:
+  Line 19:   @StorageProp('player-time') time:number = 0
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/PlayController.ets:
+  Line 50:       .bindPopup(this.isShowPopup,{
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/PlayController.ets:
+  Line 67:       .bindPopup(this.isShowPopup,{
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/PlayListCard.ets:
+  Line 31:       router.pushUrl({
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec102/entry/src/main/ets/components/main/SongCard.ets:
+  Line 53:     .bindSheet(this.isShowSheet, this.Sheet(), {

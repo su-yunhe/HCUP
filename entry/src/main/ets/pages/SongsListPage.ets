@@ -1,6 +1,7 @@
 import { router } from '@kit.ArkUI';
 import { Song } from '../common/entities/SongsResult';
 import { SongCard } from '../components/main/SongCard';
+import { MiniPlayer } from '../components/main/MiniPlayer';
 import { ListHead } from '../components/head/ListHead';
 import { LogUtil } from '@pura/harmony-utils';
 import { SpinKit, SpinType } from '@pura/spinkit';
@@ -42,35 +43,42 @@ struct SongsListPage {
   }
 
   build() {
-    Stack() {
-      if(this.isLoading == true) {
-        Column() {
-          SpinKit({ spinType: SpinType.spinO, spinSize:60, spinColor:Color.Gray }).width(60)
-        }
-        .padding({ bottom: px2vp(this.topRectHeight) })
-        .height('100%')
-        .width('100%')
-        .justifyContent(FlexAlign.Center)
-      }
-      else {
-        Column() {
-          ListHead({ title: `"${this.searchKeyword}" 的搜索结果` })
-          List() {
-            ForEach(this.list, (item: Song, index) => {
-              ListItem() {
-                SongCard({ song: item, sid: index, hasAnimation: this.hasAnimation })
-              }
-            })
-            ListItem().padding({ bottom: px2vp(this.bottomRectHeight) })
+    Column() {
+      Stack() {
+        if(this.isLoading == true) {
+          Column() {
+            SpinKit({ spinType: SpinType.spinO, spinSize:60, spinColor:Color.Gray }).width(60)
           }
-          .layoutWeight(1)
+          .padding({ bottom: px2vp(this.topRectHeight) })
+          .height('100%')
           .width('100%')
-          .scrollBar(BarState.Auto)
+          .justifyContent(FlexAlign.Center)
+        }
+        else {
+          Column() {
+            ListHead({ title: `"${this.searchKeyword}" 的搜索结果` })
+            List() {
+              ForEach(this.list, (item: Song, index) => {
+                ListItem() {
+                  SongCard({ song: item, sid: index, hasAnimation: this.hasAnimation })
+                }
+              })
+              ListItem().padding({ bottom: px2vp(this.bottomRectHeight) })
+            }
+            .layoutWeight(1)
+            .width('100%')
+            .scrollBar(BarState.Auto)
+            .height('100%')
+          }
           .height('100%')
         }
-        .height('100%')
       }
+      .width('100%')
+      .layoutWeight(1)
+      MiniPlayer()
     }
+    .width('100%')
+    .height('100%')
     .padding({ top: px2vp(this.topRectHeight) })
     .backgroundColor($r('app.color.main'))
   }

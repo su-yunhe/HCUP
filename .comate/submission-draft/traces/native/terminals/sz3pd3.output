@@ -1,0 +1,32 @@
+status:   completed
+cwd: /Users/bress/Documents/code/harmonycup-work/cmu-spec102
+command description: Final full self-test run
+started_at: 2026-10-19 11:55:24
+---
+    "updateTime": 1792381686783,
+exit=0
+测试用例: 16  通过: 16  失败: 0  跳过(未验证): 0
+  ✓ test_01_no_mini_player_before_playing (hypium_tests.test_s1_mini_play_page.TestS1MiniPlayerPlayPage.test_01_no_mini_player_before_playing)
+  ✓ test_02_cover_opens_play_page_and_down_arrow_returns (hypium_tests.test_s1_mini_play_page.TestS1MiniPlayerPlayPage.test_02_cover_opens_play_page_and_down_arrow_returns)
+  ✓ test_03_pause_resume_in_play_page_syncs_mini_player (hypium_tests.test_s1_mini_play_page.TestS1MiniPlayerPlayPage.test_03_pause_resume_in_play_page_syncs_mini_player)
+  ✓ test_04_mini_player_button_toggles_without_opening_play_page (hypium_tests.test_s1_mini_play_page.TestS1MiniPlayerPlayPage.test_04_mini_player_button_toggles_without_opening_play_page)
+  ✓ test_05_system_back_closes_play_page (hypium_tests.test_s1_mini_play_page.TestS1MiniPlayerPlayPage.test_05_system_back_closes_play_page)
+  ✓ test_06_rapid_clicks_open_once_and_close_once (hypium_tests.test_s1_mini_play_page.TestS1MiniPlayerPlayPage.test_06_rapid_clicks_open_once_and_close_once)
+  ✓ test_01_play_from_sheet_shows_mini_player (hypium_tests.test_s2_search_play.TestS2SearchPlay.test_01_play_from_sheet_shows_mini_player)
+  ✓ test_03_empty_and_blank_keyword_not_searched (hypium_tests.test_s2_search_play.TestS2SearchPlay.test_03_empty_and_blank_keyword_not_searched)
+  ✓ test_04_switch_song_updates_mini_player_and_resets_time (hypium_tests.test_s2_search_play.TestS2SearchPlay.test_04_switch_song_updates_mini_player_and_resets_time)
+  ✓ test_01_return_home_keeps_song_and_opens_play_page (hypium_tests.test_s3_return_home.TestS3ReturnHome.test_01_return_home_keeps_song_and_opens_play_page)
+  ✓ test_02_back_to_home_via_back_button_then_search_again (hypium_tests.test_s3_return_home.TestS3ReturnHome.test_02_back_to_home_via_back_button_then_search_again)
+  ✓ test_03_restart_clears_mini_player (hypium_tests.test_s3_return_home.TestS3ReturnHome.test_03_restart_clears_mini_player)
+  ✓ test_01_mini_player_time_format_and_increment (hypium_tests.test_s4_seek_sync.TestS4SeekSync.test_01_mini_player_time_format_and_increment)
+  ✓ test_02_seek_then_close_syncs_mini_player (hypium_tests.test_s4_seek_sync.TestS4SeekSync.test_02_seek_then_close_syncs_mini_player)
+  ✓ test_03_seek_while_paused_keeps_paused (hypium_tests.test_s4_seek_sync.TestS4SeekSync.test_03_seek_while_paused_keeps_paused)
+  ✓ test_04_stop_hides_mini_player (hypium_tests.test_s4_seek_sync.TestS4SeekSync.test_04_stop_hides_mini_player)
+
+报告已保存: /Users/bress/Documents/code/harmonycup-work/cmu-spec102/logs/selftest.json
+
+---
+exit_code: 0
+elapsed_ms: 309825
+ended_reason: Task has been completed
+ended_at: 2026-10-19 12:00:34

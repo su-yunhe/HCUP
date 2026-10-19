@@ -1,0 +1,105 @@
+<file>
+     1→"""UiDriver 的薄封装基类：带超时重试的查找/等待/断言辅助方法。
+     2→
+     3→各题的测试用例应继承 `HarnessTestCase`，只编写该题 spec 描述的断言逻辑；
+     4→设备连接、重试查找、报告格式等通用部分由本框架负责。
+     5→"""
+     6→from __future__ import annotations
+     7→
+     8→import time
+     9→import unittest
+    10→
+    11→from hypium import BY, UiDriver  # type: ignore[import-not-found]
+    12→
+    13→from . import device as device_mod
+    14→
+    15→DEFAULT_TIMEOUT = 15
+    16→DEFAULT_POLL_INTERVAL = 0.5
+    17→
+    18→
+    19→class HarnessTestCase(unittest.TestCase):
+    20→    """所有题目的 Hypium 测试类的通用基类。
+    21→
+    22→    子类可直接使用 `self.driver`（已连接的 UiDriver）、
+    23→    `self.require_text()`、`self.require_component()`、`self.find_or_none()`。
+    24→    设备序列号通过类属性 `device_sn` 传入（由 runner 负责设置），
+    25→    若单独运行某个测试文件，也可以设置环境变量 HDC_DEVICE 或在命令行传 --device。
+    26→    """
+    27→
+    28→    device_sn: str | None = None
+    29→
+    30→    @classmethod
+    31→    def setUpClass(cls) -> None:
+    32→        sn = cls.device_sn or device_mod.select_device(None)
+    33→        cls.driver = UiDriver.connect(device_sn=sn)
+    34→        cls.driver.set_implicit_wait_time(5)
+    35→
+    36→    def find_or_none(self, by, timeout: float = DEFAULT_TIMEOUT):
+    37→        """按 `by` 条件轮询查找组件，超时返回 None（不触发失败）。"""
+    38→        deadline = time.monotonic() + timeout
+    39→        while time.monotonic() < deadline:
+    40→            component = self.driver.find_component(by)
+    41→            if component is not None:
+    42→                return component
+    43→            self.driver.wait(DEFAULT_POLL_INTERVAL)
+    44→        return None
+    45→
+    46→    def require_component(self, by, message: str, timeout: float = DEFAULT_TIMEOUT):
+    47→        """按 `by` 条件轮询查找组件，超时则用 `message` 调用 self.fail()。"""
+    48→        component = self.find_or_none(by, timeout=timeout)
+    49→        if component is None:
+    50→            self.fail(message)
+    51→        return component
+    52→
+    53→    def require_text(self, text: str, message: str, timeout: float = DEFAULT_TIMEOUT):
+    54→        """查找包含指定文本的组件，等价于题包 Hypium 示例中的用法。"""
+    55→        return self.require_component(BY.text(text), message, timeout=timeout)
+    56→
+    57→    def require_type(self, component_type: str, message: str, timeout: float = DEFAULT_TIMEOUT):
+    58→        """查找指定类型（如 'List'、'Slider'、'Toggle'）的组件。"""
+    59→        return self.require_component(BY.type(component_type), message, timeout=timeout)
+    60→
+    61→    def require_precondition(self, condition: bool, message: str) -> None:
+    62→        """前置条件不满足时记为 skip（未验证），而不是通过或失败。"""
+    63→        if not condition:
+    64→            self.skipTest(f"前置条件未满足: {message}")
+    65→
+    66→    @staticmethod
+    67→    def slider_value(slider) -> float:
+    68→        """读取 Slider 当前值（UI dump 里 Slider 的 text 即其数值，如 '18.000000'）。"""
+    69→        return float(slider.getText())
+    70→
+    71→    def sliders(self) -> list:
+    72→        """当前页面所有 Slider，按页面从上到下的顺序。"""
+    73→        return self.driver.find_all_components(BY.type("Slider")) or []
+    74→
+    75→    def set_slider(self, index: int, value: float, vmin: float, vmax: float,
+    76→                   tolerance: float | None = None, attempts: int = 3) -> float:
+    77→        """点击第 index 个 Slider 轨道上对应 value 的位置，返回最终读到的实际值。
+    78→
+    79→        实测（HarmonyOS 6.1 模拟器）：点击轨道会直接跳值，轨道铺满组件 bounds，位置与数值线性对应；
+    80→        刚进入页面后的第一次点击观察到被丢弃过一次，所以读回值与目标不符时会重试。
+    81→        实际值取决于被测 Slider 的 step：返回值不等于 value 不代表 harness 出错，
+    82→        可能正是被测应用的 Slider 取不到该值，调用方应对返回值做断言。
+    83→        """
+    84→        tol = tolerance if tolerance is not None else (vmax - vmin) * 0.02
+    85→        actual = self.slider_value(self.sliders()[index])
+    86→        for _ in range(attempts):
+    87→            b = self.sliders()[index].getBounds()
+    88→            frac = (value - vmin) / (vmax - vmin)
+    89→            x = min(max(int(b.left + frac * (b.right - b.left)), b.left + 2), b.right - 2)
+    90→            self.driver.click((x, (b.top + b.bottom) // 2))
+    91→            self.driver.wait(0.8)
+    92→            actual = self.slider_value(self.sliders()[index])
+    93→            if abs(actual - value) <= tol:
+    94→                break
+    95→        return actual
+    96→
+    97→    def text_after(self, label: str) -> str | None:
+    98→        """页面文本序列里紧跟在 label 之后的那一项（用于读取“标题 + 数值”形式的行）。"""
+    99→        texts = [t.getText() for t in (self.driver.find_all_components(BY.type("Text")) or [])]
+   100→        texts = [t for t in texts if t]
+   101→        return texts[texts.index(label) + 1] if label in texts else None
+   102→
+</file>
+<metadata>The file has 102 lines in total.</metadata>

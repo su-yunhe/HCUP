@@ -1,0 +1,77 @@
+### 场景四：进度时间同步
+
+#### A28 迷你栏显示当前播放时间，格式 m:ss，起播 "0:00"
+- 来源：S4-1 ｜ 证据：SPEC_EXPLICIT
+- 原子行为：迷你栏用单独一个 Text 显示当前进度，格式和 `changeDuration()` 一致（functions.ets:41-46：分钟不补零、秒补两位，例如 `0:00`、`2:05`、`12:30`）。
+- 可观察结果：`mini_player_time` 文本匹配 `^\d+:\d{2}$`，刚起播时是 `0:00`。
+- 入口：有迷你栏的页面 ｜ 前置数据：刚开始播放 ｜ 用户动作：无
+- UI 结果：当前时间单独占一个 Text。如果还要显示总时长，放进**另一个** Text（理由见 U4）
+- 数据结果：读 `player-time`（毫秒）｜ 网络结果：不适用
+- 返回结果：返回各页面后格式不变 ｜ 边界条件：超过 60 分钟时按 `changeDuration` 显示成 `60:00`；暂停时时间不变
+- 稳定选择器：`mini_player_time`（需在实现时补 `.id()`）
+
+#### A29 迷你栏时间随播放递增
+- 来源：S4-1"随播放推进更新"、S4-概述"实时展示" ｜ 证据：SPEC_EXPLICIT
+- 原子行为：播放中迷你栏时间至少每秒刷新一次。⚠ 依赖真实播放
+- 可观察结果：相隔 ≥ 3 秒读两次 `mini_player_time`，后一次严格更大。
+- 入口、前置：播放中 ｜ 用户动作：等待
+- UI 结果：首页、结果页都实时刷新 ｜ 数据结果：AVPlayer `timeUpdate` → `player-time`（AudioPlayUtils.ets:33-35）
+- 网络结果：不适用 ｜ 返回结果：在播放页停留后回来，时间是"当前值"，不是离开时的值
+- 边界条件：EfAVPlayer 只支持一个 timeUpdate 回调，后注册的会覆盖前一个（EfAVPlayer.ets:216-218）。新代码不要再调 `onTimeUpdate`，统一读 AppStorage
+- 稳定选择器：`mini_player_time`
+
+#### A30 播放页有可拖动的进度条
+- 来源：S4-2、S4-概述"播放页的播放进度条" ｜ 证据：SPEC_EXPLICIT
+- 原子行为：播放页有一个 `Slider`，`min = 0`，`max` 为歌曲时长，`value` 为当前进度。
+- 可观察结果：播放页上 `BY.type('Slider')` **正好 1 个**，id 是 `play_page_slider`。`slider.getText()` 是当前值（harness `slider_value` 的读法）。
+- 入口：播放页 ｜ 前置数据：有当前歌曲 ｜ 用户动作：无
+- UI 结果：宽度接近整屏（便于按比例点击）｜ 数据结果：max 取 `player-song.duration`（毫秒）；mode 0 时 song 是空的，改用 `mPlayer.duration`
+- 网络结果：不适用 ｜ 返回结果：再次进入时 value = 当前进度（A38）
+- 边界条件：duration 为 0（还没 prepared）时不能出现 NaN 或除零；单位统一用毫秒，或统一用秒，只要和显示文本自洽
+- 稳定选择器：`play_page_slider`（需在实现时补 `.id()`）
+
+#### A31 播放页显示当前时间
+- 来源：S4-3"播放页当前时间显示" ｜ 证据：SPEC_EXPLICIT
+- 原子行为：进度条旁边用单独一个 Text 显示当前时间，格式同 A28。
+- 可观察结果：`play_page_current_time` 匹配 `^\d+:\d{2}$`，播放中递增。
+- 入口、前置：播放页 ｜ 用户动作：无 ｜ UI 结果：位于进度条左侧或左下
+- 数据结果：读 `player-time`；拖动过程中显示拖动值（A34）｜ 网络结果：不适用
+- 返回结果：同 A38 ｜ 边界条件：暂停时不变
+- 稳定选择器：`play_page_current_time`
+
+#### A32 播放页显示总时长
+- 来源：S4 推导（"跳转到歌曲后半段"要有总长参照；基线弹窗已经显示 `当前 / 总长`，PlayController.ets:94）｜ 证据：REASONABLE_DERIVATION
+- 原子行为：进度条右侧显示总时长，格式同 A28。
+- 可观察结果：`play_page_duration` 的值等于 `changeDuration(song.duration)`，和面板里的 `时长 m:ss` 数值一致。
+- 入口、前置、动作：同 A31 ｜ UI 结果：单独一个 Text ｜ 数据结果：读 `player-song.duration`
+- 网络结果：不适用 ｜ 返回结果：不变 ｜ 边界条件：mode 0（本地文件）时 song.duration 是 0，用播放器 duration
+- 稳定选择器：`play_page_duration`
+
+#### A33 拖动 / 点击进度条到后半段 → 播放器跳转
+- 来源：S4-2 ｜ 证据：SPEC_EXPLICIT
+- 原子行为：Slider 的 onChange 处理 `SliderChangeMode.End` **和** `SliderChangeMode.Click`，调用 `mPlayer.seek(value)`。拖动过程中（Begin / Moving）只更新显示，不 seek。
+- 可观察结果：松手后 `play_page_slider` 的值 ≥ 0.5 × max；播放器从新位置继续播。⚠ 依赖真实播放
+- 入口：播放页 ｜ 前置数据：播放中或暂停 ｜ 用户动作：swipe / drag Slider，或点击轨道（harness `set_slider` 用的是点击）
+- UI 结果：拖动时滑块跟手，timeUpdate 不能把滑块拽回去（拖动期间屏蔽 timeUpdate 对 Slider 的回写）
+- 数据结果：seek 时**立即**写 `player-time = value`，不等下一个 timeUpdate（理由见 U7）
+- 网络结果：不发业务请求（AVPlayer 按需对流媒体做 Range 读取，属于媒体内部行为）
+- 返回结果：见 A36 ｜ 边界条件：拖到 0 → `0:00`；拖到末尾 → 进入 completed；连续两次 seek 以最后一次为准
+- 稳定选择器：`play_page_slider`
+
+#### A34 跳转后播放页当前时间更新为跳转点
+- 来源：S4-3 ｜ 证据：SPEC_EXPLICIT
+- 原子行为：松手（或点击）后，`play_page_current_time` 立即显示 `changeDuration(seek 目标)`，之后继续递增。
+- 可观察结果：跳转后 1 秒内，`play_page_current_time` 对应的秒数 ≈ Slider 值 / 1000（允许误差 ±2 秒），并且比跳转前大很多（到了后半段）。
+- 入口、前置、动作：同 A33 ｜ UI 结果：拖动中也跟着显示拖动值 ｜ 数据结果：同 A33
+- 网络结果：不适用 ｜ 返回结果：同 A36 ｜ 边界条件：暂停态跳转 → 显示跳转点并保持不动（A39）
+- 稳定选择器：`play_page_current_time`、`play_page_slider`
+
+#### A35 播放中进度条和当前时间自动前进
+- 来源：S4-概述"与播放页的播放进度条保持同步" ｜ 证据：REASONABLE_DERIVATION
+- 原子行为：不操作时，Slider value 跟着 `player-time` 前进。⚠ 依赖真实播放
+- 可观察结果：相隔 3 秒读两次 Slider 值，后一次更大。
+- 入口、前置：播放页播放中 ｜ 用户动作：等待 ｜ UI 结果、数据结果：读 `player-time`
+- 网络结果：不适用 ｜ 返回结果：不适用 ｜ 边界条件：拖动期间不跟随（A33）
+- 稳定选择器：`play_page_slider`
+
+<!-- APPEND_ITEMS -->

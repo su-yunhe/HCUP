@@ -1,0 +1,15 @@
+"""场景三：从搜索结果播放后返回首页，迷你播放器保持同一首；点击迷你播放器进入播放页显示同一首。"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.helpers import ARTIST, KEYWORD, SONG, PlayerTestCase
+
+
+class TestS3ReturnHome(PlayerTestCase):
+
+    def test_01_return_home_keeps_song_and_opens_play_page(self):
+        """返回首页：迷你播放器仍是同一首且在播；点击迷你播放器进入播放页，显示同一首；收起回到首页。"""
+        self.start_playing()
+        title, artist = self.text_of("mini_player_title"), self.text_of("mini_player_artist")
+        t_before = self.time_of("

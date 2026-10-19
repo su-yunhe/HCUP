@@ -1,0 +1,14 @@
+    def test_04_switch_song_updates_mini_player_and_resets_time(self):
+        """已在播 A 时从面板播放 B：迷你播放器换成 B，进度从 0:00 开始。"""
+        candidates = playable_songs()
+        self.require_precondition(bool(candidates), "本地 API 不可达，无法挑选可播放的第二首歌")
+        others = [n for n in candidates if n != SONG]
+        self.require_precondition(bool(others), "搜索结果中没有另一首可播放的歌")
+        other = others[0]
+        self.start_playing()
+        self.driver.wait(4)
+        self.assertGreaterEqual(self.time_of("mini_player_time"), 3)
+        self.driver.wait(1)  # 面板“播放”有 3 秒防抖
+        self.open_sheet(other)
+        self.driver.click(BY.key("song_sheet_play"))
+        self.assertTrue(self.wait_title("mini_player_title", other, timeout=15),

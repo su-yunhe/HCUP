@@ -1,0 +1,14 @@
+  // 进度条总长：优先用歌曲信息时长，本地文件没有歌曲信息时用播放器时长
+  getMaxDuration(): number {
+    if (this.song.duration > 0) { return this.song.duration }
+    return this.time >= 0 ? AudioPlayUtils.mPlayer.duration : 0
+  }
+
+  getSliderValue(): number {
+    const value = this.isDragging ? this.dragValue : this.time
+    return Math.max(0, Math.min(value, this.getMaxDuration()))
+  }
+
+  aboutToAppear(): void {
+    console.info(`[PlayPage] duration=${this.song.duration} type=${typeof this.song.duration} time=${this.time} max=${this.getMaxDuration()} player=${AudioPlayUtils.mPlayer.duration}`)
+  }

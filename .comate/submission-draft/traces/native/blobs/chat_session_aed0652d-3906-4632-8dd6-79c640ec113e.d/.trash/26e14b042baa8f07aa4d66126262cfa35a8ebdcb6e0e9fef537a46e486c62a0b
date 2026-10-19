@@ -1,0 +1,35 @@
+### 场景四：进度时间同步
+
+#### A28 迷你栏显示当前播放时间，格式 m:ss，起播 "0:00"
+- 来源：S4-1 ｜ 证据：SPEC_EXPLICIT
+- 原子行为：迷你栏用单独一个 Text 显示当前进度，格式和 `changeDuration()` 一致（functions.ets:41-46：分钟不补零、秒补两位，例如 `0:00`、`2:05`、`12:30`）。
+- 可观察结果：`mini_player_time` 文本匹配 `^\d+:\d{2}$`，刚起播时是 `0:00`。
+- 入口：有迷你栏的页面 ｜ 前置数据：刚开始播放 ｜ 用户动作：无
+- UI 结果：当前时间单独占一个 Text。如果还要显示总时长，放进**另一个** Text（理由见 U4）
+- 数据结果：读 `player-time`（毫秒）｜ 网络结果：不适用
+- 返回结果：返回各页面后格式不变 ｜ 边界条件：超过 60 分钟时按 `changeDuration` 显示成 `60:00`；暂停时时间不变
+- 稳定选择器：`mini_player_time`（需在实现时补 `.id()`）
+
+#### A29 迷你栏时间随播放递增
+- 来源：S4-1"随播放推进更新"、S4-概述"实时展示" ｜ 证据：SPEC_EXPLICIT
+- 原子行为：播放中迷你栏时间至少每秒刷新一次。⚠ 依赖真实播放
+- 可观察结果：相隔 ≥ 3 秒读两次 `mini_player_time`，后一次严格更大。
+- 入口、前置：播放中 ｜ 用户动作：等待
+- UI 结果：首页、结果页都实时刷新 ｜ 数据结果：AVPlayer `timeUpdate` → `player-time`（AudioPlayUtils.ets:33-35）
+- 网络结果：不适用 ｜ 返回结果：在播放页停留后回来，时间是"当前值"，不是离开时的值
+- 边界条件：EfAVPlayer 只支持一个 timeUpdate 回调，后注册的会覆盖前一个（EfAVPlayer.ets:216-218）。新代码不要再调 `onTimeUpdate`，统一读 AppStorage
+- 稳定选择器：`mini_player_time`
+
+#### A30 播放页有可拖动的进度条
+- 来源：S4-2、S4-概述"播放页的播放进度条" ｜ 证据：SPEC_EXPLICIT
+- 原子行为：播放页有一个 `Slider`，`min = 0`，`max` 为歌曲时长，`value` 为当前进度。
+- 可观察结果：播放页上 `BY.type('Slider')` **正好 1 个**，id 是 `play_page_slider`。`slider.getText()` 是当前值（harness `slider_value` 的读法）。
+- 入口：播放页 ｜ 前置数据：有当前歌曲 ｜ 用户动作：无
+- UI 结果：宽度接近整屏（便于按比例点击）｜ 数据结果：max 取 `player-song.duration`（毫秒）；mode 0 时 song 是空的，改用 `mPlayer.duration`
+- 网络结果：不适用 ｜ 返回结果：再次进入时 value = 当前进度（A38）
+- 边界条件：duration 为 0（还没 prepared）时不能出现 NaN 或除零；单位统一用毫秒，或统一用秒，只要和显示文本自洽
+- 稳定选择器：`play_page_slider`（需在实现时补 `.id()`）
+
+#### A31 播放页显示当前时间
+- 来源：S4-3"播放页当前时间显示" ｜ 证据：SPEC_EXPLICIT
+- 原子行为：进度

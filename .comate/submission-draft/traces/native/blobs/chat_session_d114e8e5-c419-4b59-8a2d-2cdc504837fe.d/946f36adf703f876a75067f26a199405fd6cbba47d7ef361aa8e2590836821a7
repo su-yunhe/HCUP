@@ -1,0 +1,6 @@
+class AudioPlayUtils {
+  mPlayer: EfAVPlayer = new EfAVPlayer()
+  private isSeeking: boolean = false // seek 完成前忽略 timeUpdate，避免进度回跳到旧位置
+  private seekTimer: number = -1
+
+  async init() {

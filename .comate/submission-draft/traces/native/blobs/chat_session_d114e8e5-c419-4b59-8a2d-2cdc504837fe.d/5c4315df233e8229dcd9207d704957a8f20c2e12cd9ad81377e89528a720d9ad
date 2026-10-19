@@ -1,0 +1,2 @@
+        count = api_requests(self.song.url_path, since)
+        self.assertEqual(count, 1, f"点一次播放应恰好请求 1 次 {self.song.url_path}，实际 {count}")

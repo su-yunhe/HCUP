@@ -1,0 +1,2 @@
+        others = [s.name for s in playable_songs() or [] if s.name != self.song.name]
+        self.require_precondition(bool(others), 

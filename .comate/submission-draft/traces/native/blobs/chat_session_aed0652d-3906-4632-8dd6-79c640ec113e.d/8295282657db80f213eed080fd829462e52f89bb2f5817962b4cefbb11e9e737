@@ -1,0 +1,88 @@
+<file>
+     1→import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
+     2→import { hilog } from '@kit.PerformanceAnalysisKit';
+     3→import { window } from '@kit.ArkUI';
+     4→import { BusinessError } from '@kit.BasicServicesKit';
+     5→import PreferencesUtils from '../common/utils/PreferencesUtils';
+     6→import { getLoginInfo } from '../common/functions/getLoginInfo';
+     7→import Constants from '../common/constants/Constants';
+     8→import { LogUtil } from '@pura/harmony-utils';
+     9→import { appInit } from '../common/functions/appInit';
+    10→
+    11→
+    12→export default class EntryAbility extends UIAbility {
+    13→  async onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): Promise<void> {
+    14→    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
+    15→
+    16→    // 初始化
+    17→    await PreferencesUtils.loadPreference(this.context, Constants.USER_PREF)
+    18→    await PreferencesUtils.loadPreference(this.context, Constants.SET_PERF)
+    19→    LogUtil.init(0x1010, 'Cloud Music', true)
+    20→    appInit()
+    21→
+    22→  }
+    23→
+    24→  onDestroy(): void {
+    25→    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onDestroy');
+    26→  }
+    27→
+    28→  onWindowStageCreate(windowStage: window.WindowStage): void {
+    29→    windowStage.loadContent('pages/Index', async (err, data) => {
+    30→      if (err.code) {
+    31→        return;
+    32→      }
+    33→
+    34→      getLoginInfo()
+    35→
+    36→      let windowClass: window.Window = windowStage.getMainWindowSync(); // 获取应用主窗口
+    37→      // 1. 设置窗口全屏
+    38→      let isLayoutFullScreen = true;
+    39→      windowClass.setWindowLayoutFullScreen(isLayoutFullScreen).then(() => {
+    40→        console.info('Succeeded in setting the window layout to full-screen mode.');
+    41→      }).catch((err: BusinessError) => {
+    42→        console.error('Failed to set the window layout to full-screen mode. Cause:' + JSON.stringify(err));
+    43→      });
+    44→
+    45→      // 2. 获取布局避让遮挡的区域
+    46→      let type = window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR; // 以导航条避让为例
+    47→      let avoidArea = windowClass.getWindowAvoidArea(type);
+    48→      let bottomRectHeight = avoidArea.bottomRect.height; // 获取到导航条区域的高度
+    49→      AppStorage.setOrCreate('bottomRectHeight', bottomRectHeight);
+    50→
+    51→      type = window.AvoidAreaType.TYPE_SYSTEM; // 以状态栏避让为例
+    52→      avoidArea = windowClass.getWindowAvoidArea(type);
+    53→      let topRectHeight = avoidArea.topRect.height; // 获取状态栏区域高度
+    54→      AppStorage.setOrCreate('topRectHeight', topRectHeight);
+    55→
+    56→      // 3. 注册监听函数，动态获取避让区域数据
+    57→      windowClass.on('avoidAreaChange', (data) => {
+    58→        if (data.type === window.AvoidAreaType.TYPE_SYSTEM) {
+    59→          let topRectHeight = data.area.topRect.height;
+    60→          AppStorage.setOrCreate('topRectHeight', topRectHeight);
+    61→        } else if (data.type == window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR) {
+    62→          let bottomRectHeight = data.area.bottomRect.height;
+    63→          AppStorage.setOrCreate('bottomRectHeight', bottomRectHeight);
+    64→        }
+    65→      });
+    66→
+    67→    });
+    68→  }
+    69→
+    70→  onWindowStageDestroy(): void {
+    71→    // Main window is destroyed, release UI related resources
+    72→    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageDestroy');
+    73→  }
+    74→
+    75→  onForeground(): void {
+    76→    // Ability has brought to foreground
+    77→    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onForeground');
+    78→  }
+    79→
+    80→  onBackground(): void {
+    81→    // Ability has back to background
+    82→    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onBackground');
+    83→  }
+    84→}
+    85→
+</file>
+<metadata>The file has 85 lines in total.</metadata>

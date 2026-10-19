@@ -1,0 +1,118 @@
+Command executed successfully.
+Exit code: 0
+Output:
+22:    def record_action(func):
+28:    def ai_adaptive(func):
+42:    def close_display(self):
+50:    def unlock(self):
+58:    def set_sleep_time(self, sleep_time: float):
+68:    def restore_sleep_time(self):
+79:    def add_hook(self, hook_type, hook_id, callback):
+91:    def remove_hook(self, hook_type, hook_id):
+102:    def remove_all_hooks(self, hook_type):
+113:    def connect(cls, connector="hdc", **kwargs) -> 'UiDriver':
+140:    def close(self):
+156:    def __init__(self, device, agent_mode: str = 'auto', **kwargs):
+164:    def __getattr__(self, item):
+172:    def _device(self):
+176:    def device_sn(self):
+184:    def log(self) -> ILog:
+199:    def config(self) -> DriverConfig:
+202:    def get_implicit_wait_time(self) -> float:
+205:    def get_device_type(self) -> str:
+211:    def get_os_type(self) -> str:
+214:    def set_implicit_wait_time(self, wait_time: float):
+223:    def hdc(self, cmd, timeout: float = 60) -> str:
+237:    def shell(self, cmd: str, timeout: float = 60) -> str:
+251:    def pull_file(self, device_path: str, local_path: str = None, timeout: int = 60):
+263:    def push_file(self, local_path: str, device_path: str, timeout: int = 60):
+274:    def has_file(self, file_path: str) -> bool:
+284:    def wait(self, wait_time: float):
+294:    def start_app(self, package_name: str, page_name: str = None, params: str = "", wait_time: float = 1):
+307:    def stop_app(self, package_name: str, wait_time: float = 0.5):
+318:    def has_app(self, package_name: str) -> bool:
+327:    def current_app(self) -> (str, str):
+337:    def install_app(self, package_path: str, options: str = "", **kwargs):
+351:    def uninstall_app(self, package_name: str, **kwargs):
+360:    def clear_app_data(self, package_name: str):
+370:    def wake_up_display(self):
+379:    def get_display_rotation(self) -> DisplayRotation:
+388:    def set_display_rotation(self, rotation: DisplayRotation):
+401:    def set_display_rotation_enabled(self, enabled: bool):
+413:    def drag(self, start: Union[ISelector, tuple, IUiComponent], end: Union[ISelector, tuple, IUiComponent],
+452:    def touch(self, target: Union[ISelector, IUiComponent, tuple], mode: str = "normal",
+484:    def find_image(self, image_path_pc: str, mode="sift", **kwargs) -> Rect:
+503:    def touch_image(self, image_path_pc: str, mode: str = "normal", similarity: float = 0.95, wait_time: int = 0.1,
+531:    def switch_component_status(self, component: Union[ISelector, IUiComponent], checked: bool):
+545:    def press_combination_key(self, key1: Union[KeyCode, int], key2: Union[KeyCode, int],
+561:    def press_key(self, key_code: Union[KeyCode, int], key_code2: Union[KeyCode, int] = None, mode="normal"):
+580:    def press_home(self):
+589:    def go_home(self):
+598:    def go_back(self):
+607:    def press_power(self):
+617:    def get_component_bound(self, component: Union[ISelector, IUiComponent]) -> Rect:
+631:    def press_back(self):
+641:    def slide(self, start: Union[ISelector, tuple], end: Union[ISelector, tuple],
+665:    def swipe(self, direction: str, distance: int = 60, area: Union[ISelector, IUiComponent] = None, side: str = None,
+701:    def find_component(self, target: ISelector, scroll_target: ISelector = None) -> IUiComponent:
+717:    def find_all_components(self, target: ISelector, index: int = None) -> Union[IUiComponent, List[IUiComponent]]:
+734:    def find_window(self, filter: WindowFilter) -> UiWindow:
+751:    def get_display_size(self) -> (int, int):
+761:    def get_window_size(self) -> (int, int):
+771:    def get_current_window(self) -> UiWindow:
+785:    def get_component_property(self, component: Union[ISelector, IUiComponent], property_name: str) -> Any:
+800:    def capture_screen(self, save_path: str, in_pc: bool = True,
+818:    def take_screenshot(self, mode: str = "key"):
+830:    def input_text(self, component: Union[ISelector, IUiComponent, tuple], text: str, mode: InputTextMode = None):
+854:    def clear_text(self, component: Union[ISelector, IUiComponent]):
+864:    def move_cursor(self, direction: str, times: int = 1):
+880:    def wait_for_idle(self, idle_time: float = DEFAULT_IDLE_TIME, timeout: float = DEFAULT_TIMEOUT):
+893:    def wait_for_component(self, by: ISelector, timeout: float = DEFAULT_TIMEOUT) -> IUiComponent:
+907:    def wait_for_component_disappear(self, by: ISelector, timeout: float = DEFAULT_TIMEOUT):
+919:    def to_abs_pos(self, x: float, y: float) -> (int, int):
+931:    def pinch_in(self, area: Union[ISelector, IUiComponent, Rect], scale: float = 0.4, direction: str = "diagonal",
+950:    def pinch_out(self, area: Union[ISelector, IUiComponent, Rect], scale: float = 1.6, direction: str = "diagonal",
+969:    def fling(self, direction: str, distance: int = 50, area: Union[ISelector, IUiComponent] = None,
+992:    def inject_gesture(self, gesture: Gesture, speed: int = 2000):
+1020:    def mouse_double_click(self, pos: Union[tuple, IUiComponent, ISelector],
+1034:    def mouse_long_click(self, pos: Union[tuple, IUiComponent, ISelector],
+1051:    def mouse_click(self, pos: Union[tuple, IUiComponent, ISelector],
+1070:    def mouse_scroll(self, pos: Union[tuple, IUiComponent, ISelector], scroll_direction: str, scroll_steps: int,
+1094:    def mouse_move_to(self, pos: Union[tuple, IUiComponent, ISelector]):
+1108:    def mouse_move(self, start: Union[tuple, IUiComponent, ISelector], end: Union[tuple, IUiComponent, ISelector],
+1121:    def mouse_drag(self, start: Union[tuple, IUiComponent, ISelector], end: Union[tuple, IUiComponent, ISelector],
+1134:    def swipe_to_home(self, times: int = 1):
+1147:    def swipe_to_back(self, side=UiParam.RIGHT, times: int = 1, height: float = 0.5):
+1164:    def swipe_to_recent_task(self):
+1174:    def check_current_window(self, title: str = None, bundle_name: str = None):
+1187:    def check_window(self, window: WindowFilter, title: str = None, bundle_name: str = None):
+1198:    def check_component_exist(self, component: ISelector, expect_exist: bool = True, wait_time: int = 0,
+1218:    def check_component(self, component: Union[ISelector, IUiComponent], expected_equal: bool = True, **kwargs):
+1238:    def check_window_exist(self, window: WindowFilter, expect_exist: bool = True):
+1253:    def check_image_exist(self, image_path_pc: str, expect_exist: bool = True, similarity: float = 0.95,
+1281:    def start_listen_toast(self):
+1297:    def get_latest_toast(self, timeout: float = 3) -> str:
+1315:    def check_toast(self, expect_text: str, fuzzy: str = 'equal', timeout: int = 3):
+1336:    def start_listen_ui_event(self, event_type: str):
+1351:    def get_latest_ui_event(self, timeout: float = 3) -> dict:
+1368:    def inject_multi_finger_gesture(self, gestures: List[Gesture], speed: int = 2000):
+1387:    def two_finger_swipe(self, start1: tuple, end1: tuple, start2: tuple, end2: tuple,
+1409:    def multi_finger_touch(self, points: List[tuple], duration: float = 0.1, area: Rect = None):
+1427:    def pen_click(self, target: Union[ISelector, IUiComponent, tuple], offset: tuple = None):
+1444:    def pen_double_click(self, target: Union[ISelector, IUiComponent, tuple], offset: tuple = None):
+1459:    def pen_long_click(self, target: Union[ISelector, IUiComponent, tuple], offset: tuple = None,
+1476:    def pen_swipe(self, direction: str, distance: int = 60, start_point: tuple = None,
+1507:    def pen_slide(self, start: Union[ISelector, IUiComponent, tuple],
+1535:    def pen_drag(self, start: Union[ISelector, IUiComponent, tuple], end: Union[ISelector, IUiComponent, tuple],
+1561:    def pen_inject_gesture(self, gesture: Gesture, pressure: float = None, speed: int = None):
+1581:    def touchpad_swipe(self, direction: str, fingers=3, speed=None):
+1598:    def touchpad_swipe_and_hold(self, direction: str, fingers=3, speed=None):
+1614:    def click(self, target: Union[ISelector, IUiComponent, tuple], offset=None):
+1631:    def double_click(self, target: Union[ISelector, IUiComponent, tuple], offset=None):
+1644:    def long_click(self, target: Union[ISelector, IUiComponent, tuple], press_time: float = 2, offset=None):
+1662:    def input_text_on_current_cursor(self, text: str):
+1671:    def rotate_crown(self, steps: int, speed: int = None):
+1685:    def __str__(self):
+1693:    def driver(self):
+1697:    def _device(self):
+1702:    def device_sn(self):

@@ -1,0 +1,24 @@
+import { Song, SongClass } from '../common/entities/SongsResult';
+import { changeDuration } from '../common/functions/functions';
+import { pauseMusic, resumeMusic, seekMusic } from '../common/functions/playerControl';
+import AudioPlayUtils from '../common/utils/AudioPlayUtils';
+
+/**
+ * 全屏播放页
+ */
+@Entry
+@Component
+struct PlayPage {
+  @StorageProp('topRectHeight') topRectHeight: number = 0
+  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+  @StorageProp('player-mode') playmode: number = 1
+  @StorageProp('player-fileName') fileName: string = ''
+  @StorageProp('player-song') song: Song = SongClass
+  @StorageProp('player-artists') artists: string = ''
+  @StorageProp('player-ispaused') isPaused: boolean = false
+  @StorageProp('player-picurl') picUrl: string = ''
+  @StorageProp('player-time') time: number = 0
+
+  @State isDragging: boolean = false // 拖动期间进度条不跟随播放进度
+  @State dragValue: number = 0
+  private isClosing: boolean = false // 防止连点收起多次返回

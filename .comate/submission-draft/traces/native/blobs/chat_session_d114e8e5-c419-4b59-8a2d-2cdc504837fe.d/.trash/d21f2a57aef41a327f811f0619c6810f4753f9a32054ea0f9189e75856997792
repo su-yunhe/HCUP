@@ -1,0 +1,24 @@
+import { IndexHead } from '../components/head/IndexHead'
+import { MiniPlayer } from '../components/main/MiniPlayer'
+import { PlayLists } from '../components/main/PlayLists'
+import { SearchComponent } from '../components/main/SearchComponent'
+
+@Entry
+@Component
+struct Index {
+  @StorageProp("isValidCookie") isValidCookie:boolean = false
+  @StorageProp('topRectHeight') topRectHeight: number = 0;
+
+  async build() {
+    Stack() {
+      Column({ space: 10 }) {
+        IndexHead()
+        SearchComponent()
+        if (this.isValidCookie) {
+          PlayLists()
+            .layoutWeight(1)
+        }
+        else {
+          Column({ space: 5 }) {
+            Text('登录账号\n' +
+              '

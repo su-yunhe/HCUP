@@ -1,0 +1,214 @@
+"""本题（底部播放控制栏与播放页关联）自测的公共步骤。
+
+前置：应用"设置 → 自定义API服务器地址"已指向可用的 NeteaseCloudMusicApi（本地 http://10.0.2.2:3000），
+模拟器能拉到音频流。自测歌曲从搜索结果里挑：能取到播放地址、非试听片段、时长 ≥ 2 分钟、
+歌名在结果中唯一且位于列表前几项（上游搜索结果会变，不能写死歌名）。
+"""
+from __future__ import annotations
+
+import datetime
+import json
+import re
+import shutil
+import subprocess
+import time
+import urllib.parse
+import urllib.request
+from dataclasses import dataclass
+
+from hypium import BY
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+KEYWORD = "晴天"
+API_CONTAINER = "netease_cloud_music_api"
+HOST_API = "http://127.0.0.1:3000"  # 宿主机访问本地 API（应用内填的是 10.0.2.2:3000）
+TIME_RE = re.compile(r"^\d+:\d{2}$")
+VISIBLE_ITEMS = 8  # 结果页首屏能看到的列表项数（保守值）
+
+
+@dataclass
+class SongInfo:
+    id: int
+    name: str
+    artists: str  # 与应用 getArtists() 一致：', ' 拼接
+    duration: int  # ms
+    full: bool  # 能取到完整版（非试听）播放地址
+
+    @property
+    def url_path(self) -> str:
+        """应用默认音质下取播放地址的请求路径（用于在 API 日志中计数）。"""
+        return f"/song/url/v1?id={self.id}&level=standard"
+
+
+_songs_cache: dict[str, list[SongInfo]] = {}
+
+
+def playable_songs(keyword: str = KEYWORD) -> list[SongInfo] | None:
+    """按与应用相同的搜索接口，列出首屏内能取到播放地址、歌名唯一的歌曲（保持结果顺序）；服务不可达时返回 None。"""
+    if keyword in _songs_cache:
+        return _songs_cache[keyword]
+    try:
+        q = urllib.parse.quote(keyword)
+        with urllib.request.urlopen(f"{HOST_API}/search?keywords={q}", timeout=15) as r:
+            songs = json.load(r)["result"]["songs"]
+        ids = ",".join(str(s["id"]) for s in songs)
+        with urllib.request.urlopen(f"{HOST_API}/song/url/v1?id={ids}&level=standard", timeout=15) as r:
+            urls = {d["id"]: d for d in json.load(r)["data"] if d.get("url")}
+    except (OSError, ValueError, KeyError):
+        return None
+    names = [s["name"] for s in songs]
+    result = [SongInfo(s["id"], s["name"], ", ".join(a["name"] for a in s["artists"]), s["duration"],
+                       urls[s["id"]].get("freeTrialInfo") is None)
+              for s in songs[:VISIBLE_ITEMS] if s["id"] in urls and names.count(s["name"]) == 1]
+    _songs_cache[keyword] = result
+    return result
+
+
+def main_song(keyword: str = KEYWORD) -> SongInfo | None:
+    """自测主歌曲：完整版、时长 ≥ 2 分钟（跳转到后半段需要足够长度）。"""
+    return next((s for s in playable_songs(keyword) or [] if s.full and s.duration >= 120_000), None)
+
+
+def to_sec(text: str) -> int:
+    m, s = text.split(":")
+    return int(m) * 60 + int(s)
+
+
+def api_requests(path: str, since: float) -> int | None:
+    """统计本地 API 容器自 since（unix 秒）以来收到的 path 请求数；拿不到日志时返回 None。
+
+    注意：NeteaseCloudMusicApi 对相同 URL 有 2 分钟的 apicache（响应头 cache-control: max-age=120），
+    命中缓存的请求不会打印日志。断言请求次数前要先调用 wait_api_cache_expired()。
+    """
+    lines = _api_log_lines(since)
+    return None if lines is None else sum(1 for line in lines if path in line)
+
+
+def _api_log_lines(since: float, timestamps: bool = False) -> list[str] | None:
+    if shutil.which("docker") is None:
+        return None
+    cmd = ["docker", "logs", "--since", str(int(since)), API_CONTAINER]
+    if timestamps:
+        cmd.insert(2, "--timestamps")
+    try:
+        out = subprocess.run(cmd, capture_output=True, text=True, timeout=20)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if out.returncode != 0:
+        return None
+    return (out.stdout + out.stderr).splitlines()
+
+
+def wait_api_cache_expired(path: str, window: float = 125) -> bool:
+    """等到 window 秒内服务端没有收到过 path（含 query）的请求，保证下一次同 URL 请求会真正到达并留下日志。"""
+    lines = _api_log_lines(time.time() - window, timestamps=True)
+    if lines is None:
+        return False
+    stamps = [line.split(" ", 1)[0] for line in lines if path in line]
+    if stamps:
+        # docker 时间戳形如 2026-10-19T03:24:56.369976588Z，截到微秒再解析
+        last = datetime.datetime.fromisoformat(stamps[-1][:26] + "+00:00").timestamp()
+        time.sleep(max(0.0, last + window - time.time()))
+    return True
+
+
+class PlayerTestCase(HarnessTestCase):
+    """提供：冷启动、搜索、从面板播放、读取迷你栏/播放页状态等步骤。"""
+
+    def exists(self, key: str, timeout: float = 0) -> bool:
+        """不经隐式等待判断 id 是否在当前 UI 树中；timeout>0 时轮询等待出现。"""
+        self.driver.set_implicit_wait_time(0)
+        try:
+            deadline = time.monotonic() + timeout
+            while True:
+                if self.driver.find_component(BY.key(key)) is not None:
+                    return True
+                if time.monotonic() >= deadline:
+                    return False
+                self.driver.wait(0.3)
+        finally:
+            self.driver.set_implicit_wait_time(5)
+
+    def gone(self, key: str, timeout: float = 5) -> bool:
+        """轮询等待 id 从 UI 树中消失。"""
+        deadline = time.monotonic() + timeout
+        while self.exists(key):
+            if time.monotonic() >= deadline:
+                return False
+            self.driver.wait(0.3)
+        return True
+
+    def text_of(self, key: str) -> str:
+        return self.require_component(BY.key(key), f"未找到组件 {key}", timeout=8).getText()
+
+    def time_of(self, key: str) -> int:
+        text = self.text_of(key)
+        self.assertRegex(text, TIME_RE, f"{key} 时间格式不是 m:ss: {text!r}")
+        return to_sec(text)
+
+    def center(self, key: str) -> tuple[int, int]:
+        b = self.require_component(BY.key(key), f"未找到组件 {key}").getBounds()
+        return (b.left + b.right) // 2, (b.top + b.bottom) // 2
+
+    def restart(self) -> None:
+        restart_app(self.driver, BUNDLE, wait_time=2)
+        self.require_component(BY.key("search_input"), "冷启动后未进入首页", timeout=20)
+
+    def search(self, keyword: str = KEYWORD) -> None:
+        self.driver.input_text(BY.key("search_input"), keyword)
+        self.driver.click(BY.key("search_button"))
+        self.require_text(f'"{keyword}" 的搜索结果', "未进入搜索结果页", timeout=20)
+
+    def open_sheet(self, song: str = SONG) -> None:
+        self.driver.click(self.require_text(song, f"搜索结果中没有 {song}", timeout=20))
+        self.require_component(BY.key("song_sheet_play"), "点击歌曲后未弹出操作面板", timeout=8)
+
+    def play_from_sheet(self, song: str = SONG) -> None:
+        self.open_sheet(song)
+        self.driver.click(BY.key("song_sheet_play"))
+        self.assertTrue(self.exists("mini_player", timeout=15), "点击播放后底部未出现迷你播放器")
+        self.assertTrue(self.wait_title("mini_player_title", song), "迷你播放器标题不是当前歌曲")
+
+    def wait_title(self, key: str, song: str, timeout: float = 10) -> bool:
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            c = self.driver.find_component(BY.key(key))
+            if c is not None and c.getText() == song:
+                return True
+            self.driver.wait(0.5)
+        return False
+
+    def wait_playing(self, key: str = "mini_player_time", min_sec: int = 1, timeout: float = 20) -> int:
+        """等到进度时间 ≥ min_sec 秒（确认音频真的在播），返回当时读数；超时记为前置不满足。"""
+        deadline = time.monotonic() + timeout
+        sec = 0
+        while time.monotonic() < deadline:
+            sec = self.time_of(key)
+            if sec >= min_sec:
+                return sec
+            self.driver.wait(1)
+        self.require_precondition(False, f"{timeout}s 内进度未走动（{key}={sec}s），音频流可能拉不到")
+        return sec
+
+    def start_playing(self) -> None:
+        """冷启动 → 搜索 → 面板播放 → 确认在播。"""
+        self.restart()
+        self.search()
+        self.play_from_sheet()
+        self.wait_playing()
+
+    def open_play_page(self, via: str = "mini_player_cover") -> None:
+        if via == "mini_player":
+            self.driver.click(self.center("mini_player"))
+        else:
+            self.driver.click(BY.key(via))
+        self.assertTrue(self.exists("play_page", timeout=8), f"点击 {via} 未进入播放页")
+        self.driver.wait(0.8)  # 等入场转场结束
+
+    def close_play_page(self) -> None:
+        self.driver.click(BY.key("play_page_down"))
+        self.assertTrue(self.gone("play_page", timeout=8), "点击向下箭头后播放页未关闭")
+        self.assertTrue(self.exists("mini_player", timeout=8), "收起播放页后迷你播放器未显示")

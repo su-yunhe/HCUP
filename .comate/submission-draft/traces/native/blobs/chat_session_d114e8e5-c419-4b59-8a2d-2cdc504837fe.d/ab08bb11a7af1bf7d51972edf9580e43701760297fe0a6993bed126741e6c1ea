@@ -1,0 +1,12 @@
+def api_requests(path: str, since: float) -> int | None:
+    """统计本地 API 容器自 since（unix 秒）以来收到的 path 请求数；拿不到日志时返回 None。"""
+    if shutil.which("docker") is None:
+        return None
+    try:
+        out = subprocess.run(["docker", "logs", "--since", str(int(since)), API_CONTAINER],
+                             capture_output=True, text=True, timeout=20)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if out.returncode != 0:
+        return None
+    return sum(1 for line in (out.stdout + out.stderr).splitlines() if path in line)

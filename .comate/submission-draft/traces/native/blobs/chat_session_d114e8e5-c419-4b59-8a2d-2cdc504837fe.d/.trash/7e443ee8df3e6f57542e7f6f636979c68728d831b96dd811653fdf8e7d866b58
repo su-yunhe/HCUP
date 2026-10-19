@@ -1,0 +1,8 @@
+def api_requests(path: str, since: float) -> int | None:
+    """统计本地 API 容器自 since（unix 秒）以来收到的 path 请求数；拿不到日志时返回 None。
+
+    注意：NeteaseCloudMusicApi 对相同 URL 有 2 分钟的 apicache（响应头 cache-control: max-age=120），
+    命中缓存的请求不会打印日志。断言请求次数前要先调用 wait_api_cache_expired()。
+    """
+    lines = _api_log_lines(since)
+    return None if lines is None else sum(1 for line in lines if path in line)

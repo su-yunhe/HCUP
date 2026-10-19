@@ -12,6 +12,8 @@ export struct SearchComponent {
       Row({ space: 10 }) {
         // 搜索框
         TextInput({ placeholder: '请输入搜索内容' }).layoutWeight(1).backgroundColor('#ffdbd9d9').height(40).placeholderColor(Color.Gray).fontColor(Color.Black)
+          .id('search_input')
+          .enableKeyboardOnFocus(false) // 返回首页自动获焦时不弹键盘，避免遮挡底部播放栏
           .onChange((value:string) => {
             this.searchKeyword = value
           })
@@ -20,11 +22,12 @@ export struct SearchComponent {
         Button({type:ButtonType.Circle}) {
           Image($r('app.media.ic_public_search_filled')).width(20).fillColor(Color.White).margin(10)
         }
+        .id('search_button')
         .backgroundColor('#ff3587c8')
         .width(40)
         .height(40)
         .onClick(() => {
-          if(this.searchKeyword) {
+          if(this.searchKeyword.trim()) {
             router.pushUrl({
               url: 'pages/SongsListPage',
               params: { 'searchKeyword': this.searchKeyword }
