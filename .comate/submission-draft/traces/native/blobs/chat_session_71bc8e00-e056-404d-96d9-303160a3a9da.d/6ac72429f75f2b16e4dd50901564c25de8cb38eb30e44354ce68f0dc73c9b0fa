@@ -1,0 +1,303 @@
+Found 100 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk4.py:
+  Line 8: print("BY.text('请输入搜索词') on home:", d.find_component(BY.text("请输入搜索词")) is not None)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk4.py:
+  Line 13: print("on Downloads, home '云音汇' present:", d.find_component(BY.text("云音汇")) is not None)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk4.py:
+  Line 16: print("after back, '云音汇' present:", d.find_component(BY.text("云音汇")) is not None)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk3.py:
+  Line 1: """基线走查第三轮（临时脚本，跑完删除）：纯空格搜索落点、Web 组件在 UI 树中的类型。"""
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk3.py:
+  Line 17:         if a.get("bundleName", BUNDLE) == BUNDLE and a.get("type") in ("Web", "LoadingProgress", "Text", "TextInput", "Button"):
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk3.py:
+  Line 22:     print(f"===== {tag} current_app={d.current_app()}")
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk3.py:
+  Line 44: # Web 组件：首页左上角 -> 登 录 -> 网页登录
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk3.py:
+  Line 51: print("BY.type('Web') found:", d.find_component(BY.type("Web")) is not None)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 1: """基线走查第二轮（临时脚本，跑完删除）：前台应用、Web 组件在 UI 树中的类型、纯空格搜索、返回行为。"""
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 15:     print(f"===== {tag}  current_app={d.current_app()}")
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 27: print("home current_app:", d.current_app())
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 38: # 设置页文本匹配方式
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 41: d.click(d.find_component(BY.text("设置"))); d.wait(2)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 42: print("EQUALS '云音汇 @Chenlvin':", d.find_component(BY.text("云音汇 @Chenlvin")) is not None)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 43: print("CONTAINS '云音汇 @Chenlvin':", d.find_component(BY.text("云音汇 @Chenlvin", MatchPattern.CONTAINS)) is not None)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 45: print("EQUALS '0.9.2 - 测试版':", d.find_component(BY.text("0.9.2 - 测试版")) is not None)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 46: print("count '隐私政策' EQUALS:", len(d.find_all_components(BY.text("隐私政策")) or []))
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 48: # 隐私政策：外部浏览器
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 49: d.click(d.find_component(BY.text("前往查看本软件的隐私政策"))); d.wait(3)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 50: print("after privacy click current_app:", d.current_app())
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 51: print("Web type present:", d.find_component(BY.type("Web")) is not None)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 53: print("after 1x back current_app:", d.current_app())
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 55: print("after 2x back current_app:", d.current_app())
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk2.py:
+  Line 58: # Web 组件在 UI 树中的呈现：首页左上角 -> 半模态 -> 登录 -> 网页登录
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk.py:
+  Line 22:         if a.get("text") or a.get("hint") or a.get("id") or a.get("type") in ("TextInput", "Web", "Button", "Image", "MenuItem", "Search"):
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk.py:
+  Line 81: # 场景一：更多菜单 -> 设置
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk.py:
+  Line 92: d.click(d.find_component(BY.text("设置")))
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk.py:
+  Line 97: # 场景二：点击隐私政策
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk.py:
+  Line 98: d.click(d.find_component(BY.text("前往查看本软件的隐私政策")))
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 49:    ('Text', '', '', '云音汇', '', '[549,156][759,238]', 'false')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 52:    ('TextInput', '', '', '', '请输入搜索词', '[109,294][1025,434]', 'true')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 53:    ('Button', '', '', '', '', '[1059,294][1199,434]', 'true')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 99: TOAST(empty): '请输入搜索词'
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 105:    ('Text', '', '', '云音汇', '', '[549,156][759,238]', 'false')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 108:    ('TextInput', '', '', '', '请输入搜索词', '[109,294][1025,434]', 'true')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 109:    ('Button', '', '', '', '', '[1059,294][1199,434]', 'true')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 112:    ('Toast', '', '', '请输入搜索词', '', '[450,2376][857,2502]', 'false')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 113:    ('Text', '', '', '请输入搜索词', '', '[450,2376][857,2502]', 'false')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 197:    ('Text', '', '', '云音汇', '', '[549,156][759,238]', 'false')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 200:    ('TextInput', '', '', '   ', '请输入搜索词', '[109,294][1025,434]', 'true')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 201:    ('Button', '', '', '', '', '[1059,294][1199,434]', 'true')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 280:    ('Text', '', '', '云音汇', '', '[549,156][759,238]', 'false')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 283:    ('TextInput', '', '', '', '请输入搜索词', '[109,294][1025,434]', 'true')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 284:    ('Button', '', '', '', '', '[1059,294][1199,434]', 'true')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 287:    ('MenuItem', '', '', '设置', '', '[738,301][1238,469]', 'true')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 289:    ('Text', '', '', '设置', '', '[892,329][1169,441]', 'false')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 325: [2026-10-19 13:26:42,198] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('设置'))</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 326: [2026-10-19 13:26:42,209] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('设置')) cost: 0.01s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 332:    ('Text', '', '', '设置', '', '[584,156][724,238]', 'false')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 336:    ('Text', '', '', '0.9.2 - 测试版', '', '[855,364][1203,430]', 'false')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 337:    ('Text', '', '', '隐私政策', '', '[105,500][329,566]', 'false')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 338:    ('Text', '', '', '前往查看本软件的隐私政策', '', '[531,500][1203,566]', 'true')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 341:    ('Text', '', '', '云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext', '', '[291,2705][1017,2803]', 'true')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 375: [2026-10-19 13:26:44,726] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('前往查看本软件的隐私政策'))</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 376: [2026-10-19 13:26:44,735] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('前往查看本软件的隐私政策')) cost: 0.009s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 512: [2026-10-19 13:32:22,660] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555)</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 513: [2026-10-19 13:32:22,716] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555) cost: 0.056s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 514: home current_app: ('cc.chenlvin.cloudmusic', 'EntryAbility')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 523: [2026-10-19 13:32:29,474] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555)</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 524: [2026-10-19 13:32:29,527] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555) cost: 0.052s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 525: ===== 11_space_search_page  current_app=('cc.chenlvin.cloudmusic', 'EntryAbility')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 529:     Text '' '云音汇' '' [549,156][759,238]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 532:     TextInput '' '   ' '请输入搜索词' [109,294][1025,434]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 533:     Button '' '' '' [1059,294][1199,434]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 540:     MenuItem '' '设置' '' [738,301][1238,469]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 542:     Text '' '设置' '' [892,329][1169,441]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 562: [2026-10-19 13:32:36,579] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('设置'))</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 563: [2026-10-19 13:32:36,759] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('设置')) cost: 0.18s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 566: [2026-10-19 13:32:38,881] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇 @Chenlvin'))</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 567: [2026-10-19 13:32:38,913] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇 @Chenlvin')) cost: 0.032s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 568: EQUALS '云音汇 @Chenlvin': False
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 569: [2026-10-19 13:32:38,914] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇 @Chenlvin', <MatchPattern.CONTAINS: 1>))</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 570: [2026-10-19 13:32:38,926] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇 @Chenlvin', <MatchPattern.CONTAINS: 1>)) cost: 0.011s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 571: CONTAINS '云音汇 @Chenlvin': True
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 575: [2026-10-19 13:32:38,937] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('0.9.2 - 测试版'))</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 576: [2026-10-19 13:32:38,947] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('0.9.2 - 测试版')) cost: 0.01s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 577: EQUALS '0.9.2 - 测试版': True
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 578: [2026-10-19 13:32:38,947] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.text('隐私政策'))</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 579: [2026-10-19 13:32:38,959] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.text('隐私政策')) cost: 0.012s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 580: count '隐私政策' EQUALS: 1
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 581: [2026-10-19 13:32:38,960] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('前往查看本软件的隐私政策'))</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 582: [2026-10-19 13:32:38,968] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('前往查看本软件的隐私政策')) cost: 0.008s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 585: [2026-10-19 13:32:42,090] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555)</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 586: [2026-10-19 13:32:42,150] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555) cost: 0.06s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 587: after privacy click current_app: ('com.huawei.hmos.browser', 'MainAbility')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 588: [2026-10-19 13:32:42,151] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.type('Web'))</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 589: [2026-10-19 13:32:42,193] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.type('Web')) cost: 0.042s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 590: Web type present: False
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 595: [2026-10-19 13:32:44,313] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555)</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 596: [2026-10-19 13:32:44,380] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555) cost: 0.067s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 597: after 1x back current_app: ('com.huawei.hmos.browser', 'MainAbility')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 602: [2026-10-19 13:32:46,500] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555)</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 603: [2026-10-19 13:32:46,556] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555) cost: 0.056s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 604: after 2x back current_app: ('com.huawei.hmos.browser', 'MainAbility')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 605: [2026-10-19 13:32:46,754] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555)</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 606: [2026-10-19 13:32:46,814] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555) cost: 0.06s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 607: ===== 12_after_2x_back  current_app=('com.huawei.hmos.browser', 'MainAbility')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 630: [2026-10-19 13:32:53,715] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555)</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 631: [2026-10-19 13:32:53,770] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.current_app(127.0.0.1:5555) cost: 0.055s</div>]
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:
+  Line 632: ===== 13_me_sheet  current_app=('cc.chenlvin.cloudmusic', 'EntryAbility')
+
+(Results are truncated. Consider using a more specific pattern.)

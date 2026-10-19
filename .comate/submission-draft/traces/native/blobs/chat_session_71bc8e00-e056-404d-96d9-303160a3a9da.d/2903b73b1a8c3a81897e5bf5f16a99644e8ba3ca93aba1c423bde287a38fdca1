@@ -1,0 +1,55 @@
+### 场景三边界条件穷举
+
+| 边界 | 是否适用 | 期望／理由 |
+| --- | --- | --- |
+| 空输入 | 适用 | Toast“请输入搜索内容”，不跳转（C5、C6） |
+| 纯空格 | 适用 | 推荐同空输入处理（C8，U8） |
+| 取消 | 不适用 | 无确认对话框 |
+| 关闭 | 部分适用 | 收起键盘不影响 placeholder 与按钮行为 |
+| 重复点击／快速连点 | 适用 | C9 |
+| 无数据 | 适用 | "无数据"即空关键词，同 C5 |
+| 最后一页 | 不适用 | 首页无分页 |
+| 部分操作 | 适用 | 输入后又删空再点击，按空输入处理（`onChange` 回写空串） |
+| 请求失败 | 不适用 | 空输入不发请求；非空分支见 C10 |
+| 返回后重进 | 适用 | C4 |
+| 重启应用后重进 | 适用 | C4（冷启动） |
+
+---
+
+## 4. 跨场景项
+
+### X1 构建与安装
+- 证据：`REASONABLE_DERIVATION`（"构建失败、崩溃不计通过"）
+- 期望：`assembleHap` 成功，HAP 可安装到 API 23 模拟器；`entry/src` 不新增 ArkTS 告警（基线 36 条，清单见 baseline-notes 第 2 节）。
+
+### X2 设置页其余交互不回退
+- 证据：`REASONABLE_DERIVATION`
+- 期望：点击“问题反馈”行 Toast“已复制邮箱地址到剪贴板”；点击底部文字 Toast“已复制链接到剪贴板”；设置页右上分享按钮 Toast“该功能暂未开发完成”；均与基线一致。
+
+### X3 全流程不崩溃、不切出应用
+- 证据：`REASONABLE_DERIVATION`
+- 期望：首页 → 设置 → 隐私页 → 返回设置 → 返回首页 → 空搜索，全程 `current_app` 为 `cc.chenlvin.cloudmusic`。官方可能把三个场景串在一个用例里跑，任一环节切出应用都会连带失败。
+
+### 网络状态机
+
+```mermaid
+stateDiagram-v2
+    [*] --> Settings: 首页→更多→设置（无请求）
+    Settings --> Privacy_Loading: 点击“前往查看本软件的隐私政策”\n路由 push PrivacyPage；Web 创建后发起 GET 隐私页 URL
+    Privacy_Loading --> Privacy_Loaded: 页面加载完成
+    Privacy_Loading --> Privacy_Failed: 断网/站点不可达
+    Privacy_Loading --> Settings: 返回（Web 销毁，加载中止）
+    Privacy_Loaded --> Settings: 返回
+    Privacy_Failed --> Settings: 返回
+    Settings --> Home: 返回（首页 onPageShow 触发既有 2 个请求，与断言无关）
+    Home --> Home: 空/纯空格关键词点击搜索\nToast，不发请求、不跳转
+    Home --> SongsList_Loading: 非空关键词点击搜索\npush SongsListPage，发起 /search
+```
+
+- 隐私页三种状态（Loading／Loaded／Failed）下：标题“隐私政策”与 `Web` 组件**始终存在**，返回**始终可用**；loading 只属于 Web 内部，不绑定页面标题或返回能力。
+- 唯一的触发点是 PrivacyPage 内 Web 组件创建；设置页渲染与点击本身不发请求。无"先改 UI、稍后补请求"的中间态：路由切换与 Web 创建同步发生。
+- 本题不新增任何 HTTP 接口调用，不改 `HttpRequestUtil` 与 `api/*`。
+
+---
+
+<!-- APPEND_U -->

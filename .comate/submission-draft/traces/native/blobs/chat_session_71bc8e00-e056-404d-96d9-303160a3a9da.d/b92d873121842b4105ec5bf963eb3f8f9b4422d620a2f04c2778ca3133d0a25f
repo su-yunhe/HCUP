@@ -1,0 +1,151 @@
+Found 50 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 5: 本矩阵把 Spec 的三个场景逐步归一化为可执行的 Hypium 检查点。`SPEC_EXPLICIT` 表示 Spec 明文要求，`REASONABLE_DERIVATION` 表示为使明文场景可判定而作的合理推导，`UNCONFIRMED_ASSUMPTION` 表示 Spec 没有定死、需要在实现或评测前确认的内容。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 59: | A1 | 应用冷启动 | 不需要登录、账号、歌单或测试数据 | 启动应用 | 首页有“云音汇” | 无业务数据要求 | 不适用；首页存在的基线请求不属于本场景 | 不适用 | 重启应用后仍从首页开始 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 60: | A2 | 首页 | 无 | 点击更多按钮 | 菜单出现并包含“设置” | 无 | 不适用，菜单是本地 UI | 关闭菜单后仍在首页 | 点击菜单外区域、系统返回或关闭操作后菜单消失；再次点击可重新打开 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 61: | A3 | 首页更多菜单 | 无 | 点击“设置” | 进入设置页 | 路由栈增加 `pages/Settings` | 不适用 | 设置页返回应回到首页 | 重复点击只应产生一次有效导航；快速连点结果待确认，见 U6 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 62: | A4-A7 | 设置页 | 无 | 进入后观察 | 标题、当前版本、隐私政策、问题反馈四类文字可见 | 无 | 不适用，静态内容 | 从隐私页返回后仍可见 | 无数据不影响静态行；部分操作只打开设置页也应可观察这些行 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 63: | A8-A10 | 设置页和已安装包 | 构建并安装后的包 | 进入后观察并读取包信息 | 页面逐字显示“0.9.3 - 测试版” | `versionName=0.9.3` 且两处一致 | 不适用 | 返回首页、再次进入设置或重启后仍为同一值 | 无输入、无分页、无请求失败分支 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 64: | A11-A13 | 设置页底部 | 无 | 进入后观察 | “云音汇 @Chenlvin”和 GitHub 项目名称可见 | 无 | 不适用 | 返回后重进仍可见 | 设备过小导致滚动的处理未由 Spec 定义；不要把滚动位置当作版本验收条件 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 70: | 空输入、纯空格 | `REASONABLE_DERIVATION` | 不适用：场景一没有输入框 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 73: | 重复点击“设置” | `UNCONFIRMED_ASSUMPTION` | 推荐只保留一个设置页实例，一次返回回首页；基线快速连点尚未单独验证 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 74: | 快速连点“设置” | `UNCONFIRMED_ASSUMPTION` | 推荐做导航去重或点击后立即关闭菜单；原因是隐藏测试可能用连续点击，且 Spec 只需要一个设置页 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 75: | 无数据 | `REASONABLE_DERIVATION` | 不适用：本场景没有数据列表 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 76: | 最后一页 | `REASONABLE_DERIVATION` | 不适用：本场景没有分页 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 78: | 请求失败 | `REASONABLE_DERIVATION` | 不适用：本场景的验收内容为静态 UI；首页已有无关请求失败不应阻止打开设置 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 116: - loading 状态必须由 Web 加载过程承担，不能用“先改成隐私页、再等待请求后创建标题”的实现。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 118: - Spec 没有指定隐私政策正文或固定 URL。官方技术答疑说明没有统一指定的隐私政策正文或公开链接；可沿用基线已有地址，但验收重点是应用内页面、标题、Web 和返回。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 142: | B8-B9 | PrivacyPage | 无 | 系统返回键 | 回到设置页且版本可见 | 设置页静态数据未丢失 | 返回后 Web 加载不应继续修改设置页 | 一次返回回到设置；再次返回才回首页 | Web 具有历史记录时返回优先级未在 Spec 中定义，见 U5 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 143: | B10 | PrivacyPage | 无 | 点击页面返回按钮 | 与系统返回相同 | 无 | 同 B8 | 回到设置页 | 快速连点返回不应越过设置页，见 U6 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 144: | B11 | 设置页 | 无 | 点击说明文字 | 不适用 | 无 | 只有 Web 加载 URL；不引入另一个应用层数据源 | 不适用 | 外部 Want、系统浏览器、浏览器返回链均属于失败分支 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 150: | 空输入、纯空格 | `REASONABLE_DERIVATION` | 不适用：隐私页没有输入框 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 151: | 取消/关闭 | `REASONABLE_DERIVATION` | 不适用：Spec 没有关闭按钮；可用系统返回或标题栏返回完成离开 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 152: | 重复点击说明文字 | `UNCONFIRMED_ASSUMPTION` | 推荐导航去重，一次点击只压入一个 `PrivacyPage`；理由是 Spec 只要求一页和一次返回 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 153: | 快速连点说明文字 | `UNCONFIRMED_ASSUMPTION` | 推荐在路由进行中禁用重复触发或检测当前路由；未在基线实测，不能把“只压一页”当成已验证事实 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 154: | 无数据 | `REASONABLE_DERIVATION` | 不适用：页面只有 Web 内容，不展示业务列表 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 155: | 最后一页 | `REASONABLE_DERIVATION` | 不适用：没有分页 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 174: [首页，输入内容包含非空字符]        ← 现有功能的合理推导，非本场景核心 F-point
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 179:                     ├─ 请求中：结果页 loading 与本次请求绑定
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 180:                     ├─ 成功且有数据：loading 结束，显示结果列表
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 181:                     ├─ 成功但无数据：loading 结束，显示可判定的无数据状态
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 182:                     └─ 失败：结束 loading，保留可返回的结果页并显示可判定的失败状态
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 192: | C2 | 场景三·概述 | `SPEC_EXPLICIT` | 观察搜索框视觉样式 | 搜索框显式设置占位色和输入文字颜色；颜色与背景有足够对比，输入文字可读 | `search_input`；属性检查或截图。具体色值见 U7 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 196: | C6 | 场景三·边界 | `UNCONFIRMED_ASSUMPTION` | 输入纯空格后点击搜索 | 推荐把 `trim()` 后为空的输入按空内容处理：显示“请输入搜索内容”、留在首页、不发请求 | `search_input`、`search_btn`、Toast；当前基线会进入结果页，见 U4 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 198: | C8 | 场景三·边界 | `UNCONFIRMED_ASSUMPTION` | 让非空搜索请求返回空列表或失败 | 推荐 loading 与请求绑定；空列表和失败都结束 loading、可返回且不崩溃；具体 UI 文案需确认 | `BY.type('LoadingProgress')`、结果页返回按钮；网络桩或受控服务 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 204: | C1-C2 | 冷启动或返回首页 | 不需要登录、账号或搜索服务 | 观察 TextInput | hint 为“请输入搜索内容”，占位色和输入文字颜色显式可读 | 输入状态为空 | 不触发请求 | 不适用 | 重启后 hint 仍一致；颜色不应依赖上一次输入 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 205: | C3-C5 | 首页 | 输入框确实为空 | 点击搜索按钮 | Toast 为“请输入搜索内容”，首页“云音汇”仍在 | 不生成 `searchKeyword` 结果页状态 | 不发送 `/search` 请求 | 页面不变 | 重复点击仍不应导航；Toast 是否合并由 U6 确认 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 206: | C6 | 首页 | 输入值为纯空格 | 点击搜索按钮 | 推荐与 C3 相同 | 不应把空格作为搜索关键词 | 不发 `/search` 请求 | 留在首页 | 当前基线实测为空 Toast、进入结果页，属于缺失项 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 207: | C7 | 首页 | 非空关键词；服务可选 | 点击搜索按钮 | 进入搜索结果页并显示 loading 或结果 | 参数传入 `searchKeyword` | 请求 `ROOT_URL/search?keywords=encodeURIComponent(keyword)` | 结果页返回首页，输入值是否保留沿用基线并记录 | 无服务、无数据和请求失败见 C8/U8 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 208: | C8 | 搜索结果页 | 受控空列表或失败响应 | 等待请求结束 | 推荐显示稳定的无数据/失败状态，loading 结束 | 状态与本次请求对应，不使用旧结果 | 请求结束后恢复状态 | 仍可返回首页 | 最后一页不适用：基线无分页；错误行为待确认 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 215: | 纯空格 | `UNCONFIRMED_ASSUMPTION` | 推荐按空内容处理；当前基线实测会进入结果页，是隐藏检查风险 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 218: | 快速连点搜索 | `UNCONFIRMED_ASSUMPTION` | 推荐防止重复导航/重复请求；Spec 未定义 Toast 数量和请求去重策略 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 219: | 无数据 | `UNCONFIRMED_ASSUMPTION` | 仅适用于非空关键词请求；推荐 loading 结束并显示稳定无数据状态 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 220: | 最后一页 | `REASONABLE_DERIVATION` | 不适用：基线搜索结果没有分页控制 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 222: | 请求失败 | `UNCONFIRMED_ASSUMPTION` | 仅适用于非空关键词；推荐结束 loading、允许返回、不崩溃，错误文案需确认 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 230: | U1 | `versionCode` 是否需要从基线的 102 一并升级 | 只按 Spec 修改 `versionName` 和页面显示；`versionCode` 没有明文要求，除非发布规则另有要求不要自行改 | `requirement.md:13` 只明确 `versionName 0.9.3` |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 231: | U2 | “GitHub 项目名称”具体取值 | 保留基线现有 `CloudMusic-HarmonyOSNext`，同时显示“云音汇 @Chenlvin” | Spec 没逐字给出项目名，基线 `Settings.ets:82-83` 给出可复用事实 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 232: | U3 | 隐私政策 URL 和正文 | 复用基线 `https://docs.chenlvin.cc/cloudmusic/#/privacy`；不把正文或 URL 当作主要 F-point | 官方技术答疑说明没有统一指定正文或公开链接，Spec 只验应用内标题、Web 和返回 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 233: | U4 | 纯空格是否属于“空内容” | 推荐对输入做 `trim()` 后再判断；空格显示“请输入搜索内容”、不发请求 | 用户没有输入有效内容；基线 `SearchComponent.ets:25-30` 的真值判断会错误放行空格 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 234: | U5 | Web 有历史记录时系统返回是否先回退网页历史 | 推荐返回操作优先离开 `PrivacyPage`，确保一次返回回到设置页；若产品要求网页后退需另行确认 | Spec 只说“回到‘设置’”，没有定义 Web history |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 235: | U6 | 快速连点路由和返回的去重策略 | 推荐点击后立即防重复导航，返回只消费当前 `PrivacyPage`；不要求跨页面的额外状态机 | Spec 没定义多次点击，但重复压栈会使一次返回无法回到设置 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 236: | U7 | 占位色和输入文字颜色的精确值 | 使用主题可读、与背景有对比的显式颜色，并在浅色/深色模式分别验证；不要臆造 Spec 未给出的色值 | Spec 只要求“补充清晰的占位色和输入文字颜色”，没有给色值 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/acceptance.md:
+  Line 237: | U8 | 非空搜索无数据和请求失败的具体页面文案 | 沿用现有搜索结果页数据流，补齐 loading 结束和可返回状态；具体错误/无数据文案由产品或隐藏测试约束确认 | 本题明文只验空内容提交，`SongsListPage.ets:28-37` 的失败分支当前不会恢复 loading |

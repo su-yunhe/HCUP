@@ -1,13 +1,7 @@
-import { AppUtil, PasteboardUtil, ToastUtil } from '@pura/harmony-utils';
+import { PasteboardUtil, ToastUtil } from '@pura/harmony-utils';
 import Constants from '../common/constants/Constants';
 import { SettingsHead } from '../components/head/SettingsHead'
-import { Want } from '@kit.AbilityKit';
-
-let wantInfo: Want = {
-  action: 'ohos.want.action.viewData',
-  entities: ['entity.system.browsable'],
-  uri: 'https://docs.chenlvin.cc/cloudmusic/#/privacy'
-}
+import { router } from '@kit.ArkUI';
 
 @Entry
 @Component
@@ -42,7 +36,7 @@ struct Version {
   build() {
     Row() {
       Text('当前版本').LeftText()
-      Text(Constants.VERSION + Constants.VER_DESC).RightText()
+      Text(Constants.VERSION + Constants.VER_DESC).RightText().id('settings_version')
     }.width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left:30, right: 30})
   }
 }
@@ -67,9 +61,10 @@ struct Privacy {
   build() {
     Row() {
       Text('隐私政策').LeftText()
-      Text('前往查看本软件的隐私政策').RightText()
+      Text('前往查看本软件的隐私政策').RightText().id('settings_privacy_entry')
         .onClick(() => {
-          AppUtil.getContext().startAbility(wantInfo)
+          // 应用内打开隐私政策；Single 模式避免连点叠加多个隐私页
+          router.pushUrl({ url: 'pages/PrivacyPage' }, router.RouterMode.Single)
         })
     }.width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left:30, right: 30})
   }

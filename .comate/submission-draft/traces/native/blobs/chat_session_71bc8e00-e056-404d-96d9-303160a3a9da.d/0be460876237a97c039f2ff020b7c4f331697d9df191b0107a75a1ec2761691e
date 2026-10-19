@@ -1,0 +1,1 @@
+注意：本题若沿用基线写法（`router.pushUrl`、`promptAction.showToast`、`px2vp`），新代码会产生同类 deprecated 告警。是否允许"同类告警数量增加"需你判断；若要求零新增，新页面需改用 `this.getUIContext().getRouter()` / `getPromptAction()` 等非废弃 API。

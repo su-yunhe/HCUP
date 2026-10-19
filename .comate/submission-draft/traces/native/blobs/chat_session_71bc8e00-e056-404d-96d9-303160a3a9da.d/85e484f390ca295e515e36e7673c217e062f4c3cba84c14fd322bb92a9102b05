@@ -1,0 +1,303 @@
+Found 100 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/PlayListPage.ets:
+  Line 14: @Entry
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/PlayListPage.ets:
+  Line 17:   @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/PlayListPage.ets:
+  Line 18:   @StorageProp('topRectHeight') topRectHeight: number = 0
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/PlayListPage.ets:
+  Line 23:   @State hasLoaded: boolean = false // 判定是否已加载 避免重复加载
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/PlayListPage.ets:
+  Line 24:   @State isLoading: boolean = true
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/PlayListPage.ets:
+  Line 25:   @State list: Array<Song> = new Array()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/PlayListPage.ets:
+  Line 26:   @State isLoadingMore: boolean = false
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/PlayListPage.ets:
+  Line 27:   @State hasMore: boolean = true
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/PlayListPage.ets:
+  Line 88:                 Text("点击加载更多")
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/PlayListPage.ets:
+  Line 99:                 Text('没有更多了~').fontSize(16).textAlign(TextAlign.Center).width('100%').height(50);
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 12: @Entry
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 15:   @StorageProp('bottomRectHeight') bottomRectHeight: number = 0;
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 16:   @StorageProp('topRectHeight') topRectHeight: number = 0;
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 44:       Text('当前版本').LeftText()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 45:       Text(Constants.VERSION + Constants.VER_DESC).RightText()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 54:       Text('问题反馈').LeftText()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 55:       Text('chenlvin@126.com\n' +
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 56:         '或 GitHub issue').RightText().textAlign(TextAlign.End)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 59:       PasteboardUtil.setDataText('chenlvin@126.com')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 69:       Text('隐私政策').LeftText()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 70:       Text('前往查看本软件的隐私政策').RightText()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 72:           AppUtil.getContext().startAbility(wantInfo)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 82:       Text('云音汇 @Chenlvin\n' +
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 83:         'GitHub: CloudMusic-HarmonyOSNext').BottomText()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 91: @Extend(Text) function LeftText() {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 96: @Extend(Text) function RightText() {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 100: @Extend(Text) function BottomText() {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:
+  Line 104:     PasteboardUtil.setDataText('https://github.com/Chenlvin/CloudMusic-HarmonyOSNext')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getPlayListSongs.ets:
+  Line 9:   const request = new HttpRequest(url)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getPlayListSongs.ets:
+  Line 10:   await request.Request().then((data) => {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Index.ets:
+  Line 6: @Entry
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Index.ets:
+  Line 9:   @StorageProp("isValidCookie") isValidCookie:boolean = false
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Index.ets:
+  Line 10:   @StorageProp('topRectHeight') topRectHeight: number = 0;
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Index.ets:
+  Line 14:     const request = new HttpRequest(url)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Index.ets:
+  Line 15:     request.Request().then((data) => { console.log('IndexGotResult: ' + JSON.stringify(data.result))})
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Index.ets:
+  Line 18:     const request2 = new HttpRequest(url2)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Index.ets:
+  Line 19:     request2.Request().then((data) => { console.log('IndexGotResult2: ' + JSON.stringify(data.result))})
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Index.ets:
+  Line 31:             Text('登录账号\n' +
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/login/WebLogin.ets:
+  Line 8: @Entry
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/login/WebLogin.ets:
+  Line 11:   @StorageProp('bottomRectHeight') bottomRectHeight: number = 0;
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/login/WebLogin.ets:
+  Line 12:   @State userAgent: string = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36'
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/login/WebLogin.ets:
+  Line 20:         Web({ src: '', controller: this.controller })
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/login/WebLogin.ets:
+  Line 50:         AppStorage.setOrCreate("cookie",cookie)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/login/WebLogin.ets:
+  Line 87:   @State isShowHelpSheet:boolean = false
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/login/WebLogin.ets:
+  Line 94:           Text('如何登录？').fontColor($r('app.color.reverse')).height('80%')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/LoginPage.ets:
+  Line 8: @Entry
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/LoginPage.ets:
+  Line 16:         Text('登录账号').textStyle(24).padding({ bottom: 10 })
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/LoginPage.ets:
+  Line 21:             Text('网页登录').textStyle(20)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/LoginPage.ets:
+  Line 23:             router.replaceUrl({ url:'pages/login/WebLogin' })
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/LoginPage.ets:
+  Line 30:             Text('二维码登录').textStyle(20)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Downloads.ets:
+  Line 3: @Entry
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Downloads.ets:
+  Line 6:   @StorageProp('bottomRectHeight') bottomRectHeight: number = 0;
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Downloads.ets:
+  Line 7:   @StorageProp('topRectHeight') topRectHeight: number = 0;
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Downloads.ets:
+  Line 13:         Text('敬请期待').fontSize(24).fontWeight(FontWeight.Bold)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getLoginStatus.ets:
+  Line 6: import PreferencesUtils from "../common/utils/PreferencesUtils"
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getLoginStatus.ets:
+  Line 11:     const request = new HttpRequest(url)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getLoginStatus.ets:
+  Line 14:     request.Request().then((data) => {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getLoginStatus.ets:
+  Line 16:       PreferencesUtils.putPreferenceValue(userPref, 'user', user)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getLoginStatus.ets:
+  Line 17:       PreferencesUtils.putPreferenceValue(userPref, 'cookie', cookie)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getLoginStatus.ets:
+  Line 18:       PreferencesUtils.putPreferenceValue(userPref, 'signTime', Date.now())
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getLoginStatus.ets:
+  Line 19:       AppStorage.setOrCreate('vipType', user.data.account.vipType)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getLoginStatus.ets:
+  Line 20:       AppStorage.setOrCreate('isValidCookie', true)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getLoginStatus.ets:
+  Line 21:       AppStorage.setOrCreate('User', user)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getLoginStatus.ets:
+  Line 25:       router.back()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getPubCookie.ets:
+  Line 7:   const request = new HttpRequest(url)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getPubCookie.ets:
+  Line 9:     await request.Request().then((data) => {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getPubCookie.ets:
+  Line 11:       AppStorage.setOrCreate('pubCookie', pubCookie)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getDownloadInfo.ets:
+  Line 10:   const request = new HttpRequest(url)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getSongsList.ets:
+  Line 8:   const request = new HttpRequest(url)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getSongsList.ets:
+  Line 9:   await request.Request().then((data) => {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getSongDetails.ets:
+  Line 8:   const request = new HttpRequest(url);
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getSongDetails.ets:
+  Line 10:     const data = await request.Request();
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getPlayLists.ets:
+  Line 5: import PreferencesUtils from "../common/utils/PreferencesUtils"
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getPlayLists.ets:
+  Line 9:   const user = await PreferencesUtils.getPreferenceValue<User>(Constants.USER_PREF,'user',UserClass)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getPlayLists.ets:
+  Line 11:   const request = new HttpRequest(url,usingCache)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getPlayLists.ets:
+  Line 12:   await request.Request().then((data) => {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets:
+  Line 5: import PreferencesUtils from '../common/utils/PreferencesUtils';
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets:
+  Line 16:     PreferencesUtils.loadPreference(this.context, Constants.USER_PREF)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets:
+  Line 25:     windowStage.loadContent('pages/Index', async (err, data) => {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets:
+  Line 46:       AppStorage.setOrCreate('bottomRectHeight', bottomRectHeight);
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets:
+  Line 51:       AppStorage.setOrCreate('topRectHeight', topRectHeight);
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets:
+  Line 57:           AppStorage.setOrCreate('topRectHeight', topRectHeight);
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets:
+  Line 60:           AppStorage.setOrCreate('bottomRectHeight', bottomRectHeight);
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/SongsListPage.ets:
+  Line 11: @Entry
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/SongsListPage.ets:
+  Line 14:   @StorageProp('bottomRectHeight') bottomRectHeight: number = 0;
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/SongsListPage.ets:
+  Line 15:   @StorageProp('topRectHeight') topRectHeight: number = 0;
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/SongsListPage.ets:
+  Line 17:   @State hasLoaded:boolean = false // 判定是否已加载 避免重复加载
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/SongsListPage.ets:
+  Line 18:   @State isLoading:boolean = true
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/SongsListPage.ets:
+  Line 19:   @State list:Array<Song> = new Array()
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:
+  Line 6: import PreferencesUtils from "../utils/PreferencesUtils";
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:
+  Line 11:   const cookie = await PreferencesUtils.getPreferenceValue<string>(userPref, 'cookie', '')
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:
+  Line 12:   const signTime = await PreferencesUtils.getPreferenceValue<number>(userPref, 'signTime', 0)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:
+  Line 13:   const user = await PreferencesUtils.getPreferenceValue<User>(userPref, 'user', UserClass)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:
+  Line 18:   const request = new HttpRequest(url)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:
+  Line 20:   AppStorage.setOrCreate('User', user)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:
+  Line 21:   AppStorage.setOrCreate("cookie", cookie)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:
+  Line 22:   AppStorage.setOrCreate("isValidCookie", isValidCookie)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:
+  Line 25:   request.Request().then((data) => {
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:
+  Line 28:       AppStorage.setOrCreate('vipType', vipType)
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:
+  Line 31:       AppStorage.setOrCreate('vipType', -1)
+
+(Results are truncated. Consider using a more specific pattern.)

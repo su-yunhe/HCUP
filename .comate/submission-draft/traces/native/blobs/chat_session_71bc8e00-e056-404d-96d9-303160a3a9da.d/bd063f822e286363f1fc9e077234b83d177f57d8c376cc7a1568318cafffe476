@@ -1,0 +1,1 @@
+注意：本题沿用基线写法（`router.pushUrl`、`promptAction.showToast`、`px2vp`），新代码会产生同类 deprecated 告警。决策（2026-10-19 用户确认）：**接受同类 deprecated 告警增加**，新代码与基线写法保持一致，不为消除告警改用 `getUIContext()` 系列 API；但不得引入其它类别的新告警（如 `Function may throw exceptions`、类型/语法类告警），也不得出现任何 ERROR。

@@ -1,0 +1,19 @@
+# cmu-spec114 验收矩阵
+
+来源：`spec/requirement.md`（《0.9.3 版本信息、应用内隐私页与搜索提示统一》）。基线现状见 `spec/baseline-notes.md`。
+
+证据等级：`SPEC_EXPLICIT` Spec 明文；`REASONABLE_DERIVATION` 合理推导；`UNCONFIRMED_ASSUMPTION` 待确认假设（汇总在文末）。
+
+通用约定（全部条目适用）：
+
+- 包名 `cc.chenlvin.cloudmusic`，Ability `EntryAbility`；Hypium `BY.text()` 默认是 EQUALS 匹配。
+- 前置数据：三个场景都**不需要**登录、服务端、WebDAV 或测试数据（基线实测：未登录也能走完全部入口）。
+- 文案引号内的文字逐字摘自 Spec。
+- 选择器列中"需补 `.id()`"表示基线没有，实现时补；官方脚本不知道这些 id，**补 id 时不能改变组件类型、文字和层级**。
+
+建议补的 id：
+
+| id | 组件 | 位置 |
+| --- | --- | --- |
+| `index_more_btn` | 首页右上角更多按钮 | `IndexHead.ets:22` |
+| `index_menu_settings` | 菜单项"设置" |

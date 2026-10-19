@@ -1,0 +1,220 @@
+Command executed successfully.
+Exit code: 0
+Output:
+# common
+
+所有赛题共用的资源，属于 `main` 分支，跟着 `common/scripts/sync.sh` 同步。
+
+- `scripts/`：工作区管理脚本，用法见根目录 README。
+- 其他：文档、prompt、AGENTS 模板、检查脚本、测试数据等，按需新建子目录。
+
+使用约定：
+
+- 不要把这里的文件提交进任何赛题分支，否则会混进该题的补丁。
+- 赛题里需要用到时，优先用相对路径 `../common/xxx` 引用。
+- 必须出现在赛题目录里的（比如构建时要读的配置），用软链接，并加到本地排除列表，不提交：
+
+  ```bash
+  cd jm-spec7
+  ln -s ../common/xxx xxx
+  echo "/xxx" >> "$(git rev-parse --git-common-dir)/info/exclude"
+  ```
+
+  队友环境下所有 worktree 共用一个 exclude 文件，写一次即可。
+
+## 已有内容
+
+| 目录 | 用途 |
+| --- | --- |
+| `scripts/` | 工作区管理脚本，用法见根目录 README |
+| `spec-harness/` | 通用四阶段任务书（分析 / 开发 / 单题材料 / 阶段打包）与团队级信息 `team.yaml`，见其 `README.md` |
+| `test-harness/` | Hypium 自测框架，各题 `hypium_tests/` 继承其 `HarnessTestCase`，见其 `README.md` |
+| `skills/` | HarmonyOS / ArkTS 相关 Agent Skills（3 个），安装方式、来源与许可说明见其 `README.md` |
+| `.venv/` | 自测用 Python 3.13 环境，已装 `hypium==6.1.0.210`；本机生成，已在 `common/.gitignore` 中排除，不进仓库 |
+
+各赛题 Agent 对本目录**只读**，不得修改；本目录**不得放入任何题目专属内容**（某题的分析、代码、会话信息等），
+否则会通过任务书把一道题的信息带进另一道题的 Agent。
+# test-harness：通用自测框架
+
+目标：为每道题提供**统一**的设备连接、环境校验、Hypium 封装和测试运行/报告方式；
+各题自己的测试点（断言逻辑）单独编写，放在各题工程的 `hypium_tests/` 下，不属于本框架。
+
+本框架不是官方评测器，只用于本地自测，帮助在提交前用同款工具链（Hypium + hdc）验证功能，
+降低"本地通过、正式评测翻车"的概率。官方评测环境规格（Pura 90 Pro Max 模拟器、HarmonyOS 6.1.0 / API 23、
+1308 × 2880 / 560 dpi）已内置在 `harness/env_check.py` 中。
+
+## 目录结构
+
+```
+test-harness/
+├── README.md                本文件
+├── requirements.txt         框架自身的 Python 依赖（hypium==6.1.0.210）
+└── harness/                 通用库，与赛题无关
+    ├── __init__.py
+    ├── device.py             设备发现、选择、连接（封装 hdc / UiDriver.connect）
+    ├── env_check.py          环境校验：对照官方模拟器规格，检查屏幕分辨率/dpi/系统版本
+    ├── driver.py             HarnessTestCase：带超时重试的查找/等待/断言辅助方法
+    ├── window.py             按窗口名从 hidumper 读取 [x y w h]（悬浮窗等不在 UI 树里的窗口）
+    ├── app.py                应用生命周期与导航：restart_app、click_text_path
+    ├── runner.py             测试运行器：发现并执行某道题工程下的测试文件，汇总报告
+    └── report.py             统一的结果报告：pass / fail / error / skip 分开统计，skip 不算通过
+```
+
+## 使用方式
+
+以下命令中 `COMMON` 指工作区的 `common/` 绝对路径，在题目工程目录里可用 `COMMON="$(cd ../common && pwd)"` 得到。
+需要 `hdc` 在 PATH 中（DevEco 的 `sdk/default/openharmony/toolchains`）。
+
+### 1. 环境（每台机器建一次）
+
+`$COMMON/.venv` 不进仓库，按 `requirements.txt` 在本机创建：
+
+```bash
+python3 -m venv "$COMMON/.venv"
+"$COMMON/.venv/bin/python" -m pip install -r "$COMMON/test-harness/requirements.txt" \
+    --index-url https://repo.huaweicloud.com/repository/pypi/simple
+```
+
+### 2. 校验模拟器是否匹配官方规格
+
+```bash
+PYTHONPATH="$COMMON/test-harness" "$COMMON/.venv/bin/python" -m harness.env_check
+```
+
+不一致会给出告警，但不阻塞自测。
+
+### 3. 跑某道题的测试
+
+**先安装本题刚构建的 HAP。** 同一上游项目的多道题共用同一个 bundleName，
+模拟器上装的可能是别的题的产物，直接跑会测错对象。
+
+```bash
+cd <本题工程目录>/logs        # Hypium 会在当前目录生成 reports/，在 logs/ 下运行避免污染工程根目录
+PYTHONPATH="$COMMON/test-harness" "$COMMON/.venv/bin/python" -m harness.runner \
+    --project "$(cd .. && pwd)" --device <设备序列号> --json "$PWD/selftest.json"
+```
+
+`runner` 会：
+1. 调用 `env_check` 做一次环境校验并记录在报告头部（不阻塞；`--skip-env-check` 可跳过）
+2. 自动发现 `<project>/hypium_tests/test_*.py` 下的所有测试
+3. 执行并输出统一格式的通过/失败报告（终端 + 可选 JSON 文件）
+
+### 4. 给本题写测试点
+
+1. 在本题工程下建 `hypium_tests/__init__.py` 与 `hypium_tests/test_<场景>.py`
+2. 测试类继承 `harness.driver.HarnessTestCase`，可直接使用：
+   `self.driver`、`self.find_or_none()`、`self.require_component()`、`self.require_text()`、
+   `self.require_type()`、`self.require_precondition()`（前置不满足记为 skip，不算通过）
+3. 只写本题 Spec 描述的断言逻辑，不用关心设备连接、重试、报告格式
+
+建议在被测组件上设置稳定的 `.id()`，测试里用 `BY.key("<id>")` 定位，比按文本或类型+顺序定位更稳。
+# spec-harness：通用任务书
+
+适用于 `harmonycup-work/` 下全部赛题工程。每道题按四个阶段依次执行，每个阶段把对应文件发给 Agent：
+
+| 阶段 | 任务书 | 在哪个工程目录运行 | 产出 |
+| --- | --- | --- | --- |
+| 0 分析 | `0-analyze.md` | 本题工程 | 工程内 `spec/acceptance.md`、`spec/baseline-notes.md` |
+| 1 开发 | `1-do.md` | 本题工程 | 功能代码、`hypium_tests/`、`logs/` |
+| 2 单题材料 | `2-submit.md` | 本题工程 | 工程内 `.comate/submission-draft/` |
+| 3 阶段打包 | `3-package.md` | 任意（跨题汇总） | 成果包 ZIP |
+
+阶段 0～2 每题一次，阶段 3 整个比赛阶段一次。
+
+## 发给 Agent 的方式
+
+在**本题工程目录**中打开会话，用相对路径引用任务书文件即可，例如：
+
+```
+@../common/spec-harness/1-do.md 完成这个任务
+```
+
+若 IDE 的 `@` 引用不识别相对路径，换成本机的绝对路径。任务书中所有"本工程 `spec/...`"都指会话所在工程的 `spec/` 目录。
+
+## 每个工程 spec/ 目录的约定
+
+任务书允许复制到各工程 `spec/` 使用（如 `spec/0-analyze.md`～`3-package.md`），复制件随该题分支提交，作为本题实际使用的版本记录。各工程 `spec/` 的内容：
+
+| 文件 | 由谁产生 | 说明 |
+| --- | --- | --- |
+| `0-analyze.md`～`3-package.md` | 可选，从本目录复制 | 本题实际使用的任务书副本 |
+| `requirement.md` | 准备阶段复制 | 本题 Spec 原文，复制自题包 `specs/<题目ID>.md` |
+| `metadata.json` | 准备阶段复制 | 复制自题包 `metadata/<题目ID>.json` |
+| `submit-input.yaml` | 你填写 | 题目级信息，模板见本目录 `submit-input.template.yaml` |
+| `acceptance.md` | 阶段 0 产出 | 验收矩阵 |
+| `baseline-notes.md` | 阶段 0 产出 | 基线理解结论 |
+| `history/` | 归档 | 早期实际使用过的任务书，保留作过程记录 |
+| `README.md` | 准备阶段 | 指向本目录的说明 |
+
+团队级信息只填一次：本目录 `team.yaml`。
+
+## 访问隔离
+
+阶段 0～2 的 Agent 只允许访问：本题工程、`harmonycup-work/common/`（只读）、
+以及 `2-submit.md` 中明确列出的题包 `templates/` 与本题基线构建日志。
+**不得访问题包 `specs/`、`metadata/`、`repo_bundles/`，不得访问其他赛题工程。**
+本目录内**不得放入任何题目专属内容**（某题的分析、代码、会话信息等），否则会通过任务书把一道题的信息带进另一道题。
+
+## 版本记录
+
+本目录内容变化会影响"实际使用的自定义提示"这一提交项。修改任务书后请记录版本，
+各题 `trace-index.md` 需注明实际使用的版本（见 `2-submit.md` 第 8 条要求）。
+46:===== 01_home
+88:  foreground: ['Mission ID #37  mission name #[#com.huawei.hmos.settings:phone_settings:com.huawei.hmos.settings.MainAbility]  lockedState #0  mission affinity #[]', 'main name [com.huawei.hmos.settings.MainAbility]', 'bundle name [com.huawei.hmos
+99:TOAST(empty): '请输入搜索词'
+102:===== 02_after_empty_search
+154:TOAST(spaces): ''
+157:===== 03_after_space_search
+194:===== 03b_after_back
+277:===== 04_more_menu
+325:[2026-10-19 13:26:42,198] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('设置'))</div>]
+326:[2026-10-19 13:26:42,209] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('设置')) cost: 0.01s</div>]
+329:===== 05_settings
+374:  foreground: ['Mission ID #37  mission name #[#com.huawei.hmos.settings:phone_settings:com.huawei.hmos.settings.MainAbility]  lockedState #0  mission affinity #[]', 'main name [com.huawei.hmos.settings.MainAbility]', 'bundle name [com.huawei.hmo
+375:[2026-10-19 13:26:44,726] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('前往查看本软件的隐私政策'))</div>]
+376:[2026-10-19 13:26:44,735] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('前往查看本软件的隐私政策')) cost: 0.009s</div>]
+379:===== 06_after_privacy_click
+427:  foreground: ['Mission ID #37  mission name #[#com.huawei.hmos.settings:phone_settings:com.huawei.hmos.settings.MainAbility]  lockedState #0  mission affinity #[]', 'main name [com.huawei.hmos.settings.MainAbility]', 'bundle name [com.huawei.hmo
+432:===== 07_after_back
+480:  foreground: ['Mission ID #37  mission name #[#com.huawei.hmos.settings:phone_settings:com.huawei.hmos.settings.MainAbility]  lockedState #0  mission affinity #[]', 'main name [com.huawei.hmos.settings.MainAbility]', 'bundle name [com.huawei.hmo
+525:===== 11_space_search_page  current_app=('cc.chenlvin.cloudmusic', 'EntryAbility')
+562:[2026-10-19 13:32:36,579] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('设置'))</div>]
+563:[2026-10-19 13:32:36,759] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('设置')) cost: 0.18s</div>]
+566:[2026-10-19 13:32:38,881] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇 @Chenlvin'))</div>]
+567:[2026-10-19 13:32:38,913] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇 @Chenlvin')) cost: 0.032s</div>]
+569:[2026-10-19 13:32:38,914] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇 @Chenlvin', <MatchPattern.CONTAINS: 1>))</div>]
+570:[2026-10-19 13:32:38,926] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇 @Chenlvin', <MatchPattern.CONTAINS: 1>)) cost: 0.011s</div>]
+572:[2026-10-19 13:32:38,926] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('CloudMusic-HarmonyOSNext', <MatchPattern.CONTAINS: 1>))</div>]
+573:[2026-10-19 13:32:38,936] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('CloudMusic-HarmonyOSNext', <MatchPattern.CONTAINS: 1>)) cost: 0.01s</div>]
+575:[2026-10-19 13:32:38,937] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('0.9.2 - 测试版'))</div>]
+576:[2026-10-19 13:32:38,947] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('0.9.2 - 测试版')) cost: 0.01s</div>]
+578:[2026-10-19 13:32:38,947] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.text('隐私政策'))</div>]
+579:[2026-10-19 13:32:38,959] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.text('隐私政策')) cost: 0.012s</div>]
+581:[2026-10-19 13:32:38,960] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('前往查看本软件的隐私政策'))</div>]
+582:[2026-10-19 13:32:38,968] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('前往查看本软件的隐私政策')) cost: 0.008s</div>]
+590:Web type present: False
+607:===== 12_after_2x_back  current_app=('com.huawei.hmos.browser', 'MainAbility')
+632:===== 13_me_sheet  current_app=('cc.chenlvin.cloudmusic', 'EntryAbility')
+698:===== 21_space_search_page current_app=('cc.chenlvin.cloudmusic', 'EntryAbility')
+706:===== 22_back_from_space_search current_app=('cc.chenlvin.cloudmusic', 'EntryAbility')
+723:[2026-10-19 13:33:50,099] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('登 录'))</div>]
+724:[2026-10-19 13:33:50,116] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('登 录')) cost: 0.017s</div>]
+727:[2026-10-19 13:33:52,249] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('网页登录'))</div>]
+728:[2026-10-19 13:33:52,259] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('网页登录')) cost: 0.01s</div>]
+733:===== 23_weblogin current_app=('cc.chenlvin.cloudmusic', 'EntryAbility')
+749:===== 24_after_back_from_weblogin current_app=('cc.chenlvin.cloudmusic', 'EntryAbility')
+789:[2026-10-19 13:40:14,335] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('请输入搜索词'))</div>]
+790:[2026-10-19 13:40:14,387] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('请输入搜索词')) cost: 0.051s</div>]
+791:BY.text('请输入搜索词') on home: False
+796:[2026-10-19 13:40:15,565] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('下载管理'))</div>]
+797:[2026-10-19 13:40:15,751] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('下载管理')) cost: 0.186s</div>]
+800:[2026-10-19 13:40:17,887] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('下载管理'))</div>]
+801:[2026-10-19 13:40:17,898] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('下载管理')) cost: 0.011s</div>]
+802:on Downloads, '下载管理' present: True
+803:[2026-10-19 13:40:17,899] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇'))</div>]
+804:[2026-10-19 13:40:17,932] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇')) cost: 0.033s</div>]
+805:on Downloads, home '云音汇' present: False
+808:on Downloads, home TextInput present: False
+813:[2026-10-19 13:40:19,586] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇'))</div>]
+814:[2026-10-19 13:40:19,598] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('云音汇')) cost: 0.012s</div>]
+815:after back, '云音汇' present: True

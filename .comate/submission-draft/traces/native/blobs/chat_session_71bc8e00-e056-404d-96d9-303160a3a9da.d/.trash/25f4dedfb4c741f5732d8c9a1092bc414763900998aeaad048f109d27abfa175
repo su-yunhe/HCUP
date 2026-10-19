@@ -1,0 +1,11 @@
+## 3.1 基线实测走查结果
+
+【实测】设备 `127.0.0.1:5555`（emulator，API 23，1308×2880）。走查脚本、日志和截图在 `logs/baseline-walk/`。
+
+| 操作 | 基线实际表现 | 与 Spec 的差异 |
+| --- | --- | --- |
+| 冷启动 | `current_app()` = `('cc.chenlvin.cloudmusic','EntryAbility')`，首页显示"云音汇"、搜索框、"登录账号\n以显示你的歌单" | — |
+| 搜索框占位 | `TextInput` 的 hint = `请输入搜索词` | 需要改成 `请输入搜索内容` |
+| 空输入点搜索 | Toast `请输入搜索词`（Toast 节点在 UI 树中可见，type=`Toast`），停留在首页 | 文案要改 |
+| 纯空格 `"   "` 点搜索 | 没有 Toast，跳到 `SongsListPage`，一直转 `LoadingProgress`；返回后首页输入框里还是 `"   "` | Spec 没写，见 acceptance `A3-B2` |
+| 更多 → 设置 | 进入设置页，文本：`设置`／`当前版本`／`0.9.2 - 测试版`／`隐私

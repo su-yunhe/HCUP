@@ -1,0 +1,2 @@
+- 来源：S2 概述、步骤 1｜证据：`SPEC_EXPLICIT`；导航方式为 `UNCONFIRMED_ASSUMPTION`（U5）｜决策：已确认，用 `router.pushUrl` + `RouterMode.Single`（U6）
+- 原子行为：点击“前往查看本软件的隐私政策”后，调用 `router.pushUrl({ url: 'pages/PrivacyPage' }, router.RouterMode.Single)` 进入新增页面 `PrivacyPage`（新增 `pages/PrivacyPage.ets` 并在 `main_pages.json` 注册）；不用 Navigation/NavDestination，也不用半模态。

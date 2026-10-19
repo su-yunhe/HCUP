@@ -1,0 +1,29 @@
+## 3.1 基线实测走查结果
+
+【实测】设备 `127.0.0.1:5555`（emulator，API 23，1308×2880）。走查脚本、日志和截图在 `logs/baseline-walk/`。
+
+| 操作 | 基线实际表现 | 与 Spec 的差异 |
+| --- | --- | --- |
+| 冷启动 | `current_app()` = `('cc.chenlvin.cloudmusic','EntryAbility')`，首页显示"云音汇"、搜索框、"登录账号\n以显示你的歌单" | — |
+| 搜索框占位 | `TextInput` 的 hint = `请输入搜索词` | 需要改成 `请输入搜索内容` |
+| 空输入点搜索 | Toast `请输入搜索词`（Toast 节点在 UI 树中可见，type=`Toast`），停留在首页 | 文案要改 |
+| 纯空格 `"   "` 点搜索 | 没有 Toast，跳到 `SongsListPage`，一直转 `LoadingProgress`；返回后首页输入框里还是 `"   "` | Spec 没写，见 acceptance `A3-B2` |
+| 更多 → 设置 | 进入设置页，文本：`设置`／`当前版本`／`0.9.2 - 测试版`／`隐私政策`／`前往查看本软件的隐私政策`／`问题反馈`／`chenlvin@126.com\n或 GitHub issue`／`云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext` | 版本要改成 0.9.3 |
+| 点"前往查看本软件的隐私政策" | 前台切到 `('com.huawei.hmos.browser','MainAbility')`，页面空白（外网域名解析不了）；UI 树中没有 `Web` | Spec 要求留在本应用 |
+| 在浏览器里按 2 次返回 | 仍停在浏览器，回不到"设置" | Spec 要求能回到设置页 |
+| 首页 → 登 录 → 网页登录（对照现有 Web 页） | `WebLogin` 页 UI 树中有 type=`Web` 节点（bounds `[0,455][1308,2135]`），`BY.type('Web')` 能命中；系统返回键能正常回到首页（Web 没有拦截返回） | 说明 Web 组件在无网络时也能被 Hypium 观察到 |
+
+Hypium 匹配行为【实测】：`BY.text()` 默认 `MatchPattern.EQUALS`（`hypium/uidriver/by.py:133`）。
+
+- `BY.text("云音汇 @Chenlvin")` 用 EQUALS **找不到**（底部是一个带 `\n` 的 Text），用 CONTAINS 能找到。
+- `BY.text("0.9.2 - 测试版")` 用 EQUALS 能找到（版本值是单个 Text）。
+- 设置页里 EQUALS `隐私政策` 只命中 1 个节点（左侧标签）。
+
+## 4. 相关现状
+
+| 方面 | 现状 |
+| --- | --- |
+| 页面组件 | 每个页面一个 `@Entry @Component`，在 `resources/base/profile/main_pages.json:2-10` 注册（共 7 个页面，没有 `PrivacyPage`） |
+| 路由 | 全部用 `@ohos.router`：`router.pushUrl`（`IndexHead.ets:37`）、`router.replaceUrl`（`LoginPage.ets:23`）、`router.back()`（`BackButton.ets:13`）；没有用 Navigation |
+| 标题栏 | 通用的 `CommonHead({ title })`（`components/head/CommonHead.ets:4-19`，含 `BackButton` + 标题 Text，padding 避让状态栏，高 90）；设置页用专门的 `SettingsHead`（含分享按钮） |
+| 状态 | 组件内 `@State`（如 `SearchComponent.

@@ -1,0 +1,96 @@
+status:   completed
+cwd: /Users/bress/Documents/code/harmonycup-work/cmu-spec114
+command description: 用 Hypium 实际走查基线
+started_at: 2026-10-19 15:16:01
+---
+[2026-10-19 15:16:01,984] [8417992448] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-19 15:16:01,987] [8417992448] [EnvPool] [INFO] [Report path: /Users/bress/Documents/code/harmonycup-work/cmu-spec114/reports/2026-10-19-15-16-01]
+[2026-10-19 15:16:01,988] [8417992448] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-19 15:16:01,988] [8417992448] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-19 15:16:01,988] [8417992448] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-19 15:16:02,007] [8417992448] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-19 15:16:02,008] [8417992448] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 15:16:02,008] [8417992448] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 15:16:02,024] [6112800768] [Hdc] [ERROR] [Can not find hdc or hdc_std environment variable, please set first!] [ErrorNo=00000]
+[2026-10-19 15:16:02,024] [6112800768] [Hdc] [ERROR] [Stop hdc_std monitor!] [ErrorNo=00000]
+[2026-10-19 15:16:03,120] [6112800768] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost
+]
+[2026-10-19 15:16:06,017] [8417992448] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5555'], label:phone]]
+[2026-10-19 15:16:06,017] [8417992448] [EnvPool] [INFO] [Device 127.0.0.1:5555: extend value: {}]
+[2026-10-19 15:16:06,224] [8417992448] [Device] [INFO] [6.0.2.3]
+[2026-10-19 15:16:06,307] [8417992448] [Device] [INFO] [Init ui proxy by unix socket.]
+[2026-10-19 15:16:06,307] [8417992448] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-19 15:16:06,348] [8417992448] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: None]
+[2026-10-19 15:16:06,348] [8417992448] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.2.2 agent version]
+[2026-10-19 15:16:06,381] [8417992448] [Device] [INFO] [UITEST_AGENT_LIBRARY@v0.0.0#1.2.2
+]
+[2026-10-19 15:16:06,381] [8417992448] [Device] [INFO] [local agent version 1.2.2, device agent version 1.2.2]
+[2026-10-19 15:16:06,409] [8417992448] [Device] [INFO] [Device agent is up to date!]
+[2026-10-19 15:16:08,567] [8417992448] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]
+[2026-10-19 15:16:08,593] [8417992448] [DeviceUIProxy] [INFO] [tcp forward port: 9911 for 127.0.0.1:5555]
+[2026-10-19 15:16:08,612] [8417992448] [Device] [ERROR] [[OSBase] init error] [ErrorNo=00000]
+[2026-10-19 15:16:08,612] [8417992448] [DeviceUIProxy] [ERROR] [proxy init error: [Errno 61] Connection refused.] [ErrorNo=00000]
+[2026-10-19 15:16:08,612] [8417992448] [DeviceUIProxy] [ERROR] [DeviceTest-10012 ui_proxy:[Errno 61] Connection refused] [ErrorNo=00000]
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/ohos/proxy/ui_proxy.py", line 69, in __init_proxy__
+      self . rpc_proxy = OpenHarmony ( port = i11IiIIiii1II , addr = self . device . host , timeout = self . device . rpc_timeout ,
+                         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    device = self . device )
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/ohos/proxy/proxy_base.py", line 109, in __init__
+    super ( OpenHarmony , self ) . __init__ ( port , addr , timeout , device )
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/devicetest/controllers/device.py", line 51, in __init__
+    self . init ( port , addr , timeout , device )
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/devicetest/controllers/device.py", line 71, in init
+    self . sock . connect ( ( self . host , self . port ) )
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/cmu114_walk.py", line 9, in <module>
+    d = UiDriver.connect(device_sn=SN)
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/hypium/action/device/uidriver.py", line 138, in connect
+    return cls(device, **kwargs)
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/hypium/action/device/uidriver.py", line 160, in __init__
+    self._driver_impl = device_connector.create_driver_impl(device, agent_mode, **kwargs)
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/hypium/uidriver/device_connector.py", line 110, in create_driver_impl
+    driver_impl = OHOSDriver(device, agent_mode, **kwargs)
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/hypium/uidriver/ohos/uidriver.py", line 381, in __init__
+    driver = ArkUiDriver.create(device)
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/hypium/uidriver/frontend_api.py", line 504, in O00oO00oO0O
+    return do_hypium_rpc ( iiI1i11ii , oO0 , * args )
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/hypium/uidriver/frontend_api.py", line 487, in do_hypium_rpc
+    return call_backend_api_with_retry ( Ooo , OooO0Oo , o0oO00 , i1iII11iii , api_level = o0Oo0o000O0oO , ** kwargs )
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/hypium/uidriver/frontend_api.py", line 393, in call_backend_api_with_retry
+    return FrontEndClass . call_backend_api ( api_name , caller , list ( params ) , ** kwargs )
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/hypium/uidriver/frontend_api.py", line 246, in call_backend_api
+    oo0O0 = FrontEndClass . _do_call ( IIIi1111iiIi1 , OO0o0O0o0 )
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/hypium/uidriver/frontend_api.py", line 334, in _do_call
+    IIII1iII11ii = proxy_v2 . rpc ( device , msg_json )
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/hypium/uidriver/proxy_v2.py", line 41, in rpc
+    retry_setup_bin_proxy(device)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/hypium/uidriver/proxy_v2.py", line 19, in retry_setup_bin_proxy
+    if device.abc_proxy is None:
+       ^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/ohos/environment/device.py", line 680, in abc_proxy
+    return self.ui_proxy
+           ^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/ohos/environment/device.py", line 690, in ui_proxy
+    self._ui_proxy.__init_proxy__()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/ohos/proxy/ui_proxy.py", line 78, in __init_proxy__
+    raise OHOSProxyInitFailed ( ErrorMessage . Device . Code_0303029 . format ( oO0 ) )
+ohos.exception.OHOSProxyInitFailed: [Errno 61] Connection refused
+
+---
+exit_code: 1
+elapsed_ms: 7614
+ended_reason: Task has been completed
+ended_at: 2026-10-19 15:16:08

@@ -1,0 +1,71 @@
+## 3.1 基线实测走查结果
+
+【实测】设备 `127.0.0.1:5555`（emulator，API 23，1308×2880）。走查脚本、日志和截图在 `logs/baseline-walk/`。
+
+| 操作 | 基线实际表现 | 与 Spec 的差异 |
+| --- | --- | --- |
+| 冷启动 | `current_app()` = `('cc.chenlvin.cloudmusic','EntryAbility')`，首页显示"云音汇"、搜索框、"登录账号\n以显示你的歌单" | — |
+| 搜索框占位 | `TextInput` 的 hint = `请输入搜索词` | 需要改成 `请输入搜索内容` |
+| 空输入点搜索 | Toast `请输入搜索词`（Toast 节点在 UI 树中可见，type=`Toast`），停留在首页 | 文案要改 |
+| 纯空格 `"   "` 点搜索 | 没有 Toast，跳到 `SongsListPage`，一直转 `LoadingProgress`；返回后首页输入框里还是 `"   "` | Spec 没写，见 acceptance `A3-B2` |
+| 更多 → 设置 | 进入设置页，文本：`设置`／`当前版本`／`0.9.2 - 测试版`／`隐私政策`／`前往查看本软件的隐私政策`／`问题反馈`／`chenlvin@126.com\n或 GitHub issue`／`云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext` | 版本要改成 0.9.3 |
+| 点"前往查看本软件的隐私政策" | 前台切到 `('com.huawei.hmos.browser','MainAbility')`，页面空白（外网域名解析不了）；UI 树中没有 `Web` | Spec 要求留在本应用 |
+| 在浏览器里按 2 次返回 | 仍停在浏览器，回不到"设置" | Spec 要求能回到设置页 |
+| 首页 → 登 录 → 网页登录（对照现有 Web 页） | `WebLogin` 页 UI 树中有 type=`Web` 节点（bounds `[0,455][1308,2135]`），`BY.type('Web')` 能命中；系统返回键能正常回到首页（Web 没有拦截返回） | 说明 Web 组件在无网络时也能被 Hypium 观察到 |
+
+Hypium 匹配行为【实测】：`BY.text()` 默认 `MatchPattern.EQUALS`（`hypium/uidriver/by.py:133`）。
+
+- `BY.text("云音汇 @Chenlvin")` 用 EQUALS **找不到**（底部是一个带 `\n` 的 Text），用 CONTAINS 能找到。
+- `BY.text("0.9.2 - 测试版")` 用 EQUALS 能找到（版本值是单个 Text）。
+- 设置页里 EQUALS `隐私政策` 只命中 1 个节点（左侧标签）。
+
+## 4. 相关现状
+
+| 方面 | 现状 |
+| --- | --- |
+| 页面组件 | 每个页面一个 `@Entry @Component`，在 `resources/base/profile/main_pages.json:2-10` 注册（共 7 个页面，没有 `PrivacyPage`） |
+| 路由 | 全部用 `@ohos.router`：`router.pushUrl`（`IndexHead.ets:37`）、`router.replaceUrl`（`LoginPage.ets:23`）、`router.back()`（`BackButton.ets:13`）；没有用 Navigation |
+| 标题栏 | 通用的 `CommonHead({ title })`（`components/head/CommonHead.ets:4-19`，含 `BackButton` + 标题 Text，padding 避让状态栏，高 90）；设置页用专门的 `SettingsHead`（含分享按钮） |
+| 状态 | 组件内 `@State`（如 `SearchComponent.ets:5` `searchKeyword`）；全局 `AppStorage` / `@StorageProp`（`topRectHeight`、`bottomRectHeight`、`isValidCookie`、`cookie`） |
+| 版本数据 | 两处独立维护：`AppScope/app.json5:5-6`（`versionCode: 102`，`versionName: "0.9.2"`）和 `Constants.ets:2-3`（`VERSION='0.9.2'`，`VER_DESC=' - 测试版'`）。设置页只读 Constants，不读清单 |
+| Toast | 两种写法并存：`promptAction.showToast({ message })`（`SearchComponent.ets:30`、`SettingsHead.ets:13`）和 `ToastUtil.showToast()`（`@pura/harmony-utils`，`Settings.ets:60,105`） |
+| 网络 | `HttpRequestUtil.ets` 封装 http；服务地址写死在 `Constants.ets:7` `ROOT_URL='http://111.229.38.178:3000'`；`Index.ets:12-20` `onPageShow` 每次都对写死的地址发 2 个请求（只打日志）。本题三个场景都不依赖这些请求 |
+| 本地存储 | `PreferencesUtils`（`EntryAbility.ets:16` 初始化 `UserPreference`），存 cookie 等；本题不涉及 |
+| 资源 | 颜色 `app.color.main`（浅色 `#FFFFFF`／深色 `#121212`）、`app.color.reverse`（浅色 `#121212`／深色 `#FFFFFF`），在 `resources/base|dark/element/color.json`。搜索框背景写死 `'#ffdbd9d9'`（`SearchComponent.ets:12`），没有设 `placeholderColor` / `fontColor` |
+| 权限 | `module.json5:37-41` 已声明 `ohos.permission.INTERNET`，Web 加载不需要另加权限 |
+
+## 5. 可复用的既有实现
+
+- 应用内 Web 页：`pages/login/WebLogin.ets` 是现成模板。`import { webview } from '@kit.ArkWeb'`（`:2`），`controller = new webview.WebviewController()`（`:13`），`CommonHead({ title: '登录' })`（`:18`），`Web({ src, controller })`（`:20-30`），页面背景 `$r('app.color.main')`（`:41`）。`PrivacyPage` 照着写：`CommonHead({ title: '隐私政策' })` + `Web`。
+- 新页面跳转：沿用 `router.pushUrl({ url: 'pages/PrivacyPage' })`，与 `IndexHead.ets:37` 一致，返回栈天然是 设置 → 隐私政策，`router.back()`／系统返回键都能回到设置页。
+- 隐私政策地址：沿用 `Settings.ets:9` 已有的 `https://docs.chenlvin.cc/cloudmusic/#/privacy`（【实测】该域名在宿主机和模拟器都解析不了，内容不会加载，Spec 场景二已覆盖这种情况）。
+- 版本号：改 `Constants.VERSION` 一处即可让设置页生效；清单 `app.json5` 单独改。
+
+## 6. 缺失项
+
+1. `pages/PrivacyPage.ets` 不存在，`main_pages.json` 里也没注册（【代码】）。
+2. 隐私政策入口是外部 Want，不是应用内导航（`Settings.ets:6-10,72`）。
+3. 版本仍是 0.9.2（`app.json5:6`、`Constants.ets:2`）。
+4. 搜索框文案 `请输入搜索词`（`SearchComponent.ets:12,30`），没有占位色和输入文字颜色设置。
+5. 全工程没有任何 `.id()` / `.key()`（【代码】grep `entry/src/main/ets` 结果为 0）。
+
+## 7. 前置环境需求
+
+- 登录账号：不需要。三个场景都不依赖登录状态；未登录时首页显示"登录账号\n以显示你的歌单"，不影响入口。
+- 服务端：不需要。官方答疑里"云音乐在线服务配置"说的是 API 设置页（主机/端口），本基线**没有**这样的配置页，服务地址写死在 `Constants.ets:7`；本题不涉及，按答疑"没有现成配置页面的工程，无需为此新增"处理。
+- 外网：模拟器能 ping 通 `10.0.2.2`；`docs.chenlvin.cc` 解析不了；系统浏览器打开后空白。Web 内容本地**无法**加载，只能验证"页面标题 + Web 组件存在 + 返回"。
+- 测试数据、WebDAV：不需要。
+- 本地能满足全部前置条件。
+
+## 8. 测试可观测性风险
+
+1. 没有任何稳定 id。更多按钮、搜索按钮都是没有文字的 `Button`，只能按类型+位置定位。实现时补 `.id()`（建议名见 acceptance 的选择器表）。官方脚本不知道我们的 id，所以**不能为了加 id 改变现有组件类型和层级**。
+2. 同名文本：
+   - "隐私政策"：设置页左侧标签和 PrivacyPage 标题同名。router 跳转后，设置页的节点是否还留在 UI 树里【未验证】；如果还在，`BY.text('隐私政策')` 在 PrivacyPage 上可能命中设置页的标签，造成假阳性或歧义。
+   - "设置"：首页菜单里 `MenuItem` 和内部 `Text` 都是"设置"；设置页标题也是"设置"。
+   - "云音汇"：首页标题和设置页底部 `云音汇 @Chenlvin` 前缀重叠（CONTAINS 匹配会同时命中）。
+   - "请输入搜索内容"：改完后输入框 hint 和 Toast 文本相同。`BY.text()` 匹配的是 text 不是 hint（实测 hint 单独是一个属性），按理不冲突，但 Toast 消失前是否被其他断言误命中【未验证】。
+3. 底部文字是一个带 `\n` 的 Text，EQUALS `云音汇 @Chenlvin` 匹配不到（【实测】），是否拆分见 acceptance 的 `U2`。
+4. 颜色（占位色、输入文字色）不在 `uitest dumpLayout` 输出的属性里（【实测】dump 中只看到 text/hint/bounds 等），Hypium 基本只能靠截图判断，可观测性低。
+5. Toast：`start_listen_toast()` + `get_latest_toast()` 能稳定拿到文本（【实测】），UI 树里也有 `Toast` 节点。
+6. 外部浏览器：基线点隐私政策会让前台变成浏览器，后续用例如果没有重启应用会连锁失败；改完后不再有这个问题。

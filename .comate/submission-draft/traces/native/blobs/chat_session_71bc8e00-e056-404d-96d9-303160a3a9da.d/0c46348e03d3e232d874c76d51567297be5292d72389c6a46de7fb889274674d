@@ -1,0 +1,87 @@
+<agent_id>Explore_12315834</agent_id>
+<return>
+# 只读基线结论
+
+本轮只读取了：
+
+- `/Users/bress/Documents/code/harmonycup-work/cmu-spec114`
+- `/Users/bress/Documents/code/harmonycup-work/common`
+
+未访问上游仓库、`SWE-OpenHarmony` 或 `harmonycup-work` 下其他赛题目录；未执行构建、安装、设备操作或任何写入操作。当前工作区仍有既有改动：[`build-profile.json5`](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/build-profile.json5) 已修改，`logs/` 与 `spec/` 当前显示为未跟踪目录。
+
+## 1. Spec 明文
+
+- **场景一**要求：首页右上角更多菜单进入“设置”，显示“当前版本”“隐私政策”“问题反馈”，版本值为逐字 `0.9.3 - 测试版`，并显示 `云音汇 @Chenlvin` 与 GitHub 项目信息。[requirement.md:3-14](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/requirement.md:3)
+- **场景二**要求：点击“前往查看本软件的隐私政策”后仍留在云音汇应用内，进入新增 `PrivacyPage`；页面必须有标题“隐私政策”和 Web 组件，即使网络内容未加载也要显示标题，并支持返回设置页。[requirement.md:16-26](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/requirement.md:16)
+- **场景三**要求：搜索框占位文案和空内容提交 Toast 统一为 `请输入搜索内容`，并补充占位色、输入文字颜色；空输入不能进入搜索结果页。[requirement.md:28-39](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/spec/requirement.md:28)
+
+## 2. 应用入口与路由
+
+- 应用 Ability 为 `EntryAbility`，入口在 [`EntryAbility.ets:11`](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets#L11)；窗口创建后加载 `pages/Index`。[EntryAbility.ets:11](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets:11)、[EntryAbility.ets:24](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets:24)
+- 应用包名为 `cc.chenlvin.cloudmusic`，清单中的入口 Ability 是 `EntryAbility`。[app.json5:3](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/AppScope/app.json5:3)、[module.json5:15](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/module.json5:15)
+- 当前注册页面共 7 个：`Index`、`Settings`、`SongsListPage`、`LoginPage`、`WebLogin`、`Downloads`、`PlayListPage`；没有 `PrivacyPage`。[main_pages.json:2](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/resources/base/profile/main_pages.json:2)
+- 首页标题“云音汇”由 `IndexHead` 渲染；右侧更多按钮绑定 `MoreMenu()`。[IndexHead.ets:11](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/head/IndexHead.ets:11)
+- 更多菜单的“设置”项调用 `router.pushUrl({ url: 'pages/Settings' })`；“下载管理”进入 `pages/Downloads`。[IndexHead.ets:31](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/head/IndexHead.ets:31)
+- 设置页返回按钮复用 `BackButton`，其实现是 `router.back()`。[BackButton.ets:8](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/buttons/BackButton.ets:8)
+- 其他现有跳转：
+- 首页搜索进入 `pages/SongsListPage`，通过参数传递 `searchKeyword`。[SearchComponent.ets:24](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/main/SearchComponent.ets:24)
+- 未登录用户从个人面板进入 `pages/LoginPage`。[MeSheet.ets:14](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/sheets/MeSheet.ets:14)
+- 登录页用 `router.replaceUrl` 进入 `pages/login/WebLogin`。[LoginPage.ets:18](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/LoginPage.ets:18)
+- 歌单卡片进入 `pages/PlayListPage`，传递歌单对象和歌曲数量。[PlayListCard.ets:30](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/main/PlayListCard.ets:30)
+
+## 3. 场景一基线现状
+
+- 设置页由 `Settings` 组件渲染，包含 `Version`、`Privacy`、`Feedback` 三个列表项和底部 `Bottom` 信息。[Settings.ets:12](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:12)、[Settings.ets:18](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:18)
+- “当前版本”行已经存在，但页面显示值来自 `Constants.VERSION + Constants.VER_DESC`。[Settings.ets:40](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:40)
+- 当前常量仍为 `0.9.2 - 测试版`。[Constants.ets:1](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/constants/Constants.ets:1)
+- 应用清单也仍为 `versionName: "0.9.2"`；`versionCode` 当前为 `102`。[app.json5:3](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/AppScope/app.json5:3)
+- “问题反馈”行已经存在，点击后复制邮箱并弹出 Toast。[Settings.ets:50](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:50)
+- 底部项目信息已经存在，实际是一个包含换行的单个 `Text`：`云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext`。[Settings.ets:78](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:78)
+- 设置标题由 `SettingsHead` 渲染，文字为“设置”。[SettingsHead.ets:5](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/head/SettingsHead.ets:5)
+- **缺失/不一致**：版本常量和清单仍是 `0.9.2`，需要同时考虑页面显示来源与应用清单的一致性。
+
+## 4. 场景二基线现状
+
+- 隐私政策说明文字存在，但点击处理是外部 Want：[Settings.ets:65](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:65)
+- Want 使用 `ohos.want.action.viewData`、`entity.system.browsable` 和隐私政策 URL。[Settings.ets:6](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:6)
+- 点击说明文字最终调用 `AppUtil.getContext().startAbility(wantInfo)`，不会进入当前应用内部路由。[Settings.ets:70](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Settings.ets:70)
+- [`main_pages.json`](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/resources/base/profile/main_pages.json) 中没有 `pages/PrivacyPage`，工程中也没有 `entry/src/main/ets/pages/PrivacyPage.ets`。[main_pages.json:2](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/resources/base/profile/main_pages.json:2)
+- 现有登录页提供可复用的应用内 Web 实现：
+- 使用 `@kit.ArkWeb` 的 `webview.WebviewController`。[WebLogin.ets:1](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/login/WebLogin.ets:1)
+- 页面标题复用 `CommonHead({ title: '登录' })`。[WebLogin.ets:15](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/login/WebLogin.ets:15)
+- 页面内使用 `Web({ src: '', controller: this.controller })`，并在 controller attached 后调用 `loadUrl`。[WebLogin.ets:20](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/login/WebLogin.ets:20)
+- `CommonHead` 内部已经包含返回按钮、标题和状态栏避让逻辑。[CommonHead.ets:3](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/head/CommonHead.ets:3)
+- **明确缺失**：`PrivacyPage` 文件、路由注册、应用内 Web 页面和应用内返回链路。
+- **已有走查记录**：点击隐私政策后前台变为 `com.huawei.hmos.browser/MainAbility`，找不到 `Web` 节点；连续返回仍未回到设置页。[walk.log:587](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:587)、[walk.log:590](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:590)、[walk.log:597](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:597)
+
+## 5. 场景三基线现状
+
+- 首页搜索组件的状态是组件内 `@State searchKeyword: string = ''`。[SearchComponent.ets:3](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/main/SearchComponent.ets:3)
+- 当前占位文案仍为 `请输入搜索词`。[SearchComponent.ets:12](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/main/SearchComponent.ets:12)
+- 当前搜索输入只设置了背景色，没有显式设置 placeholder 色或输入文字色。[SearchComponent.ets:12](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/main/SearchComponent.ets:12)
+- 搜索按钮点击时使用 `if (this.searchKeyword)` 判断：
+  - 非空字符串进入 `pages/SongsListPage`；
+  - 空字符串显示旧 Toast `请输入搜索词`。[SearchComponent.ets:24](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/main/SearchComponent.ets:24)
+- 因此代码层面空字符串不会进入结果页，但纯空格字符串在 ArkTS/JavaScript 真值判断中属于真值，当前会进入搜索结果页。这一点不是 Spec 明文，属于代码推导，需作为边界风险记录。
+- 搜索结果页在 `onPageShow` 中读取路由参数并调用 `getSongsList`，加载过程中显示 `LoadingProgress`。[SongsListPage.ets:11](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/SongsListPage.ets:11)
+- `getSongsList` 请求 `${ROOT_URL}/search?keywords=...` 并映射为 `Song` 列表。[getSongsList.ets:5](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getSongsList.ets:5)
+- 已有走查记录确认基线 UI 树中的输入框 hint 是 `请输入搜索词`，空提交 Toast 也是 `请输入搜索词`。[walk.log:52](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:52)、[walk.log:99](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/logs/baseline-walk/walk.log:99)
+
+## 6. 状态、数据、网络和本地存储
+
+- 窗口避让区域由 `EntryAbility` 写入 `AppStorage`：`topRectHeight`、`bottomRectHeight`。[EntryAbility.ets:42](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets:42)
+- 登录相关全局状态包括 `isValidCookie`、`User`、`cookie`、`vipType`、`pubCookie`；各页面通过 `@StorageProp` 读取。[getLoginInfo.ets:20](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/functions/getLoginInfo.ets:20)、[MeSheet.ets:7](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/components/sheets/MeSheet.ets:7)
+- 持久化使用 `preferences`，封装在 `PreferencesUtils`；当前保存的用户信息、cookie、登录时间键分别为 `user`、`cookie`、`signTime`。[PreferencesUtils.ets:7](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/utils/PreferencesUtils.ets:7)、[getLoginStatus.ets:14](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/api/getLoginStatus.ets:14)
+- Ability 创建时初始化 `UserPreference`。[EntryAbility.ets:15](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/entryability/EntryAbility.ets:15)
+- 网络统一由 `HttpRequest` 封装，默认 GET、携带 cookie、缓存开启、连接和读取超时均为 60 秒。[HttpRequestUtil.ets:4](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/utils/HttpRequestUtil.ets:4)
+- 服务地址常量：
+  - `ROOT_URL = http://111.229.38.178:3000`
+  - `API_URL = https://api.chenlvin.cc`
+  - `MUSIC_URL = https://music.163.com`。[Constants.ets:5](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/common/constants/Constants.ets:5)
+- 首页每次 `onPageShow` 还会额外发两个写死的 HTTP 请求，仅打印结果，不参与本题三个场景的 UI 状态。[Index.ets:12](/Users/bress/Documents/code/harmonycup-work/cmu-spec114/entry/src/main/ets/pages/Index.ets:12)
+- 其他网络服务包括登录状态、公共 cookie、歌单、歌单歌曲、搜索、歌曲详情、下载地址。[getLoginStatus.et...truncated
+</return>
+
+You can use agent_id: Explore_12315834 to resume the agent later if needed for follow-up work.
+The result returned by the agent is not visible to the user.
+If you want to show the user the result, you should send a text message back to the user, including all key conclusions and necessary details.

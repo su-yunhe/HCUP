@@ -1,0 +1,117 @@
+<file>
+     1→import { CommonHead } from '../../components/head/CommonHead';
+     2→import { webview } from '@kit.ArkWeb';
+     3→import { promptAction } from '@kit.ArkUI';
+     4→import { getLoginStatus } from '../../api/getLoginStatus';
+     5→import { LoginHelpSheet } from '../../components/sheets/LoginHelpSheet';
+     6→import { ToastUtil } from '@pura/harmony-utils';
+     7→
+     8→@Entry
+     9→@Component
+    10→struct WebLogin {
+    11→  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0;
+    12→  @State userAgent: string = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36'
+    13→  controller: webview.WebviewController = new webview.WebviewController()
+    14→
+    15→  build() {
+    16→    Stack() {
+    17→      Column() {
+    18→        CommonHead({ title: '登录'})
+    19→        Help().padding({bottom:10})
+    20→        Web({ src: '', controller: this.controller })
+    21→          .width('100%')
+    22→          .height('100%')
+    23→          .onControllerAttached(() => {
+    24→            try {
+    25→              this.controller.setCustomUserAgent(this.userAgent)
+    26→              this.controller.loadUrl(`https://music.163.com/#/login`)
+    27→            } catch (error) {
+    28→              console.error('Login Web Error: ' + error.message)
+    29→            }
+    30→          })
+    31→
+    32→        Column() {
+    33→          Button('获取登录信息').onClick(() => { this.getCookie() })
+    34→        }.width('100%').padding({ top:20 })
+    35→      }
+    36→      .height('100%')
+    37→      .width('100%')
+    38→    }
+    39→    .height('100%')
+    40→    .width('100%')
+    41→    .backgroundColor($r('app.color.main'))
+    42→    .padding({ bottom: vp2px(this.bottomRectHeight) })
+    43→  }
+    44→
+    45→  async getCookie() {
+    46→    try {
+    47→      let cookie = webview.WebCookieManager.fetchCookieSync('https://music.163.com')
+    48→      if (await this.checkValidCookie(cookie)) {
+    49→        cookie = cookie + '; OS=pc'
+    50→        AppStorage.setOrCreate("cookie",cookie)
+    51→        console.log('Cookie => ' + cookie)
+    52→        getLoginStatus(cookie)
+    53→      } else {
+    54→        ToastUtil.showToast('获取登录信息失败，请确认是否已在网页内登录！')
+    55→      }
+    56→    } catch (error) {
+    57→      console.error('获取Cookie失败', error.message)
+    58→      promptAction.showToast({
+    59→        message: '获取Cookie失败：' + error.message
+    60→      })
+    61→    }
+    62→  }
+    63→
+    64→  async checkValidCookie(cookie: string): Promise<boolean> {
+    65→    try {
+    66→      const hasMusicU = cookie.includes('MUSIC_U');
+    67→      const hasCsrf = cookie.includes('__csrf');
+    68→
+    69→      if (hasMusicU && hasCsrf) {
+    70→        console.log('Valid cookie detected:', cookie);
+    71→        return true;
+    72→      } else {
+    73→        console.log('Invalid or unauthenticated cookie:', cookie);
+    74→        return false;
+    75→      }
+    76→    } catch (error) {
+    77→      console.error('Error while checking cookie validity:', error.message);
+    78→      return false;
+    79→    }
+    80→  }
+    81→
+    82→
+    83→}
+    84→
+    85→@Component
+    86→struct Help {
+    87→  @State isShowHelpSheet:boolean = false
+    88→  build() {
+    89→    // Help
+    90→    Column() {
+    91→      Button() {
+    92→        Row({ space: 5 }) {
+    93→          Image($r('app.media.ic_public_help')).fillColor($r('app.color.reverse')).height('80%')
+    94→          Text('如何登录？').fontColor($r('app.color.reverse')).height('80%')
+    95→        }.padding({ right: 10 })
+    96→      }.height(30).alignSelf(ItemAlign.End).backgroundColor(Color.Transparent)
+    97→      .bindSheet(this.isShowHelpSheet, this.HelpSheet(), {
+    98→        height: '50%',
+    99→        dragBar: false,
+   100→        onDisappear: () => {
+   101→          this.isShowHelpSheet = !this.isShowHelpSheet
+   102→        }
+   103→      })
+   104→      .onClick(() => {
+   105→        this.isShowHelpSheet = !this.isShowHelpSheet
+   106→      })
+   107→    }.width('100%')
+   108→  }
+   109→
+   110→  @Builder
+   111→  HelpSheet() {
+   112→    LoginHelpSheet({ isShowSheet: this.isShowHelpSheet })
+   113→  }
+   114→}
+</file>
+<metadata>The file has 114 lines in total.</metadata>

@@ -1,0 +1,11 @@
+---
+name: Give explicit recommendations for open assumptions
+description: 列待确认假设时要附明确推荐与理由，用户会直接整体采纳
+type: feedback
+---
+
+分析阶段列出的 UNCONFIRMED_ASSUMPTION，每条都给出选项 + 明确推荐 + 理由（cmu-spec114 的 U1–U9）；用户 2026-10-19 回复"全部按你的推荐"，没有逐条讨论。
+
+**Why:** 用户时间紧（线上赛截止 2026-10-21），偏好由 Agent 先给出可直接执行的判断，再由自己一次性拍板。
+
+**How to apply:** 其它题目的阶段 0 也按"选项 / 推荐 / 理由"表格汇总假设；确认后在文档中保留原证据等级，另加"决策"字段，方便开发阶段直接照做。

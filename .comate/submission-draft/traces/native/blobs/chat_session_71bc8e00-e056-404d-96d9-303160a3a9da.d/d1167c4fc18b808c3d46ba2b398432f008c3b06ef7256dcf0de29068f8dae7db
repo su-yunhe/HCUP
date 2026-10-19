@@ -1,0 +1,142 @@
+<file>
+     1→# cmu-spec114 基线理解结论
+     2→
+     3→标注约定：【Spec】Spec 明文；【代码】读代码得到，附 `文件:行号`；【实测】在模拟器上实际操作得到；【推断】我的推测，未验证。
+     4→
+     5→## 1. 基线快照标识
+     6→
+     7→- `metadata.json` 的 `base_commit`：`ebe2fbceaf5270ef0f5302edc4f77fa5962b0a3f`（已有 tag `base/cmu-spec114` 指向它）。
+     8→- 当前 HEAD：`bb23a626e392618c4f1ab916a3cb8a4b68b2f024`（`bb23a62 chore: 记录 ohpm install 重建的依赖锁文件`，只改 `oh-package-lock.json5`）。
+     9→- 本阶段新打 tag：`baseline-cmu-spec114` → `bb23a62`。后续 diff 基准用这个 tag（或 `base/cmu-spec114`，两者业务代码相同）。
+    10→- 工作区里有一处未提交的改动，不是本阶段造成的：`build-profile.json5` 新增 `"targetSdkVersion": "6.1.0(23)"`（文件修改时间 2026-10-19 13:20，早于本会话）。这属于构建准备改动，提交前要决定保留还是还原（见第 2 节）。
+    11→
+    12→## 2. 构建基线状态
+    13→
+    14→【实测】环境：DevEco-Studio.app 自带工具链，hvigor 6.23.7，SDK HarmonyOS 6.1.0 / API 23（`sdk/default/sdk-pkg.json`）。
+    15→
+    16→```bash
+    17→D=/Applications/DevEco-Studio.app/Contents
+    18→export JAVA_HOME=$D/jbr/Contents/Home
+    19→export PATH=$JAVA_HOME/bin:$D/tools/hvigor/bin:$D/tools/node/bin:$D/tools/ohpm/bin:$D/sdk/default/openharmony/toolchains:$PATH
+    20→export DEVECO_SDK_HOME=$D/sdk
+    21→hvigorw clean --no-daemon
+    22→hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon > logs/baseline-build.log 2>&1
+    23→```
+    24→
+    25→- 结果：`BUILD SUCCESSFUL`，产物 `entry/build/default/outputs/default/entry-default-unsigned.hap`。
+    26→- 坑：不设 `JAVA_HOME` 时 `PackageHap` 报 `00308018 Unable to locate a Java Runtime`，构建失败；这是本机环境问题，不是基线问题。
+    27→- 产物未签名（`WARN: No signingConfig found for product default`），但 `hdc install -r` 在当前模拟器上安装成功（`logs/baseline-install.log`）。
+    28→- 构建后 `git status` 只有 `build-profile.json5`（构建前就有），没有 `BuildProfile.ets` 噪声。
+    29→- 完整日志：`logs/baseline-build.log`（clean 后全量编译）。
+    30→
+    31→已有告警清单（作为对比基准）：
+    32→
+    33→- ArkTS 告警共 588 条，其中 552 条在 `oh_modules/@pura/harmony-utils` 等三方库内，36 条在 `entry/src`。
+    34→- 资源告警：`'page_show' conflict`（`@pura/spinkit` 与 `@abner/refresh` 的 string.json 重名）。
+    35→- 签名告警：`No signingConfig found for product default`。
+    36→- `entry/src` 中与本题相关文件的告警（改这些文件时注意别新增）：
+    37→  - `SearchComponent.ets:26:20` `'pushUrl' has been deprecated`；`SearchComponent.ets:30:33` `'showToast' has been deprecated`
+    38→  - `Settings.ets:33:21` `'px2vp' has been deprecated`
+    39→  - `SettingsHead.ets:13:24` `'showToast' has been deprecated`
+    40→  - `IndexHead.ets:37:18`、`IndexHead.ets:42:18` `'pushUrl' has been deprecated`
+    41→  - `BackButton.ets:13:16` `'back' has been deprecated`；`CommonHead.ets:15:21` `'px2vp' has been deprecated`
+    42→  - `WebLogin.ets:42:24` `'vp2px' has been deprecated`
+    43→- 推断：新增 `PrivacyPage` 如果沿用 `router.pushUrl` / `px2vp`，会按调用点数量新增同类 deprecated 告警。这类告警和基线写法一致，判断"是否新增告警"时要说明是沿用基线 API 产生的。
+    44→
+    45→`build-profile.json5` 的 `targetSdkVersion`：本次构建在有这行的状态下完成；没有验证去掉后能不能构建、能不能装到 API 23 模拟器。官方答疑只对另一道题说过"不降低 SDK 版本"。建议开发阶段先保留，提交前在 `2-submit.md` 阶段确认是否纳入补丁。
+    46→
+    47→## 3. Spec 描述的入口当前在哪
+    48→
+    49→【代码 + 实测】
+    50→
+    51→- 应用首页：`EntryAbility.ets:25` `windowStage.loadContent('pages/Index')` → `pages/Index.ets`。
+    52→- 首页标识："云音汇" 文本，`IndexHead.ets:21`（实测 bounds `[549,156][759,238]`）。
+    53→- 首页右上角更多按钮：`IndexHead.ets:22-23`，`CommonCircleButton` + `.bindMenu(this.MoreMenu())`；没有文字也没有 id，实测是 UI 树里第 2 个 `Button`，bounds `[1151,137][1274,259]`。
+    54→- 菜单项"设置"：`IndexHead.ets:35-38`，`MenuItem({ content: "设置" })` → `router.pushUrl({ url:'pages/Settings' })`。实测菜单里能找到 `MenuItem` 和 `Text` 两个文字都是"设置"的节点。
+    55→- 设置页：`pages/Settings.ets`，路由名 `pages/Settings`（`main_pages.json:4`）。
+    56→  - 标题"设置"：`SettingsHead.ets:10`
+    57→  - 返回按钮：`SettingsHead.ets:9` → `BackButton.ets:12-14` `router.back()`
+    58→  - "当前版本"行：`Settings.ets:41-48`；版本值 `Settings.ets:45` `Text(Constants.VERSION + Constants.VER_DESC)`
+    59→  - "隐私政策"行：`Settings.ets:66-76`；点击区域只有右侧文字 `Settings.ets:70-73`
+    60→  - "问题反馈"行：`Settings.ets:51-63`
+    61→  - 底部信息：`Settings.ets:79-88`
+    62→- 隐私政策当前跳转方式：`Settings.ets:6-10` 定义外部 Want（`action: 'ohos.want.action.viewData'`，`uri: 'https://docs.chenlvin.cc/cloudmusic/#/privacy'`），`Settings.ets:72` `AppUtil.getContext().startAbility(wantInfo)`。
+    63→- 首页搜索：`components/main/SearchComponent.ets`，在 `Index.ets:26` 挂载。
+    64→  - 输入框 `SearchComponent.ets:12`；搜索按钮 `SearchComponent.ets:18-31`；空关键词 Toast `SearchComponent.ets:30`。
+    65→  - 搜索结果页：`pages/SongsListPage.ets`，路由名 `pages/SongsListPage`（`main_pages.json:5`），标题 `SongsListHead.ets:16` `"${searchKeyword}" 的搜索结果`。
+    66→
+    67→## 3.1 基线实测走查结果
+    68→
+    69→【实测】设备 `127.0.0.1:5555`（emulator，API 23，1308×2880）。走查脚本、日志和截图在 `logs/baseline-walk/`。
+    70→
+    71→| 操作 | 基线实际表现 | 与 Spec 的差异 |
+    72→| --- | --- | --- |
+    73→| 冷启动 | `current_app()` = `('cc.chenlvin.cloudmusic','EntryAbility')`，首页显示"云音汇"、搜索框、"登录账号\n以显示你的歌单" | — |
+    74→| 搜索框占位 | `TextInput` 的 hint = `请输入搜索词` | 需要改成 `请输入搜索内容` |
+    75→| 空输入点搜索 | Toast `请输入搜索词`（Toast 节点在 UI 树中可见，type=`Toast`），停留在首页 | 文案要改 |
+    76→| 纯空格 `"   "` 点搜索 | 没有 Toast，跳到 `SongsListPage`，一直转 `LoadingProgress`；返回后首页输入框里还是 `"   "` | Spec 没写，见 acceptance `A3-B2` |
+    77→| 更多 → 设置 | 进入设置页，文本：`设置`／`当前版本`／`0.9.2 - 测试版`／`隐私政策`／`前往查看本软件的隐私政策`／`问题反馈`／`chenlvin@126.com\n或 GitHub issue`／`云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext` | 版本要改成 0.9.3 |
+    78→| 点"前往查看本软件的隐私政策" | 前台切到 `('com.huawei.hmos.browser','MainAbility')`，页面空白（外网域名解析不了）；UI 树中没有 `Web` | Spec 要求留在本应用 |
+    79→| 在浏览器里按 2 次返回 | 仍停在浏览器，回不到"设置" | Spec 要求能回到设置页 |
+    80→| 首页 → 登 录 → 网页登录（对照现有 Web 页） | `WebLogin` 页 UI 树中有 type=`Web` 节点（bounds `[0,455][1308,2135]`），`BY.type('Web')` 能命中；系统返回键能正常回到首页（Web 没有拦截返回） | 说明 Web 组件在无网络时也能被 Hypium 观察到 |
+    81→
+    82→Hypium 匹配行为【实测】：`BY.text()` 默认 `MatchPattern.EQUALS`（`hypium/uidriver/by.py:133`）。
+    83→
+    84→- `BY.text("云音汇 @Chenlvin")` 用 EQUALS **找不到**（底部是一个带 `\n` 的 Text），用 CONTAINS 能找到。
+    85→- `BY.text("0.9.2 - 测试版")` 用 EQUALS 能找到（版本值是单个 Text）。
+    86→- 设置页里 EQUALS `隐私政策` 只命中 1 个节点（左侧标签）。
+    87→
+    88→## 4. 相关现状
+    89→
+    90→| 方面 | 现状 |
+    91→| --- | --- |
+    92→| 页面组件 | 每个页面一个 `@Entry @Component`，在 `resources/base/profile/main_pages.json:2-10` 注册（共 7 个页面，没有 `PrivacyPage`） |
+    93→| 路由 | 全部用 `@ohos.router`：`router.pushUrl`（`IndexHead.ets:37`）、`router.replaceUrl`（`LoginPage.ets:23`）、`router.back()`（`BackButton.ets:13`）；没有用 Navigation |
+    94→| 标题栏 | 通用的 `CommonHead({ title })`（`components/head/CommonHead.ets:4-19`，含 `BackButton` + 标题 Text，padding 避让状态栏，高 90）；设置页用专门的 `SettingsHead`（含分享按钮） |
+    95→| 状态 | 组件内 `@State`（如 `SearchComponent.ets:5` `searchKeyword`）；全局 `AppStorage` / `@StorageProp`（`topRectHeight`、`bottomRectHeight`、`isValidCookie`、`cookie`） |
+    96→| 版本数据 | 两处独立维护：`AppScope/app.json5:5-6`（`versionCode: 102`，`versionName: "0.9.2"`）和 `Constants.ets:2-3`（`VERSION='0.9.2'`，`VER_DESC=' - 测试版'`）。设置页只读 Constants，不读清单 |
+    97→| Toast | 两种写法并存：`promptAction.showToast({ message })`（`SearchComponent.ets:30`、`SettingsHead.ets:13`）和 `ToastUtil.showToast()`（`@pura/harmony-utils`，`Settings.ets:60,105`） |
+    98→| 网络 | `HttpRequestUtil.ets` 封装 http；服务地址写死在 `Constants.ets:7` `ROOT_URL='http://111.229.38.178:3000'`；`Index.ets:12-20` `onPageShow` 每次都对写死的地址发 2 个请求（只打日志）。本题三个场景都不依赖这些请求 |
+    99→| 本地存储 | `PreferencesUtils`（`EntryAbility.ets:16` 初始化 `UserPreference`），存 cookie 等；本题不涉及 |
+   100→| 资源 | 颜色 `app.color.main`（浅色 `#FFFFFF`／深色 `#121212`）、`app.color.reverse`（浅色 `#121212`／深色 `#FFFFFF`），在 `resources/base|dark/element/color.json`。搜索框背景写死 `'#ffdbd9d9'`（`SearchComponent.ets:12`），没有设 `placeholderColor` / `fontColor` |
+   101→| 权限 | `module.json5:37-41` 已声明 `ohos.permission.INTERNET`，Web 加载不需要另加权限 |
+   102→
+   103→## 5. 可复用的既有实现
+   104→
+   105→- 应用内 Web 页：`pages/login/WebLogin.ets` 是现成模板。`import { webview } from '@kit.ArkWeb'`（`:2`），`controller = new webview.WebviewController()`（`:13`），`CommonHead({ title: '登录' })`（`:18`），`Web({ src, controller })`（`:20-30`），页面背景 `$r('app.color.main')`（`:41`）。`PrivacyPage` 照着写：`CommonHead({ title: '隐私政策' })` + `Web`。
+   106→- 新页面跳转：沿用 `router.pushUrl({ url: 'pages/PrivacyPage' })`，与 `IndexHead.ets:37` 一致，返回栈天然是 设置 → 隐私政策，`router.back()`／系统返回键都能回到设置页。
+   107→- 隐私政策地址：沿用 `Settings.ets:9` 已有的 `https://docs.chenlvin.cc/cloudmusic/#/privacy`（【实测】该域名在宿主机和模拟器都解析不了，内容不会加载，Spec 场景二已覆盖这种情况）。
+   108→- 版本号：改 `Constants.VERSION` 一处即可让设置页生效；清单 `app.json5` 单独改。
+   109→
+   110→## 6. 缺失项
+   111→
+   112→1. `pages/PrivacyPage.ets` 不存在，`main_pages.json` 里也没注册（【代码】）。
+   113→2. 隐私政策入口是外部 Want，不是应用内导航（`Settings.ets:6-10,72`）。
+   114→3. 版本仍是 0.9.2（`app.json5:6`、`Constants.ets:2`）。
+   115→4. 搜索框文案 `请输入搜索词`（`SearchComponent.ets:12,30`），没有占位色和输入文字颜色设置。
+   116→5. 全工程没有任何 `.id()` / `.key()`（【代码】grep `entry/src/main/ets` 结果为 0）。
+   117→
+   118→## 7. 前置环境需求
+   119→
+   120→- 登录账号：不需要。三个场景都不依赖登录状态；未登录时首页显示"登录账号\n以显示你的歌单"，不影响入口。
+   121→- 服务端：不需要。官方答疑里"云音乐在线服务配置"说的是 API 设置页（主机/端口），本基线**没有**这样的配置页，服务地址写死在 `Constants.ets:7`；本题不涉及，按答疑"没有现成配置页面的工程，无需为此新增"处理。
+   122→- 外网：模拟器能 ping 通 `10.0.2.2`；`docs.chenlvin.cc` 解析不了；系统浏览器打开后空白。Web 内容本地**无法**加载，只能验证"页面标题 + Web 组件存在 + 返回"。
+   123→- 测试数据、WebDAV：不需要。
+   124→- 本地能满足全部前置条件。
+   125→
+   126→## 8. 测试可观测性风险
+   127→
+   128→1. 没有任何稳定 id。更多按钮、搜索按钮都是没有文字的 `Button`，只能按类型+位置定位。实现时补 `.id()`（建议名见 acceptance 的选择器表）。官方脚本不知道我们的 id，所以**不能为了加 id 改变现有组件类型和层级**。
+   129→2. 同名文本：
+   130→   - "隐私政策"：设置页左侧标签和 PrivacyPage 标题同名。【实测】router 压栈后，下层页面的节点**不在** `find_component` 的结果里（首页 → 下载管理后 `BY.text('云音汇')` 和 `BY.type('TextInput')` 都找不到，返回后又能找到）。所以在 PrivacyPage 上 `BY.text('隐私政策')` 只会命中新页标题，不会误命中设置页标签；但"标题是否真的在新页面上"仍要配合 `BY.type('Web')` 一起断言。
+   131→   - "设置"：首页菜单里 `MenuItem` 和内部 `Text` 都是"设置"；设置页标题也是"设置"。
+   132→   - "云音汇"：首页标题和设置页底部 `云音汇 @Chenlvin` 前缀重叠（CONTAINS 匹配时会被判为同一个）。
+   133→   - "请输入搜索内容"：改完后输入框 hint 和 Toast 文本相同。【实测】`BY.text('请输入搜索词')` 在首页**匹配不到**输入框（占位文字在 `hint` 属性里，不在 `text` 里）；Hypium 有单独的 `BY.hint()`（`hypium/uidriver/by.py:173`）。所以官方断言占位文案应该会用 `BY.hint` 或读组件 hint 属性，和 Toast 的 `text` 不冲突。
+   134→3. 底部文字是一个带 `\n` 的 Text，EQUALS `云音汇 @Chenlvin` 匹配不到（【实测】），是否拆分见 acceptance 的 `U2`。
+   135→4. 颜色（占位色、输入文字色）不在 `uitest dumpLayout` 输出的属性里（【实测】dump 中只看到 text/hint/bounds 等），Hypium 基本只能靠截图判断，可观测性低。
+   136→5. Toast：`start_listen_toast()` + `get_latest_toast()` 能稳定拿到文本（【实测】），UI 树里也有 `Toast` 节点。
+   137→6. 外部浏览器：基线点隐私政策会让前台变成浏览器，后续用例如果没有重启应用会连锁失败；改完后不再有这个问题。
+   138→
+   139→
+</file>
+<metadata>The file has 139 lines in total.</metadata>

@@ -1,0 +1,1687 @@
+diff --git a/AppScope/app.json5 b/AppScope/app.json5
+index 25fd157..aecbc92 100644
+--- a/AppScope/app.json5
++++ b/AppScope/app.json5
+@@ -2,8 +2,8 @@
+   "app": {
+     "bundleName": "cc.chenlvin.cloudmusic",
+     "vendor": "chenlvin",
+-    "versionCode": 102,
+-    "versionName": "0.9.2",
++    "versionCode": 103,
++    "versionName": "0.9.3",
+     "icon": "$media:startIcon",
+     "label": "$string:app_name"
+   }
+diff --git a/build-profile.json5 b/build-profile.json5
+index 7fcdd8d..62ec492 100644
+--- a/build-profile.json5
++++ b/build-profile.json5
+@@ -11,7 +11,8 @@
+             "caseSensitiveCheck": true,
+             "useNormalizedOHMUrl": true
+           }
+-        }
++        },
++        "targetSdkVersion": "6.1.0(23)"
+       }
+     ],
+     "buildModeSet": [
+diff --git a/entry/src/main/ets/common/constants/Constants.ets b/entry/src/main/ets/common/constants/Constants.ets
+index 9049921..5f38cc9 100644
+--- a/entry/src/main/ets/common/constants/Constants.ets
++++ b/entry/src/main/ets/common/constants/Constants.ets
+@@ -1,5 +1,5 @@
+ export default class Constants {
+-  static readonly VERSION: string = '0.9.2'
++  static readonly VERSION: string = '0.9.3'
+   static readonly VER_DESC: string = ' - 测试版'
+ 
+   static readonly USER_PREF: string = 'UserPreference'
+diff --git a/entry/src/main/ets/components/main/SearchComponent.ets b/entry/src/main/ets/components/main/SearchComponent.ets
+index dd871cb..71933d3 100644
+--- a/entry/src/main/ets/components/main/SearchComponent.ets
++++ b/entry/src/main/ets/components/main/SearchComponent.ets
+@@ -1,5 +1,8 @@
+ import { promptAction, router } from "@kit.ArkUI"
+ 
++// 占位文案与空内容提示共用同一文案
++const SEARCH_HINT: string = '请输入搜索内容'
++
+ @Component
+ export struct SearchComponent {
+   @State searchKeyword:string = ''
+@@ -9,7 +12,10 @@ export struct SearchComponent {
+       // 搜索框和按钮
+       Row({ space: 10 }) {
+         // 搜索框
+-        TextInput({ placeholder: '请输入搜索词' }).width('70%').backgroundColor('#ffdbd9d9').height(40)
++        TextInput({ placeholder: SEARCH_HINT }).width('70%').backgroundColor('#ffdbd9d9').height(40)
++          .placeholderColor('#FF808080')
++          .fontColor('#FF121212')
++          .id('search_input')
+           .onChange((value:string) => {
+             this.searchKeyword = value
+           })
+@@ -21,13 +27,14 @@ export struct SearchComponent {
+         .type(ButtonType.Circle)
+         .width(40)
+         .height(40)
++        .id('search_button')
+         .onClick(() => {
+-          if(this.searchKeyword) {
++          if(this.searchKeyword.trim()) {
+             router.pushUrl({
+               url: 'pages/SongsListPage',
+               params: { 'searchKeyword': this.searchKeyword }
+             })
+-          } else { promptAction.showToast({ message: '请输入搜索词' }) }
++          } else { promptAction.showToast({ message: SEARCH_HINT }) }
+         })
+       }.width('100%').justifyContent(FlexAlign.Center)
+     }
+diff --git a/entry/src/main/ets/pages/PrivacyPage.ets b/entry/src/main/ets/pages/PrivacyPage.ets
+new file mode 100644
+index 0000000..c084ec1
+--- /dev/null
++++ b/entry/src/main/ets/pages/PrivacyPage.ets
+@@ -0,0 +1,33 @@
++import { CommonHead } from '../components/head/CommonHead';
++import { webview } from '@kit.ArkWeb';
++
++const PRIVACY_URL: string = 'https://docs.chenlvin.cc/cloudmusic/#/privacy'
++
++/**
++ * 隐私政策（应用内 Web 页面）
++ * 标题栏不依赖网页加载状态；返回直接退出本页，不交给网页历史
++ */
++@Entry
++@Component
++struct PrivacyPage {
++  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0;
++  controller: webview.WebviewController = new webview.WebviewController()
++
++  build() {
++    Stack() {
++      Column() {
++        CommonHead({ title: '隐私政策' })
++        Web({ src: PRIVACY_URL, controller: this.controller })
++          .id('privacy_web')
++          .width('100%')
++          .layoutWeight(1)
++      }
++      .height('100%')
++      .width('100%')
++    }
++    .height('100%')
++    .width('100%')
++    .backgroundColor($r('app.color.main'))
++    .padding({ bottom: px2vp(this.bottomRectHeight) })
++  }
++}
+diff --git a/entry/src/main/ets/pages/Settings.ets b/entry/src/main/ets/pages/Settings.ets
+index 8ba39d2..275e9ab 100644
+--- a/entry/src/main/ets/pages/Settings.ets
++++ b/entry/src/main/ets/pages/Settings.ets
+@@ -1,13 +1,7 @@
+-import { AppUtil, PasteboardUtil, ToastUtil } from '@pura/harmony-utils';
++import { PasteboardUtil, ToastUtil } from '@pura/harmony-utils';
+ import Constants from '../common/constants/Constants';
+ import { SettingsHead } from '../components/head/SettingsHead'
+-import { Want } from '@kit.AbilityKit';
+-
+-let wantInfo: Want = {
+-  action: 'ohos.want.action.viewData',
+-  entities: ['entity.system.browsable'],
+-  uri: 'https://docs.chenlvin.cc/cloudmusic/#/privacy'
+-}
++import { router } from '@kit.ArkUI';
+ 
+ @Entry
+ @Component
+@@ -42,7 +36,7 @@ struct Version {
+   build() {
+     Row() {
+       Text('当前版本').LeftText()
+-      Text(Constants.VERSION + Constants.VER_DESC).RightText()
++      Text(Constants.VERSION + Constants.VER_DESC).RightText().id('settings_version')
+     }.width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left:30, right: 30})
+   }
+ }
+@@ -67,9 +61,10 @@ struct Privacy {
+   build() {
+     Row() {
+       Text('隐私政策').LeftText()
+-      Text('前往查看本软件的隐私政策').RightText()
++      Text('前往查看本软件的隐私政策').RightText().id('settings_privacy_entry')
+         .onClick(() => {
+-          AppUtil.getContext().startAbility(wantInfo)
++          // 应用内打开隐私政策；Single 模式避免连点叠加多个隐私页
++          router.pushUrl({ url: 'pages/PrivacyPage' }, router.RouterMode.Single)
+         })
+     }.width('100%').justifyContent(FlexAlign.SpaceBetween).padding({ left:30, right: 30})
+   }
+diff --git a/entry/src/main/resources/base/profile/main_pages.json b/entry/src/main/resources/base/profile/main_pages.json
+index 1d95d43..98528cc 100644
+--- a/entry/src/main/resources/base/profile/main_pages.json
++++ b/entry/src/main/resources/base/profile/main_pages.json
+@@ -6,6 +6,7 @@
+     "pages/LoginPage",
+     "pages/login/WebLogin",
+     "pages/Downloads",
+-    "pages/PlayListPage"
++    "pages/PlayListPage",
++    "pages/PrivacyPage"
+   ]
+ }
+\ No newline at end of file
+diff --git a/hypium_tests/__init__.py b/hypium_tests/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/hypium_tests/_common.py b/hypium_tests/_common.py
+new file mode 100644
+index 0000000..7a751b4
+--- /dev/null
++++ b/hypium_tests/_common.py
+@@ -0,0 +1,108 @@
++"""cmu-spec114 自测公共导航与断言辅助（非测试文件，不以 test_ 开头）。
++
++定位策略：新增/关键组件用 BY.key（实现中补的 .id()），基线无 id 的图标按钮按 bounds 排序取位置，
++与官方测试可能使用的文本/类型选择器并行断言。
++"""
++from __future__ import annotations
++
++from hypium import BY, MatchPattern
++
++from harness.app import restart_app
++from harness.driver import HarnessTestCase
++
++BUNDLE = "cc.chenlvin.cloudmusic"
++VERSION_TEXT = "0.9.3 - 测试版"
++SEARCH_HINT = "请输入搜索内容"
++OLD_SEARCH_HINT = "请输入搜索词"
++PRIVACY_ENTRY = "前往查看本软件的隐私政策"
++
++ID_VERSION = "settings_version"
++ID_PRIVACY_ENTRY = "settings_privacy_entry"
++ID_PRIVACY_WEB = "privacy_web"
++ID_SEARCH_INPUT = "search_input"
++ID_SEARCH_BUTTON = "search_button"
++
++
++class CloudMusicCase(HarnessTestCase):
++    """每个用例从冷启动首页开始。"""
++
++    def setUp(self) -> None:
++        restart_app(self.driver, BUNDLE, wait_time=3)
++        self.require_component(BY.text("云音汇"), "冷启动后未进入首页（缺少顶栏标题“云音汇”）")
++
++    def tearDown(self) -> None:
++        self.driver.stop_app(BUNDLE)
++
++    # ---------- 通用 ----------
++    def count(self, by) -> int:
++        return len(self.driver.find_all_components(by) or [])
++
++    def exists(self, by, timeout: float = 3) -> bool:
++        return self.find_or_none(by, timeout=timeout) is not None
++
++    def gone(self, by, timeout: float = 3) -> bool:
++        """在 timeout 内等待组件消失；消失返回 True。"""
++        waited = 0.0
++        while waited < timeout:
++            if self.driver.find_component(by) is None:
++                return True
++            self.driver.wait(0.5)
++            waited += 0.5
++        return self.driver.find_component(by) is None
++
++    def assert_foreground(self, where: str) -> None:
++        app = self.driver.current_app()
++        self.assertEqual(app[0], BUNDLE, f"{where}：前台应用不是云音汇，而是 {app}")
++
++    def buttons_by_position(self) -> list:
++        bs = self.driver.find_all_components(BY.type("Button")) or []
++        return sorted(bs, key=lambda b: (b.getBounds().top, b.getBounds().left))
++
++    # ---------- 首页 ----------
++    def open_more_menu(self) -> None:
++        # 首页顶栏：左=侧边半模态，右=更多；顶栏行的第 2 个按钮
++        self.driver.click(self.buttons_by_position()[1])
++        self.require_component(BY.text("设置"), "点击更多按钮后菜单未出现“设置”", timeout=5)
++
++    def open_settings(self) -> None:
++        self.open_more_menu()
++        self.driver.click(BY.text("设置"))
++        self.require_component(BY.text("当前版本"), "未进入设置页（缺少“当前版本”）", timeout=8)
++        # 实测：设置页节点出现后立即 press_back，约半数会在 router 转场中被吞掉（基线行为，与本题改动无关）
++        self.driver.wait(1)
++
++    def search_button(self):
++        return self.require_component(BY.key(ID_SEARCH_BUTTON), "首页缺少搜索按钮")
++
++    def search_input(self):
++        return self.require_component(BY.key(ID_SEARCH_INPUT), "首页缺少搜索输入框")
++
++    def assert_home_hint(self, where: str) -> None:
++        self.require_component(BY.hint(SEARCH_HINT), f"{where}：搜索框占位文案不是“{SEARCH_HINT}”", timeout=8)
++        self.assertEqual(self.search_input().getHint(), SEARCH_HINT, f"{where}：getHint 不一致")
++
++    def assert_stay_home(self, where: str) -> None:
++        self.assert_foreground(where)
++        self.assertTrue(self.exists(BY.text("云音汇")), f"{where}：首页标识“云音汇”不可见")
++        self.assertTrue(self.exists(BY.type("TextInput")), f"{where}：首页搜索框不可见")
++        self.assertIsNone(self.driver.find_component(BY.type("LoadingProgress")), f"{where}：出现了搜索结果页的加载圈")
++        self.assertIsNone(self.driver.find_component(BY.text("的搜索结果", MatchPattern.CONTAINS)),
++                          f"{where}：跳转到了搜索结果页")
++
++    # ---------- 设置页 / 隐私页 ----------
++    def assert_settings_page(self, where: str) -> None:
++        self.assert_foreground(where)
++        self.require_component(BY.text("设置"), f"{where}：缺少设置页标题“设置”", timeout=8)
++        self.require_component(BY.text(VERSION_TEXT), f"{where}：版本值不是“{VERSION_TEXT}”", timeout=5)
++        self.assertIsNone(self.driver.find_component(BY.type("Web")), f"{where}：仍存在 Web 组件（未退出隐私页）")
++
++    def open_privacy(self) -> None:
++        self.driver.click(BY.text(PRIVACY_ENTRY))
++        self.assert_privacy_page("点击隐私政策入口后")
++
++    def assert_privacy_page(self, where: str, timeout: float = 3) -> None:
++        self.require_component(BY.type("Web"), f"{where}：{timeout}s 内隐私页未出现 Web 组件", timeout=timeout)
++        self.require_component(BY.text("隐私政策"), f"{where}：隐私页标题“隐私政策”不可见", timeout=timeout)
++        self.assert_foreground(where)
++        self.assertIsNone(self.driver.find_component(BY.text(PRIVACY_ENTRY)), f"{where}：设置页入口文字仍在树中")
++        self.assertIsNone(self.driver.find_component(BY.text("当前版本")), f"{where}：设置页“当前版本”仍在树中")
+diff --git a/hypium_tests/test_s1_settings.py b/hypium_tests/test_s1_settings.py
+new file mode 100644
+index 0000000..3f9584a
+--- /dev/null
++++ b/hypium_tests/test_s1_settings.py
+@@ -0,0 +1,82 @@
++"""场景一：设置页显示 0.9.3 版本与完整入口（A1–A11、X2）。"""
++from __future__ import annotations
++
++import re
++
++from hypium import BY, MatchPattern
++
++from hypium_tests._common import BUNDLE, ID_VERSION, PRIVACY_ENTRY, VERSION_TEXT, CloudMusicCase
++
++
++class TestSettingsVersion(CloudMusicCase):
++
++    def test_a1_a2_bundle_version(self):
++        dump = self.driver.shell(f"bm dump -n {BUNDLE}")
++        names = re.findall(r'"versionName":\s*"([^"]*)"', dump)
++        codes = [int(c) for c in re.findall(r'"versionCode":\s*(\d+)', dump)]
++        self.assertIn("0.9.3", names, f"bm dump 未见 versionName 0.9.3：{names}")
++        self.assertNotIn("0.9.2", names, "bm dump 仍有 versionName 0.9.2")
++        self.assertIn(103, codes, f"bm dump 未见 versionCode 103：{codes}")
++
++    def test_a3_to_a11_settings_content(self):
++        self.open_settings()
++        self.assert_foreground("设置页")
++        self.assertEqual(self.count(BY.text("设置")), 1, "设置页标题“设置”应唯一")
++        for label in ["当前版本", "隐私政策", "问题反馈", PRIVACY_ENTRY]:
++            self.assertEqual(self.count(BY.text(label)), 1, f"设置页“{label}”应存在且唯一")
++
++        version = self.require_component(BY.text(VERSION_TEXT), f"版本值不是“{VERSION_TEXT}”")
++        self.assertEqual(version.getText(), VERSION_TEXT)
++        self.assertEqual(self.require_component(BY.key(ID_VERSION), "版本值缺少 id").getText(), VERSION_TEXT)
++        self.assertIsNone(self.driver.find_component(BY.text("0.9.2", MatchPattern.CONTAINS)), "仍显示 0.9.2")
++
++        author = self.require_component(BY.text("云音汇 @Chenlvin", MatchPattern.CONTAINS), "底部缺少“云音汇 @Chenlvin”")
++        project = self.require_component(BY.text("CloudMusic-HarmonyOSNext", MatchPattern.CONTAINS),
++                                         "底部缺少 GitHub 项目名称")
++
++        # A11：版本与来源信息不滚动即同屏可见
++        w, h = self.driver.get_display_size()
++        for name, comp in [("版本值", version), ("底部作者", author), ("底部项目", project)]:
++            b = comp.getBounds()
++            self.assertTrue(0 <= b.top < b.bottom <= h and 0 <= b.left < b.right <= w,
++                            f"{name} 不在屏幕内：{b}")
++
++    def test_menu_dismiss_stays_home(self):
++        self.open_more_menu()
++        self.driver.press_back()
++        self.driver.wait(1)
++        self.assertTrue(self.gone(BY.text("设置")), "关闭菜单后“设置”仍可见")
++        self.assertIsNone(self.driver.find_component(BY.text("当前版本")), "关闭菜单后不应进入设置页")
++        self.assert_stay_home("关闭更多菜单后")
++
++    def test_back_then_reenter(self):
++        self.open_settings()
++        self.driver.press_back()
++        self.require_component(BY.type("TextInput"), "设置页返回后未回到首页", timeout=5)
++        self.open_settings()
++        self.assert_settings_page("返回后重进设置页")
++
++    def test_restart_then_reenter(self):
++        self.open_settings()
++        self.setUp()  # 再次冷启动
++        self.open_settings()
++        self.assert_settings_page("重启应用后重进设置页")
++
++    def test_x2_other_interactions_unchanged(self):
++        self.open_settings()
++        self.driver.start_listen_toast()
++        self.driver.click(BY.text("问题反馈"))
++        self.assertEqual(self.driver.get_latest_toast(timeout=3), "已复制邮箱地址到剪贴板")
++        self.driver.wait(2.5)
++
++        self.driver.start_listen_toast()
++        self.driver.click(BY.text("云音汇 @Chenlvin", MatchPattern.CONTAINS))
++        self.assertEqual(self.driver.get_latest_toast(timeout=3), "已复制链接到剪贴板")
++        self.driver.wait(2.5)
++
++        # 设置页顶栏：左=返回，右=分享
++        share = self.buttons_by_position()[1]
++        self.driver.start_listen_toast()
++        self.driver.click(share)
++        self.assertEqual(self.driver.get_latest_toast(timeout=3), "该功能暂未开发完成")
++        self.assert_settings_page("设置页其余交互后")
+diff --git a/hypium_tests/test_s2_privacy.py b/hypium_tests/test_s2_privacy.py
+new file mode 100644
+index 0000000..0a503d8
+--- /dev/null
++++ b/hypium_tests/test_s2_privacy.py
+@@ -0,0 +1,89 @@
++"""场景二：隐私政策在应用内嵌页面打开并可返回（B1–B11、X3）。"""
++from __future__ import annotations
++
++from hypium import BY
++
++from hypium_tests._common import ID_PRIVACY_ENTRY, ID_PRIVACY_WEB, PRIVACY_ENTRY, CloudMusicCase
++
++
++class TestPrivacyPage(CloudMusicCase):
++
++    def setUp(self) -> None:
++        super().setUp()
++        self.open_settings()
++
++    def test_b1_to_b5_open_in_app(self):
++        self.require_component(BY.key(ID_PRIVACY_ENTRY), "隐私政策入口缺少 id")
++        self.driver.click(BY.text(PRIVACY_ENTRY))
++        # B5：不等网页加载，3s 内标题与 Web 即可见
++        self.assert_privacy_page("点击入口后 3s 内", timeout=3)
++        self.require_component(BY.key(ID_PRIVACY_WEB), "Web 组件缺少 id")
++        # B2：等待 3s 后仍未拉起外部浏览器
++        self.driver.wait(3)
++        self.assert_privacy_page("点击入口 3s 后")
++        title_count = self.count(BY.text("隐私政策"))
++        print(f"[info] 隐私页 BY.text('隐私政策') 计数 = {title_count}")
++        self.assertGreaterEqual(title_count, 1)
++
++    def test_b7_press_back_returns_settings(self):
++        self.open_privacy()
++        self.driver.press_back()
++        self.assert_settings_page("隐私页系统返回一次后")
++
++    def test_b7_press_back_while_loading(self):
++        self.driver.click(BY.text(PRIVACY_ENTRY))
++        self.require_component(BY.type("Web"), "隐私页未出现 Web", timeout=3)
++        self.driver.press_back()  # 网页大概率仍在加载
++        self.assert_settings_page("加载中返回后")
++
++    def test_b8_title_back_button_returns_settings(self):
++        self.open_privacy()
++        # 隐私页唯一的按钮为标题栏左侧返回按钮
++        buttons = self.buttons_by_position()
++        self.assertGreaterEqual(len(buttons), 1, "隐私页标题栏缺少返回按钮")
++        self.driver.click(buttons[0])
++        self.assert_settings_page("点击标题栏返回按钮后")
++
++    def test_b9_back_after_page_loaded(self):
++        self.open_privacy()
++        self.driver.wait(8)  # 给网页足够时间加载/重定向
++        self.assert_privacy_page("等待网页加载后")
++        self.driver.press_back()
++        self.assert_settings_page("网页加载后系统返回一次")
++
++    def test_b10_fast_double_click_single_page(self):
++        entry = self.require_component(BY.text(PRIVACY_ENTRY), "缺少隐私政策入口")
++        center = entry.getBoundsCenter()
++        self.driver.click((center.x, center.y))
++        self.driver.click((center.x, center.y))
++        self.assert_privacy_page("快速连点入口后")
++        self.driver.press_back()
++        self.assert_settings_page("快速连点后返回一次")
++
++    def test_b11_back_then_reenter(self):
++        self.open_privacy()
++        self.driver.press_back()
++        self.assert_settings_page("第一次返回")
++        self.open_privacy()
++        self.driver.press_back()
++        self.assert_settings_page("第二次返回")
++
++    def test_b11_restart_then_reenter(self):
++        self.open_privacy()
++        CloudMusicCase.setUp(self)  # 冷启动回首页
++        self.open_settings()
++        self.open_privacy()
++        self.driver.press_back()
++        self.assert_settings_page("重启后重进隐私页再返回")
++
++    def test_x3_full_flow_stays_in_app(self):
++        self.open_privacy()
++        self.driver.press_back()
++        self.assert_settings_page("隐私页返回")
++        self.driver.press_back()
++        self.require_component(BY.type("TextInput"), "设置页返回后未回到首页", timeout=5)
++        self.assert_home_hint("隐私页→设置→首页连续返回后")
++        self.driver.start_listen_toast()
++        self.driver.click(self.search_button())
++        self.assertEqual(self.driver.get_latest_toast(timeout=3), "请输入搜索内容")
++        self.assert_stay_home("全流程空搜索后")
+diff --git a/hypium_tests/test_s3_search.py b/hypium_tests/test_s3_search.py
+new file mode 100644
+index 0000000..a16f633
+--- /dev/null
++++ b/hypium_tests/test_s3_search.py
+@@ -0,0 +1,80 @@
++"""场景三：搜索框和空内容提交使用同一文案（C1–C10）。"""
++from __future__ import annotations
++
++from hypium import BY, MatchPattern
++
++from hypium_tests._common import OLD_SEARCH_HINT, SEARCH_HINT, CloudMusicCase
++
++
++class TestSearchHint(CloudMusicCase):
++
++    def empty_search_toast(self) -> str:
++        self.driver.start_listen_toast()
++        self.driver.click(self.search_button())
++        return self.driver.get_latest_toast(timeout=3)
++
++    def test_c1_c2_hint_on_cold_start(self):
++        self.assert_home_hint("冷启动首页")
++        self.assertIsNone(self.driver.find_component(BY.hint(OLD_SEARCH_HINT)), "仍存在旧占位文案“请输入搜索词”")
++        self.assertEqual(self.count(BY.type("TextInput")), 1, "首页应只有一个搜索框")
++
++    def test_c5_c6_c7_empty_search_toast(self):
++        hint = self.search_input().getHint()
++        toast = self.empty_search_toast()
++        self.assertEqual(toast, SEARCH_HINT, f"空搜索 Toast 应为“{SEARCH_HINT}”")
++        self.assertNotEqual(toast, OLD_SEARCH_HINT)
++        self.assertEqual(toast, hint, "Toast 与占位文字不一致")
++        self.driver.wait(1)
++        self.assert_stay_home("空输入点击搜索后")
++
++    def test_c8_spaces_only(self):
++        self.driver.input_text(self.search_input(), "   ")
++        self.driver.wait(0.5)
++        self.assertEqual(self.empty_search_toast(), SEARCH_HINT, "纯空格应按空输入提示")
++        self.driver.wait(1)
++        self.assert_stay_home("纯空格点击搜索后")
++
++    def test_c9_fast_double_click(self):
++        btn = self.search_button()
++        center = btn.getBoundsCenter()
++        self.driver.start_listen_toast()
++        self.driver.click((center.x, center.y))
++        self.driver.click((center.x, center.y))
++        self.assertEqual(self.driver.get_latest_toast(timeout=3), SEARCH_HINT)
++        self.driver.wait(1)
++        self.assert_stay_home("快速连点空搜索后")
++
++    def test_input_then_clear(self):
++        comp = self.search_input()
++        self.driver.input_text(comp, "abc")
++        self.driver.wait(0.5)
++        self.search_input().clearText()
++        self.driver.wait(0.5)
++        self.assertEqual(self.search_input().getText(), "", "清空后输入框仍有内容")
++        self.assertEqual(self.empty_search_toast(), SEARCH_HINT, "输入后删空应按空输入提示")
++        self.driver.wait(1)
++        self.assert_stay_home("输入后删空再搜索")
++
++    def test_c4_hint_after_back_from_settings(self):
++        self.open_settings()
++        self.driver.press_back()
++        self.require_component(BY.type("TextInput"), "返回后未回到首页", timeout=5)
++        self.assert_home_hint("设置页系统返回首页后")
++        self.open_settings()
++        self.driver.click(self.buttons_by_position()[0])  # 设置页标题栏返回按钮
++        self.require_component(BY.type("TextInput"), "标题栏返回后未回到首页", timeout=5)
++        self.assert_home_hint("设置页标题栏返回首页后")
++        self.assertEqual(self.empty_search_toast(), SEARCH_HINT)
++        self.driver.wait(1)
++        self.assert_stay_home("返回首页后空搜索")
++
++    def test_c10_nonempty_search_navigates(self):
++        keyword = "test"
++        self.driver.input_text(self.search_input(), keyword)
++        self.driver.wait(0.5)
++        self.driver.click(self.search_button())
++        self.assertTrue(self.gone(BY.type("TextInput"), timeout=5), "非空搜索后未离开首页")
++        result_title = self.find_or_none(BY.text("的搜索结果", MatchPattern.CONTAINS), timeout=3)
++        loading = self.driver.find_component(BY.type("LoadingProgress"))
++        self.assertTrue(result_title is not None or loading is not None, "非空搜索后未进入搜索结果页")
++        self.assert_foreground("非空搜索后")
+diff --git a/oh-package-lock.json5 b/oh-package-lock.json5
+index d4155fd..1974b17 100644
+--- a/oh-package-lock.json5
++++ b/oh-package-lock.json5
+@@ -1,6 +1,7 @@
+ {
+   "meta": {
+-    "stableOrder": true
++    "stableOrder": true,
++    "enableUnifiedLockfile": false
+   },
+   "lockfileVersion": 3,
+   "ATTENTION": "THIS IS AN AUTOGENERATED FILE. DO NOT EDIT THIS FILE DIRECTLY.",
+diff --git a/spec/0-analyze.md b/spec/0-analyze.md
+new file mode 100644
+index 0000000..1b5292d
+--- /dev/null
++++ b/spec/0-analyze.md
+@@ -0,0 +1,87 @@
++# 核心任务
++
++在本工程中，把本工程 `spec/requirement.md` 拆成可验证的验收矩阵，并摸清基线现状。
++
++**本阶段禁止修改任何业务代码。** 产出只有两份文档，都写在本工程：`spec/acceptance.md` 和 `spec/baseline-notes.md`。
++
++这一步的目的是防止直接开写导致漏掉隐藏检查点。官方 F-point 是从 Spec 归一化得到的，
++Spec 里一句"显示历史记录"可能对应去重、排序、上限、点击触发四个独立检查点。
++
++# 禁止事项（违反即废题）
++
++与 `1-do.md` 完全一致，本阶段同样适用：
++
++1. 不得访问本题来源项目（上游仓库）中与本题相关的提交、PR、Issue、补丁及其副本，
++   也不得查看上游已实现该功能的当前版本代码。
++2. 不得访问题包目录（`SWE-OpenHarmony/`）；本题资料已复制到本工程 `spec/`。
++3. 不得访问其他赛题的工程目录（`harmonycup-work/` 下除本工程和 `common/` 之外的目录）。
++
++允许只读访问 `../common/`（相对本工程，即 `harmonycup-work/common/`：通用任务书与测试框架），不得修改。
++
++分析阶段尤其容易踩第 1 条——"先看看别人怎么实现的"正是违规行为。
++需求有歧义时，列出多个假设并标注证据等级，交给我判断，不要去上游找答案。
++
++# 输入
++
++| 文件 | 内容 |
++| --- | --- |
++| 本工程 `spec/requirement.md` | 本题需求说明 |
++| 本工程 `spec/metadata.json` | `base_commit` |
++| 工程源码 | 未修改的基线 |
++
++需要去http://swe-openharmony.tech/#r-scoring 查看具体赛题技术答疑，看是否有本道题用得上的。
++
++# 输出一：spec/acceptance.md
++
++对 Spec 里每个场景的每个步骤，逐条拆成验收项。每条包含：
++
++| 字段 | 说明 |
++| --- | --- |
++| 编号 | 如 A1、A2，便于后续引用 |
++| 来源 | 对应 Spec 的哪个场景、哪一步 |
++| 证据等级 | `SPEC_EXPLICIT`（Spec 明文）／`REASONABLE_DERIVATION`（合理推导）／`UNCONFIRMED_ASSUMPTION`（待确认假设） |
++| 原子行为 | 一句话描述这条要做什么 |
++| 可观察结果 | Hypium 能断言什么：具体文字、组件、页面、状态、数据、请求 |
++| 八个维度 | 入口／前置数据／用户动作／UI 结果／数据结果／网络结果／返回结果／边界条件，不适用的写"不适用"并说明理由 |
++| 稳定选择器 | 该项需要哪些组件 id；基线缺失的标注"需在实现时补 `.id()`" |
++
++额外要求：
++
++- **边界条件要穷举**：空输入、纯空格、取消、关闭、重复点击、快速连点、无数据、最后一页、
++  部分操作、请求失败、返回后重进、重启应用后重进。不适用的也要写明为什么不适用。
++- **网络类需求必须画状态机**，明确每个用户动作是否触发请求、loading 与请求的绑定关系、
++  请求结束后的状态恢复。不要留"点击后先改 UI 稍后补请求"的空间。
++- **文案逐字摘录** Spec 原文，不要改写。
++- 标 `UNCONFIRMED_ASSUMPTION` 的项要单独汇总，附上你的推荐处理方式和理由。
++
++# 输出二：spec/baseline-notes.md
++
++先构建并安装**未修改的基线**，启动应用实际操作一遍，然后记录：
++
++1. **基线快照标识**：打 `git tag baseline-<题目ID>` 或记录 HEAD，写进文档。
++2. **构建基线状态**：构建命令、是否成功、已有告警清单（后续用于对比是否引入新告警）。
++3. **Spec 描述的入口当前在哪**：页面文件路径、路由名、跳转调用点（带 `文件:行号`）。
++4. **相关现状**：页面组件、状态模型、数据模型、网络服务、本地存储的位置与写法。
++5. **可复用的既有实现**：基线里相近功能用了什么数据结构、状态管理、路由方式。
++   官方测试沿现有流程进入目标页面，因此优先复用而非另起一套。
++6. **缺失项**：Spec 要求但基线完全没有的能力。
++7. **前置环境需求**：是否需要登录账号、服务端、WebDAV、测试数据；本地能否满足，不能满足的明确指出。
++8. **测试可观测性风险**：关键组件是否缺少稳定 id、是否存在同名文本导致选择器歧义。
++
++# 要求
++
++1. **不改代码**。发现基线有 bug 也只记录，不在本阶段修。
++2. **不编造**。所有结论要给出文件路径和行号；没验证的标注"未验证"。
++3. **区分事实与推断**。Spec 明文、代码实证、你的推测必须分开标注。
++4. **先构建安装再写结论**，不要只读代码就断言入口在哪。
++5. 歧义不要自行决定，列假设给我判断。
++
++# 背景
++
++评分单位是 F-point，评测分 = 通过的 F-point ÷ 本阶段全部 F-point × 100。
++未提交、构建失败、崩溃、超时、跳过的都不计通过但计入分母。
++
++正式测试脚本、隐藏输入、参考答案均不公开，线上期间没有官方反馈。
++验收矩阵就是我们自己的"隐藏测试推导"——它的覆盖面直接决定能拿多少分。
++
++Spec 场景数不等于官方 F-point 数量，不要据此推断分值。
+diff --git a/spec/1-do.md b/spec/1-do.md
+new file mode 100644
+index 0000000..2527c68
+--- /dev/null
++++ b/spec/1-do.md
+@@ -0,0 +1,134 @@
++# 核心任务
++
++在本工程中，按本工程 `spec/requirement.md` 的需求完成功能开发，目标是让尽可能多的官方 F-point 通过。
++
++**前置**：必须先按 `0-analyze.md` 完成分析，拿到本工程 `spec/acceptance.md`（验收矩阵）和
++`spec/baseline-notes.md`（基线理解结论）后再动手写代码。没有验收矩阵就直接改代码，等于放弃隐藏检查点。
++
++本题基线提交号见本工程 `spec/metadata.json` 的 `base_commit`。
++
++# 禁止事项（违反即废题）
++
++以下是赛事章程第 5.6、5.7、5.8 条的硬红线，**违反会导致本题全部 F-point 不计通过，且仍计入分母**：
++
++1. **不得访问本题来源项目（上游仓库）中与本题相关的任何内容**，包括：
++   - 实现该功能的提交、合并请求、Issue、补丁，及其镜像、转载、副本
++   - 上游仓库该功能相关文件的当前版本（main/master 分支上已实现的代码）
++   - 上游仓库的提交历史、代码搜索结果、第三方转载的同功能代码
++2. **不得访问题包目录**（`SWE-OpenHarmony/`）。本题所需资料已复制到本工程 `spec/`。
++   题包里有其他赛题的 Spec 和基线，访问即违规。
++3. **不得访问其他赛题的工程目录**（`harmonycup-work/` 下除本工程和 `common/` 之外的目录）。
++
++允许访问的范围：
++
++| 范围 | 用途 |
++| --- | --- |
++| 本工程目录 | 源码、`spec/`、`hypium_tests/`、`logs/` |
++| `../common/`（相对本工程，即 `harmonycup-work/common/`） | 通用任务书 `spec-harness/`、测试框架 `test-harness/`、Python 环境 `.venv/`；**只读，不得修改** |
++| 公开资料 | 鸿蒙官方文档、ArkTS/ArkUI API 资料、与本赛题无关的通用技术资料 |
++
++检索到的页面若出现本应用的同功能实现，立即停止阅读并在产出中说明。
++
++**不确定某个来源是否受保护时，不要访问，先问我。**
++
++# 输入
++
++| 文件 | 内容 |
++| --- | --- |
++| 本工程 `spec/requirement.md` | 本题需求说明 |
++| 本工程 `spec/metadata.json` | `base_commit` 与基线 bundle 标识 |
++| 本工程 `spec/acceptance.md` | 验收矩阵（由 `0-analyze.md` 产出） |
++| 本工程 `spec/baseline-notes.md` | 基线理解结论（由 `0-analyze.md` 产出） |
++| 工程源码 | 本题指定基线 |
++
++需要去http://swe-openharmony.tech/#r-scoring 查看具体赛题技术答疑，看是否有本道题用得上的。
++
++# 必做流程
++
++按顺序执行，不要跳步。
++
++1. **确认基线快照存在**。`0-analyze.md` 阶段应已打好标识；若没有，先 `git tag baseline-<题目ID>` 或记录 HEAD。
++2. **走通端到端最短路径**，顺序固定：
++   页面入口能进入 → 正常数据能展示 → 用户动作能触发 → 状态正确变化 →
++   必要的网络请求或本地持久化真正发生 → 返回/重进/重启/重复操作正确 → 最后才做视觉细节。
++3. **沿用基线既有结构**。若基线已有相近功能，优先复用其数据结构、状态管理和路由方式。
++   官方测试会沿现有应用流程进入目标页面；另起一套页面或绕过原有服务，会导致入口、参数、返回栈对不上。
++4. **涉及网络的需求显式设计状态机**，不要"先改 UI 再补请求"。
++   隐藏测试可能直接观测网络行为，也可能快速重复点击验证是否产生重复请求。
++5. **写 Hypium 自测脚本**到本工程 `hypium_tests/test_*.py`，测试类继承
++   `common/test-harness` 中的 `harness.driver.HarnessTestCase`（框架用法见 `common/test-harness/README.md`）。
++   为新增/关键组件设置稳定的 `.id()`，否则只能依赖脆弱的类型+顺序选择器。
++6. **构建、安装本题 HAP，再跑自测**，全程留日志。命令均在本工程根目录执行：
++
++   ```bash
++   COMMON="$(cd ../common && pwd)"
++   mkdir -p logs
++   hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon 2>&1 | tee logs/build.log
++   hdc -t <设备序列号> install -r <本题HAP路径> 2>&1 | tee logs/install.log
++   PROJ="$PWD"
++   # 在 logs/ 下运行：Hypium 会在当前目录生成 reports/，避免污染工程根目录
++   (cd logs && PYTHONPATH="$COMMON/test-harness" "$COMMON/.venv/bin/python" -m harness.runner \
++       --project "$PROJ" --device <设备序列号> --json "$PROJ/logs/selftest.json" 2>&1 | tee selftest.log)
++   ```
++
++   **每次跑自测前都必须先安装本题刚构建的 HAP。** 同一上游项目的多道题共用同一个 bundleName，
++   模拟器上装的可能是别的题的构建产物，直接跑会测错对象。
++   可用 `hdc shell "bm dump -n <bundleName>"` 的 `updateTime` 核对安装时间。
++   需要 `hdc` 在 PATH 中（DevEco 的 `sdk/default/openharmony/toolchains`）。
++
++7. **自测失败就修，修完重跑**，不要带着失败用例交付。
++8. **交付前还原构建生成的噪声文件**（如各模块 `BuildProfile.ets` 因 `buildMode=debug` 被改写）：
++
++  ```bash
++  git checkout -- $(git diff --name-only | grep 'BuildProfile.ets')
++  ```
++
++# 开发时必须回答的验收维度
++
++`spec/acceptance.md` 里的每一条都要落到代码和自测里。这些维度各自都可能是独立检查点：
++
++| 维度 | 需要回答 |
++| --- | --- |
++| 入口 | 测试从哪个页面、哪个按钮或哪种初始状态开始？ |
++| 前置数据 | 需要登录、地址、商品、歌曲、配置或服务端数据吗？ |
++| 用户动作 | 测试会点击、滑动、输入、返回、重启还是重复操作？ |
++| UI 结果 | 必须出现什么文字、组件、页面、状态或布局？ |
++| 数据结果 | 是否要保存、删除、排序、追加、同步或持久化？ |
++| 网络结果 | 是否必须真的发请求？请求何时发起？取消/关闭时是否不能发？ |
++| 返回结果 | 返回后状态是否保持？滚动位置是否保持？ |
++| 边界条件 | 空输入、纯空格、取消、重复点击、没有更多数据、部分操作如何处理？ |
++
++文案必须与 Spec 完全一致，不要自行改写或美化。
++
++# 完成标准
++
++全部满足才算这一步完成，缺一项就继续改：
++
++- [ ] `spec/acceptance.md` 中每条验收项都有对应实现
++- [ ] 构建成功，无新增告警（与基线构建日志对比）
++- [ ] 应用能安装、能冷启动、不崩溃
++- [ ] `hypium_tests/` 自测全部通过，日志已存入 `logs/`
++- [ ] 至少覆盖：首次进入、无数据、取消操作、返回后重进、重启应用、连续点击、空输入/纯空格
++- [ ] 涉及网络的需求已确认请求真实发出，且取消/关闭时确实不发
++- [ ] `git status` 只剩真实改动，无构建噪声文件
++- [ ] 已知问题和未覆盖项已明确列出（交给 `2-submit.md` 用）
++
++# 背景
++
++本工程对应 2026 AI 辅助研发创新大赛（鸿蒙杯）的一道赛题。
++
++评分单位是 F-point（从 Spec 归一化得到、可由 Hypium 执行判定的功能检查点）：
++
++```
++评测分 = 通过的 F-point 数 ÷ 本阶段全部 F-point 数 × 100
++```
++
++未提交、未完成、构建或安装失败、崩溃、超时、跳过、未执行的 F-point 都不计通过，**但仍计入分母**。
++所以"没做"和"做崩了"扣分相同，而每道已做题目里多通过一个检查点都是净收益。
++
++正式测试脚本、隐藏输入和参考答案都不公开，线上提交期间也没有官方反馈。
++截止前多次提交以最后一次为准，不取历史最高分。因此自测体系是唯一可靠信号——
++不要把"本地示例通过"或"界面看起来对了"当成完成。
++
++Spec 中的场景数不等于官方 F-point 数量，可以用场景拆解开发和自测，但不要据此推断分值。
++
+diff --git a/spec/2-submit.md b/spec/2-submit.md
+new file mode 100644
+index 0000000..cebd302
+--- /dev/null
++++ b/spec/2-submit.md
+@@ -0,0 +1,127 @@
++# 核心任务
++
++在本工程中，整理本题的鸿蒙杯成果提交材料，产出到本工程 `.comate/submission-draft/`。
++
++**前置**：`1-do.md` 已完成，构建与自测均通过。
++
++**不要改动任何业务代码、资源和配置。** 本任务只做单题材料整理与校验。
++
++团队级文件（`solution.md`、根 `sources.md`、根 `README.md`、`system-config/`）与成果包打包不在本阶段，
++由 `3-package.md` 统一处理；本阶段只产出本题材料，以及供其汇总的片段文件。
++
++材料规格以赛题包的官方模板为准，开工前必须先读（题包 `SWE-OpenHarmony/` 与 `harmonycup-work/` 同级，相对本工程为 `../../SWE-OpenHarmony/`）：
++- `../../SWE-OpenHarmony/templates/submission-checklist.md`（材料清单）
++- `../../SWE-OpenHarmony/templates/trace-index.md`（记录索引字段）
++- `../../SWE-OpenHarmony/templates/submission.json`（任务清单模板）
++
++**访问范围限制**：
++
++| 范围 | 是否允许 |
++| --- | --- |
++| 本工程目录 | 允许 |
++| `harmonycup-work/common/`（只读） | 允许 |
++| 题包 `templates/` | 允许，只读 |
++| 题包 `reports/build-baselines/<本题ID>.log` | 允许，只读 |
++| 题包 `specs/`、`metadata/`、`repo_bundles/` 及其他目录 | **禁止**（本题需求与元数据已在本工程 `spec/`） |
++| 其他赛题的工程目录 | **禁止** |
++| 本题来源项目中与本题相关的提交、PR、Issue、补丁及其副本 | **禁止** |
++
++# 输入
++
++## 一、需要我提供的（留空的不要猜）
++
++- 团队级信息：`../common/spec-harness/team.yaml`（相对本工程）
++- 题目级信息：本工程 `spec/submit-input.yaml`
++
++两个文件中留空的字段一律视为未提供，在产出中标 `【待补充】`，不要推测。
++
++## 二、本次需要整理的会话（我每次填写后再交给你）
++
++严格只整理下表所列会话，范围见要求 5。
++
++| 引擎 sessionUuid | IDE 侧边栏会话 ID（可选） | 用途（可选，如 实现/测试设计/修复） |
++| --- | --- | --- |
++| 71bc8e00-e056-404d-96d9-303160a3a9da |  |  |
++| 1611afd1-2e90-4647-ac14-b9bfc5fb0a02 |  |  |
++|  |  |  |
++
++表中 sessionUuid 全部为空时，不得自行检索会话补全，`traces/` 与会话相关字段全部标 `【待补充】`，并在交付说明中提醒我补填。
++
++## 三、你自己去取的（不要问我）
++
++| 信息 | 来源 |
++| --- | --- |
++| `base_commit` | 本工程 `spec/metadata.json` |
++| 基线准备脚本记录 | 题包 `reports/build-baselines/<本题ID>.log` |
++| 改动清单、`final.diff`、二进制大小与 SHA-256 | 本工程 git 状态 |
++| bundleName、入口 Ability | `AppScope/app.json5`、entry 模块的 `src/main/module.json5` |
++| 依赖与锁文件、构建命令、产物路径 | `oh-package.json5`、`oh-package-lock.json5`、`build-profile.json5` |
++| 轨迹文件路径、会话元信息 | `~/.comate-engine/store/comate_chat_sessions.jsonl` 中**仅限**上文第二节所列 sessionUuid 的记录（只按 ID 取，不按工程路径或题目 ID 搜索） |
++| Agent、模型 ID、effort、token 用量、生效规则 | 第二节所列会话的明细 `chat_session_<uuid>` 的 `payload.model` / `payload.agent` / `agentInfo` / `tokenUsage` / `appliedRuleNames` |
++| 客户端与扩展版本 | `/Applications/Comate.app/Contents/Resources/app/product.json`、扩展 `package.json` |
++| 任务书版本 | `common/spec-harness`：若为 git 仓库记 `git -C <common> rev-parse HEAD`，否则记四个任务书文件的 SHA-256 |
++| 本题历史任务书 | 本工程 `spec/history/`（若存在） |
++| Skill 与工具清单、失败重试过程 | 会话明细的工具调用序列 |
++| 构建与自测日志 | 本工程 `logs/` |
++| 成果冻结时间 | 开始整理时执行 `TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M'` 取当前北京时间，精确到分，本次整理只取一次；填入 `trace-index.md`，`3-package.md` 打包时会统一为成果包的冻结时间 |
++
++# 输出
++
++全部产出到本工程 `.comate/submission-draft/`，由 `3-package.md` 汇总进成果包。
++
++| 文件 | 内容要求 |
++| --- | --- |
++| `changes/final.diff` | 自 `base_commit` 的完整差异，含新增、修改、删除；二进制用 `--binary` |
++| `build.md` | 依赖安装、构建、安装、启动、应用标识、必要初始化；不得出现本机私有绝对路径 |
++| `trace-index.md` | 按官方模板逐字段填写；客观字段据实填，其余留 `【待补充】` |
++| `sources.fragment.md` | 本题的随包基线声明与额外来源，供汇总进根 `sources.md` |
++| `solution.fragment.md` | 本题完成情况、未完成项、已知问题、AI 参与环节，供汇总进 `solution.md` |
++| `submission.json.fragment` | 本题在任务清单中的 JSON 片段 |
++| `traces/` | 第二节所列会话的原生明细 + 过滤后的索引行 + Markdown 副本 + 代码改动快照 |
++| `logs/` | 从本工程 `logs/` 复制；缺失则明确告诉我需要补跑哪条命令 |
++
++最后输出两份清单：**仍需我补充的字段**，以及**你已自动填入的事实及其出处**。
++
++# 要求
++
++这些是硬约束，违反任意一条都算任务失败。
++
++1. **不得编造**。会话 ID、版本号、时间、分工、路径一律来自真实文件；无法核实的标 `【待补充】`，禁止用"示例值"占位。
++2. **`final.diff` 必须完整且可应用**。范围是 `base_commit` 到提交版本的**全部**改动，
++   包括 `spec/`、`hypium_tests/`、`.comate/` 等过程文件——它们会随工程一起放进成果包的 `project/`，
++   diff 必须与 `project/` 一一对应，不能只截取业务代码目录。
++   校验方式：把基线 clone 到临时目录、`checkout` 到 `base_commit`、`git apply --check --binary`，
++   再比对关键文件与工程一致。校验结果写进交付说明。
++3. **二进制资源单列**。diff 存不住内容，需另列文件路径、大小、SHA-256；若复制自基线自带资源，注明同源以免被当作外部素材。
++4. **diff 不含构建噪声**。生成前确认 `git status` 只剩真实改动（`BuildProfile.ets` 等构建生成文件先还原）。
++5. **轨迹只整理我指定的会话**。范围严格等于上文第二节我填写的会话表：
++   - 禁止按工程路径、题目 ID、时间或其他条件自行检索、补充会话，即使认为某会话"相关"也不得纳入；
++   - 表中的 ID 在 `comate_chat_sessions.jsonl` 或 `chat_session_<uuid>` 中找不到时，如实报告并标 `【待补充】`，不得用其他会话替代；
++   - 若发现疑似遗漏的会话，只在交付说明中提示我，由我决定是否加入表中；
++   - 禁止整盘打包 `~/.comate-engine/store/`，规则不允许提交整个客户端数据库和无关私人会话。
++6. **会话 ID 要写两个**：引擎 `sessionUuid` 与 IDE 侧边栏会话 ID，并说明对应关系。
++   `sessionUuid` 取自会话表；侧边栏 ID 优先取表中填写的值，未提供时只可从该会话自身记录中核实，仍无法核实则标 `【待补充】`。
++7. **失败与重试必须保留**：会话表内会话的失败与重试过程要完整保留，不能只留成功记录。
++8. **任务书版本要记录**：`trace-index.md` 中注明本题实际使用的 `common/spec-harness` 版本，
++   以及 `spec/history/` 中的历史任务书（若存在）。
++9. **路径规范**：`submission.json` 的三个路径字段填成果包内相对路径、用 `/` 分隔，后两项必须是文件路径。
++10. **如实披露**。来源使用情况、人工修改、脱敏范围、记录缺失都按事实写；不确定的交给我判断，不要替我做有利解释。
++
++# 背景
++
++本工程对应 2026 AI 辅助研发创新大赛（鸿蒙杯）的一道赛题，题包仓库 `gitcode.com/SMAT/SWE-OpenHarmony`。
++
++评分单位是 F-point（可判定的 Hypium 测试方法），线上评测分 = 通过的 F-point ÷ 该阶段总数 × 100。
++未提交、构建失败、崩溃的 F-point 都不计通过但计入分母。
++
++材料本身也会被核验，且核验的是实质而非文件是否存在：
++
++- 官方会逐题核验是否有 AI 实际参与研发，检查原始记录是否对应**本题**的具体研发过程。
++- 无法证明某题实际使用 AI 的，该题全部 F-point 不计通过。
++- **截止后禁止补交**代码、漏交材料，也不能用新产生的记录替代原始解题证据。
++- 涉嫌伪造或故意隐瞒按章程第 11.1、11.4 条处理，后果重于单题归零。
++- 来源保护：不得访问来源项目中与本题相关的修复提交、合并请求、Issue、补丁及其副本；
++  轨迹显示访问受保护内容的，该题 F-point 不计通过（章程第 5.7、5.8 条）。
++
++所以材料整理的目标不是"把目录填满"，而是**让核验者能顺着索引复现本题的真实研发过程**。
++本地 `tools/check_submission.py` 只验 ZIP 结构和路径存在性，通过不代表材料合格。
+diff --git a/spec/3-package.md b/spec/3-package.md
+new file mode 100644
+index 0000000..7426719
+--- /dev/null
++++ b/spec/3-package.md
+@@ -0,0 +1,141 @@
++# 核心任务
++
++把本阶段全部题目的材料汇总成一个可提交的成果包 ZIP，并完成本地校验。
++
++**本任务不改任何业务代码，也不补做题目。** 只做汇总、校验、打包。
++
++前置：每道已完成的题都应已通过 `2-submit.md` 在各自工程的 `.comate/submission-draft/` 产出单题材料。
++未做或未完成的题不需要材料，但**必须在清单里保留条目**。
++
++本阶段是跨题汇总，**不受单题的访问隔离限制**：可以读取题包和 `harmonycup-work/` 下全部工程，
++但只读不写（成果包输出目录除外）。
++
++# 禁止事项
++
++1. **不得伪造或补造记录**。截止后禁止补交代码和漏交材料，也不能用新产生的记录替代原始解题证据；
++   涉嫌伪造或故意隐瞒按章程第 11.1、11.4 条处理，后果重于单题归零。
++2. **不得整盘打包客户端数据**。只摘取与本阶段题目相关的会话，不提交整个 `~/.comate-engine/store/`、
++   无关私人会话、账号密钥、签名私钥。
++3. **不得在材料中出现本机私有绝对路径**作为构建依赖；成果包内路径一律相对、用 `/` 分隔。
++4. **不得遮蔽代码来源与修改依据**。可以脱敏，但要说明范围。
++5. **不得修改任何工程的源码或 git 历史**。
++
++# 输入
++
++## 需要我提供的（留空的不要猜）
++
++- 团队级信息：`harmonycup-work/common/spec-harness/team.yaml`
++  （其中 `submitted_tasks`、`attempted_not_submitted`、`zip_out` 三项本阶段必填）
++
++## 你自己去取的
++
++| 信息 | 来源 |
++| --- | --- |
++| 本阶段全部题目 ID | 题包 `templates/submission.json`（25 题，顺序与条目都要保留） |
++| 各题 `base_commit` | 各工程 `spec/metadata.json`，并与题包 `metadata/<题目ID>.json` 交叉核对 |
++| 各题单题材料 | 各工程 `.comate/submission-draft/` |
++| 各题会话记录 | `~/.comate-engine/store/`，按工程绝对路径与题目 ID 反查 |
++| Agent／模型／客户端版本 | 会话明细 `payload.model`、`payload.agent`；应用包 `product.json` 与扩展 `package.json` |
++| 系统提示与任务书 | `harmonycup-work/common/spec-harness/`（各题实际使用的版本见其 `trace-index.md`），以及各工程 `spec/history/` |
++| Skill 定义 | `~/.comate/skills/`、`~/.agents/skills/` 中各题实际调用过的 Skill |
++| 自测框架 | `harmonycup-work/common/test-harness/`（作为自研工具放入 `system-config/`） |
++
++# 输出：成果包结构
++
++```
++<包根>/
++├── submission.json          # 本阶段全部题目；未做的留 not_completed
++├── README.md                # 公共环境说明（SDK、DevEco、工具版本、通用构建方式）
++├── solution.md              # 团队级：完成情况、人机协作、成员分工、来源保护、配置与变更
++├── sources.md               # 团队级：第三方来源；无额外来源也要显式声明
++├── traces/<题目ID>/         # 各题会话原生明细 + 过滤后索引行 + Markdown 副本 + 代码改动快照
++├── system-config/           # 实际使用的系统提示、Skill 定义、工具与编排配置
++└── tasks/<题目ID>/
++    ├── project/             # 完整工程（排除 build/、oh_modules/、.hvigor/ 等产物）
++    ├── build.md
++    ├── trace-index.md
++    ├── human-changes.md     # 有人工改码时才需要
++    ├── changes/final.diff
++    └── logs/                # 构建与自测日志
++```
++
++`submission.json` 中每个 submitted 条目：
++
++```json
++{ "task_id": "<题目ID>", "status": "submitted",
++  "project_path": "tasks/<题目ID>/project",
++  "build_instructions": "tasks/<题目ID>/build.md",
++  "trace_index": "tasks/<题目ID>/trace-index.md" }
++```
++
++# 执行顺序
++
++1. **冻结**。停止本次提交涉及的全部 AI 任务和人工修改，执行 `TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M'`
++   取当前北京时间作为成果冻结时间（只取一次），写入 `solution.md`，并把包内各题 `trace-index.md` 的冻结时间统一为该值；各题打版本标识
++   （`git tag submit-<题目ID>-v<版本>` 或记录工作树快照摘要）。
++2. **核对题目清单**。以题包 `templates/submission.json` 为准，确认 25 个条目齐全、无重复、无多余；
++   `submitted` 与 `not_completed` 与实际一致。
++3. **汇总单题材料**。把各题 `.comate/submission-draft/` 下的 `final.diff`、`build.md`、`trace-index.md`、
++   `logs/` 搬到 `tasks/<题目ID>/`，`traces/` 搬到包根 `traces/<题目ID>/`；
++   缺任何一项的，列出来告诉我，不要用空文件凑数。
++4. **拷贝工程**到 `tasks/<题目ID>/project/`，排除构建产物与依赖目录（`build/`、`oh_modules/`、`.hvigor/`、
++   `__pycache__/`），保留源码、资源、配置、依赖清单、锁文件，以及 `spec/`、`hypium_tests/`、`.comate/` 等过程文件。
++   保留范围必须与该题 `final.diff` 覆盖的范围一致。
++5. **补齐轨迹**：核对 `traces/<题目ID>/` 是否覆盖本题全部会话，按工程路径和题目 ID 两个维度各查一遍
++   （测试设计类会话的工作区可能是题包目录，容易漏），含失败与重试记录。
++6. **复制配置**到 `system-config/`：
++   - `spec-harness/`：各题实际使用版本的通用任务书（多题用了不同版本时按版本分目录，并在说明里写清对应关系）
++   - `test-harness/`：自测框架源码与 `requirements.txt`
++   - `history/<题目ID>/`：各工程 `spec/history/` 中的历史任务书
++   - `skills/`：各题实际调用过的 Skill 定义
++   - `README.md`：Agent／模型／客户端版本、上述文件的读取方式；即使无自定义项也要写这份说明
++7. **写团队级文档**：
++   - `README.md`：公共环境（SDK、DevEco、Node/OHPM/Hvigor、hdc、Python 与 Hypium 版本）与通用构建方式
++   - `solution.md`：汇总各题 `solution.fragment.md`，加上团队信息、成员分工、来源保护措施、配置与变更；
++     须包含"已尝试但未提交工程的任务"一节，列出题目 ID 与记录索引路径
++   - `sources.md`：汇总各题 `sources.fragment.md`，同一来源合并为一条并标注涉及题目
++8. **逐题校验差异可用性**：把 `final.diff` 应用到该题基线的干净 clone 上
++   （`git clone` → `checkout base_commit` → `git apply --check --binary`），确认与 `project/` 一致。
++   任一题校验失败就停下报告，不要打包。
++9. **打包并校验**：
++
++   ```bash
++   cd <包根的父目录> && zip -r "<zip_out>" <包根目录名> -x '*/build/*' '*/oh_modules/*' '*/.hvigor/*'
++   cd <题包目录 SWE-OpenHarmony，与 harmonycup-work 同级>
++   .venv/bin/python tools/check_submission.py "<zip_out>"
++   .venv/bin/python tools/submission_checksum.py "<zip_out>"
++   ```
++
++10. **输出提交邮件要素**：阶段、团队 ID、版本号、联系人、文件名、大小、SHA-256，
++    以及下载链接与提取码的占位（链接由我填）。
++
++# 要求
++
++1. **不得编造**。团队信息、分工只能用我提供的值；冻结时间取第 1 步执行时的系统时间；其余一律来自真实文件。
++   无法核实的标 `【待补充】`并在最后汇总，禁止用示例值占位。
++2. **清单必须全量**。25 个条目一个不少，`not_completed` 也要保留；路径字段必须指向包内真实文件，
++   后两项必须是文件路径而非说明文字。
++3. **每个 submitted 题目**都要有完整工程、`build.md`、`trace-index.md`、`final.diff`；
++   不能只交 HAP 或补丁。
++4. **`traces/` 与 `system-config/` 必须非空**，这是 `check_submission.py` 的硬性检查项。
++5. **二进制资源单列**摘要（路径、大小、SHA-256），复制自基线自带资源的注明同源。
++6. **如实披露**来源使用、人工修改、脱敏范围、记录缺失；不确定的交给我判断，不要替我做有利解释。
++7. **最后输出三份清单**：仍需我补充的字段、各题材料完整性检查结果、差异可应用性校验结果。
++
++# 背景
++
++本阶段共 25 道赛题。评测分 = 通过的 F-point ÷ 本阶段全部 F-point × 100，
++未提交、构建失败、崩溃的检查点都不计通过但计入分母——所以清单里每道题的状态都影响最终分数。
++
++材料本身也会被核验，且核验实质而非文件是否存在：
++
++- 官方逐题核验是否有 AI 实际参与研发，检查原始记录是否对应**本题**的具体研发过程。
++- 无法证明某题实际使用 AI 的，该题全部 F-point 不计通过。
++- 轨迹显示访问受保护内容的，该题 F-point 不计通过（章程第 5.7、5.8 条）。
++- 个别记录缺失但包内其他证据足以核验的，按实际测试结果正常计分，不直接认定作弊。
++
++提交后仍可继续作答，但更新正式成果须重新冻结并生成完整成果包、重新发送正式提交邮件；
++不得直接替换已上传包内的文件。未收到新邮件时以最后一次正式提交为准。
++
++本地 `check_submission.py` 只验 ZIP 结构和路径存在性，通过不代表材料合格、源码可构建或功能通过。
++
+diff --git a/spec/acceptance.md b/spec/acceptance.md
+new file mode 100644
+index 0000000..8c605cf
+--- /dev/null
++++ b/spec/acceptance.md
+@@ -0,0 +1,388 @@
++# cmu-spec114 验收矩阵
++
++Spec：`spec/requirement.md`《0.9.3 版本信息、应用内隐私页与搜索提示统一》。基线现状与证据见 `spec/baseline-notes.md`（下文"基线实测"均指该文档记录的模拟器走查结果）。
++
++## 0. 约定
++
++- 证据等级：`SPEC_EXPLICIT` Spec 明文；`REASONABLE_DERIVATION` 由 Spec 合理推导；`UNCONFIRMED_ASSUMPTION` 待确认假设（第 5 节汇总）。
++- 决策状态：U1–U9 已于 2026-10-19 由用户确认**全部采用推荐方案**。证据等级保留原标注（表示 Spec 本身没有给出依据），各项后的"决策"即实现口径，开发阶段按决策实现，不再另行确认。
++- 文案均为 Spec 原文逐字摘录，引号内即期望的完整字符串。
++- 官方测试由参考实现编写，不可能依赖我们新加的 `.id()`；表中"需补 `.id()`"只服务于自测，**实现时不得改变既有组件的类型、文本和相对顺序**，以免官方按类型/文本/位置定位失败。
++- 应用包名 `cc.chenlvin.cloudmusic`；Hypium 断言写法以 `hypium==6.1.0.210` 为准。
++- 八个维度缩写：入口／前置／动作／UI／数据／网络／返回／边界。
++
++---
++
++## 1. 场景一：设置页显示 0.9.3 版本与完整入口
++
++Spec 原文要点：
++- 概述："应用发布版本升级为 0.9.3"、"页面底部保留云音汇项目信息，使版本和来源信息在同一个应用内页面中可见"。
++- 步骤 1："用户启动应用，点击首页右上角更多按钮并选择“设置”。"
++- 步骤 2："设置页标题、“当前版本”、“隐私政策”和“问题反馈”行均正常显示。"
++- 步骤 3："版本值显示“0.9.3 - 测试版”，与应用清单中的 versionName 0.9.3 一致。"
++- 步骤 4："页面底部显示“云音汇 @Chenlvin”及 GitHub 项目名称。"
++
++本场景公共维度：入口=冷启动 → 首页；前置=无需登录、无需服务端（基线实测未登录即可完成全流程）；网络=不适用（设置页为纯本地静态内容，不发请求）。
++
++### A1 应用清单 versionName 升级为 0.9.3
++- 来源：S1 概述、步骤 3｜证据：`SPEC_EXPLICIT`
++- 原子行为：`AppScope/app.json5` 的 `versionName` 由 `0.9.2` 改为 `0.9.3`。
++- 可观察结果：`hdc shell bm dump -n cc.chenlvin.cloudmusic` 输出 `"versionName": "0.9.3"`；HAP 内 `module.json` 的 `app.versionName == "0.9.3"`。
++- 八维：入口=不适用（安装态属性）；前置=已安装新包；动作=无；UI=不适用（UI 侧见 A8）；数据=bundle 信息 versionName=0.9.3；网络=不适用；返回=不适用；边界=覆盖安装后仍为 0.9.3（重启应用不影响）。
++- 选择器：不适用（shell 断言）。
++
++### A2 versionCode 同步递增
++- 来源：S1 概述"发布版本升级"｜证据：`UNCONFIRMED_ASSUMPTION`（U1）｜决策：已确认，递增为 103
++- 原子行为：`AppScope/app.json5` 的 `versionCode` 由 `102` 改为 `103`。
++- 可观察结果：`bm dump` 输出 `"versionCode": 103`。Spec 未写，Hypium UI 断言无法观察，只能 shell 观察。
++- 八维：入口／动作／UI／网络／返回=不适用（安装态属性，无交互）；前置=已安装新包；数据=versionCode 递增；边界=覆盖安装 0.9.2(102) 旧包时不应因版本号降级被拒。
++- 选择器：不适用。
++
++### A3 首页右上角更多按钮 → “设置”入口可达
++- 来源：S1 步骤 1｜证据：`SPEC_EXPLICIT`（基线已具备，回归项）
++- 原子行为：点击首页顶栏右侧更多按钮弹出菜单，菜单含 MenuItem “设置”，点击后进入设置页。
++- 可观察结果：菜单出现 `BY.text("设置")`（MenuItem）；点击后设置页标题 `BY.text("设置")` 存在且首页 `TextInput` 不在树中（router 压栈后下层页面节点不在 UI 树，基线实测）。
++- 八维：入口=首页；前置=无；动作=点击更多按钮 → 点击“设置”；UI=菜单显示“设置”“下载管理”两项，随后切换到设置页；数据=无；网络=不适用；返回=不适用（返回见 B7/C4）；边界=点击菜单外关闭菜单后不跳转；重复点击“设置”可能压栈两次（基线行为，Spec 未要求，不改）。
++- 选择器：更多按钮无文本无 id，只能按 `BY.type("Button")` + 坐标排序（顶栏第 2 个）定位；需在实现时补 `.id()` 仅限自测用，且不得改变按钮类型与顺序。
++
++### A4 设置页标题“设置”
++- 来源：S1 步骤 2｜证据：`SPEC_EXPLICIT`
++- 原子行为：设置页顶栏显示标题文字“设置”。
++- 可观察结果：`BY.text("设置")` 存在，设置页内仅 1 处（基线实测计数 1）。
++- 八维：入口=A3；前置=无；动作=无；UI=标题可见；数据=无；网络=不适用；返回=不适用；边界=从隐私页返回后标题仍为“设置”（B7）。
++- 选择器：`BY.text("设置")`；需在实现时补 `.id()`（自测用）。
++
++### A5 “当前版本”行
++- 来源：S1 步骤 2｜证据：`SPEC_EXPLICIT`
++- 原子行为：列表第 1 行左侧标签“当前版本”。
++- 可观察结果：`BY.text("当前版本")` 存在且唯一。
++- 八维：入口=A3；前置=无；动作=无；UI=标签可见；数据=无；网络=不适用；返回=不适用；边界=重启后重进仍可见。
++- 选择器：`BY.text("当前版本")`。
++
++### A6 “隐私政策”行（标签 + 入口文字）
++- 来源：S1 步骤 2；S2 步骤 1｜证据：`SPEC_EXPLICIT`
++- 原子行为：第 2 行左侧标签“隐私政策”，右侧可点击文字“前往查看本软件的隐私政策”。
++- 可观察结果：`BY.text("隐私政策")`、`BY.text("前往查看本软件的隐私政策")` 均存在且各唯一（基线实测）。
++- 八维：入口=A3；前置=无；动作=无（点击见 B1）；UI=两段文字可见；数据=无；网络=不适用；返回=不适用；边界=标签“隐私政策”与隐私页标题同文，依赖 router 压栈隐藏下层节点避免歧义（B3）。
++- 选择器：按文本；入口文字需在实现时补 `.id()`（自测用）。
++
++### A7 “问题反馈”行
++- 来源：S1 步骤 2｜证据：`SPEC_EXPLICIT`（标签）；右侧值保持基线 `chenlvin@126.com\n或 GitHub issue` 为 `REASONABLE_DERIVATION`
++- 原子行为：第 3 行左侧标签“问题反馈”，右侧邮箱说明保持不变；点击仍复制邮箱并 Toast“已复制邮箱地址到剪贴板”（基线行为，回归）。
++- 可观察结果：`BY.text("问题反馈")` 存在且唯一。
++- 八维：入口=A3；前置=无；动作=无（点击为回归项 X2）；UI=标签可见；数据=无；网络=不适用；返回=不适用；边界=不适用（纯展示）。
++- 选择器：`BY.text("问题反馈")`。
++
++### A8 版本值“0.9.3 - 测试版”
++- 来源：S1 步骤 3｜证据：`SPEC_EXPLICIT`；取值来源（常量或运行时读 bundleInfo）为 `UNCONFIRMED_ASSUMPTION`（U2）｜决策：已确认，改 `Constants.VERSION` 为 `'0.9.3'`，不改为运行时读取
++- 原子行为：“当前版本”行右侧显示完整字符串“0.9.3 - 测试版”，与清单 versionName 一致；`Settings.ets:45` 的拼接逻辑不动。
++- 可观察结果：`BY.text("0.9.3 - 测试版")`（EQUALS）存在且唯一；`BY.text("0.9.2", CONTAINS)` 不存在。
++- 八维：入口=A3；前置=A1 已生效；动作=无；UI=值文本可见；数据=显示值 == 清单 versionName + " - 测试版"；网络=不适用；返回=从隐私页返回后仍可见（B7）；边界=重启应用后重进仍为 0.9.3；不得出现前后空格或换行（EQUALS 断言会失败）。
++- 选择器：`BY.text("0.9.3 - 测试版")`；需在实现时补 `.id()`（自测用）。
++
++### A9 底部显示“云音汇 @Chenlvin”
++- 来源：S1 步骤 4、概述"页面底部保留云音汇项目信息"｜证据：`SPEC_EXPLICIT`；是否拆分为独立 Text 为 `UNCONFIRMED_ASSUMPTION`（U3）｜决策：已确认，保持基线单个 Text 不拆分、不改文案
++- 原子行为：设置页底部显示“云音汇 @Chenlvin”；`Settings.ets:78-88` 的 Bottom 组件保持基线原样。
++- 可观察结果：`BY.text("云音汇 @Chenlvin", MatchPattern.CONTAINS)` 存在（基线实测 True）；`BY.text("云音汇 @Chenlvin")` EQUALS 在基线为 False（与 GitHub 行同处一个带 `\n` 的 Text）。
++- 八维：入口=A3；前置=无；动作=无；UI=底部可见、无需滚动（基线坐标 y≈2705–2803，屏高 2880）；数据=无；网络=不适用；返回=不适用；边界=点击底部文字复制链接并 Toast“已复制链接到剪贴板”（基线行为，回归 X2）。
++- 选择器：按文本 CONTAINS。
++
++### A10 底部显示 GitHub 项目名称
++- 来源：S1 步骤 4｜证据：`SPEC_EXPLICIT`（"GitHub 项目名称"）；具体名称取基线 `CloudMusic-HarmonyOSNext` 为 `REASONABLE_DERIVATION`
++- 原子行为：底部显示 GitHub 项目名称“CloudMusic-HarmonyOSNext”。
++- 可观察结果：`BY.text("CloudMusic-HarmonyOSNext", MatchPattern.CONTAINS)` 存在（基线实测 True）。
++- 八维：同 A9。
++- 选择器：按文本 CONTAINS。
++
++### A11 版本与来源信息同屏可见
++- 来源：S1 概述"使版本和来源信息在同一个应用内页面中可见"｜证据：`REASONABLE_DERIVATION`
++- 原子行为：进入设置页不滚动即可同时看到 A8 与 A9/A10。
++- 可观察结果：A8、A9、A10 三个查找在同一页面状态下均命中，且 bounds 均在屏幕内。
++- 八维：入口=A3；前置=无；动作=无；UI=同屏；数据=无；网络=不适用；返回=不适用；边界=不适用（布局固定，无分页/滚动加载）。
++- 选择器：同 A8–A10。
++
++### 场景一边界条件穷举
++
++| 边界 | 是否适用 | 期望／理由 |
++| --- | --- | --- |
++| 空输入／纯空格 | 不适用 | 设置页无输入控件 |
++| 取消／关闭 | 适用 | 更多菜单点外部关闭后停留首页，不进入设置 |
++| 重复点击／快速连点 | 部分适用 | 连点“设置”可能压栈两次（基线行为），Spec 未要求，不改；版本值为静态文本不受影响 |
++| 无数据 | 不适用 | 版本、标签均为本地常量 |
++| 最后一页 | 不适用 | 无分页 |
++| 部分操作 | 不适用 | 无多步表单 |
++| 请求失败 | 不适用 | 设置页不发请求（首页 onPageShow 的请求与本场景无关） |
++| 返回后重进 | 适用 | 设置 → 返回首页 → 再进设置，A4–A10 全部仍成立 |
++| 重启应用后重进 | 适用 | 冷启动后 A8 仍为“0.9.3 - 测试版”（无持久化依赖） |
++
++---
++
++## 2. 场景二：隐私政策在应用内嵌页面打开并可返回
++
++Spec 原文要点：
++- 概述："隐私政策不再通过外部 `viewData` Want 交给其他应用。用户点击设置页的隐私政策说明文字后，应用导航到新增的 `PrivacyPage`，页面显示自身标题栏和 Web 内容容器。即使网络内容暂未加载，仍须显示应用内页面的标题，并支持正常返回。"
++- 步骤 1："用户在设置页点击“前往查看本软件的隐私政策”。"
++- 步骤 2："前台应用仍为云音汇，新页标题显示“隐私政策”，页面内存在 Web 组件。"
++- 步骤 3："用户执行返回操作后回到“设置”，0.9.3 版本值仍可见。"
++
++本场景公共维度：入口=首页 → 更多 → 设置（A3）；前置=无需登录；Web 内容是否加载成功不影响任何断言。
++
++### B1 点击入口导航到应用内 PrivacyPage
++- 来源：S2 概述、步骤 1｜证据：`SPEC_EXPLICIT`；导航方式为 `UNCONFIRMED_ASSUMPTION`（U5）｜决策：已确认，用 `router.pushUrl` + `RouterMode.Single`（U6）
++- 原子行为：点击“前往查看本软件的隐私政策”后，调用 `router.pushUrl({ url: 'pages/PrivacyPage' }, router.RouterMode.Single)` 进入新增页面 `PrivacyPage`（新增 `pages/PrivacyPage.ets` 并在 `main_pages.json` 注册）；不用 Navigation/NavDestination，也不用半模态。
++- 可观察结果：点击后设置页节点（`BY.text("前往查看本软件的隐私政策")`、`BY.text("当前版本")`）不在树中，B3/B4 成立。
++- 八维：入口=设置页；前置=无；动作=点击入口文字一次；UI=切换到隐私页；数据=路由栈 +1；网络=进入页面后由 Web 组件发起页面加载（见第 4 节状态机），点击本身不发 HTTP 请求；返回=见 B7；边界=快速连点见 B10。
++- 选择器：`BY.text("前往查看本软件的隐私政策")`；需在实现时补 `.id()`（自测用）。
++
++### B2 前台应用仍为云音汇，不再拉起外部应用
++- 来源：S2 概述、步骤 2｜证据：`SPEC_EXPLICIT`
++- 原子行为：移除 `ohos.want.action.viewData` 的 `startAbility` 调用，不拉起浏览器。
++- 可观察结果：点击后 `driver.current_app()[0] == "cc.chenlvin.cloudmusic"`。基线实测为 `com.huawei.hmos.browser`（**基线失败点**）。
++- 八维：入口=设置页；前置=无；动作=同 B1；UI=无系统浏览器界面；数据=无；网络=不适用（Want 已删除）；返回=不适用；边界=点击后等待 3s 再判断，仍为本应用。
++- 选择器：不适用（`current_app`）。
++
++### B3 新页标题“隐私政策”
++- 来源：S2 步骤 2、概述"显示自身标题栏"｜证据：`SPEC_EXPLICIT`
++- 原子行为：PrivacyPage 顶部有自有标题栏，标题文字“隐私政策”。
++- 可观察结果：`BY.text("隐私政策")` 存在；设置页同名标签不在树中，因此页面内仅 1 处应用侧 Text（Web 内部文字是否进入 UI 树未验证，见 baseline-notes 第 8 节）。
++- 八维：入口=B1；前置=无；动作=无；UI=标题可见；数据=无；网络=与 Web 加载无关；返回=不适用；边界=断网/加载中也必须可见（B5）。
++- 选择器：`BY.text("隐私政策")`；需在实现时补 `.id()`（自测用）。
++
++### B4 页面内存在 Web 组件
++- 来源：S2 概述"Web 内容容器"、步骤 2｜证据：`SPEC_EXPLICIT`
++- 原子行为：PrivacyPage 内含 ArkWeb `Web` 组件。
++- 可观察结果：`BY.type("Web")` 存在（基线 WebLogin 页实测 Web 可被该选择器命中）。
++- 八维：入口=B1；前置=无；动作=无；UI=Web 容器占据标题栏下方区域；数据=无；网络=Web 发起页面加载；返回=不适用；边界=加载失败时 Web 组件仍须存在，不得因失败销毁或替换为别的组件。
++- 选择器：`BY.type("Web")`；需在实现时补 `.id()`（自测用）。
++
++### B5 网络内容未加载时标题照常显示
++- 来源：S2 概述"即使网络内容暂未加载，仍须显示应用内页面的标题"｜证据：`SPEC_EXPLICIT`
++- 原子行为：标题栏与 Web 加载状态解耦；不得用全屏 loading 或条件渲染遮挡/延后标题。
++- 可观察结果：点击入口后 ≤3s 内 `BY.text("隐私政策")` 与 `BY.type("Web")` 均存在，无论网页是否加载完成。
++- 八维：入口=B1；前置=可在断网或目标站点不可达时验证；动作=无；UI=标题立即可见；数据=无；网络=加载中/失败均不影响标题；返回=加载中也可返回（B7）；边界=请求失败、加载中、加载完成三态标题都可见。
++- 选择器：同 B3/B4。
++
++### B6 Web 加载的隐私政策地址
++- 来源：S2 概述"Web 内容容器"｜证据：`UNCONFIRMED_ASSUMPTION`（U4）｜决策：已确认，沿用基线原地址，不用本地 rawfile
++- 原子行为：Web 加载基线原有地址 `https://docs.chenlvin.cc/cloudmusic/#/privacy`（原 `Settings.ets:9` 的 URI 迁到 PrivacyPage）。
++- 可观察结果：Hypium 无法稳定断言网页内容；官方答疑明确"正式评测不比对固定正文、运营主体信息或指定 URL"。
++- 八维：入口=B1；前置=需要联网才能看到正文（非必需）；动作=无；UI=网页正文（不考核）；数据=无；网络=Web 发起一次 GET；返回=不适用；边界=站点不可达时只显示空白 Web，不另加错误 UI。
++- 选择器：不适用。
++
++### B7 系统返回回到“设置”，0.9.3 仍可见
++- 来源：S2 步骤 3｜证据：`SPEC_EXPLICIT`
++- 原子行为：在 PrivacyPage 执行系统返回（`press_back`）一次即回到设置页。
++- 可观察结果：`BY.text("设置")` 与 `BY.text("0.9.3 - 测试版")` 存在；`BY.type("Web")` 不存在；`current_app` 仍为本应用。基线实测连续两次返回仍停留在浏览器（**基线失败点**）。
++- 八维：入口=B1；前置=无；动作=`press_back` 一次；UI=设置页完整恢复（A4–A10）；数据=路由栈 -1；网络=离开页面后 Web 销毁，加载随之中止；返回=回到设置；边界=加载中返回、加载失败后返回、加载完成后返回都只需一次。
++- 选择器：同 A4、A8。
++
++### B8 标题栏返回按钮回到“设置”
++- 来源：S2 概述"显示自身标题栏……并支持正常返回"｜证据：`REASONABLE_DERIVATION`（基线 `CommonHead` 标题栏自带返回按钮，各子页一致）
++- 原子行为：点击隐私页标题栏左侧返回按钮，回到设置页。
++- 可观察结果：同 B7。
++- 八维：入口=B1；前置=无；动作=点击返回按钮；UI=同 B7；数据=路由栈 -1；网络=同 B7；返回=回到设置；边界=连点返回按钮可能连退两级到首页（基线 BackButton 行为，不改）。
++- 选择器：返回按钮无文本无 id，只能按 `BY.type("Button")` 顺序定位；需在实现时补 `.id()`（自测用）。
++
++### B9 返回不被 Web 内部历史拦截
++- 来源：S2 步骤 3"执行返回操作后回到“设置”"｜证据：`REASONABLE_DERIVATION`
++- 原子行为：不重写 `onBackPress` 把返回交给 `webviewController.backward()`；一次返回始终退出隐私页。
++- 可观察结果：网页内跳转后执行一次 `press_back` 仍满足 B7。
++- 八维：入口=B1；前置=无；动作=`press_back`；UI=同 B7；数据=无；网络=无；返回=回到设置；边界=网页重定向产生历史记录时仍只需一次返回。
++- 选择器：同 B7。
++
++### B10 快速连点入口不叠加多个隐私页
++- 来源：边界推导｜证据：`UNCONFIRMED_ASSUMPTION`（U6）｜决策：已确认，跳转使用 `router.RouterMode.Single`
++- 原子行为：快速连点“前往查看本软件的隐私政策”时，`RouterMode.Single` 保证栈中最多一个 PrivacyPage（已存在则移到栈顶），一次返回即回到设置。
++- 可观察结果：连点两次后执行一次 `press_back`，B7 成立。
++- 八维：入口=设置页；前置=无；动作=快速点击 2 次；UI=只出现一个隐私页；数据=路由栈只 +1；网络=只有一个 Web 实例加载；返回=一次返回回到设置；边界=即本项。
++- 选择器：同 B1。
++
++### B11 返回后重进、重启后重进
++- 来源：边界推导｜证据：`REASONABLE_DERIVATION`
++- 原子行为：隐私页 → 返回设置 → 再次点击入口，仍能进入隐私页；冷启动后重走 A3 → B1 同样成立。
++- 可观察结果：第二次进入后 B2–B4 再次成立。
++- 八维：入口=设置页；前置=无（隐私页无持久化状态）；动作=重复 B1/B7；UI=同 B3/B4；数据=无；网络=每次进入都新建 Web 并重新加载；返回=同 B7；边界=即本项。
++- 选择器：同 B1–B4。
++
++### 场景二边界条件穷举
++
++| 边界 | 是否适用 | 期望／理由 |
++| --- | --- | --- |
++| 空输入／纯空格 | 不适用 | 隐私页无输入控件 |
++| 取消 | 不适用 | 无确认对话框 |
++| 关闭 | 适用 | 系统返回／标题栏返回即"关闭"，见 B7、B8 |
++| 重复点击 | 适用 | 返回后再次点击可重新进入，见 B11 |
++| 快速连点 | 适用 | `RouterMode.Single` 防重复压栈，见 B10（U6 已确认） |
++| 无数据 | 适用 | 网页无内容或空白时，标题与 Web 仍在，见 B5 |
++| 最后一页 | 不适用 | 无分页 |
++| 部分操作 | 适用 | 网页加载中途返回，一次返回即回设置，见 B7 |
++| 请求失败 | 适用 | 断网/站点不可达：标题、Web 组件、返回均正常，不加错误 UI，见 B5/B6 |
++| 返回后重进 | 适用 | 见 B11 |
++| 重启应用后重进 | 适用 | 见 B11 |
++
++---
++
++## 3. 场景三：搜索框和空内容提交使用同一文案
++
++Spec 原文要点：
++- 概述："首页搜索框的占位文案由“请输入搜索词”统一为“请输入搜索内容”，并补充清晰的占位色和输入文字颜色。用户不输入任何内容直接点击搜索时，Toast 使用与占位文字相同的新提示，且不进入空搜索结果页。"
++- 步骤 1："用户重新返回或启动首页，搜索输入框显示“请输入搜索内容”。"
++- 步骤 2："保持输入框为空并点击右侧搜索按钮。"
++- 步骤 3："应用显示“请输入搜索内容” Toast，首页标识仍可见，不跳转到空关键词的搜索结果页。"
++
++本场景公共维度：入口=冷启动首页，或由场景二连续返回（隐私页 → 设置 → 首页）；前置=无需登录。
++
++### C1 搜索框占位文案“请输入搜索内容”
++- 来源：S3 概述、步骤 1｜证据：`SPEC_EXPLICIT`
++- 原子行为：首页 `TextInput` 的 placeholder 改为“请输入搜索内容”。
++- 可观察结果：`BY.hint("请输入搜索内容")` 命中；`TextInput.getHint() == "请输入搜索内容"`。注意 `BY.text(...)` 不匹配 placeholder（基线实测 False），自测必须用 `BY.hint` 或 `getHint()`。
++- 八维：入口=首页；前置=输入框为空（placeholder 只在空值时显示）；动作=无；UI=占位文字可见；数据=无；网络=不适用；返回=从设置返回首页后仍成立（C4）；边界=输入后 placeholder 隐藏、清空后恢复。
++- 选择器：`BY.type("TextInput")`（首页唯一）或 `BY.hint(...)`；需在实现时补 `.id()`（自测用）。
++
++### C2 旧文案“请输入搜索词”不再出现
++- 来源：S3 概述"由“请输入搜索词”统一为“请输入搜索内容”"｜证据：`REASONABLE_DERIVATION`
++- 原子行为：placeholder 与 Toast 两处旧文案全部替换，工程内不再残留“请输入搜索词”。
++- 可观察结果：`BY.hint("请输入搜索词")` 不命中；空搜索 Toast 不等于“请输入搜索词”。
++- 八维：入口=首页；前置=无；动作=C5 的动作；UI=无旧文案；数据=无；网络=不适用；返回=不适用；边界=不适用。
++- 选择器：同 C1。
++
++### C3 补充占位色与输入文字颜色
++- 来源：S3 概述"补充清晰的占位色和输入文字颜色"｜证据：设置两种颜色为 `SPEC_EXPLICIT`；具体色值为 `UNCONFIRMED_ASSUMPTION`（U7）｜决策：已确认，用固定色，不跟随主题
++- 原子行为：`TextInput` 增加 `.placeholderColor('#FF808080')` 与 `.fontColor('#FF121212')`，在固定浅灰背景 `#ffdbd9d9` 上清晰可读。
++- 可观察结果：Hypium 不暴露这两项属性（基线实测 `getAllProperties()` 仅含 `backgroundColor` 等），只能代码审查 + 截图目检。
++- 八维：入口=首页；前置=无；动作=输入任意文字以观察输入色；UI=占位色、输入色可辨；数据=无；网络=不适用；返回=不适用；边界=深色模式下背景仍为固定浅灰，颜色不能随主题变成白色。
++- 选择器：同 C1。
++
++### C4 返回或重启首页后占位文案可见
++- 来源：S3 步骤 1"重新返回或启动首页"｜证据：`SPEC_EXPLICIT`
++- 原子行为：冷启动首页、从设置页返回首页、从隐私页连续返回到首页，C1 均成立。
++- 可观察结果：三种路径到达首页后 `BY.hint("请输入搜索内容")` 均命中，`BY.text("云音汇")` 存在。基线实测 press_back 与标题栏返回均能从设置回首页。
++- 八维：入口=三种路径；前置=之前未在搜索框输入内容；动作=`press_back`／返回按钮／`start_app`；UI=首页恢复；数据=无；网络=首页 onPageShow 会发两次既有请求（基线行为，与断言无关）；返回=即本项；边界=若之前输入过文字再返回，首页保留输入值，此时 placeholder 不显示（基线行为，Spec 未要求清空）。
++- 选择器：同 C1、C6。
++
++### C5 空输入点击搜索 → Toast“请输入搜索内容”
++- 来源：S3 概述、步骤 2–3｜证据：`SPEC_EXPLICIT`
++- 原子行为：输入框为空时点击右侧搜索按钮，弹出 Toast，文案为“请输入搜索内容”。
++- 可观察结果：`start_listen_toast()` 后点击，`get_latest_toast(timeout=3) == "请输入搜索内容"`；Toast 同时以 `Toast` 类型节点出现在 UI 树（基线实测）。
++- 八维：入口=首页；前置=输入框为空；动作=点击搜索按钮；UI=Toast 出现；数据=无；网络=不发请求；返回=不适用；边界=快速连点见 C9，纯空格见 C8。
++- 选择器：搜索按钮无文本无 id，只能按 `BY.type("Button")` 坐标排序定位（首页第 3 个按钮，位于输入框右侧）；需在实现时补 `.id()`（自测用），且不得改变按钮类型与顺序。
++
++### C6 空输入不跳转，首页标识仍可见
++- 来源：S3 概述"不进入空搜索结果页"、步骤 3｜证据：`SPEC_EXPLICIT`；"首页标识"指顶栏标题“云音汇”为 `REASONABLE_DERIVATION`（U9）｜决策：已确认，顶栏标题、搜索框、未登录提示三者都保持不变；自测以“云音汇”为主断言
++- 原子行为：空输入点击搜索后停留首页，不 `pushUrl` 到 `pages/SongsListPage`。
++- 可观察结果：`BY.text("云音汇")`（EQUALS）存在；`BY.type("TextInput")` 存在；`BY.type("LoadingProgress")` 不存在；`BY.text("的搜索结果", CONTAINS)` 不存在；`current_app` 仍为本应用。
++- 八维：入口=首页；前置=输入框为空；动作=点击搜索按钮；UI=页面不变；数据=路由栈不变；网络=不发搜索请求；返回=不适用（未跳转）；边界=连点多次仍不跳转。
++- 选择器：`BY.text("云音汇")`（首页唯一，基线实测计数 1）。
++
++### C7 Toast 与占位文字同源
++- 来源：S3 概述"Toast 使用与占位文字相同的新提示"｜证据：`SPEC_EXPLICIT`
++- 原子行为：placeholder 与 Toast 引用同一个字符串常量，避免两处不一致。
++- 可观察结果：C1 读到的 hint 与 C5 读到的 Toast 文本完全相等。
++- 八维：入口=首页；前置=无；动作=C5；UI=两处文案一致；数据=无；网络=不适用；返回=不适用；边界=不适用。
++- 选择器：同 C1、C5。
++
++### C8 纯空格输入
++- 来源：边界推导（Spec 标题"空内容提交"，步骤只写"保持输入框为空"）｜证据：`UNCONFIRMED_ASSUMPTION`（U8）｜决策：已确认，`trim()` 后为空按空输入处理
++- 原子行为：关键词 `trim()` 后为空时同样 Toast“请输入搜索内容”并不跳转；非空关键词仍按原值（不 trim）传给 SongsListPage。
++- 可观察结果：输入 `"   "` 后点击，Toast 为“请输入搜索内容”，C6 成立。基线实测：纯空格会进入 SongsListPage 并一直转圈（不 trim，且加载失败不退出 loading）。
++- 八维：入口=首页；前置=输入框内容全为空格；动作=点击搜索按钮；UI=Toast；数据=无；网络=不发请求；返回=不适用；边界=即本项。
++- 选择器：同 C5。
++
++### C9 快速连点空搜索
++- 来源：边界推导｜证据：`REASONABLE_DERIVATION`
++- 原子行为：空输入时快速连点搜索按钮，只出现提示，不跳转、不崩溃。
++- 可观察结果：最新 Toast 为“请输入搜索内容”，C6 成立。基线实测快速连点 2 次仍正常 Toast、不跳转。
++- 八维：入口=首页；前置=输入框为空；动作=快速点击 2 次以上；UI=Toast；数据=无；网络=不发请求；返回=不适用；边界=即本项。
++- 选择器：同 C5。
++
++### C10 非空输入仍正常搜索（回归）
++- 来源：S3 概述只改变空输入分支｜证据：`REASONABLE_DERIVATION`
++- 原子行为：输入非空关键词点击搜索，仍 `pushUrl` 到 `pages/SongsListPage` 并携带原关键词。
++- 可观察结果：跳转后首页 `TextInput` 不在树中，出现 `LoadingProgress` 或结果页标题 `"<关键词>" 的搜索结果`。
++- 八维：入口=首页；前置=输入非空；动作=点击搜索；UI=进入结果页；数据=路由参数 searchKeyword；网络=结果页发起既有 `/search?keywords=` 请求（见第 4 节）；返回=返回首页后输入值保留；边界=服务不可达时结果页一直转圈（基线缺陷，本题不修）。
++- 选择器：同 C5。
++
++### 场景三边界条件穷举
++
++| 边界 | 是否适用 | 期望／理由 |
++| --- | --- | --- |
++| 空输入 | 适用 | Toast“请输入搜索内容”，不跳转（C5、C6） |
++| 纯空格 | 适用 | 同空输入处理（C8，U8 已确认） |
++| 取消 | 不适用 | 无确认对话框 |
++| 关闭 | 部分适用 | 收起键盘不影响 placeholder 与按钮行为 |
++| 重复点击／快速连点 | 适用 | C9 |
++| 无数据 | 适用 | "无数据"即空关键词，同 C5 |
++| 最后一页 | 不适用 | 首页无分页 |
++| 部分操作 | 适用 | 输入后又删空再点击，按空输入处理（`onChange` 回写空串） |
++| 请求失败 | 不适用 | 空输入不发请求；非空分支见 C10 |
++| 返回后重进 | 适用 | C4 |
++| 重启应用后重进 | 适用 | C4（冷启动） |
++
++---
++
++## 4. 跨场景项
++
++### X1 构建与安装
++- 证据：`REASONABLE_DERIVATION`（"构建失败、崩溃不计通过"）
++- 期望：`assembleHap` 成功，HAP 可安装到 API 23 模拟器；`entry/src` 的 ArkTS 告警以基线 36 条为基准（清单见 baseline-notes 第 2 节），只允许新增与基线同类的 deprecated 告警（`pushUrl`／`showToast`／`px2vp` 等，2026-10-19 用户确认接受），不允许新增其它类别告警或任何 ERROR。
++
++### X2 设置页其余交互不回退
++- 证据：`REASONABLE_DERIVATION`
++- 期望：点击“问题反馈”行 Toast“已复制邮箱地址到剪贴板”；点击底部文字 Toast“已复制链接到剪贴板”；设置页右上分享按钮 Toast“该功能暂未开发完成”；均与基线一致。
++
++### X3 全流程不崩溃、不切出应用
++- 证据：`REASONABLE_DERIVATION`
++- 期望：首页 → 设置 → 隐私页 → 返回设置 → 返回首页 → 空搜索，全程 `current_app` 为 `cc.chenlvin.cloudmusic`。官方可能把三个场景串在一个用例里跑，任一环节切出应用都会连带失败。
++
++### 网络状态机
++
++```mermaid
++stateDiagram-v2
++    [*] --> Settings: 首页→更多→设置（无请求）
++    Settings --> Privacy_Loading: 点击入口文字，push PrivacyPage，Web 创建后发起 GET
++    Privacy_Loading --> Privacy_Loaded: 页面加载完成
++    Privacy_Loading --> Privacy_Failed: 断网/站点不可达
++    Privacy_Loading --> Settings: 返回（Web 销毁，加载中止）
++    Privacy_Loaded --> Settings: 返回
++    Privacy_Failed --> Settings: 返回
++    Settings --> Home: 返回（首页 onPageShow 触发既有 2 个请求，与断言无关）
++    Home --> Home: 空或纯空格关键词点击搜索，Toast，不发请求、不跳转
++    Home --> SongsList_Loading: 非空关键词点击搜索，push SongsListPage，发起 /search
++```
++
++- 隐私页三种状态（Loading／Loaded／Failed）下：标题“隐私政策”与 `Web` 组件**始终存在**，返回**始终可用**；loading 只属于 Web 内部，不绑定页面标题或返回能力。
++- 唯一的触发点是 PrivacyPage 内 Web 组件创建；设置页渲染与点击本身不发请求。无"先改 UI、稍后补请求"的中间态：路由切换与 Web 创建同步发生。
++- 本题不新增任何 HTTP 接口调用，不改 `HttpRequestUtil` 与 `api/*`。
++
++---
++
++## 5. UNCONFIRMED_ASSUMPTION 汇总（2026-10-19 已确认：全部采用推荐）
++
++| 编号 | 关联项 | 问题 | 选项 | 决策 | 理由 |
++| --- | --- | --- | --- | --- | --- |
++| U1 | A2 | versionCode 是否随 0.9.3 递增 | a) 102→103；b) 保持 102 | **a：`versionCode` 改为 103** | 版本发布惯例；UI 断言观察不到，无副作用；若官方用 `bm dump` 校验，递增更符合"发布版本升级" |
++| U2 | A8 | 版本值从哪里来 | a) 改 `Constants.VERSION` 为 `'0.9.3'`；b) 运行时读 bundleInfo.versionName | **a：只改常量，同时改清单（A1）** | 沿用基线写法、改动最小，UI 结果相同 |
++| U3 | A9/A10 | 底部 Text 是否拆成两行独立组件 | a) 保持基线单个 Text（含 `\n`）；b) 拆为“云音汇 @Chenlvin”与“GitHub: CloudMusic-HarmonyOSNext”两个 Text | **a：底部组件不动** | Spec 用词是"保留"；CONTAINS 断言两者都通过，EQUALS 整串断言只有 a 通过，EQUALS 单行断言只有 b 通过——参考实现若改了底部，Spec 通常会描述变化。自测按 CONTAINS 断言 |
++| U4 | B6 | Web 加载哪个 URL | a) 基线原地址 `https://docs.chenlvin.cc/cloudmusic/#/privacy`；b) 本地 rawfile 页面 | **a：沿用基线 URL** | 保持隐私政策内容来源不变；官方答疑称不比对 URL/正文；Spec 明确"网络内容"，说明参考实现加载的是网络页面 |
++| U5 | B1/B3 | 用什么导航 | a) `router.pushUrl({ url: 'pages/PrivacyPage' })` + `main_pages.json` 注册；b) Navigation/NavDestination；c) 半模态 | **a：router + 路由表注册** | 全工程统一用 router；实测 router 压栈后下层页面节点不在 UI 树，可避免“隐私政策”同名文本歧义；Spec 写的是"导航到新增的 `PrivacyPage`" |
++| U6 | B10 | 快速连点入口是否防重复压栈 | a) 不处理（与基线其它入口一致）；b) `RouterMode.Single` | **b：`pushUrl(..., router.RouterMode.Single)`** | 代价一个参数，可保证一次返回回到设置；只用于隐私页入口，其它基线入口不改 |
++| U7 | C3 | 占位色、输入文字色取值 | a) 固定色：placeholder `#FF808080`、文字 `#FF121212`；b) 用主题色 `$r('app.color.reverse')` | **a：`placeholderColor('#FF808080')`、`fontColor('#FF121212')`** | 输入框背景是固定浅灰 `#ffdbd9d9`，深色模式下 reverse=白色会看不清；Hypium 观察不到颜色，只影响观感 |
++| U8 | C8 | 纯空格是否按空输入处理 | a) `trim()` 后为空 → Toast；b) 保持基线（只判断空串） | **a：仅判空时 trim，传参仍用原值** | 若官方不测空格，两者无差别；若测空格，只可能期望 Toast（期望"跳到空格关键词结果页并转圈"不可能是检查点）。非空关键词仍按原值传递，不改变 C10 |
++| U9 | C6 | "首页标识"指什么 | a) 顶栏标题“云音汇”；b) 搜索框；c) 未登录提示“登录账号\n以显示你的歌单” | **三者都不改；自测以 a 为主断言，b、c 辅助** | 三者都保持不变即可同时满足任一解释 |
++
++## 6. 覆盖速查
++
++- 基线已满足（回归保护）：A3–A7、A9–A11、B11 的入口部分、C6、C9、C10、X2。
++- 基线失败、必须实现：A1、A8（0.9.2）、B1–B5、B7、B8（外部浏览器）、C1、C2、C5、C7（旧文案）、C3（未设颜色）。
++- 按已确认假设实现：A2(U1)、B1 导航方式(U5)、B6(U4)、B10(U6)、C3 色值(U7)、C8(U8)；A9/A10(U3) 与 C6(U9) 的决策是"保持不动"。
++
++## 7. 开发阶段结果（1-do，2026-10-19）
++
++- 改动：`AppScope/app.json5`（0.9.3 / 103）、`Constants.ets`（VERSION）、`Settings.ets`（删除 viewData Want，改 `router.pushUrl(PrivacyPage, Single)`；补自测 id）、新增 `pages/PrivacyPage.ets` + `main_pages.json` 注册、`SearchComponent.ets`（共用文案常量、占位色/文字色、`trim()` 判空；补自测 id）。
++- 构建：BUILD SUCCESSFUL（`logs/build.log`）；`entry/src` 告警 36 → 38，新增仅 `Settings.ets` pushUrl deprecated、`PrivacyPage.ets` px2vp deprecated（X1 允许的同类）。
++- 自测：`hypium_tests/` 22 条全部通过（`logs/selftest.log`、`logs/selftest.json`），覆盖 A1–A11、B1–B11、C1–C10、X2、X3。截图 `logs/shots/`。
++- 已知问题 / 未覆盖：
++  1. 本机模拟器上 `docs.chenlvin.cc` DNS 无法解析（其它域名正常），Web 发出了请求但得到 `ERR_NAME_NOT_RESOLVED`，隐私页正文为空白；标题、Web 组件、返回均正常（即 Spec 的"内容暂未加载"情形）。探针脚本与日志：`logs/debug-runs/`。
++  2. 设置页刚出现就立即 `press_back`，约半数会被 router 转场吞掉（设置页入口与返回逻辑未改动，推断为基线行为，未用基线包复测）；自测在进入设置页后等待 1s。隐私页无此现象（连续 6 次零延迟返回均成功）。
++  3. C3 颜色 Hypium 不可观测，仅截图目检浅色模式；深色模式未目检。
++  4. 非空搜索（C10）只验证到进入结果页，结果页数据依赖 `ROOT_URL` 服务，本地未接服务。
+diff --git a/spec/baseline-notes.md b/spec/baseline-notes.md
+new file mode 100644
+index 0000000..dd57410
+--- /dev/null
++++ b/spec/baseline-notes.md
+@@ -0,0 +1,144 @@
++# cmu-spec114 基线记录
++
++标注约定：【代码】= 读源码得出，附 `文件:行号`；【实测】= 构建/模拟器走查得出，附日志位置；【推断】= 未直接验证的推测；【未验证】= 明确没有验证。
++
++## 1. 基线快照标识
++
++- `spec/metadata.json` 的 `base_commit`：`ebe2fbceaf5270ef0f5302edc4f77fa5962b0a3f`（tag `base/cmu-spec114`）。
++- 当前 HEAD：`bb23a626e392618c4f1ab916a3cb8a4b68b2f024`（分支 `dev`），已打 tag **`baseline-cmu-spec114`** 指向该提交。
++- `ebe2fbc..bb23a62` 只改了 `oh-package-lock.json5`（+2/-1，ohpm install 重建锁文件），不涉及业务代码。【实测】`git diff --stat`
++- 工作区存在一处**未提交**改动：`build-profile.json5` 在 `products[0]` 增加 `"targetSdkVersion": "6.1.0(23)"`。文件 mtime 为 2026-10-19 13:20:06，与 `oh-package-lock.json5` 被重写的时间（13:20:07）相同，【推断】是 DevEco Studio 打开工程同步时自动写入，并非本阶段分析操作所改。
++  - 【实测】在临时 worktree 中用 tag 内容（不含该改动）构建：同样 BUILD SUCCESSFUL、同样 588 条 ArkTS 告警，HAP 中 `targetAPIVersion` 同为 `60100023`。即该改动对产物无影响。
++  - 决策（2026-10-19 用户确认）：**保留**该改动，不还原；作为环境改动在提交材料中说明（来源为 DevEco 同步自动写入、对产物无影响、已用不含该改动的提交对照构建验证）。
++
++## 2. 构建基线状态
++
++构建命令（工程根目录执行）【实测】：
++
++```bash
++export DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk
++export JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home
++export PATH=$JAVA_HOME/bin:/Applications/DevEco-Studio.app/Contents/tools/node/bin:/Applications/DevEco-Studio.app/Contents/tools/hvigor/bin:$PATH
++hvigorw clean --no-daemon
++hvigorw assembleHap --mode module -p module=entry@default -p product=default -p buildMode=debug --no-daemon
++```
++
++- 结果：BUILD SUCCESSFUL（约 8.4s），产物 `entry/build/default/outputs/default/entry-default-unsigned.hap`，`versionName 0.9.2 / versionCode 102 / minAPIVersion 50000012 / targetAPIVersion 60100023 / compileSdkVersion 6.1.0.105`。完整日志：`logs/baseline-build-clean.log`（另有早先一次构建日志 `logs/baseline-build.log`）。
++- 环境坑【实测】：不设 `JAVA_HOME` 时 `PackageHap` 报 `00308018 Unable to locate a Java Runtime`，必须用 DevEco 自带 JBR。
++- 安装：`hdc -t 127.0.0.1:5555 install -r <hap>` → `install bundle successfully`（未签名 HAP 可装到模拟器）。`logs/baseline-install.log`
++- SDK：DevEco 内置 HarmonyOS 6.1.0（API 23，`6.1.0.105`）。
++
++已有告警清单（后续对比是否新增的基准）：
++
++- 非 ArkTS 告警 2 条：`No signingConfig found for product default`；`Warning: 'page_show' conflict, first declared.`
++- ArkTS 告警共 **588** 条：其中 552 条来自 `oh_modules/@pura/harmony-utils`（三方库，不计）；**`entry/src` 内 36 条**：
++
++| 文件（`entry/src/main/ets/` 下） | 位置 → 告警 |
++| --- | --- |
++| `pages/Settings.ets` | 33:21 px2vp deprecated |
++| `components/head/SettingsHead.ets` | 13:24 showToast deprecated |
++| `components/main/SearchComponent.ets` | 26:20 pushUrl deprecated；30:33 showToast deprecated |
++| `components/head/IndexHead.ets` | 37:18、42:18 pushUrl deprecated |
++| `components/head/CommonHead.ets` | 15:21 px2vp deprecated |
++| `components/buttons/BackButton.ets` | 13:16 back deprecated |
++| `pages/Index.ets` | 41:21 px2vp deprecated |
++| `pages/login/WebLogin.ets` | 42:24 vp2px deprecated；58:7 Function may throw exceptions；58:20 showToast deprecated |
++| `pages/SongsListPage.ets` | 20:48 getParams deprecated；55:41、61:21 px2vp deprecated |
++| `pages/PlayListPage.ets` | 20:46、21:46 getParams deprecated；92:45、110:21 px2vp deprecated |
++| `pages/LoginPage.ets` | 23:20 replaceUrl deprecated；32:26 showDialog deprecated |
++| `api/getLoginStatus.ets` | 22:20 showToast；25:14 back；29:5 may throw；29:18 showToast |
++| `common/functions/LogOut.ets` | 13:3 may throw；13:16 showToast |
++| `components/sheets/MeSheet.ets` | 19:20 pushUrl；34:31 px2vp |
++| `components/sheets/SongSheet.ets` | 68:50 px2vp |
++| `components/sheets/LoginHelpSheet.ets` | 21:22 px2vp |
++| `components/main/PlayListCard.ets` | 31:14 pushUrl |
++| `components/dialog/DownloadDialog.ets` | 62:30 showToast；108:3、109:3 may throw；109:16 showToast |
++
++注意：本题沿用基线写法（`router.pushUrl`、`promptAction.showToast`、`px2vp`），新代码会产生同类 deprecated 告警。决策（2026-10-19 用户确认）：**接受同类 deprecated 告警增加**，新代码与基线写法保持一致，不为消除告警改用 `getUIContext()` 系列 API；但不得引入其它类别的新告警（如 `Function may throw exceptions`、类型/语法类告警），也不得出现任何 ERROR。
++
++## 3. Spec 入口当前位置
++
++【实测】模拟器走查（`logs/baseline-walk/walk.log`、`walk5.log`，截图同目录）与【代码】对照：
++
++| Spec 描述 | 基线位置 | 实测 |
++| --- | --- | --- |
++| 应用启动页 | `EntryAbility.ets:25` `windowStage.loadContent('pages/Index')`；路由表 `resources/base/profile/main_pages.json:2-10` | 冷启动进入首页，顶栏标题“云音汇” |
++| 首页右上角更多按钮 | `components/head/IndexHead.ets:22-23` `CommonCircleButton(...ic_public_more_filled).bindMenu(this.MoreMenu())` | 顶栏右侧 Button，bounds `[1151,137][1274,259]`，无文本无 id |
++| 菜单“设置” | `IndexHead.ets:35-38` `MenuItem({content:"设置"}).onClick → router.pushUrl({ url:'pages/Settings' })` | 菜单两项“设置”“下载管理”，点击进入设置页 |
++| 设置页 | `pages/Settings.ets:12-38`（`@Entry struct Settings`），标题 `components/head/SettingsHead.ets:10` | 标题“设置”；行“当前版本 / 0.9.2 - 测试版”“隐私政策 / 前往查看本软件的隐私政策”“问题反馈 / chenlvin@126.com\n或 GitHub issue”；底部“云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext” |
++| 版本值 | `Settings.ets:45` `Constants.VERSION + Constants.VER_DESC`；`common/constants/Constants.ets:2-3`（`'0.9.2'`、`' - 测试版'`） | 显示“0.9.2 - 测试版” |
++| 清单版本 | `AppScope/app.json5:5-6`（`versionCode 102`、`versionName "0.9.2"`） | `bm dump` 输出 `versionName "0.9.2"`、`versionCode 102` |
++| 隐私政策入口 | `Settings.ets:6-10` 定义 `wantInfo`（`ohos.want.action.viewData`、`entity.system.browsable`、`https://docs.chenlvin.cc/cloudmusic/#/privacy`）；`Settings.ets:70-73` 点击 `AppUtil.getContext().startAbility(wantInfo)` | 点击后 `current_app = com.huawei.hmos.browser`，浏览器空白页；连续两次 `press_back` 仍停在浏览器 |
++| 底部项目信息 | `Settings.ets:78-88`，点击复制 `Settings.ets:100-106` | 单个 Text，含换行 |
++| 首页搜索框 | `components/main/SearchComponent.ets:12` `TextInput({ placeholder: '请输入搜索词' })`，未设 placeholderColor/fontColor | hint=“请输入搜索词” |
++| 搜索按钮 | `SearchComponent.ets:18-31`；判断 `if(this.searchKeyword)` → `router.pushUrl('pages/SongsListPage')`，否则 `promptAction.showToast({ message: '请输入搜索词' })`（:30） | 空输入 Toast“请输入搜索词”、不跳转；纯空格进入结果页并一直转圈 |
++| 搜索结果页 | `pages/SongsListPage.ets` | 空格关键词只显示 `LoadingProgress` |
++
++## 4. 相关现状
++
++- 页面组件【代码】：全部为 `@Entry` 页面 + `router`（`@kit.ArkUI`）跳转，`main_pages.json` 注册 7 个页面；未使用 Navigation/NavDestination（全工程 grep 无匹配）。页面统一写法：根 `Stack` + `.padding({ top: px2vp(this.topRectHeight) })` + `.backgroundColor($r('app.color.main'))`（如 `Settings.ets:19-36`、`Index.ets:23-44`）。
++- 标题栏【代码】：设置页用专用 `SettingsHead`（返回按钮 + “设置” + 分享按钮，`SettingsHead.ets:8-15`）；其它子页用通用 `CommonHead({ title })`（返回按钮 + 标题，自身带顶部避让 padding、高 90，`CommonHead.ets:10-18`）。返回按钮 `BackButton.ets:11-14` 调 `router.back()`。
++- 状态模型【代码】：组件内 `@State`（如 `SearchComponent.searchKeyword`，`SearchComponent.ets:5`，由 `onChange` 回写 :13-15）；全局用 `AppStorage` + `@StorageProp`（`topRectHeight`、`bottomRectHeight` 在 `EntryAbility.ets:46,51` 写入；`isValidCookie`、`cookie` 用于登录态）。
++- 数据模型【代码】：`common/entities/*.ets`（PlayList、SongsResult 等），本题不涉及。
++- 网络服务【代码】：`common/utils/HttpRequestUtil.ets` 封装 `http.createHttp()` GET；`api/*.ets` 拼 `Constants.ROOT_URL`（`Constants.ets:7` 写死 `http://111.229.38.178:3000`）。首页 `Index.ets:12-20` 每次 onPageShow 发两个测试请求，仅打印日志。本题三个场景都不需要新增或修改 HTTP 调用。
++- Web 组件【代码】：唯一用例 `pages/login/WebLogin.ets:2,13,20-30`（`webview.WebviewController` + `Web({ src: '', controller })`，`onControllerAttached` 中 `loadUrl`）。
++- 本地存储【代码】：`common/utils/PreferencesUtils.ets`（`preferences` 封装，`EntryAbility.ets:16` 加载 `UserPreference`），本题不涉及持久化。
++- Toast【代码】：两种写法并存——`promptAction.showToast({ message })`（`SearchComponent.ets:30`、`SettingsHead.ets:13`）与 `ToastUtil.showToast(...)`（`Settings.ets:60,105`）。
++- 权限【代码】：`module.json5:37-42` 已有 `ohos.permission.INTERNET`，Web 加载网络页无需新增权限。
++
++## 5. 可复用的既有实现
++
++- **PrivacyPage 骨架**：照 `WebLogin.ets` —— `CommonHead({ title: ... })` 作自有标题栏 + `Web` + `WebviewController`；去掉登录相关的 Help 和按钮即可。官方测试沿现有流程（设置页点击 → 新页）进入，沿用同款结构最稳。
++- **路由**：`router.pushUrl({ url: 'pages/PrivacyPage' }, router.RouterMode.Single)` + 在 `main_pages.json` 追加 `"pages/PrivacyPage"`，与 `IndexHead.ets:37` 写法一致（`RouterMode.Single` 按 acceptance U6 决策只加在隐私页入口）；返回用既有 `BackButton`（`router.back()`）与系统返回。
++- **版本号**：改 `Constants.VERSION`（`Constants.ets:2`）为 `'0.9.3'`，`AppScope/app.json5:5-6` 改为 `versionCode 103`、`versionName "0.9.3"`（acceptance U1/U2 决策）；`Settings.ets:45` 的拼接逻辑不动。
++- **搜索文案**：`SearchComponent.ets:12,30` 两处；可在组件内或 `Constants` 中定义一个常量供 placeholder 与 Toast 共用（工程无 i18n 字符串资源用法，界面文字均为硬编码中文）。
++- **样式扩展**：工程习惯用 `@Extend(Text)`（`Settings.ets:91-106`）；颜色资源 `resources/base/element/color.json`（`main`、`reverse`、`start_window_background`），暗色在 `resources/dark/element/color.json`。
++
++## 6. 缺失项（Spec 要求、基线完全没有）
++
++1. `PrivacyPage` 页面文件与路由注册（`main_pages.json` 无此页）。
++2. 应用内打开隐私政策的跳转逻辑（基线只有外部 Want）。
++3. 0.9.3 版本号（清单与常量均为 0.9.2）。
++4. “请输入搜索内容”文案（placeholder 与 Toast）。
++5. 搜索框 `placeholderColor` / `fontColor`（`SearchComponent.ets:12` 均未设置）。
++6. 全工程没有任何 `.id()`（grep `\.id\(` 无匹配），自测选择器只能靠文本/类型/坐标。
++
++## 7. 前置环境需求
++
++- 登录账号：不需要。【实测】未登录状态（首页显示“登录账号\n以显示你的歌单”）下三个场景全部可走通。
++- 服务端：不需要。设置页、隐私页、空搜索都不依赖 `ROOT_URL` 服务；只有非空搜索（回归项 C10）需要服务，本地不可用时结果页一直转圈（基线缺陷）。官方答疑提到的"API 设置页"在本基线不存在，地址写死在 `Constants.ets:7`。
++- 互联网：隐私页正文需访问 `docs.chenlvin.cc`；Spec 明确内容未加载也要通过，官方答疑称不比对 URL 与正文。【实测】本机模拟器打开该地址时浏览器为空白页（是否可达未验证）。
++- WebDAV / 测试数据：不需要。
++- 模拟器【实测】：`harness.env_check` → `emulator 6.1.0.115`、`1308×2880`，"环境与官方评测规格一致"。
++- Hypium 运行【实测】：必须把 `.../sdk/default/openharmony/toolchains`（含 `hdc`）加入 `PATH`，否则 `UiDriver.connect` 报 `Connection refused`；Hypium 在 cwd 生成 `reports/`、`tmp_hypium/`，应在 `logs/` 下运行（本次已把误生成在工程根目录的报告移到 `logs/baseline-walk/hypium-reports/`）。
++
++## 8. 测试可观测性风险
++
++| 风险 | 证据 | 影响与对策 |
++| --- | --- | --- |
++| 全工程无 `.id()` | 【代码】grep 无匹配 | 自测可补 id；官方测试不会依赖我们的 id，所以既有组件的类型、文本、顺序都不能改 |
++| 图标按钮无文本 | 【实测】首页 3 个 Button（菜单、更多、搜索）、设置页返回/分享按钮 text 均为空 | 只能按 `BY.type("Button")` + bounds 排序定位；新增页面不要在标题栏前插入额外 Button，以免改变顺序 |
++| placeholder 不是 text | 【实测】`BY.text("请输入搜索词")` → False；`BY.hint("请输入搜索词")` → True；`getHint()` 返回该串、`getText()` 为空 | 场景三断言必须用 `BY.hint` / `getHint()` |
++| 底部信息是单个带 `\n` 的 Text | 【实测】`BY.text("云音汇 @Chenlvin")` EQUALS → False，CONTAINS → True；`CloudMusic-HarmonyOSNext` CONTAINS → True | 见 acceptance U3（已定：保持单个 Text 不拆，自测用 CONTAINS） |
++| “隐私政策”同名文本 | 【实测】设置页 EQUALS 计数 1（左侧标签）；PrivacyPage 标题将同名 | router 压栈后下层页面节点不在 UI 树（【实测】进入下载管理页时首页“云音汇”、TextInput 均查不到），故 router 方案下隐私页上只会命中标题；若改用 Navigation/半模态则可能同屏两处 |
++| “设置”同名文本 | 【实测】菜单项与设置页标题同为“设置”，设置页内计数 1 | 菜单关闭后不冲突；断言设置页时可加 `BY.text("当前版本")` 辅助 |
++| “云音汇”文本 | 【实测】首页 EQUALS 计数 1（顶栏标题）；设置页 CONTAINS 计数 1（底部信息） | 场景三"首页标识"用 EQUALS，避免与设置页底部混淆 |
++| Web 内部节点 | 【未验证】网页加载成功后其内部文字是否进入 Hypium UI 树 | 若进入且网页含“隐私政策”字样，按文本计数的断言可能 >1；实现后需在联网状态下实测 |
++| 颜色不可观测 | 【实测】TextInput `getAllProperties()` 只有 `backgroundColor`（`#FFDBD9D9`），无字体色/占位色 | C3 只能代码审查 + 截图 |
++| Toast 可观测 | 【实测】`start_listen_toast` + `get_latest_toast(timeout=3)` 能取到文本；Toast 同时以 `Toast` 类型节点出现在 UI 树（点击后约 1s 抓树仍在，持续时长未测） | C5 两种方式均可断言 |
++| 前台应用判定 | 【实测】`driver.current_app()` 返回 `(bundle, ability)`，基线点击隐私入口后为 `('com.huawei.hmos.browser','MainAbility')` | B2 直接用它断言 |
++| 返回路径 | 【实测】设置页 `press_back` 与左上返回按钮都能回首页；回首页后 hint 仍在 | 新隐私页需保证同样两种返回都可用 |
++
++## 9. 基线缺陷（只记录，本阶段不修）
++
++1. 隐私政策走外部 Want，返回后无法回到应用（`Settings.ets:6-10,72`）——本题需求本身要改。
++2. 搜索关键词不 `trim()`，纯空格会进入结果页（`SearchComponent.ets:25`）。
++3. `SongsListPage.loadSongs` 失败时 `catch` 不重置 `isLoading`，请求失败后永久转圈（`SongsListPage.ets:35-37`）。【实测】空格关键词截图 `logs/baseline-walk/21_space_search_page.jpeg`。
++4. 首页每次显示都发两个测试请求（`Index.ets:12-20`），与本题无关。
++
++## 10. 走查记录索引
++
++- `logs/baseline-walk/walk.log`：第 1–4 轮（首页、空/空格搜索、设置页、隐私入口、返回、WebLogin 的 Web 选择器、router 压栈节点可见性）。对应脚本 `cmu114_walk.py`～`cmu114_walk4.py`。
++- `logs/baseline-walk/walk5.log`：第 5 轮（`BY.hint`、TextInput 属性、文本唯一性计数、快速连点空搜索、两种返回、重启后重进）。脚本 `cmu114_walk5.py`。
++- 截图：`01_home`、`02_after_empty_search`、`05_settings`、`06_after_privacy_click`（外部浏览器空白页）、`21_space_search_page`、`23_weblogin`。
++- Hypium 原始报告：`logs/baseline-walk/hypium-reports/`。
+diff --git a/spec/metadata.json b/spec/metadata.json
+new file mode 100644
+index 0000000..d2ef54a
+--- /dev/null
++++ b/spec/metadata.json
+@@ -0,0 +1,4 @@
++{
++  "base_commit": "ebe2fbceaf5270ef0f5302edc4f77fa5962b0a3f",
++  "baseline_bundle": "repo_bundles/cloudmusic-harmonyosnex-ebe2fbceaf-base.bundle"
++}
+diff --git a/spec/requirement.md b/spec/requirement.md
+new file mode 100644
+index 0000000..11b0a83
+--- /dev/null
++++ b/spec/requirement.md
+@@ -0,0 +1,38 @@
++# 0.9.3 版本信息、应用内隐私页与搜索提示统一
++
++## 场景一：设置页显示 0.9.3 版本与完整入口
++
++### 场景概述
++
++应用发布版本升级为 0.9.3，用户从首页右上角更多菜单打开“设置”后，可在页面中核对当前版本，并同时看到隐私政策和问题反馈入口。页面底部保留云音汇项目信息，使版本和来源信息在同一个应用内页面中可见。
++
++### 操作步骤与预期结果
++
++1. 用户启动应用，点击首页右上角更多按钮并选择“设置”。
++2. 设置页标题、“当前版本”、“隐私政策”和“问题反馈”行均正常显示。
++3. 版本值显示“0.9.3 - 测试版”，与应用清单中的 versionName 0.9.3 一致。
++4. 页面底部显示“云音汇 @Chenlvin”及 GitHub 项目名称。
++
++## 场景二：隐私政策在应用内嵌页面打开并可返回
++
++### 场景概述
++
++隐私政策不再通过外部 `viewData` Want 交给其他应用。用户点击设置页的隐私政策说明文字后，应用导航到新增的 `PrivacyPage`，页面显示自身标题栏和 Web 内容容器。即使网络内容暂未加载，仍须显示应用内页面的标题，并支持正常返回。
++
++### 操作步骤与预期结果
++
++1. 用户在设置页点击“前往查看本软件的隐私政策”。
++2. 前台应用仍为云音汇，新页标题显示“隐私政策”，页面内存在 Web 组件。
++3. 用户执行返回操作后回到“设置”，0.9.3 版本值仍可见。
++
++## 场景三：搜索框和空内容提交使用同一文案
++
++### 场景概述
++
++首页搜索框的占位文案由“请输入搜索词”统一为“请输入搜索内容”，并补充清晰的占位色和输入文字颜色。用户不输入任何内容直接点击搜索时，Toast 使用与占位文字相同的新提示，且不进入空搜索结果页。
++
++### 操作步骤与预期结果
++
++1. 用户重新返回或启动首页，搜索输入框显示“请输入搜索内容”。
++2. 保持输入框为空并点击右侧搜索按钮。
++3. 应用显示“请输入搜索内容” Toast，首页标识仍可见，不跳转到空关键词的搜索结果页。

@@ -1,0 +1,106 @@
+"""cmu-spec114 自测公共导航与断言辅助（非测试文件，不以 test_ 开头）。
+
+定位策略：新增/关键组件用 BY.key（实现中补的 .id()），基线无 id 的图标按钮按 bounds 排序取位置，
+与官方测试可能使用的文本/类型选择器并行断言。
+"""
+from __future__ import annotations
+
+from hypium import BY, MatchPattern
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+VERSION_TEXT = "0.9.3 - 测试版"
+SEARCH_HINT = "请输入搜索内容"
+OLD_SEARCH_HINT = "请输入搜索词"
+PRIVACY_ENTRY = "前往查看本软件的隐私政策"
+
+ID_VERSION = "settings_version"
+ID_PRIVACY_ENTRY = "settings_privacy_entry"
+ID_PRIVACY_WEB = "privacy_web"
+ID_SEARCH_INPUT = "search_input"
+ID_SEARCH_BUTTON = "search_button"
+
+
+class CloudMusicCase(HarnessTestCase):
+    """每个用例从冷启动首页开始。"""
+
+    def setUp(self) -> None:
+        restart_app(self.driver, BUNDLE, wait_time=3)
+        self.require_component(BY.text("云音汇"), "冷启动后未进入首页（缺少顶栏标题“云音汇”）")
+
+    def tearDown(self) -> None:
+        self.driver.stop_app(BUNDLE)
+
+    # ---------- 通用 ----------
+    def count(self, by) -> int:
+        return len(self.driver.find_all_components(by) or [])
+
+    def exists(self, by, timeout: float = 3) -> bool:
+        return self.find_or_none(by, timeout=timeout) is not None
+
+    def gone(self, by, timeout: float = 3) -> bool:
+        """在 timeout 内等待组件消失；消失返回 True。"""
+        waited = 0.0
+        while waited < timeout:
+            if self.driver.find_component(by) is None:
+                return True
+            self.driver.wait(0.5)
+            waited += 0.5
+        return self.driver.find_component(by) is None
+
+    def assert_foreground(self, where: str) -> None:
+        app = self.driver.current_app()
+        self.assertEqual(app[0], BUNDLE, f"{where}：前台应用不是云音汇，而是 {app}")
+
+    def buttons_by_position(self) -> list:
+        bs = self.driver.find_all_components(BY.type("Button")) or []
+        return sorted(bs, key=lambda b: (b.getBounds().top, b.getBounds().left))
+
+    # ---------- 首页 ----------
+    def open_more_menu(self) -> None:
+        # 首页顶栏：左=侧边半模态，右=更多；顶栏行的第 2 个按钮
+        self.driver.click(self.buttons_by_position()[1])
+        self.require_component(BY.text("设置"), "点击更多按钮后菜单未出现“设置”", timeout=5)
+
+    def open_settings(self) -> None:
+        self.open_more_menu()
+        self.driver.click(BY.text("设置"))
+        self.require_component(BY.text("当前版本"), "未进入设置页（缺少“当前版本”）", timeout=8)
+
+    def search_button(self):
+        return self.require_component(BY.key(ID_SEARCH_BUTTON), "首页缺少搜索按钮")
+
+    def search_input(self):
+        return self.require_component(BY.key(ID_SEARCH_INPUT), "首页缺少搜索输入框")
+
+    def assert_home_hint(self, where: str) -> None:
+        self.require_component(BY.hint(SEARCH_HINT), f"{where}：搜索框占位文案不是“{SEARCH_HINT}”", timeout=8)
+        self.assertEqual(self.search_input().getHint(), SEARCH_HINT, f"{where}：getHint 不一致")
+
+    def assert_stay_home(self, where: str) -> None:
+        self.assert_foreground(where)
+        self.assertTrue(self.exists(BY.text("云音汇")), f"{where}：首页标识“云音汇”不可见")
+        self.assertTrue(self.exists(BY.type("TextInput")), f"{where}：首页搜索框不可见")
+        self.assertIsNone(self.driver.find_component(BY.type("LoadingProgress")), f"{where}：出现了搜索结果页的加载圈")
+        self.assertIsNone(self.driver.find_component(BY.text("的搜索结果", MatchPattern.CONTAINS)),
+                          f"{where}：跳转到了搜索结果页")
+
+    # ---------- 设置页 / 隐私页 ----------
+    def assert_settings_page(self, where: str) -> None:
+        self.assert_foreground(where)
+        self.require_component(BY.text("设置"), f"{where}：缺少设置页标题“设置”", timeout=8)
+        self.require_component(BY.text(VERSION_TEXT), f"{where}：版本值不是“{VERSION_TEXT}”", timeout=5)
+        self.assertIsNone(self.driver.find_component(BY.type("Web")), f"{where}：仍存在 Web 组件（未退出隐私页）")
+
+    def open_privacy(self) -> None:
+        self.driver.click(BY.text(PRIVACY_ENTRY))
+        self.assert_privacy_page("点击隐私政策入口后")
+
+    def assert_privacy_page(self, where: str, timeout: float = 3) -> None:
+        self.require_component(BY.type("Web"), f"{where}：{timeout}s 内隐私页未出现 Web 组件", timeout=timeout)
+        self.require_component(BY.text("隐私政策"), f"{where}：隐私页标题“隐私政策”不可见", timeout=timeout)
+        self.assert_foreground(where)
+        self.assertIsNone(self.driver.find_component(BY.text(PRIVACY_ENTRY)), f"{where}：设置页入口文字仍在树中")
+        self.assertIsNone(self.driver.find_component(BY.text("当前版本")), f"{where}：设置页“当前版本”仍在树中")

@@ -1,0 +1,42 @@
+| 文件（`entry/src/main/ets/` 下） | 位置 → 告警 |
+| --- | --- |
+| `pages/Settings.ets` | 33:21 px2vp deprecated |
+| `components/head/SettingsHead.ets` | 13:24 showToast deprecated |
+| `components/main/SearchComponent.ets` | 26:20 pushUrl deprecated；30:33 showToast deprecated |
+| `components/head/IndexHead.ets` | 37:18、42:18 pushUrl deprecated |
+| `components/head/CommonHead.ets` | 15:21 px2vp deprecated |
+| `components/buttons/BackButton.ets` | 13:16 back deprecated |
+| `pages/Index.ets` | 41:21 px2vp deprecated |
+| `pages/login/WebLogin.ets` | 42:24 vp2px deprecated；58:7 Function may throw exceptions；58:20 showToast deprecated |
+| `pages/SongsListPage.ets` | 20:48 getParams deprecated；55:41、61:21 px2vp deprecated |
+| `pages/PlayListPage.ets` | 20:46、21:46 getParams deprecated；92:45、110:21 px2vp deprecated |
+| `pages/LoginPage.ets` | 23:20 replaceUrl deprecated；32:26 showDialog deprecated |
+| `api/getLoginStatus.ets` | 22:20 showToast；25:14 back；29:5 may throw；29:18 showToast |
+| `common/functions/LogOut.ets` | 13:3 may throw；13:16 showToast |
+| `components/sheets/MeSheet.ets` | 19:20 pushUrl；34:31 px2vp |
+| `components/sheets/SongSheet.ets` | 68:50 px2vp |
+| `components/sheets/LoginHelpSheet.ets` | 21:22 px2vp |
+| `components/main/PlayListCard.ets` | 31:14 pushUrl |
+| `components/dialog/DownloadDialog.ets` | 62:30 showToast；108:3、109:3 may throw；109:16 showToast |
+
+注意：本题若沿用基线写法（`router.pushUrl`、`promptAction.showToast`、`px2vp`），新代码会产生同类 deprecated 告警。是否允许"同类告警数量增加"需你判断；若要求零新增，新页面需改用 `this.getUIContext().getRouter()` / `getPromptAction()` 等非废弃 API。
+
+## 3. Spec 入口当前位置
+
+【实测】模拟器走查（`logs/baseline-walk/walk.log`、`walk5.log`，截图同目录）与【代码】对照：
+
+| Spec 描述 | 基线位置 | 实测 |
+| --- | --- | --- |
+| 应用启动页 | `EntryAbility.ets:25` `windowStage.loadContent('pages/Index')`；路由表 `resources/base/profile/main_pages.json:2-10` | 冷启动进入首页，顶栏标题“云音汇” |
+| 首页右上角更多按钮 | `components/head/IndexHead.ets:22-23` `CommonCircleButton(...ic_public_more_filled).bindMenu(this.MoreMenu())` | 顶栏右侧 Button，bounds `[1151,137][1274,259]`，无文本无 id |
+| 菜单“设置” | `IndexHead.ets:35-38` `MenuItem({content:"设置"}).onClick → router.pushUrl({ url:'pages/Settings' })` | 菜单两项“设置”“下载管理”，点击进入设置页 |
+| 设置页 | `pages/Settings.ets:12-38`（`@Entry struct Settings`），标题 `components/head/SettingsHead.ets:10` | 标题“设置”；行“当前版本 / 0.9.2 - 测试版”“隐私政策 / 前往查看本软件的隐私政策”“问题反馈 / chenlvin@126.com\n或 GitHub issue”；底部“云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext” |
+| 版本值 | `Settings.ets:45` `Constants.VERSION + Constants.VER_DESC`；`common/constants/Constants.ets:2-3`（`'0.9.2'`、`' - 测试版'`） | 显示“0.9.2 - 测试版” |
+| 清单版本 | `AppScope/app.json5:5-6`（`versionCode 102`、`versionName "0.9.2"`） | `bm dump` 输出 `versionName "0.9.2"`、`versionCode 102` |
+| 隐私政策入口 | `Settings.ets:6-10` 定义 `wantInfo`（`ohos.want.action.viewData`、`entity.system.browsable`、`https://docs.chenlvin.cc/cloudmusic/#/privacy`）；`Settings.ets:70-73` 点击 `AppUtil.getContext().startAbility(wantInfo)` | 点击后 `current_app = com.huawei.hmos.browser`，浏览器空白页；连续两次 `press_back` 仍停在浏览器 |
+| 底部项目信息 | `Settings.ets:78-88`，点击复制 `Settings.ets:100-106` | 单个 Text，含换行 |
+| 首页搜索框 | `components/main/SearchComponent.ets:12` `TextInput({ placeholder: '请输入搜索词' })`，未设 placeholderColor/fontColor | hint=“请输入搜索词” |
+| 搜索按钮 | `SearchComponent.ets:18-31`；判断 `if(this.searchKeyword)` → `router.pushUrl('pages/SongsListPage')`，否则 `promptAction.showToast({ message: '请输入搜索词' })`（:30） | 空输入 Toast“请输入搜索词”、不跳转；纯空格进入结果页并一直转圈 |
+| 搜索结果页 | `pages/SongsListPage.ets` | 空格关键词只显示 `LoadingProgress` |
+
+<!-- APPEND_4 -->

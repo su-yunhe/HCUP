@@ -1,0 +1,10 @@
+import { AppUtil, PasteboardUtil, ToastUtil } from '@pura/harmony-utils';
+import Constants from '../common/constants/Constants';
+import { SettingsHead } from '../components/head/SettingsHead'
+import { Want } from '@kit.AbilityKit';
+
+let wantInfo: Want = {
+  action: 'ohos.want.action.viewData',
+  entities: ['entity.system.browsable'],
+  uri: 'https://docs.chenlvin.cc/cloudmusic/#/privacy'
+}

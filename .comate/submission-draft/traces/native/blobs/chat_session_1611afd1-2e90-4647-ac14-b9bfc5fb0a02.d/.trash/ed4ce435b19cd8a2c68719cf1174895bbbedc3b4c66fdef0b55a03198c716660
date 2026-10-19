@@ -1,0 +1,16 @@
+"""场景一：设置页显示 0.9.3 版本与完整入口（A1–A11、X2）。"""
+from __future__ import annotations
+
+import re
+
+from hypium import BY, MatchPattern
+
+from hypium_tests._common import BUNDLE, ID_VERSION, PRIVACY_ENTRY, VERSION_TEXT, CloudMusicCase
+
+
+class TestSettingsVersion(CloudMusicCase):
+
+    def test_a1_a2_bundle_version(self):
+        dump = self.driver.shell(f"bm dump -n {BUNDLE}")
+        names = re.findall(r'"versionName":\s*"([^"]*)"', dump)
+        codes = [int(c) for c in re.findall(r'"versionCode":\s*(\d

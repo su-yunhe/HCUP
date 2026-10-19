@@ -1,0 +1,8 @@
+          .layoutWeight(1)
+          // TMP-DEBUG-BEGIN
+          .onPageBegin((e) => { console.info('CMU114DBG pageBegin ' + e?.url) })
+          .onPageEnd((e) => { console.info('CMU114DBG pageEnd ' + e?.url) })
+          .onErrorReceive((e) => { console.info('CMU114DBG error ' + e?.request.getRequestUrl() + ' ' + e?.error.getErrorInfo()) })
+          .onHttpErrorReceive((e) => { console.info('CMU114DBG httpError ' + e?.request.getRequestUrl() + ' ' + e?.response.getResponseCode()) })
+          .onConsole((e) => { console.info('CMU114DBG console ' + e?.message.getMessage()); return false })
+          // TMP-DEBUG-END

@@ -1,0 +1,2 @@
+- 来源：边界推导（Spec 标题"空内容提交"，步骤只写"保持输入框为空"）｜证据：`UNCONFIRMED_ASSUMPTION`（U8）｜决策：已确认，`trim()` 后为空按空输入处理
+- 原子行为：关键词 `trim()` 后为空时同样 Toast“请输入搜索内容”并不跳转；非空关键词仍按原值（不 trim）传给 SongsListPage。

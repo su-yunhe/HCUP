@@ -1,0 +1,44 @@
+## 场景三：搜索框和空内容提交使用同一文案
+
+### 状态机（搜索按钮）
+
+```
+[首页，输入框 hint="请输入搜索内容"]
+   │ onChange → searchKeyword = value（只改状态，不发请求）
+   │ 点击右侧搜索按钮
+   ▼
+判断 searchKeyword 是否为空
+   ├─ 为空（''；纯空格的处理见 U7） ─► promptAction.showToast('请输入搜索内容')
+   │                                   不调用 router、不发搜索请求、停留在首页（"云音汇"可见）
+   └─ 非空 ──► router.pushUrl('pages/SongsListPage', { searchKeyword })
+               └─ SongsListPage.onPageShow → getSongsList(keyword) 发请求（基线行为，本题不改）
+```
+
+- 空提交时不发请求、不导航，只弹 Toast。"不进入空搜索结果页"就是不能出现 `"" 的搜索结果` 标题或 `LoadingProgress`。
+- 非空提交的网络链路是基线原有的，本题只保证不回归（服务地址写死在 `Constants.ets:7`，本地访问不了，只验证"跳转发生"）。
+
+### 验收项
+
+| 编号 | 来源 | 证据等级 | 原子行为 | 可观察结果 | 稳定选择器 |
+| --- | --- | --- | --- | --- | --- |
+| A3-1 | S3-步骤1 | SPEC_EXPLICIT | 冷启动首页，输入框占位"请输入搜索内容" | `BY.hint('请输入搜索内容')` 存在，或 `BY.type('TextInput')` 的 hint 属性等于它（实测 `BY.text` 匹配不到 hint） | 需补 `search_input` |
+| A3-2 | S3-步骤1 | SPEC_EXPLICIT | 从其他页面返回首页后占位文案不变 | 首页 → 设置 → 返回后，同 A3-1 | 同上 |
+| A3-3 | S3-概述 | REASONABLE_DERIVATION | 旧文案彻底消失 | `BY.hint('请输入搜索词')` 不存在；空提交的 Toast 不是 `请输入搜索词`；源码中不再有 `请输入搜索词` | 不适用 |
+| A3-4 | S3-概述 | SPEC_EXPLICIT | 占位文字设置清晰的颜色 | `TextInput` 设置了 `placeholderColor(...)`；Hypium 的 dump 里没有颜色属性，只能截图看（具体色值见 U8） | `search_input` |
+| A3-5 | S3-概述 | SPEC_EXPLICIT | 输入文字设置清晰的颜色 | `TextInput` 设置了 `fontColor(...)`；同上 | `search_input` |
+| A3-6 | S3-步骤2 | SPEC_EXPLICIT | 输入框为空时点击右侧搜索按钮 | 按钮能点（实测 clickable=true，bounds `[1059,294][1199,434]`） | 无文字按钮 → 需补 `search_btn` |
+| A3-7 | S3-步骤3 | SPEC_EXPLICIT | 弹出 Toast "请输入搜索内容" | `start_listen_toast()` 后 `get_latest_toast()=='请输入搜索内容'`；UI 树中 type=`Toast` 节点 text 为该文案 | 不适用（系统 Toast） |
+| A3-8 | S3-概述 | SPEC_EXPLICIT | Toast 文案与占位文案相同 | A3-7 的文字 == A3-1 的 hint | 不适用 |
+| A3-9 | S3-步骤3 | SPEC_EXPLICIT | 首页标识仍可见 | 点击后 `BY.text('云音汇')` 存在 | 文本即可 |
+| A3-10 | S3-步骤3 | SPEC_EXPLICIT | 不跳转到空关键词的搜索结果页 | `BY.text('的搜索结果', CONTAINS)` 不存在；`BY.type('LoadingProgress')` 不存在；`BY.type('TextInput')` 仍存在 | 不适用 |
+| A3-11 | S3-概述 | REASONABLE_DERIVATION | 有内容时搜索照常跳转（不回归） | 输入 `abc` 点搜索 → 出现 `LoadingProgress` 或 `"abc" 的搜索结果`；首页节点消失 | `search_input`、`search_btn` |
+
+### 八个维度
+
+| 编号 | 入口 | 前置数据 | 用户动作 | UI 结果 | 数据结果 | 网络结果 | 返回结果 | 边界条件 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A3-1 / A3-2 | 冷启动首页；或从设置/下载管理返回 | 无 | 无 / 返回 | hint=新文案 | 无 | 不适用 | 返回首页后 hint 不变 | 重启后重进：同样 |
+| A3-3 | 首页 | 无 | 无 | 没有旧文案 | 无 | 不适用 | 不适用 | 不适用 |
+| A3-4 / A3-5 | 首页 | 无 | 输入文字 | 占位、输入文字颜色清楚 | 无 | 不适用 | 不适用 | 深色模式见 U8 |
+| A3-6–A3-10 | 首页 | 输入框为空 | 点搜索按钮 | Toast + 停留首页 | `searchKeyword` 仍为空 | **不发**搜索请求 | 不适用：没有跳转 | 快速连点：每次都只弹 Toast、都不跳转；输入后清空再点：同空输入 |
+| A3-11 | 首页 | 无 | 输入非空 → 点搜索 | 进入结果页 | 关键词作为路由参数 | 结果页发 `getSongsList`（基线） | 返回首页，输入框保留刚才输入的内容（基线实测） | 请求失败：基线一直 loading（`SongsListPage.ets:35-37` catch 里没把 `isLoading` 复位），不在本题范围，只记录 |

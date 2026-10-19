@@ -1,0 +1,5 @@
+2. 同名文本：
+   - "隐私政策"：设置页左侧标签和 PrivacyPage 标题同名。【实测】router 压栈后，下层页面的节点**不在** `find_component` 的结果里（首页 → 下载管理后 `BY.text('云音汇')` 和 `BY.type('TextInput')` 都找不到，返回后又能找到）。所以在 PrivacyPage 上 `BY.text('隐私政策')` 只会命中新页标题，不会误命中设置页标签；但"标题是否真的在新页面上"仍要配合 `BY.type('Web')` 一起断言。
+   - "设置"：首页菜单里 `MenuItem` 和内部 `Text` 都是"设置"；设置页标题也是"设置"。
+   - "云音汇"：首页标题和设置页底部 `云音汇 @Chenlvin` 前缀重叠（CONTAINS 匹配时会被判为同一个）。
+   - "请输入搜索内容"：改完后输入框 hint 和 Toast 文本相同。【实测】`BY.text('请输入搜索词')` 在首页**匹配不到**输入框（占位文字在 `hint` 属性里，不在 `text` 里）；Hypium 有单独的 `BY.hint()`（`hypium/uidriver/by.py:173`）。所以官方断言占位文案应该会用 `BY.hint` 或读组件 hint 属性，和 Toast 的 `text` 不冲突。

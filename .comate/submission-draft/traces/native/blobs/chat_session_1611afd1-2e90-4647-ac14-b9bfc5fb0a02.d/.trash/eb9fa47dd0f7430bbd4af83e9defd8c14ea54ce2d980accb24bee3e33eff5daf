@@ -1,0 +1,43 @@
+"""cmu-spec114 自测公共导航与断言辅助（非测试文件，不以 test_ 开头）。
+
+定位策略：新增/关键组件用 BY.key（实现中补的 .id()），基线无 id 的图标按钮按 bounds 排序取位置，
+与官方测试可能使用的文本/类型选择器并行断言。
+"""
+from __future__ import annotations
+
+from hypium import BY, MatchPattern
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+VERSION_TEXT = "0.9.3 - 测试版"
+SEARCH_HINT = "请输入搜索内容"
+OLD_SEARCH_HINT = "请输入搜索词"
+PRIVACY_ENTRY = "前往查看本软件的隐私政策"
+
+ID_VERSION = "settings_version"
+ID_PRIVACY_ENTRY = "settings_privacy_entry"
+ID_PRIVACY_WEB = "privacy_web"
+ID_SEARCH_INPUT = "search_input"
+ID_SEARCH_BUTTON = "search_button"
+
+
+class CloudMusicCase(HarnessTestCase):
+    """每个用例从冷启动首页开始。"""
+
+    def setUp(self) -> None:
+        restart_app(self.driver, BUNDLE, wait_time=3)
+        self.require_component(BY.text("云音汇"), "冷启动后未进入首页（缺少顶栏标题“云音汇”）")
+
+    def tearDown(self) -> None:
+        self.driver.stop_app(BUNDLE)
+
+    # ---------- 通用 ----------
+    def count(self, by) -> int:
+        return len(self.driver.find_all_components(by) or [])
+
+    def exists(self, by, timeout: float = 3) -> bool:
+        return self.find_or_none(by, timeout=timeout) is not None
+
+    def

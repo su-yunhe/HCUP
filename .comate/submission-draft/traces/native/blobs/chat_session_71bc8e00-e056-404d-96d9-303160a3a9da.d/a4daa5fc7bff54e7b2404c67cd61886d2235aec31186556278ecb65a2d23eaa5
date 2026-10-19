@@ -1,0 +1,78 @@
+<file>
+     1→status:   completed
+     2→cwd: /Users/bress/Documents/code/harmonycup-work/cmu-spec114
+     3→command description: 用完整 DevEco 环境重跑基线走查
+     4→started_at: 2026-10-19 15:29:42
+     5→---
+     6→[2026-10-19 15:29:43,524] [8417992448] [Analysis] [WARNING] [tracker dependency is not ok]
+     7→[2026-10-19 15:29:43,526] [8417992448] [EnvPool] [INFO] [Report path: /Users/bress/Documents/code/harmonycup-work/cmu-spec114/reports/2026-10-19-15-29-43]
+     8→[2026-10-19 15:29:43,527] [8417992448] [EnvPool] [INFO] [Load Managers ...]
+     9→[2026-10-19 15:29:43,527] [8417992448] [EnvPool] [INFO] [Env pool running in cache mode.]
+    10→[2026-10-19 15:29:43,527] [8417992448] [EnvPool] [INFO] [Prepare to init pool]
+    11→[2026-10-19 15:29:43,528] [8417992448] [EnvPool] [INFO] [Pool is prepared]
+    12→[2026-10-19 15:29:43,530] [8417992448] [EnvPool] [INFO] [Get device by selector]
+    13→[2026-10-19 15:29:43,530] [8417992448] [EnvPool] [INFO] [Apply device in pool]
+    14→[2026-10-19 15:29:43,603] [6175125504] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost
+    15→]
+    16→[2026-10-19 15:29:44,534] [8417992448] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5555'], label:phone]]
+    17→[2026-10-19 15:29:44,534] [8417992448] [EnvPool] [INFO] [Device 127.0.0.1:5555: extend value: {}]
+    18→[2026-10-19 15:29:44,740] [8417992448] [Device] [INFO] [6.0.2.3]
+    19→[2026-10-19 15:29:44,817] [8417992448] [Device] [INFO] [Init ui proxy by unix socket.]
+    20→[2026-10-19 15:29:44,817] [8417992448] [DeviceUIProxy] [INFO] [Check uitest running status.]
+    21→[2026-10-19 15:29:44,856] [8417992448] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: None]
+    22→[2026-10-19 15:29:44,856] [8417992448] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.2.2 agent version]
+    23→[2026-10-19 15:29:44,884] [8417992448] [Device] [INFO] [UITEST_AGENT_LIBRARY@v0.0.0#1.2.2
+    24→]
+    25→[2026-10-19 15:29:44,884] [8417992448] [Device] [INFO] [local agent version 1.2.2, device agent version 1.2.2]
+    26→[2026-10-19 15:29:44,908] [8417992448] [Device] [INFO] [Device agent is up to date!]
+    27→[2026-10-19 15:29:47,060] [8417992448] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]
+    28→[2026-10-19 15:29:47,091] [8417992448] [DeviceUIProxy] [INFO] [tcp forward port: 9911 for 127.0.0.1:5555]
+    29→[2026-10-19 15:29:47,852] [8417992448] [Device] [INFO] [hypium base version: 6.1.0.210]
+    30→[2026-10-19 15:29:47,852] [8417992448] [DeviceTest] [INFO] [init DeccVariable cur case object]
+    31→[2026-10-19 15:29:47,852] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, cc.chenlvin.cloudmusic)</div>]
+    32→[2026-10-19 15:29:48,424] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, cc.chenlvin.cloudmusic) cost: 0.572s</div>]
+    33→[2026-10-19 15:29:48,424] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, cc.chenlvin.cloudmusic)</div>]
+    34→[2026-10-19 15:29:48,475] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+    35→[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+    36→[parameters: [{'extras': {}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 43, 526498), 'product_version': '6.1.0.210', 'created_at': datetime.datetime(2026 ... (32 characters truncated) ... event_id': '907001003', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'TestTaskDebug', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}, {'extras': {'bundle_name': 'cc.chenlvin.cloudmusic'}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 48, 467023), 'product_version': '6.1.0.210 ... (65 characters truncated) ... 38), 'event_id': '907001004', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'AppInfo', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}]]]
+    37→[2026-10-19 15:29:48,476] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+    38→[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+    39→[parameters: [{'extras': {}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 43, 526498), 'product_version': '6.1.0.210', 'created_at': datetime.datetime(2026 ... (32 characters truncated) ... event_id': '907001003', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'TestTaskDebug', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}, {'extras': {'bundle_name': 'cc.chenlvin.cloudmusic'}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 48, 467023), 'product_version': '6.1.0.210 ... (65 characters truncated) ... 38), 'event_id': '907001004', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'AppInfo', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}]]]
+    40→[2026-10-19 15:29:48,476] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+    41→[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+    42→[parameters: [{'extras': {}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 43, 526498), 'product_version': '6.1.0.210', 'created_at': datetime.datetime(2026 ... (32 characters truncated) ... event_id': '907001003', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'TestTaskDebug', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}, {'extras': {'bundle_name': 'cc.chenlvin.cloudmusic'}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 48, 467023), 'product_version': '6.1.0.210 ... (65 characters truncated) ... 38), 'event_id': '907001004', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'AppInfo', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}]]]
+    43→[2026-10-19 15:29:48,477] [6191951872] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+    44→[SQL: SELECT eventdata.id, eventdata.event_id, eventdata.event_name, eventdata.user_id, eventdata.product_name, eventdata.product_version, eventdata.uploaded, eventdata.extras, eventdata.created_at, eventdata.updated_at 
+    45→FROM eventdata 
+    46→WHERE eventdata.created_at <= ? AND eventdata.uploaded = ?]
+    47→[parameters: [{}]]]
+    48→[2026-10-19 15:29:49,548] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, cc.chenlvin.cloudmusic) cost: 1.123s</div>]
+    49→[2026-10-19 15:29:49,548] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 3)</div>]
+    50→[2026-10-19 15:29:52,554] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 3) cost: 3.005s</div>]
+    51→===== 01_home
+    52→   ('Button', '', '', '', '', '[35,137][158,259]', 'false')
+    53→   ('Image', '', '', '', '', '[53,154][141,242]', 'false')
+    54→   ('Text', '', '', '云音汇', '', '[549,156][759,238]', 'false')
+    55→   ('Button', '', '', '', '', '[1151,137][1274,259]', 'false')
+    56→   ('Image', '', '', '', '', '[1169,154][1257,242]', 'false')
+    57→   ('TextInput', '', '', '', '请输入搜索词', '[109,294][1025,434]', 'true')
+    58→   ('Button', '', '', '', '', '[1059,294][1199,434]', 'true')
+    59→   ('Image', '', '', '', '', '[1077,312][1182,417]', 'false')
+    60→   ('Text', '', '', '登录账号\n以显示你的歌单', '', '[360,469][949,840]', 'false')
+    61→   ('WindowScene', 'session21', 'session21', '', '', '[0,0][1308,136]', 'false')
+    62→   ('__Common__', 'StatusBarBox', 'StatusBarBox', '', '', '[0,0][1308,136]', 'false')
+    63→   ('__Common__', 'StatusBarBridgeView', 'StatusBarBridgeView', '', '', '[0,0][1308,136]', 'true')
+    64→   ('Row', 'status_bar_left_color_picker', 'status_bar_left_color_picker', '', '', '[42,47][179,131]', 'false')
+    65→   ('Row', 'status_bar_right_color_picker', 'status_bar_right_color_picker', '', '', '[915,47][1266,131]', 'false')
+    66→   ('Row', 'status_bar_color_picker', 'status_bar_color_picker', '', '', '[42,47][1266,131]', 'false')
+    67→   ('Stack', 'StatusBarView', 'StatusBarView', '', '', '[0,0][1308,136]', 'false')
+    68→   ('Row', 'StatusBarBackground_Row_0', 'StatusBarBackground_Row_0', '', '', '[0,0][1308,136]', 'false')
+    69→   ('Stack', 'sbg_left', 'sbg_left', '', '', '[42,47][1308,131]', 'false')
+    70→   ('Stack', 'StatusBarIconWrapper_status_bar_clock', 'StatusBarIconWrapper_status_bar_clock', '', '', '[42,47][181,131]', 'false')
+    71→   ('Flex', 'ClockStatusView', 'ClockStatusView', '03, :, 29', '', '[42,47][181,131]', 'false')
+    72→   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[42,58][104,120]', 'false')
+    73→   ('Text', '', '', '03', '', '[42,58][104,120]', 'false')
+    74→   ('Text', 'TimeView_Text_timeText', 'TimeView_Text_timeText', ':', '', '[104,63][119,116]', 'false')
+    75→   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[119,58][181,120]', 'false')
+</file>
+<metadata>The file has 491 lines in total.</metadata>

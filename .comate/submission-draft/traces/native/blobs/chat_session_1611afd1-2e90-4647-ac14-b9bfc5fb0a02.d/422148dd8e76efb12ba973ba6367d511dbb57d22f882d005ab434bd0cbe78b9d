@@ -1,0 +1,4 @@
+      Text('前往查看本软件的隐私政策').RightText()
+        .onClick(() => {
+          AppUtil.getContext().startAbility(wantInfo)
+        })

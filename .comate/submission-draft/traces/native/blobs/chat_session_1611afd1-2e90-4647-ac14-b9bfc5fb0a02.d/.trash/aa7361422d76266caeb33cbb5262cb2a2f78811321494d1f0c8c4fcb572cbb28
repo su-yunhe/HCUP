@@ -1,0 +1,18 @@
+"""场景三：搜索框和空内容提交使用同一文案（C1–C10）。"""
+from __future__ import annotations
+
+from hypium import BY, MatchPattern
+
+from hypium_tests._common import OLD_SEARCH_HINT, SEARCH_HINT, CloudMusicCase
+
+
+class TestSearchHint(CloudMusicCase):
+
+    def empty_search_toast(self) -> str:
+        self.driver.start_listen_toast()
+        self.driver.click(self.search_button())
+        return self.driver.get_latest_toast(timeout=3)
+
+    def test_c1_c2_hint_on_cold_start(self):
+        self.assert_home_hint("冷启动首页")
+        self.assertIsNon

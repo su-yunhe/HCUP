@@ -1,0 +1,237 @@
+# cmu-spec114 验收矩阵
+
+来源：`spec/requirement.md`《0.9.3 版本信息、应用内隐私页与搜索提示统一》。
+
+本矩阵把 Spec 的三个场景逐步归一化为可执行的 Hypium 检查点。`SPEC_EXPLICIT` 表示 Spec 明文要求，`REASONABLE_DERIVATION` 表示为使明文场景可判定而作的合理推导，`UNCONFIRMED_ASSUMPTION` 表示 Spec 没有定死、需要在实现或评测前确认的内容。
+
+## 通用约定
+
+- 应用包名：`cc.chenlvin.cloudmusic`；入口 Ability：`EntryAbility`。
+- 入口链路：冷启动 → 首页 → 右上角更多 → `设置`。基线代码中的页面路由注册见 `entry/src/main/resources/base/profile/main_pages.json:2-10`。
+- 文案使用 Spec 原文。`0.9.3 - 测试版`、`前往查看本软件的隐私政策`、`请输入搜索内容`均按逐字匹配处理。
+- 目前基线没有业务组件 `.id()`；下面写“需在实现时补 `.id()`”的选择器，表示应给现有组件补稳定 id，但不能改变组件类型、文字或现有入口层级。
+- 对输入框占位文案，应使用 `BY.hint('请输入搜索内容')` 或读取 `TextInput.hint`；占位文案不一定出现在 `BY.text()` 中。Toast 使用 `BY.text()`、Toast 监听或 `get_latest_toast()`。
+- 所有页面和弹层都要先确认当前前台仍是目标应用，再断言页面节点，避免外部应用或下层页面造成误判。
+
+## 稳定选择器清单
+
+| 建议 id | 组件和用途 | 当前基线位置 |
+| --- | --- | --- |
+| `index_more_btn` | 首页右上角更多按钮 | `entry/src/main/ets/components/head/IndexHead.ets:22-23`，需在实现时补 `.id()` |
+| `index_menu_settings` | 更多菜单中的“设置”项 | `IndexHead.ets:35-38`，需在实现时补 `.id()` |
+| `settings_title` | 设置页标题 | `entry/src/main/ets/components/head/SettingsHead.ets`，需在实现时补 `.id()` |
+| `settings_version_value` | 版本值 Text | `entry/src/main/ets/pages/Settings.ets:43-46`，需在实现时补 `.id()` |
+| `settings_privacy_link` | “前往查看本软件的隐私政策” | `Settings.ets:68-73`，需在实现时补 `.id()` |
+| `settings_feedback_row` | “问题反馈”行 | `Settings.ets:53-61`，需在实现时补 `.id()` |
+| `settings_footer` | 底部项目和 GitHub 信息 Text | `Settings.ets:81-83`，需在实现时补 `.id()` |
+| `privacy_title` | `PrivacyPage` 标题 | 新增页面，需在实现时补 `.id()` |
+| `privacy_back_btn` | `PrivacyPage` 标题栏返回按钮 | 新增页面，需在实现时补 `.id()` |
+| `privacy_web` | `PrivacyPage` 的 Web 容器 | 新增页面，需在实现时补 `.id()` |
+| `search_input` | 首页搜索框 | `entry/src/main/ets/components/main/SearchComponent.ets:12`，需在实现时补 `.id()` |
+| `search_btn` | 首页搜索按钮 | `SearchComponent.ets:18-30`，需在实现时补 `.id()` |
+
+## 场景一：设置页显示 0.9.3 版本与完整入口
+
+Spec 来源：`spec/requirement.md:3-14`。
+
+### 原子验收项
+
+| 编号 | 来源 | 证据等级 | 原子行为 | 可观察结果 | 稳定选择器 |
+| --- | --- | --- | --- | --- | --- |
+| A1 | 场景一·步骤1 | `SPEC_EXPLICIT` | 启动应用并进入首页 | 前台应用为 `('cc.chenlvin.cloudmusic', 'EntryAbility')`；首页存在“云音汇” | `BY.text('云音汇')`；更多按钮需 `index_more_btn` |
+| A2 | 场景一·步骤1 | `SPEC_EXPLICIT` | 点击首页右上角更多按钮 | 菜单出现，存在菜单项文字“设置” | `index_more_btn`、`index_menu_settings` |
+| A3 | 场景一·步骤1 | `SPEC_EXPLICIT` | 选择菜单项“设置” | 当前页面进入设置页；设置页标题“设置”出现；首页搜索框节点不再作为当前页面节点 | `index_menu_settings`、`settings_title` |
+| A4 | 场景一·步骤2 | `SPEC_EXPLICIT` | 观察设置页标题 | 标题文字为“设置” | `settings_title` 或 `BY.text('设置')` |
+| A5 | 场景一·步骤2 | `SPEC_EXPLICIT` | 观察“当前版本”行 | 文字“当前版本”存在 | `BY.text('当前版本')` |
+| A6 | 场景一·步骤2 | `SPEC_EXPLICIT` | 观察“隐私政策”行 | 文字“隐私政策”和说明文字“前往查看本软件的隐私政策”均存在 | `BY.text('隐私政策')`、`settings_privacy_link` |
+| A7 | 场景一·步骤2 | `SPEC_EXPLICIT` | 观察“问题反馈”行 | 文字“问题反馈”存在 | `BY.text('问题反馈')` 或 `settings_feedback_row` |
+| A8 | 场景一·步骤3 | `SPEC_EXPLICIT` | 观察版本值 | 存在一个完整 Text，逐字显示“0.9.3 - 测试版”；其中短横线两侧各有一个空格 | `settings_version_value` 或 `BY.text('0.9.3 - 测试版')` |
+| A9 | 场景一·步骤3 | `SPEC_EXPLICIT` | 检查应用清单版本 | 已安装包的 `versionName` 为 `0.9.3`；源码依据为 `AppScope/app.json5:3-6` | 非 UI：`bm dump -n cc.chenlvin.cloudmusic` 或读取构建清单 |
+| A10 | 场景一·步骤3 | `REASONABLE_DERIVATION` | 比较页面版本和清单版本 | A8 的版本号 `0.9.3` 与 A9 的 `versionName` 一致；不允许页面仍显示“0.9.2” | `settings_version_value`；包信息 |
+| A11 | 场景一·步骤4 | `SPEC_EXPLICIT` | 观察页面底部来源信息 | 同一设置页能看到“云音汇 @Chenlvin”及 GitHub 项目名称 | `settings_footer`；底部 Text 需使用 `CONTAINS` 或 id |
+| A12 | 场景一·步骤4 | `REASONABLE_DERIVATION` | 核对基线已有 GitHub 项目名 | 在底部 Text 中保留并显示 `CloudMusic-HarmonyOSNext`；当前基线完整文本为“云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext” | `settings_footer` 或 `BY.text('CloudMusic-HarmonyOSNext', CONTAINS)` |
+| A13 | 场景一·场景概述 | `REASONABLE_DERIVATION` | 核对版本、入口和来源信息属于同一应用内页面 | 前台仍是 `cc.chenlvin.cloudmusic`；A4-A8、A11-A12 可在设置页观察到，不需要打开系统设置或浏览器 | `current_app()`；上述选择器 |
+
+### 八个维度
+
+| 编号 | 入口 | 前置数据 | 用户动作 | UI 结果 | 数据结果 | 网络结果 | 返回结果 | 边界条件 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A1 | 应用冷启动 | 不需要登录、账号、歌单或测试数据 | 启动应用 | 首页有“云音汇” | 无业务数据要求 | 不适用；首页存在的基线请求不属于本场景 | 不适用 | 重启应用后仍从首页开始 |
+| A2 | 首页 | 无 | 点击更多按钮 | 菜单出现并包含“设置” | 无 | 不适用，菜单是本地 UI | 关闭菜单后仍在首页 | 点击菜单外区域、系统返回或关闭操作后菜单消失；再次点击可重新打开 |
+| A3 | 首页更多菜单 | 无 | 点击“设置” | 进入设置页 | 路由栈增加 `pages/Settings` | 不适用 | 设置页返回应回到首页 | 重复点击只应产生一次有效导航；快速连点结果待确认，见 U6 |
+| A4-A7 | 设置页 | 无 | 进入后观察 | 标题、当前版本、隐私政策、问题反馈四类文字可见 | 无 | 不适用，静态内容 | 从隐私页返回后仍可见 | 无数据不影响静态行；部分操作只打开设置页也应可观察这些行 |
+| A8-A10 | 设置页和已安装包 | 构建并安装后的包 | 进入后观察并读取包信息 | 页面逐字显示“0.9.3 - 测试版” | `versionName=0.9.3` 且两处一致 | 不适用 | 返回首页、再次进入设置或重启后仍为同一值 | 无输入、无分页、无请求失败分支 |
+| A11-A13 | 设置页底部 | 无 | 进入后观察 | “云音汇 @Chenlvin”和 GitHub 项目名称可见 | 无 | 不适用 | 返回后重进仍可见 | 设备过小导致滚动的处理未由 Spec 定义；不要把滚动位置当作版本验收条件 |
+
+### 场景一边界矩阵
+
+| 边界 | 证据等级 | 适用性和期望 |
+| --- | --- | --- |
+| 空输入、纯空格 | `REASONABLE_DERIVATION` | 不适用：场景一没有输入框 |
+| 取消/关闭菜单 | `REASONABLE_DERIVATION` | 关闭菜单后仍在首页，设置页不应被打开 |
+| 重复点击更多 | `REASONABLE_DERIVATION` | 菜单可重复打开和关闭，不崩溃、不叠加多个菜单 |
+| 重复点击“设置” | `UNCONFIRMED_ASSUMPTION` | 推荐只保留一个设置页实例，一次返回回首页；基线快速连点尚未单独验证 |
+| 快速连点“设置” | `UNCONFIRMED_ASSUMPTION` | 推荐做导航去重或点击后立即关闭菜单；原因是隐藏测试可能用连续点击，且 Spec 只需要一个设置页 |
+| 无数据 | `REASONABLE_DERIVATION` | 不适用：本场景没有数据列表 |
+| 最后一页 | `REASONABLE_DERIVATION` | 不适用：本场景没有分页 |
+| 部分操作 | `REASONABLE_DERIVATION` | 只启动、只打开菜单、只进入设置页均不应崩溃；完成部分步骤后再继续仍应进入同一设置页 |
+| 请求失败 | `REASONABLE_DERIVATION` | 不适用：本场景的验收内容为静态 UI；首页已有无关请求失败不应阻止打开设置 |
+| 返回后重进 | `REASONABLE_DERIVATION` | 设置页返回首页后再次通过更多菜单进入，版本和静态入口仍应存在 |
+| 重启应用后重进 | `REASONABLE_DERIVATION` | 冷启动后重复进入设置，版本仍为“0.9.3 - 测试版”；不依赖上次页面状态 |
+
+## 场景二：隐私政策在应用内嵌页面打开并可返回
+
+Spec 来源：`spec/requirement.md:16-26`。
+
+### 网络和导航状态机
+
+```text
+[设置页]
+    │ 点击“前往查看本软件的隐私政策”
+    │ 不调用外部 viewData Want，不把前台交给浏览器
+    ▼
+router.pushUrl({ url: 'pages/PrivacyPage' })
+    │
+    ▼
+[PrivacyPage 同步渲染]
+    ├─ 标题栏“隐私政策”立即出现
+    └─ Web 组件立即存在，独立发起 URL 加载
+          │
+          ├─ 加载中：标题和 Web 节点保持存在；返回可用
+          ├─ 加载成功：显示网页内容；标题保持“隐私政策”
+          └─ 加载失败/无网络：标题和 Web 节点仍存在；不崩溃，Spec 未要求固定错误文案
+          │
+          └─ 系统返回键或标题栏返回按钮
+                 ▼
+          router.back() → [设置页]
+                 ├─ 前台仍是云音汇
+                 ├─ Web 节点消失
+                 └─ “0.9.3 - 测试版”仍可见
+```
+
+网络绑定要求：
+
+- 点击说明文字只负责应用内路由，不应发应用层 `HttpRequest`，也不应调用 `startAbility(wantInfo)`。
+- Web 挂载后才加载隐私政策地址；标题不能等待网络结果。
+- loading 状态必须由 Web 加载过程承担，不能用“先改成隐私页、再等待请求后创建标题”的实现。
+- 加载成功和失败都不能改变返回链路。返回后 Web 页面销毁，旧页面不应被延迟回调改写。
+- Spec 没有指定隐私政策正文或固定 URL。官方技术答疑说明没有统一指定的隐私政策正文或公开链接；可沿用基线已有地址，但验收重点是应用内页面、标题、Web 和返回。
+
+### 原子验收项
+
+| 编号 | 来源 | 证据等级 | 原子行为 | 可观察结果 | 稳定选择器 |
+| --- | --- | --- | --- | --- | --- |
+| B1 | 场景二·步骤1 | `SPEC_EXPLICIT` | 在设置页点击“前往查看本软件的隐私政策” | 导航动作发生，设置页不再是当前页面 | `settings_privacy_link` |
+| B2 | 场景二·概述、步骤2 | `SPEC_EXPLICIT` | 通过应用内路由打开新增 `PrivacyPage` | `main_pages.json` 注册 `pages/PrivacyPage`；工程存在 `PrivacyPage.ets` 且入口为 `@Entry struct PrivacyPage`；当前页可由标题和 Web 共同证明 | 非 UI 代码检查 + `privacy_title`、`privacy_web` |
+| B3 | 场景二·概述、步骤2 | `SPEC_EXPLICIT` | 点击后仍留在云音汇应用内 | `current_app()[0] == 'cc.chenlvin.cloudmusic'`，Ability 仍是 `EntryAbility`；不能是系统浏览器 | `current_app()` |
+| B4 | 场景二·步骤2 | `SPEC_EXPLICIT` | 观察新页标题 | 页面显示“隐私政策” | `privacy_title` 或 `BY.text('隐私政策')`，需和 Web 节点同屏验证 |
+| B5 | 场景二·步骤2 | `SPEC_EXPLICIT` | 观察页面内 Web 内容容器 | 当前页面存在 type=`Web` 的组件 | `privacy_web` 或 `BY.type('Web')` |
+| B6 | 场景二·概述 | `SPEC_EXPLICIT` | 在网络内容尚未加载时观察页面 | 无网络、解析失败或加载等待期间，B4 仍成立；标题不依赖网页正文 | `privacy_title`；进入页面后立即查询 |
+| B7 | 场景二·概述 | `REASONABLE_DERIVATION` | 核对标题栏和 Web 的页面关系 | 标题栏位于 Web 上方；标题栏包含返回按钮；Web 不覆盖标题栏 | `privacy_title`、`privacy_back_btn`；检查 bounds |
+| B8 | 场景二·步骤3 | `SPEC_EXPLICIT` | 执行系统返回操作 | 回到设置页；前台仍为云音汇；PrivacyPage 的 Web 节点消失 | `press_back()`；`settings_title`；`BY.type('Web')` 不存在 |
+| B9 | 场景二·步骤3 | `SPEC_EXPLICIT` | 检查返回后的版本值 | 返回设置页后仍显示“0.9.3 - 测试版” | `settings_version_value` 或 `BY.text('0.9.3 - 测试版')` |
+| B10 | 场景二·步骤3 | `REASONABLE_DERIVATION` | 点击标题栏返回按钮 | 与系统返回相同，回到设置页且版本值仍可见 | `privacy_back_btn` |
+| B11 | 场景二·概述 | `REASONABLE_DERIVATION` | 检查应用层网络请求边界 | 点击说明文字不触发基线 `HttpRequest`；仅 Web 的 URL 加载产生网页请求 | 代码审查 `Settings.ets` 和运行时网络日志；无 UI 选择器 |
+
+### 八个维度
+
+| 编号 | 入口 | 前置数据 | 用户动作 | UI 结果 | 数据结果 | 网络结果 | 返回结果 | 边界条件 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| B1-B3 | 首页 → 更多 → 设置 | 不需要登录、服务端、WebDAV 或测试数据 | 点击说明文字 | 进入应用内隐私页，前台不变 | 无业务数据 | 不调用外部 Want；不发应用层 HTTP | 见 B8-B10 | 外部浏览器不可作为成功结果 |
+| B4-B7 | PrivacyPage | 无网络也必须成立 | 进入页面后立即观察 | 标题栏“隐私政策”和 Web 同时存在，标题在 Web 上方 | 无 | Web 负责 URL 加载；加载中、成功、失败均不移除标题 | 任意网络状态均可返回 | 请求失败、域名解析失败、内容空白都不能隐藏标题或造成崩溃 |
+| B8-B9 | PrivacyPage | 无 | 系统返回键 | 回到设置页且版本可见 | 设置页静态数据未丢失 | 返回后 Web 加载不应继续修改设置页 | 一次返回回到设置；再次返回才回首页 | Web 具有历史记录时返回优先级未在 Spec 中定义，见 U5 |
+| B10 | PrivacyPage | 无 | 点击页面返回按钮 | 与系统返回相同 | 无 | 同 B8 | 回到设置页 | 快速连点返回不应越过设置页，见 U6 |
+| B11 | 设置页 | 无 | 点击说明文字 | 不适用 | 无 | 只有 Web 加载 URL；不引入另一个应用层数据源 | 不适用 | 外部 Want、系统浏览器、浏览器返回链均属于失败分支 |
+
+### 场景二边界矩阵
+
+| 边界 | 证据等级 | 适用性和期望 |
+| --- | --- | --- |
+| 空输入、纯空格 | `REASONABLE_DERIVATION` | 不适用：隐私页没有输入框 |
+| 取消/关闭 | `REASONABLE_DERIVATION` | 不适用：Spec 没有关闭按钮；可用系统返回或标题栏返回完成离开 |
+| 重复点击说明文字 | `UNCONFIRMED_ASSUMPTION` | 推荐导航去重，一次点击只压入一个 `PrivacyPage`；理由是 Spec 只要求一页和一次返回 |
+| 快速连点说明文字 | `UNCONFIRMED_ASSUMPTION` | 推荐在路由进行中禁用重复触发或检测当前路由；未在基线实测，不能把“只压一页”当成已验证事实 |
+| 无数据 | `REASONABLE_DERIVATION` | 不适用：页面只有 Web 内容，不展示业务列表 |
+| 最后一页 | `REASONABLE_DERIVATION` | 不适用：没有分页 |
+| 部分操作 | `REASONABLE_DERIVATION` | 只进入页面、只观察标题、只点击返回都不应崩溃；网络正文未出现也不能阻止返回 |
+| 请求失败/无网络 | `SPEC_EXPLICIT` | 标题仍显示，Web 节点仍存在，应用仍可返回；错误正文和自定义错误文案未由 Spec 指定 |
+| 返回后重进 | `REASONABLE_DERIVATION` | 设置页 → 隐私页 → 返回 → 再次点击，第二次仍应出现标题和 Web，并能返回设置 |
+| 重启应用后重进 | `REASONABLE_DERIVATION` | 冷启动后重新走首页 → 设置 → 隐私页，不能依赖上次 Web 实例或路由栈 |
+
+## 场景三：搜索框和空内容提交使用同一文案
+
+Spec 来源：`spec/requirement.md:28-39`。
+
+### 网络状态机
+
+```text
+[首页，输入框为空]
+    │ 点击搜索按钮
+    ├─ 不发搜索请求
+    ├─ 不进入 pages/SongsListPage
+    └─ 显示 Toast“请输入搜索内容”，首页标识仍在
+
+[首页，输入内容包含非空字符]        ← 现有功能的合理推导，非本场景核心 F-point
+    │ 点击搜索按钮
+    └─ router.pushUrl('pages/SongsListPage', searchKeyword)
+             │
+             └─ getSongsList → GET ROOT_URL/search?keywords=...
+                    ├─ 请求中：结果页 loading 与本次请求绑定
+                    ├─ 成功且有数据：loading 结束，显示结果列表
+                    ├─ 成功但无数据：loading 结束，显示可判定的无数据状态
+                    └─ 失败：结束 loading，保留可返回的结果页并显示可判定的失败状态
+```
+
+空输入分支是本 Spec 明文要求，点击动作不应先进入结果页再补 Toast。非空请求分支不是本题明文的新增行为，状态机中的“无数据”和“请求失败”是为了锁定边界，具体错误文案和无数据文案列为待确认假设。
+
+### 原子验收项
+
+| 编号 | 来源 | 证据等级 | 原子行为 | 可观察结果 | 稳定选择器 |
+| --- | --- | --- | --- | --- | --- |
+| C1 | 场景三·步骤1 | `SPEC_EXPLICIT` | 启动或返回首页后观察搜索框 | TextInput 占位文案逐字为“请输入搜索内容” | `search_input` + `BY.hint('请输入搜索内容')` |
+| C2 | 场景三·概述 | `SPEC_EXPLICIT` | 观察搜索框视觉样式 | 搜索框显式设置占位色和输入文字颜色；颜色与背景有足够对比，输入文字可读 | `search_input`；属性检查或截图。具体色值见 U7 |
+| C3 | 场景三·步骤2 | `SPEC_EXPLICIT` | 保持输入框为空并点击右侧搜索按钮 | Toast 逐字显示“请输入搜索内容” | `search_btn`；Toast 监听或 `BY.text('请输入搜索内容')` |
+| C4 | 场景三·步骤3 | `SPEC_EXPLICIT` | 空内容提交后观察页面 | 首页标识仍可见；不进入空关键词搜索结果页；当前前台仍是云音汇 | `BY.text('云音汇')`、`current_app()`；`BY.type('LoadingProgress')` 不应属于结果页 |
+| C5 | 场景三·步骤1-3 | `REASONABLE_DERIVATION` | 比较占位文案和空提交文案 | C1 和 C3 使用同一个完整字符串“请输入搜索内容”，不能一处保留“请输入搜索词” | `search_input`、Toast |
+| C6 | 场景三·边界 | `UNCONFIRMED_ASSUMPTION` | 输入纯空格后点击搜索 | 推荐把 `trim()` 后为空的输入按空内容处理：显示“请输入搜索内容”、留在首页、不发请求 | `search_input`、`search_btn`、Toast；当前基线会进入结果页，见 U4 |
+| C7 | 场景三·边界 | `REASONABLE_DERIVATION` | 输入非空关键词后点击搜索 | 保留基线已有入口：进入 `pages/SongsListPage`，参数为 `searchKeyword`；具体结果取决于服务 | `search_input`、`search_btn`、结果页标题 |
+| C8 | 场景三·边界 | `UNCONFIRMED_ASSUMPTION` | 让非空搜索请求返回空列表或失败 | 推荐 loading 与请求绑定；空列表和失败都结束 loading、可返回且不崩溃；具体 UI 文案需确认 | `BY.type('LoadingProgress')`、结果页返回按钮；网络桩或受控服务 |
+
+### 八个维度
+
+| 编号 | 入口 | 前置数据 | 用户动作 | UI 结果 | 数据结果 | 网络结果 | 返回结果 | 边界条件 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| C1-C2 | 冷启动或返回首页 | 不需要登录、账号或搜索服务 | 观察 TextInput | hint 为“请输入搜索内容”，占位色和输入文字颜色显式可读 | 输入状态为空 | 不触发请求 | 不适用 | 重启后 hint 仍一致；颜色不应依赖上一次输入 |
+| C3-C5 | 首页 | 输入框确实为空 | 点击搜索按钮 | Toast 为“请输入搜索内容”，首页“云音汇”仍在 | 不生成 `searchKeyword` 结果页状态 | 不发送 `/search` 请求 | 页面不变 | 重复点击仍不应导航；Toast 是否合并由 U6 确认 |
+| C6 | 首页 | 输入值为纯空格 | 点击搜索按钮 | 推荐与 C3 相同 | 不应把空格作为搜索关键词 | 不发 `/search` 请求 | 留在首页 | 当前基线实测为空 Toast、进入结果页，属于缺失项 |
+| C7 | 首页 | 非空关键词；服务可选 | 点击搜索按钮 | 进入搜索结果页并显示 loading 或结果 | 参数传入 `searchKeyword` | 请求 `ROOT_URL/search?keywords=encodeURIComponent(keyword)` | 结果页返回首页，输入值是否保留沿用基线并记录 | 无服务、无数据和请求失败见 C8/U8 |
+| C8 | 搜索结果页 | 受控空列表或失败响应 | 等待请求结束 | 推荐显示稳定的无数据/失败状态，loading 结束 | 状态与本次请求对应，不使用旧结果 | 请求结束后恢复状态 | 仍可返回首页 | 最后一页不适用：基线无分页；错误行为待确认 |
+
+### 场景三边界矩阵
+
+| 边界 | 证据等级 | 适用性和期望 |
+| --- | --- | --- |
+| 空输入 | `SPEC_EXPLICIT` | Toast 为“请输入搜索内容”，不跳结果页，不发搜索请求 |
+| 纯空格 | `UNCONFIRMED_ASSUMPTION` | 推荐按空内容处理；当前基线实测会进入结果页，是隐藏检查风险 |
+| 取消/关闭输入 | `REASONABLE_DERIVATION` | 不点击搜索时不发请求；系统返回或离开首页不应触发搜索 |
+| 重复点击搜索 | `REASONABLE_DERIVATION` | 空输入时不应进入结果页；非空时推荐一次点击只发一个请求 |
+| 快速连点搜索 | `UNCONFIRMED_ASSUMPTION` | 推荐防止重复导航/重复请求；Spec 未定义 Toast 数量和请求去重策略 |
+| 无数据 | `UNCONFIRMED_ASSUMPTION` | 仅适用于非空关键词请求；推荐 loading 结束并显示稳定无数据状态 |
+| 最后一页 | `REASONABLE_DERIVATION` | 不适用：基线搜索结果没有分页控制 |
+| 部分操作 | `REASONABLE_DERIVATION` | 只输入不点击不发请求；只点击空搜索按钮只显示 Toast；输入后返回不发请求 |
+| 请求失败 | `UNCONFIRMED_ASSUMPTION` | 仅适用于非空关键词；推荐结束 loading、允许返回、不崩溃，错误文案需确认 |
+| 返回后重进 | `REASONABLE_DERIVATION` | 返回首页后重新观察 hint；再次空提交仍为新文案 |
+| 重启应用后重进 | `REASONABLE_DERIVATION` | 冷启动后 hint 和空提交行为保持一致，不依赖持久化输入 |
+
+## 待确认假设汇总
+
+| 编号 | 假设 | 推荐处理方式 | 理由 |
+| --- | --- | --- | --- |
+| U1 | `versionCode` 是否需要从基线的 102 一并升级 | 只按 Spec 修改 `versionName` 和页面显示；`versionCode` 没有明文要求，除非发布规则另有要求不要自行改 | `requirement.md:13` 只明确 `versionName 0.9.3` |
+| U2 | “GitHub 项目名称”具体取值 | 保留基线现有 `CloudMusic-HarmonyOSNext`，同时显示“云音汇 @Chenlvin” | Spec 没逐字给出项目名，基线 `Settings.ets:82-83` 给出可复用事实 |
+| U3 | 隐私政策 URL 和正文 | 复用基线 `https://docs.chenlvin.cc/cloudmusic/#/privacy`；不把正文或 URL 当作主要 F-point | 官方技术答疑说明没有统一指定正文或公开链接，Spec 只验应用内标题、Web 和返回 |
+| U4 | 纯空格是否属于“空内容” | 推荐对输入做 `trim()` 后再判断；空格显示“请输入搜索内容”、不发请求 | 用户没有输入有效内容；基线 `SearchComponent.ets:25-30` 的真值判断会错误放行空格 |
+| U5 | Web 有历史记录时系统返回是否先回退网页历史 | 推荐返回操作优先离开 `PrivacyPage`，确保一次返回回到设置页；若产品要求网页后退需另行确认 | Spec 只说“回到‘设置’”，没有定义 Web history |
+| U6 | 快速连点路由和返回的去重策略 | 推荐点击后立即防重复导航，返回只消费当前 `PrivacyPage`；不要求跨页面的额外状态机 | Spec 没定义多次点击，但重复压栈会使一次返回无法回到设置 |
+| U7 | 占位色和输入文字颜色的精确值 | 使用主题可读、与背景有对比的显式颜色，并在浅色/深色模式分别验证；不要臆造 Spec 未给出的色值 | Spec 只要求“补充清晰的占位色和输入文字颜色”，没有给色值 |
+| U8 | 非空搜索无数据和请求失败的具体页面文案 | 沿用现有搜索结果页数据流，补齐 loading 结束和可返回状态；具体错误/无数据文案由产品或隐藏测试约束确认 | 本题明文只验空内容提交，`SongsListPage.ets:28-37` 的失败分支当前不会恢复 loading |

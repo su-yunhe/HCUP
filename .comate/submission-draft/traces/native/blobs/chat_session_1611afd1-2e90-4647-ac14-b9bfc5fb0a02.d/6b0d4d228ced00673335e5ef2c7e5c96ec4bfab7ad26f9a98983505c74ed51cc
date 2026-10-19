@@ -1,0 +1,43 @@
+Command executed successfully.
+Exit code: 0
+Output:
+10-19 18:26:34.402 10848 11416 I A00000/NK_CPP: [INFO][OnLogMessage] Starting chromium request. hwhttp buildVersion:8.0.9.302
+10-19 18:26:40.665  8647  8647 I C03925/AceRouter: [js_router.cpp(382)-(100000:100000:scope)] call pushUrl with mode: 1, url: pages/PrivacyPage
+10-19 18:26:40.666  8647  8647 I C03925/AceRouter: [(100000:100000:scope)] Page router manager is creating page[3]: url: pages/PrivacyPage path: pages/PrivacyPage.js, recoverable: yes, namedRouter: no
+10-19 18:26:40.666   292  8626 I C01705/EXACT_PREREAD: [a92ab5f060a29bf] [(HandlePushPageStart):511] Push page info <bundleName: cc.chenlvin.cloudmusic abilityName: EntryAbility pageUrl: pages.PrivacyPage>;
+10-19 18:26:40.666   292  8626 I C01705/EXACT_PREREAD: [a92ab5f060a29bf] [(HandlePushPageStart):526] StartAppIntraPrereadCollectWork appIntraScene: cc.chenlvin.cloudmusic/EntryAbility.pages.PrivacyPage
+10-19 18:26:40.674  8647  8647 I C04500/webview: Init: begin to init native media player napi properties
+10-19 18:26:40.674  8647  8647 I C04500/webview: Init: [PROXYCONTROLLER] NapiProxyConfig::Init is called
+10-19 18:26:40.674  8647  8647 I C04500/webview: Init: NapiUserAgentBrandVersion::Init is called
+10-19 18:26:40.674  8647  8647 I C04500/webview: Init: NapiUserAgentMetadata::Init is called
+10-19 18:26:40.676  8647  8647 I C04500/webview: JsConstructor: NapiWebviewController::JsConstructor start
+10-19 18:26:40.677  8647  8647 I C04500/webview: Init: [webview]: init load resources bundle path /data/storage/el1/bundle
+10-19 18:26:40.677  8647  8647 I C04500/webview: GetArkwebLibPath: get arkweb lib path: /data/storage/el1/bundle/arkwebcore/libs/arm64
+10-19 18:26:40.677  8647  8647 I C04500/webview: GetArkwebNameSpace: get arkweb name space: nweb_ns
+10-19 18:26:40.677  8647  8647 E C04500/webview: ArkWebBridgeHelperLoadLibFile: dlns_create failed for '/data/storage/el1/bundle/arkwebcore/libs/arm64': No such file or directory (errno=17)
+10-19 18:26:40.677  8647  8647 I C04500/webview: ArkWebBridgeHelperLoadLibFile: succeed to load lib file /data/storage/el1/bundle/arkwebcore/libs/arm64/libarkweb_engine.so
+10-19 18:26:40.677  8647  8647 I C04500/webview: ArkWebBridgeHelperSharedInit: g_webEngineInitFlag set to true. setActiveWebEngineVersion will be ignored.
+10-19 18:26:40.677  8647  8647 I C04500/webview: GetWebEngine: call func NotifyProcessDependedOnWeb and return code is 0
+10-19 18:26:40.678  8647  8647 E C04500/webview: GetWebEngine: api level of arkweb core is 0
+10-19 18:26:40.678  8647  8647 I C04500/webview: GetWebEngine: web engine libraryloaded
+10-19 18:26:40.679   292  8631 I C01705/EXACT_PREREAD: [a92ab7f060a5cdb] [(HandlePushPageComplete):558] Intra scene, SendDelayCollectTimeoutEvent uid: 20020075 pid: 8647 sceneName:cc.chenlvin.cloudmusic/EntryAbility.pages.PrivacyPage
+10-19 18:26:40.680   748 20498 I C01406/RSClientToServiceConnection: CreateNodeAndSurface node id:37138582208586 name:RosenWeb surface id:3212635537630 name:RosenWeb
+10-19 18:26:40.680   748   748 I C01406/RSClientToServiceConnection: CreateNodeAndSurface RegisterRenderNode id:37138582208586, name:RosenWeb
+10-19 18:26:40.680   748 27742 I C01406/RSClientToServiceConnection: CreateNodeAndSurface node id:37138582208587 name:RosenWebPopup surface id:3212635537631 name:RosenWebPopup
+10-19 18:26:40.680   748   748 I C01406/RSClientToServiceConnection: CreateNodeAndSurface RegisterRenderNode id:37138582208587, name:RosenWebPopup
+10-19 18:26:40.681  8647  8647 I C03900/Ace: [(100000:100000:scope)] AddTranslateListener WebView nodeId:90
+10-19 18:26:40.681  8647  8647 I C0391b/AceWeb: [(100000:100000:scope)] WebviewController::innerCanIUse
+10-19 18:26:40.681  8647  8647 I C01406/RSNode: RSNode::AddChild, Id: 37138582208585, SurfaceNode:[Id: 37138582208586, name: RosenWeb]
+10-19 18:26:40.693  8647  8647 I C04500/webview: GetArkwebLibPath: get arkweb lib path: /data/storage/el1/bundle/arkwebcore/libs/arm64
+10-19 18:26:40.693  8647  8647 I C04500/webview: GetArkwebNameSpace: get arkweb name space: nweb_ns
+10-19 18:26:40.693  8647  8647 E C04500/webview: ArkWebBridgeHelperLoadLibFile: dlns_create failed for '/data/storage/el1/bundle/arkwebcore/libs/arm64': Invalid argument (errno=17)
+10-19 18:26:40.693  8647  8647 I C04500/webview: ArkWebBridgeHelperLoadLibFile: succeed to load lib file /data/storage/el1/bundle/arkwebcore/libs/arm64/libarkweb_engine.so
+10-19 18:26:40.693  8647  8647 I C04500/webview: ArkWebBridgeHelperSharedInit: g_webEngineInitFlag set to true. setActiveWebEngineVersion will be ignored.
+10-19 18:26:40.832  8647  8647 I C04500/webview: InitWebEngine: succeed to init web engine
+10-19 18:26:40.835  8647  8647 I C04500/webview: OH_NativeArkWeb_BindWebTagToWebInstance: native OH_NativeArkWeb_BindWebTagToWebInstance webTag: arkweb:0
+10-19 18:26:40.835  8647  8647 I C04500/webview: OH_NativeArkWeb_GetJavaScriptProxyValidCallback: native OH_Web_GetValidCallback, webTag: arkweb:0
+10-19 18:26:40.835  8647  8647 W C04500/webview: SetWebId: native validCallback is null, callback nothing
+10-19 18:26:40.837  8647  8647 I C0391b/AceWeb: [(100000:100000:scope)] RegisterNativeJavaScriptProxy ArkWebContentChangeDetector have 1 callback
+10-19 18:26:40.837  8647  8647 I C0391b/AceWeb: [(100000:100000:scope)] RegisterNativeJavaScriptProxy _arkWebDomTree have 3 callback
+10-19 18:26:40.939  9600     1 I C02c11/APPSPAWN: CloneNwebSpawn done
+10-19 18:26:40.940   748   748 I C01406/OHOS::RS: RSSurfaceRenderNode:SetIsOnTheTree, node:[name: RosenWeb, id: 37138582208586], on tree: 1, nodeType: 6, uniqueId: 3212635537630, screenNodeId: 3212635537408

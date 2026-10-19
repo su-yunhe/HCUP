@@ -1,0 +1,39 @@
+## 4. 相关现状
+
+- 页面组件【代码】：全部为 `@Entry` 页面 + `router`（`@kit.ArkUI`）跳转，`main_pages.json` 注册 7 个页面；未使用 Navigation/NavDestination（全工程 grep 无匹配）。页面统一写法：根 `Stack` + `.padding({ top: px2vp(this.topRectHeight) })` + `.backgroundColor($r('app.color.main'))`（如 `Settings.ets:19-36`、`Index.ets:23-44`）。
+- 标题栏【代码】：设置页用专用 `SettingsHead`（返回按钮 + “设置” + 分享按钮，`SettingsHead.ets:8-15`）；其它子页用通用 `CommonHead({ title })`（返回按钮 + 标题，自身带顶部避让 padding、高 90，`CommonHead.ets:10-18`）。返回按钮 `BackButton.ets:11-14` 调 `router.back()`。
+- 状态模型【代码】：组件内 `@State`（如 `SearchComponent.searchKeyword`，`SearchComponent.ets:5`，由 `onChange` 回写 :13-15）；全局用 `AppStorage` + `@StorageProp`（`topRectHeight`、`bottomRectHeight` 在 `EntryAbility.ets:46,51` 写入；`isValidCookie`、`cookie` 用于登录态）。
+- 数据模型【代码】：`common/entities/*.ets`（PlayList、SongsResult 等），本题不涉及。
+- 网络服务【代码】：`common/utils/HttpRequestUtil.ets` 封装 `http.createHttp()` GET；`api/*.ets` 拼 `Constants.ROOT_URL`（`Constants.ets:7` 写死 `http://111.229.38.178:3000`）。首页 `Index.ets:12-20` 每次 onPageShow 发两个测试请求，仅打印日志。本题三个场景都不需要新增或修改 HTTP 调用。
+- Web 组件【代码】：唯一用例 `pages/login/WebLogin.ets:2,13,20-30`（`webview.WebviewController` + `Web({ src: '', controller })`，`onControllerAttached` 中 `loadUrl`）。
+- 本地存储【代码】：`common/utils/PreferencesUtils.ets`（`preferences` 封装，`EntryAbility.ets:16` 加载 `UserPreference`），本题不涉及持久化。
+- Toast【代码】：两种写法并存——`promptAction.showToast({ message })`（`SearchComponent.ets:30`、`SettingsHead.ets:13`）与 `ToastUtil.showToast(...)`（`Settings.ets:60,105`）。
+- 权限【代码】：`module.json5:37-42` 已有 `ohos.permission.INTERNET`，Web 加载网络页无需新增权限。
+
+## 5. 可复用的既有实现
+
+- **PrivacyPage 骨架**：照 `WebLogin.ets` —— `CommonHead({ title: ... })` 作自有标题栏 + `Web` + `WebviewController`；去掉登录相关的 Help 和按钮即可。官方测试沿现有流程（设置页点击 → 新页）进入，沿用同款结构最稳。
+- **路由**：`router.pushUrl({ url: 'pages/PrivacyPage' })` + 在 `main_pages.json` 追加 `"pages/PrivacyPage"`，与 `IndexHead.ets:37` 写法一致；返回用既有 `BackButton`（`router.back()`）与系统返回。
+- **版本号**：改 `Constants.VERSION`（`Constants.ets:2`）与 `AppScope/app.json5:5-6` 两处即可，`Settings.ets:45` 的拼接逻辑不动。
+- **搜索文案**：`SearchComponent.ets:12,30` 两处；可在组件内或 `Constants` 中定义一个常量供 placeholder 与 Toast 共用（工程无 i18n 字符串资源用法，界面文字均为硬编码中文）。
+- **样式扩展**：工程习惯用 `@Extend(Text)`（`Settings.ets:91-106`）；颜色资源 `resources/base/element/color.json`（`main`、`reverse`、`start_window_background`），暗色在 `resources/dark/element/color.json`。
+
+## 6. 缺失项（Spec 要求、基线完全没有）
+
+1. `PrivacyPage` 页面文件与路由注册（`main_pages.json` 无此页）。
+2. 应用内打开隐私政策的跳转逻辑（基线只有外部 Want）。
+3. 0.9.3 版本号（清单与常量均为 0.9.2）。
+4. “请输入搜索内容”文案（placeholder 与 Toast）。
+5. 搜索框 `placeholderColor` / `fontColor`（`SearchComponent.ets:12` 均未设置）。
+6. 全工程没有任何 `.id()`（grep `\.id\(` 无匹配），自测选择器只能靠文本/类型/坐标。
+
+## 7. 前置环境需求
+
+- 登录账号：不需要。【实测】未登录状态（首页显示“登录账号\n以显示你的歌单”）下三个场景全部可走通。
+- 服务端：不需要。设置页、隐私页、空搜索都不依赖 `ROOT_URL` 服务；只有非空搜索（回归项 C10）需要服务，本地不可用时结果页一直转圈（基线缺陷）。官方答疑提到的"API 设置页"在本基线不存在，地址写死在 `Constants.ets:7`。
+- 互联网：隐私页正文需访问 `docs.chenlvin.cc`；Spec 明确内容未加载也要通过，官方答疑称不比对 URL 与正文。【实测】本机模拟器打开该地址时浏览器为空白页（是否可达未验证）。
+- WebDAV / 测试数据：不需要。
+- 模拟器【实测】：`harness.env_check` → `emulator 6.1.0.115`、`1308×2880`，"环境与官方评测规格一致"。
+- Hypium 运行【实测】：必须把 `.../sdk/default/openharmony/toolchains`（含 `hdc`）加入 `PATH`，否则 `UiDriver.connect` 报 `Connection refused`；Hypium 在 cwd 生成 `reports/`、`tmp_hypium/`，应在 `logs/` 下运行（本次已把误生成在工程根目录的报告移到 `logs/baseline-walk/hypium-reports/`）。
+
+<!-- APPEND_8 -->

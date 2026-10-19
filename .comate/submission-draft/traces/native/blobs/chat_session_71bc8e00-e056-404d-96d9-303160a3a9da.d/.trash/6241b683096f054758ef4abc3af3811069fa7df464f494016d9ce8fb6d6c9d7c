@@ -1,0 +1,22 @@
+## 8. 测试可观测性风险
+
+| 风险 | 证据 | 影响与对策 |
+| --- | --- | --- |
+| 全工程无 `.id()` | 【代码】grep 无匹配 | 自测可补 id；官方测试不会依赖我们的 id，所以既有组件的类型、文本、顺序都不能改 |
+| 图标按钮无文本 | 【实测】首页 3 个 Button（菜单、更多、搜索）、设置页返回/分享按钮 text 均为空 | 只能按 `BY.type("Button")` + bounds 排序定位；新增页面不要在标题栏前插入额外 Button，以免改变顺序 |
+| placeholder 不是 text | 【实测】`BY.text("请输入搜索词")` → False；`BY.hint("请输入搜索词")` → True；`getHint()` 返回该串、`getText()` 为空 | 场景三断言必须用 `BY.hint` / `getHint()` |
+| 底部信息是单个带 `\n` 的 Text | 【实测】`BY.text("云音汇 @Chenlvin")` EQUALS → False，CONTAINS → True；`CloudMusic-HarmonyOSNext` CONTAINS → True | 见 acceptance U3 |
+| “隐私政策”同名文本 | 【实测】设置页 EQUALS 计数 1（左侧标签）；PrivacyPage 标题将同名 | router 压栈后下层页面节点不在 UI 树（【实测】进入下载管理页时首页“云音汇”、TextInput 均查不到），故 router 方案下隐私页上只会命中标题；若改用 Navigation/半模态则可能同屏两处 |
+| “设置”同名文本 | 【实测】菜单项与设置页标题同为“设置”，设置页内计数 1 | 菜单关闭后不冲突；断言设置页时可加 `BY.text("当前版本")` 辅助 |
+| “云音汇”文本 | 【实测】首页 EQUALS 计数 1（顶栏标题）；设置页 CONTAINS 计数 1（底部信息） | 场景三"首页标识"用 EQUALS，避免与设置页底部混淆 |
+| Web 内部节点 | 【未验证】网页加载成功后其内部文字是否进入 Hypium UI 树 | 若进入且网页含“隐私政策”字样，按文本计数的断言可能 >1；实现后需在联网状态下实测 |
+| 颜色不可观测 | 【实测】TextInput `getAllProperties()` 只有 `backgroundColor`（`#FFDBD9D9`），无字体色/占位色 | C3 只能代码审查 + 截图 |
+| Toast 可观测 | 【实测】`start_listen_toast` + `get_latest_toast(timeout=3)` 能取到文本；Toast 同时以 `Toast` 类型节点存在约 2s | C5 两种方式均可断言 |
+| 前台应用判定 | 【实测】`driver.current_app()` 返回 `(bundle, ability)`，基线点击隐私入口后为 `('com.huawei.hmos.browser','MainAbility')` | B2 直接用它断言 |
+| 返回路径 | 【实测】设置页 `press_back` 与左上返回按钮都能回首页；回首页后 hint 仍在 | 新隐私页需保证同样两种返回都可用 |
+
+## 9. 基线缺陷（只记录，本阶段不修）
+
+1. 隐私政策走外部 Want，返回后无法回到应用（`Settings.ets:6-10,72`）——本题需求本身要改。
+2. 搜索关键词不 `trim()`，纯空格会进入结果页（`SearchComponent.ets:25`）。
+3. `SongsListPage.loadSongs` 失败时 

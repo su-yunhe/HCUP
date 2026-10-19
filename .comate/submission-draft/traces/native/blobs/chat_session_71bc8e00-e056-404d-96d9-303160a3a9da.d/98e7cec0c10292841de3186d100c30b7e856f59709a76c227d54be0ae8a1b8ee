@@ -1,0 +1,150 @@
+# cmu-spec114 验收矩阵
+
+来源：`spec/requirement.md`（《0.9.3 版本信息、应用内隐私页与搜索提示统一》）。基线现状见 `spec/baseline-notes.md`。
+
+证据等级：`SPEC_EXPLICIT` Spec 明文；`REASONABLE_DERIVATION` 合理推导；`UNCONFIRMED_ASSUMPTION` 待确认假设（汇总在文末）。
+
+通用约定（全部条目适用）：
+
+- 包名 `cc.chenlvin.cloudmusic`，Ability `EntryAbility`；Hypium `BY.text()` 默认是 EQUALS 匹配。
+- 前置数据：三个场景都**不需要**登录、服务端、WebDAV 或测试数据（基线实测：未登录也能走完全部入口）。
+- 文案引号内的文字逐字摘自 Spec。
+- 选择器列中"需补 `.id()`"表示基线没有，实现时补；官方脚本不知道这些 id，**补 id 时不能改变组件类型、文字和层级**。
+
+建议补的 id：
+
+| id | 组件 | 位置 |
+| --- | --- | --- |
+| `index_more_btn` | 首页右上角更多按钮 | `IndexHead.ets:22` |
+| `index_menu_settings` | 菜单项"设置" | `IndexHead.ets:35` |
+| `settings_title` | 设置页标题 | `SettingsHead.ets:10` |
+| `settings_version_value` | 版本值 Text | `Settings.ets:45` |
+| `settings_privacy_link` | "前往查看本软件的隐私政策" | `Settings.ets:70` |
+| `settings_feedback_row` | 问题反馈行 | `Settings.ets:53` |
+| `settings_footer` | 底部信息 Text | `Settings.ets:82` |
+| `privacy_title` | PrivacyPage 标题 | 新增 |
+| `privacy_back_btn` | PrivacyPage 返回按钮 | 新增 |
+| `privacy_web` | PrivacyPage 的 Web | 新增 |
+| `search_input` | 首页搜索框 | `SearchComponent.ets:12` |
+| `search_btn` | 首页搜索按钮 | `SearchComponent.ets:18` |
+
+---
+
+## 场景一：设置页显示 0.9.3 版本与完整入口
+
+### 验收项
+
+| 编号 | 来源 | 证据等级 | 原子行为 | 可观察结果 | 稳定选择器 |
+| --- | --- | --- | --- | --- | --- |
+| A1 | S1-步骤1 | SPEC_EXPLICIT | 冷启动应用进入首页 | `current_app()==('cc.chenlvin.cloudmusic','EntryAbility')`；`BY.text('云音汇')` 存在 | 文本即可；无需 id |
+| A2 | S1-步骤1 | SPEC_EXPLICIT | 点首页右上角更多按钮，弹出菜单 | 出现 `MenuItem` 文字 `设置`（同时有 `下载管理`） | 更多按钮无文字，基线只能按"第 2 个 Button"定位 → 需补 `.id('index_more_btn')` |
+| A3 | S1-步骤1 | SPEC_EXPLICIT | 点菜单项"设置"进入设置页 | 首页节点消失；设置页节点出现 | `BY.text('设置')`；需补 `index_menu_settings` |
+| A4 | S1-步骤2 | SPEC_EXPLICIT | 设置页标题正常显示 | `BY.text('设置')` 存在（标题） | 需补 `settings_title` |
+| A5 | S1-步骤2 | SPEC_EXPLICIT | "当前版本"行显示 | `BY.text('当前版本')` 存在 | 文本即可 |
+| A6 | S1-步骤2 | SPEC_EXPLICIT | "隐私政策"行显示 | `BY.text('隐私政策')` 存在；同行 `BY.text('前往查看本软件的隐私政策')` 存在（S2-步骤1 需要） | 需补 `settings_privacy_link` |
+| A7 | S1-步骤2 | SPEC_EXPLICIT | "问题反馈"行显示 | `BY.text('问题反馈')` 存在 | 文本即可；可补 `settings_feedback_row` |
+| A8 | S1-步骤3 | SPEC_EXPLICIT | 版本值显示"0.9.3 - 测试版" | `BY.text('0.9.3 - 测试版')`（EQUALS）存在；必须是**一个** Text，中间是"空格-空格" | 需补 `settings_version_value` |
+| A9 | S1-步骤3 | SPEC_EXPLICIT | 应用清单 versionName 为 0.9.3 | `hdc shell bm dump -n cc.chenlvin.cloudmusic` 中 `"versionName": "0.9.3"`；`AppScope/app.json5` 的 `versionName` | 不适用（非 UI） |
+| A10 | S1-步骤3 | REASONABLE_DERIVATION | 设置页显示值与清单一致（不是两套各写各的） | A8 文本里的 `0.9.3` == A9 里的 versionName | 同 A8 |
+| A11 | S1-步骤3 | REASONABLE_DERIVATION | 页面上不再出现旧版本 | `BY.text('0.9.2', CONTAINS)` 不存在 | 不适用 |
+| A12 | S1-步骤4 | SPEC_EXPLICIT | 底部显示"云音汇 @Chenlvin" | `BY.text('云音汇 @Chenlvin', CONTAINS)` 存在（基线是单个 Text，EQUALS 匹配不到，见 U2） | 需补 `settings_footer` |
+| A13 | S1-步骤4 | REASONABLE_DERIVATION | 底部显示 GitHub 项目名称 | `BY.text('CloudMusic-HarmonyOSNext', CONTAINS)` 存在（Spec 只说"GitHub 项目名称"，具体文字取自基线 `Settings.ets:83` `GitHub: CloudMusic-HarmonyOSNext`） | 同 A12 |
+| A14 | S1-概述 | REASONABLE_DERIVATION | 版本和来源信息在同一页面上，不用滚动就能看到 | A4–A8、A12、A13 在同一屏全部可见（基线实测底部 bounds `[291,2705][1017,2803]`，屏幕高 2880） | 同上 |
+
+### 八个维度
+
+| 编号 | 入口 | 前置数据 | 用户动作 | UI 结果 | 数据结果 | 网络结果 | 返回结果 | 边界条件 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A1 | 桌面冷启动 | 无 | 启动 | 首页标识"云音汇" | 无 | 不适用：首页 `onPageShow` 的写死请求（`Index.ets:12-20`）与本题无关，也不改 | 不适用 | 重启应用后重进：同样落到首页 |
+| A2 | 首页 | 无 | 点击更多 | 菜单含"设置" | 无 | 不适用：纯本地 UI | 不适用 | 取消/关闭：点菜单外区域，菜单消失，仍在首页；重复点击：每次点都能再弹出 |
+| A3 | 首页菜单 | 无 | 点"设置" | 进入设置页 | 无 | 不适用 | 设置页返回 → 首页 | 快速连点"设置"：菜单点一次就关闭，基线不会重复压栈（未验证连点，见 B1-3） |
+| A4–A7 | 设置页 | 无 | 无（进入即观察） | 四段文字可见 | 无 | 不适用：静态文字 | 从 PrivacyPage 返回后仍可见（见 A2-8） | 无数据：不适用，静态内容 |
+| A8 | 设置页 | 无 | 无 | `0.9.3 - 测试版` | 取自常量/清单 | 不适用 | 返回后重进、重启后重进都还是 0.9.3 | 不适用：没有输入 |
+| A9 | 安装包 | 构建产物 | 无 | 不适用：非 UI | 清单 versionName=0.9.3 | 不适用 | 不适用 | versionCode 是否同步改，见 U1 |
+| A10 | 设置页 + bm dump | 无 | 无 | 同 A8 | 两处一致 | 不适用 | 不适用 | 不适用 |
+| A11 | 设置页 | 无 | 无 | 没有 `0.9.2` | 无 | 不适用 | 不适用 | 不适用 |
+| A12–A13 | 设置页底部 | 无 | 无 | 底部两段文字 | 无 | 不适用 | 不适用 | 点击底部会复制链接并弹 Toast `已复制链接到剪贴板`（基线行为 `Settings.ets:100-106`，保留不动） |
+| A14 | 设置页 | 无 | 无 | 同屏可见 | 无 | 不适用 | 不适用 | 设备分辨率按官方 1308×2880 计算；更小的屏幕不适用 |
+
+### 边界补充
+
+| 编号 | 证据等级 | 场景 | 期望 |
+| --- | --- | --- | --- |
+| B1-1 | REASONABLE_DERIVATION | 设置页返回首页后再次 更多 → 设置 | 设置页正常显示，版本仍为 `0.9.3 - 测试版` |
+| B1-2 | REASONABLE_DERIVATION | 杀进程重启后再进入设置页 | 同上（版本是静态值，不依赖运行时状态） |
+| B1-3 | UNCONFIRMED_ASSUMPTION | 快速连点"设置"菜单项 | 只进入一个设置页，返回一次即回到首页（基线未实测连点；菜单点击后会自动关闭，推断不会重复压栈） |
+| B1-4 | 不适用 | 空输入、纯空格、请求失败、最后一页 | 场景一没有输入框、没有网络、没有列表 |
+
+---
+
+## 场景二：隐私政策在应用内嵌页面打开并可返回
+
+### 网络状态机（Web 内容加载）
+
+```
+[设置页]
+   │ 点击"前往查看本软件的隐私政策"（同步，立即）
+   ▼
+router.pushUrl('pages/PrivacyPage')            ← 不发 Want、不拉起其他应用
+   ▼
+[PrivacyPage 渲染] ── 标题栏"隐私政策" + Web 容器 同一帧出现，不依赖网络
+   │ Web 挂载后加载隐私政策 URL（Web 组件自己发请求）
+   ├─► 加载中：标题、Web 节点都在；不弹 Toast、不阻塞返回
+   ├─► 加载成功：显示网页内容；标题不变
+   └─► 加载失败/无网络：Web 区域空白或系统错误页；标题不变；不崩溃、不弹自定义错误
+   │ 任意状态下按系统返回键或标题栏返回按钮
+   ▼
+router.back() → [设置页]，版本"0.9.3 - 测试版"可见；Web 销毁，不再有后续回调影响设置页
+```
+
+- 请求由谁发：只有 Web 组件加载 URL 这一个网络动作；点击本身不发应用层 HTTP 请求。
+- loading 绑定：Spec 没要求 loading 指示；**标题不能等加载完成才显示**（Spec："即使网络内容暂未加载，仍须显示应用内页面的标题"）。
+- 结束后的状态恢复：返回即结束，设置页不需要刷新。
+- 本地环境：隐私政策域名解析不了（基线实测），只能验证"加载失败"这一支。
+
+### 验收项
+
+| 编号 | 来源 | 证据等级 | 原子行为 | 可观察结果 | 稳定选择器 |
+| --- | --- | --- | --- | --- | --- |
+| A2-1 | S2-步骤1 | SPEC_EXPLICIT | 在设置页点击"前往查看本软件的隐私政策"能触发跳转 | 点击后设置页节点消失，新页出现 | `BY.text('前往查看本软件的隐私政策')`；需补 `settings_privacy_link` |
+| A2-2 | S2-概述、步骤2 | SPEC_EXPLICIT | 不再通过外部 `viewData` Want 打开 | 点击后 `current_app()[0]=='cc.chenlvin.cloudmusic'`（基线实测会变成 `com.huawei.hmos.browser`）；代码中不再调用 `startAbility(wantInfo)` | 不适用 |
+| A2-3 | S2-概述 | SPEC_EXPLICIT | 导航到新增页面 `PrivacyPage` | `main_pages.json` 注册 `pages/PrivacyPage`，文件 `entry/src/main/ets/pages/PrivacyPage.ets`，`@Entry struct PrivacyPage`；Hypium 不太能直接读页面名，主要靠 A2-4/A2-5 间接判断 | 不适用 |
+| A2-4 | S2-步骤2 | SPEC_EXPLICIT | 新页标题显示"隐私政策" | `BY.text('隐私政策')` 存在，且同时 `BY.type('Web')` 存在（实测 router 压栈后设置页节点不在 UI 树里，不会误命中设置页标签） | 需补 `privacy_title` |
+| A2-5 | S2-步骤2 | SPEC_EXPLICIT | 页面内存在 Web 组件 | `BY.type('Web')` 存在（实测 `WebLogin` 的 Web 无网络时也以 type=`Web` 出现在 UI 树里） | 需补 `privacy_web` |
+| A2-6 | S2-概述 | SPEC_EXPLICIT | 网络内容没加载时也显示标题 | 断网/域名解析不了的情况下 A2-4 依然成立；进页面后马上（≤ 页面切换时间）就能找到标题 | 同 A2-4 |
+| A2-7 | S2-概述 | SPEC_EXPLICIT | 页面有自己的标题栏 | 标题 Text 在 Web 上方（标题 bounds.bottom ≤ Web bounds.top），有返回按钮 | 需补 `privacy_back_btn` |
+| A2-8 | S2-步骤3 | SPEC_EXPLICIT | 执行返回操作后回到"设置" | `press_back()` 后 `BY.text('设置')` 存在、`BY.type('Web')` 不存在、`current_app()[0]` 仍是本应用 | `settings_title` |
+| A2-9 | S2-步骤3 | SPEC_EXPLICIT | 返回后 0.9.3 版本值仍可见 | `BY.text('0.9.3 - 测试版')` 存在 | `settings_version_value` |
+| A2-10 | S2-步骤3 | REASONABLE_DERIVATION | 点标题栏返回按钮也能回到设置 | 同 A2-8（"返回操作"可能是系统返回，也可能是页面返回按钮） | `privacy_back_btn` |
+| A2-11 | S2-步骤2 | REASONABLE_DERIVATION | 前台 Ability 不变 | `current_app()==('cc.chenlvin.cloudmusic','EntryAbility')` | 不适用 |
+| A2-12 | S2-概述 | UNCONFIRMED_ASSUMPTION | Web 加载的地址 | 推荐沿用基线 `https://docs.chenlvin.cc/cloudmusic/#/privacy`（见 U4）；Hypium 观察不到 | 不适用 |
+
+### 八个维度
+
+| 编号 | 入口 | 前置数据 | 用户动作 | UI 结果 | 数据结果 | 网络结果 | 返回结果 | 边界条件 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A2-1 | 首页 → 更多 → 设置 | 无 | 点击说明文字 | 进入新页 | 无 | 点击不发应用层请求 | 见 A2-8 | 只点左侧"隐私政策"标签是否跳转见 U9 |
+| A2-2 | 设置页 | 无 | 同上 | 仍是本应用 | 无 | 不发 Want | 不适用 | 不适用 |
+| A2-3 | 设置页 | 无 | 同上 | 路由到 PrivacyPage | 无 | 不适用 | 栈：首页 → 设置 → 隐私政策 | 不适用 |
+| A2-4 / A2-6 / A2-7 | PrivacyPage | 无网络也要成立 | 无 | 标题栏 + 标题 | 无 | Web 加载中、成功、失败三种情况下标题都在 | 不适用 | 请求失败：标题照样显示，不崩溃 |
+| A2-5 | PrivacyPage | 无 | 无 | 有 Web 节点 | 无 | Web 发起 URL 加载 | 不适用 | 无网络：Web 节点仍存在 |
+| A2-8 / A2-9 | PrivacyPage | 无 | 系统返回 | 回到设置页 | 无 | 返回后不再有加载影响设置页 | 一次返回就回到设置；再返回一次回到首页 | Web 有历史时返回行为见 U10 |
+| A2-10 | PrivacyPage | 无 | 点返回按钮 | 同上 | 无 | 同上 | 同上 | 重复点击返回：第一次回到设置，第二次是设置页上的点击，不应越级 |
+| A2-11 | PrivacyPage | 无 | 无 | 不适用 | 无 | 不适用 | 不适用 | 不适用 |
+
+### 边界补充
+
+| 编号 | 证据等级 | 场景 | 期望 |
+| --- | --- | --- | --- |
+| B2-1 | REASONABLE_DERIVATION | 返回后再次点击说明文字（返回后重进） | 再次进入 PrivacyPage，标题和 Web 都在，再返回仍回到设置 |
+| B2-2 | UNCONFIRMED_ASSUMPTION | 快速连点说明文字 | 推荐只压一个 PrivacyPage，一次返回就回到设置（见 U11）；基线 router 默认模式连点会压两层 |
+| B2-3 | REASONABLE_DERIVATION | 重启应用后 首页 → 设置 → 隐私政策 | 同 A2-1–A2-9，不受上一次运行残留状态影响 |
+| B2-4 | REASONABLE_DERIVATION | 无网络/请求失败 | 标题、Web 节点、返回都正常；不弹自定义错误 Toast |
+| B2-5 | REASONABLE_DERIVATION | 深色模式 | 标题栏颜色沿用 `CommonHead`（`app.color.reverse`），背景 `app.color.main`；Hypium 只能截图判断 |
+| B2-6 | 不适用 | 空输入、纯空格、最后一页、部分操作 | 场景二没有输入框和列表 |
+
+---
+
+<!-- APPEND_S3 -->
+
+

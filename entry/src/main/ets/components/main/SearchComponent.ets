@@ -1,5 +1,8 @@
 import { promptAction, router } from "@kit.ArkUI"
 
+// 占位文案与空内容提示共用同一文案
+const SEARCH_HINT: string = '请输入搜索内容'
+
 @Component
 export struct SearchComponent {
   @State searchKeyword:string = ''
@@ -9,7 +12,10 @@ export struct SearchComponent {
       // 搜索框和按钮
       Row({ space: 10 }) {
         // 搜索框
-        TextInput({ placeholder: '请输入搜索词' }).width('70%').backgroundColor('#ffdbd9d9').height(40)
+        TextInput({ placeholder: SEARCH_HINT }).width('70%').backgroundColor('#ffdbd9d9').height(40)
+          .placeholderColor('#FF808080')
+          .fontColor('#FF121212')
+          .id('search_input')
           .onChange((value:string) => {
             this.searchKeyword = value
           })
@@ -21,13 +27,14 @@ export struct SearchComponent {
         .type(ButtonType.Circle)
         .width(40)
         .height(40)
+        .id('search_button')
         .onClick(() => {
-          if(this.searchKeyword) {
+          if(this.searchKeyword.trim()) {
             router.pushUrl({
               url: 'pages/SongsListPage',
               params: { 'searchKeyword': this.searchKeyword }
             })
-          } else { promptAction.showToast({ message: '请输入搜索词' }) }
+          } else { promptAction.showToast({ message: SEARCH_HINT }) }
         })
       }.width('100%').justifyContent(FlexAlign.Center)
     }

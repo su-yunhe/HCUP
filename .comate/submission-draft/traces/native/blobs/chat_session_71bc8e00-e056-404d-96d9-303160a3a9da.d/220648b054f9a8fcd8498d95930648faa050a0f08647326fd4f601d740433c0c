@@ -1,0 +1,491 @@
+status:   completed
+cwd: /Users/bress/Documents/code/harmonycup-work/cmu-spec114
+command description: 用完整 DevEco 环境重跑基线走查
+started_at: 2026-10-19 15:29:42
+---
+[2026-10-19 15:29:43,524] [8417992448] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-19 15:29:43,526] [8417992448] [EnvPool] [INFO] [Report path: /Users/bress/Documents/code/harmonycup-work/cmu-spec114/reports/2026-10-19-15-29-43]
+[2026-10-19 15:29:43,527] [8417992448] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-19 15:29:43,527] [8417992448] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-19 15:29:43,527] [8417992448] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-19 15:29:43,528] [8417992448] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-19 15:29:43,530] [8417992448] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 15:29:43,530] [8417992448] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 15:29:43,603] [6175125504] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost
+]
+[2026-10-19 15:29:44,534] [8417992448] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5555'], label:phone]]
+[2026-10-19 15:29:44,534] [8417992448] [EnvPool] [INFO] [Device 127.0.0.1:5555: extend value: {}]
+[2026-10-19 15:29:44,740] [8417992448] [Device] [INFO] [6.0.2.3]
+[2026-10-19 15:29:44,817] [8417992448] [Device] [INFO] [Init ui proxy by unix socket.]
+[2026-10-19 15:29:44,817] [8417992448] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-19 15:29:44,856] [8417992448] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: None]
+[2026-10-19 15:29:44,856] [8417992448] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.2.2 agent version]
+[2026-10-19 15:29:44,884] [8417992448] [Device] [INFO] [UITEST_AGENT_LIBRARY@v0.0.0#1.2.2
+]
+[2026-10-19 15:29:44,884] [8417992448] [Device] [INFO] [local agent version 1.2.2, device agent version 1.2.2]
+[2026-10-19 15:29:44,908] [8417992448] [Device] [INFO] [Device agent is up to date!]
+[2026-10-19 15:29:47,060] [8417992448] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]
+[2026-10-19 15:29:47,091] [8417992448] [DeviceUIProxy] [INFO] [tcp forward port: 9911 for 127.0.0.1:5555]
+[2026-10-19 15:29:47,852] [8417992448] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 15:29:47,852] [8417992448] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-19 15:29:47,852] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, cc.chenlvin.cloudmusic)</div>]
+[2026-10-19 15:29:48,424] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, cc.chenlvin.cloudmusic) cost: 0.572s</div>]
+[2026-10-19 15:29:48,424] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, cc.chenlvin.cloudmusic)</div>]
+[2026-10-19 15:29:48,475] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'extras': {}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 43, 526498), 'product_version': '6.1.0.210', 'created_at': datetime.datetime(2026 ... (32 characters truncated) ... event_id': '907001003', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'TestTaskDebug', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}, {'extras': {'bundle_name': 'cc.chenlvin.cloudmusic'}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 48, 467023), 'product_version': '6.1.0.210 ... (65 characters truncated) ... 38), 'event_id': '907001004', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'AppInfo', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}]]]
+[2026-10-19 15:29:48,476] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'extras': {}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 43, 526498), 'product_version': '6.1.0.210', 'created_at': datetime.datetime(2026 ... (32 characters truncated) ... event_id': '907001003', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'TestTaskDebug', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}, {'extras': {'bundle_name': 'cc.chenlvin.cloudmusic'}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 48, 467023), 'product_version': '6.1.0.210 ... (65 characters truncated) ... 38), 'event_id': '907001004', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'AppInfo', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}]]]
+[2026-10-19 15:29:48,476] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'extras': {}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 43, 526498), 'product_version': '6.1.0.210', 'created_at': datetime.datetime(2026 ... (32 characters truncated) ... event_id': '907001003', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'TestTaskDebug', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}, {'extras': {'bundle_name': 'cc.chenlvin.cloudmusic'}, 'updated_at': datetime.datetime(2026, 10, 19, 15, 29, 48, 467023), 'product_version': '6.1.0.210 ... (65 characters truncated) ... 38), 'event_id': '907001004', 'uploaded': 0, 'product_name': 'xDevice', 'event_name': 'AppInfo', 'user_id': 'hypium_32b91fc8a264f35896b6b95208801697'}]]]
+[2026-10-19 15:29:48,477] [6191951872] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: SELECT eventdata.id, eventdata.event_id, eventdata.event_name, eventdata.user_id, eventdata.product_name, eventdata.product_version, eventdata.uploaded, eventdata.extras, eventdata.created_at, eventdata.updated_at 
+FROM eventdata 
+WHERE eventdata.created_at <= ? AND eventdata.uploaded = ?]
+[parameters: [{}]]]
+[2026-10-19 15:29:49,548] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, cc.chenlvin.cloudmusic) cost: 1.123s</div>]
+[2026-10-19 15:29:49,548] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 3)</div>]
+[2026-10-19 15:29:52,554] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 3) cost: 3.005s</div>]
+===== 01_home
+   ('Button', '', '', '', '', '[35,137][158,259]', 'false')
+   ('Image', '', '', '', '', '[53,154][141,242]', 'false')
+   ('Text', '', '', '云音汇', '', '[549,156][759,238]', 'false')
+   ('Button', '', '', '', '', '[1151,137][1274,259]', 'false')
+   ('Image', '', '', '', '', '[1169,154][1257,242]', 'false')
+   ('TextInput', '', '', '', '请输入搜索词', '[109,294][1025,434]', 'true')
+   ('Button', '', '', '', '', '[1059,294][1199,434]', 'true')
+   ('Image', '', '', '', '', '[1077,312][1182,417]', 'false')
+   ('Text', '', '', '登录账号\n以显示你的歌单', '', '[360,469][949,840]', 'false')
+   ('WindowScene', 'session21', 'session21', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBox', 'StatusBarBox', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBridgeView', 'StatusBarBridgeView', '', '', '[0,0][1308,136]', 'true')
+   ('Row', 'status_bar_left_color_picker', 'status_bar_left_color_picker', '', '', '[42,47][179,131]', 'false')
+   ('Row', 'status_bar_right_color_picker', 'status_bar_right_color_picker', '', '', '[915,47][1266,131]', 'false')
+   ('Row', 'status_bar_color_picker', 'status_bar_color_picker', '', '', '[42,47][1266,131]', 'false')
+   ('Stack', 'StatusBarView', 'StatusBarView', '', '', '[0,0][1308,136]', 'false')
+   ('Row', 'StatusBarBackground_Row_0', 'StatusBarBackground_Row_0', '', '', '[0,0][1308,136]', 'false')
+   ('Stack', 'sbg_left', 'sbg_left', '', '', '[42,47][1308,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_clock', 'StatusBarIconWrapper_status_bar_clock', '', '', '[42,47][181,131]', 'false')
+   ('Flex', 'ClockStatusView', 'ClockStatusView', '03, :, 29', '', '[42,47][181,131]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[42,58][104,120]', 'false')
+   ('Text', '', '', '03', '', '[42,58][104,120]', 'false')
+   ('Text', 'TimeView_Text_timeText', 'TimeView_Text_timeText', ':', '', '[104,63][119,116]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[119,58][181,120]', 'false')
+   ('Text', '', '', '29', '', '[119,58][181,120]', 'false')
+   ('RelativeContainer', 'sbg_right', 'sbg_right', '', '', '[0,47][1266,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_ethernet', 'StatusBarIconWrapper_status_bar_ethernet', '', '', '[915,47][999,131]', 'false')
+   ('SymbolGlyph', 'StatusBarIconItemEthernetComponent_Image_icon', 'StatusBarIconItemEthernetComponent_Image_icon', '', '', '[922,61][999,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_wifi', 'StatusBarIconWrapper_status_bar_wifi', '', '', '[999,47][1074,131]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_signal_level', 'WifiComponent-WifiIcon_Image_wifi_signal_level', '', '', '[1006,61][1074,117]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_data_flow', 'WifiComponent-WifiIcon_Image_wifi_data_flow', '', '', '[1006,61][1074,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_signal', 'StatusBarIconWrapper_status_bar_signal', '', '', '[1074,47][1161,131]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellular', 'SignalComponent-SignalIcon_Image_cellular', '', '', '[1081,61][1161,117]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellularImage', 'SignalComponent-SignalIcon_Image_cellularImage', '', '', '[1081,61][1161,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_battery', 'StatusBarIconWrapper_status_bar_battery', '', '', '[1161,47][1266,131]', 'false')
+   ('Row', 'BatteryComponent-batteryIcon_Image_batteryIcon', 'BatteryComponent-batteryIcon_Image_batteryIcon', '', '', '[1168,47][1266,131]', 'false')
+   ('SymbolGlyph', 'BatteryComponent-batteryIcon_Image_batteryBorder', 'BatteryComponent-batteryIcon_Image_batteryBorder', '', '', '[1168,61][1266,117]', 'false')
+   ('Text', 'BatteryComponent-batteryIcon_Text_batterySoc', 'BatteryComponent-batteryIcon_Text_batterySoc', '100', '', '[1177,67][1247,112]', 'false')
+   ('Stack', 'StatusBarView_LiveCapsuleListContainer', 'StatusBarView_LiveCapsuleListContainer', '', '', '[605,40][703,136]', 'false')
+   ('Stack', '[Live]LiveCapsuleListView', '[Live]LiveCapsuleListView', '', '', '[605,40][703,136]', 'false')
+   ('metaballNode', 'LiveMetaBallBaseVm', 'LiveMetaBallBaseVm', '', '', '[409,11][899,136]', 'true')
+  foreground: ['Mission ID #37  mission name #[#com.huawei.hmos.settings:phone_settings:com.huawei.hmos.settings.MainAbility]  lockedState #0  mission affinity #[]', 'main name [com.huawei.hmos.settings.MainAbility]', 'bundle name [com.huawei.hmos.settings]', 'state #BACKGROUND  start time [70352]', 'app state #BACKGROUND', 'Mission ID #40  mission name #[#com.huawei.hmos.browser:entry:MainAbility]  lockedState #0  mission affinity #[]']
+[2026-10-19 15:29:53,104] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_listen_toast(127.0.0.1:5555)</div>]
+[2026-10-19 15:29:53,108] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_listen_toast(127.0.0.1:5555) cost: 0.003s</div>]
+[2026-10-19 15:29:53,110] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('Button'))</div>]
+[2026-10-19 15:29:53,132] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('Button')) cost: 0.021s</div>]
+buttons: [{'left': 35, 'right': 158, 'top': 137, 'bottom': 259, 'displayId': 0}, {'left': 1151, 'right': 1274, 'top': 137, 'bottom': 259, 'displayId': 0}, {'left': 1059, 'right': 1199, 'top': 294, 'bottom': 434, 'displayId': 0}]
+[2026-10-19 15:29:53,150] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.type('TextInput'))</div>]
+[2026-10-19 15:29:53,162] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.type('TextInput')) cost: 0.012s</div>]
+search btn: [{'left': 1059, 'right': 1199, 'top': 294, 'bottom': 434, 'displayId': 0}]
+[2026-10-19 15:29:53,329] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_latest_toast(127.0.0.1:5555, timeout=3)</div>]
+[2026-10-19 15:29:53,342] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_latest_toast(127.0.0.1:5555, timeout=3) cost: 0.012s</div>]
+TOAST(empty): '请输入搜索词'
+[2026-10-19 15:29:53,342] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 1)</div>]
+[2026-10-19 15:29:54,345] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 1) cost: 1.003s</div>]
+===== 02_after_empty_search
+   ('Button', '', '', '', '', '[35,137][158,259]', 'false')
+   ('Image', '', '', '', '', '[53,154][141,242]', 'false')
+   ('Text', '', '', '云音汇', '', '[549,156][759,238]', 'false')
+   ('Button', '', '', '', '', '[1151,137][1274,259]', 'false')
+   ('Image', '', '', '', '', '[1169,154][1257,242]', 'false')
+   ('TextInput', '', '', '', '请输入搜索词', '[109,294][1025,434]', 'true')
+   ('Button', '', '', '', '', '[1059,294][1199,434]', 'true')
+   ('Image', '', '', '', '', '[1077,312][1182,417]', 'false')
+   ('Text', '', '', '登录账号\n以显示你的歌单', '', '[360,469][949,840]', 'false')
+   ('Toast', '', '', '请输入搜索词', '', '[450,2376][857,2502]', 'false')
+   ('Text', '', '', '请输入搜索词', '', '[450,2376][857,2502]', 'false')
+   ('WindowScene', 'session21', 'session21', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBox', 'StatusBarBox', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBridgeView', 'StatusBarBridgeView', '', '', '[0,0][1308,136]', 'true')
+   ('Row', 'status_bar_left_color_picker', 'status_bar_left_color_picker', '', '', '[42,47][179,131]', 'false')
+   ('Row', 'status_bar_right_color_picker', 'status_bar_right_color_picker', '', '', '[915,47][1266,131]', 'false')
+   ('Row', 'status_bar_color_picker', 'status_bar_color_picker', '', '', '[42,47][1266,131]', 'false')
+   ('Stack', 'StatusBarView', 'StatusBarView', '', '', '[0,0][1308,136]', 'false')
+   ('Row', 'StatusBarBackground_Row_0', 'StatusBarBackground_Row_0', '', '', '[0,0][1308,136]', 'false')
+   ('Stack', 'sbg_left', 'sbg_left', '', '', '[42,47][1308,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_clock', 'StatusBarIconWrapper_status_bar_clock', '', '', '[42,47][181,131]', 'false')
+   ('Flex', 'ClockStatusView', 'ClockStatusView', '03, :, 29', '', '[42,47][181,131]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[42,58][104,120]', 'false')
+   ('Text', '', '', '03', '', '[42,58][104,120]', 'false')
+   ('Text', 'TimeView_Text_timeText', 'TimeView_Text_timeText', ':', '', '[104,63][119,116]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[119,58][181,120]', 'false')
+   ('Text', '', '', '29', '', '[119,58][181,120]', 'false')
+   ('RelativeContainer', 'sbg_right', 'sbg_right', '', '', '[0,47][1266,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_ethernet', 'StatusBarIconWrapper_status_bar_ethernet', '', '', '[915,47][999,131]', 'false')
+   ('SymbolGlyph', 'StatusBarIconItemEthernetComponent_Image_icon', 'StatusBarIconItemEthernetComponent_Image_icon', '', '', '[922,61][999,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_wifi', 'StatusBarIconWrapper_status_bar_wifi', '', '', '[999,47][1074,131]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_signal_level', 'WifiComponent-WifiIcon_Image_wifi_signal_level', '', '', '[1006,61][1074,117]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_data_flow', 'WifiComponent-WifiIcon_Image_wifi_data_flow', '', '', '[1006,61][1074,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_signal', 'StatusBarIconWrapper_status_bar_signal', '', '', '[1074,47][1161,131]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellular', 'SignalComponent-SignalIcon_Image_cellular', '', '', '[1081,61][1161,117]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellularImage', 'SignalComponent-SignalIcon_Image_cellularImage', '', '', '[1081,61][1161,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_battery', 'StatusBarIconWrapper_status_bar_battery', '', '', '[1161,47][1266,131]', 'false')
+   ('Row', 'BatteryComponent-batteryIcon_Image_batteryIcon', 'BatteryComponent-batteryIcon_Image_batteryIcon', '', '', '[1168,47][1266,131]', 'false')
+   ('SymbolGlyph', 'BatteryComponent-batteryIcon_Image_batteryBorder', 'BatteryComponent-batteryIcon_Image_batteryBorder', '', '', '[1168,61][1266,117]', 'false')
+   ('Text', 'BatteryComponent-batteryIcon_Text_batterySoc', 'BatteryComponent-batteryIcon_Text_batterySoc', '100', '', '[1177,67][1247,112]', 'false')
+   ('Stack', 'StatusBarView_LiveCapsuleListContainer', 'StatusBarView_LiveCapsuleListContainer', '', '', '[605,40][703,136]', 'false')
+   ('Stack', '[Live]LiveCapsuleListView', '[Live]LiveCapsuleListView', '', '', '[605,40][703,136]', 'false')
+   ('metaballNode', 'LiveMetaBallBaseVm', 'LiveMetaBallBaseVm', '', '', '[409,11][899,136]', 'true')
+[2026-10-19 15:29:54,766] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#3,    )</div>]
+[2026-10-19 15:29:56,211] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#3,    ) cost: 1.445s</div>]
+[2026-10-19 15:29:56,212] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.5)</div>]
+[2026-10-19 15:29:56,713] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.5) cost: 0.501s</div>]
+[2026-10-19 15:29:56,713] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_listen_toast(127.0.0.1:5555)</div>]
+[2026-10-19 15:29:56,716] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_listen_toast(127.0.0.1:5555) cost: 0.003s</div>]
+[2026-10-19 15:29:56,842] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_latest_toast(127.0.0.1:5555, timeout=3)</div>]
+[2026-10-19 15:29:59,846] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_latest_toast(127.0.0.1:5555, timeout=3) cost: 3.003s</div>]
+TOAST(spaces): ''
+[2026-10-19 15:29:59,847] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 2)</div>]
+[2026-10-19 15:30:01,853] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 2) cost: 2.005s</div>]
+===== 03_after_space_search
+   ('WindowScene', 'session21', 'session21', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBox', 'StatusBarBox', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBridgeView', 'StatusBarBridgeView', '', '', '[0,0][1308,136]', 'true')
+   ('Row', 'status_bar_left_color_picker', 'status_bar_left_color_picker', '', '', '[42,47][179,131]', 'false')
+   ('Row', 'status_bar_right_color_picker', 'status_bar_right_color_picker', '', '', '[915,47][1266,131]', 'false')
+   ('Row', 'status_bar_color_picker', 'status_bar_color_picker', '', '', '[42,47][1266,131]', 'false')
+   ('Stack', 'StatusBarView', 'StatusBarView', '', '', '[0,0][1308,136]', 'false')
+   ('Row', 'StatusBarBackground_Row_0', 'StatusBarBackground_Row_0', '', '', '[0,0][1308,136]', 'false')
+   ('Stack', 'sbg_left', 'sbg_left', '', '', '[42,47][1308,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_clock', 'StatusBarIconWrapper_status_bar_clock', '', '', '[42,47][181,131]', 'false')
+   ('Flex', 'ClockStatusView', 'ClockStatusView', '03, :, 30', '', '[42,47][181,131]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[42,58][104,120]', 'false')
+   ('Text', '', '', '03', '', '[42,58][104,120]', 'false')
+   ('Text', 'TimeView_Text_timeText', 'TimeView_Text_timeText', ':', '', '[104,63][119,116]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[119,58][181,120]', 'false')
+   ('Text', '', '', '30', '', '[119,58][181,120]', 'false')
+   ('RelativeContainer', 'sbg_right', 'sbg_right', '', '', '[0,47][1266,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_ethernet', 'StatusBarIconWrapper_status_bar_ethernet', '', '', '[915,47][999,131]', 'false')
+   ('SymbolGlyph', 'StatusBarIconItemEthernetComponent_Image_icon', 'StatusBarIconItemEthernetComponent_Image_icon', '', '', '[922,61][999,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_wifi', 'StatusBarIconWrapper_status_bar_wifi', '', '', '[999,47][1074,131]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_signal_level', 'WifiComponent-WifiIcon_Image_wifi_signal_level', '', '', '[1006,61][1074,117]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_data_flow', 'WifiComponent-WifiIcon_Image_wifi_data_flow', '', '', '[1006,61][1074,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_signal', 'StatusBarIconWrapper_status_bar_signal', '', '', '[1074,47][1161,131]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellular', 'SignalComponent-SignalIcon_Image_cellular', '', '', '[1081,61][1161,117]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellularImage', 'SignalComponent-SignalIcon_Image_cellularImage', '', '', '[1081,61][1161,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_battery', 'StatusBarIconWrapper_status_bar_battery', '', '', '[1161,47][1266,131]', 'false')
+   ('Row', 'BatteryComponent-batteryIcon_Image_batteryIcon', 'BatteryComponent-batteryIcon_Image_batteryIcon', '', '', '[1168,47][1266,131]', 'false')
+   ('SymbolGlyph', 'BatteryComponent-batteryIcon_Image_batteryBorder', 'BatteryComponent-batteryIcon_Image_batteryBorder', '', '', '[1168,61][1266,117]', 'false')
+   ('Text', 'BatteryComponent-batteryIcon_Text_batterySoc', 'BatteryComponent-batteryIcon_Text_batterySoc', '100', '', '[1177,67][1247,112]', 'false')
+   ('Stack', 'StatusBarView_LiveCapsuleListContainer', 'StatusBarView_LiveCapsuleListContainer', '', '', '[605,40][703,136]', 'false')
+   ('Stack', '[Live]LiveCapsuleListView', '[Live]LiveCapsuleListView', '', '', '[605,40][703,136]', 'false')
+   ('metaballNode', 'LiveMetaBallBaseVm', 'LiveMetaBallBaseVm', '', '', '[409,11][899,136]', 'true')
+[2026-10-19 15:30:02,329] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.press_back(127.0.0.1:5555)</div>]
+[2026-10-19 15:30:02,479] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.press_back(127.0.0.1:5555) cost: 0.15s</div>]
+[2026-10-19 15:30:02,480] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 1)</div>]
+[2026-10-19 15:30:03,485] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 1) cost: 1.005s</div>]
+===== 03b_after_back
+   ('Button', '', '', '', '', '[35,137][158,259]', 'false')
+   ('Image', '', '', '', '', '[53,154][141,242]', 'false')
+   ('Text', '', '', '云音汇', '', '[549,156][759,238]', 'false')
+   ('Button', '', '', '', '', '[1151,137][1274,259]', 'false')
+   ('Image', '', '', '', '', '[1169,154][1257,242]', 'false')
+   ('TextInput', '', '', '   ', '请输入搜索词', '[109,294][1025,434]', 'true')
+   ('Button', '', '', '', '', '[1059,294][1199,434]', 'true')
+   ('Image', '', '', '', '', '[1077,312][1182,417]', 'false')
+   ('Text', '', '', '登录账号\n以显示你的歌单', '', '[360,469][949,840]', 'false')
+   ('WindowScene', 'session21', 'session21', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBox', 'StatusBarBox', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBridgeView', 'StatusBarBridgeView', '', '', '[0,0][1308,136]', 'true')
+   ('Row', 'status_bar_left_color_picker', 'status_bar_left_color_picker', '', '', '[42,47][179,131]', 'false')
+   ('Row', 'status_bar_right_color_picker', 'status_bar_right_color_picker', '', '', '[915,47][1266,131]', 'false')
+   ('Row', 'status_bar_color_picker', 'status_bar_color_picker', '', '', '[42,47][1266,131]', 'false')
+   ('Stack', 'StatusBarView', 'StatusBarView', '', '', '[0,0][1308,136]', 'false')
+   ('Row', 'StatusBarBackground_Row_0', 'StatusBarBackground_Row_0', '', '', '[0,0][1308,136]', 'false')
+   ('Stack', 'sbg_left', 'sbg_left', '', '', '[42,47][1308,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_clock', 'StatusBarIconWrapper_status_bar_clock', '', '', '[42,47][181,131]', 'false')
+   ('Flex', 'ClockStatusView', 'ClockStatusView', '03, :, 30', '', '[42,47][181,131]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[42,58][104,120]', 'false')
+   ('Text', '', '', '03', '', '[42,58][104,120]', 'false')
+   ('Text', 'TimeView_Text_timeText', 'TimeView_Text_timeText', ':', '', '[104,63][119,116]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[119,58][181,120]', 'false')
+   ('Text', '', '', '30', '', '[119,58][181,120]', 'false')
+   ('RelativeContainer', 'sbg_right', 'sbg_right', '', '', '[0,47][1266,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_ethernet', 'StatusBarIconWrapper_status_bar_ethernet', '', '', '[915,47][999,131]', 'false')
+   ('SymbolGlyph', 'StatusBarIconItemEthernetComponent_Image_icon', 'StatusBarIconItemEthernetComponent_Image_icon', '', '', '[922,61][999,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_wifi', 'StatusBarIconWrapper_status_bar_wifi', '', '', '[999,47][1074,131]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_signal_level', 'WifiComponent-WifiIcon_Image_wifi_signal_level', '', '', '[1006,61][1074,117]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_data_flow', 'WifiComponent-WifiIcon_Image_wifi_data_flow', '', '', '[1006,61][1074,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_signal', 'StatusBarIconWrapper_status_bar_signal', '', '', '[1074,47][1161,131]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellular', 'SignalComponent-SignalIcon_Image_cellular', '', '', '[1081,61][1161,117]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellularImage', 'SignalComponent-SignalIcon_Image_cellularImage', '', '', '[1081,61][1161,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_battery', 'StatusBarIconWrapper_status_bar_battery', '', '', '[1161,47][1266,131]', 'false')
+   ('Row', 'BatteryComponent-batteryIcon_Image_batteryIcon', 'BatteryComponent-batteryIcon_Image_batteryIcon', '', '', '[1168,47][1266,131]', 'false')
+   ('SymbolGlyph', 'BatteryComponent-batteryIcon_Image_batteryBorder', 'BatteryComponent-batteryIcon_Image_batteryBorder', '', '', '[1168,61][1266,117]', 'false')
+   ('Text', 'BatteryComponent-batteryIcon_Text_batterySoc', 'BatteryComponent-batteryIcon_Text_batterySoc', '100', '', '[1177,67][1247,112]', 'false')
+   ('Stack', 'StatusBarView_LiveCapsuleListContainer', 'StatusBarView_LiveCapsuleListContainer', '', '', '[605,40][703,136]', 'false')
+   ('Stack', '[Live]LiveCapsuleListView', '[Live]LiveCapsuleListView', '', '', '[605,40][703,136]', 'false')
+   ('metaballNode', 'LiveMetaBallBaseVm', 'LiveMetaBallBaseVm', '', '', '[409,11][899,136]', 'true')
+   ('RelativeContainer', 'parentLayout', 'parentLayout', '', '', '[0,137][1308,2880]', 'false')
+   ('Column', 'SkinBgContent', 'SkinBgContent', '', '', '[0,1753][1308,2880]', 'false')
+   ('Stack', 'SkinBgContentStack', 'SkinBgContentStack', '', '', '[0,1753][1308,1781]', 'false')
+   ('Row', 'index_content', 'index_content', '', '', '[0,1781][1308,2880]', 'false')
+   ('Stack', 'index_stack_container', 'index_stack_container', '', '', '[0,1781][1308,2723]', 'false')
+   ('Column', 'index_outer', 'index_outer', '', '', '[0,1781][1308,2723]', 'false')
+   ('Column', 'functionView', 'functionView', '', '', '[0,1781][1308,1960]', 'false')
+   ('__Common__', 'downMenu', 'downMenu', '', '', '[0,1781][1308,1960]', 'false')
+   ('Stack', 'downMenu_container', 'downMenu_container', '', '', '[0,1781][1308,1960]', 'false')
+   ('Flex', 'downMenu_flex', 'downMenu_flex', '', '', '[0,1781][1308,1960]', 'false')
+   ('Stack', 'KeyMenu', 'KeyMenu', '', '', '[35,1804][168,1937]', 'true')
+   ('Image', '', '', '', '', '[56,1825][147,1916]', 'false')
+   ('Grid', 'kbd_toolbar_list_menu', 'kbd_toolbar_list_menu', '', '', '[168,1804][1140,1937]', 'false')
+   ('Stack', 'KeyCustom_0', 'KeyCustom_0', '', '', '[919,1804][1052,1937]', 'true')
+   ('Image', '', '', '', '', '[940,1825][1031,1916]', 'false')
+   ('Stack', 'KeyCustom_1', 'KeyCustom_1', '', '', '[698,1804][831,1937]', 'true')
+   ('Image', '', '', '', '', '[719,1825][810,1916]', 'false')
+   ('Stack', 'KeyHideKbd', 'KeyHideKbd', '', '', '[1140,1805][1273,1938]', 'true')
+   ('Image', '', '', '', '', '[1161,1826][1252,1917]', 'false')
+   ('Image', 'downMenu_line', 'downMenu_line', '', '', '[1093,1830][1096,1914]', 'false')
+   ('Stack', 'index_keyMenu_container', 'index_keyMenu_container', '', '', '[0,1960][1308,2724]', 'false')
+   ('RelativeContainer', 'KeyboardCanvas', 'KeyboardCanvas', '', '', '[0,1960][1308,2724]', 'false')
+   ('Stack', 'KeyCanvasKeyboard', 'KeyCanvasKeyboard', '', '', '[0,1960][1308,2723]', 'false')
+   ('WindowScene', 'keyboardPanel34', 'keyboardPanel34', '', '', '[0,137][1308,1781]', 'false')
+   ('WindowScene', 'keyboard51', 'keyboard51', '', '', '[0,137][1308,1781]', 'false')
+   ('Stack', 'inputMethodPanel', 'inputMethodPanel', '', '', '[0,137][1308,1781]', 'false')
+   ('Column', 'keyboardLeftButton', 'keyboardLeftButton', '', '', '[109,2733][221,2845]', 'false')
+   ('Image', '', '', '', '', '[123,2747][207,2831]', 'false')
+   ('Column', 'keyboardRightButton', 'keyboardRightButton', '', '', '[1087,2733][1199,2845]', 'false')
+   ('Image', '', '', '', '', '[1101,2747][1185,2831]', 'false')
+[2026-10-19 15:30:03,818] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, cc.chenlvin.cloudmusic)</div>]
+[2026-10-19 15:30:04,418] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, cc.chenlvin.cloudmusic) cost: 0.599s</div>]
+[2026-10-19 15:30:04,419] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, cc.chenlvin.cloudmusic)</div>]
+[2026-10-19 15:30:05,537] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, cc.chenlvin.cloudmusic) cost: 1.118s</div>]
+[2026-10-19 15:30:05,538] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 3)</div>]
+[2026-10-19 15:30:08,541] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 3) cost: 3.003s</div>]
+[2026-10-19 15:30:08,541] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('Button'))</div>]
+[2026-10-19 15:30:08,554] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('Button')) cost: 0.012s</div>]
+more btn: (left: 1151, right: 1274, top: 137, bottom: 259)
+[2026-10-19 15:30:08,771] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 1)</div>]
+[2026-10-19 15:30:09,776] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 1) cost: 1.005s</div>]
+===== 04_more_menu
+   ('Button', '', '', '', '', '[35,137][158,259]', 'false')
+   ('Image', '', '', '', '', '[53,154][141,242]', 'false')
+   ('Text', '', '', '云音汇', '', '[549,156][759,238]', 'false')
+   ('Button', '', '', '', '', '[1151,137][1274,259]', 'false')
+   ('Image', '', '', '', '', '[1169,154][1257,242]', 'false')
+   ('TextInput', '', '', '', '请输入搜索词', '[109,294][1025,434]', 'true')
+   ('Button', '', '', '', '', '[1059,294][1199,434]', 'true')
+   ('Image', '', '', '', '', '[1077,312][1182,417]', 'false')
+   ('Text', '', '', '登录账号\n以显示你的歌单', '', '[360,469][949,840]', 'false')
+   ('MenuItem', '', '', '设置', '', '[738,301][1238,469]', 'true')
+   ('Image', '', '', '', '', '[780,343][864,427]', 'false')
+   ('Text', '', '', '设置', '', '[892,329][1169,441]', 'false')
+   ('MenuItem', '', '', '下载管理', '', '[738,469][1238,637]', 'true')
+   ('Image', '', '', '', '', '[780,511][864,595]', 'false')
+   ('Text', '', '', '下载管理', '', '[892,497][1169,609]', 'false')
+   ('WindowScene', 'session21', 'session21', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBox', 'StatusBarBox', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBridgeView', 'StatusBarBridgeView', '', '', '[0,0][1308,136]', 'true')
+   ('Row', 'status_bar_left_color_picker', 'status_bar_left_color_picker', '', '', '[42,47][179,131]', 'false')
+   ('Row', 'status_bar_right_color_picker', 'status_bar_right_color_picker', '', '', '[915,47][1266,131]', 'false')
+   ('Row', 'status_bar_color_picker', 'status_bar_color_picker', '', '', '[42,47][1266,131]', 'false')
+   ('Stack', 'StatusBarView', 'StatusBarView', '', '', '[0,0][1308,136]', 'false')
+   ('Row', 'StatusBarBackground_Row_0', 'StatusBarBackground_Row_0', '', '', '[0,0][1308,136]', 'false')
+   ('Stack', 'sbg_left', 'sbg_left', '', '', '[42,47][1308,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_clock', 'StatusBarIconWrapper_status_bar_clock', '', '', '[42,47][181,131]', 'false')
+   ('Flex', 'ClockStatusView', 'ClockStatusView', '03, :, 30', '', '[42,47][181,131]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[42,58][104,120]', 'false')
+   ('Text', '', '', '03', '', '[42,58][104,120]', 'false')
+   ('Text', 'TimeView_Text_timeText', 'TimeView_Text_timeText', ':', '', '[104,63][119,116]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[119,58][181,120]', 'false')
+   ('Text', '', '', '30', '', '[119,58][181,120]', 'false')
+   ('RelativeContainer', 'sbg_right', 'sbg_right', '', '', '[0,47][1266,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_ethernet', 'StatusBarIconWrapper_status_bar_ethernet', '', '', '[915,47][999,131]', 'false')
+   ('SymbolGlyph', 'StatusBarIconItemEthernetComponent_Image_icon', 'StatusBarIconItemEthernetComponent_Image_icon', '', '', '[922,61][999,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_wifi', 'StatusBarIconWrapper_status_bar_wifi', '', '', '[999,47][1074,131]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_signal_level', 'WifiComponent-WifiIcon_Image_wifi_signal_level', '', '', '[1006,61][1074,117]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_data_flow', 'WifiComponent-WifiIcon_Image_wifi_data_flow', '', '', '[1006,61][1074,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_signal', 'StatusBarIconWrapper_status_bar_signal', '', '', '[1074,47][1161,131]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellular', 'SignalComponent-SignalIcon_Image_cellular', '', '', '[1081,61][1161,117]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellularImage', 'SignalComponent-SignalIcon_Image_cellularImage', '', '', '[1081,61][1161,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_battery', 'StatusBarIconWrapper_status_bar_battery', '', '', '[1161,47][1266,131]', 'false')
+   ('Row', 'BatteryComponent-batteryIcon_Image_batteryIcon', 'BatteryComponent-batteryIcon_Image_batteryIcon', '', '', '[1168,47][1266,131]', 'false')
+   ('SymbolGlyph', 'BatteryComponent-batteryIcon_Image_batteryBorder', 'BatteryComponent-batteryIcon_Image_batteryBorder', '', '', '[1168,61][1266,117]', 'false')
+   ('Text', 'BatteryComponent-batteryIcon_Text_batterySoc', 'BatteryComponent-batteryIcon_Text_batterySoc', '100', '', '[1177,67][1247,112]', 'false')
+   ('Stack', 'StatusBarView_LiveCapsuleListContainer', 'StatusBarView_LiveCapsuleListContainer', '', '', '[605,40][703,136]', 'false')
+   ('Stack', '[Live]LiveCapsuleListView', '[Live]LiveCapsuleListView', '', '', '[605,40][703,136]', 'false')
+   ('metaballNode', 'LiveMetaBallBaseVm', 'LiveMetaBallBaseVm', '', '', '[409,11][899,136]', 'true')
+[2026-10-19 15:30:10,138] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('设置'))</div>]
+[2026-10-19 15:30:10,149] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('设置')) cost: 0.011s</div>]
+[2026-10-19 15:30:10,261] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 2)</div>]
+[2026-10-19 15:30:12,262] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 2) cost: 2.0s</div>]
+===== 05_settings
+   ('Button', '', '', '', '', '[35,137][158,259]', 'false')
+   ('Image', '', '', '', '', '[53,154][141,242]', 'false')
+   ('Text', '', '', '设置', '', '[584,156][724,238]', 'false')
+   ('Button', '', '', '', '', '[1151,137][1274,259]', 'false')
+   ('Image', '', '', '', '', '[1169,154][1257,242]', 'false')
+   ('Text', '', '', '当前版本', '', '[105,364][329,430]', 'false')
+   ('Text', '', '', '0.9.2 - 测试版', '', '[855,364][1203,430]', 'false')
+   ('Text', '', '', '隐私政策', '', '[105,500][329,566]', 'false')
+   ('Text', '', '', '前往查看本软件的隐私政策', '', '[531,500][1203,566]', 'true')
+   ('Text', '', '', '问题反馈', '', '[105,669][329,735]', 'false')
+   ('Text', '', '', 'chenlvin@126.com\n或 GitHub issue', '', '[721,636][1203,768]', 'false')
+   ('Text', '', '', '云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext', '', '[291,2705][1017,2803]', 'true')
+   ('WindowScene', 'session21', 'session21', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBox', 'StatusBarBox', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBridgeView', 'StatusBarBridgeView', '', '', '[0,0][1308,136]', 'true')
+   ('Row', 'status_bar_left_color_picker', 'status_bar_left_color_picker', '', '', '[42,47][179,131]', 'false')
+   ('Row', 'status_bar_right_color_picker', 'status_bar_right_color_picker', '', '', '[915,47][1266,131]', 'false')
+   ('Row', 'status_bar_color_picker', 'status_bar_color_picker', '', '', '[42,47][1266,131]', 'false')
+   ('Stack', 'StatusBarView', 'StatusBarView', '', '', '[0,0][1308,136]', 'false')
+   ('Row', 'StatusBarBackground_Row_0', 'StatusBarBackground_Row_0', '', '', '[0,0][1308,136]', 'false')
+   ('Stack', 'sbg_left', 'sbg_left', '', '', '[42,47][1308,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_clock', 'StatusBarIconWrapper_status_bar_clock', '', '', '[42,47][181,131]', 'false')
+   ('Flex', 'ClockStatusView', 'ClockStatusView', '03, :, 30', '', '[42,47][181,131]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[42,58][104,120]', 'false')
+   ('Text', '', '', '03', '', '[42,58][104,120]', 'false')
+   ('Text', 'TimeView_Text_timeText', 'TimeView_Text_timeText', ':', '', '[104,63][119,116]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[119,58][181,120]', 'false')
+   ('Text', '', '', '30', '', '[119,58][181,120]', 'false')
+   ('RelativeContainer', 'sbg_right', 'sbg_right', '', '', '[0,47][1266,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_ethernet', 'StatusBarIconWrapper_status_bar_ethernet', '', '', '[915,47][999,131]', 'false')
+   ('SymbolGlyph', 'StatusBarIconItemEthernetComponent_Image_icon', 'StatusBarIconItemEthernetComponent_Image_icon', '', '', '[922,61][999,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_wifi', 'StatusBarIconWrapper_status_bar_wifi', '', '', '[999,47][1074,131]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_signal_level', 'WifiComponent-WifiIcon_Image_wifi_signal_level', '', '', '[1006,61][1074,117]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_data_flow', 'WifiComponent-WifiIcon_Image_wifi_data_flow', '', '', '[1006,61][1074,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_signal', 'StatusBarIconWrapper_status_bar_signal', '', '', '[1074,47][1161,131]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellular', 'SignalComponent-SignalIcon_Image_cellular', '', '', '[1081,61][1161,117]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellularImage', 'SignalComponent-SignalIcon_Image_cellularImage', '', '', '[1081,61][1161,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_battery', 'StatusBarIconWrapper_status_bar_battery', '', '', '[1161,47][1266,131]', 'false')
+   ('Row', 'BatteryComponent-batteryIcon_Image_batteryIcon', 'BatteryComponent-batteryIcon_Image_batteryIcon', '', '', '[1168,47][1266,131]', 'false')
+   ('SymbolGlyph', 'BatteryComponent-batteryIcon_Image_batteryBorder', 'BatteryComponent-batteryIcon_Image_batteryBorder', '', '', '[1168,61][1266,117]', 'false')
+   ('Text', 'BatteryComponent-batteryIcon_Text_batterySoc', 'BatteryComponent-batteryIcon_Text_batterySoc', '100', '', '[1177,67][1247,112]', 'false')
+   ('Stack', 'StatusBarView_LiveCapsuleListContainer', 'StatusBarView_LiveCapsuleListContainer', '', '', '[605,40][703,136]', 'false')
+   ('Stack', '[Live]LiveCapsuleListView', '[Live]LiveCapsuleListView', '', '', '[605,40][703,136]', 'false')
+   ('metaballNode', 'LiveMetaBallBaseVm', 'LiveMetaBallBaseVm', '', '', '[409,11][899,136]', 'true')
+  foreground: ['Mission ID #37  mission name #[#com.huawei.hmos.settings:phone_settings:com.huawei.hmos.settings.MainAbility]  lockedState #0  mission affinity #[]', 'main name [com.huawei.hmos.settings.MainAbility]', 'bundle name [com.huawei.hmos.settings]', 'state #BACKGROUND  start time [70352]', 'app state #BACKGROUND', 'Mission ID #40  mission name #[#com.huawei.hmos.browser:entry:MainAbility]  lockedState #0  mission affinity #[]']
+[2026-10-19 15:30:12,671] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('前往查看本软件的隐私政策'))</div>]
+[2026-10-19 15:30:12,681] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('前往查看本软件的隐私政策')) cost: 0.01s</div>]
+[2026-10-19 15:30:12,796] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 3)</div>]
+[2026-10-19 15:30:15,801] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 3) cost: 3.004s</div>]
+===== 06_after_privacy_click
+   ('Navigation', 'navigationPage', 'navigationPage', '', '', '[0,137][1308,2880]', 'false')
+   ('Navigation', 'mainPage', 'mainPage', '', '', '[0,137][1308,2880]', 'false')
+   ('__Common__', 'webTabsNormal', 'webTabsNormal', '', '', '[0,137][1308,2880]', 'false')
+   ('Stack', 'webTabIdnormal', 'webTabIdnormal', '', '', '[0,137][1308,2880]', 'false')
+   ('Flex', 'go_backward', 'go_backward', '', '', '[0,2614][262,2782]', 'true')
+   ('SymbolGlyph', 'navigation_icon_in_homepage', 'navigation_icon_in_homepage', '', '', '[88,2656][173,2740]', 'false')
+   ('Flex', 'go_forward', 'go_forward', '', '', '[262,2614][524,2782]', 'false')
+   ('SymbolGlyph', 'navigation_icon_in_homepage', 'navigation_icon_in_homepage', '', '', '[350,2656][435,2740]', 'false')
+   ('Flex', 'home_page', 'home_page', '', '', '[523,2614][785,2782]', 'true')
+   ('SymbolGlyph', 'navigation_icon_in_homepage', 'navigation_icon_in_homepage', '', '', '[611,2656][696,2740]', 'false')
+   ('Stack', 'medium_btn_in_homepage', 'medium_btn_in_homepage', '', '', '[785,2614][1047,2782]', 'true')
+   ('Image', 'medium_icon_in_homepage', 'medium_icon_in_homepage', '', '', '[874,2656][958,2740]', 'false')
+   ('Text', 'medium_text_in_homepage', 'medium_text_in_homepage', '6', '', '[904,2670][929,2726]', 'false')
+   ('Flex', 'actions_menu_more', 'actions_menu_more', '', '', '[1046,2614][1308,2782]', 'true')
+   ('SymbolGlyph', 'navigation_icon_in_homepage', 'navigation_icon_in_homepage', '', '', '[1134,2656][1219,2740]', 'false')
+   ('WindowScene', 'session21', 'session21', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBox', 'StatusBarBox', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBridgeView', 'StatusBarBridgeView', '', '', '[0,0][1308,136]', 'true')
+   ('Row', 'status_bar_left_color_picker', 'status_bar_left_color_picker', '', '', '[42,47][179,131]', 'false')
+   ('Row', 'status_bar_right_color_picker', 'status_bar_right_color_picker', '', '', '[915,47][1266,131]', 'false')
+   ('Row', 'status_bar_color_picker', 'status_bar_color_picker', '', '', '[42,47][1266,131]', 'false')
+   ('Stack', 'StatusBarView', 'StatusBarView', '', '', '[0,0][1308,136]', 'false')
+   ('Row', 'StatusBarBackground_Row_0', 'StatusBarBackground_Row_0', '', '', '[0,0][1308,136]', 'false')
+   ('Stack', 'sbg_left', 'sbg_left', '', '', '[42,47][1308,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_clock', 'StatusBarIconWrapper_status_bar_clock', '', '', '[42,47][181,131]', 'false')
+   ('Flex', 'ClockStatusView', 'ClockStatusView', '03, :, 30', '', '[42,47][181,131]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[42,58][104,120]', 'false')
+   ('Text', '', '', '03', '', '[42,58][104,120]', 'false')
+   ('Text', 'TimeView_Text_timeText', 'TimeView_Text_timeText', ':', '', '[104,63][119,116]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[119,58][181,120]', 'false')
+   ('Text', '', '', '30', '', '[119,58][181,120]', 'false')
+   ('RelativeContainer', 'sbg_right', 'sbg_right', '', '', '[0,47][1266,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_ethernet', 'StatusBarIconWrapper_status_bar_ethernet', '', '', '[915,47][999,131]', 'false')
+   ('SymbolGlyph', 'StatusBarIconItemEthernetComponent_Image_icon', 'StatusBarIconItemEthernetComponent_Image_icon', '', '', '[922,61][999,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_wifi', 'StatusBarIconWrapper_status_bar_wifi', '', '', '[999,47][1074,131]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_signal_level', 'WifiComponent-WifiIcon_Image_wifi_signal_level', '', '', '[1006,61][1074,117]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_data_flow', 'WifiComponent-WifiIcon_Image_wifi_data_flow', '', '', '[1006,61][1074,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_signal', 'StatusBarIconWrapper_status_bar_signal', '', '', '[1074,47][1161,131]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellular', 'SignalComponent-SignalIcon_Image_cellular', '', '', '[1081,61][1161,117]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellularImage', 'SignalComponent-SignalIcon_Image_cellularImage', '', '', '[1081,61][1161,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_battery', 'StatusBarIconWrapper_status_bar_battery', '', '', '[1161,47][1266,131]', 'false')
+   ('Row', 'BatteryComponent-batteryIcon_Image_batteryIcon', 'BatteryComponent-batteryIcon_Image_batteryIcon', '', '', '[1168,47][1266,131]', 'false')
+   ('SymbolGlyph', 'BatteryComponent-batteryIcon_Image_batteryBorder', 'BatteryComponent-batteryIcon_Image_batteryBorder', '', '', '[1168,61][1266,117]', 'false')
+   ('Text', 'BatteryComponent-batteryIcon_Text_batterySoc', 'BatteryComponent-batteryIcon_Text_batterySoc', '100', '', '[1177,67][1247,112]', 'false')
+   ('Stack', 'StatusBarView_LiveCapsuleListContainer', 'StatusBarView_LiveCapsuleListContainer', '', '', '[605,40][703,136]', 'false')
+   ('Stack', '[Live]LiveCapsuleListView', '[Live]LiveCapsuleListView', '', '', '[605,40][703,136]', 'false')
+   ('metaballNode', 'LiveMetaBallBaseVm', 'LiveMetaBallBaseVm', '', '', '[409,11][899,136]', 'true')
+  foreground: ['Mission ID #37  mission name #[#com.huawei.hmos.settings:phone_settings:com.huawei.hmos.settings.MainAbility]  lockedState #0  mission affinity #[]', 'main name [com.huawei.hmos.settings.MainAbility]', 'bundle name [com.huawei.hmos.settings]', 'state #BACKGROUND  start time [70352]', 'app state #BACKGROUND', 'Mission ID #40  mission name #[#com.huawei.hmos.browser:entry:MainAbility]  lockedState #0  mission affinity #[]']
+[2026-10-19 15:30:16,220] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.press_back(127.0.0.1:5555)</div>]
+[2026-10-19 15:30:16,326] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.press_back(127.0.0.1:5555) cost: 0.105s</div>]
+[2026-10-19 15:30:16,326] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 2)</div>]
+[2026-10-19 15:30:18,331] [8417992448] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 2) cost: 2.004s</div>]
+===== 07_after_back
+   ('Navigation', 'navigationPage', 'navigationPage', '', '', '[0,137][1308,2880]', 'false')
+   ('Navigation', 'mainPage', 'mainPage', '', '', '[0,137][1308,2880]', 'false')
+   ('__Common__', 'webTabsNormal', 'webTabsNormal', '', '', '[0,137][1308,2880]', 'false')
+   ('Stack', 'webTabIdnormal', 'webTabIdnormal', '', '', '[0,137][1308,2880]', 'false')
+   ('Flex', 'go_backward', 'go_backward', '', '', '[0,2614][262,2782]', 'false')
+   ('SymbolGlyph', 'navigation_icon_in_homepage', 'navigation_icon_in_homepage', '', '', '[88,2656][173,2740]', 'false')
+   ('Flex', 'go_forward', 'go_forward', '', '', '[262,2614][524,2782]', 'true')
+   ('SymbolGlyph', 'navigation_icon_in_homepage', 'navigation_icon_in_homepage', '', '', '[350,2656][435,2740]', 'false')
+   ('Flex', 'home_page', 'home_page', '', '', '[523,2614][785,2782]', 'true')
+   ('SymbolGlyph', 'navigation_icon_in_homepage', 'navigation_icon_in_homepage', '', '', '[611,2656][696,2740]', 'false')
+   ('Stack', 'medium_btn_in_homepage', 'medium_btn_in_homepage', '', '', '[785,2614][1047,2782]', 'true')
+   ('Image', 'medium_icon_in_homepage', 'medium_icon_in_homepage', '', '', '[874,2656][958,2740]', 'false')
+   ('Text', 'medium_text_in_homepage', 'medium_text_in_homepage', '6', '', '[904,2670][929,2726]', 'false')
+   ('Flex', 'actions_menu_more', 'actions_menu_more', '', '', '[1046,2614][1308,2782]', 'true')
+   ('SymbolGlyph', 'navigation_icon_in_homepage', 'navigation_icon_in_homepage', '', '', '[1134,2656][1219,2740]', 'false')
+   ('WindowScene', 'session21', 'session21', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBox', 'StatusBarBox', '', '', '[0,0][1308,136]', 'false')
+   ('__Common__', 'StatusBarBridgeView', 'StatusBarBridgeView', '', '', '[0,0][1308,136]', 'true')
+   ('Row', 'status_bar_left_color_picker', 'status_bar_left_color_picker', '', '', '[42,47][179,131]', 'false')
+   ('Row', 'status_bar_right_color_picker', 'status_bar_right_color_picker', '', '', '[915,47][1266,131]', 'false')
+   ('Row', 'status_bar_color_picker', 'status_bar_color_picker', '', '', '[42,47][1266,131]', 'false')
+   ('Stack', 'StatusBarView', 'StatusBarView', '', '', '[0,0][1308,136]', 'false')
+   ('Row', 'StatusBarBackground_Row_0', 'StatusBarBackground_Row_0', '', '', '[0,0][1308,136]', 'false')
+   ('Stack', 'sbg_left', 'sbg_left', '', '', '[42,47][1308,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_clock', 'StatusBarIconWrapper_status_bar_clock', '', '', '[42,47][181,131]', 'false')
+   ('Flex', 'ClockStatusView', 'ClockStatusView', '03, :, 30', '', '[42,47][181,131]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[42,58][104,120]', 'false')
+   ('Text', '', '', '03', '', '[42,58][104,120]', 'false')
+   ('Text', 'TimeView_Text_timeText', 'TimeView_Text_timeText', ':', '', '[104,63][119,116]', 'false')
+   ('TextClock', 'TimeView_Text_timeText', 'TimeView_Text_timeText', '', '', '[119,58][181,120]', 'false')
+   ('Text', '', '', '30', '', '[119,58][181,120]', 'false')
+   ('RelativeContainer', 'sbg_right', 'sbg_right', '', '', '[0,47][1266,131]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_ethernet', 'StatusBarIconWrapper_status_bar_ethernet', '', '', '[915,47][999,131]', 'false')
+   ('SymbolGlyph', 'StatusBarIconItemEthernetComponent_Image_icon', 'StatusBarIconItemEthernetComponent_Image_icon', '', '', '[922,61][999,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_wifi', 'StatusBarIconWrapper_status_bar_wifi', '', '', '[999,47][1074,131]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_signal_level', 'WifiComponent-WifiIcon_Image_wifi_signal_level', '', '', '[1006,61][1074,117]', 'false')
+   ('SymbolGlyph', 'WifiComponent-WifiIcon_Image_wifi_data_flow', 'WifiComponent-WifiIcon_Image_wifi_data_flow', '', '', '[1006,61][1074,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_signal', 'StatusBarIconWrapper_status_bar_signal', '', '', '[1074,47][1161,131]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellular', 'SignalComponent-SignalIcon_Image_cellular', '', '', '[1081,61][1161,117]', 'false')
+   ('SymbolGlyph', 'SignalComponent-SignalIcon_Image_cellularImage', 'SignalComponent-SignalIcon_Image_cellularImage', '', '', '[1081,61][1161,117]', 'false')
+   ('Stack', 'StatusBarIconWrapper_status_bar_battery', 'StatusBarIconWrapper_status_bar_battery', '', '', '[1161,47][1266,131]', 'false')
+   ('Row', 'BatteryComponent-batteryIcon_Image_batteryIcon', 'BatteryComponent-batteryIcon_Image_batteryIcon', '', '', '[1168,47][1266,131]', 'false')
+   ('SymbolGlyph', 'BatteryComponent-batteryIcon_Image_batteryBorder', 'BatteryComponent-batteryIcon_Image_batteryBorder', '', '', '[1168,61][1266,117]', 'false')
+   ('Text', 'BatteryComponent-batteryIcon_Text_batterySoc', 'BatteryComponent-batteryIcon_Text_batterySoc', '100', '', '[1177,67][1247,112]', 'false')
+   ('Stack', 'StatusBarView_LiveCapsuleListContainer', 'StatusBarView_LiveCapsuleListContainer', '', '', '[605,40][703,136]', 'false')
+   ('Stack', '[Live]LiveCapsuleListView', '[Live]LiveCapsuleListView', '', '', '[605,40][703,136]', 'false')
+   ('metaballNode', 'LiveMetaBallBaseVm', 'LiveMetaBallBaseVm', '', '', '[409,11][899,136]', 'true')
+  foreground: ['Mission ID #37  mission name #[#com.huawei.hmos.settings:phone_settings:com.huawei.hmos.settings.MainAbility]  lockedState #0  mission affinity #[]', 'main name [com.huawei.hmos.settings.MainAbility]', 'bundle name [com.huawei.hmos.settings]', 'state #BACKGROUND  start time [70352]', 'app state #BACKGROUND', 'Mission ID #40  mission name #[#com.huawei.hmos.browser:entry:MainAbility]  lockedState #0  mission affinity #[]']
+
+---
+exit_code: 0
+elapsed_ms: 36215
+ended_reason: Task has been completed
+ended_at: 2026-10-19 15:30:18

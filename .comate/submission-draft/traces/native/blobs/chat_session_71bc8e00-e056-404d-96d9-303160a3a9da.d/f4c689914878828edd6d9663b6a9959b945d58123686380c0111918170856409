@@ -1,0 +1,79 @@
+<file>
+   300→- 可观察结果：跳转后首页 `TextInput` 不在树中，出现 `LoadingProgress` 或结果页标题 `"<关键词>" 的搜索结果`。
+   301→- 八维：入口=首页；前置=输入非空；动作=点击搜索；UI=进入结果页；数据=路由参数 searchKeyword；网络=结果页发起既有 `/search?keywords=` 请求（见第 4 节）；返回=返回首页后输入值保留；边界=服务不可达时结果页一直转圈（基线缺陷，本题不修）。
+   302→- 选择器：同 C5。
+   303→
+   304→### 场景三边界条件穷举
+   305→
+   306→| 边界 | 是否适用 | 期望／理由 |
+   307→| --- | --- | --- |
+   308→| 空输入 | 适用 | Toast“请输入搜索内容”，不跳转（C5、C6） |
+   309→| 纯空格 | 适用 | 推荐同空输入处理（C8，U8） |
+   310→| 取消 | 不适用 | 无确认对话框 |
+   311→| 关闭 | 部分适用 | 收起键盘不影响 placeholder 与按钮行为 |
+   312→| 重复点击／快速连点 | 适用 | C9 |
+   313→| 无数据 | 适用 | "无数据"即空关键词，同 C5 |
+   314→| 最后一页 | 不适用 | 首页无分页 |
+   315→| 部分操作 | 适用 | 输入后又删空再点击，按空输入处理（`onChange` 回写空串） |
+   316→| 请求失败 | 不适用 | 空输入不发请求；非空分支见 C10 |
+   317→| 返回后重进 | 适用 | C4 |
+   318→| 重启应用后重进 | 适用 | C4（冷启动） |
+   319→
+   320→---
+   321→
+   322→## 4. 跨场景项
+   323→
+   324→### X1 构建与安装
+   325→- 证据：`REASONABLE_DERIVATION`（"构建失败、崩溃不计通过"）
+   326→- 期望：`assembleHap` 成功，HAP 可安装到 API 23 模拟器；`entry/src` 不新增 ArkTS 告警（基线 36 条，清单见 baseline-notes 第 2 节）。
+   327→
+   328→### X2 设置页其余交互不回退
+   329→- 证据：`REASONABLE_DERIVATION`
+   330→- 期望：点击“问题反馈”行 Toast“已复制邮箱地址到剪贴板”；点击底部文字 Toast“已复制链接到剪贴板”；设置页右上分享按钮 Toast“该功能暂未开发完成”；均与基线一致。
+   331→
+   332→### X3 全流程不崩溃、不切出应用
+   333→- 证据：`REASONABLE_DERIVATION`
+   334→- 期望：首页 → 设置 → 隐私页 → 返回设置 → 返回首页 → 空搜索，全程 `current_app` 为 `cc.chenlvin.cloudmusic`。官方可能把三个场景串在一个用例里跑，任一环节切出应用都会连带失败。
+   335→
+   336→### 网络状态机
+   337→
+   338→```mermaid
+   339→stateDiagram-v2
+   340→    [*] --> Settings: 首页→更多→设置（无请求）
+   341→    Settings --> Privacy_Loading: 点击入口文字，push PrivacyPage，Web 创建后发起 GET
+   342→    Privacy_Loading --> Privacy_Loaded: 页面加载完成
+   343→    Privacy_Loading --> Privacy_Failed: 断网/站点不可达
+   344→    Privacy_Loading --> Settings: 返回（Web 销毁，加载中止）
+   345→    Privacy_Loaded --> Settings: 返回
+   346→    Privacy_Failed --> Settings: 返回
+   347→    Settings --> Home: 返回（首页 onPageShow 触发既有 2 个请求，与断言无关）
+   348→    Home --> Home: 空或纯空格关键词点击搜索，Toast，不发请求、不跳转
+   349→    Home --> SongsList_Loading: 非空关键词点击搜索，push SongsListPage，发起 /search
+   350→```
+   351→
+   352→- 隐私页三种状态（Loading／Loaded／Failed）下：标题“隐私政策”与 `Web` 组件**始终存在**，返回**始终可用**；loading 只属于 Web 内部，不绑定页面标题或返回能力。
+   353→- 唯一的触发点是 PrivacyPage 内 Web 组件创建；设置页渲染与点击本身不发请求。无"先改 UI、稍后补请求"的中间态：路由切换与 Web 创建同步发生。
+   354→- 本题不新增任何 HTTP 接口调用，不改 `HttpRequestUtil` 与 `api/*`。
+   355→
+   356→---
+   357→
+   358→## 5. UNCONFIRMED_ASSUMPTION 汇总（需你确认）
+   359→
+   360→| 编号 | 关联项 | 问题 | 选项 | 推荐与理由 |
+   361→| --- | --- | --- | --- | --- |
+   362→| U1 | A2 | versionCode 是否随 0.9.3 递增 | a) 102→103；b) 保持 102 | **a**。版本发布惯例；UI 断言观察不到，无副作用；若官方用 `bm dump` 校验，递增更符合"发布版本升级" |
+   363→| U2 | A8 | 版本值从哪里来 | a) 改 `Constants.VERSION` 为 `'0.9.3'`；b) 运行时读 bundleInfo.versionName | **a**。沿用基线写法、改动最小，UI 结果相同；同时改清单（A1）保证"一致" |
+   364→| U3 | A9/A10 | 底部 Text 是否拆成两行独立组件 | a) 保持基线单个 Text（含 `\n`）；b) 拆为“云音汇 @Chenlvin”与“GitHub: CloudMusic-HarmonyOSNext”两个 Text | **a**。Spec 用词是"保留"；CONTAINS 断言两者都通过，EQUALS 整串断言只有 a 通过，EQUALS 单行断言只有 b 通过——参考实现若改了底部，Spec 通常会描述变化 |
+   365→| U4 | B6 | Web 加载哪个 URL | a) 基线原地址 `https://docs.chenlvin.cc/cloudmusic/#/privacy`；b) 本地 rawfile 页面 | **a**。保持隐私政策内容来源不变；官方答疑称不比对 URL/正文；Spec 明确"网络内容"，说明参考实现加载的是网络页面 |
+   366→| U5 | B1/B3 | 用什么导航 | a) `router.pushUrl({ url: 'pages/PrivacyPage' })` + `main_pages.json` 注册；b) Navigation/NavDestination；c) 半模态 | **a**。全工程统一用 router；实测 router 压栈后下层页面节点不在 UI 树，可避免“隐私政策”同名文本歧义；Spec 写的是"导航到新增的 `PrivacyPage`" |
+   367→| U6 | B10 | 快速连点入口是否防重复压栈 | a) 不处理（与基线其它入口一致）；b) `RouterMode.Single` | **b**，代价一个参数，可保证一次返回回到设置；若你倾向最小改动选 a，官方大概率只点一次 |
+   368→| U7 | C3 | 占位色、输入文字色取值 | a) 固定色：placeholder `#FF808080`、文字 `#FF121212`；b) 用主题色 `$r('app.color.reverse')` | **a**。输入框背景是固定浅灰 `#ffdbd9d9`，深色模式下 reverse=白色会看不清；Hypium 观察不到颜色，只影响观感 |
+   369→| U8 | C8 | 纯空格是否按空输入处理 | a) `trim()` 后为空 → Toast；b) 保持基线（只判断空串） | **a**。若官方不测空格，两者无差别；若测空格，只可能期望 Toast（期望"跳到空格关键词结果页并转圈"不可能是检查点）。非空关键词仍按原值传递，不改变 C10 |
+   370→| U9 | C6 | "首页标识"指什么 | a) 顶栏标题“云音汇”；b) 搜索框；c) 未登录提示“登录账号\n以显示你的歌单” | 三者都保持不变即可同时满足，实现上不触碰；自测以 a 为主断言，b、c 作辅助 |
+   371→
+   372→## 6. 覆盖速查
+   373→
+   374→- 基线已满足（回归保护）：A3–A7、A9–A11、B11 的入口部分、C6、C9、C10、X2。
+   375→- 基线失败、必须实现：A1、A8（0.9.2）、B1–B5、B7、B8（外部浏览器）、C1、C2、C5、C7（旧文案）、C3（未设颜色）。
+</file>
+<metadata>The file has 377 lines in total.</metadata>

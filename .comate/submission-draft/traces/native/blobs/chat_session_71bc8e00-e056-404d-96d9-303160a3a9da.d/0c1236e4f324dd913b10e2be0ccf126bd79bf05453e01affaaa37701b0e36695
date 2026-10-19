@@ -1,0 +1,44 @@
+### 验收项
+
+| 编号 | 来源 | 证据等级 | 原子行为 | 可观察结果 | 稳定选择器 |
+| --- | --- | --- | --- | --- | --- |
+| A2-1 | S2-步骤1 | SPEC_EXPLICIT | 在设置页点击"前往查看本软件的隐私政策"能触发跳转 | 点击后设置页节点消失，新页出现 | `BY.text('前往查看本软件的隐私政策')`；需补 `settings_privacy_link` |
+| A2-2 | S2-概述、步骤2 | SPEC_EXPLICIT | 不再通过外部 `viewData` Want 打开 | 点击后 `current_app()[0]=='cc.chenlvin.cloudmusic'`（基线实测会变成 `com.huawei.hmos.browser`）；代码中不再调用 `startAbility(wantInfo)` | 不适用 |
+| A2-3 | S2-概述 | SPEC_EXPLICIT | 导航到新增页面 `PrivacyPage` | `main_pages.json` 注册 `pages/PrivacyPage`，文件 `entry/src/main/ets/pages/PrivacyPage.ets`，`@Entry struct PrivacyPage`；Hypium 不太能直接读页面名，主要靠 A2-4/A2-5 间接判断 | 不适用 |
+| A2-4 | S2-步骤2 | SPEC_EXPLICIT | 新页标题显示"隐私政策" | `BY.text('隐私政策')` 存在，且同时 `BY.type('Web')` 存在（实测 router 压栈后设置页节点不在 UI 树里，不会误命中设置页标签） | 需补 `privacy_title` |
+| A2-5 | S2-步骤2 | SPEC_EXPLICIT | 页面内存在 Web 组件 | `BY.type('Web')` 存在（实测 `WebLogin` 的 Web 无网络时也以 type=`Web` 出现在 UI 树里） | 需补 `privacy_web` |
+| A2-6 | S2-概述 | SPEC_EXPLICIT | 网络内容没加载时也显示标题 | 断网/域名解析不了的情况下 A2-4 依然成立；进页面后马上（≤ 页面切换时间）就能找到标题 | 同 A2-4 |
+| A2-7 | S2-概述 | SPEC_EXPLICIT | 页面有自己的标题栏 | 标题 Text 在 Web 上方（标题 bounds.bottom ≤ Web bounds.top），有返回按钮 | 需补 `privacy_back_btn` |
+| A2-8 | S2-步骤3 | SPEC_EXPLICIT | 执行返回操作后回到"设置" | `press_back()` 后 `BY.text('设置')` 存在、`BY.type('Web')` 不存在、`current_app()[0]` 仍是本应用 | `settings_title` |
+| A2-9 | S2-步骤3 | SPEC_EXPLICIT | 返回后 0.9.3 版本值仍可见 | `BY.text('0.9.3 - 测试版')` 存在 | `settings_version_value` |
+| A2-10 | S2-步骤3 | REASONABLE_DERIVATION | 点标题栏返回按钮也能回到设置 | 同 A2-8（"返回操作"可能是系统返回，也可能是页面返回按钮） | `privacy_back_btn` |
+| A2-11 | S2-步骤2 | REASONABLE_DERIVATION | 前台 Ability 不变 | `current_app()==('cc.chenlvin.cloudmusic','EntryAbility')` | 不适用 |
+| A2-12 | S2-概述 | UNCONFIRMED_ASSUMPTION | Web 加载的地址 | 推荐沿用基线 `https://docs.chenlvin.cc/cloudmusic/#/privacy`（见 U4）；Hypium 观察不到 | 不适用 |
+
+### 八个维度
+
+| 编号 | 入口 | 前置数据 | 用户动作 | UI 结果 | 数据结果 | 网络结果 | 返回结果 | 边界条件 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A2-1 | 首页 → 更多 → 设置 | 无 | 点击说明文字 | 进入新页 | 无 | 点击不发应用层请求 | 见 A2-8 | 只点左侧"隐私政策"标签是否跳转见 U9 |
+| A2-2 | 设置页 | 无 | 同上 | 仍是本应用 | 无 | 不发 Want | 不适用 | 不适用 |
+| A2-3 | 设置页 | 无 | 同上 | 路由到 PrivacyPage | 无 | 不适用 | 栈：首页 → 设置 → 隐私政策 | 不适用 |
+| A2-4 / A2-6 / A2-7 | PrivacyPage | 无网络也要成立 | 无 | 标题栏 + 标题 | 无 | Web 加载中、成功、失败三种情况下标题都在 | 不适用 | 请求失败：标题照样显示，不崩溃 |
+| A2-5 | PrivacyPage | 无 | 无 | 有 Web 节点 | 无 | Web 发起 URL 加载 | 不适用 | 无网络：Web 节点仍存在 |
+| A2-8 / A2-9 | PrivacyPage | 无 | 系统返回 | 回到设置页 | 无 | 返回后不再有加载影响设置页 | 一次返回就回到设置；再返回一次回到首页 | Web 有历史时返回行为见 U10 |
+| A2-10 | PrivacyPage | 无 | 点返回按钮 | 同上 | 无 | 同上 | 同上 | 重复点击返回：第一次回到设置，第二次是设置页上的点击，不应越级 |
+| A2-11 | PrivacyPage | 无 | 无 | 不适用 | 无 | 不适用 | 不适用 | 不适用 |
+
+### 边界补充
+
+| 编号 | 证据等级 | 场景 | 期望 |
+| --- | --- | --- | --- |
+| B2-1 | REASONABLE_DERIVATION | 返回后再次点击说明文字（返回后重进） | 再次进入 PrivacyPage，标题和 Web 都在，再返回仍回到设置 |
+| B2-2 | UNCONFIRMED_ASSUMPTION | 快速连点说明文字 | 推荐只压一个 PrivacyPage，一次返回就回到设置（见 U11）；基线 router 默认模式连点会压两层 |
+| B2-3 | REASONABLE_DERIVATION | 重启应用后 首页 → 设置 → 隐私政策 | 同 A2-1–A2-9，不受上一次运行残留状态影响 |
+| B2-4 | REASONABLE_DERIVATION | 无网络/请求失败 | 标题、Web 节点、返回都正常；不弹自定义错误 Toast |
+| B2-5 | REASONABLE_DERIVATION | 深色模式 | 标题栏颜色沿用 `CommonHead`（`app.color.reverse`），背景 `app.color.main`；Hypium 只能截图判断 |
+| B2-6 | 不适用 | 空输入、纯空格、最后一页、部分操作 | 场景二没有输入框和列表 |
+
+---
+
+<!-- APPEND_S3 -->

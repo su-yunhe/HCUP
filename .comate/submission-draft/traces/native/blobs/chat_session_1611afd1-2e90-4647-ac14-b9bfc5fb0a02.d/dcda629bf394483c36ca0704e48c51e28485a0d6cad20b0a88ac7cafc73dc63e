@@ -1,0 +1,5 @@
+      Text('前往查看本软件的隐私政策').RightText().id('settings_privacy_entry')
+        .onClick(() => {
+          // 应用内打开隐私政策；Single 模式避免连点叠加多个隐私页
+          router.pushUrl({ url: 'pages/PrivacyPage' }, router.RouterMode.Single)
+        })

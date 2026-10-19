@@ -1,0 +1,45 @@
+# cmu-spec114 基线理解结论
+
+标注约定：【Spec】Spec 明文；【代码】读代码得到，附 `文件:行号`；【实测】在模拟器上实际操作得到；【推断】我的推测，未验证。
+
+## 1. 基线快照标识
+
+- `metadata.json` 的 `base_commit`：`ebe2fbceaf5270ef0f5302edc4f77fa5962b0a3f`（已有 tag `base/cmu-spec114` 指向它）。
+- 当前 HEAD：`bb23a626e392618c4f1ab916a3cb8a4b68b2f024`（`bb23a62 chore: 记录 ohpm install 重建的依赖锁文件`，只改 `oh-package-lock.json5`）。
+- 本阶段新打 tag：`baseline-cmu-spec114` → `bb23a62`。后续 diff 基准用这个 tag（或 `base/cmu-spec114`，两者业务代码相同）。
+- 工作区里有一处未提交的改动，不是本阶段造成的：`build-profile.json5` 新增 `"targetSdkVersion": "6.1.0(23)"`（文件修改时间 2026-10-19 13:20，早于本会话）。这属于构建准备改动，提交前要决定保留还是还原（见第 2 节）。
+
+## 2. 构建基线状态
+
+【实测】环境：DevEco-Studio.app 自带工具链，hvigor 6.23.7，SDK HarmonyOS 6.1.0 / API 23（`sdk/default/sdk-pkg.json`）。
+
+```bash
+D=/Applications/DevEco-Studio.app/Contents
+export JAVA_HOME=$D/jbr/Contents/Home
+export PATH=$JAVA_HOME/bin:$D/tools/hvigor/bin:$D/tools/node/bin:$D/tools/ohpm/bin:$D/sdk/default/openharmony/toolchains:$PATH
+export DEVECO_SDK_HOME=$D/sdk
+hvigorw clean --no-daemon
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon > logs/baseline-build.log 2>&1
+```
+
+- 结果：`BUILD SUCCESSFUL`，产物 `entry/build/default/outputs/default/entry-default-unsigned.hap`。
+- 坑：不设 `JAVA_HOME` 时 `PackageHap` 报 `00308018 Unable to locate a Java Runtime`，构建失败；这是本机环境问题，不是基线问题。
+- 产物未签名（`WARN: No signingConfig found for product default`），但 `hdc install -r` 在当前模拟器上安装成功（`logs/baseline-install.log`）。
+- 构建后 `git status` 只有 `build-profile.json5`（构建前就有），没有 `BuildProfile.ets` 噪声。
+- 完整日志：`logs/baseline-build.log`（clean 后全量编译）。
+
+已有告警清单（作为对比基准）：
+
+- ArkTS 告警共 588 条，其中 552 条在 `oh_modules/@pura/harmony-utils` 等三方库内，36 条在 `entry/src`。
+- 资源告警：`'page_show' conflict`（`@pura/spinkit` 与 `@abner/refresh` 的 string.json 重名）。
+- 签名告警：`No signingConfig found for product default`。
+- `entry/src` 中与本题相关文件的告警（改这些文件时注意别新增）：
+  - `SearchComponent.ets:26:20` `'pushUrl' has been deprecated`；`SearchComponent.ets:30:33` `'showToast' has been deprecated`
+  - `Settings.ets:33:21` `'px2vp' has been deprecated`
+  - `SettingsHead.ets:13:24` `'showToast' has been deprecated`
+  - `IndexHead.ets:37:18`、`IndexHead.ets:42:18` `'pushUrl' has been deprecated`
+  - `BackButton.ets:13:16` `'back' has been deprecated`；`CommonHead.ets:15:21` `'px2vp' has been deprecated`
+  - `WebLogin.ets:42:24` `'vp2px' has been deprecated`
+- 推断：新增 `PrivacyPage` 如果沿用 `router.pushUrl` / `px2vp`，会按调用点数量新增同类 deprecated 告警。这类告警和基线写法一致，判断"是否新增告警"时要说明是沿用基线 API 产生的。
+
+`build-profile.json5` 的 `targetSdkVersion`：本次构建在有这行的状态下完成；没有验证去掉后能不能构建、能不能装到 API 23 模拟器。官方答疑只对另一道题说过"不降低 SDK 版本"。建议开发阶段先

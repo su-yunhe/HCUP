@@ -1,0 +1,12 @@
+### A8 版本值“0.9.3 - 测试版”
+- 来源：S1 步骤 3｜证据：`SPEC_EXPLICIT`；取值来源（常量或运行时读 bundleInfo）为 `UNCONFIRMED_ASSUMPTION`（U2）
+- 原子行为：“当前版本”行右侧显示完整字符串“0.9.3 - 测试版”，与清单 versionName 一致。
+- 可观察结果：`BY.text("0.9.3 - 测试版")`（EQUALS）存在且唯一；`BY.text("0.9.2", CONTAINS)` 不存在。
+- 八维：入口=A3；前置=A1 已生效；动作=无；UI=值文本可见；数据=显示值 == 清单 versionName + " - 测试版"；网络=不适用；返回=从隐私页返回后仍可见（B7）；边界=重启应用后重进仍为 0.9.3；不得出现前后空格或换行（EQUALS 断言会失败）。
+- 选择器：`BY.text("0.9.3 - 测试版")`；需在实现时补 `.id()`（自测用）。
+
+### A9 底部显示“云音汇 @Chenlvin”
+- 来源：S1 步骤 4、概述"页面底部保留云音汇项目信息"｜证据：`SPEC_EXPLICIT`；是否拆分为独立 Text 为 `UNCONFIRMED_ASSUMPTION`（U3）
+- 原子行为：设置页底部显示“云音汇 @Chenlvin”。
+- 可观察结果：`BY.text("云音汇 @Chenlvin", MatchPattern.CONTAINS)` 存在（基线实测 True）；`BY.text("云音汇 @Chenlvin")` EQUALS 在基线为 False（与 GitHub 行同处一个带 `\n` 的 Text）。
+- 八维：入口=A3；前置=无；动作=无；UI=底部可见、无

@@ -1,0 +1,2 @@
+- 来源：S1 步骤 3｜证据：`SPEC_EXPLICIT`；取值来源（常量或运行时读 bundleInfo）为 `UNCONFIRMED_ASSUMPTION`（U2）｜决策：已确认，改 `Constants.VERSION` 为 `'0.9.3'`，不改为运行时读取
+- 原子行为：“当前版本”行右侧显示完整字符串“0.9.3 - 测试版”，与清单 versionName 一致；`Settings.ets:45` 的拼接逻辑不动。

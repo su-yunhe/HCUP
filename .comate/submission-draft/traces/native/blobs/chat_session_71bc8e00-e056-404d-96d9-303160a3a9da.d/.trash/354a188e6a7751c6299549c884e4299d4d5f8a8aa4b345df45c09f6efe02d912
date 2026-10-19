@@ -1,0 +1,17 @@
+"""基线走查（临时脚本，跑完删除）。只读操作 UI，不改工程。"""
+import json, subprocess, sys, time
+from hypium import BY, UiDriver
+
+SN = "127.0.0.1:5555"
+BUNDLE = "cc.chenlvin.cloudmusic"
+OUT = "/tmp/cmu114_walk"
+subprocess.run(["mkdir", "-p", OUT])
+d = UiDriver.connect(device_sn=SN)
+
+
+def hdc(cmd):
+    return subprocess.run(["hdc", "-t", SN, "shell", cmd], capture_output=True, text=True).stdout
+
+
+def dump(tag):
+    

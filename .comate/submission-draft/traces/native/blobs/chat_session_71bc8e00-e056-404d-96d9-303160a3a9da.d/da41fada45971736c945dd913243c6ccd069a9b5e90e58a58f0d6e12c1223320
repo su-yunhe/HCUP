@@ -1,0 +1,1 @@
+- **路由**：`router.pushUrl({ url: 'pages/PrivacyPage' }, router.RouterMode.Single)` + 在 `main_pages.json` 追加 `"pages/PrivacyPage"`，与 `IndexHead.ets:37` 写法一致（`RouterMode.Single` 按 acceptance U6 决策只加在隐私页入口）；返回用既有 `BackButton`（`router.back()`）与系统返回。

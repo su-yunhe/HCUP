@@ -1,0 +1,60 @@
+"""场景三：搜索框和空内容提交使用同一文案（C1–C10）。"""
+from __future__ import annotations
+
+from hypium import BY, MatchPattern
+
+from hypium_tests._common import OLD_SEARCH_HINT, SEARCH_HINT, CloudMusicCase
+
+
+class TestSearchHint(CloudMusicCase):
+
+    def empty_search_toast(self) -> str:
+        self.driver.start_listen_toast()
+        self.driver.click(self.search_button())
+        return self.driver.get_latest_toast(timeout=3)
+
+    def test_c1_c2_hint_on_cold_start(self):
+        self.assert_home_hint("冷启动首页")
+        self.assertIsNone(self.driver.find_component(BY.hint(OLD_SEARCH_HINT)), "仍存在旧占位文案“请输入搜索词”")
+        self.assertEqual(self.count(BY.type("TextInput")), 1, "首页应只有一个搜索框")
+
+    def test_c5_c6_c7_empty_search_toast(self):
+        hint = self.search_input().getHint()
+        toast = self.empty_search_toast()
+        self.assertEqual(toast, SEARCH_HINT, f"空搜索 Toast 应为“{SEARCH_HINT}”")
+        self.assertNotEqual(toast, OLD_SEARCH_HINT)
+        self.assertEqual(toast, hint, "Toast 与占位文字不一致")
+        self.driver.wait(1)
+        self.assert_stay_home("空输入点击搜索后")
+
+    def test_c8_spaces_only(self):
+        self.driver.input_text(self.search_input(), "   ")
+        self.driver.wait(0.5)
+        self.assertEqual(self.empty_search_toast(), SEARCH_HINT, "纯空格应按空输入提示")
+        self.driver.wait(1)
+        self.assert_stay_home("纯空格点击搜索后")
+
+    def test_c9_fast_double_click(self):
+        btn = self.search_button()
+        center = btn.getBoundsCenter()
+        self.driver.start_listen_toast()
+        self.driver.click((center.x, center.y))
+        self.driver.click((center.x, center.y))
+        self.assertEqual(self.driver.get_latest_toast(timeout=3), SEARCH_HINT)
+        self.driver.wait(1)
+        self.assert_stay_home("快速连点空搜索后")
+
+    def test_input_then_clear(self):
+        comp = self.search_input()
+        self.driver.input_text(comp, "abc")
+        self.driver.wait(0.5)
+        self.search_input().clearText()
+        self.driver.wait(0.5)
+        self.assertEqual(self.search_input().getText(), "", "清空后输入框仍有内容")
+        self.assertEqual(self.empty_search_toast(), SEARCH_HINT, "输入后删空应按空输入提示")
+        self.driver.wait(1)
+        self.assert_stay_home("输入后删空再搜索")
+
+    def test_c4_hint_after_back_from_settings(self):
+        self.open_settings()
+        self.driver.press_b

@@ -1,0 +1,20 @@
+"""基线走查第五轮（临时脚本）：hint 选择器、文本唯一性、两种返回路径、快速连点、重启后重进。"""
+from hypium import BY, UiDriver, MatchPattern
+
+SN = "127.0.0.1:5555"
+BUNDLE = "cc.chenlvin.cloudmusic"
+d = UiDriver.connect(device_sn=SN)
+
+
+def cnt(by):
+    return len(d.find_all_components(by) or [])
+
+
+def top_buttons():
+    # 首页顶栏：左=菜单(半模态)，右=更多；搜索按钮在第二行
+    bs = d.find_all_components(BY.type("Button")) or []
+    return sorted(bs, key=lambda b: (b.getBounds().top, b.getBounds().left))
+
+
+def open_settings():
+    bs = top_buttons()

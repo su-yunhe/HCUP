@@ -1,0 +1,233 @@
+# cmu-spec114 基线记录
+
+本文件只记录分析阶段观察到的基线事实和明确标注的推断。本阶段没有修改业务代码；输出文档为 `spec/acceptance.md` 和本文件。标注含义如下：
+
+- 【Spec】来自 `spec/requirement.md` 的明文。
+- 【代码】读取当前工程源码得到，均带文件和行号。
+- 【实测】在当前模拟器上构建、安装或走查得到，证据在 `logs/`。
+- 【推断】依据 Spec 和基线行为提出的建议，未被 Spec 或运行结果直接确认。
+
+## 1. 基线快照标识
+
+- `spec/metadata.json:2` 指定题目基线提交为 `ebe2fbceaf5270ef0f5302edc4f77fa5962b0a3f`，基线包记录在 `spec/metadata.json:3`。
+- 当前分析时的 HEAD 为 `bb23a626e392618c4f1ab916a3cb8a4b68b2f024`，提交为 `chore: 记录 ohpm install 重建的依赖锁文件`。该提交只改动依赖锁文件；业务源码仍来自题目基线。
+- 已有标签 `baseline-cmu-spec114` 指向当前 HEAD `bb23a626e392618c4f1ab916a3cb8a4b68b2f024`。后续实现前应保留这个标签作为本轮分析的对照点。
+- 分析开始时工作区已有未提交改动：`build-profile.json5` 增加了 `targetSdkVersion: "6.1.0(23)"`（当前文件第 15 行）。这是分析前的工作区状态，不是本阶段为实现需求所做的修改。
+- 分析过程中生成或保留的 `logs/`、`spec/` 文档属于分析材料；业务源码未改。
+
+## 2. 构建、安装和启动实测
+
+### 构建命令和结果
+
+【实测】DevEco 工具链可用：
+
+- DevEco 内容目录：`/Applications/DevEco-Studio.app/Contents`
+- hvigor、Node、ohpm 和 SDK 均从上述目录加入 PATH。
+- 本机 SDK 为 HarmonyOS 6.1.0 / API 23；工程配置见 `build-profile.json5:6-15`。
+
+本次执行的命令：
+
+```bash
+export DEVECOSRC=/Applications/DevEco-Studio.app/Contents
+export JAVA_HOME="$DEVECOSRC/jbr/Contents/Home"
+export PATH="$JAVA_HOME/bin:$DEVECOSRC/tools/hvigor/bin:$DEVECOSRC/tools/node/bin:$DEVECOSRC/tools/ohpm/bin:$DEVECOSRC/sdk/default/openharmony/toolchains:$PATH"
+export DEVECO_SDK_HOME="$DEVECOSRC/sdk"
+hvigorw clean --no-daemon
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon
+```
+
+【实测】构建成功，结果为 `BUILD SUCCESSFUL`，产物为：
+
+```text
+entry/build/default/outputs/default/entry-default-unsigned.hap
+```
+
+完整构建日志在 `logs/baseline-build.log`；本次重跑的终端结果同样为退出码 0。无 `JAVA_HOME` 时 hvigor 会报 `00308018 Unable to locate a Java Runtime`，这是本机环境问题，不是工程源码错误。
+
+### 基线已有告警
+
+【实测】本次构建输出共 588 条 `ArkTS:WARN File` 诊断，其中 36 条来自 `entry/src`，其余 552 条来自 `oh_modules` 第三方依赖。后续实现应以这个数量和位置作为比较基线，不要把既有依赖告警误算为本题新增问题。
+
+与本题直接相关的源码告警包括：
+
+- `entry/src/main/ets/components/main/SearchComponent.ets:26`：`pushUrl` deprecated。
+- `SearchComponent.ets:30`：`showToast` deprecated。
+- `entry/src/main/ets/pages/Settings.ets:33`：`px2vp` deprecated。
+- `entry/src/main/ets/components/head/SettingsHead.ets:13`：`showToast` deprecated。
+- `entry/src/main/ets/components/head/IndexHead.ets:37,42`：`pushUrl` deprecated。
+- `entry/src/main/ets/components/buttons/BackButton.ets:13`：`back` deprecated。
+- `entry/src/main/ets/components/head/CommonHead.ets:15`：`px2vp` deprecated。
+- `entry/src/main/ets/pages/login/WebLogin.ets:42`：`vp2px` deprecated。
+
+其它既有告警：
+
+- 资源字符串冲突：`page_show`、`footer_*`、`header_*` 等来自 `@pura/spinkit`、`@abner/refresh` 及构建中间资源的重复声明；构建日志见 `logs/baseline-build.log:22-286`。
+- 未配置签名：`No signingConfig found for product default`。构建仍生成 unsigned HAP，日志末尾记录了该告警。
+- 第三方 `@pura/harmony-utils` 等依赖有大量 ArkTS 类型和 deprecated API 告警。
+
+新增 `PrivacyPage` 时若继续采用基线的 `router.pushUrl`、`router.back`、`px2vp` 等写法，可能出现同类新增告警。这是告警对比项，不应在分析阶段自动修复。
+
+### 安装和启动
+
+【实测】执行：
+
+```bash
+hdc -t 127.0.0.1:5555 install -r \
+  entry/build/default/outputs/default/entry-default-unsigned.hap
+```
+
+安装成功，设备为 `127.0.0.1:5555`，架构和系统信息以设备实际连接为准；安装记录见 `logs/baseline-install.log:1-3`。
+
+应用包名和入口 Ability 的代码依据：
+
+- `AppScope/app.json5:3`：`bundleName` 为 `cc.chenlvin.cloudmusic`。
+- `entry/src/main/module.json5:6,15-18`：模块入口为 `EntryAbility`。
+- `entry/src/main/ets/entryability/EntryAbility.ets:24-26`：窗口加载 `pages/Index`。
+
+已有 Hypium 走查日志使用同一设备并确认：
+
+- `current_app()` 为 `('cc.chenlvin.cloudmusic', 'EntryAbility')`。
+- 设备屏幕为 1308×2880；Hypium 版本为 6.1.0.210。
+- 走查脚本和截图在 `logs/baseline-walk/`。系统 Python 直接执行脚本缺少 `hypium`，改用 `common/.venv/bin/python` 才是本工程可复现的走查环境。
+
+## 3. Spec 入口当前在哪
+
+### 首页、更多菜单和设置页
+
+- 首页入口由 `EntryAbility.ets:25-26` 加载 `pages/Index`；页面注册见 `entry/src/main/resources/base/profile/main_pages.json:3-4`。
+- 首页标题“云音汇”由 `entry/src/main/ets/components/head/IndexHead.ets:21` 渲染。
+- 右上角更多按钮在 `IndexHead.ets:22-23`，绑定 `MoreMenu()`。
+- 更多菜单的“设置”项在 `IndexHead.ets:34-38`，当前调用 `router.pushUrl({ url:'pages/Settings' })`。
+- 设置页由 `entry/src/main/ets/pages/Settings.ets:12-37` 渲染，路由注册为 `pages/Settings`。
+- 设置页标题由 `entry/src/main/ets/components/head/SettingsHead.ets:8-14` 渲染，返回按钮复用 `BackButton`；`BackButton.ets:11-14` 调用 `router.back()`。
+- “当前版本”行在 `Settings.ets:40-48`；显示值为 `Constants.VERSION + Constants.VER_DESC`。
+- “问题反馈”行在 `Settings.ets:50-63`；点击复制邮箱并显示 Toast。
+- “隐私政策”说明行在 `Settings.ets:65-76`；当前只有右侧说明文字绑定点击。
+- 底部项目来源信息在 `Settings.ets:78-88`，是一个包含换行的 Text：`云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext`。
+
+### 隐私政策入口
+
+- 当前 Want 在 `Settings.ets:6-10` 定义，使用 `ohos.want.action.viewData`、`entity.system.browsable` 和 `https://docs.chenlvin.cc/cloudmusic/#/privacy`。
+- 点击处理在 `Settings.ets:70-73` 调用 `AppUtil.getContext().startAbility(wantInfo)`，因此会交给外部应用。
+- `main_pages.json:2-10` 当前只注册 7 个页面，没有 `pages/PrivacyPage`；工程中也没有 `entry/src/main/ets/pages/PrivacyPage.ets`。
+- 现有应用内 Web 页可复用：`entry/src/main/ets/pages/login/WebLogin.ets:1-3,8-30` 使用 `webview.WebviewController`、`CommonHead` 和 `Web`，控制器挂载后调用 `loadUrl`。
+- 通用标题栏在 `entry/src/main/ets/components/head/CommonHead.ets:3-19`，包含返回按钮、标题和状态栏避让。
+
+### 首页搜索
+
+- 搜索组件挂载位置为 `entry/src/main/ets/pages/Index.ets:24-27`，实现位于 `entry/src/main/ets/components/main/SearchComponent.ets`。
+- 输入状态为组件内 `@State searchKeyword`，见 `SearchComponent.ets:3-5`。
+- 当前占位文案是 `请输入搜索词`，见 `SearchComponent.ets:10-15`。
+- 搜索按钮和点击处理见 `SearchComponent.ets:17-31`：真值判断通过后进入 `pages/SongsListPage`，否则显示旧 Toast `请输入搜索词`。
+- 结果页注册为 `pages/SongsListPage`，实现见 `entry/src/main/ets/pages/SongsListPage.ets:11-63`；进入后在 `onPageShow` 中加载数据。
+
+## 4. 基线实际走查
+
+走查证据：`logs/baseline-walk/walk.log`；脚本为 `logs/baseline-walk/cmu114_walk.py`，设备为 `127.0.0.1:5555`。以下是基线行为，不是目标实现结果。
+
+### 首页和空搜索
+
+- `walk.log:46-55`：冷启动首页有“云音汇”、TextInput、搜索按钮和登录提示。
+- `walk.log:52`：TextInput hint 为 `请输入搜索词`。
+- `walk.log:89-99`：空输入点击搜索得到 Toast `请输入搜索词`。
+- `walk.log:102-113`：Toast 节点可在 UI 树中观察，首页“云音汇”仍存在，说明空字符串不会进入结果页。
+- 纯空格走查在 `walk.log:150-157`、`194-203`：没有 Toast，页面进入搜索结果页；返回后输入框仍保留三个空格。根因是 `SearchComponent.ets:25` 只做字符串真值判断，空格字符串为真。
+
+### 设置页
+
+- `walk.log:277-292`：更多菜单可见“设置”和“下载管理”。
+- `walk.log:329-341`：设置页可见标题“设置”、“当前版本”、“隐私政策”、“前往查看本软件的隐私政策”、“问题反馈”、邮箱/GitHub issue，以及底部 `云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext`。
+- `walk.log:335-336`：当前版本为 `0.9.2 - 测试版`。
+- `walk.log:341`：底部信息是一个带换行的单一 Text。`BY.text('云音汇 @Chenlvin')` 的 EQUALS 匹配失败，CONTAINS 匹配成功，见 `walk.log:566-574`。
+
+### 隐私政策
+
+- `walk.log:581-584`：点击说明文字后等待 3 秒。
+- `walk.log:585-590`：前台变为 `('com.huawei.hmos.browser', 'MainAbility')`，当前应用 UI 树没有 Web 节点。
+- `walk.log:591-604`：连续两次系统返回仍留在浏览器，无法回到云音汇设置页。
+- 对照走查显示现有 `WebLogin` 在无网络时仍能以 type=`Web` 出现在应用 UI 树，说明 Web 组件本身可被 Hypium 观察；相关截图为 `logs/baseline-walk/23_weblogin.jpeg`。
+
+## 5. 相关现状
+
+### 组件和路由
+
+- 页面采用 `@Entry @Component`，由 `main_pages.json` 统一注册；当前共 7 个页面，没有 PrivacyPage。
+- 路由统一使用 `@kit.ArkUI` 的 `router`：更多菜单用 `pushUrl`，登录页使用 `replaceUrl`，返回按钮使用 `back`。现有调用点见 `IndexHead.ets:3,37,42`、`BackButton.ets:2,13` 和 `entry/src/main/ets/pages/LoginPage.ets`。
+- 标题栏优先复用 `CommonHead`；设置页有专用 `SettingsHead`。现有 Web 登录页已证明“标题栏 + Web”组合可工作。
+
+### 状态模型
+
+- 窗口安全区域由 `EntryAbility.ets:42-62` 写入 `AppStorage` 的 `topRectHeight` 和 `bottomRectHeight`。
+- 搜索词是 `SearchComponent.ets:5` 的组件内 `@State`，没有持久化。
+- 登录状态通过 `getLoginInfo.ets:20-23` 写入 `AppStorage`，页面使用 `@StorageProp`，例如 `MeSheet.ets:7-9`。
+- 搜索结果页的 `hasLoaded`、`isLoading`、`list` 是 `SongsListPage.ets:17-20` 的页面状态；请求完成成功时在 `SongsListPage.ets:28-35` 结束 loading 并写入列表，异常分支目前只打印错误。
+
+### 数据模型和网络
+
+- 歌曲数据模型为 `Song`，搜索 API 在 `entry/src/main/ets/api/getSongsList.ets:1-21`。
+- 搜索 URL 是 `${Constants.ROOT_URL}/search?keywords=${encodeURIComponent(searchKeyword)}`，见 `getSongsList.ets:5-8`。
+- 网络统一封装在 `entry/src/main/ets/common/utils/HttpRequestUtil.ets:4-46`：默认 GET、携带 cookie、使用缓存，连接和读取超时均为 60 秒。
+- 服务地址写死在 `Constants.ets:7-10`：`ROOT_URL` 为 `http://111.229.38.178:3000`，另有 EAPI、音乐站和 API 地址。
+- 首页 `Index.ets` 的启动/显示请求和本题三个静态入口无直接验收关系；实现 PrivacyPage 时不应另建应用层 HTTP 通路。
+
+### 本地存储
+
+- `PreferencesUtils` 在 `entry/src/main/ets/common/utils/PreferencesUtils.ets:7-71` 封装 preferences 的加载、读写、删除和 flush。
+- `EntryAbility.ets:15-17` 初始化 `UserPreference`。
+- 登录信息由 `getLoginInfo.ets:8-23` 读取 `cookie`、`signTime`、`user` 并写入 AppStorage。
+- 本题三个场景不依赖登录状态或持久化业务数据；搜索框输入也未写入 preferences。
+
+### 权限和资源
+
+- `entry/src/main/module.json5:37-42` 已声明 `ohos.permission.INTERNET`，Web 加载无需为当前基线另加网络权限。
+- 主题颜色位于 `entry/src/main/resources/base/element/color.json` 和 `dark/element/color.json`；搜索框当前只在 `SearchComponent.ets:12` 写死背景色 `#ffdbd9d9`，没有显式 placeholder 色和输入文字色。
+
+## 6. 可复用实现和推荐复用点
+
+1. **页面入口和返回**：沿用 `@ohos.router` 的 `pushUrl` / `back` 体系。隐私页从设置页压栈，返回天然可以回到设置页；调用风格可参考 `IndexHead.ets:35-38` 和 `BackButton.ets:11-14`。
+2. **应用内 Web**：以 `WebLogin.ets:15-30` 为模板，使用 `CommonHead({ title: '隐私政策' })` 和 `Web`，在 `onControllerAttached` 中调用 `loadUrl`。标题栏不依赖网络回调。
+3. **标题栏和安全区域**：复用 `CommonHead.ets:10-18`，避免为 PrivacyPage 重新实现状态栏避让。
+4. **版本显示**：设置页已从 `Constants.VERSION` 读取，目标版本显示改动点集中在 `Constants.ets:1-3`；应用清单需要单独更新 `AppScope/app.json5:3-6`。
+5. **搜索组件**：保留现有 `@State` 和结果页路由参数，收敛空值判断和文案；搜索请求继续走 `getSongsList` → `HttpRequest`，不要另起一套数据源。
+6. **选择器**：当前工程 grep 结果没有业务 `.id()`；应在不改变层级的前提下补齐 `spec/acceptance.md` 的稳定 id，尤其是无文字的更多/搜索按钮和新增 Web 页。
+
+## 7. Spec 要求但基线缺失的能力
+
+【Spec + 代码】缺失项如下：
+
+1. 版本需要从 `0.9.2` 升为页面显示“0.9.3 - 测试版”，且清单 `versionName` 为 `0.9.3`；当前 `Constants.ets:2` 和 `AppScope/app.json5:6` 都是 `0.9.2`。
+2. 隐私政策必须在应用内 `PrivacyPage` 打开；当前 `Settings.ets:6-10,70-73` 使用外部 `viewData` Want，页面和路由均不存在。
+3. `main_pages.json` 需要注册 `pages/PrivacyPage`；当前 `main_pages.json:3-9` 没有该项。
+4. PrivacyPage 必须有标题“隐私政策”、Web 容器和返回链路；当前没有页面实现。
+5. 搜索框占位文案和空提交 Toast 需要统一为“请输入搜索内容”；当前 `SearchComponent.ets:12,30` 都是“请输入搜索词”。
+6. 搜索框需要显式设置占位色和输入文字颜色；当前 `SearchComponent.ets:12` 只有背景色。
+7. 空搜索不能进入结果页；空字符串基线已满足停留首页，但纯空格会进入结果页，需按 U4 决策处理。
+8. 关键组件没有稳定 id；当前设置页、菜单、搜索框、搜索按钮和 Web 组件都需要补 id 以降低 Hypium 定位歧义。
+
+## 8. 前置环境需求
+
+- 登录账号：不需要。三个 Spec 场景都可以从未登录首页进入；基线首页的“登录账号\n以显示你的歌单”不阻碍更多菜单和搜索框。
+- 服务端：场景一和二的主要验收不需要应用 API 服务。场景二的 Web URL 是否能加载不影响标题、Web 节点和返回分支，但需要设备具有可运行 Web 组件的环境。
+- 隐私政策正文：官方技术答疑页面 `http://swe-openharmony.tech/#r-scoring` 的具体赛题答疑说明没有统一指定隐私政策正文或公开链接；不应为了本题新增服务配置页或硬编码个人服务地址。
+- 搜索服务：空输入 F-point 不需要服务；非空搜索属于基线已有流程，若要验证成功列表、无数据和请求失败，需要兼容 `Constants.ROOT_URL` 的服务或受控测试服务。
+- WebDAV：不需要。三个场景没有 WebDAV 配置或同步操作。
+- 本地已满足：模拟器可安装 unsigned HAP，能启动应用并完成首页、菜单、设置页和空搜索走查；隐私正文在当前环境未成功加载，但这正好覆盖“网络内容暂未加载仍需显示标题”的失败分支。
+
+## 9. 测试可观测性风险
+
+1. **无文字按钮难定位**：首页更多按钮和搜索按钮只有 Image，基线 UI 树中按 Button 和 bounds 区分。应补 `index_more_btn`、`search_btn`，不要依赖“第几个 Button”。
+2. **菜单有同名节点**：更多菜单中 `MenuItem` 和其内部 Text 都是“设置”，见 `walk.log:287-292`。应优先给 MenuItem 补 id，或同时约束 type 和 bounds。
+3. **设置标题与菜单项同名**：`BY.text('设置')` 在不同页面/弹层含义不同。进入设置后再断言标题，点击菜单前优先使用 id。
+4. **底部来源信息带换行**：基线完整 Text 是 `云音汇 @Chenlvin\nGitHub: CloudMusic-HarmonyOSNext`，EQUALS 无法命中单独第一行，见 `walk.log:566-574`。应使用 `CONTAINS` 或 id。
+5. **隐私政策同名文本**：设置页标签和 PrivacyPage 标题都叫“隐私政策”。必须配合当前前台应用和 `BY.type('Web')` 判断，不能只检查文本。
+6. **Web 组件可观测性**：现有 `WebLogin` 的 Web 节点在无网络时也能被观察到；PrivacyPage 应保持同样的组件类型，不能用普通 Text 假装 Web。
+7. **颜色低可观测**：`uitest dumpLayout` 主要返回 text、hint、bounds 和 type，颜色可能需要属性检查或截图；具体颜色值未由 Spec 指定。
+8. **Toast 短暂且同文案**：占位 hint 与 Toast 目标字符串相同，必须使用 hint 选择器区分输入框，并在点击前启动 Toast 监听。
+9. **外部浏览器会造成用例串联失败**：基线隐私点击后前台变为浏览器，后续用例若不重新启动应用会失去目标包。目标实现必须验证 `current_app()` 不变。
+10. **当前没有分页、历史或 WebDAV 状态**：最后一页、历史记录、WebDAV 等检查点在本题中不适用，不能凭空增加业务要求；搜索的无数据/失败只对非空关键词分支适用。
+
+## 10. 分析结论的证据边界
+
+- 已实测：构建、安装、冷启动、更多菜单、设置页静态内容、空输入 Toast、纯空格进入结果页、外部浏览器隐私跳转。
+- 已由源码确认但未在基线中实现：PrivacyPage 不存在、路由未注册、应用内 Web 隐私页不存在、版本仍为 0.9.2、搜索颜色未显式设置、业务组件无稳定 id。
+- 未确认：隐藏测试具体使用的选择器、精确颜色值、隐私政策 URL、快速连点去重策略、非空搜索失败和无数据时的产品文案、Web 历史记录与系统返回的优先级。这些都在 `spec/acceptance.md` 的 `UNCONFIRMED_ASSUMPTION` 和 U1-U8 中单独列出。

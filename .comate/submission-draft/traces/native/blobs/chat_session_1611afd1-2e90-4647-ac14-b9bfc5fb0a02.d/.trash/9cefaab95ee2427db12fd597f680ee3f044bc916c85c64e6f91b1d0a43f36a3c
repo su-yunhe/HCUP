@@ -1,0 +1,31 @@
+import { CommonHead } from '../components/head/CommonHead';
+import { webview } from '@kit.ArkWeb';
+
+const PRIVACY_URL: string = 'https://docs.chenlvin.cc/cloudmusic/#/privacy'
+
+/**
+ * 隐私政策（应用内 Web 页面）
+ * 标题栏不依赖网页加载状态；返回直接退出本页，不交给网页历史
+ */
+@Entry
+@Component
+struct PrivacyPage {
+  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0;
+  controller: webview.WebviewController = new webview.WebviewController()
+
+  build() {
+    Stack() {
+      Column() {
+        CommonHead({ title: '隐私政策' })
+        Web({ src: PRIVACY_URL, controller: this.controller })
+          .id('privacy_web')
+          .width('100%')
+          .layoutWeight(1)
+      }
+      .height('100%')
+      .width('100%')
+    }
+    .height('100%')
+    .width('100%')
+    .backgroundColor($r('app.color.main'))
+    .padding({ bottom: px2vp(this.bottomRectHeigh

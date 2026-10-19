@@ -1,0 +1,11 @@
+---
+name: Harmony Cup online deadline and workflow
+description: 鸿蒙杯 2026 线上赛截止时间与四阶段任务书流程（cmu-spec114 所在工作区）
+type: project
+---
+
+用户在参加 2026 AI辅助研发创新大赛（鸿蒙杯），线上提交截止 2026-10-21 00:00（北京时间，即 10-20 24:00）。每道题按 `common/spec-harness/` 的四阶段任务书执行：0-analyze → 1-do → 2-submit → 3-package。
+
+**Why:** 评分按隐藏 Hypium F-point，未提交/构建失败计 0；过程记录（AI 日志、改动差异）是核验材料，违规（看上游实现、看题包、看别的题目录）即废题。
+
+**How to apply:** 阶段 0 不改业务代码；歧义列假设交用户决定，不去上游找答案；临时产物放 `logs/`，Hypium 在 `logs/` 下运行；临近截止时优先保证可构建、可提交。

@@ -1,0 +1,124 @@
+<file>
+     1→"""环境校验：对照 docs/development.md 中"正式评测与自测模拟器配置"一节，
+     2→检查当前连接设备的系统版本、屏幕参数是否与官方评测环境一致。
+     3→
+     4→校验结果仅用于提示偏差，不阻塞测试执行——
+     5→文档原文强调"本地自测通过不代表正式测试通过"，环境校验的作用是降低偏差，不是替代正式评测。
+     6→"""
+     7→from __future__ import annotations
+     8→
+     9→import argparse
+    10→import re
+    11→from dataclasses import dataclass
+    12→
+    13→from . import device
+    14→
+    15→# 官方评测环境规格，来源：docs/development.md 第93-103行"正式评测与自测模拟器配置"
+    16→OFFICIAL_SPEC = {
+    17→    "model": "Pura 90 Pro Max",
+    18→    "config": "PHEMU-FD00",
+    19→    "os_version": "6.1.0",
+    20→    "api_version": "23",
+    21→    "image_version": "6.1.0.115",
+    22→    "resolution": (1308, 2880),
+    23→    "dpi": 560,
+    24→}
+    25→
+    26→
+    27→@dataclass
+    28→class EnvCheckResult:
+    29→    device_sn: str
+    30→    software_version: str | None
+    31→    resolution: tuple[int, int] | None
+    32→    warnings: list[str]
+    33→
+    34→    @property
+    35→    def matches_official(self) -> bool:
+    36→        return not self.warnings
+    37→
+    38→
+    39→def _get_software_version(device_sn: str) -> str | None:
+    40→    try:
+    41→        out = device.shell(
+    42→            device_sn, "param", "get", "const.product.software.version"
+    43→        )
+    44→    except Exception:
+    45→        return None
+    46→    return out.strip() or None
+    47→
+    48→
+    49→def _get_resolution(device_sn: str) -> tuple[int, int] | None:
+    50→    """从 hidumper 的窗口信息里解析屏幕分辨率（取 SCBDesktop/桌面窗口的 w/h）。"""
+    51→    try:
+    52→        out = device.shell(
+    53→            device_sn, "hidumper", "-s", "WindowManagerService", "-a", "-a"
+    54→        )
+    55→    except Exception:
+    56→        return None
+    57→    # 形如: "...[ 0    0    1308 2880 ] [ ... ]"，取第一条分辨率合理的记录
+    58→    for match in re.finditer(r"\[\s*\d+\s+\d+\s+(\d+)\s+(\d+)\s*\]", out):
+    59→        w, h = int(match.group(1)), int(match.group(2))
+    60→        if w > 0 and h > 0:
+    61→            return (w, h)
+    62→    return None
+    63→
+    64→
+    65→def check(device_sn: str) -> EnvCheckResult:
+    66→    warnings: list[str] = []
+    67→
+    68→    software_version = _get_software_version(device_sn)
+    69→    if software_version is None:
+    70→        warnings.append("无法读取设备系统版本（const.product.software.version）。")
+    71→    elif OFFICIAL_SPEC["image_version"] not in software_version:
+    72→        warnings.append(
+    73→            f"系统镜像版本为 {software_version!r}，"
+    74→            f"官方评测使用 {OFFICIAL_SPEC['image_version']}（API {OFFICIAL_SPEC['api_version']}）。"
+    75→        )
+    76→
+    77→    resolution = _get_resolution(device_sn)
+    78→    if resolution is None:
+    79→        warnings.append("无法读取设备屏幕分辨率。")
+    80→    elif resolution != OFFICIAL_SPEC["resolution"]:
+    81→        warnings.append(
+    82→            f"屏幕分辨率为 {resolution}，官方评测使用 "
+    83→            f"{OFFICIAL_SPEC['resolution']}（{OFFICIAL_SPEC['model']} / "
+    84→            f"{OFFICIAL_SPEC['config']}）。请在 DevEco Studio Device Manager 中确认模拟器机型。"
+    85→        )
+    86→
+    87→    return EnvCheckResult(
+    88→        device_sn=device_sn,
+    89→        software_version=software_version,
+    90→        resolution=resolution,
+    91→        warnings=warnings,
+    92→    )
+    93→
+    94→
+    95→def _main() -> None:
+    96→    parser = argparse.ArgumentParser(description=__doc__)
+    97→    parser.add_argument("--device", default=None, help="设备序列号，省略则要求唯一在线设备")
+    98→    args = parser.parse_args()
+    99→
+   100→    device_sn = device.select_device(args.device)
+   101→    result = check(device_sn)
+   102→
+   103→    print(f"设备: {result.device_sn}")
+   104→    print(f"系统版本: {result.software_version}")
+   105→    print(f"屏幕分辨率: {result.resolution}")
+   106→    print(
+   107→        f"官方评测环境: {OFFICIAL_SPEC['model']} / {OFFICIAL_SPEC['config']} / "
+   108→        f"HarmonyOS {OFFICIAL_SPEC['os_version']}（API {OFFICIAL_SPEC['api_version']}）/ "
+   109→        f"镜像 {OFFICIAL_SPEC['image_version']} / {OFFICIAL_SPEC['resolution']} @ {OFFICIAL_SPEC['dpi']}dpi"
+   110→    )
+   111→    if result.matches_official:
+   112→        print("✓ 环境与官方评测规格一致。")
+   113→    else:
+   114→        print("⚠ 发现以下偏差（不阻塞测试，仅供参考）：")
+   115→        for w in result.warnings:
+   116→            print(f"  - {w}")
+   117→
+   118→
+   119→if __name__ == "__main__":
+   120→    _main()
+   121→
+</file>
+<metadata>The file has 121 lines in total.</metadata>

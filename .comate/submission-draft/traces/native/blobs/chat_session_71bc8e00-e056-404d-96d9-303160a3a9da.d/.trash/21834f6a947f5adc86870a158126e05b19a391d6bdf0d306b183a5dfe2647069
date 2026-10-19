@@ -1,0 +1,30 @@
+| 文件（`entry/src/main/ets/` 下） | 位置 → 告警 |
+| --- | --- |
+| `pages/Settings.ets` | 33:21 px2vp deprecated |
+| `components/head/SettingsHead.ets` | 13:24 showToast deprecated |
+| `components/main/SearchComponent.ets` | 26:20 pushUrl deprecated；30:33 showToast deprecated |
+| `components/head/IndexHead.ets` | 37:18、42:18 pushUrl deprecated |
+| `components/head/CommonHead.ets` | 15:21 px2vp deprecated |
+| `components/buttons/BackButton.ets` | 13:16 back deprecated |
+| `pages/Index.ets` | 41:21 px2vp deprecated |
+| `pages/login/WebLogin.ets` | 42:24 vp2px deprecated；58:7 Function may throw exceptions；58:20 showToast deprecated |
+| `pages/SongsListPage.ets` | 20:48 getParams deprecated；55:41、61:21 px2vp deprecated |
+| `pages/PlayListPage.ets` | 20:46、21:46 getParams deprecated；92:45、110:21 px2vp deprecated |
+| `pages/LoginPage.ets` | 23:20 replaceUrl deprecated；32:26 showDialog deprecated |
+| `api/getLoginStatus.ets` | 22:20 showToast；25:14 back；29:5 may throw；29:18 showToast |
+| `common/functions/LogOut.ets` | 13:3 may throw；13:16 showToast |
+| `components/sheets/MeSheet.ets` | 19:20 pushUrl；34:31 px2vp |
+| `components/sheets/SongSheet.ets` | 68:50 px2vp |
+| `components/sheets/LoginHelpSheet.ets` | 21:22 px2vp |
+| `components/main/PlayListCard.ets` | 31:14 pushUrl |
+| `components/dialog/DownloadDialog.ets` | 62:30 showToast；108:3、109:3 may throw；109:16 showToast |
+
+注意：本题若沿用基线写法（`router.pushUrl`、`promptAction.showToast`、`px2vp`），新代码会产生同类 deprecated 告警。是否允许"同类告警数量增加"需你判断；若要求零新增，新页面需改用 `this.getUIContext().getRouter()` / `getPromptAction()` 等非废弃 API。
+
+## 3. Spec 入口当前位置
+
+【实测】模拟器走查（`logs/baseline-walk/walk.log`、`walk5.log`，截图同目录）与【代码】对照：
+
+| Spec 描述 | 基线位置 | 实测 |
+| --- | --- | --- |
+| 应用启动页 | `EntryAbility.ets:25` `windowStage.loadContent('pages/Index')`；路由表 `resources/base/profile/ma

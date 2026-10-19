@@ -1,0 +1,109 @@
+<file>
+     1→"""基线走查（临时脚本，跑完删除）。只读操作 UI，不改工程。"""
+     2→import json, subprocess, sys, time
+     3→from hypium import BY, UiDriver
+     4→
+     5→SN = "127.0.0.1:5555"
+     6→BUNDLE = "cc.chenlvin.cloudmusic"
+     7→OUT = "/tmp/cmu114_walk"
+     8→subprocess.run(["mkdir", "-p", OUT])
+     9→d = UiDriver.connect(device_sn=SN)
+    10→
+    11→
+    12→def hdc(cmd):
+    13→    return subprocess.run(["hdc", "-t", SN, "shell", cmd], capture_output=True, text=True).stdout
+    14→
+    15→
+    16→def dump(tag):
+    17→    out = hdc("uitest dumpLayout -p /data/local/tmp/l.json")
+    18→    subprocess.run(["hdc", "-t", SN, "file", "recv", "/data/local/tmp/l.json", f"{OUT}/{tag}.json"], capture_output=True)
+    19→    nodes = []
+    20→    def walk(n):
+    21→        a = n.get("attributes", {})
+    22→        if a.get("text") or a.get("hint") or a.get("id") or a.get("type") in ("TextInput", "Web", "Button", "Image", "MenuItem", "Search"):
+    23→            nodes.append((a.get("type"), a.get("id"), a.get("key"), a.get("text"), a.get("hint"), a.get("bounds"), a.get("clickable")))
+    24→        for c in n.get("children", []):
+    25→            walk(c)
+    26→    try:
+    27→        walk(json.load(open(f"{OUT}/{tag}.json")))
+    28→    except Exception as e:
+    29→        print("dump fail", e, out)
+    30→    print(f"===== {tag}")
+    31→    for x in nodes:
+    32→        print("  ", x)
+    33→    try:
+    34→        d.capture_screen(f"{OUT}/{tag}.jpeg")
+    35→    except Exception as e:
+    36→        print("shot fail", e)
+    37→
+    38→
+    39→def fg():
+    40→    r = hdc("aa dump -l")
+    41→    lines = [l.strip() for l in r.splitlines() if "bundle name" in l or "main name" in l or "state" in l.lower()]
+    42→    print("  foreground:", lines[:6])
+    43→
+    44→
+    45→step = sys.argv[1] if len(sys.argv) > 1 else "all"
+    46→
+    47→d.stop_app(BUNDLE)
+    48→d.start_app(BUNDLE)
+    49→d.wait(3)
+    50→dump("01_home")
+    51→fg()
+    52→
+    53→# 场景三：空输入点搜索
+    54→d.start_listen_toast()
+    55→btns = d.find_all_components(BY.type("Button")) or []
+    56→print("buttons:", [(b.getBounds()) for b in btns])
+    57→inp = d.find_component(BY.type("TextInput"))
+    58→ib = inp.getBounds()
+    59→# 搜索按钮：与输入框同一行、在其右侧的 Button
+    60→search_btn = [b for b in btns if b.getBounds().left > ib.right and abs((b.getBounds().top + b.getBounds().bottom) - (ib.top + ib.bottom)) < 80]
+    61→print("search btn:", [b.getBounds() for b in search_btn])
+    62→d.click(search_btn[0])
+    63→toast = d.get_latest_toast(timeout=3)
+    64→print("TOAST(empty):", repr(toast))
+    65→d.wait(1)
+    66→dump("02_after_empty_search")
+    67→
+    68→# 纯空格
+    69→d.input_text(inp, "   ")
+    70→d.wait(0.5)
+    71→d.start_listen_toast()
+    72→d.click(search_btn[0])
+    73→toast = d.get_latest_toast(timeout=3)
+    74→print("TOAST(spaces):", repr(toast))
+    75→d.wait(2)
+    76→dump("03_after_space_search")
+    77→d.press_back()
+    78→d.wait(1)
+    79→dump("03b_after_back")
+    80→
+    81→# 场景一：更多菜单 -> 设置
+    82→d.stop_app(BUNDLE)
+    83→d.start_app(BUNDLE)
+    84→d.wait(3)
+    85→btns = d.find_all_components(BY.type("Button")) or []
+    86→top = sorted(btns, key=lambda b: (b.getBounds().top, b.getBounds().left))
+    87→more = max([b for b in top if b.getBounds().top == top[0].getBounds().top], key=lambda b: b.getBounds().left)
+    88→print("more btn:", more.getBounds())
+    89→d.click(more)
+    90→d.wait(1)
+    91→dump("04_more_menu")
+    92→d.click(d.find_component(BY.text("设置")))
+    93→d.wait(2)
+    94→dump("05_settings")
+    95→fg()
+    96→
+    97→# 场景二：点击隐私政策
+    98→d.click(d.find_component(BY.text("前往查看本软件的隐私政策")))
+    99→d.wait(3)
+   100→dump("06_after_privacy_click")
+   101→fg()
+   102→d.press_back()
+   103→d.wait(2)
+   104→dump("07_after_back")
+   105→fg()
+   106→
+</file>
+<metadata>The file has 106 lines in total.</metadata>

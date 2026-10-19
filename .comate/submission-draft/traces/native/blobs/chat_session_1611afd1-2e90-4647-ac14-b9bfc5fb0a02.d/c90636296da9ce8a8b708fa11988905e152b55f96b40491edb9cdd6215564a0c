@@ -1,0 +1,12 @@
+- 按已确认假设实现：A2(U1)、B1 导航方式(U5)、B6(U4)、B10(U6)、C3 色值(U7)、C8(U8)；A9/A10(U3) 与 C6(U9) 的决策是"保持不动"。
+
+## 7. 开发阶段结果（1-do，2026-10-19）
+
+- 改动：`AppScope/app.json5`（0.9.3 / 103）、`Constants.ets`（VERSION）、`Settings.ets`（删除 viewData Want，改 `router.pushUrl(PrivacyPage, Single)`；补自测 id）、新增 `pages/PrivacyPage.ets` + `main_pages.json` 注册、`SearchComponent.ets`（共用文案常量、占位色/文字色、`trim()` 判空；补自测 id）。
+- 构建：BUILD SUCCESSFUL（`logs/build.log`）；`entry/src` 告警 36 → 38，新增仅 `Settings.ets` pushUrl deprecated、`PrivacyPage.ets` px2vp deprecated（X1 允许的同类）。
+- 自测：`hypium_tests/` 22 条全部通过（`logs/selftest.log`、`logs/selftest.json`），覆盖 A1–A11、B1–B11、C1–C10、X2、X3。截图 `logs/shots/`。
+- 已知问题 / 未覆盖：
+  1. 本机模拟器上 `docs.chenlvin.cc` DNS 无法解析（其它域名正常），Web 发出了请求但得到 `ERR_NAME_NOT_RESOLVED`，隐私页正文为空白；标题、Web 组件、返回均正常（即 Spec 的"内容暂未加载"情形）。探针脚本与日志：`logs/debug-runs/`。
+  2. 设置页刚出现就立即 `press_back`，约半数会被 router 转场吞掉（设置页入口与返回逻辑未改动，推断为基线行为，未用基线包复测）；自测在进入设置页后等待 1s。隐私页无此现象（连续 6 次零延迟返回均成功）。
+  3. C3 颜色 Hypium 不可观测，仅截图目检浅色模式；深色模式未目检。
+  4. 非空搜索（C10）只验证到进入结果页，结果页数据依赖 `ROOT_URL` 服务，本地未接服务。

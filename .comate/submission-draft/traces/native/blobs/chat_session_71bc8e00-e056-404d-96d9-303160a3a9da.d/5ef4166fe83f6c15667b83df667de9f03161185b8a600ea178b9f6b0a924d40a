@@ -1,0 +1,36 @@
+# cmu-spec114 基线记录
+
+标注约定：【代码】= 读源码得出，附 `文件:行号`；【实测】= 构建/模拟器走查得出，附日志位置；【推断】= 未直接验证的推测；【未验证】= 明确没有验证。
+
+## 1. 基线快照标识
+
+- `spec/metadata.json` 的 `base_commit`：`ebe2fbceaf5270ef0f5302edc4f77fa5962b0a3f`（tag `base/cmu-spec114`）。
+- 当前 HEAD：`bb23a626e392618c4f1ab916a3cb8a4b68b2f024`（分支 `dev`），已打 tag **`baseline-cmu-spec114`** 指向该提交。
+- `ebe2fbc..bb23a62` 只改了 `oh-package-lock.json5`（+2/-1，ohpm install 重建锁文件），不涉及业务代码。【实测】`git diff --stat`
+- 工作区存在一处**未提交**改动：`build-profile.json5` 在 `products[0]` 增加 `"targetSdkVersion": "6.1.0(23)"`。文件 mtime 为 2026-10-19 13:20:06，与 `oh-package-lock.json5` 被重写的时间（13:20:07）相同，【推断】是 DevEco Studio 打开工程同步时自动写入，并非本阶段分析操作所改。
+  - 【实测】在临时 worktree 中用 tag 内容（不含该改动）构建：同样 BUILD SUCCESSFUL、同样 588 条 ArkTS 告警，HAP 中 `targetAPIVersion` 同为 `60100023`。即该改动对产物无影响。
+  - 需要你决定：开发阶段是还原该文件，还是作为环境改动保留并在提交材料中说明。我没有动它。
+
+## 2. 构建基线状态
+
+构建命令（工程根目录执行）【实测】：
+
+```bash
+export DEVECO_SDK_HOME=/Applications/DevEco-Studio.app/Contents/sdk
+export JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home
+export PATH=$JAVA_HOME/bin:/Applications/DevEco-Studio.app/Contents/tools/node/bin:/Applications/DevEco-Studio.app/Contents/tools/hvigor/bin:$PATH
+hvigorw clean --no-daemon
+hvigorw assembleHap --mode module -p module=entry@default -p product=default -p buildMode=debug --no-daemon
+```
+
+- 结果：BUILD SUCCESSFUL（约 8.4s），产物 `entry/build/default/outputs/default/entry-default-unsigned.hap`，`versionName 0.9.2 / versionCode 102 / minAPIVersion 50000012 / targetAPIVersion 60100023 / compileSdkVersion 6.1.0.105`。完整日志：`logs/baseline-build-clean.log`（另有早先一次构建日志 `logs/baseline-build.log`）。
+- 环境坑【实测】：不设 `JAVA_HOME` 时 `PackageHap` 报 `00308018 Unable to locate a Java Runtime`，必须用 DevEco 自带 JBR。
+- 安装：`hdc -t 127.0.0.1:5555 install -r <hap>` → `install bundle successfully`（未签名 HAP 可装到模拟器）。`logs/baseline-install.log`
+- SDK：DevEco 内置 HarmonyOS 6.1.0（API 23，`6.1.0.105`）。
+
+已有告警清单（后续对比是否新增的基准）：
+
+- 非 ArkTS 告警 2 条：`No signingConfig found for product default`；`Warning: 'page_show' conflict, first declared.`
+- ArkTS 告警共 **588** 条：其中 552 条来自 `oh_modules/@pura/harmony-utils`（三方库，不计）；**`entry/src` 内 36 条**：
+
+<!-- APPEND_WARN -->
