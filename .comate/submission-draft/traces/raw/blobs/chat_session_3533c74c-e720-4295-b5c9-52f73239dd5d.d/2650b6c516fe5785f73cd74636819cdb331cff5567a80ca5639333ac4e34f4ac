@@ -1,0 +1,85 @@
+Found 28 matches
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/0-analyze.md:
+  Line 55: - 标 `UNCONFIRMED_ASSUMPTION` 的项要单独汇总，附上你的推荐处理方式和理由。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/baseline-notes.md:
+  Line 10: - 工作区未提交改动（非本阶段产生，来源未验证，【推测】为 DevEco 同步 SDK 时写入）：`build-profile.json5` 在 products[0] 增加 `"targetSdkVersion": "6.1.0(23)"`。基线构建是在该改动存在的状态下完成的。是否保留到提交版本需你决定（见 acceptance.md U-13）。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 7: - 证据等级：`SPEC_EXPLICIT` Spec 明文 / `REASONABLE_DERIVATION` 合理推导 / `UNCONFIRMED_ASSUMPTION` 待确认假设（汇总见第 5 节，`U-n`）。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 51: - 可观察：冷启动后存在 clickable 的 '^'（推荐 `SymbolGlyph(sys.symbol.chevron_up)`），在底部搜索行。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 71: - 可观察：面板中有三组，按"主色 / 副色 / 背景色"顺序从上到下；推荐每组带文字标签 `主色`、`副色`、`背景色`。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 101: - 可观察：每组旁一个胶囊；冷启动展开面板后依次显示 `accent`、`connected`、背景色的"无"表示（推荐 `undefined`）；选色后显示该色名称。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 130: - 可观察：背景色胶囊显示"无"的表示（推荐 `undefined`）；背景色效果消失。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 157: - 可观察：从左到右依次为 `SINGLE`、`MULTIPLE_COLOR`、`MULTIPLE_OPACITY`（推荐英文枚举名作为按钮文字）。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 300: ## 5. UNCONFIRMED_ASSUMPTION 汇总（需你判断）
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 306: - 推荐：(a)，放在底部搜索行最右侧（TextInput、搜索重置之后），样式与搜索重置一致（fontSize 36、`font_color_title`）。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 311: - 推荐：(a)。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 316: - 推荐：每组同一份色板，名称取 `ohos_id_color_` 之后的短名：`accent`、`connected`、`warning`、`alert`、`handup`、`foreground`、`palette1`…等少量常用色（具体条数开发时定，6-8 个）。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 321: - 推荐：(a)。背景色为空时显示 `undefined`。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 326: - 推荐：(a)。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 330: - 推荐：每组左侧显示 `主色`、`副色`、`背景色` 文本。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 335: - 推荐：(a)。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 340: - 推荐：`sys.color.ohos_id_color_emphasize`，显示名 `accent`。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 344: - 推荐：不持久化，冷启动回默认。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 348: - 推荐：只重置三种颜色，不动渲染策略。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 352: - 推荐：保持基线，不复位。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 356: - 推荐：同步修改。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 359: **U-13 未提交的 `build-profile.json5` targetSdkVersion**（baseline-notes 第 1 节）
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 360: - 推荐：开发阶段先验证去掉它能否构建；能构建就不纳入提交 diff，不能就保留并在材料中说明。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 364: - 推荐：收起（toggle），图标可在展开时换成 `chevron_down`。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 365: - 理由：只能展开不能收起会让网格空间一直被占用；toggle 是可展开面板的通用约定。换图标会改变 '^' 的识别，**保守做法是图标不变**，交给你定。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 369: - 推荐：开发第一步先做技术验证（在独立分支或临时页面里，按名称构造 Resource 渲染几个符号，包括 `bookmark_on_bookmark` 和一个不在表里的名称），确定可行写法后再动网格；网格项保持点击选中的行为和 `onClick` 位置。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/acceptance.md:
+  Line 373: - 推荐：给当前值对应的圆点加边框，不另加文字。
+
+/Users/bress/Documents/code/harmonycup-work/sym-combo-customize/spec/2-submit.md:
+  Line 38: ## 二、本次需要整理的会话（我每次填写后再交给你）

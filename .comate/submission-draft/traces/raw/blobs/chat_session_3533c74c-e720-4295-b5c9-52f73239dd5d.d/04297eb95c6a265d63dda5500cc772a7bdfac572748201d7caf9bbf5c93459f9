@@ -1,0 +1,11 @@
+- 决策（已确认）：(a)。
+
+**U-3 系统预设色板**（A6）
+- 已知：Spec 只点名 `accent`、`connected`。SDK `sys.color` 有 `ohos_id_color_connected`，但**没有任何名称含 accent 的系统颜色**（SDK sysResource.js 全表搜索）。
+- 决策（已确认）：三组共用同一份 6 色板，显示名取 `ohos_id_color_` 之后的短名（accent 例外，见 U-8）：
+  `accent`→`sys.color.ohos_id_color_emphasize`、`connected`→`ohos_id_color_connected`、`warning`→`ohos_id_color_warning`、`alert`→`ohos_id_color_alert`、`handup`→`ohos_id_color_handup`、`foreground`→`ohos_id_color_foreground`（6 个资源名均在 SDK 表中存在）。名称映射集中放在一个色板常量里。
+- 理由：短名风格与 `connected` 一致；色板来自 `sys.color`，满足"系统预设颜色"。
+
+**U-4 胶囊上的颜色名称格式**（A11、B2-B4）
+- 选项：(a) 短名 `accent` / `connected` / `undefined`；(b) 资源全名 `sys.color.ohos_id_color_connected`；(c) 代码形式 `$r('sys.color.…')`。
+- 决策（已确认）：(a)。背景色为空时显示 `undefined`。

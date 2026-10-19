@@ -1,0 +1,20 @@
+# 验收矩阵：sym-combo-customize
+
+Spec：`spec/requirement.md`（6 个场景）。基线现状见 `spec/baseline-notes.md`。
+
+## 0. 约定
+
+- 证据等级：`SPEC_EXPLICIT` Spec 明文 / `REASONABLE_DERIVATION` 合理推导 / `UNCONFIRMED_ASSUMPTION` 待确认假设（汇总见第 5 节，`U-n`）。
+- 引号内文案为 Spec 逐字摘录。
+- 官方测试按参考实现编写、我们看不到其 id，所以"可观察结果"优先写**文本/类型/相对顺序**，`.id()` 只作为自测锚点。
+- 技术答疑（swe-openharmony.tech「具体赛题技术答疑」8 项，2026-10-19 抓取）：全部针对 cml-*/cmu-*/jm-* 题，**无 sym 系列条目**。通用条款"经由基线已有机制接入服务"只约束网络题，本题无网络，不适用。
+
+### 公共维度（各项引用，避免重复）
+
+| 代号 | 维度 | 内容 |
+| --- | --- | --- |
+| E0 | 入口 | 冷启动 `pages/Index`（唯一页面，`EntryAbility.ets:22`） |
+| P0 | 前置数据 | 内置 `allSymbols`（3195 条），无需登录/服务端/测试数据 |
+| N0 | 网络结果 | 不适用：Spec 无网络需求，基线无网络模块；任何动作都不得发请求 |
+| R0 | 返回结果 | 单页应用无子页可返回。根页返回 → 进后台，重新拉起状态保留（基线实测 b7）；force-stop 后冷启动回到默认值（不持久化，U-9） |
+| D

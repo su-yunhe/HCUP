@@ -1,0 +1,59 @@
+=== [sym-combo-customize] 2026-10-12 15:46:47 ===
+[clone] repo_bundles/symbolu_next-21588d3f75-base.bundle -> /Users/bress/Documents/code/harmonycup-work/sym-combo-customize
+Cloning into '/Users/bress/Documents/code/harmonycup-work/sym-combo-customize'...
+HEAD is now at 21588d3 Harmony Cup sanitized baseline snapshot
+[prepare_baseline] sym-combo-customize
+{
+  "profile": "harmony-cup-build-v1",
+  "task_id": "sym-combo-customize",
+  "base_commit": "21588d3f75b366c0d8de37b59b5634846ce5f347",
+  "project_root": "/Users/bress/Documents/code/harmonycup-work/sym-combo-customize",
+  "dry_run": false,
+  "changes": []
+}
+[ohpm install] sym-combo-customize
+ohpm INFO: fetch package done 1 @ohos/hypium from https://ohpm.openharmony.cn/ohpm/@ohos/hypium/-/hypium-1.0.21.har
+[32minstall completed in 0s 425ms[39m
+[hvigorw assembleHap] sym-combo-customize
+> hvigor [32mFinished :entry:clean... after 1 ms [39m
+> hvigor [33mWARN: The project has not explicitly set the 'targetSdkVersion' version at build-profile.json5. It is recommended to configure it. Reference: https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/ide-hvigor-build-profile-app#section45865492619[39m
+> hvigor [32mFinished :entry:default@PreBuild... after 69 ms [39m
+> hvigor [32mFinished :entry:default@CreateModuleInfo... after 1 ms [39m
+> hvigor [32mFinished :entry:default@GenerateMetadata... after 2 ms [39m
+> hvigor [32mFinished :entry:default@ConfigureCmake... after 1 ms [39m
+> hvigor [32mFinished :entry:default@MergeProfile... after 2 ms [39m
+> hvigor [32mFinished :entry:default@CreateBuildProfile... after 1 ms [39m
+> hvigor [32mFinished :entry:default@PreCheckSyscap... after 1 ms [39m
+> hvigor [32mFinished :entry:default@GeneratePkgContextInfo... after 2 ms [39m
+> hvigor [32mFinished :entry:default@GeneratePkgSdkInfo... after 1 ms [39m
+> hvigor [32mFinished :entry:default@ProcessIntegratedHsp... after 1 ms [39m
+> hvigor [32mFinished :entry:default@BuildNativeWithCmake... after 1 ms [39m
+> hvigor [32mFinished :entry:default@MakePackInfo... after 2 ms [39m
+> hvigor [32mFinished :entry:default@SyscapTransform... after 1 ms [39m
+> hvigor [32mFinished :entry:default@ProcessProfile... after 39 ms [39m
+> hvigor [32mFinished :entry:default@ProcessRouterMap... after 1 ms [39m
+> hvigor [32mFinished :entry:default@ProcessShareConfig... after 1 ms [39m
+> hvigor [32mFinished :entry:default@ProcessStartupConfig... after 1 ms [39m
+> hvigor [32mFinished :entry:default@BuildNativeWithNinja... after 1 ms [39m
+> hvigor [32mFinished :entry:default@ProcessResource... after 1 ms [39m
+> hvigor [32mFinished :entry:default@GenerateLoaderJson... after 3 ms [39m
+> hvigor [32mFinished :entry:default@ProcessLibs... after 2 ms [39m
+> hvigor [32mFinished :entry:default@CompileResource... after 121 ms [39m
+> hvigor [32mFinished :entry:default@DoNativeStrip... after 1 ms [39m
+> hvigor [32mFinished :entry:default@BuildJS... after 1 ms [39m
+> hvigor [32mFinished :entry:default@CacheNativeLibs... after 3 ms [39m
+> hvigor [33mWARN: [33mWARN: [33m[33mArkTS:WARN File: /Users/bress/Documents/code/harmonycup-work/sym-combo-customize/entry/src/main/ets/entryability/EntryAbility.ets:10:5
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[39m
+> hvigor [32mFinished :entry:default@CompileArkTS... after 2 s 583 ms [39m
+> hvigor [32mFinished :entry:default@GeneratePkgModuleJson... after 2 ms [39m
+> hvigor [32mFinished :entry:default@ProcessCompiledResources... after 1 ms [39m
+> hvigor [32mFinished :entry:default@PackageHap... after 213 ms [39m
+> hvigor [32mFinished :entry:default@PackingCheck... after 3 ms [39m
+> hvigor [33mWARN: No signingConfig found for product default[39m
+> hvigor [32mFinished :entry:default@SignHap... after 1 ms [39m
+> hvigor [32mFinished :entry:default@CollectDebugSymbol... after 1 ms [39m
+> hvigor [32mFinished :entry:assembleHap... after 1 ms [39m
+> hvigor [32mBUILD SUCCESSFUL in 4 s 700 ms [39m
+[OK] sym-combo-customize -> /Users/bress/Documents/code/harmonycup-work/sym-combo-customize/entry/build/default/outputs/default/entry-default-unsigned.hap

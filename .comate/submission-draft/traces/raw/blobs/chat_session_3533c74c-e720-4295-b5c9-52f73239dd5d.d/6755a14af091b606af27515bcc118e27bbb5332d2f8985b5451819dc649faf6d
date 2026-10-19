@@ -1,0 +1,44 @@
+## 5. UNCONFIRMED_ASSUMPTION 汇总（需你判断）
+
+总原则：官方测试是针对参考实现写的，参考实现必然能通过。所以有歧义时，优先选**最贴近 Spec 字面、改动最小、和基线写法一致**的方案，不加 Spec 没写的行为。
+
+**U-1 '^' 的形式与位置**（A1）
+- 选项：(a) `SymbolGlyph($r('sys.symbol.chevron_up'))`；(b) `Text('^')`。位置：底部搜索行 / 信息栏行 / 页面顶部。
+- 推荐：(a)，放在底部搜索行最右侧（TextInput、搜索重置之后），样式与搜索重置一致（fontSize 36、`font_color_title`）。
+- 理由：本应用里"符号"一词指 HarmonyOS Symbol，`chevron_up` 存在于数据表（`linysSymbol.ets:225`）和 SDK；基线唯一的图标交互就在搜索行；只在行尾追加，不改变已有组件的顺序。证据弱，Text('^') 方案文本可被 `BY.text('^')` 命中，这一点是它的优势。
+
+**U-2 面板形式**（A3、F4）
+- 选项：(a) 页面内可展开的 Column（插在信息栏和搜索行之间）；(b) `bindSheet` 半模态；(c) `bindPopup`。
+- 推荐：(a)。
+- 理由："展开"更像页内展开；展开后仍要能看到网格"立即重新渲染"，(b)(c) 会遮挡网格；(a) 不新增窗口层级，F3/F4 的布局判定更直观。
+
+**U-3 系统预设色板**（A6）
+- 已知：Spec 只点名 `accent`、`connected`。SDK `sys.color` 有 `ohos_id_color_connected`，但**没有任何名称含 accent 的系统颜色**（SDK sysResource.js 全表搜索）。
+- 推荐：每组同一份色板，名称取 `ohos_id_color_` 之后的短名：`accent`、`connected`、`warning`、`alert`、`handup`、`foreground`、`palette1`…等少量常用色（具体条数开发时定，6-8 个）。
+- 理由：短名风格与 `connected` 一致；色板来自 `sys.color`，满足"系统预设颜色"。
+
+**U-4 胶囊上的颜色名称格式**（A11、B2-B4）
+- 选项：(a) 短名 `accent` / `connected` / `undefined`；(b) 资源全名 `sys.color.ohos_id_color_connected`；(c) 代码形式 `$r('sys.color.…')`。
+- 推荐：(a)。背景色为空时显示 `undefined`。
+- 理由：Spec 重置结果逐字写的是 "accent"、"connected"、"无（undefined）"；`BY.text` 默认全等匹配，(a) 能命中按 Spec 字面写出的断言。风险：如果参考实现显示的是全名，全等断言会失败，这一点无法消除。
+
+**U-5 "背景色"作用于什么**（A9、B4）
+- 选项：(a) fontColor 列表第 3 项（多色符号的第三层/背景层），值为 undefined 时不放进列表；(b) 网格格子的 `backgroundColor`。
+- 推荐：(a)。
+- 理由：步骤 2 明文"点击颜色圆点，对应颜色应用到符号的 fontColor 列表"，对象是所有圆点而不只是主/副色；"恢复为无（undefined）"是 fontColor 列表里的未定义项。(b) 与"无"也说得通，但没有 Spec 文字支持。
+
+**U-6 三组的文字标签**（A5）
+- 推荐：每组左侧显示 `主色`、`副色`、`背景色` 文本。
+- 理由：Spec 括号里用的就是这三个词，加上它们 `BY.text` 可以命中，也不会和其它文本冲突。
+
+**U-7 SegmentButton 按钮文字**（C2、C6）
+- 选项：(a) 英文枚举名 `SINGLE` / `MULTIPLE_COLOR` / `MULTIPLE_OPACITY`；(b) 中文 `单色` / `多色` / `多透明度`；(c) 中英组合。
+- 推荐：(a)。
+- 理由：Spec 以英文为主名、中文放在括号里，胶囊也显示英文名；按 `BY.text('MULTIPLE_COLOR')` 点击时，若当前策略不是它，只命中段按钮；切换后两个组件重名，但"存在该文本"的断言仍成立。(c) 会让两种全等匹配都失败。
+
+**U-8 accent 对应的实际颜色**（A6、B2）
+- 选项：`ohos_id_color_emphasize`（强调色）/ `ohos_id_color_text_primary_activated` / `brand`。
+- 推荐：`sys.color.ohos_id_color_emphasize`，显示名 `accent`。
+- 理由：accent 的语义就是强调色，dump 和截图也只能看到色值；名称映射在色板常量里集中维护。
+
+<!-- APPEND-G -->

@@ -1,0 +1,154 @@
+<file>
+     1→import { allSymbols, linysSymbol } from '../objects/linysSymbol';
+     2→import LinysSymbolDataSource from '../objects/SymbolDataSource';
+     3→import { copy } from '../utils/clipboard_tools';
+     4→
+     5→@Entry
+     6→@Component
+     7→struct Index {
+     8→  // Environment
+     9→  @StorageLink('tablet_mode') tablet_mode: boolean = false;
+    10→  @StorageLink('screen_width') screen_width: number = 0;
+    11→  @StorageLink('screen_height') screen_height: number = 0;
+    12→  // UI
+    13→  @State inputText: string = "";
+    14→  @State symbolTest: Resource = $r('sys.symbol.camera_slash_fill');
+    15→  @State selected: linysSymbol = allSymbols[0];
+    16→  // Data
+    17→  data: LinysSymbolDataSource = new LinysSymbolDataSource(allSymbols);
+    18→
+    19→  build() {
+    20→    Column({ space: 10 }) {
+    21→      WaterFlow() {
+    22→        LazyForEach(this.data, (s: linysSymbol) => {
+    23→          LinysSymbolDisplay({
+    24→            symbol: s,
+    25→            selected: this.selected
+    26→          })
+    27→        }, (s: linysSymbol) => {
+    28→          return s.unicode;
+    29→        })
+    30→      } // Symbols
+    31→      .edgeEffect(EdgeEffect.Spring)
+    32→      .width('100%')
+    33→      .layoutWeight(1)
+    34→      .columnsTemplate("1fr ".repeat(Math.ceil(this.screen_width / 75)))
+    35→      .columnsGap(15)
+    36→      .rowsGap(15)
+    37→      .scrollBar(BarState.On)
+    38→
+    39→      Scroll() {
+    40→        Row({ space: 10 }) {
+    41→          LinysCapsuleButton({ text: "No. " + this.selected.id.toString() })
+    42→          LinysCapsuleButton({ text: " " + this.selected.char + " ", fontSize: 26 })
+    43→          LinysCapsuleButton({ text: this.selected.unicode })
+    44→          LinysCapsuleButton({ text: this.selected.name })
+    45→        } // Operations
+    46→      }
+    47→      .width('100%')
+    48→      .scrollable(ScrollDirection.Horizontal)
+    49→      .scrollBar(BarState.Off)
+    50→      .edgeEffect(EdgeEffect.Spring)
+    51→
+    52→      Row({ space: 10 }) {
+    53→        TextInput({ text: this.inputText })// Search Blank
+    54→          .layoutWeight(1)
+    55→          .onChange((newText) => {
+    56→            this.inputText = newText;
+    57→          })
+    58→          .onSubmit(() => {
+    59→            this.searchFor(this.inputText);
+    60→          })
+    61→        SymbolGlyph($r('sys.symbol.arrow_counterclockwise'))// Reset Button
+    62→          .fontColor([$r('app.color.font_color_title')])
+    63→          .fontSize(36)
+    64→          .onClick(() => {
+    65→            this.inputText = '';
+    66→            this.searchFor('');
+    67→          })
+    68→      }
+    69→    }
+    70→    .padding({ left: 20, right: 20, top: 10 })
+    71→    .height('100%')
+    72→    .width('100%')
+    73→    .onAreaChange((o, n) => {
+    74→      this.on_main_area_change(o, n);
+    75→    })
+    76→  }
+    77→
+    78→  searchFor(key: string) {
+    79→    console.log('[Woof]Searching for key: ' + key);
+    80→    let searchResult: linysSymbol[] = [];
+    81→    for (let index = 0; index < allSymbols.length; index++) {
+    82→      const element = allSymbols[index];
+    83→      if (element.name.toUpperCase().includes(key.toUpperCase())) {
+    84→        searchResult.push(element);
+    85→      }
+    86→    }
+    87→    this.data.setData(searchResult);
+    88→  }
+    89→
+    90→  on_main_area_change(_old: Area, n: Area) {
+    91→    this.screen_width = n.width as number;
+    92→    this.screen_height = n.height as number;
+    93→    this.tablet_mode = this.screen_width > 500;
+    94→  }
+    95→}
+    96→
+    97→@Component
+    98→struct LinysSymbolDisplay {
+    99→  @Prop symbol: linysSymbol;
+   100→  @Link selected: linysSymbol;
+   101→  // Colors
+   102→  @Prop colors: ResourceColor = $r('app.color.font_color_title');
+   103→  @Prop fontWeight: FontWeight = FontWeight.Normal;
+   104→
+   105→  build() {
+   106→    Column({ space: 10 }) {
+   107→      // SymbolGlyph($r('sys.symbol.beido'))
+   108→      // SymbolGlyph($r('sys.symbol.'.concat(this.symbol.name)))
+   109→      //   .fontColor([$r('app.color.font_color_title')])
+   110→      Text(this.symbol.char)
+   111→        .fontColor($r('app.color.font_color_title'))
+   112→        .width(50)
+   113→        .height(50)
+   114→        .fontWeight(this.fontWeight)
+   115→        .fontSize(50)
+   116→        .clickEffect({ level: ClickEffectLevel.LIGHT })
+   117→        .onClick(() => {
+   118→          this.selected = this.symbol;
+   119→        })
+   120→    }
+   121→
+   122→  }
+   123→}
+   124→
+   125→@Component
+   126→struct LinysCapsuleButton {
+   127→  @Prop text: ResourceStr = "   ";
+   128→  @Prop fontSize: number = 22;
+   129→  @Prop allowCopy: boolean = true;
+   130→
+   131→  aboutToAppear(): void {
+   132→    // Preprocess of text
+   133→    this.text = this.text == "" ? "¯\\_(ツ)_/¯" : this.text;
+   134→  }
+   135→
+   136→  build() {
+   137→    Button(this.text)
+   138→      .type(ButtonType.Capsule)
+   139→      .backgroundColor($r('app.color.block_color'))
+   140→      .fontColor($r('app.color.font_color_title'))
+   141→      .fontSize(this.fontSize)
+   142→      .fontWeight(FontWeight.Medium)
+   143→      .backgroundColor($r('app.color.block_color'))
+   144→      .clickEffect({ level: ClickEffectLevel.LIGHT })
+   145→      .onClick(() => {
+   146→        if (this.allowCopy && typeof this.text == "string") {
+   147→          copy(this.text as string);
+   148→        }
+   149→      })
+   150→  }
+   151→}
+</file>
+<metadata>The file has 151 lines in total.</metadata>

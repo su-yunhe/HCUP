@@ -1,0 +1,60 @@
+### 场景三：渲染策略
+
+原文：概述 "可以在 SINGLE（单色）、MULTIPLE_COLOR（多色）、MULTIPLE_OPACITY（多透明度）三种模式间切换，符号的渲染效果立即变化。" 步骤 1 "用户展开操作面板，看到渲染策略 SegmentButton（三段按钮）。" 步骤 2 "符号网格中所有符号按新策略重新渲染；下方胶囊按钮显示当前策略名称（如 MULTIPLE_COLOR），方便复制对应 API 参数。"
+
+**C1 面板中有三段 SegmentButton** — 场景三·步骤 1｜`SPEC_EXPLICIT`
+- 可观察：展开面板后出现 `SegmentButton`（`@kit.ArkUI`），恰好 3 段。dump 中的组件类型未验证（SegmentButton 是由 Row/Text 等组合的高级组件）。
+- 维度：入口 E0｜前置 A3｜动作 无｜UI 三段可见｜数据 不适用｜网络 N0｜返回 R0｜边界 收起面板不可见
+- 选择器：`strategy_segment`（需补）
+
+**C2 三段对应 SINGLE / MULTIPLE_COLOR / MULTIPLE_OPACITY** — 场景三概述｜`SPEC_EXPLICIT`（按钮文字语言 `UNCONFIRMED`，U-7）
+- 可观察：从左到右依次为 `SINGLE`、`MULTIPLE_COLOR`、`MULTIPLE_OPACITY`（推荐英文枚举名作为按钮文字）。
+
+**C3 默认策略为 SINGLE** — `REASONABLE_DERIVATION`（SymbolGlyph 默认 renderingStrategy 为 SINGLE；Spec 列举顺序首位）
+- 可观察：冷启动展开面板，第 1 段选中，策略胶囊 `SINGLE`。
+- 维度：入口 E0｜动作 点 '^'｜数据 strategy=SINGLE｜其余同 C1｜边界 冷启动后恢复 SINGLE（U-9）
+
+**C4 点击某段切换策略** — 场景三概述"在三种模式间切换"｜`REASONABLE_DERIVATION`（步骤里缺"点击"一步，由概述推出）
+- 可观察：被点段变为选中（dump `selected` 属性或样式，未验证），其它段取消选中。
+- 维度：入口 E0｜前置 A3｜动作 点 `MULTIPLE_COLOR` / `MULTIPLE_OPACITY` / `SINGLE`｜UI 选中段变化｜数据 strategy=s（D0）｜网络 N0｜返回 R0｜边界 重复点已选段幂等；三段快速轮点以最后一次为准；切换后收起再展开保持
+
+**C5 网格所有符号按新策略重新渲染** — 场景三·步骤 2｜`SPEC_EXPLICIT`
+- 可观察：同 A10，截图取样（多色符号在 MULTIPLE_COLOR 下出现副色，在 MULTIPLE_OPACITY 下出现主色的不同透明度层）。
+- 维度：同 A10｜边界 搜索后、滚动加载后的项同样生效
+
+**C6 下方胶囊显示当前策略名称** — 场景三·步骤 2｜`SPEC_EXPLICIT`
+- 可观察：SegmentButton 下方一个胶囊，文本与当前策略**枚举名完全一致**：`SINGLE` / `MULTIPLE_COLOR` / `MULTIPLE_OPACITY`。
+- 维度：入口 E0｜前置 A3｜动作 切换策略｜UI 胶囊文本更新｜数据 文本=`SymbolRenderingStrategy` 枚举名｜网络 N0｜返回 R0｜边界 与 SegmentButton 文字重名（O-7）
+- 选择器：`strategy_capsule`（需补）
+
+**C7 点击策略胶囊复制名称** — "方便复制对应 API 参数"｜`REASONABLE_DERIVATION`。同 A12。
+
+**C8 策略与颜色组合语义** — `REASONABLE_DERIVATION`（ArkUI SymbolGlyph 语义）
+- SINGLE：只用 fontColor 第 1 项；MULTIPLE_COLOR：按层使用 fontColor 列表；MULTIPLE_OPACITY：使用第 1 项颜色、各层不同透明度。
+- 可观察：在 MULTIPLE_COLOR 下改副色，多色符号的第二层颜色变化；在 SINGLE 下改副色，网格外观不变但胶囊仍更新。
+
+### 场景四：名称拼写修正
+
+原文：步骤 1 "开发者或用户搜索"bookmark_on_bookmark"符号。" 步骤 2 "修复前：符号名为 kmark_on_bookmark，搜索无结果。" 步骤 3 "修复后：名称改为 bookmark_on_bookmark，搜索和引用均正常。"
+
+**D1 数据中名称改为 bookmark_on_bookmark** — 场景四·步骤 3｜`SPEC_EXPLICIT`
+- 可观察：`linysSymbol.ets:491` 变为 `new linysSymbol("󰇢", "U+0F01E2", "bookmark_on_bookmark", 476)`；字符、Unicode、id 不变；总数仍 3195；其它条目不变。
+- 维度：入口 不适用（数据层）｜前置 无｜动作 无｜UI 见 D2/D3｜数据 一条记录改名｜网络 N0｜返回 不适用｜边界 不得引入重复名
+- 选择器：不适用
+
+**D2 搜索 bookmark_on_bookmark 有结果** — 场景四·步骤 1、3｜`SPEC_EXPLICIT`
+- 可观察：输入 `bookmark_on_bookmark` 并回车后，网格恰好 1 项（基线为 0 项，实测 b1）。
+- 维度：入口 E0｜前置 P0｜动作 点输入框→输入→回车（`onSubmit`）｜UI 网格 1 项｜数据 网格数据集=1｜网络 N0｜返回 R0：后台再拉起结果保留｜边界 大写 `BOOKMARK_ON_BOOKMARK` 也命中（基线 toUpperCase）；前后带空格不命中（基线不 trim，保持）；空输入回车=全部
+- 选择器：`search_input`、`symbol_grid`（需补）
+
+**D3 选中该结果，信息栏显示正确名称** — 场景四·步骤 3"引用正常"｜`REASONABLE_DERIVATION`
+- 可观察：点击该项后信息栏 `No. 476`、`U+0F01E2`，左滑后名称胶囊 `bookmark_on_bookmark`。
+- 维度：同 D2｜动作 点结果项＋左滑信息栏｜边界 名称胶囊初始可能在视口外（O-2）
+
+**D4 旧名搜索仍命中修正项** — `REASONABLE_DERIVATION`（基线子串匹配推出）
+- `kmark_on_bookmark` 是 `bookmark_on_bookmark` 的子串，搜索旧名仍得到 1 项且名称为新名；不需要也不应额外保留旧名记录。
+
+**D5 按名称引用该符号能正常渲染** — 场景四·步骤 3"引用均正常"｜`REASONABLE_DERIVATION`
+- 可观察：若网格按名称取 `sys.symbol.<name>`，该格子不再空白（SDK 表中 `bookmark_on_bookmark` 存在、`kmark_on_bookmark` 不存在，见 baseline-notes 第 6 节）；截图取样非空白。
+
+<!-- APPEND-D -->

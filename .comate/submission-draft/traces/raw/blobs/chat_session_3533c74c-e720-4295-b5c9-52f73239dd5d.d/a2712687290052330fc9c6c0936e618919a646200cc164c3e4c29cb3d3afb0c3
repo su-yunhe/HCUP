@@ -1,0 +1,38 @@
+# 基线理解结论：sym-combo-customize
+
+标注约定：【代码】= 读源码得到并给出 `文件:行号`；【实测】= 在模拟器上实际操作/抓取 UI 树得到（证据在 `logs/baseline/`）；【推测】= 推断，未验证；【Spec】= `spec/requirement.md` 明文。
+
+## 1. 基线快照标识
+
+- `spec/metadata.json` 的 `base_commit` = `21588d3f75b366c0d8de37b59b5634846ce5f347`，已有标签 `base/sym-combo-customize` 指向它。
+- 当前 HEAD = `7a35025ad7ee63bccd46bef6fb2ee78bc3207be6`（相对 base 只改了 `oh-package-lock.json5`，ohpm install 产生）。
+- 本阶段新打标签：`baseline-sym-combo-customize` → `7a35025`。后续 diff 基准用 `base/sym-combo-customize`（官方 base_commit）。
+- 工作区未提交改动（非本阶段产生，来源未验证，【推测】为 DevEco 同步 SDK 时写入）：`build-profile.json5` 在 products[0] 增加 `"targetSdkVersion": "6.1.0(23)"`。基线构建是在该改动存在的状态下完成的。是否保留到提交版本需你决定（见 acceptance.md U-13）。
+- `spec/`、`logs/` 目前均为未跟踪目录。
+
+## 2. 构建基线状态
+
+环境【实测】：DevEco Studio SDK HarmonyOS 6.1.0.105（API 23）；模拟器 `127.0.0.1:5555`，`harness.env_check` 输出"环境与官方评测规格一致"（Pura 90 Pro Max / 6.1.0.115 / 1308×2880）。
+
+构建命令（工程根目录）：
+
+```bash
+D=/Applications/DevEco-Studio.app/Contents
+export JAVA_HOME=$D/jbr/Contents/Home
+export PATH=$JAVA_HOME/bin:$D/sdk/default/openharmony/toolchains:$D/tools/hvigor/bin:$D/tools/ohpm/bin:$D/tools/node/bin:$PATH
+export DEVECO_SDK_HOME=$D/sdk
+hvigorw clean --no-daemon
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon > logs/baseline-build.log 2>&1
+```
+
+- 结果：`BUILD SUCCESSFUL`，产物 `entry/build/default/outputs/default/entry-default-unsigned.hap`（704,233 B）。日志 `logs/baseline-build.log`。
+- 坑【实测】：不设 `JAVA_HOME` 时 `PackageHap` 失败，`Error Code: 00308018 ... Unable to locate a Java Runtime`。必须用 DevEco 自带 JBR。
+- 基线已有告警清单（共 2 条，后续用于对比是否新增告警）：
+  1. `ArkTS:WARN File: entry/src/main/ets/entryability/EntryAbility.ets:10:5 Function may throw exceptions. Special handling is required.`
+  2. `hvigor WARN: No signingConfig found for product default`
+- 构建后 `git status` 未出现 `BuildProfile.ets` 噪声（生成在 `entry/build/` 下，已被 .gitignore 忽略）。
+- 安装【实测】：`hdc -t 127.0.0.1:5555 install -r <unsigned hap>` → `install bundle successfully`（`logs/baseline-install.log`）；未签名 HAP 可装到模拟器。bundleName `com.next.liny.symbolu`，`apiTargetVersion 60100023`。
+
+## 3. Spec 描述的入口当前在哪
+
+<!-- APPEND-3 -->

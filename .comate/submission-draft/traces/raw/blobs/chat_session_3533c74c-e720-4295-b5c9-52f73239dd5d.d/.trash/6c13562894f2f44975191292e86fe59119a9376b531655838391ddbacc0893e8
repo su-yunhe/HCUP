@@ -1,0 +1,37 @@
+# 验收矩阵：sym-combo-customize
+
+Spec：`spec/requirement.md`（6 个场景）。基线现状见 `spec/baseline-notes.md`。
+
+## 0. 约定
+
+- 证据等级：`SPEC_EXPLICIT` Spec 明文 / `REASONABLE_DERIVATION` 合理推导 / `UNCONFIRMED_ASSUMPTION` 待确认假设（汇总见第 5 节，`U-n`）。
+- 引号内文案为 Spec 逐字摘录。
+- 官方测试按参考实现编写、我们看不到其 id，所以"可观察结果"优先写**文本/类型/相对顺序**，`.id()` 只作为自测锚点。
+- 技术答疑（swe-openharmony.tech「具体赛题技术答疑」8 项，2026-10-19 抓取）：全部针对 cml-*/cmu-*/jm-* 题，**无 sym 系列条目**。通用条款"经由基线已有机制接入服务"只约束网络题，本题无网络，不适用。
+
+### 公共维度（各项引用，避免重复）
+
+| 代号 | 维度 | 内容 |
+| --- | --- | --- |
+| E0 | 入口 | 冷启动 `pages/Index`（唯一页面，`EntryAbility.ets:22`） |
+| P0 | 前置数据 | 内置 `allSymbols`（3195 条），无需登录/服务端/测试数据 |
+| N0 | 网络结果 | 不适用：Spec 无网络需求，基线无网络模块；任何动作都不得发请求 |
+| R0 | 返回结果 | 单页应用无子页可返回。根页返回 → 进后台，重新拉起状态保留（基线实测 b7）；force-stop 后冷启动回到默认值（不持久化，U-9） |
+| D0 | 数据结果 | 只改页面内存状态，不写存储 |
+
+## 1. 状态机
+
+本题**没有网络请求**，任何用户动作都不触发请求，也就没有 loading 状态。下面是页面 UI 状态机，所有变化必须在同一次点击回调里同步完成（不允许"先改 UI 稍后补"，也不允许异步延迟）。
+
+状态：`panel ∈ {Collapsed, Expanded}`；`primary`、`secondary`、`background`（颜色名或 undefined）；`strategy ∈ {SINGLE, MULTIPLE_COLOR, MULTIPLE_OPACITY}`；以及基线已有的 `inputText`、`selected`、网格数据集。
+
+初始（冷启动）：`panel=Collapsed`，`primary=accent`，`secondary=connected`，`background=undefined`，`strategy=SINGLE`，`selected=allSymbols[0]`，网格=全部 3195 项。
+
+| 当前 | 动作 | 下一状态 | 同步副作用 |
+| --- | --- | --- | --- |
+| Collapsed | 点 '^' | Expanded | 面板出现：三组颜色、重置图标、SegmentButton、胶囊 |
+| Expanded | 点 '^' | Collapsed（U-14） | 面板消失；颜色/策略值保留 |
+| Expanded | 点主色组圆点 c | primary=c | 网格 fontColor 列表第 1 项=c；主色胶囊文本=c 的名称 |
+| Expanded | 点副色组圆点 c | secondary=c | 列表第 2 项=c；副色胶囊=c 的名称 |
+| Expanded | 点背景色组圆点 c | background=c | 见 U-5；背景色胶囊=c 的名称 |
+| Expanded | 点颜色重置 | primary=

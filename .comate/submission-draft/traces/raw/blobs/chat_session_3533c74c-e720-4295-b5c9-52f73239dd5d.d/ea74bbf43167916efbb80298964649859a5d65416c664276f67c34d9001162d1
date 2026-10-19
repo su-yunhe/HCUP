@@ -1,0 +1,7 @@
+## 5. UNCONFIRMED_ASSUMPTION 汇总（需你判断）
+
+总原则：官方测试是针对参考实现写的，参考实现必然能通过。所以有歧义时，优先选**最贴近 Spec 字面、改动最小、和基线写法一致**的方案，不加 Spec 没写的行为。
+
+**U-1 '^' 的形式与位置**（A1）
+- 选项：(a) `SymbolGlyph($r('sys.symbol.chevron_up'))`；(b) `Text('^')`。位置：底部搜索行 / 信息栏行 / 页面顶部。
+- 推荐：(a)，放在底部搜索行最右侧（TextInput、搜索重置之后），样式与搜索重置一致（fontSize 36、`font_color_title`）。

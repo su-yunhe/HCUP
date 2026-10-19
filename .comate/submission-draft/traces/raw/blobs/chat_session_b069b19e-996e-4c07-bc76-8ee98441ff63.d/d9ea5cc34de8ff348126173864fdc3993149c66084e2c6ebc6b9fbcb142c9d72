@@ -1,0 +1,28 @@
+    Row({ space: 8 }) {
+      Text(label)
+        .fontSize(14)
+        .fontColor($r('app.color.font_color_title'))
+      Row({ space: 6 }) {
+        ForEach(PRESET_COLORS, (c: SymbolColor) => {
+          Column()
+            .id('color_dot_' + group + '_' + c.name)
+            .width(20)
+            .height(20)
+            .borderRadius(10)
+            .backgroundColor(c.color)
+            .border({
+              width: this.colorOf(group)?.name === c.name ? 3 : 0,
+              color: $r('app.color.start_window_background')
+            })
+            .clickEffect({ level: ClickEffectLevel.LIGHT })
+            .onClick(() => {
+              this.pickColor(group, c);
+            })
+        }, (c: SymbolColor) => c.name)
+      }
+
+      LinysCapsuleButton({
+        text: this.colorOf(group)?.name ?? 'undefined',
+        fontSize: 16,
+        capsuleId: 'color_capsule_' + group
+      })

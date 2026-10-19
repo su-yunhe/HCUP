@@ -1,0 +1,12 @@
+  @Prop allowCopy: boolean = true;
+  @Prop capsuleId: string = "";
+
+  aboutToAppear(): void {
+    // Preprocess of text
+    this.text = this.text == "" ? "¯\\_(ツ)_/¯" : this.text;
+  }
+
+  build() {
+    Button(this.text)
+      .id(this.capsuleId)
+      .type(ButtonType.Capsule)

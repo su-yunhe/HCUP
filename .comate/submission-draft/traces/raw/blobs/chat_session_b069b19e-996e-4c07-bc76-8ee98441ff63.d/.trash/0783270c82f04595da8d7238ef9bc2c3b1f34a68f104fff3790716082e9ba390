@@ -1,0 +1,76 @@
+"""sym-combo-customize 自测公共基类：冷启动、按 id 定位、搜索、网格取色。"""
+from __future__ import annotations
+
+from pathlib import Path
+
+import cv2
+import numpy as np
+from hypium import BY
+from hypium.model import KeyCode
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "com.next.liny.symbolu"
+SHOT_DIR = Path(__file__).resolve().parents[1] / "logs" / "shots"
+
+# 系统色在 API 23 模拟器（浅色模式）上的实际取值，来自 dumpLayout 中颜色圆点的 backgroundColor
+RGB = {
+    "accent": (0x0A, 0x59, 0xF7),
+    "connected": (0x64, 0xBB, 0x5C),
+    "warning": (0xE8, 0x40, 0x26),
+    "alert": (0xED, 0x6F, 0x21),
+    "foreground": (0x00, 0x00, 0x00),
+}
+COLOR_NAMES = ["accent", "connected", "warning", "alert", "handup", "foreground"]
+STRATEGIES = ["SINGLE", "MULTIPLE_COLOR", "MULTIPLE_OPACITY"]
+
+
+class SymTestCase(HarnessTestCase):
+    """每个用例前强制停止并冷启动，用例之间互不影响。"""
+
+    def setUp(self) -> None:
+        restart_app(self.driver, BUNDLE, wait_time=2)
+        self.require_component(BY.key("symbol_grid"), "冷启动后未出现符号网格")
+
+    # ---------- 定位 ----------
+    def key(self, key: str, timeout: float = 5):
+        return self.require_component(BY.key(key), f"未找到组件 id={key}", timeout=timeout)
+
+    def key_or_none(self, key: str, timeout: float = 1.5):
+        return self.find_or_none(BY.key(key), timeout=timeout)
+
+    def text_of(self, key: str) -> str:
+        return self.key(key).getText()
+
+    def tap(self, key: str, wait: float = 0.5) -> None:
+        self.driver.click(self.key(key))
+        self.driver.wait(wait)
+
+    def bounds(self, key: str):
+        b = self.key(key).getBounds()
+        return (b.left, b.top, b.right, b.bottom)
+
+    # ---------- 操作 ----------
+    def open_panel(self) -> None:
+        self.tap("ops_toggle", wait=0.8)
+        self.key("ops_panel")
+
+    def pick(self, group: str, name: str) -> None:
+        self.tap(f"color_dot_{group}_{name}")
+
+    def pick_strategy(self, name: str) -> None:
+        seg = self.key("strategy_segment")
+        texts = self.driver.find_all_components(BY.text(name)) or []
+        sb = seg.getBounds()
+        for t in texts:
+            b = t.getBounds()
+            if sb.top <= b.top and b.bottom <= sb.bottom:
+                self.driver.click(t)
+                self.driver.wait(0.8)
+                return
+        self.fail(f"SegmentButton 中未找到段 {name}")
+
+    def search(self, text: str) -> None:
+        box = self.key("search_input")
+        if 

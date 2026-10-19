@@ -1,0 +1,38 @@
+"""场景三：渲染策略 SegmentButton 与策略胶囊（C1-C8）。"""
+import numpy as np
+
+from hypium_tests.sym_base import STRATEGIES, SymTestCase
+
+
+class TestRenderingStrategy(SymTestCase):
+
+    def test_01_default_single(self):
+        """C1-C3/C6：三段从左到右 SINGLE/MULTIPLE_COLOR/MULTIPLE_OPACITY，默认选中 SINGLE。"""
+        self.open_panel()
+        seg = self.key("strategy_segment").getBounds()
+        lefts = []
+        for name in STRATEGIES:
+            comp = self.require_text(name, f"缺少段 {name}", timeout=2)
+            b = comp.getBounds()
+            self.assertTrue(seg.top <= b.top and b.bottom <= seg.bottom, f"{name} 不在 SegmentButton 内")
+            lefts.append(b.left)
+        self.assertEqual(lefts, sorted(lefts))
+        self.assertEqual(self.segment_selected(), ["SINGLE"])
+        self.assertEqual(self.text_of("strategy_capsule"), "SINGLE")
+        # 策略胶囊在 SegmentButton 下方
+        self.assertGreaterEqual(self.bounds("strategy_capsule")[1], seg.bottom)
+
+    def test_02_switch_updates_capsule(self):
+        """C4/C6：切换后选中段与胶囊同步；重复点同一段幂等；收起再展开保持。"""
+        self.open_panel()
+        for name in ["MULTIPLE_COLOR", "MULTIPLE_OPACITY", "SINGLE", "MULTIPLE_OPACITY"]:
+            self.pick_strategy(name)
+            self.assertEqual(self.text_of("strategy_capsule"), name)
+            self.assertEqual(self.segment_selected(), [name])
+        self.pick_strategy("MULTIPLE_OPACITY")
+        self.assertEqual(self.text_of("strategy_capsule"), "MULTIPLE_OPACITY")
+        self.assertEqual(self.segment_selected(), ["MULTIPLE_OPACITY"])
+        self.tap("ops_toggle", wait=0.8)
+        self.open_panel()
+        self.assertEqual(self.text_of("strategy_capsule"), "MULTIPLE_OPACITY")
+        self.assertEqua

@@ -1,0 +1,116 @@
+  @Builder
+  OperationsPanel() {
+    Column({ space: 10 }) {
+      Row({ space: 10 }) {
+        Column({ space: 8 }) {
+          this.ColorPicker('primary', '主色')
+          this.ColorPicker('secondary', '副色')
+          this.ColorPicker('background', '背景色')
+        }
+        .layoutWeight(1)
+        .alignItems(HorizontalAlign.Start)
+
+        SymbolGlyph($r('sys.symbol.arrow_counterclockwise'))// Color Reset Button
+          .id('color_reset')
+          .fontColor([$r('app.color.font_color_title')])
+          .fontSize(36)
+          .onClick(() => {
+            this.resetColors();
+          })
+      } // Color Pickers
+      .width('100%')
+
+      Row() {
+        SegmentButton({ options: this.strategyOptions, selectedIndexes: $strategyIndexes })
+      } // Rendering Strategy
+      .id('strategy_segment')
+      .width('100%')
+
+      LinysCapsuleButton({
+        text: RENDERING_STRATEGY_NAMES[RENDERING_STRATEGIES.indexOf(this.renderingStrategy)],
+        fontSize: 16,
+        capsuleId: 'strategy_capsule'
+      })
+    }
+    .id('ops_panel')
+    .width('100%')
+    .alignItems(HorizontalAlign.Start)
+  }
+
+  @Builder
+  ColorPicker(group: string, label: string) {
+    Row({ space: 8 }) {
+      Text(label)
+        .fontSize(14)
+        .fontColor($r('app.color.font_color_title'))
+      Row({ space: 6 }) {
+        ForEach(PRESET_COLORS, (c: SymbolColor) => {
+          Column()
+            .id('color_dot_' + group + '_' + c.name)
+            .width(20)
+            .height(20)
+            .borderRadius(10)
+            .backgroundColor(c.color)
+            .border({
+              width: this.colorOf(group)?.name === c.name ? 3 : 0,
+              color: $r('app.color.start_window_background')
+            })
+            .clickEffect({ level: ClickEffectLevel.LIGHT })
+            .onClick(() => {
+              this.pickColor(group, c);
+            })
+        }, (c: SymbolColor) => c.name)
+      }
+
+      LinysCapsuleButton({
+        text: this.colorOf(group)?.name ?? 'undefined',
+        fontSize: 16,
+        capsuleId: 'color_capsule_' + group
+      })
+    }
+    .id('color_group_' + group)
+  }
+
+  // fontColor list of the symbols: primary, secondary, then background if chosen
+  symbolFontColors(): ResourceColor[] {
+    let colors: ResourceColor[] = [this.primaryColor.color, this.secondaryColor.color];
+    if (this.backgroundLayerColor !== undefined) {
+      colors.push(this.backgroundLayerColor.color);
+    }
+    return colors;
+  }
+
+  colorOf(group: string): SymbolColor | undefined {
+    if (group === 'primary') {
+      return this.primaryColor;
+    }
+    if (group === 'secondary') {
+      return this.secondaryColor;
+    }
+    return this.backgroundLayerColor;
+  }
+
+  pickColor(group: string, color: SymbolColor) {
+    if (group === 'primary') {
+      this.primaryColor = color;
+    } else if (group === 'secondary') {
+      this.secondaryColor = color;
+    } else {
+      this.backgroundLayerColor = color;
+    }
+  }
+
+  resetColors() {
+    this.primaryColor = DEFAULT_PRIMARY_COLOR;
+    this.secondaryColor = DEFAULT_SECONDARY_COLOR;
+    this.backgroundLayerColor = undefined;
+  }
+
+  onStrategySelected() {
+    const index: number | undefined = this.strategyIndexes[0];
+    if (index !== undefined && index >= 0 && index < RENDERING_STRATEGIES.length) {
+      this.renderingStrategy = RENDERING_STRATEGIES[index];
+    }
+  }
+
+  searchFor(key: string) {

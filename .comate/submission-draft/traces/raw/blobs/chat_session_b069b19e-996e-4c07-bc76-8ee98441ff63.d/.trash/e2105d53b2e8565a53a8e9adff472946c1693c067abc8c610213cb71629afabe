@@ -1,0 +1,62 @@
+import { SegmentButton, SegmentButtonItemTuple, SegmentButtonOptions } from '@kit.ArkUI';
+import { allSymbols, linysSymbol } from '../objects/linysSymbol';
+import LinysSymbolDataSource from '../objects/SymbolDataSource';
+import { copy } from '../utils/clipboard_tools';
+
+// System preset color with the name shown on its capsule
+interface SymbolColor {
+  name: string;
+  color: Resource;
+}
+
+const PRESET_COLORS: SymbolColor[] = [
+  { name: 'accent', color: $r('sys.color.ohos_id_color_emphasize') },
+  { name: 'connected', color: $r('sys.color.ohos_id_color_connected') },
+  { name: 'warning', color: $r('sys.color.ohos_id_color_warning') },
+  { name: 'alert', color: $r('sys.color.ohos_id_color_alert') },
+  { name: 'handup', color: $r('sys.color.ohos_id_color_handup') },
+  { name: 'foreground', color: $r('sys.color.ohos_id_color_foreground') }
+];
+const DEFAULT_PRIMARY_COLOR: SymbolColor = PRESET_COLORS[0];
+const DEFAULT_SECONDARY_COLOR: SymbolColor = PRESET_COLORS[1];
+
+const RENDERING_STRATEGIES: SymbolRenderingStrategy[] = [
+  SymbolRenderingStrategy.SINGLE,
+  SymbolRenderingStrategy.MULTIPLE_COLOR,
+  SymbolRenderingStrategy.MULTIPLE_OPACITY
+];
+const RENDERING_STRATEGY_NAMES: string[] = ['SINGLE', 'MULTIPLE_COLOR', 'MULTIPLE_OPACITY'];
+
+@Entry
+@Component
+struct Index {
+  // Environment
+  @StorageLink('tablet_mode') tablet_mode: boolean = false;
+  @StorageLink('screen_width') screen_width: number = 0;
+  @StorageLink('screen_height') screen_height: number = 0;
+  // UI
+  @State inputText: string = "";
+  @State symbolTest: Resource = $r('sys.symbol.camera_slash_fill');
+  @State selected: linysSymbol = allSymbols[0];
+  @State showOperations: boolean = false;
+  // Symbol customization
+  @State primaryColor: SymbolColor = DEFAULT_PRIMARY_COLOR;
+  @State secondaryColor: SymbolColor = DEFAULT_SECONDARY_COLOR;
+  @State backgroundLayerColor: SymbolColor | undefined = undefined;
+  @State renderingStrategy: SymbolRenderingStrategy = SymbolRenderingStrategy.SINGLE;
+  @State @Watch('onStrategySelected') strategyIndexes: number[] = [0];
+  @State strategyOptions: SegmentButtonOptions = SegmentButtonOptions.capsule({
+    buttons: [
+      { text: RENDERING_STRATEGY_NAMES[0] },
+      { text: RENDERING_STRATEGY_NAMES[1] },
+      { text: RENDERING_STRATEGY_NAMES[2] }
+    ] as SegmentButtonItemTuple,
+    multiply: false,
+    fontSize: 12,
+    selectedFontSize: 12
+  });
+  // Data
+  data: LinysSymbolDataSource = new LinysSymbolDataSource(allSymbols);
+
+  build() {
+    Column({

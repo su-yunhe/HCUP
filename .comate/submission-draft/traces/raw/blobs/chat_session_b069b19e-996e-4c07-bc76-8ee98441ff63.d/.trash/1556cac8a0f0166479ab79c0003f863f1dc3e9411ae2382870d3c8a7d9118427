@@ -1,0 +1,36 @@
+"""场景五/六：信息栏水平滚动与布局隔离（E1-E5、F1-F5），回归保护。"""
+from hypium_tests.sym_base import SymTestCase
+
+LONG_NAME = "headphones_badge_checkmark_shield_filled_battery_filled"
+
+
+class TestInfoBar(SymTestCase):
+
+    def slide_info(self, to_left: bool = True):
+        s = self.key("info_scroll").getBounds()
+        y = (s.top + s.bottom) // 2
+        a, b = (s.right - 40, y), (s.left + 40, y)
+        self.driver.slide(a if to_left else b, b if to_left else a, slide_time=0.4)
+        self.driver.wait(1.0)
+
+    def select_by_search(self, name: str):
+        self.search(name)
+        glyphs = self.grid_glyphs()
+        self.assertGreater(len(glyphs), 0, f"搜索 {name} 无结果")
+        self.driver.click(glyphs[0])
+        self.driver.wait(0.8)
+
+    def layout_bounds(self):
+        return [self.bounds(k) for k in ("search_input", "symbol_grid", "info_scroll")]
+
+    def test_01_default_four_capsules(self):
+        """E1：冷启动四个胶囊依次为 No./字符/Unicode/名称。"""
+        self.assertEqual(self.text_of("info_no"), "No. 0")
+        self.assertEqual(self.text_of("info_unicode"), "U+000020")
+        xs = [self.bounds(k)[0] for k in ("info_no", "info_char", "info_unicode")]
+        self.assertEqual(xs, sorted(xs))
+        grid, info, search = self.bounds("symbol_grid"), self.bounds("info_scroll"), self.bounds("search_input")
+        self.assertTrue(grid[3] <= info[1] <= info[3] <= search[1], "信息栏应位于网格下方、搜索栏上方")
+
+    def test_02_long_name_scrolls_fully_visible(self):
+        """E2/E3/E5：长

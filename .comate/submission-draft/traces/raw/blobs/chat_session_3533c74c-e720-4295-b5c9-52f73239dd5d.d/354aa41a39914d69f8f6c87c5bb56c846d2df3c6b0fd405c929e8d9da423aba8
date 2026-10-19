@@ -1,0 +1,10 @@
+- 推荐：(a)。
+
+**U-3 系统预设色板**（A6）
+- 已知：Spec 只点名 `accent`、`connected`。SDK `sys.color` 有 `ohos_id_color_connected`，但**没有任何名称含 accent 的系统颜色**（SDK sysResource.js 全表搜索）。
+- 推荐：每组同一份色板，名称取 `ohos_id_color_` 之后的短名：`accent`、`connected`、`warning`、`alert`、`handup`、`foreground`、`palette1`…等少量常用色（具体条数开发时定，6-8 个）。
+- 理由：短名风格与 `connected` 一致；色板来自 `sys.color`，满足"系统预设颜色"。
+
+**U-4 胶囊上的颜色名称格式**（A11、B2-B4）
+- 选项：(a) 短名 `accent` / `connected` / `undefined`；(b) 资源全名 `sys.color.ohos_id_color_connected`；(c) 代码形式 `$r('sys.color.…')`。
+- 推荐：(a)。背景色为空时显示 `undefined`。

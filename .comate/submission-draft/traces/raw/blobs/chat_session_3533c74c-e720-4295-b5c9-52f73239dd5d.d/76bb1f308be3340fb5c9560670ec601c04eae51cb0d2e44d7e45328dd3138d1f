@@ -1,0 +1,112 @@
+<file>
+     1→/**
+     2→ * Adapted from https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/arkts-rendering-control-lazyforeach
+     3→ * */
+     4→import { linysSymbol } from "./linysSymbol";
+     5→
+     6→// BasicDataSource实现了IDataSource接口，用于管理listener监听，以及通知LazyForEach数据更新
+     7→class BasicDataSource implements IDataSource {
+     8→  private listeners: DataChangeListener[] = [];
+     9→  private originDataArray: linysSymbol[] = [];
+    10→
+    11→  public totalCount(): number {
+    12→    return 0;
+    13→  }
+    14→
+    15→  public getData(index: number): linysSymbol {
+    16→    return this.originDataArray[index];
+    17→  }
+    18→
+    19→  // 该方法为框架侧调用，为LazyForEach组件向其数据源处添加listener监听
+    20→  registerDataChangeListener(listener: DataChangeListener): void {
+    21→    if (this.listeners.indexOf(listener) < 0) {
+    22→      // console.info('add listener');
+    23→      this.listeners.push(listener);
+    24→    }
+    25→  }
+    26→
+    27→  // 该方法为框架侧调用，为对应的LazyForEach组件在数据源处去除listener监听
+    28→  unregisterDataChangeListener(listener: DataChangeListener): void {
+    29→    const pos = this.listeners.indexOf(listener);
+    30→    if (pos >= 0) {
+    31→      // console.info('remove listener');
+    32→      this.listeners.splice(pos, 1);
+    33→    }
+    34→  }
+    35→
+    36→  // 通知LazyForEach组件需要重载所有子组件
+    37→  notifyDataReload(): void {
+    38→    this.listeners.forEach(listener => {
+    39→      listener.onDataReloaded();
+    40→    });
+    41→  }
+    42→
+    43→  // 通知LazyForEach组件需要在index对应索引处添加子组件
+    44→  notifyDataAdd(index: number): void {
+    45→    this.listeners.forEach(listener => {
+    46→      listener.onDataAdd(index);
+    47→      // 写法2：listener.onDatasetChange([{type: DataOperationType.ADD, index: index}]);
+    48→    });
+    49→  }
+    50→
+    51→  // 通知LazyForEach组件在index对应索引处数据有变化，需要重建该子组件
+    52→  notifyDataChange(index: number): void {
+    53→    this.listeners.forEach(listener => {
+    54→      listener.onDataChange(index);
+    55→      // 写法2：listener.onDatasetChange([{type: DataOperationType.CHANGE, index: index}]);
+    56→    });
+    57→  }
+    58→
+    59→  // 通知LazyForEach组件需要在index对应索引处删除该子组件
+    60→  notifyDataDelete(index: number): void {
+    61→    this.listeners.forEach(listener => {
+    62→      listener.onDataDelete(index);
+    63→      // 写法2：listener.onDatasetChange([{type: DataOperationType.DELETE, index: index}]);
+    64→    });
+    65→  }
+    66→
+    67→  // 通知LazyForEach组件将from索引和to索引处的子组件进行交换
+    68→  notifyDataMove(from: number, to: number): void {
+    69→    this.listeners.forEach(listener => {
+    70→      listener.onDataMove(from, to);
+    71→      // 写法2：listener.onDatasetChange(
+    72→      //         [{type: DataOperationType.EXCHANGE, index: {start: from, end: to}}]);
+    73→    });
+    74→  }
+    75→
+    76→  notifyDatasetChange(operations: DataOperation[]): void {
+    77→    this.listeners.forEach(listener => {
+    78→      listener.onDatasetChange(operations);
+    79→    });
+    80→  }
+    81→}
+    82→
+    83→export default class LinysSymbolDataSource extends BasicDataSource {
+    84→  private dataArray: linysSymbol[] = [];
+    85→
+    86→  constructor(fromData: linysSymbol[]) {
+    87→    super();
+    88→    this.dataArray = fromData;
+    89→  }
+    90→
+    91→  public setData(data: linysSymbol[]): void {
+    92→    this.dataArray = data;
+    93→    this.notifyDataReload();
+    94→  }
+    95→
+    96→  public totalCount(): number {
+    97→    return this.dataArray.length;
+    98→  }
+    99→
+   100→  public getData(index: number): linysSymbol {
+   101→    return this.dataArray[index];
+   102→  }
+   103→
+   104→  public pushData(data: linysSymbol): void {
+   105→    this.dataArray.push(data);
+   106→    this.notifyDataAdd(this.dataArray.length - 1);
+   107→  }
+   108→}
+   109→
+</file>
+<metadata>The file has 109 lines in total.</metadata>

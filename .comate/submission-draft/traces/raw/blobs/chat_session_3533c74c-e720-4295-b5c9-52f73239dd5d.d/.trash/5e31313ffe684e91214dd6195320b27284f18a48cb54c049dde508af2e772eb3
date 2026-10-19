@@ -1,0 +1,24 @@
+## 5. UNCONFIRMED_ASSUMPTION 汇总与决策
+
+**决策状态**：2026-10-19 已由用户确认。U-13 改为"保留"，其余全部采用推荐方案。各项的证据等级保持 `UNCONFIRMED_ASSUMPTION` 不变，因为确认只是选定了方案，并不代表官方行为得到证实；开发阶段按下面的"决策"实现，交付材料里作为已知假设列出。
+
+| 编号 | 决策（一句话） |
+| --- | --- |
+| U-1 | '^' = `SymbolGlyph(sys.symbol.chevron_up)`，放在底部搜索行最右侧 |
+| U-2 | 页内展开的 Column，插在信息栏和搜索行之间 |
+| U-3 | 6 色板：accent / connected / warning / alert / handup / foreground |
+| U-4 | 胶囊显示短名；背景色为空时显示 `undefined` |
+| U-5 | 背景色 = fontColor 列表第 3 项，undefined 时不放进列表 |
+| U-6 | 三组带文字标签 `主色` / `副色` / `背景色` |
+| U-7 | 段按钮文字用英文枚举名 |
+| U-8 | accent → `sys.color.ohos_id_color_emphasize` |
+| U-9 | 不持久化 |
+| U-10 | 重置只管三种颜色 |
+| U-11 | 信息栏滚动不复位（保持基线） |
+| U-12 | 同步修改 `python_script/HMSymbolVF.txt:477` |
+| U-13 | **保留** `build-profile.json5` 的 targetSdkVersion 改动 |
+| U-14 | 再次点击收起；图标始终是 '^'，不换 |
+| U-15 | 开发第一步先做技术验证，再改网格 |
+| U-16 | 当前值的圆点加边框（最低优先级） |
+
+总原则：官方测试是针对参考实现写的，参考实现必然能通过。所以有歧义时，优先

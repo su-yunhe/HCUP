@@ -1,0 +1,141 @@
+Command executed successfully.
+Exit code: 0
+Output:
+1:/*
+2:interface SegmentButtonTextItem {
+3:    text: ResourceStr;
+4:    accessibilityLevel?: string;
+5:    accessibilityDescription?: ResourceStr;
+6:}
+7:interface SegmentButtonIconItem {
+8:    icon: ResourceStr;
+9:    iconAccessibilityText?: ResourceStr;
+10:    selectedIcon: ResourceStr;
+11:    selectedIconAccessibilityText?: ResourceStr;
+12:    accessibilityLevel?: string;
+13:    accessibilityDescription?: ResourceStr;
+14:}
+15:interface SegmentButtonIconTextItem {
+16:    icon: ResourceStr;
+17:    iconAccessibilityText?: ResourceStr;
+18:    selectedIcon: ResourceStr;
+19:    selectedIconAccessibilityText?: ResourceStr;
+20:    text: ResourceStr;
+21:    accessibilityLevel?: string;
+22:    accessibilityDescription?: ResourceStr;
+23:}
+24:declare type DimensionNoPercentage = PX | VP | FP | LPX | Resource;
+25:declare enum BorderRadiusMode {
+26:    DEFAULT = 0,
+27:    CUSTOM = 1
+28:}
+29:interface CommonSegmentButtonOptions {
+30:    fontColor?: ResourceColor;
+31:    selectedFontColor?: ResourceColor;
+32:    fontSize?: DimensionNoPercentage;
+33:    selectedFontSize?: DimensionNoPercentage;
+34:    fontWeight?: FontWeight;
+35:    selectedFontWeight?: FontWeight;
+36:    backgroundColor?: ResourceColor;
+37:    selectedBackgroundColor?: ResourceColor;
+38:    imageSize?: SizeOptions;
+39:    buttonPadding?: Padding | Dimension;
+40:    localizedButtonPadding?: LocalizedPadding;
+41:    textPadding?: Padding | Dimension;
+42:    localizedTextPadding?: LocalizedPadding;
+43:    backgroundBlurStyle?: BlurStyle;
+44:    direction?: Direction;
+45:    borderRadiusMode?: BorderRadiusMode;
+46:    backgroundBorderRadius?: LengthMetrics;
+47:    itemBorderRadius?: LengthMetrics;
+48:}
+49:declare type ItemRestriction<T> = [
+50:    T,
+51:    T,
+52:    T?,
+53:    T?,
+54:    T?
+55:];
+56:declare type SegmentButtonItemTuple = ItemRestriction<SegmentButtonTextItem> | ItemRestriction<SegmentButtonIconItem> | ItemRestriction<SegmentButtonIconTextItem>;
+57:declare type SegmentButtonItemArray = Array<SegmentButtonTextItem> | Array<SegmentButtonIconItem> | Array<SegmentButtonIconTextItem>;
+58:interface TabSegmentButtonConstructionOptions extends CommonSegmentButtonOptions {
+59:    buttons: ItemRestriction<SegmentButtonTextItem>;
+60:}
+61:interface CapsuleSegmentButtonConstructionOptions extends CommonSegmentButtonOptions {
+62:    buttons: SegmentButtonItemTuple;
+63:    multiply?: boolean;
+64:}
+65:interface TabSegmentButtonOptions extends TabSegmentButtonConstructionOptions {
+66:    type: "tab";
+67:}
+68:interface CapsuleSegmentButtonOptions extends CapsuleSegmentButtonConstructionOptions {
+69:    type: "capsule";
+70:}
+71:interface SegmentButtonItemOptionsConstructorOptions {
+72:    icon?: ResourceStr;
+73:    iconAccessibilityText?: ResourceStr;
+74:    selectedIcon?: ResourceStr;
+75:    selectedIconAccessibilityText?: ResourceStr;
+76:    text?: ResourceStr;
+77:    accessibilityLevel?: string;
+78:    accessibilityDescription?: ResourceStr;
+79:}
+80:@Observed
+81:declare class SegmentButtonItemOptions {
+82:    icon?: ResourceStr;
+83:    iconAccessibilityText?: ResourceStr;
+84:    selectedIcon?: ResourceStr;
+85:    selectedIconAccessibilityText?: ResourceStr;
+86:    text?: ResourceStr;
+87:    accessibilityLevel?: string;
+88:    accessibilityDescription?: ResourceStr;
+89:    constructor(options: SegmentButtonItemOptionsConstructorOptions);
+90:}
+91:@Observed
+92:declare class SegmentButtonItemOptionsArray extends Array<SegmentButtonItemOptions> {
+93:    constructor(elements: SegmentButtonItemTuple);
+94:    push(...items: SegmentButtonItemArray): number;
+95:    pop(): SegmentButtonItemOptions | undefined;
+96:    shift(): SegmentButtonItemOptions | undefined;
+97:    unshift(...items: SegmentButtonItemArray): number;
+98:    splice(start: number, deleteCount: number, ...items: SegmentButtonItemOptions[]): SegmentButtonItemOptions[];
+99:    static create(elements: SegmentButtonItemTuple): SegmentButtonItemOptionsArray;
+100:}
+101:@Observed
+102:declare class SegmentButtonOptions {
+103:    type: "tab" | "capsule";
+104:    multiply: boolean;
+105:    buttons: SegmentButtonItemOptionsArray;
+106:    fontColor: ResourceColor;
+107:    selectedFontColor: ResourceColor;
+108:    fontSize: DimensionNoPercentage;
+109:    selectedFontSize: DimensionNoPercentage;
+110:    fontWeight: FontWeight;
+111:    selectedFontWeight: FontWeight;
+112:    backgroundColor: ResourceColor;
+113:    selectedBackgroundColor: ResourceColor;
+114:    imageSize: SizeOptions;
+115:    buttonPadding: Padding | Dimension;
+116:    localizedButtonPadding?: LocalizedPadding;
+117:    textPadding: Padding | Dimension;
+118:    localizedTextPadding?: LocalizedPadding;
+119:    backgroundBlurStyle: BlurStyle;
+120:    constructor(options: TabSegmentButtonOptions | CapsuleSegmentButtonOptions);
+121:    static tab(options: TabSegmentButtonConstructionOptions): SegmentButtonOptions;
+122:    static capsule(options: CapsuleSegmentButtonConstructionOptions): SegmentButtonOptions;
+123:    direction?: Direction;
+124:    borderRadiusMode?: BorderRadiusMode;
+125:    backgroundBorderRadius?: LengthMetrics;
+126:    itemBorderRadius?: LengthMetrics;
+127:}
+128:@Component
+129:declare struct SegmentButton {
+130:    @ObjectLink
+131:    options: SegmentButtonOptions;
+132:    @Link
+133:    selectedIndexes: number[];
+134:    @Prop
+135:    maxFontScale: number | Resource;
+136:    onItemClicked?: Callback<number>;
+137:}
+138:export { SegmentButton, SegmentButtonOptions, SegmentButtonItemOptionsArray, TabSegmentButtonOptions, TabSegmentButtonConstructionOptions, CapsuleSegmentButtonOptions, CapsuleSegmentButtonConstructionOptions, SegmentButtonTextItem, SegmentButtonIconItem, SegmentButtonIconTextItem, DimensionNoPercentage, CommonSegmentButtonOptions, ItemRestriction, SegmentButtonItemTuple, SegmentButtonItemArray, SegmentButtonItemOptionsConstructorOptions, SegmentButtonItemOptions, BorderRadiusMode };

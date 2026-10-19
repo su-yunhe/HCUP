@@ -1,0 +1,10 @@
+  @Prop allowCopy: boolean = true;
+
+  aboutToAppear(): void {
+    // Preprocess of text
+    this.text = this.text == "" ? "¯\\_(ツ)_/¯" : this.text;
+  }
+
+  build() {
+    Button(this.text)
+      .type(ButtonType.Capsule)

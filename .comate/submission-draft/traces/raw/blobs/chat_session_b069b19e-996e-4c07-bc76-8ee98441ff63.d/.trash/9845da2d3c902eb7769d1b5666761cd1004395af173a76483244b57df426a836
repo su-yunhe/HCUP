@@ -1,0 +1,16 @@
+"""通用项：冷启动默认、后台再拉起保持、强制停止后恢复默认（G1-G3、U-9）。"""
+from harness.app import restart_app
+from hypium_tests.sym_base import BUNDLE, SymTestCase
+
+
+class TestLifecycle(SymTestCase):
+
+    def customize(self):
+        self.open_panel()
+        self.pick("primary", "warning")
+        self.pick("secondary", "alert")
+        self.pick("background", "connected")
+        self.pick_strategy("MULTIPLE_COLOR")
+
+    def assert_customized(self):
+        self.key("ops_pane

@@ -1,0 +1,23 @@
+1. **无任何稳定 id**：所有组件 `id/key` 为空【实测 b0 dump】。新增组件需补 `.id()`；但官方测试按参考实现编写，我们无法知道其 id，**官方测试大概率依赖文本、类型和顺序**，因此文本、组件类型、组件相对顺序同样要尽量贴合 Spec。
+2. **UI 树只含可见组件**：完全滚出视口的胶囊不在 dumpLayout 中（b3 中名称胶囊缺失，滑动后 b4 才出现）；部分可见的组件 `bounds` 被裁剪、`origBounds` 为完整尺寸。断言名称胶囊前需先水平滑动。
+3. **信息栏滚动偏移不随选中项复位**【实测 b5】：滑到末尾后再选另一个符号，`No. x` 和字符胶囊仍在视口外，不在 UI 树中。连续用例若先滑动再选中再查 `No.` 文本会失败。是否在选中变化时复位滚动属于设计决定，见 acceptance.md U-11。
+4. **dump 不暴露 SymbolGlyph 颜色/渲染策略**：SymbolGlyph 节点只有 `backgroundColor/opacity/bounds/text(空)` 等通用属性【实测 b0 dump】。"网格以新颜色重新渲染"只能通过胶囊文本、组件 `backgroundColor`（如颜色圆点）、`selected` 属性或截图像素间接观测。
+5. **类型+顺序选择器会被新增组件打乱**：当前 `Scroll` 唯一（信息栏），`Button` 前 4 个依次为 No./字符/Unicode/名称，`SymbolGlyph` 唯一（搜索重置）。若网格改用 SymbolGlyph，`SymbolGlyph` 数量会变成"网格可见项数 + 图标数"；若面板里再加 Scroll / Button，会改变信息栏的类型序号。
+6. **同类同形图标歧义**：实现后会有两个 `arrow_counterclockwise`（搜索重置、颜色重置），类型相同、无文本，只能靠 id 或位置区分。
+7. **同名文本歧义**：策略胶囊显示 `MULTIPLE_COLOR` 时，若 SegmentButton 的按钮文字也是 `MULTIPLE_COLOR`，`BY.text` 会匹配两个组件。
+8. **网格项文本不可读**：基线网格项是 `Text`，文本为私有区字符（如 `\U000f0000`）；字符胶囊文本两侧带空格（`" 󰇢 "`，`Index.ets:42`）。
+9. **搜索只在回车时触发**（`onSubmit` `Index.ets:58-60`），测试需输入后发送回车（实测 `uitest uiInput keyEvent 2054` 可触发）；纯空格不 trim，`"   "` 搜索得到空网格（由代码推出，未实测）。
+10. **返回后重进保持状态**【实测 b7】：根页按两次返回，应用进入后台（mission 仍在），再次 `aa start` 搜索词和选中项都保留；`aa force-stop` 后冷启动恢复初始状态（`selected = allSymbols[0]`，显示 `No. 0`/`U+000020`/`space`）【实测 b0】。
+
+## 附：基线实测记录（`logs/baseline/`）
+
+| 文件 | 操作 | 关键观察 |
+| --- | --- | --- |
+| b0-launch | 冷启动 | 5 列网格；信息栏 `No. 0`/`"   "`/`U+000020`/`space`（`space` 被视口截断）；无 '^'、无面板 |
+| b1-search-correct-name | 输入 `bookmark_on_bookmark` + 回车 | WaterFlow 0 个子项（场景四"修复前搜索无结果"复现） |
+| b2-search-typo-name | 重置后输入 `kmark_on_bookmark` + 回车 | 1 个结果 |
+| b3-select-typo | 点击该结果 | `No. 476`、字符、`U+0F01E2`；名称胶囊在视口外，不在 UI 树 |
+| b4-infobar-swiped | 信息栏左滑 | 出现 `kmark_on_bookmark` 胶囊 |
+| b5/b6 | 选中长名称后左滑 | 长名称胶囊完整可见至末尾 |
+| b7-back-reenter | 返回两次后重新拉起 | 状态保留 |
+| b8 | 网格纵向滑动 | 仅 1 个搜索结果，无参考价值 |

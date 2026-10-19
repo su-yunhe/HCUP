@@ -1,0 +1,157 @@
+Command executed successfully.
+Exit code: 0
+Output:
+{
+  "color": [
+    {
+      "name": "start_window_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "block_color",
+      "value": "#FFCDD1D7"
+    },
+    {
+      "name": "font_color_title",
+      "value": "#FF11182F"
+    }
+  ]
+}{
+  "float": [
+    {
+      "name": "page_text_font_size",
+      "value": "50fp"
+    }
+  ]
+}
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "The module containing an ability showcasing all HarmonyOS Symbols in a chaotic manner."
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "A meowy application showcasing all HarmonyOS Symbols in a chaotic manner."
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "Symbolu"
+    }
+  ]
+}{
+  "color": [
+    {
+      "name": "start_window_background",
+      "value": "#FF11182F"
+    },
+    {
+      "name": "block_color",
+      "value": "#FF29365A"
+    },
+    {
+      "name": "font_color_title",
+      "value": "#FFCDD1D7"
+    }
+  ]
+}{
+  "src": [
+    "pages/Index"
+  ]
+}
+  new linysSymbol("󰲕", "U+0F0C95", "x_to_the_second_power", 3180),
+  new linysSymbol("󰲖", "U+0F0C96", "x_to_the_third_power", 3181),
+  new linysSymbol("󰲗", "U+0F0C97", "Pi", 3182),
+  new linysSymbol("󰲘", "U+0F0C98", "earphone_16661", 3183),
+  new linysSymbol("󰲙", "U+0F0C99", "earphone_16661_right", 3184),
+  new linysSymbol("󰲚", "U+0F0C9A", "earphone_16661_left", 3185),
+  new linysSymbol("󰲛", "U+0F0C9B", "earphone_16661_fill", 3186),
+  new linysSymbol("󰲜", "U+0F0C9C", "earphone_16661_right_fill", 3187),
+  new linysSymbol("󰲝", "U+0F0C9D", "earphone_16661_left_fill", 3188),
+  new linysSymbol("󰲞", "U+0F0C9E", "earphone_case_16661", 3189),
+  new linysSymbol("󰼀", "U+0F0F00", "transfer_mirroring", 3190),
+  new linysSymbol("󰼁", "U+0F0F01", "video_star_mirroring", 3191),
+  new linysSymbol("󰼂", "U+0F0F02", "video_star_fill_mirroring", 3192),
+  new linysSymbol("󰼃", "U+0F0F03", "edit_badge_star_mirroring", 3193),
+  new linysSymbol("󰼄", "U+0F0F04", "list_bullet_square_fill_1_mirroring", 3194)]import { hilog } from '@kit.PerformanceAnalysisKit';
+import { describe, beforeAll, beforeEach, afterEach, afterAll, it, expect } from '@ohos/hypium';
+
+export default function abilityTest() {
+  describe('ActsAbilityTest', () => {
+    // Defines a test suite. Two parameters are supported: test suite name and test suite function.
+    beforeAll(() => {
+      // Presets an action, which is performed only once before all test cases of the test suite start.
+      // This API supports only one parameter: preset action function.
+    })
+    beforeEach(() => {
+      // Presets an action, which is performed before each unit test case starts.
+      // The number of execution times is the same as the number of test cases defined by **it**.
+      // This API supports only one parameter: preset action function.
+    })
+    afterEach(() => {
+      // Presets a clear action, which is performed after each unit test case ends.
+      // The number of execution times is the same as the number of test cases defined by **it**.
+      // This API supports only one parameter: clear action function.
+    })
+    afterAll(() => {
+      // Presets a clear action, which is performed after all test cases of the test suite end.
+      // This API supports only one parameter: clear action function.
+    })
+    it('assertContain', 0, () => {
+      // Defines a test case. This API supports three parameters: test case name, filter parameter, and test case function.
+      hilog.info(0x0000, 'testTag', '%{public}s', 'it begin');
+      let a = 'abc';
+      let b = 'b';
+      // Defines a variety of assertion methods, which are used to declare expected boolean conditions.
+      expect(a).assertContain(b);
+      expect(a).assertEqual(a);
+    })
+  })
+}/node_modules
+/oh_modules
+/local.properties
+/.idea
+**/build
+/.hvigor
+.cxx
+/.clangd
+/.clang-format
+/.clang-tidy
+**/.test
+/.appanalyzer/node_modules
+/oh_modules
+/.preview
+/build
+/.cxx
+/.test{
+  "files": [
+    "**/*.ets"
+  ],
+  "ignore": [
+    "**/src/ohosTest/**/*",
+    "**/src/test/**/*",
+    "**/src/mock/**/*",
+    "**/node_modules/**/*",
+    "**/oh_modules/**/*",
+    "**/build/**/*",
+    "**/.preview/**/*"
+  ],
+  "ruleSet": [
+    "plugin:@performance/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "@security/no-unsafe-aes": "error",
+    "@security/no-unsafe-hash": "error",
+    "@security/no-unsafe-mac": "warn",
+    "@security/no-unsafe-dh": "error",
+    "@security/no-unsafe-dsa": "error",
+    "@security/no-unsafe-ecdsa": "error",
+    "@security/no-unsafe-rsa-encrypt": "error",
+    "@security/no-unsafe-rsa-sign": "error",
+    "@security/no-unsafe-rsa-key": "error",
+    "@security/no-unsafe-dsa-key": "error",
+    "@security/no-unsafe-dh-key": "error",
+    "@security/no-unsafe-3des": "error"
+  }
+}

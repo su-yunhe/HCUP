@@ -1,0 +1,10 @@
+应用只有一个页面，无路由、无 Navigation：
+- `entry/src/main/resources/base/profile/main_pages.json:3` 仅 `pages/Index`；`entry/src/main/ets/entryability/EntryAbility.ets:22` `loadContent('pages/Index')`。【代码】
+- 冷启动直接进入符号网格页【实测 b0】。官方测试只能从这一页开始。
+
+| Spec 对象 | 基线位置 | 状态 |
+| --- | --- | --- |
+| 场景一/三"点击 '^' 展开操作面板" | 无。`Index.ets` 中没有 '^'、`chevron_up` 或任何面板 | 缺失【代码+实测 b0】 |
+| 颜色选择器、重置图标、SegmentButton、相应胶囊 | 无 | 缺失 |
+| 符号网格 | `Index.ets:21-37` WaterFlow + LazyForEach；单项 `LinysSymbolDisplay` `Index.ets:97-123`，用 `Text(this.symbol.char)` 渲染（`:110-119`），颜色固定 `app.color.font_color_title`（`:111`） | 存在，但用 Text 渲染，无法应用 fontColor 列表/渲染策略 |
+| 底部信息栏（No./字符/Unicode/名称） | `Index.ets:39-50`：`Scroll` + `Row{4×LinysCapsuleButton}`，`.scrollable(ScrollDirection.Horizontal)` `:48`、`.scrollBar(BarState.Off)`

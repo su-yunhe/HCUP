@@ -1,0 +1,57 @@
+"""通用项：冷启动默认、后台再拉起保持、强制停止后恢复默认（G1-G3、U-9）。"""
+from harness.app import restart_app
+from hypium_tests.sym_base import BUNDLE, SymTestCase
+
+
+class TestLifecycle(SymTestCase):
+
+    def customize(self):
+        self.open_panel()
+        self.pick("primary", "warning")
+        self.pick("secondary", "alert")
+        self.pick("background", "connected")
+        self.pick_strategy("MULTIPLE_COLOR")
+
+    def assert_customized(self):
+        self.key("ops_panel")
+        self.assertEqual(self.text_of("color_capsule_primary"), "warning")
+        self.assertEqual(self.text_of("color_capsule_secondary"), "alert")
+        self.assertEqual(self.text_of("color_capsule_background"), "connected")
+        self.assertEqual(self.text_of("strategy_capsule"), "MULTIPLE_COLOR")
+
+    def test_01_cold_start_defaults(self):
+        """G1：面板收起、No. 0、展开后为默认颜色和 SINGLE。"""
+        self.assertIsNone(self.key_or_none("ops_panel"))
+        self.assertEqual(self.text_of("info_no"), "No. 0")
+        self.open_panel()
+        self.assertEqual(self.text_of("color_capsule_primary"), "accent")
+        self.assertEqual(self.text_of("color_capsule_secondary"), "connected")
+        self.assertEqual(self.text_of("color_capsule_background"), "undefined")
+        self.assertEqual(self.text_of("strategy_capsule"), "SINGLE")
+
+    def test_02_background_resume_keeps_state(self):
+        """G3：返回到后台再拉起，面板、颜色、策略、搜索词保持。"""
+        self.search("wifi")
+        self.customize()
+        self.driver.press_back()
+        self.driver.wait(0.5)
+        self.driver.press_back()
+        self.driver.wait(1.0)
+        self.driver.start_app(BUNDLE, wait_time=2)
+        self.assert_customized()
+        self.assertEqual(self.text_of("search_input"), "wifi")
+        self.assertGreater(self.count_color(self.grid_image("resumed"), "warning"), 300)
+
+    def test_03_restart_resets_to_defaults(self):
+        """G2/U-9：强制停止后冷启动回到默认值，不持久化。"""
+        self.customize()
+        self.assert_customized()
+        restart_app(self.driver, BUNDLE, wait_time=2)
+        self.key("symbol_grid")
+        self.assertIsNone(self.key_or_none("ops_panel"), "重启后面板应收起")
+        self.open_panel()
+        self.assertEqual(self.text_of("color_capsule_primary"), "accent")
+        self.assertEqual(self.text_of("color_capsule_secondary"), "connected")
+        self.assertEqual(self.text_of("color_capsule_background"), "undefined")
+        self.assertEqual(self.text_of("strategy_capsule"), "SINGLE")
+        self.assertEqual(self.segment_selected(), ["SINGLE"])

@@ -1,0 +1,56 @@
+"""场景一：'^' 入口、操作面板、三组颜色选择器、胶囊显示名称（A1-A13）。"""
+from hypium import BY
+
+from hypium_tests.sym_base import COLOR_NAMES, STRATEGIES, SymTestCase
+
+GROUPS = ["primary", "secondary", "background"]
+
+
+class TestColorPicker(SymTestCase):
+
+    def test_01_toggle_present_and_panel_collapsed(self):
+        """A1/A2：冷启动有可点击的 '^'，面板默认收起。"""
+        toggle = self.key("ops_toggle")
+        self.assertTrue(toggle.isClickable(), "'^' 不可点击")
+        self.assertIsNone(self.key_or_none("ops_panel"), "冷启动时面板不应展开")
+        for text in ["主色", "副色", "背景色"] + STRATEGIES:
+            self.assertIsNone(self.driver.find_component(BY.text(text)), f"收起状态不应出现 {text}")
+        # '^' 在搜索行最右侧
+        self.assertGreater(self.bounds("ops_toggle")[0], self.bounds("search_reset")[2])
+
+    def test_02_expand_shows_three_groups(self):
+        """A3/A5/A6/A11/B1/C1：展开后三组颜色、6 个圆点、胶囊、重置图标、SegmentButton。"""
+        self.open_panel()
+        tops = []
+        for group, label in zip(GROUPS, ["主色", "副色", "背景色"]):
+            row = self.key(f"color_group_{group}")
+            tops.append(row.getBounds().top)
+            self.require_text(label, f"缺少标签 {label}", timeout=2)
+            lefts = []
+            for name in COLOR_NAMES:
+                dot = self.key(f"color_dot_{group}_{name}")
+                self.assertTrue(dot.isClickable(), f"{group}/{name} 圆点不可点击")
+                lefts.append(dot.getBounds().left)
+            self.assertEqual(lefts, sorted(lefts), "圆点顺序不对")
+        self.assertEqual(tops, sorted(tops), "三组应按 主色/副色/背景色 从上到下")
+        self.assertEqual(self.text_of("color_capsule_primary"), "accent")
+        self.assertEqual(self.text_of("color_capsule_secondary"), "connected")
+        self.assertEqual(self.text_of("color_capsule_background"), "undefined")
+        self.assertTrue(self.key("color_reset").isClickable())
+        for name in STRATEGIES:
+            self.require_text(name, f"SegmentButton 缺少段 {name}", timeout=2)
+        # 面板不打乱信息栏：信息栏仍是第一个 Scroll，前 4 个 Button 仍是信息胶囊
+        self.assertEqual(self.driver.find_component(BY.type("Scroll")).getId(), "info_scroll")
+        first_buttons = [b.getId() for b in self.driver.find_all_components(BY.type("Button"))[:4]]
+        self.assertEqual(first_buttons, ["info_no", "info_char", "info_unicode", "info_name"])
+
+    def test_03_pick_primary_recolors_grid(self):
+        """A7/A10：选主色后胶囊为该色名，网格立即换色。"""
+        self.open_panel()
+        before = self.grid_image("before")
+        self.assertGreater(self.count_color(before, "accent"), 2000, "默认主色应为 accent")
+        self.pick("primary", "warning")
+        self.assertEqual(self.text_of("color_capsule_primary"), "warning")
+        after = self.grid_image("after")
+        self.assertGreater(self.count_color(after, "warning"), 2000, "网格未换成 warning")
+        self.assertLess(self.count_color(after, "accent"), 200, "SINGLE 下网格不应残留

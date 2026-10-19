@@ -1,0 +1,20 @@
+"""sym-combo-customize 自测公共基类：冷启动、按 id 定位、搜索、网格取色。"""
+from __future__ import annotations
+
+from pathlib import Path
+
+import cv2
+import numpy as np
+from hypium import BY
+from hypium.model import KeyCode
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "com.next.liny.symbolu"
+SHOT_DIR = Path(__file__).resolve().parents[1] / "logs" / "shots"
+
+# 系统色在 API 23 模拟器（浅色模式）上的实际取值，来自 dumpLayout 中颜色圆点的 backgroundColor
+RGB = {
+    "accent": (0x0A, 0x59, 0xF7),
+    "

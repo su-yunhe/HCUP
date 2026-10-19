@@ -1,0 +1,53 @@
+import { allSymbols, linysSymbol } from '../objects/linysSymbol';
+import LinysSymbolDataSource from '../objects/SymbolDataSource';
+import { copy } from '../utils/clipboard_tools';
+
+@Entry
+@Component
+struct Index {
+  // Environment
+  @StorageLink('tablet_mode') tablet_mode: boolean = false;
+  @StorageLink('screen_width') screen_width: number = 0;
+  @StorageLink('screen_height') screen_height: number = 0;
+  // UI
+  @State inputText: string = "";
+  @State symbolTest: Resource = $r('sys.symbol.camera_slash_fill');
+  @State selected: linysSymbol = allSymbols[0];
+  // Data
+  data: LinysSymbolDataSource = new LinysSymbolDataSource(allSymbols);
+
+  build() {
+    Column({ space: 10 }) {
+      WaterFlow() {
+        LazyForEach(this.data, (s: linysSymbol) => {
+          LinysSymbolDisplay({
+            symbol: s,
+            selected: this.selected
+          })
+        }, (s: linysSymbol) => {
+          return s.unicode;
+        })
+      } // Symbols
+      .edgeEffect(EdgeEffect.Spring)
+      .width('100%')
+      .layoutWeight(1)
+      .columnsTemplate("1fr ".repeat(Math.ceil(this.screen_width / 75)))
+      .columnsGap(15)
+      .rowsGap(15)
+      .scrollBar(BarState.On)
+
+      Scroll() {
+        Row({ space: 10 }) {
+          LinysCapsuleButton({ text: "No. " + this.selected.id.toString() })
+          LinysCapsuleButton({ text: " " + this.selected.char + " ", fontSize: 26 })
+          LinysCapsuleButton({ text: this.selected.unicode })
+          LinysCapsuleButton({ text: this.selected.name })
+        } // Operations
+      }
+      .width('100%')
+      .scrollable(ScrollDirection.Horizontal)
+      .scrollBar(BarState.Off)
+      .edgeEffect(EdgeEffect.Spring)
+
+      Row({ space: 10 }) {
+        TextInput({ text: this.inputText })// 

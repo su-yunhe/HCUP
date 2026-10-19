@@ -1,0 +1,30 @@
+**A10 网格所有符号立即以新颜色重新渲染** — 场景一·步骤 3｜`SPEC_EXPLICIT`
+- 原子行为：颜色变化在同一帧内作用到网格**全部**符号，包括当前可见项、之后滚动加载的项、搜索结果。
+- 可观察：dump 不暴露 SymbolGlyph 颜色（基线 O-4），只能截图取样网格区域像素；间接：无需重启/重新搜索即可看到变化。
+- 维度：入口 E0｜前置 A3｜动作 点圆点后观察网格；再纵向滑动网格；再搜索｜UI 所有格子换色｜数据 网格项读取页面颜色状态｜网络 N0｜返回 R0｜边界 搜索结果为空时不崩溃；搜索后再改色，结果项也更新；LazyForEach 缓存项必须更新（实现风险，未验证）
+- 选择器：`symbol_grid`（WaterFlow，需补）
+- 前提：网格必须改为 SymbolGlyph/SymbolSpan 渲染（基线 `Index.ets:110` 用 Text，不支持 fontColor 数组），见 U-15。
+
+**A11 胶囊显示当前所选颜色的系统名称** — 场景一·步骤 3｜`SPEC_EXPLICIT`（文本格式 `UNCONFIRMED`，U-4）
+- 可观察：每组旁一个胶囊；冷启动展开面板后依次显示 `accent`、`connected`、背景色的"无"表示（推荐 `undefined`）；选色后显示该色名称。
+- 维度：入口 E0｜前置 A3｜动作 选色｜UI 胶囊文本=名称｜数据 名称与颜色一一对应｜网络 N0｜返回 R0｜边界 胶囊复用 `LinysCapsuleButton`，其 `aboutToAppear` 只处理首帧空串（`Index.ets:131-134`），文本切换为空串时不会显示 `¯\_(ツ)_/¯`，实现时须让 undefined 显示稳定文本
+- 选择器：`color_capsule_primary/secondary/background`（需补）
+
+**A12 点击颜色胶囊复制名称** — 场景一·步骤 3 "方便复制代码"｜`REASONABLE_DERIVATION`
+- 可观察：点击胶囊，剪贴板内容=胶囊文本（hilog `Succeeded in setting PasteData. Copied "..."`，`clipboard_tools.ets:8`）。
+- 维度：入口 E0｜前置 A3｜动作 点胶囊｜UI 点击反馈｜数据 剪贴板写入（系统剪贴板，非应用存储）｜网络 N0｜返回 R0｜边界 连点多次重复写入同值无副作用
+- 选择器：同 A11
+
+**A13 选中的圆点有选中态** — `UNCONFIRMED_ASSUMPTION`（U-16）
+- 可观察：当前值对应圆点有边框/勾选；重置后选中态回到默认色。仅作体验项。
+
+### 场景二：重置
+
+原文：步骤 2 "点击颜色选择器旁的重置图标（反向箭头符号）。" 步骤 3 "主色恢复为 accent，副色恢复为 connected，背景色恢复为无（undefined）。"
+
+**B1 颜色选择器旁有重置图标（反向箭头）** — 场景二·步骤 2｜`SPEC_EXPLICIT`
+- 可观察：面板内、颜色组旁有 clickable 的 `SymbolGlyph(sys.symbol.arrow_counterclockwise)`（与搜索重置同款，`Index.ets:61`）。
+- 维度：入口 E0｜前置 A3｜动作 无｜UI 图标可见｜数据 不适用｜网络 N0｜返回 R0｜边界 面板收起时不可见
+- 选择器：`color_reset`（需补；与搜索重置同类型同图标，见 O-6）
+
+**B2 主色恢复为 accent** — 场景二·步骤 

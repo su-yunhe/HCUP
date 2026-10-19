@@ -1,0 +1,38 @@
+## 3. 边界条件穷举
+
+| 边界 | 是否适用 | 期望 / 不适用理由 |
+| --- | --- | --- |
+| 空输入 | 适用（搜索） | 空串回车 = 显示全部 3195 项（基线 `searchFor('')`）；颜色/策略无输入框，不适用 |
+| 纯空格 | 适用（搜索） | 基线不 trim，`"   "` 回车得到 0 项、不崩溃；保持基线，不改搜索逻辑 |
+| 取消 | 部分适用 | 面板无"取消"按钮；收起面板不撤销已选颜色/策略（A4）；颜色选择即时生效，没有待确认态 |
+| 关闭 | 适用 | 收起面板（A4）；关闭应用见"重启" |
+| 重复点击 | 适用 | 同一圆点 / 同一段 / 重置 / 胶囊重复点均幂等（A7、B2、C4、A12） |
+| 快速连点 | 适用 | '^' 连点按奇偶切换且不崩溃；连点不同圆点或段以最后一次为准；无异步，不会出现乱序 |
+| 无数据 | 适用 | 搜索无结果时网格为空，面板、颜色、策略仍可操作，不崩溃；之后搜索出结果立即用当前颜色/策略 |
+| 最后一页 | 适用（滚动末端） | 无分页；网格滚到底部、信息栏滑到末端（E3/E4）时回弹，不崩溃 |
+| 部分操作 | 适用 | 只改主色不改副色、背景色：其余保持默认，胶囊各自独立；只改策略不改颜色 |
+| 请求失败 | 不适用 | 本题无网络请求（N0），无失败分支 |
+| 返回后重进 | 适用 | 单页；根页返回进后台，再拉起保持全部状态（G3） |
+| 重启应用后重进 | 适用 | 回默认值（G2，U-9） |
+
+## 4. 稳定选择器清单（全部需在实现时补 `.id()`，基线无任何 id）
+
+下文 `O-n` 指 `baseline-notes.md` 第 8 节第 n 条观测风险。
+
+| id | 组件 | 说明 |
+| --- | --- | --- |
+| `symbol_grid` | WaterFlow | 网格 |
+| `info_scroll` / `info_no` / `info_char` / `info_unicode` / `info_name` | Scroll / 4 个胶囊 | `LinysCapsuleButton` 需增加 id 透传 |
+| `search_input` / `search_reset` | TextInput / SymbolGlyph | 基线已有组件补 id |
+| `ops_toggle` | '^' | 展开/收起 |
+| `ops_panel` | 面板容器 | 收起时不在树中 |
+| `color_group_{primary,secondary,background}` | 每组容器 | |
+| `color_dot_{group}_{name}` | 颜色圆点 | 如 `color_dot_primary_accent` |
+| `color_capsule_{primary,secondary,background}` | 胶囊 | |
+| `color_reset` | SymbolGlyph | 与 `search_reset` 同图标，必须靠 id 区分（O-6） |
+| `strategy_segment` | SegmentButton | |
+| `strategy_capsule` | 胶囊 | 与段文字可能重名（O-7） |
+
+为兼容官方按类型+顺序定位，建议：面板放在信息栏之后，保证信息栏仍是第一个 `Scroll`、前 4 个 `Button` 仍是 No./字符/Unicode/名称；面板内尽量不用 `Scroll`（O-5）。
+
+<!-- APPEND-F -->

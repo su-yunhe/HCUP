@@ -1,0 +1,43 @@
+"""Ad-hoc probe: run a sequence of actions and capture screenshot + layout. Temporary, not part of the project."""
+import json
+import sys
+
+from hypium import BY, UiDriver
+
+BUNDLE = "com.next.liny.symbolu"
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+tag = sys.argv[1]
+steps = sys.argv[2:]
+for s in steps:
+    kind, _, arg = s.partition(":")
+    if kind == "restart":
+        d.stop_app(BUNDLE)
+        d.start_app(BUNDLE, wait_time=2)
+    elif kind == "key":
+        d.click(d.find_component(BY.key(arg)))
+    elif kind == "text":
+        d.click(d.find_component(BY.text(arg)))
+    elif kind == "input":
+        d.input_text(d.find_component(BY.key("search_input")), arg)
+        d.press_key(2054)
+    elif kind == "swipe":
+        d.swipe(arg)
+    d.wait(0.8)
+d.capture_screen(f"/tmp/{tag}.jpeg")
+layout = d.get_layout() if hasattr(d, "get_layout") else None
+
+
+def walk(n, depth=0, out=None):
+    a = n.get("attributes", {})
+    if a.get("type") and (a.get("id") or a.get("text") or a.get("type") in ("Button", "SymbolGlyph", "Scroll", "WaterFlow", "Row", "Column", "Text")):
+        out.append(f"{'  '*depth}{a.get('type')} id={a.get('id')!r} text={a.get('text')!r} bounds={a.get('bounds')} sel={a.get('selected')} bg={a.get('backgroundColor')} acc={a.get('accessibilityText', a.get('description'))!r}")
+    for c in n.get("children", []):
+        walk(c, depth + 1, out)
+    return out
+
+
+import subprocess
+subprocess.run(["hdc", "-t", "127.0.0.1:5555", "shell", "uitest dumpLayout -p /data/local/tmp/probe.json"], capture_output=True)
+subprocess.run(["hdc", "-t", "127.0.0.1:5555", "file", "recv", "/data/local/tmp/probe.json", f"/tmp/{tag}.json"], capture_output=True)
+tree = json.load(open(f"/tmp/{tag}.json"))
+print("\n".join(walk(tree, 0, [])))

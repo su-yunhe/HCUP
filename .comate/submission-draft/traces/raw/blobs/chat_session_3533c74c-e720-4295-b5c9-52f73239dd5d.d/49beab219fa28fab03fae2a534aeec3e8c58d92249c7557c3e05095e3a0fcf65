@@ -1,0 +1,93 @@
+# 验收矩阵：sym-combo-customize
+
+Spec：`spec/requirement.md`（6 个场景）。基线现状见 `spec/baseline-notes.md`。
+
+## 0. 约定
+
+- 证据等级：`SPEC_EXPLICIT` Spec 明文 / `REASONABLE_DERIVATION` 合理推导 / `UNCONFIRMED_ASSUMPTION` 待确认假设（汇总见第 5 节，`U-n`）。
+- 引号内文案为 Spec 逐字摘录。
+- 官方测试按参考实现编写、我们看不到其 id，所以"可观察结果"优先写**文本/类型/相对顺序**，`.id()` 只作为自测锚点。
+- 技术答疑（swe-openharmony.tech「具体赛题技术答疑」8 项，2026-10-19 抓取）：全部针对 cml-*/cmu-*/jm-* 题，**无 sym 系列条目**。通用条款"经由基线已有机制接入服务"只约束网络题，本题无网络，不适用。
+
+### 公共维度（各项引用，避免重复）
+
+| 代号 | 维度 | 内容 |
+| --- | --- | --- |
+| E0 | 入口 | 冷启动 `pages/Index`（唯一页面，`EntryAbility.ets:22`） |
+| P0 | 前置数据 | 内置 `allSymbols`（3195 条），无需登录/服务端/测试数据 |
+| N0 | 网络结果 | 不适用：Spec 无网络需求，基线无网络模块；任何动作都不得发请求 |
+| R0 | 返回结果 | 单页应用无子页可返回。根页返回 → 进后台，重新拉起状态保留（基线实测 b7）；force-stop 后冷启动回到默认值（不持久化，U-9） |
+| D0 | 数据结果 | 只改页面内存状态，不写存储 |
+
+## 1. 状态机
+
+本题**没有网络请求**，任何用户动作都不触发请求，也就没有 loading 状态。下面是页面 UI 状态机，所有变化必须在同一次点击回调里同步完成（不允许"先改 UI 稍后补"，也不允许异步延迟）。
+
+状态：`panel ∈ {Collapsed, Expanded}`；`primary`、`secondary`、`background`（颜色名或 undefined）；`strategy ∈ {SINGLE, MULTIPLE_COLOR, MULTIPLE_OPACITY}`；以及基线已有的 `inputText`、`selected`、网格数据集。
+
+初始（冷启动）：`panel=Collapsed`，`primary=accent`，`secondary=connected`，`background=undefined`，`strategy=SINGLE`，`selected=allSymbols[0]`，网格=全部 3195 项。
+
+| 当前 | 动作 | 下一状态 | 同步副作用 |
+| --- | --- | --- | --- |
+| Collapsed | 点 '^' | Expanded | 面板出现：三组颜色、重置图标、SegmentButton、胶囊 |
+| Expanded | 点 '^' | Collapsed（U-14） | 面板消失；颜色/策略值保留 |
+| Expanded | 点主色组圆点 c | primary=c | 网格 fontColor 列表第 1 项=c；主色胶囊文本=c 的名称 |
+| Expanded | 点副色组圆点 c | secondary=c | 列表第 2 项=c；副色胶囊=c 的名称 |
+| Expanded | 点背景色组圆点 c | background=c | 见 U-5；背景色胶囊=c 的名称 |
+| Expanded | 点颜色重置 | primary=accent, secondary=connected, background=undefined | 网格回到默认色；三个胶囊回到默认名称；strategy 不变（U-10） |
+| Expanded | 点策略段 s | strategy=s | 网格 renderingStrategy=s；策略胶囊=s；该段选中 |
+| 任意 | 点相同值（重复点击） | 不变 | 幂等，无闪烁、不崩溃 |
+| 任意 | 搜索（回车）/搜索重置/点网格项 | 只改 inputText/网格数据/selected | 颜色、策略、panel 不变；新出现的网格项立即用当前颜色和策略 |
+| 任意 | force-stop 冷启动 | 回到初始 | — |
+
+## 2. 验收项
+
+### 场景一：颜色选择器
+
+原文：步骤 1 "用户点击‘^’符号展开操作面板，看到三组颜色选择器（主色 / 副色 / 背景色）。" 步骤 2 "点击颜色圆点，对应颜色应用到符号的 fontColor 列表。" 步骤 3 "符号网格中的所有符号立即以新颜色重新渲染；旁边的胶囊按钮显示当前所选颜色的系统名称，方便复制代码。"
+
+**A1 存在 '^' 入口** — 场景一·步骤 1｜`SPEC_EXPLICIT`（形式与位置 `UNCONFIRMED`，U-1）
+- 原子行为：主页常驻一个可点击的 '^' 符号。
+- 可观察：冷启动后存在 clickable 的 '^'（推荐 `SymbolGlyph(sys.symbol.chevron_up)`），在底部搜索行。
+- 维度：入口 E0｜前置 P0｜动作 无（仅观察）｜UI '^' 可见、clickable=true｜数据 不适用（纯展示）｜网络 N0｜返回 R0：重进后仍在｜边界 搜索无结果时仍可见；横竖屏/宽屏不消失
+- 选择器：`ops_toggle`（需在实现时补 `.id()`）
+
+**A2 面板默认收起** — 场景一·步骤 1｜`REASONABLE_DERIVATION`（"点击…展开"说明初始不展开）
+- 可观察：冷启动时 UI 树中没有颜色选择器、SegmentButton、策略胶囊。
+- 维度：入口 E0｜前置 P0｜动作 无｜UI 面板不在树中｜数据 panel=Collapsed｜网络 N0｜返回 R0：force-stop 冷启动后又是收起｜边界 重启后仍收起（U-9）
+- 选择器：`ops_panel`（需补）
+
+**A3 点击 '^' 展开操作面板** — 场景一·步骤 1｜`SPEC_EXPLICIT`
+- 可观察：点击后 `ops_panel` 出现，内含三组颜色选择器、重置图标、SegmentButton。
+- 维度：入口 E0｜前置 P0｜动作 点击 '^'｜UI 面板出现｜数据 panel=Expanded（D0）｜网络 N0｜返回 R0：后台再拉起保持展开｜边界 快速连点两次=收起（U-14）；连点奇数次=展开；展开后网格、信息栏、搜索栏仍可用（F5）
+- 选择器：`ops_toggle`、`ops_panel`（需补）
+
+**A4 再次点击 '^' 收起面板** — `UNCONFIRMED_ASSUMPTION`（U-14）
+- 可观察：面板从 UI 树消失；颜色/策略值保留，再展开时胶囊仍显示原值。
+- 维度：入口 E0｜前置 A3｜动作 再点 '^'｜UI 面板消失｜数据 panel=Collapsed，颜色/策略不变｜网络 N0｜返回 R0｜边界 收起后网格仍是自定义颜色
+- 选择器：`ops_toggle`、`ops_panel`
+
+**A5 三组颜色选择器：主色 / 副色 / 背景色** — 场景一·步骤 1｜`SPEC_EXPLICIT`（标签是否为字面文本 `UNCONFIRMED`，U-6）
+- 可观察：面板中有三组，按"主色 / 副色 / 背景色"顺序从上到下；推荐每组带文字标签 `主色`、`副色`、`背景色`。
+- 维度：入口 E0｜前置 A3｜动作 无｜UI 三组均可见，各组内有一排颜色圆点、一个胶囊｜数据 不适用｜网络 N0｜返回 R0｜边界 窄屏时圆点不得被截断到不可点（若用 Scroll 包裹见观测风险 O-5）
+- 选择器：`color_group_primary`、`color_group_secondary`、`color_group_background`（需补）
+
+**A6 每组提供系统预设颜色圆点** — 场景概述"选择系统预设颜色"｜`SPEC_EXPLICIT`（具体色板 `UNCONFIRMED`，U-3）
+- 可观察：每组 ≥2 个圆形、clickable 的颜色块；`backgroundColor` 属性为对应系统颜色值（dump 可读）；颜色来自 `sys.color.*`，不是自定义十六进制。
+- 维度：入口 E0｜前置 A3｜动作 无｜UI 圆点可见｜数据 色板常量｜网络 N0｜返回 R0｜边界 深色模式下系统色随主题变化，属正常
+- 选择器：`color_dot_<group>_<name>`（需补）
+
+**A7 点击主色圆点 → 应用到 fontColor 列表第 1 项** — 场景一·步骤 2｜`SPEC_EXPLICIT`
+- 可观察：主色胶囊文本变为该颜色系统名称；网格符号主色层变化（截图取样）。
+- 维度：入口 E0｜前置 A3｜动作 点击主色组任一圆点｜UI 胶囊文本更新｜数据 primary=c（D0）｜网络 N0｜返回 R0：后台再拉起保持｜边界 重复点同一圆点幂等；快速连点不同圆点以最后一次为准；收起面板后值保留
+- 选择器：`color_dot_primary_<name>`、`color_capsule_primary`（需补）
+
+**A8 点击副色圆点 → fontColor 列表第 2 项** — 场景一·步骤 2｜`SPEC_EXPLICIT`
+- 可观察/维度/边界：同 A7，换成副色组与 `color_capsule_secondary`。SINGLE 策略下副色可能不可见（见 C8），胶囊仍须更新。
+
+**A9 点击背景色圆点** — 场景一·步骤 1-2｜`SPEC_EXPLICIT`（作用对象 `UNCONFIRMED`，U-5）
+- 可观察：背景色胶囊文本变为该颜色名称；按 U-5 选定方案生效（fontColor 第 3 项或符号背景）。
+- 维度：同 A7｜边界 从 undefined → 某色 → 重置回 undefined
+- 选择器：`color_dot_background_<name>`、`color_capsule_background`（需补）
+
+<!-- APPEND-B -->

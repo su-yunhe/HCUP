@@ -1,0 +1,33 @@
+## 5. 可复用的既有实现
+
+| 需求 | 复用对象 | 依据 |
+| --- | --- | --- |
+| 显示颜色名 / 策略名、点击复制 | `LinysCapsuleButton`（胶囊 + 点击 copy） | `Index.ets:125-150`；Spec"方便复制代码/API 参数" |
+| 重置图标、'^' 图标 | 与搜索重置同款 `SymbolGlyph(...).fontColor([...]).fontSize(36).onClick` | `Index.ets:61-67` |
+| 颜色下发到网格项 | `LinysSymbolDisplay` 已预留 `@Prop colors` | `Index.ets:102` |
+| 动态按名称渲染符号 | 作者注释掉的尝试 `SymbolGlyph($r('sys.symbol.'.concat(this.symbol.name)))` | `Index.ets:107-109`（说明作者意图是 SymbolGlyph 渲染，但该写法未启用，可行性未验证） |
+| 页面状态 | `@State` 放在 `Index`，以 `@Prop`/`@Link` 下发 | `Index.ets:13-15,23-26` |
+| 水平滚动容器 | 信息栏 Scroll 写法 | `Index.ets:39-50` |
+
+## 6. 缺失项（Spec 要求但基线没有）
+
+1. '^' 入口与可展开的操作面板（场景一、三）。
+2. 三组颜色选择器（主色/副色/背景色）、颜色圆点、对应胶囊、重置图标（场景一、二）。
+3. 渲染策略 SegmentButton（SINGLE/MULTIPLE_COLOR/MULTIPLE_OPACITY）与策略胶囊（场景三）。`SegmentButton` 在 SDK `openharmony/ets/api/@ohos.arkui.advanced.SegmentButton.d.ets`；`SymbolRenderingStrategy { SINGLE=0, MULTIPLE_COLOR=1, MULTIPLE_OPACITY=2 }` 见 `openharmony/ets/component/symbolglyph.d.ts:103-175`。
+4. **网格必须改为 SymbolGlyph（或 Text+SymbolSpan）渲染**：`Text` 只能设单一 fontColor，不支持 fontColor 数组和 renderingStrategy【代码/SDK 声明】。这是本题最大的技术风险：
+   - `SymbolGlyph` 入参是 `Resource`，`$r()` 需要字面量；按名称动态构造资源的方式需在开发阶段先做技术验证（未验证）。
+   - 【实测 SDK】编译期系统资源表 `openharmony/ets/build-tools/ets-loader/sysResource.js` 的 `sys.symbol` 有 4027 项：`bookmark_on_bookmark` 存在（id 125831608），`kmark_on_bookmark` 不存在。app 的 3195 个名称中有 442 个不在该表（如 `space`、`heart_gap`、`uF0118`、`kmark_on_bookmark`）。若按名称取资源，这些格子可能空白（运行时行为未验证）。这也解释了场景四"引用该符号时失败"。
+5. 场景四：改名 `kmark_on_bookmark` → `bookmark_on_bookmark`。
+6. 全工程没有任何 `.id()`。
+
+**场景五/六在基线已基本满足**【代码+实测】：信息栏已是水平 Scroll + Spring。实测选中长名称 `headphones_badge_checkmark_shield_filled_battery_filled` 后左滑，名称胶囊完整显示到末尾（b5→b6）；选中 `kmark_on_bookmark` 后名称胶囊初始不在 UI 树中，左滑后出现（b3→b4）。网格 WaterFlow `layoutWeight(1)` 占主体 `Index.ets:33`。弹簧回弹视觉效果未做截图逐帧验证。【推测】上游在该改动前信息栏是 Row，被清理后的基线快照已包含 Scroll；开发阶段把它当作**回归保护项**，加面板时不得破坏。
+
+## 7. 前置环境需求
+
+- 不需要登录、服务端、WebDAV、测试账号或测试数据；全部数据内置在 `linysSymbol.ets`。本地可完全满足。
+- 需要：DevEco 自带 JBR（构建）、`hdc` 在 PATH、API 23 模拟器（已就绪）。
+- 系统颜色/符号资源依赖设备系统资源；`sys.color` 表中**没有名为 accent 的系统颜色**（SDK 全表搜索 `accent` 无结果），`ohos_id_color_connected` 存在。见 acceptance.md U-3。
+
+## 8. 测试可观测性风险
+
+<!-- APPEND-8 -->

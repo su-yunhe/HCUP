@@ -1,0 +1,43 @@
+<file>
+    60→**A3 点击 '^' 展开操作面板** — 场景一·步骤 1｜`SPEC_EXPLICIT`
+    61→- 可观察：点击后 `ops_panel` 出现，内含三组颜色选择器、重置图标、SegmentButton。
+    62→- 维度：入口 E0｜前置 P0｜动作 点击 '^'｜UI 面板出现｜数据 panel=Expanded（D0）｜网络 N0｜返回 R0：后台再拉起保持展开｜边界 快速连点两次=收起（U-14）；连点奇数次=展开；展开后网格、信息栏、搜索栏仍可用（F5）
+    63→- 选择器：`ops_toggle`、`ops_panel`（需补）
+    64→
+    65→**A4 再次点击 '^' 收起面板** — `UNCONFIRMED_ASSUMPTION`（U-14）
+    66→- 可观察：面板从 UI 树消失；颜色/策略值保留，再展开时胶囊仍显示原值。
+    67→- 维度：入口 E0｜前置 A3｜动作 再点 '^'｜UI 面板消失｜数据 panel=Collapsed，颜色/策略不变｜网络 N0｜返回 R0｜边界 收起后网格仍是自定义颜色
+    68→- 选择器：`ops_toggle`、`ops_panel`
+    69→
+    70→**A5 三组颜色选择器：主色 / 副色 / 背景色** — 场景一·步骤 1｜`SPEC_EXPLICIT`（标签是否为字面文本 `UNCONFIRMED`，U-6）
+    71→- 可观察：面板中有三组，按"主色 / 副色 / 背景色"顺序从上到下；每组左侧带文字标签 `主色`、`副色`、`背景色`。
+    72→- 维度：入口 E0｜前置 A3｜动作 无｜UI 三组均可见，各组内有一排颜色圆点、一个胶囊｜数据 不适用｜网络 N0｜返回 R0｜边界 窄屏时圆点不得被截断到不可点（若用 Scroll 包裹见观测风险 O-5）
+    73→- 选择器：`color_group_primary`、`color_group_secondary`、`color_group_background`（需补）
+    74→
+    75→**A6 每组提供系统预设颜色圆点** — 场景概述"选择系统预设颜色"｜`SPEC_EXPLICIT`（具体色板 `UNCONFIRMED`，U-3）
+    76→- 可观察：每组 ≥2 个圆形、clickable 的颜色块；`backgroundColor` 属性为对应系统颜色值（dump 可读）；颜色来自 `sys.color.*`，不是自定义十六进制。
+    77→- 维度：入口 E0｜前置 A3｜动作 无｜UI 圆点可见｜数据 色板常量｜网络 N0｜返回 R0｜边界 深色模式下系统色随主题变化，属正常
+    78→- 选择器：`color_dot_<group>_<name>`（需补）
+    79→
+    80→**A7 点击主色圆点 → 应用到 fontColor 列表第 1 项** — 场景一·步骤 2｜`SPEC_EXPLICIT`
+    81→- 可观察：主色胶囊文本变为该颜色系统名称；网格符号主色层变化（截图取样）。
+    82→- 维度：入口 E0｜前置 A3｜动作 点击主色组任一圆点｜UI 胶囊文本更新｜数据 primary=c（D0）｜网络 N0｜返回 R0：后台再拉起保持｜边界 重复点同一圆点幂等；快速连点不同圆点以最后一次为准；收起面板后值保留
+    83→- 选择器：`color_dot_primary_<name>`、`color_capsule_primary`（需补）
+    84→
+    85→**A8 点击副色圆点 → fontColor 列表第 2 项** — 场景一·步骤 2｜`SPEC_EXPLICIT`
+    86→- 可观察/维度/边界：同 A7，换成副色组与 `color_capsule_secondary`。SINGLE 策略下副色可能不可见（见 C8），胶囊仍须更新。
+    87→
+    88→**A9 点击背景色圆点** — 场景一·步骤 1-2｜`SPEC_EXPLICIT`（作用对象 `UNCONFIRMED`，U-5）
+    89→- 可观察：背景色胶囊文本变为该颜色名称；按 U-5 选定方案生效（fontColor 第 3 项或符号背景）。
+    90→- 维度：同 A7｜边界 从 undefined → 某色 → 重置回 undefined
+    91→- 选择器：`color_dot_background_<name>`、`color_capsule_background`（需补）
+    92→
+    93→**A10 网格所有符号立即以新颜色重新渲染** — 场景一·步骤 3｜`SPEC_EXPLICIT`
+    94→- 原子行为：颜色变化在同一帧内作用到网格**全部**符号，包括当前可见项、之后滚动加载的项、搜索结果。
+    95→- 可观察：dump 不暴露 SymbolGlyph 颜色（基线 O-4），只能截图取样网格区域像素；间接：无需重启/重新搜索即可看到变化。
+    96→- 维度：入口 E0｜前置 A3｜动作 点圆点后观察网格；再纵向滑动网格；再搜索｜UI 所有格子换色｜数据 网格项读取页面颜色状态｜网络 N0｜返回 R0｜边界 搜索结果为空时不崩溃；搜索后再改色，结果项也更新；LazyForEach 缓存项必须更新（实现风险，未验证）
+    97→- 选择器：`symbol_grid`（WaterFlow，需补）
+    98→- 前提：网格必须改为 SymbolGlyph/SymbolSpan 渲染（基线 `Index.ets:110` 用 Text，不支持 fontColor 数组），见 U-15。
+    99→
+</file>
+<metadata>The file has 411 lines in total.</metadata>

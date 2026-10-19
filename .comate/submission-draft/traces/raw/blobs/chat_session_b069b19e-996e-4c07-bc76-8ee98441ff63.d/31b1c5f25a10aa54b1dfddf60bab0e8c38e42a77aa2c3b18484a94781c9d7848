@@ -1,0 +1,9 @@
+  // Colors
+  @Prop colors: ResourceColor = $r('app.color.font_color_title');
+  @Prop fontWeight: FontWeight = FontWeight.Normal;
+
+  build() {
+    Column({ space: 10 }) {
+      SymbolGlyph($r('sys.symbol.'.concat(this.symbol.name)))
+        .fontColor([$r('app.color.font_color_title')])
+        .width(50)

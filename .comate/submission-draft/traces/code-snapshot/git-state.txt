@@ -1,0 +1,36 @@
+# git status --short (freeze 2026-10-19 20:57 UTC+8)
+ M build-profile.json5
+ M entry/src/main/ets/objects/linysSymbol.ets
+ M entry/src/main/ets/pages/Index.ets
+ M python_script/HMSymbolVF.txt
+?? .comate/
+?? hypium_tests/
+?? logs/
+?? spec/
+
+# git log --oneline
+7a35025 chore: 记录 ohpm install 重建的依赖锁文件
+21588d3 Harmony Cup sanitized baseline snapshot
+
+# git tag
+base/sym-combo-customize
+baseline-sym-combo-customize
+
+# git rev-parse HEAD / base
+7a35025ad7ee63bccd46bef6fb2ee78bc3207be6
+21588d3f75b366c0d8de37b59b5634846ce5f347
+
+# git diff --stat HEAD (tracked files; untracked spec/, hypium_tests/ appear only in final.diff)
+ build-profile.json5                        |   3 +-
+ entry/src/main/ets/objects/linysSymbol.ets |   2 +-
+ entry/src/main/ets/pages/Index.ets         | 201 +++++++++++++++++++++++++++--
+ python_script/HMSymbolVF.txt               |   2 +-
+ 4 files changed, 194 insertions(+), 14 deletions(-)
+
+# git diff --stat base_commit (tracked, working tree)
+ build-profile.json5                        |   3 +-
+ entry/src/main/ets/objects/linysSymbol.ets |   2 +-
+ entry/src/main/ets/pages/Index.ets         | 201 +++++++++++++++++++++++++++--
+ oh-package-lock.json5                      |   3 +-
+ python_script/HMSymbolVF.txt               |   2 +-
+ 5 files changed, 196 insertions(+), 15 deletions(-)

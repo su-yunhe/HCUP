@@ -1,0 +1,14 @@
+import { SegmentButton, SegmentButtonItemTuple, SegmentButtonOptions } from '@kit.ArkUI';
+import { allSymbols, linysSymbol } from '../objects/linysSymbol';
+import LinysSymbolDataSource from '../objects/SymbolDataSource';
+import { copy } from '../utils/clipboard_tools';
+
+// System preset color with the name shown on its capsule
+interface SymbolColor {
+  name: string;
+  color: Resource;
+}
+
+const PRESET_COLORS: SymbolColor[] = [
+  { name: 'accent', color: $r('sys.color.ohos_id_color_emphasize') },
+  { name: 'connected', color: $r('sys.
