@@ -1,0 +1,37 @@
+    # ---------- 跨场景 ----------
+
+    def test_10_first_page_failure_retry(self):
+        """A28：首页失败结束全屏加载，空列表 + '点击加载更多'，点击以 offset=0 重试，可多次重试。"""
+        kw = "pgj75"
+        STATE.failures[0] = ["code400", "drop"]
+        self.search(kw)
+        self.wait_loaded()
+        self.require_component(BY.key(K_LOAD_MORE), "首页失败后没有'点击加载更多'重试入口")
+        self.assertTrue(self.has_text(title_of(kw)), "首页失败后没有标题")
+        self.assertFalse(self.has_text(NO_MORE), "首页失败显示了'没有更多了~'")
+        self.assertFalse(self.has_text(self.song(kw, 1)))
+
+        self.click_load_more()
+        self.wait_loaded()
+        self.assertTrue(self.dismiss_error_dialog(), "网络失败时没有'网络请求出错'弹窗")
+        self.require_component(BY.key(K_LOAD_MORE), "第二次失败后没有重试入口")
+        self.assertFalse(self.has_text(self.song(kw, 1)))
+
+        self.click_load_more()
+        self.wait_loaded()
+        self.require_text(self.song(kw, 1), "重试成功后没有第一页歌曲")
+        self.assertEqual(STATE.search_offsets(kw), [0, 0, 0], "重试应以 offset=0 请求")
+        self.assert_page_end(kw, 30, K_LOAD_MORE)
+        self.assertEqual(self.load_more_and_wait(), K_LOAD_MORE)
+        self.assertEqual(STATE.search_offsets(kw), [0, 0, 0, 30])
+
+    def test_11_back_and_reenter_starts_over(self):
+        """A23：加载若干页后返回，再次搜索从 offset=0 开始，列表与 hasMore 不残留。"""
+        kw = "pgk75"
+        self.search(kw)
+        self.wait_loaded()
+        self.scroll_to_bottom()
+        self.assertEqual(self.load_more_and_wait(), K_LOAD_MORE)
+        self.driver.press_back()
+        inp = self.require_component(BY.key(K_INPUT), "返回后不在 Index")
+        self.assertEqual(inp.getText(), kw, "返回后搜索框

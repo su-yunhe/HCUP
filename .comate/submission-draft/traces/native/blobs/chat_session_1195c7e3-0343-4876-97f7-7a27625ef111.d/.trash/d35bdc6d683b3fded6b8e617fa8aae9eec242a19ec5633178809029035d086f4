@@ -1,0 +1,5 @@
+"""本地模拟 NeteaseCloudMusicApi 的 /search 与 /song/detail，供分页自测使用。
+
+真实服务器看不到请求次数，"滑到底不自动请求""连点不重复请求"这类断言只能靠这里的请求日志。
+响应结构与真实接口实测一致（baseline-notes 7.3）：
+- 正常页 `{"result": {

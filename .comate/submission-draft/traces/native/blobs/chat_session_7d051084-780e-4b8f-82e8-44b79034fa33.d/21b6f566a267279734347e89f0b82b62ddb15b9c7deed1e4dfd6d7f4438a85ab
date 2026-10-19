@@ -1,0 +1,23 @@
+**U8 首页失败怎么处理（A28）**
+- 选项：(a) 保持基线（永久全屏 loading + 弹窗）；(b) 结束全屏 loading，显示空列表 + `点击加载更多`，点击后以 offset=0 重试；(c) 结束全屏 loading，只显示空列表。
+- 推荐 (b)。理由：新实现用 `finally` 复位 loading 后，必须决定底部显示什么；`没有更多了~` 会误导，`点击加载更多` 给出重试入口，也和"失败后恢复入口"（A17）规则一致。
+
+**U9 跨页重复歌曲是否去重（A13）**
+- 推荐不去重。理由：Spec 写的是"追加"；去重会让条数和接口不一致，推荐的 (a) offset 方案下也不容易出现重复。
+
+**U10 默认 API 服务器不可达**
+- 事实：2026-10-18 实测 `111.229.38.178:3000` 端口不通（见 baseline-notes 第 7 节）。
+- 推荐：不改 `Constants.ROOT_URL`；本地自测走"自定义 API 服务器地址" + 模拟服务。理由：官方环境用什么服务端未知，改默认地址属于越界改动。需要你确认是否接受这个风险。
+
+## 5. 自测数据与选择器清单
+
+模拟服务需要提供的数据集：D(0)、D(3)、D(30)、D(45)、D(60)、D(75)；可配置的延时（首页 / offset>0）；
+可配置的失败（网络断开、响应体异常）；空页 + hasMore=true 的异常页；按 offset 记录请求日志。
+
+需在实现时补 `.id()` 的组件（基线 `entry/src` 中没有任何 `.id()`/`.key()`，已 grep 确认）：
+
+- Index：`search_input`（TextInput）、`search_button`（搜索按钮）
+- SongsListPage：`search_loading`（全屏 SpinKit 容器）、`search_result_list`（List）、`search_load_more`（`点击加载更多` Text）、
+  `search_loading_more`（加载更多指示容器）、`search_no_more`（`没有更多了~` Text）
+
+SongCard 是 PlayListPage 共用的组件，不建议为了测试给它加 id，用歌名文本定位即可。

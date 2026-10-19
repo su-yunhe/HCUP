@@ -1,0 +1,50 @@
+## 3. Spec 描述的入口在哪
+
+【实测】安装基线 HAP 后冷启动，首页就是搜索入口；输入 `mock75` 点击搜索按钮后进入结果页，标题 `"mock75" 的搜索结果`。
+
+调用链【代码】：
+
+1. `EntryAbility.ets:29` `windowStage.loadContent('pages/Index')`
+2. `pages/Index.ets:34` 渲染 `SearchComponent()`（叠在歌单区域上方）
+3. `components/main/SearchComponent.ets:14-17` TextInput，`onChange` 写入 `@State searchKeyword`
+4. `SearchComponent.ets:20-33` 搜索按钮：`if (this.searchKeyword)` 为真时
+   `router.pushUrl({ url: 'pages/SongsListPage', params: { 'searchKeyword': … } })`，否则 `ToastUtil.showToast('请输入搜索内容')`
+5. 路由注册：`resources/base/profile/main_pages.json:5` `"pages/SongsListPage"`
+6. `pages/SongsListPage.ets:22` 从 `router.getParams()` 取 `searchKeyword`；`:25-30` `onPageShow` 里 `!hasLoaded` 才调 `loadSongs()`
+
+TextInput 没有 `onSubmit`，回车不会提交（【实测】）。
+
+## 4. 相关现状
+
+**页面组件** `pages/SongsListPage.ets`【代码】
+
+- 状态：`:19` `hasLoaded`、`:20` `isLoading`（初值 true）、`:21` `list: Array<Song>`；没有 hasMore、offset、isLoadingMore。
+- `:32-42` `loadSongs()`：置 `isLoading=true` → `getSongsList(keyword)` → `this.list = result`（覆盖写法）→ `isLoading=false`、`hasLoaded=true`。
+  catch 只打日志，**不复位 `isLoading`**，失败后永远停在全屏 loading（【实测】确认）。
+- `:46-54` `isLoading` 时整页只渲染全屏 SpinKit；`:55-72` 否则渲染 `ListHead` + `List`。
+  这是 if/else 分支，切换 `isLoading` 会销毁并重建整个 List（会丢滚动位置）。
+- `:58-65` List：`ForEach(this.list, (item, index) => ListItem { SongCard({ song, sid: index, hasAnimation }) })`，没有 keyGenerator；
+  末尾 `:64` 一个空 ListItem，底部 padding 为导航条高度。
+- 没有 `BottomPlayController`（歌单页有），列表底部不会被遮挡。
+
+**网络服务**【代码】
+
+- `api/songApi.ets:15-32` `getSongsList(searchKeyword)`：URL `${rootUrl}/search?keywords=${encodeURIComponent(kw)}`，**没有 limit/offset**；
+  只取 `result.songs`，丢弃其他字段；返回 `Array<Song>`。
+- `api/songApi.ets:38-48` `getSongInfo` 也调 `/search`（下载页按文件名查歌用），改 `getSongsList` 签名时不要影响它。
+- `common/entities/SongsResult.ets:13-19` `Result { songs }`、`SongsData { result }`，没有 hasMore / songCount 字段。
+- `common/utils/HttpRequestUtils.ets:28-63` `Request()`：POST，header 带 AppStorage 里的 `cookie`；`usingCache` 默认 true；
+  连接/读取超时都是 15s；出错时 reject，并在 1s 后 `DialogUtil.showConfirmDialog({ title: '网络请求出错', … })`。
+  `:20` 构造函数 `if (usingCache)` 只在传真值时赋值，**无法关闭缓存**（基线 bug，只记录）。
+  HTTP 200 但响应体结构不对时不会弹窗，异常在调用方 `.then` 里抛出。
+- `common/functions/functions.ets:14-21` `getApiUrl()`：默认 `Constants.ROOT_URL`（`Constants.ets:13`，`http://111.229.38.178:3000`），
+  开启自定义时用 AppStorage `set-customApiUrl`。
+
+**卡片** `components/main/SongCard.ets`【代码】
+
+- `:19-26` 每张卡片 `aboutToAppear` 时调 `getSongPicUrl` → 每张一次 `/song/detail?ids=`（【实测】首屏 30 张卡片产生 30 次）。
+- `:31` 序号 `Text(sid + 1)`；`:40-45` 开启动画时宽度从 30% 到 100%，600ms；`:53-58` 点击切换 bindSheet 打开 SongSheet。
+
+**本地存储**：搜索没有任何本地存储。【代码】Preferences 只存用户与设置（`appInit.ets:27-73`）。
+
+<!-- APPEND_NOTES -->

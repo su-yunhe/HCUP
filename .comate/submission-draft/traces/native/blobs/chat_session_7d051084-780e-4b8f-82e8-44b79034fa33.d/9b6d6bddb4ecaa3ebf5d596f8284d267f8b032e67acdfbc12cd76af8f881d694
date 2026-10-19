@@ -1,0 +1,193 @@
+Command executed successfully.
+Exit code: 0
+Output:
+     1	import { IndexHead } from '../components/head/IndexHead'
+     2	import { PlayLists } from '../components/main/PlayLists'
+     3	import { SearchComponent } from '../components/main/SearchComponent'
+     4	import { BottomPlayController } from '../components/play/BottomPlayController';
+     5	
+     6	@Entry
+     7	@Component
+     8	struct Index {
+     9	  @StorageProp("isValidCookie") isValidCookie:boolean = false
+    10	  @StorageProp('topRectHeight') topRectHeight: number = 0
+    11	  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    12	
+    13	  async build() {
+    14	    Stack({ alignContent: Alignment.Bottom }) {
+    15	      Column({ space: 10 }) {
+    16	        IndexHead()
+    17	        Stack({ alignContent: Alignment.Top }) {
+    18	          if (this.isValidCookie) {
+    19	            PlayLists()
+    20	              .layoutWeight(1)
+    21	          } else {
+    22	            Column({ space: 5 }) {
+    23	              Text('登录账号\n' +
+    24	                '以显示你的歌单')
+    25	                .fontSize(24)
+    26	                .fontWeight(FontWeight.Bold)
+    27	                .textAlign(TextAlign.Center)
+    28	                .padding({ top: 100 })
+    29	            }
+    30	            .width('100%')
+    31	            .height('100%')
+    32	            .layoutWeight(1)
+    33	          }
+    34	          SearchComponent()
+    35	            .padding({ top: 5, left: 10, right: 10 })
+    36	        }
+    37	      }
+    38	      BottomPlayController()
+    39	        .padding({ left: 10, right: 10, bottom: px2vp(this.bottomRectHeight)})
+    40	        .backgroundColor(Color.Transparent)
+    41	    }
+    42	    .padding({ top: px2vp(this.topRectHeight) })
+    43	    .width('100%')
+    44	    .height('100%')
+    45	    .backgroundColor($r('app.color.background'))
+    46	  }
+    47	}     1	import { getPlayLists } from "../../api/playListApi"
+     2	import { playList } from "../../common/entities/PlayList"
+     3	import { PlayListCard } from "./PlayListCard"
+     4	import { SpinKit, SpinType } from '@pura/spinkit'
+     5	import { LogUtil } from "@pura/harmony-utils";
+     6	
+     7	@Component
+     8	export struct PlayLists {
+     9	  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0;
+    10	  @StorageProp('topRectHeight') topRectHeight: number = 0;
+    11	
+    12	  @State isLoading:boolean = false
+    13	  @State isLoadingMore:boolean = false
+    14	  @State hasMore:boolean = false
+    15	
+    16	  @State playLists:Array<playList> = new Array()
+    17	
+    18	  async aboutToAppear(): Promise<void> {
+    19	    this.isLoading = true
+    20	    try {
+    21	      const result = await getPlayLists(0)
+    22	      this.playLists = result.playlist
+    23	      LogUtil.info('Get play lists: ' + JSON.stringify(this.playLists))
+    24	      this.hasMore = result.more
+    25	      setTimeout(() => {
+    26	        this.isLoading = false
+    27	      }, 100)
+    28	    } catch (e) {
+    29	      LogUtil.error('Error fetching playlists: ', e)
+    30	    }
+    31	  }
+    32	
+    33	  @Builder
+    34	  itemLayout(playList: playList, index: number): void {
+    35	    PlayListCard({playList: playList})
+    36	  }
+    37	
+    38	  build() {
+    39	    Column() {
+    40	      if(this.isLoading == true) {
+    41	        Column() {
+    42	          SpinKit({ spinType: SpinType.spinG, spinSize:60, spinColor:Color.Gray })
+    43	            .width(60)
+    44	        }
+    45	        .height('100%')
+    46	        .padding({ bottom: px2vp(this.topRectHeight) })
+    47	        .width('100%')
+    48	        .justifyContent(FlexAlign.Center)
+    49	      }
+    50	      else {
+    51	        List({ space: 10 }) {
+    52	          ListItem()
+    53	            .height(40)
+    54	          ForEach(this.playLists, (item: playList, index) => {
+    55	            ListItem() {
+    56	              PlayListCard({playList: item})
+    57	            }
+    58	          })
+    59	          ListItem().height( px2vp(this.bottomRectHeight) + 120 )
+    60	        }
+    61	        .height('100%')
+    62	        .width('100%')
+    63	        .borderRadius(20)
+    64	        .scrollBar(BarState.Auto)
+    65	      }
+    66	    }
+    67	    .width('100%')
+    68	    .height('100%')
+    69	  }
+    70	
+    71	}     1	import { LogUtil } from "@pura/harmony-utils"
+     2	import Constants from "../constants/Constants"
+     3	import { QualityType } from "../entities/SongDownload"
+     4	import PreferencesUtils from "../utils/PreferencesUtils"
+     5	
+     6	/**
+     7	 * App初始化
+     8	 */
+     9	const TAG = '[appInit] '
+    10	
+    11	export async function appInit() {
+    12	  await initSettings()
+    13	  await audioPlayerInit()
+    14	}
+    15	
+    16	async function audioPlayerInit() {
+    17	  try {
+    18	    AppStorage.setOrCreate('player-isplaying',false)
+    19	  } catch (e) {
+    20	    LogUtil.error(JSON.stringify(e))
+    21	  }
+    22	}
+    23	
+    24	/**
+    25	 * 初始化设置
+    26	 */
+    27	async function initSettings() {
+    28	  LogUtil.info(TAG + 'initSettings - 开始初始化设置')
+    29	  const SetPerf: string = Constants.SET_PERF
+    30	
+    31	  // hasAnimation
+    32	  const hasAnimationExist = await PreferencesUtils.hasPreferenceValue(SetPerf, 'hasAnimation')
+    33	  if (!hasAnimationExist) {
+    34	    await PreferencesUtils.putPreferenceValue(SetPerf, 'hasAnimation', true)
+    35	    AppStorage.setOrCreate('set-hasAnimation',true)
+    36	  } else {
+    37	    const hasAnimation = await PreferencesUtils.getPreferenceValue(SetPerf, 'hasAnimation', true)
+    38	    AppStorage.setOrCreate('set-hasAnimation',hasAnimation)
+    39	  }
+    40	
+    41	  // customApiUrl
+    42	  const isCustomApiUrlExist = await PreferencesUtils.hasPreferenceValue(SetPerf, 'isCustomApiUrl')
+    43	  if (!isCustomApiUrlExist) {
+    44	    await PreferencesUtils.putPreferenceValue(SetPerf, 'isCustomApiUrl', false)
+    45	    await PreferencesUtils.putPreferenceValue(SetPerf,'customApiUrl','http://example.com:8080')
+    46	    AppStorage.setOrCreate('set-isCustomApiUrl',false)
+    47	    AppStorage.setOrCreate('set-customApiUrl','http://example.com:8080')
+    48	  } else {
+    49	    const isCustomApiUrl = await PreferencesUtils.getPreferenceValue(SetPerf, 'isCustomApiUrl', false)
+    50	    const customApiUrl = await PreferencesUtils.getPreferenceValue(SetPerf, 'customApiUrl', 'http://example.com:8080')
+    51	    AppStorage.setOrCreate('set-isCustomApiUrl',isCustomApiUrl)
+    52	    AppStorage.setOrCreate('set-customApiUrl',customApiUrl)
+    53	  }
+    54	
+    55	  // usePublicCookie
+    56	  const isUsePubCookieExist = await PreferencesUtils.hasPreferenceValue(SetPerf, 'isUsePubCookie')
+    57	  if (!isUsePubCookieExist) {
+    58	    await PreferencesUtils.putPreferenceValue(SetPerf, 'isUsePubCookie', true)
+    59	    AppStorage.setOrCreate('set-isUsePubCookie', true)
+    60	  } else {
+    61	    const isUsePubCookie = await PreferencesUtils.getPreferenceValue(SetPerf, 'isUsePubCookie', true)
+    62	    AppStorage.setOrCreate('set-isUsePubCookie', isUsePubCookie)
+    63	  }
+    64	
+    65	  // setPlayQuality
+    66	  const isPlayQualityExist = await PreferencesUtils.hasPreferenceValue(SetPerf, 'playQuality')
+    67	  if (!isPlayQualityExist) {
+    68	    await PreferencesUtils.putPreferenceValue(SetPerf, 'playQuality', 0)
+    69	    AppStorage.setOrCreate('set-playQuality', 0)
+    70	  } else {
+    71	    const playQuality:number = await PreferencesUtils.getPreferenceValue(SetPerf, 'playQuality', 0)
+    72	    AppStorage.setOrCreate('set-playQuality', playQuality)
+    73	  }
+    74	}

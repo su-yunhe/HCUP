@@ -1,0 +1,8 @@
+    def wait_footer_not_loading(self, timeout: float = 20) -> str | None:
+        """等加载更多的指示消失，再滑到底返回底部项（追加后原底部项会被新歌曲挤出屏幕）。"""
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            if not self.exists(BY.key(K_LOADING_MORE)):
+                return self.scroll_to_bottom()
+            self.driver.wait(0.3)
+        self.fail("加载更多的加载指示一直没有消失")

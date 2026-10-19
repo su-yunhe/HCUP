@@ -1,0 +1,7 @@
+  - 前置数据：D(0)
+  - 用户动作：无
+  - UI 结果：如上。基线现状是空列表、没有任何文案（实测关键字 `empty`）
+  - 数据结果：`list` 为空，`hasMore == false`
+  - 网络结果：只有 1 次 `/search`
+  - 返回结果：同 A23
+  - 边界条件：真实接口零结果时可能不返回 `songs` 字段，基线 `for…of undefined` 会抛异常并卡在全屏 loading（`songApi.ets:22` + `SongsListPage.ets:39-41`，代码推断，未在真实接口验证）

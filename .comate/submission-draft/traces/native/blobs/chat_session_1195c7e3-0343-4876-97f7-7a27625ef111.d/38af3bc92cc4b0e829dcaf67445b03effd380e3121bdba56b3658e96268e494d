@@ -1,0 +1,5 @@
+        self.wait_loading_more_gone()
+        self.require_text(self.song(kw, 31), "追加后原底部位置没有出现第 31 首", timeout=3)
+        self.assertFalse(self.has_text(self.song(kw, 1)), "追加后列表跳回了顶部")
+        self.assertEqual(self.scroll_to_bottom(), K_LOAD_MORE, "第二页后应仍有更多")
+        self.assert_page_end(kw, 60, K_LOAD_MORE)

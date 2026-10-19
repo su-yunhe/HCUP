@@ -1,0 +1,7 @@
+**U3 hasMore 依据什么判定（A7、A19、A22）**
+- 选项：(a) 读接口 `result.hasMore`；(b) 已加载数 < `result.songCount`；(c) 本页条数 == L。
+- 推荐：以 (a) 为主；`hasMore` 字段缺失时退回 (b)；任何一页返回 0 首时强制为 false。理由：Spec 原文是"当接口表明全部搜索结果已经加载完成"，指向接口字段。
+- 风险：基线默认服务器不可达，我**没能**在真实接口上验证 `/search` 响应里有没有 `hasMore`。`limit`（默认 30）、`offset` 参数来自 NeteaseCloudMusicApi 第三方文档的搜索摘要，`songCount` 字段来自第三方 issue #497；`hasMore` 字段属于推断。
+
+**U4 分页大小 L**
+- 推荐 L=30，首页也显式带 `limit=30&offset=0`。理由：与接口

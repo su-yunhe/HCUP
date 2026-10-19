@@ -1,0 +1,78 @@
+<file>
+     1→# 验收矩阵：搜索结果支持手动分页加载（cmu-spec99）
+     2→
+     3→依据：`spec/requirement.md`（下称 Spec）。基线现状与证据见 `spec/baseline-notes.md`。
+     4→代码位置均指基线快照 `baseline-cmu-spec99`（1e6a42a）。本文件只拆需求，不含实现。
+     5→
+     6→## 0. 约定
+     7→
+     8→证据等级：
+     9→
+    10→- `SPEC_EXPLICIT`：Spec 明文
+    11→- `REASONABLE_DERIVATION`：由 Spec 明文 + 基线代码/实测推出
+    12→- `UNCONFIRMED_ASSUMPTION`：Spec 未说明，需要你拍板，汇总见第 4 节（U1～U10）
+    13→
+    14→公共入口 **E0**：冷启动 → `pages/Index` → 搜索框（Index 上唯一的 `TextInput`）输入关键字 →
+    15→点击搜索框右侧蓝色圆形搜索按钮 → `pages/SongsListPage`（`SearchComponent.ets:26-33` 的 `router.pushUrl`）。
+    16→
+    17→公共前置数据 **D(n)**：搜索接口可达，关键字结果总数为 n。分页大小记为 **L**（推荐 30，见 U4）。
+    18→基线默认 API 服务器当前不可达，本地自测需要模拟服务（见 baseline-notes 第 7 节）。
+    19→
+    20→八维度里写"同 E0 / 同 D(n)"表示与公共定义一致；"不适用"都附理由。
+    21→
+    22→## 1. 文案逐字摘录
+    23→
+    24→| 用途 | Spec 原文 | 核对说明 |
+    25→| --- | --- | --- |
+    26→| 加载更多入口 | `点击加载更多` | Spec 里外层是中文引号“”，属于行文标记，不是文案；与 `PlayListPage.ets:91` 现有文案一致 |
+    27→| 全部加载完毕 | `没有更多了~` | `~` 是 ASCII 0x7E（xxd 核对过），不是全角 `～`；与 `PlayListPage.ets:102` 一致 |
+    28→| 状态名 | `hasMore` | Spec 场景三步骤 2 原文，是状态变量名，不是界面文案 |
+    29→
+    30→基线既有文案（实现时不得改动）：搜索框 placeholder `请输入搜索内容`；空输入 toast `请输入搜索内容`；
+    31→结果页标题 `"<关键字>" 的搜索结果`（ASCII 双引号 + 一个空格，`SongsListPage.ets:57`）。
+    32→
+    33→## 2. 网络状态机（SongsListPage）
+    34→
+    35→状态变量推荐沿用 `PlayListPage.ets:26-32` 的命名：`isLoading`（首页）、`isLoadingMore`（加载更多）、
+    36→`hasMore`、`currentOffset`、`list`、`hasLoaded`。
+    37→
+    38→```mermaid
+    39→stateDiagram-v2
+    40→    [*] --> LOADING_FIRST: onPageShow 且 !hasLoaded，发 search(offset=0)
+    41→    LOADING_FIRST --> READY_MORE: 成功且 hasMore
+    42→    LOADING_FIRST --> READY_END: 成功且 !hasMore
+    43→    LOADING_FIRST --> FIRST_FAILED: 失败
+    44→    READY_MORE --> LOADING_MORE: 点击“点击加载更多”，同步置 isLoadingMore 并立即发 search(offset=currentOffset)
+    45→    LOADING_MORE --> READY_MORE: 成功且 hasMore，追加 list，offset 前进
+    46→    LOADING_MORE --> READY_END: 成功且 !hasMore，追加 list
+    47→    LOADING_MORE --> READY_MORE: 失败，list/offset/hasMore 不变
+    48→    READY_END --> [*]
+    49→```
+    50→
+    51→| 状态 | 列表区域 | 列表底部 | 允许发 /search 的动作 |
+    52→| --- | --- | --- | --- |
+    53→| LOADING_FIRST | 全屏 SpinKit，不渲染列表（基线行为） | 无 | 无；onPageShow 再触发也不重复发 |
+    54→| READY_MORE | 已加载歌曲 | 只有 `点击加载更多` | 只有点击 `点击加载更多`，每次点击恰好 1 个请求 |
+    55→| LOADING_MORE | 已加载歌曲原样保留 | 只有小号加载指示（不加文案，见 U2） | 无；重复点击、滚动都不发 |
+    56→| READY_END | 全部歌曲 | 只有 `没有更多了~` | 无 |
+    57→| FIRST_FAILED | 见 U8 | 见 U8 | 见 U8 |
+    58→
+    59→硬约束：
+    60→
+    61→1. **请求与 loading 绑定**：点击回调里先做重入判断（`isLoading || isLoadingMore || !hasMore` 直接返回），
+    62→   再同步置 `isLoadingMore = true`，在同一次调用里发请求。不允许先改 UI 再延迟发请求，也不允许请求发出后才置 loading。
+    63→2. **结束后恢复**：成功、失败都在 `finally` 里把 `isLoadingMore` 置回 false；`hasMore` 和 `currentOffset` 只在成功时更新。
+    64→3. **滚动不触发请求**：不得用 `onReachEnd` / `onScrollIndex` 自动加载（Spec 场景一步骤 4）。
+    65→4. **两种底部文案在任何时刻互斥**；LOADING_FIRST、LOADING_MORE 时两者都不显示。
+    66→5. 页面离开时进行中的请求可以不取消，但回调不得引发崩溃，离开后也不得再发新请求（未验证，自测覆盖 A27）。
+    67→
+    68→## 3. 验收项
+    69→
+    70→### 场景一：首批结果与"点击加载更多"入口
+    71→
+    72→#### A1 提交搜索进入结果页
+    73→
+    74→- 来源：场景一 步骤 1｜证据：`SPEC_EXPLICIT`
+    75→- 原子行为：在 Index 搜索框输入非空关键字，点击搜索按钮，进入搜索结果页。
+</file>
+<metadata>The file has 583 lines in total.</metadata>

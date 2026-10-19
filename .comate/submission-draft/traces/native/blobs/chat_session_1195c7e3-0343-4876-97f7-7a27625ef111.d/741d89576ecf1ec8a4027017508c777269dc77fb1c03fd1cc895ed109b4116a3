@@ -1,0 +1,3 @@
+    def load_more_and_wait(self) -> str | None:
+        self.click_load_more()
+        return self.wait_footer_not_loading()

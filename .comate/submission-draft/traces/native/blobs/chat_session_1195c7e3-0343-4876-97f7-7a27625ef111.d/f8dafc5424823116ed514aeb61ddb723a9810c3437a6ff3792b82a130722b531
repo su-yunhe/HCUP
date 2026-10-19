@@ -1,0 +1,5 @@
+        name = self.require_text(self.song(kw, i), f"找不到第 {i} 首").getBounds()
+        cy = (name.top + name.bottom) // 2
+        rows = [c.getBounds() for c in (self.driver.find_all_components(BY.text(str(i))) or [])]
+        self.assertTrue(any(r.top <= cy <= r.bottom and r.right <= name.left for r in rows),
+                        f"第 {i} 首的序号不是 {i}")

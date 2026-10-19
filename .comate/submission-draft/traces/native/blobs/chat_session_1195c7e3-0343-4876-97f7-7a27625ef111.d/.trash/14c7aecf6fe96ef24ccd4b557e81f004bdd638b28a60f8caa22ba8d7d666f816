@@ -1,0 +1,57 @@
+"""本地模拟 NeteaseCloudMusicApi 的 /search 与 /song/detail，供分页自测使用。
+
+真实服务器看不到请求次数，"滑到底不自动请求""连点不重复请求"这类断言只能靠这里的请求日志。
+响应结构与真实接口实测一致（baseline-notes 7.3）：
+- 正常页 `{"result": {"songs": [...], "hasMore": bool, "songCount": n}, "code": 200}`
+- 零结果 / 超出范围 `{"result": {"songCount": 0}, "code": 200}`（没有 songs、hasMore）
+关键字末尾的数字即结果总数，例如 `pga75` 有 75 首，歌名为 `pga75-歌曲1` ~ `pga75-歌曲75`。
+"""
+from __future__ import annotations
+
+import json
+import re
+import threading
+import time
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import parse_qs, urlparse
+
+PORT = 3999
+
+
+class MockState:
+    def __init__(self) -> None:
+        self.lock = threading.Lock()
+        self.reset()
+
+    def reset(self) -> None:
+        with self.lock:
+            self.requests: list[tuple[str, int | None, int | None]] = []
+            self.delay_first = 0.0          # offset == 0 的响应延时（秒）
+            self.delay_more = 0.0           # offset > 0 的响应延时（秒）
+            self.failures: dict[int, list[str]] = {}  # offset -> 依次消费的失败方式
+            self.empty_pages: set[int] = set()        # 返回空 songs + hasMore=true 的 offset
+
+    def search_offsets(self, keyword: str) -> list[int | None]:
+        with self.lock:
+            return [o for k, _, o in self.requests if k == keyword]
+
+    def search_requests(self, keyword: str) -> list[tuple[str, int | None, int | None]]:
+        with self.lock:
+            return [r for r in self.requests if r[0] == keyword]
+
+
+STATE = MockState()
+
+
+def _song(keyword: str, i: int) -> dict:
+    return {
+        "id": abs(hash((keyword, i))) % 10_000_000 + 1,
+        "name": f"{keyword}-歌曲{i + 1}",
+        "artists": [{"id": 1, "name": "模拟歌手"}],
+        "duration": 200_000,
+        "album": {"id": 1, "name": "模拟专辑"},
+    }
+
+
+class Handler(BaseHTTPRequestHandler):
+    def log_message(self, fmt, *arg

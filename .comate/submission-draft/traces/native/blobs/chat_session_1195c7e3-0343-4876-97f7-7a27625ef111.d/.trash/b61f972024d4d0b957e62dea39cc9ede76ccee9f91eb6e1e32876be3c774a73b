@@ -1,0 +1,24 @@
+"""本地模拟 NeteaseCloudMusicApi 的 /search 与 /song/detail，供分页自测使用。
+
+真实服务器看不到请求次数，"滑到底不自动请求""连点不重复请求"这类断言只能靠这里的请求日志。
+响应结构与真实接口实测一致（baseline-notes 7.3）：
+- 正常页 `{"result": {"songs": [...], "hasMore": bool, "songCount": n}, "code": 200}`
+- 零结果 / 超出范围 `{"result": {"songCount": 0}, "code": 200}`（没有 songs、hasMore）
+关键字末尾的数字即结果总数，例如 `pga75` 有 75 首，歌名为 `pga75-歌曲1` ~ `pga75-歌曲75`。
+"""
+from __future__ import annotations
+
+import json
+import re
+import threading
+import time
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from urllib.parse import parse_qs, urlparse
+
+PORT = 3999
+
+
+class MockState:
+    def __init__(self) -> None:
+        self.lock = threading.Lock()
+        self.reset()

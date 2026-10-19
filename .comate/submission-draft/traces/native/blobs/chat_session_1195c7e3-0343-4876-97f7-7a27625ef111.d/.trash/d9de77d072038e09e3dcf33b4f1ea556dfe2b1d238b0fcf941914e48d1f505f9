@@ -1,0 +1,8 @@
+  @State hasLoaded:boolean = false // 判定是否已加载 避免重复加载
+  @State isLoading:boolean = true
+  @State list:Array<Song> = new Array()
+  @State isLoadingMore:boolean = false
+  @State hasMore:boolean = true
+  private currentOffset:number = 0 // 歌曲偏移量
+  private isRequesting:boolean = false // 请求进行中 避免重复请求
+  private searchKeyword:string

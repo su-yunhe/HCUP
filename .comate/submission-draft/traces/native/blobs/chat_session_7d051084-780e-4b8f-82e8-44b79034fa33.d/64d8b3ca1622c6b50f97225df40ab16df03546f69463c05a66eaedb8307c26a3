@@ -1,0 +1,2 @@
+  - 边界条件：真实接口的 `hasMore` 可能在还有数据时就变成 false（R7 在 offset=180、已加载 210 首时为 false，`songCount` 是 272，实测）。
+    这时以 `hasMore` 为准停止，不要用 `songCount` 继续加载（见 U3）

@@ -1,0 +1,11 @@
+```mermaid
+stateDiagram-v2
+    [*] --> LOADING_FIRST: onPageShow 且 !hasLoaded，发 search(offset=0)
+    LOADING_FIRST --> READY_MORE: 成功且 hasMore
+    LOADING_FIRST --> READY_END: 成功且 !hasMore（含零结果）
+    LOADING_FIRST --> FIRST_FAILED: 失败
+    FIRST_FAILED --> LOADING_FIRST: 点击“点击加载更多”，或 onPageShow（hasLoaded 仍为 false），重发 search(offset=0)
+    READY_MORE --> LOADING_MORE: 点击“点击加载更多”，同步置 isLoadingMore 并立即发 search(offset=currentOffset)
+    LOADING_MORE --> READY_MORE: 成功且 hasMore，追加 list，offset 前进
+    LOADING_MORE --> READY_END: 成功且 !hasMore，追加 list
+    LOADING_

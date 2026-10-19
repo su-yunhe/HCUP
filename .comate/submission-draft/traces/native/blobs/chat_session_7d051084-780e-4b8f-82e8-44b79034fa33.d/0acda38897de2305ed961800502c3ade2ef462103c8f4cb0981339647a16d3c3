@@ -1,0 +1,265 @@
+[Skip to content](#start-of-content)   
+ 
+ 
+
+## Navigation Menu
+
+[Sign in](/login?return_to=https%3A%2F%2Fgithub.com%2FBinaryify%2FNeteaseCloudMusicApi%2Fissues%2F497)
+
+Appearance settings
+
+[Sign in](/login?return_to=https%3A%2F%2Fgithub.com%2FBinaryify%2FNeteaseCloudMusicApi%2Fissues%2F497)
+
+[Sign up](/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E%2Fvoltron%2Fissues_fragments%2Fissue_layout&source=header-repo&source_repo=Binaryify%2FNeteaseCloudMusicApi)
+
+Appearance settings
+
+You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session. Dismiss alert
+
+{{ message }}
+
+This repository was archived by the owner on Apr 16, 2024. It is now read-only.
+
+## Repository navigation
+
+ 
+
+This repository was archived by the owner on Apr 16, 2024. It is now read-only.
+
+# 搜索接口返回搜索结果数量 #497
+
+Copy link
+
+Copy link
+
+Closed
+
+Closed
+
+[搜索接口返回搜索结果数量](/Binaryify/NeteaseCloudMusicApi/issues/497#top)#497
+
+Copy link
+
+## Description
+
+[![@Muzm](https://avatars.githubusercontent.com/u/18257790?u=3534a080594957efcc208f5f389e3ec377088d94&v=4&size=48)](https://github.com/Muzm)
+
+[Muzm](https://github.com/Muzm)
+
+opened [on May 31, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#issue-450593289)
+
+Issue body actions
+
+## 环境
+
+* 系统/平台: win 10
+* nodejs 版本: 10.13.0
+* API版本: 3.13.0
+
+## 出现问题
+
+搜索接口请求时只要`type=1`, 不管搜索什么`keyowrd`, 返回结果中的`songCount`都是600.
+
+## 重现步骤
+
+/search?keywords=jesusandmarychain&type=1
+
+## 期待效果
+
+返回歌曲数量正常
+
+Reactions are currently unavailable
+
+## Activity
+
+1. ### Binaryifycommentedon May 31, 2019
+
+   [![@Binaryify](https://avatars.githubusercontent.com/u/12221718?u=7f15394619962dbcc056b80fcbd80be46bc93680&v=4&size=48)](/Binaryify)
+
+   [Binaryify](/Binaryify)
+
+   [on May 31, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#issuecomment-497713485)
+
+   Owner
+
+   More actions
+
+   无法重现  
+    [![image](https://user-images.githubusercontent.com/12221718/58709598-1a1b5f00-83ed-11e9-8024-feb4d0b1b6ca.png)](https://user-images.githubusercontent.com/12221718/58709598-1a1b5f00-83ed-11e9-8024-feb4d0b1b6ca.png)  
+    [![image](https://user-images.githubusercontent.com/12221718/58709617-243d5d80-83ed-11e9-863a-dc5b40e5c5ca.png)](https://user-images.githubusercontent.com/12221718/58709617-243d5d80-83ed-11e9-863a-dc5b40e5c5ca.png)
+2. ### Muzmcommentedon Jun 3, 2019
+
+   [![@Muzm](https://avatars.githubusercontent.com/u/18257790?u=3534a080594957efcc208f5f389e3ec377088d94&v=4&size=48)](/Muzm)
+
+   [Muzm](/Muzm)
+
+   [on Jun 3, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#issuecomment-498190537)
+
+   Author
+
+   More actions
+
+   ## 我刚刚测试发现部英文`keywords`结果正常: [slowdive](https://user-images.githubusercontent.com/18257790/58793390-93eb5c80-8628-11e9-8dec-63735db61690.png)
+
+   ## (edited)中文也是部分`keywords`返回正常: [中文海阔天空](https://user-images.githubusercontent.com/18257790/58792995-d06a8880-8627-11e9-97f2-1549bcccf70a.png)
+3. ### nondaneecommentedon Jun 4, 2019
+
+   [![@nondanee](https://avatars.githubusercontent.com/u/26399680?u=a7d53bdf298ff937f03efcef2c1ab527b9b38609&v=4&size=48)](/nondanee)
+
+   [nondanee](/nondanee)
+
+   [on Jun 4, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#issuecomment-498499270)
+
+   Contributor
+
+   More actions
+
+   600 首大概是搜索结果上限吧，有什么问题吗？
+4. ### nondaneecommentedon Jun 4, 2019
+
+   [![@nondanee](https://avatars.githubusercontent.com/u/26399680?u=a7d53bdf298ff937f03efcef2c1ab527b9b38609&v=4&size=48)](/nondanee)
+
+   [nondanee](/nondanee)
+
+   [on Jun 4, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#issuecomment-498499412)
+
+   Contributor
+
+   More actions
+
+   > ## 期待效果
+   >
+   > 返回歌曲数量正常
+
+   请问数量多少是正常？
+5. ### Muzmcommentedon Jun 5, 2019
+
+   [![@Muzm](https://avatars.githubusercontent.com/u/18257790?u=3534a080594957efcc208f5f389e3ec377088d94&v=4&size=48)](/Muzm)
+
+   [Muzm](/Muzm)
+
+   [on Jun 5, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#issuecomment-498918230)
+
+   Author
+
+   More actions
+
+   搜索实际结果有时候比 600 少但是返回的 Count 还是 600.  
+    [![image](https://user-images.githubusercontent.com/18257790/58926782-ed659f80-877e-11e9-8223-b82073c959d9.png)](https://user-images.githubusercontent.com/18257790/58926782-ed659f80-877e-11e9-8223-b82073c959d9.png)  
+    我刚刚又测试了一下同样的`keyword`(亲爱的艾洛伊斯)但是今天返回 Count 是正常的(上一条Comment里的Count是600).  
+    不太清楚什么原因导致的.
+6. ### Binaryifycommentedon Jun 5, 2019
+
+   [![@Binaryify](https://avatars.githubusercontent.com/u/12221718?u=7f15394619962dbcc056b80fcbd80be46bc93680&v=4&size=48)](/Binaryify)
+
+   [Binaryify](/Binaryify)
+
+   [on Jun 5, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#issuecomment-498952174)
+
+   Owner
+
+   More actions
+
+   反正是网易那边的问题
+7. ### nondaneecommentedon Jun 5, 2019
+
+   [![@nondanee](https://avatars.githubusercontent.com/u/26399680?u=a7d53bdf298ff937f03efcef2c1ab527b9b38609&v=4&size=48)](/nondanee)
+
+   [nondanee](/nondanee)
+
+   [on Jun 5, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#issuecomment-498956408)
+
+   Contributor
+
+   More actions
+
+   [@Muzm](https://github.com/Muzm)  
+    个人感觉，搜索结果会变很正常(对比两个 comment 的截图)，因为依赖推荐算法  
+    如 [@Binaryify](https://github.com/Binaryify) 所说，这个 node server 不修改数据，只是网易云 API 数据的搬运工
+
+   另外，你的截图没有说服力  
+    你想表达搜索结果显示为 600 条但实际不满 600 条  
+    那应该截图 `search?keywords=亲爱的艾洛伊斯&type=1&offset=599&limit=1` 的返回数据来说明第 600 条搜索结果不存在
+
+   如果要做 offset 分页，也不一定要依赖 songCount 吧？有多少显示多少啊
+8. ### Muzmcommentedon Jun 6, 2019
+
+   [![@Muzm](https://avatars.githubusercontent.com/u/18257790?u=3534a080594957efcc208f5f389e3ec377088d94&v=4&size=48)](/Muzm)
+
+   [Muzm](/Muzm)
+
+   [on Jun 6, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#issuecomment-499484149)
+
+   Author
+
+   More actions
+
+   [@nondanee](https://github.com/nondanee) 多谢指点, 我有个功能是根据Count来决定是否显示加载更多按钮, 所以这个Count不对就有点难受.
+9. [![](https://avatars.githubusercontent.com/u/18257790?s=64&u=3534a080594957efcc208f5f389e3ec377088d94&v=4)Muzm](/Muzm)
+
+   closed this as [completed](/Binaryify/NeteaseCloudMusicApi/issues?q=is%3Aissue%20state%3Aclosed%20archived%3Afalse%20reason%3Acompleted)[on Jun 6, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#event-2394264498)
+10. ### Binaryifycommentedon Jun 6, 2019
+
+    [![@Binaryify](https://avatars.githubusercontent.com/u/12221718?u=7f15394619962dbcc056b80fcbd80be46bc93680&v=4&size=48)](/Binaryify)
+
+    [Binaryify](/Binaryify)
+
+    [on Jun 6, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#issuecomment-499492416)
+
+    Owner
+
+    More actions
+
+    你根据数组长度也一样的吧
+11. ### xjbetacommentedon Jun 17, 2019
+
+    [![@xjbeta](https://avatars.githubusercontent.com/u/11794321?u=995b148def96031733f5cd23e3b6c684ea280896&v=4&size=48)](/xjbeta)
+
+    [xjbeta](/xjbeta)
+
+    [on Jun 17, 2019](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497#issuecomment-502520415)
+
+    More actions
+
+    #### 这个栗子比较明显
+
+    搜索 “周杰伦” 歌曲 每页 100 首 第一页  
+     `http://localhost:3000/search?keywords=周杰伦&type=1&limit=100`  
+     songCount 是1266  
+     // 正确结果是1266 有时候能拿到1266 有时候只有600上限
+
+    加上 offset 也就是搜索第二页  
+     `http://localhost:3000/search?keywords=周杰伦&type=1&limit=100&offset=100`  
+     songCount 就只有600 了
+
+    把offset 换成 600 也就是第七页  
+     `http://localhost:3000/search?keywords=周杰伦&type=1&limit=100&offset=600`  
+     就拿不到数据了
+
+    应该是API 限制了 每页30 最多只有20页 也就是600首歌
+
+[Sign up for free](/signup?return_to=https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497) **to join this conversation on GitHub.** Already have an account? [Sign in to comment](/login?return_to=https://github.com/Binaryify/NeteaseCloudMusicApi/issues/497)
+
+## Metadata
+
+## Metadata
+
+No one assigned
+
+No labels
+
+No labels
+
+No projects
+
+No milestone
+
+None yet
+
+No branches or pull requests
+
+## Issue actions
+
+You can’t perform that action at this time.
+
+ 

@@ -1,0 +1,11 @@
+    def click_load_more(self) -> None:
+        self.driver.click(self.require_component(BY.key(K_LOAD_MORE), "找不到'点击加载更多'"))
+
+    def assert_card(self, index: int, name: str) -> None:
+        """序号为 index、歌名为 name 的卡片在当前屏（序号与歌名同一行，排除状态栏里的同名数字）。"""
+        names = [c.getBounds() for c in (self.driver.find_all_components(BY.text(name)) or [])]
+        self.assertTrue(names, f"当前屏找不到歌名 {name!r}")
+        rows = [c.getBounds() for c in (self.driver.find_all_components(BY.text(str(index))) or [])]
+        self.assertTrue(any(r.top < n.bottom + 60 and r.bottom > n.top - 60 and r.right <= n.left
+                            for n in names for r in rows),
+                        f"歌名 {name!r} 左侧的序号不是 {index}")

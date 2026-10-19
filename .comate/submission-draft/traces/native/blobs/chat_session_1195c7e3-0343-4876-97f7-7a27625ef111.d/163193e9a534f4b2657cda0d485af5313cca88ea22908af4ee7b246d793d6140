@@ -1,0 +1,8 @@
+    def wait_footer_not_loading(self, timeout: float = 20) -> str | None:
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            f = self.footer()
+            if f != K_LOADING_MORE:
+                return f
+            self.driver.wait(0.3)
+        self.fail("加载更多的加载指示一直没有消失")

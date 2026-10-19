@@ -1,0 +1,24 @@
+import { SearchSongsData, Song, SongClass, SongsData } from "../common/entities/SongsResult"
+import { getApiUrl, isUsePubCookie } from "../common/functions/functions"
+import { HttpRequest } from "../common/utils/HttpRequestUtils"
+
+const TAG = '[Song API - songApi] '
+
+export interface SongsListResult {
+  hasMore:boolean
+  songs:Array<Song>
+}
+
+/**
+ * 搜素歌曲列表（分页）
+ * @param searchKeyword 搜索词
+ * @param offset 偏移
+ * @returns hasMore 是否还有更多, songs 歌曲列表
+ */
+export async function getSongsList(searchKeyword:string, offset:number): Promise<SongsListResult> {
+  let list:Array<Song> = new Array()
+  let hasMore:boolean = false
+  const rootUrl = await getApiUrl()
+  const url:string = `${rootUrl}/search?keywords=${encodeURIComponent(searchKeyword)}&limit=30&offset=${offset}`
+  const request = new HttpRequest(url)
+  await request.Request().then((data) => {

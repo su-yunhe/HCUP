@@ -1,0 +1,3 @@
+- `api/songApi.ets:38-48` `getSongInfo` 也调 `/search`，共用 `SongsData` 类型；当前唯一调用点 `playerControl.ets:43` 已被注释掉。
+  扩展 `SongsData` 时保持字段可选，不影响它。
+- `getSongsList` 的唯一调用方是 `SongsListPage.ets:35`，改签名不会波及其他页面。

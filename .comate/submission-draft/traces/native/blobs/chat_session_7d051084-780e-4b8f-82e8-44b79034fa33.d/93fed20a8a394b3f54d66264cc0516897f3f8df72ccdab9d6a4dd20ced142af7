@@ -1,0 +1,5 @@
+1. **请求与 loading 绑定**：点击回调里先做重入判断（`isLoading || isLoadingMore || !hasMore` 直接返回），
+   再同步置 loading（offset>0 置 `isLoadingMore`；FIRST_FAILED 下 offset==0 的重试置 `isLoading`），在同一次调用里发请求。
+   不允许先改 UI 再延迟发请求，也不允许请求发出后才置 loading。
+2. **结束后恢复**：成功、失败都在 `finally` 里把 `isLoading`、`isLoadingMore` 置回 false；`hasMore`、`currentOffset`、`hasLoaded`
+   只在成功时更新（首页失败时 `hasLoaded` 保持 false，`hasMore` 保持初值 true，这样底部才会显示 `点击加载更多` 供重试）。

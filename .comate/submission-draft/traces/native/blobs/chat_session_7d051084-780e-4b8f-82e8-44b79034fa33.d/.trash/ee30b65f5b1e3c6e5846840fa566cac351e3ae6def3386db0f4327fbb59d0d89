@@ -1,0 +1,19 @@
+## 4. 待确认假设汇总（UNCONFIRMED_ASSUMPTION）
+
+每条给出选项、推荐和理由，需要你拍板。
+
+**U1 零结果时底部显示什么（A8）**
+- 选项：(a) 显示 `没有更多了~`；(b) 什么都不显示（基线现状）。
+- 推荐 (a)。理由：规则统一成"hasMore=false 就显示 `没有更多了~`"，跟 `PlayListPage.ets:100-103` 一致；两种选项都满足"不显示 `点击加载更多`"这一 Spec 要求。
+
+**U2 加载更多时的加载状态长什么样（A11）**
+- 选项：(a) 复用 PlayListPage 的小号 SpinKit（`spinO`，30，`PlayListPage.ets:83-88`），不加文案；(b) SpinKit + 自造文案（如"加载中..."）。
+- 推荐 (a)。理由：Spec 没有给加载文案，自造文案没有依据；复用既有写法最贴近基线。测试能观察到的是 `点击加载更多` 消失，以及我们自己的 `search_loading_more`。
+
+**U3 hasMore 依据什么判定（A7、A19、A22）**
+- 选项：(a) 读接口 `result.hasMore`；(b) 已加载数 < `result.songCount`；(c) 本页条数 == L。
+- 推荐：以 (a) 为主；`hasMore` 字段缺失时退回 (b)；任何一页返回 0 首时强制为 false。理由：Spec 原文是"当接口表明全部搜索结果已经加载完成"，指向接口字段。
+- 风险：基线默认服务器不可达，我**没能**在真实接口上验证 `/search` 响应里有没有 `hasMore`。`limit`（默认 30）、`offset` 参数来自 NeteaseCloudMusicApi 第三方文档的搜索摘要，`songCount` 字段来自第三方 issue #497；`hasMore` 字段属于推断。
+
+**U4 分页大小 L**
+- 推荐 L=30，首页也显式带 `limit=30&offset=0`。理由：与接口默认值和 `playListApi.ets:68` 的 `limit=30` 一致；首页条数和

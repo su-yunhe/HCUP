@@ -1,0 +1,12 @@
+---
+name: API 服务器与"不改源码"约定
+description: cmu-spec99 联网自测用用户自建的 NeteaseCloudMusicApi（http://192.168.1.97:3000，只在 App 设置里配置）；默认 ROOT_URL 不可达且禁止改源码指向它
+type: reference
+---
+
+- 用户自建的 NeteaseCloudMusicApi：`http://192.168.1.97:3000`，在模拟器 App 的 设置 → 自定义API服务器地址 里配置（2026-10-18 已设好）。
+- 应用默认 `Constants.ROOT_URL`（111.229.38.178:3000）在 2026-10-18 两次实测都不可达。
+
+**Why:** 用户 2026-10-18 决定（acceptance U10）：不改任何源代码，包括 `Constants.ROOT_URL`；只允许在 App 设置里切换地址来检查。
+
+**How to apply:** 联网自测前确认 App 设置里是这个地址；需要模拟服务时只临时改 App 设置（`http://127.0.0.1:3000` + `hdc rport`），用完改回。卸载重装会丢失这个设置，要重新配置。

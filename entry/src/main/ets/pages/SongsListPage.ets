@@ -19,25 +19,41 @@ struct SongsListPage {
   @State hasLoaded:boolean = false // 判定是否已加载 避免重复加载
   @State isLoading:boolean = true
   @State list:Array<Song> = new Array()
+  @State isLoadingMore:boolean = false
+  @State hasMore:boolean = true
+  private currentOffset:number = 0 // 歌曲偏移量
+  private isRequesting:boolean = false // 请求进行中 避免重复请求
   private searchKeyword:string = Object(router.getParams())['searchKeyword']
   hasAnimation:boolean | undefined = false
 
   async onPageShow(): Promise<void> {
     this.hasAnimation = AppStorage.get('set-hasAnimation')
     if (!this.hasLoaded) {
-      await this.loadSongs();
+      await this.loadSongs(0);
     }
   }
 
-  async loadSongs(): Promise<void> {
-    this.isLoading = true;
+  async loadSongs(offset:number): Promise<void> {
+    if (this.isRequesting || !this.hasMore) return // 请求中或没有更多歌曲直接返回
+    this.isRequesting = true
+    if (offset === 0) {
+      this.isLoading = true // 初次加载
+    } else {
+      this.isLoadingMore = true // 加载更多
+    }
+
     try {
-      const result = await getSongsList(this.searchKeyword);
-      this.list = result;
-      this.isLoading = false;
+      const result = await getSongsList(this.searchKeyword, offset);
+      this.list = [...this.list, ...result.songs]; // 追加歌曲列表
+      this.currentOffset += 30
+      this.hasMore = result.hasMore
       this.hasLoaded = true;
     } catch (e) {
       LogUtil.error( TAG + 'Error fetching songs: ', JSON.stringify(e));
+    } finally {
+      this.isLoading = false
+      this.isLoadingMore = false
+      this.isRequesting = false
     }
   }
 
@@ -47,6 +63,7 @@ struct SongsListPage {
         Column() {
           SpinKit({ spinType: SpinType.spinO, spinSize:60, spinColor:Color.Gray }).width(60)
         }
+        .id('search_loading')
         .padding({ bottom: px2vp(this.topRectHeight) })
         .height('100%')
         .width('100%')
@@ -61,8 +78,43 @@ struct SongsListPage {
                 SongCard({ song: item, sid: index, hasAnimation: this.hasAnimation })
               }
             })
+            // 加载更多
+            if (this.isLoadingMore) {
+              ListItem() {
+                Column() {
+                  SpinKit({ spinType: SpinType.spinO, spinSize: 30, spinColor: Color.Gray }).width(30)
+                }
+                .id('search_loading_more')
+                .justifyContent(FlexAlign.Center)
+                .width('100%')
+                .height(50)
+              }
+            } else if (this.hasMore) {
+              ListItem() {
+                Text('点击加载更多')
+                  .id('search_load_more')
+                  .onClick(() => {
+                    this.loadSongs(this.currentOffset)
+                  })
+                  .fontColor($r('app.color.reverse'))
+                  .width('100%')
+                  .height(50)
+                  .textAlign(TextAlign.Center)
+              }
+            } else {
+              ListItem() {
+                Text('没有更多了~')
+                  .id('search_no_more')
+                  .fontSize(16)
+                  .fontColor($r('app.color.reverse'))
+                  .width('100%')
+                  .height(50)
+                  .textAlign(TextAlign.Center)
+              }
+            }
             ListItem().padding({ bottom: px2vp(this.bottomRectHeight) })
           }
+          .id('search_result_list')
           .layoutWeight(1)
           .width('100%')
           .scrollBar(BarState.Auto)

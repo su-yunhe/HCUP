@@ -1,0 +1,17 @@
+    def wait_footer_not_loading(self, timeout: float = 20) -> str | None:
+        """等加载更多结束，再滑到底返回底部项（追加后原底部项会被新歌曲挤出屏幕）。"""
+        # 点击后'点击加载更多'应被加载指示替换；响应很快时可能观察不到，这里只等不断言
+        deadline = time.monotonic() + 3
+        while time.monotonic() < deadline and self.exists(BY.key(K_LOAD_MORE)):
+            self.driver.wait(0.2)
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            self.wait_loading_more_gone(timeout)
+            f = self.scroll_to_bottom()
+            if f != K_LOADING_MORE:
+                return f
+        self.fail("加载更多一直没有结束")
+
+    def load_more_and_wait(self) -> str | None:
+        self.click_load_more()
+        return self.wait_footer_not_loading()

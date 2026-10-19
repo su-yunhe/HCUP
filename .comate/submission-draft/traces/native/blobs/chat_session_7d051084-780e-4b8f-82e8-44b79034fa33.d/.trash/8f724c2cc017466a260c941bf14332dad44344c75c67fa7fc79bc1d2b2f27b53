@@ -1,0 +1,41 @@
+# 基线理解结论（cmu-spec99）
+
+标注约定：【实测】在模拟器上实际操作或命令验证过；【代码】读源码得出，带 `文件:行号`；【推断】我的推测，未验证；
+【Spec】`spec/requirement.md` 原文。路径均相对 `entry/src/main/ets/`，另有说明的除外。
+
+## 1. 基线快照
+
+- 已打 tag `baseline-cmu-spec99` → `1e6a42a`（HEAD）。【实测】
+- `metadata.json` 的 `base_commit` 是 `34bbc9d`（已有 tag `base/cmu-spec99`）。`1e6a42a` 相对它只改了
+  `oh-package-lock.json5` 的 2 行（`git diff --stat 34bbc9d HEAD`），没有业务代码改动。【实测】
+- 会话开始时工作区已有一处未提交修改，不是本阶段产生的：`build-profile.json5` 新增了 `"targetSdkVersion": "6.1.0(23)"`。
+  基线构建是带着这处修改做的。`spec/` 整个目录未被 git 跟踪。【实测】
+- 本阶段新增 `logs/`：`baseline-build.log`（clean 构建全量日志）、`baseline-index.jpeg`、`baseline-search-bottom.jpeg`、
+  `baseline-layout-index.json`（首页 UI 树）。没有修改任何业务代码。
+
+## 2. 构建基线状态
+
+命令（工程根目录执行）：
+
+```bash
+D=/Applications/DevEco-Studio.app/Contents
+export JAVA_HOME=$D/jbr/Contents/Home DEVECO_SDK_HOME=$D/sdk PATH=$D/jbr/Contents/Home/bin:$D/tools/node/bin:$PATH
+$D/tools/hvigor/bin/hvigorw clean --no-daemon
+$D/tools/hvigor/bin/hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon 2>&1 | tee logs/baseline-build.log
+```
+
+- 结果：BUILD SUCCESSFUL，产物 `entry/build/default/outputs/default/entry-default-unsigned.hap`（约 2.2MB，未签名）。【实测】
+- 坑：hvigorw/hdc/node 都不在 PATH 里。不设 `JAVA_HOME` 时，增量构建会因为全部 UP-TO-DATE 而"成功"，但 clean 后会在
+  `PackageHap` 失败：`00308018 Unable to locate a Java Runtime`。必须用 DevEco 自带的 JBR。【实测】
+- 构建后 `git status` 没有出现 `BuildProfile.ets` 之类的噪声文件。【实测】
+
+告警清单（与之后的构建对比用）：【实测，统计自 `logs/baseline-build.log`】
+
+| 类别 | 数量 | 说明 |
+| --- | --- | --- |
+| ArkTS WARN 合计 | 617 | 558 条在 `oh_modules`（三方库），59 条在 `entry/src` |
+| 资源冲突 Warning | 12 | `page_show` / `lib_name` 在 `@pura/spinkit` 与 `@yunkss/ef_audio` 的 string.json 里重复声明 |
+| 签名 | 1 | `No signingConfig found for product default` |
+
+`entry/src` 的 59 条按类型：`px2vp` 已废弃 22、`pushUrl` 已废弃 7、`showToast` 已废弃 10、`getParams` 已废弃 5、
+`Fun

@@ -1,0 +1,208 @@
+Command executed successfully.
+Exit code: 0
+Output:
+## Cloud Music For HarmonyOS NEXT
+
+**CloudMusic (云音汇) 是鸿蒙5.0上的音乐工具App**
+
+使用本软件，用户可以登录网易云账号，并通过歌单、搜索，播放、下载歌曲
+
+该项目基于API 13，适用于 HarmonyOS NEXT
+
+该项目当前为测试版本，更多功能敬请期待。
+
+AG尝鲜：https://docs.chenlvin.cc/cloudmusic/#/
+
+### 当前支持功能：
+
+- 网易云账号登录
+- 个人歌单获取
+- 歌曲搜索
+- 歌曲播放
+- 获取歌曲下载链接
+- 歌曲下载到本地
+- 保存音频文件至本机
+
+
+
+### 开发参考：
+
+- [华为开发者官网指南](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/application-dev-guide-V5?catalogVersion=V5)
+- [NeteaseCloudMusicApi](https://gitlab.com/Binaryify/neteasecloudmusicapi)
+- [OH三方库 @pura/harmony-utils](https://ohpm.openharmony.cn/#/cn/detail/@pura%2Fharmony-utils)
+- [OH三方库 @yunkss/ef_audio](https://ohpm.openharmony.cn/#/cn/detail/@yunkss%2Fef_audio)
+- [Music Sharing](https://github.com/Okysu/harmony-next-music-sharing)
+
+
+
+
+### 界面预览：
+
+<img src="./images/1.jpg" width="20%" />
+<img src="./images/2.jpg" width="20%" />
+<img src="./images/3.jpg" width="20%" />
+<img src="./images/4.jpg" width="20%" />
+
+1e6a42a chore: 记录 ohpm install 重建的依赖锁文件
+34bbc9d Harmony Cup sanitized baseline snapshot
+base/cmu-spec99
+entry/src/main/ets/api/LogOut.ets
+entry/src/main/ets/api/QrCodeLogin.ets
+entry/src/main/ets/api/getDownloadInfo.ets
+entry/src/main/ets/api/getLoginStatus.ets
+entry/src/main/ets/api/getPubCookie.ets
+entry/src/main/ets/api/playListApi.ets
+entry/src/main/ets/api/songApi.ets
+entry/src/main/ets/common/constants/Constants.ets
+entry/src/main/ets/common/entities/PlayList.ets
+entry/src/main/ets/common/entities/PlayListSongs.ets
+entry/src/main/ets/common/entities/SongDetail.ets
+entry/src/main/ets/common/entities/SongDownload.ets
+entry/src/main/ets/common/entities/SongPlay.ets
+entry/src/main/ets/common/entities/SongsResult.ets
+entry/src/main/ets/common/entities/User.ets
+entry/src/main/ets/common/functions/appInit.ets
+entry/src/main/ets/common/functions/functions.ets
+entry/src/main/ets/common/functions/getLoginInfo.ets
+entry/src/main/ets/common/functions/playerControl.ets
+entry/src/main/ets/common/utils/AudioPlayUtils.ets
+entry/src/main/ets/common/utils/ContinuousTask.ets
+entry/src/main/ets/common/utils/FileDownloadUtils.ets
+entry/src/main/ets/common/utils/FileUtils.ets
+entry/src/main/ets/common/utils/HttpRequestUtils.ets
+entry/src/main/ets/common/utils/PreferencesUtils.ets
+entry/src/main/ets/components/buttons/BackButton.ets
+entry/src/main/ets/components/buttons/CircleButton.ets
+entry/src/main/ets/components/buttons/ExplainButton.ets
+entry/src/main/ets/components/dialog/DownloadDialog.ets
+entry/src/main/ets/components/head/CommonHead.ets
+entry/src/main/ets/components/head/IndexHead.ets
+entry/src/main/ets/components/head/ListHead.ets
+entry/src/main/ets/components/head/SettingsHead.ets
+entry/src/main/ets/components/main/FileCard.ets
+entry/src/main/ets/components/main/PlayListCard.ets
+entry/src/main/ets/components/main/PlayLists.ets
+entry/src/main/ets/components/main/SearchComponent.ets
+entry/src/main/ets/components/main/SongCard.ets
+entry/src/main/ets/components/play/BottomPlayController.ets
+entry/src/main/ets/components/play/PlayController.ets
+entry/src/main/ets/components/sheets/LoginHelpSheet.ets
+entry/src/main/ets/components/sheets/MeSheet.ets
+entry/src/main/ets/components/sheets/SongSheet.ets
+entry/src/main/ets/entryability/EntryAbility.ets
+entry/src/main/ets/pages/DownloadPage.ets
+entry/src/main/ets/pages/Index.ets
+entry/src/main/ets/pages/PlayListPage.ets
+entry/src/main/ets/pages/Settings.ets
+entry/src/main/ets/pages/SongsListPage.ets
+entry/src/main/ets/pages/WebPage.ets
+entry/src/main/ets/pages/login/LoginPage.ets
+entry/src/main/ets/pages/login/QrCodeLogin.ets
+entry/src/main/ets/pages/login/WebLogin.ets
+entry/src/main/module.json5
+entry/src/main/resources/base/element/color.json
+entry/src/main/resources/base/element/string.json
+entry/src/main/resources/base/profile/backup_config.json
+entry/src/main/resources/base/profile/main_pages.json
+entry/src/main/resources/dark/element/color.json
+entry/src/main/resources/en_US/element/string.json
+entry/src/main/resources/zh_CN/element/string.json
+entry/src/mock/mock-config.json5
+entry/src/ohosTest/ets/test/Ability.test.ets
+entry/src/ohosTest/ets/test/List.test.ets
+entry/src/ohosTest/module.json5
+entry/src/test/List.test.ets
+entry/src/test/LocalUnit.test.ets
+{
+  "app": {
+    "signingConfigs": [],
+    "products": [
+      {
+        "name": "default",
+        "compatibleSdkVersion": "5.0.1(13)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        },
+        "targetSdkVersion": "6.1.0(23)"
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "modelVersion": "5.0.0",
+  "description": "Please describe the basic information.",
+  "dependencies": {
+    "@pura/harmony-utils": "^1.2.4",
+    "@pura/spinkit": "^1.0.4",
+    "@yunkss/ef_audio": "^1.0.1",
+    "@ohos/axios": "^2.2.4"
+  },
+  "devDependencies": {
+    "@ohos/hypium": "1.0.19",
+    "@ohos/hamock": "1.0.0"
+  },
+  "dynamicDependencies": {}
+}{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {}
+}
+
+{
+  "apiType": "stageMode",
+  "buildOption": {
+  },
+  "buildOptionSet": [
+    {
+      "name": "release",
+      "arkOptions": {
+        "obfuscation": {
+          "ruleOptions": {
+            "enable": false,
+            "files": [
+              "./obfuscation-rules.txt"
+            ]
+          }
+        }
+      }
+    },
+  ],
+  "targets": [
+    {
+      "name": "default"
+    },
+    {
+      "name": "ohosTest",
+    }
+  ]
+}

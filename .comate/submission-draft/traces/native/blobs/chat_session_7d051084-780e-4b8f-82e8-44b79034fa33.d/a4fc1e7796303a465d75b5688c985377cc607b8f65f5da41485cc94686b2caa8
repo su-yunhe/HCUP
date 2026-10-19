@@ -1,0 +1,139 @@
+Found 46 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 101: **歌单页手动分页** `pages/PlayListPage.ets`（与本题最接近，推荐沿用）【代码】
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 116: 4. hasMore 的依据是路由传入的 `trackCount`；搜索页没有这个值，只能依赖接口返回（acceptance U3）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 132: 7. TextInput 没有 `onSubmit`（是否补见 acceptance U7）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 149: - 官方评测环境能不能连上这个服务器，**无法验证**（acceptance U10）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 12: - `UNCONFIRMED_ASSUMPTION`：Spec 未说明，需要你拍板，汇总见第 4 节（U1～U10）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 17: 公共前置数据 **D(n)**：搜索接口可达，关键字结果总数为 n。分页大小记为 **L**（推荐 30，见 U4）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 43: 状态变量推荐沿用 `PlayListPage.ets:26-32` 的命名：`isLoading`（首页）、`isLoadingMore`（加载更多）、
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 51:     LOADING_FIRST --> FIRST_FAILED: 失败
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 63: | LOADING_MORE | 已加载歌曲原样保留 | 只有小号加载指示（不加文案，见 U2） | 无；重复点击、滚动都不发 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 65: | FIRST_FAILED | 见 U8 | 见 U8 | 见 U8 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 158:   - 边界条件：n 恰好等于 L 时由接口 hasMore 决定（U3）；没滑到底时该项可能不在 UI 树里（List 只布局可见项和缓存项，推断，见 baseline-notes 第 8 节）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 190:   - 边界条件：n == L（正好一页）时取决于接口 hasMore，见 U3
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 195: - 来源：Spec 未提及｜证据：`UNCONFIRMED_ASSUMPTION`（U1）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 196: - 原子行为（推荐）：列表为空；底部显示 `没有更多了~`；不显示 `点击加载更多`；不再请求。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 225:   - 边界条件：按文本中心点击必须命中（推荐 onClick 挂在 Text 上、Text 宽 100%，沿用 `PlayListPage.ets:91-98` 写法）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 238:   - 数据结果：成功后 `currentOffset += L`（U5）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 246: - 来源：场景二 步骤 2"短暂显示加载状态"｜证据：`SPEC_EXPLICIT`（具体形态见 U2）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 289:   - 边界条件：跨页重复歌曲不去重（U9），实测 R7 的 offset 0～270 共 272 首按 id 没有重复；序号来自 ForEach 的 index（`SongsListPage.ets:59-61`），追加后自然连续
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 378: - 来源：场景三 步骤 1、2｜证据：`SPEC_EXPLICIT`（判定依据见 U3）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 390:     这时以 `hasMore` 为准停止，不要用 `songCount` 继续加载（见 U3）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 494: - 来源：Spec 只写"输入关键字并提交搜索"｜证据：空输入 `REASONABLE_DERIVATION`（保持基线）；纯空格 `UNCONFIRMED_ASSUMPTION`（U6）；回车 `UNCONFIRMED_ASSUMPTION`（U7）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 530: - 来源：Spec 未提及｜证据：`UNCONFIRMED_ASSUMPTION`（U8）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 535: - 推荐处理见 U8。八维度：入口同 E0；前置数据为首页失败；用户动作无；UI/数据/网络按 U8；返回同 A27；边界条件：失败后回前台会重发首页（A24）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 545: ## 4. 待确认假设汇总（UNCONFIRMED_ASSUMPTION）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 547: 每条给出选项、推荐和理由，需要你拍板。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 549: **U1 零结果时底部显示什么（A8）**
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 551: - 推荐 (a)。理由：规则统一成"hasMore=false 就显示 `没有更多了~`"，跟 `PlayListPage.ets:100-103` 一致；两种选项都满足"不显示 `点击加载更多`"这一 Spec 要求。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 553: **U2 加载更多时的加载状态长什么样（A11）**
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 555: - 推荐 (a)。理由：Spec 没有给加载文案，自造文案没有依据；复用既有写法最贴近基线。测试能观察到的是 `点击加载更多` 消失，以及我们自己的 `search_loading_more`。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 557: **U3 hasMore 依据什么判定（A7、A19、A22）**
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 559: - 推荐：**只用 (a)**：`hasMore = result.hasMore === true`；字段缺失按 false；本页没有 `songs` 或为空时强制 false。不要用 (b) 兜底。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 567: **U4 分页大小 L**
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 568: - 推荐 L=30，首页也显式带 `limit=30&offset=0`。理由：实测不带分页参数时接口返回 30 首，和 `limit=30&offset=0` 完全相同，首屏表现不变；
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 571: **U5 offset 怎么前进（A10）**
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 573: - 推荐 (a)。理由：offset 是接口侧的位置；接口某页少返回几条时，(b) 会请求重叠区间。实测 R7 除尾页外每页都是满 30 首，两种方案结果相同。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 575: **U6 纯空格关键字（A26）**
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 577: - **推荐改为 (b)**（上一版推荐的是 (a)）。理由：实测真实接口对纯空格返回 `{"code":400}`，保持基线的话结果页会永久转圈；
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 580: **U7 键盘回车是否提交搜索（A26）**
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 582: - 推荐 (b)。理由：Spec 写的是"提交搜索"，官方用例若用回车提交，基线会直接卡在入口，后面所有检查点全失败；这是纯增量改动，按钮路径不受影响。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 584: **U8 首页失败怎么处理（A28）**
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 588: - 推荐 (b)。理由：新实现用 `finally` 复位 loading 后，必须决定底部显示什么；`没有更多了~` 会误导，`点击加载更多` 给出重试入口，也和"失败后恢复入口"（A17）规则一致。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 590: **U9 跨页重复歌曲是否去重（A13）**
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 591: - 推荐不去重。理由：Spec 写的是"追加"；实测 R7 的 offset 0～270 共 272 首按 id 没有跨页重复。页内同名歌曲是不同 id 的不同版本，也不该去重。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 593: **U10 默认 API 服务器不可达**
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 595: - 推荐：不改 `Constants.ROOT_URL`。本地自测：正常路径用真实服务器（R0/R2/R7），失败、延时、异常页用模拟服务。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 596:   理由：官方环境用什么服务端未知，改默认地址属于越界改动。需要你确认是否接受这个风险。

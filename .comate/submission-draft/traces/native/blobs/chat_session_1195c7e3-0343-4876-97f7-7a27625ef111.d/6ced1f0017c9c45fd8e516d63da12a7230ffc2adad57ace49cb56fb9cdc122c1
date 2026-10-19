@@ -1,0 +1,6 @@
+    def assert_index_of(self, kw: str, i: int) -> None:
+        """第 i 首卡片左侧的序号文本是 i（同一行，排除状态栏里的同名数字）。"""
+        name = self.require_text(self.song(kw, i), f"找不到第 {i} 首").getBounds()
+        rows = [c.getBounds() for c in (self.driver.find_all_components(BY.text(str(i))) or [])]
+        self.assertTrue(any(r.top < name.bottom + 60 and r.bottom > name.top - 60 and r.right <= name.left for r in rows),
+                        f"第 {i} 首的序号不是 {i}")

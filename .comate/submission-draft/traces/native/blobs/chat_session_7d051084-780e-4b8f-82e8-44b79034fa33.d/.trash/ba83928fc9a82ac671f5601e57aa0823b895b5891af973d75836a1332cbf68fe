@@ -1,0 +1,8 @@
+## 3. Spec 描述的入口在哪
+
+【实测】安装基线 HAP 后冷启动，首页就是搜索入口；输入 `mock75` 点击搜索按钮后进入结果页，标题 `"mock75" 的搜索结果`。
+
+调用链【代码】：
+
+1. `EntryAbility.ets:29` `windowStage.loadContent('pages/Index')`
+2. `pages/Index.ets:34` 渲染 `S

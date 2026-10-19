@@ -1,0 +1,8 @@
+  - 前置数据：D(0)，真实接口用 R0
+  - 用户动作：无
+  - UI 结果：如上。基线现状：模拟服务返回 `songs: []` 时是空列表、没有文案；**真实接口下一直停在全屏 loading**（实测，见 baseline-notes 7.4）
+  - 数据结果：`list` 为空，`hasMore == false`
+  - 网络结果：只有 1 次 `/search`
+  - 返回结果：同 A23
+  - 边界条件：真实接口零结果的响应是 `{"result":{"songCount":0},"code":200}`，没有 `songs`，也没有 `hasMore`（实测）。
+    实现时 `songs` 缺失要按空数组处理、`hasMore` 缺失要按 false 处理，不能当作请求失败

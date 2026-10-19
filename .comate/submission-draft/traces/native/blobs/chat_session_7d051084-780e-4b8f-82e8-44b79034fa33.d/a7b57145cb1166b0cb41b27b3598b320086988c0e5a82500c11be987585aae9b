@@ -1,0 +1,123 @@
+Command executed successfully.
+Exit code: 0
+Output:
+     1	import { CircleImageButton, CommonCircleButton } from "../buttons/CircleButton";
+     2	import { MeSheet } from "../sheets/MeSheet";
+     3	import { router } from "@kit.ArkUI";
+     4	import { User, UserClass } from "../../common/entities/User";
+     5	
+     6	@Component
+     7	export struct IndexHead {
+     8	  @State isShowSheet: boolean = false;
+     9	  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    10	  @StorageProp('topRectHeight') topRectHeight: number = 0
+    11	  @StorageProp('isValidCookie') isValidCookie: boolean = false
+    12	  @StorageProp('User') user: User = UserClass
+    13	
+    14	  build() {
+    15	    Row() {
+    16	      if(this.isValidCookie) {
+    17	        CircleImageButton({ imgUrl: this.user.data.profile.avatarUrl + '?param=100y100' })
+    18	          .bindSheet(this.isShowSheet, this.Sheet(), {
+    19	            height: '50%',
+    20	            dragBar: false,
+    21	            showClose: false,
+    22	            blurStyle: BlurStyle.Thick,
+    23	            onDisappear: () => { this.isShowSheet = false }
+    24	          })
+    25	          .onClick(() => { this.isShowSheet = !this.isShowSheet })
+    26	        Text(`${this.user.data.profile.nickname} 的歌单`).textStyle()
+    27	      } else {
+    28	        CommonCircleButton({ ButtonImageName:'ic_public_contacts_filled', BgColor:'#00cbcbcb'})
+    29	          .bindSheet(this.isShowSheet, this.Sheet(), {
+    30	            height: '50%',
+    31	            dragBar: false,
+    32	            showClose: false,
+    33	            blurStyle: BlurStyle.Thick,
+    34	            onDisappear: () => { this.isShowSheet = false }
+    35	          })
+    36	          .onClick(() => { this.isShowSheet = !this.isShowSheet })
+    37	        Text(`云音汇`).textStyle()
+    38	      }
+    39	
+    40	      CommonCircleButton({ ButtonImageName:'ic_public_more_filled', BgColor:'#00cbcbcb'})
+    41	        .bindMenu(this.MoreMenu())
+    42	    }
+    43	    .padding({ left: 10, right: 10 })
+    44	    .justifyContent(FlexAlign.SpaceBetween)
+    45	    .width('100%')
+    46	  }
+    47	
+    48	  // 更多菜单
+    49	  @Builder
+    50	  MoreMenu() {
+    51	    Menu() {
+    52	      MenuItem({ startIcon: $r('app.media.ic_public_settings_filled') ,content: "设置" })
+    53	        .contentFontColor($r('app.color.reverse'))
+    54	        .onClick(()=>{
+    55	          router.pushUrl({ url:'pages/Settings' })
+    56	        })
+    57	
+    58	      MenuItem({ startIcon: $r('app.media.ic_public_download_filled'), content: "下载管理" })
+    59	        .contentFontColor($r('app.color.reverse'))
+    60	        .onClick(()=>{
+    61	          router.pushUrl({ url:'pages/DownloadPage' })
+    62	        })
+    63	    }
+    64	  }
+    65	
+    66	  // 半模态
+    67	  @Builder
+    68	  Sheet() {
+    69	    MeSheet({ isShowSheet: this.isShowSheet })
+    70	  }
+    71	}
+    72	
+    73	@Extend(Text) function textStyle() {
+    74	  .fontSize(18)
+    75	  .fontColor($r('app.color.reverse'))
+    76	  .maxLines(1)
+    77	  .layoutWeight(1)
+    78	  .width('100%')
+    79	  .padding({ left:10, right: 10})
+    80	  .textAlign(TextAlign.Center)
+    81	  .textOverflow({ overflow: TextOverflow.Ellipsis })
+    82	}     1	import { CommonCircleButton } from "./CircleButton";
+     2	import { router } from "@kit.ArkUI";
+     3	
+     4	/**
+     5	 * 返回按钮（router 返回上一页面）
+     6	 */
+     7	
+     8	@Component
+     9	export struct BackButton {
+    10	  build() {
+    11	    CommonCircleButton({ ButtonImageName:'ic_public_back' })
+    12	      .onClick(() => {
+    13	        router.back()
+    14	      })
+    15	  }
+    16	}     1	import Constants from "../../common/constants/Constants"
+     2	import { Song, SongClass } from "../../common/entities/SongsResult"
+     3	import { changeDuration } from "../../common/functions/functions"
+     4	import { pauseMusic, resumeMusic, stopMusic } from "../../common/functions/playerControl"
+     5	import { DownloadDialog } from "../dialog/DownloadDialog"
+     6	
+     7	/**
+     8	 * 播控组件（右上角）
+     9	 */
+    10	@Component
+    11	export struct PlayController {
+    12	  @StorageLink('player-isplaying') isPlaying:boolean = false
+    13	  @StorageProp('player-mode') playmode:number = 1
+    14	  @StorageProp('player-fileName') fileName:string = ''
+    15	  @StorageProp('player-song') song:Song = SongClass
+    16	  @StorageProp('player-artists') artists:string = ''
+    17	  @StorageProp('player-ispaused') isPaused:boolean = false
+    18	  @StorageProp('player-picurl') picUrl:string = ''
+    19	  @StorageProp('player-time') time:number = 0
+    20	  @StorageProp('set-playQuality') playQuality:number = 0
+    21	  @State isShowPopup:boolean = false
+    22	  @State qualitySelected:number = 3
+    23	  artists1:string = 'this.artists'
+    24	  song1:Song = SongClass

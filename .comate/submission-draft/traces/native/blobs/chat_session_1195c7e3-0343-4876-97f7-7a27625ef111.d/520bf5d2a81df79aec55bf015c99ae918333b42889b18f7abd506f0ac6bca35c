@@ -1,0 +1,7 @@
+            self.assertFalse(self.has_text(LOAD_MORE), "没有更多后仍显示'点击加载更多'")
+
+    def load_more_and_wait(self) -> str | None:
+        self.click_load_more()
+        return self.wait_footer_not_loading()
+
+    def assert_index_of(self, kw: str, i: int) -> None:

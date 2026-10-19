@@ -1,0 +1,68 @@
+Command executed successfully.
+Exit code: 0
+Output:
+FAIL: test_05_load_more_appends_until_no_more (hypium_tests.test_search_paging_mock.SearchPagingMockTest.test_05_load_more_appends_until_no_more)
+A9-A15 A18-A21：逐页追加 30→60→75，加载中保留原列表，最后显示'没有更多了~'且不再请求。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec99/hypium_tests/test_search_paging_mock.py", line 141, in test_05_load_more_appends_until_no_more
+AssertionError: None != 'search_load_more' : 第二页后应仍有更多
+======================================================================
+FAIL: test_06_new_songs_browsable (hypium_tests.test_search_paging_mock.SearchPagingMockTest.test_06_new_songs_browsable)
+A13 A14：追加的歌曲序号从 31 连续，新卡片可点击打开详情。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec99/hypium_tests/test_search_paging_mock.py", line 163, in test_06_new_songs_browsable
+    self.driver.wait(1)  # 等卡片宽度动画结束
+AssertionError: None != 'search_no_more'
+======================================================================
+FAIL: test_07_rapid_clicks_single_request (hypium_tests.test_search_paging_mock.SearchPagingMockTest.test_07_rapid_clicks_single_request)
+A16：快速连点'点击加载更多'只发 1 次请求、只追加 1 页。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec99/hypium_tests/test_search_paging_mock.py", line 187, in test_07_rapid_clicks_single_request
+    self.assertLessEqual(len(self.driver.find_all_components(BY.text(self.song(kw, 60))) or []), 1)
+AssertionError: None != 'search_load_more'
+======================================================================
+FAIL: test_08_load_more_failure_keeps_list (hypium_tests.test_search_paging_mock.SearchPagingMockTest.test_08_load_more_failure_keeps_list)
+A17：下一页失败（网络断开、业务错误）保留列表、恢复入口，可用相同 offset 重试。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec99/hypium_tests/test_search_paging_mock.py", line 210, in test_08_load_more_failure_keeps_list
+    def test_09_empty_page_stops(self):
+AssertionError: None != 'search_load_more'
+======================================================================
+FAIL: test_10_first_page_failure_retry (hypium_tests.test_search_paging_mock.SearchPagingMockTest.test_10_first_page_failure_retry)
+A28：首页失败结束全屏加载，空列表 + '点击加载更多'，点击以 offset=0 重试，可多次重试。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec99/hypium_tests/test_search_paging_mock.py", line 249, in test_10_first_page_failure_retry
+    """A23：加载若干页后返回，再次搜索从 offset=0 开始，列表与 hasMore 不残留。"""
+AssertionError: None != 'search_load_more'
+======================================================================
+FAIL: test_11_back_and_reenter_starts_over (hypium_tests.test_search_paging_mock.SearchPagingMockTest.test_11_back_and_reenter_starts_over)
+A23：加载若干页后返回，再次搜索从 offset=0 开始，列表与 hasMore 不残留。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec99/hypium_tests/test_search_paging_mock.py", line 258, in test_11_back_and_reenter_starts_over
+    self.submit()
+AssertionError: None != 'search_load_more'
+======================================================================
+FAIL: test_12_background_and_sheet_keep_state (hypium_tests.test_search_paging_mock.SearchPagingMockTest.test_12_background_and_sheet_keep_state)
+A24：切后台再回前台、打开关闭歌曲详情后，列表与分页状态保持，不重发请求。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec99/hypium_tests/test_search_paging_mock.py", line 274, in test_12_background_and_sheet_keep_state
+    self.driver.start_app(BUNDLE, wait_time=2)
+AssertionError: None != 'search_load_more'
+======================================================================
+FAIL: test_13_restart_starts_over (hypium_tests.test_search_paging_mock.SearchPagingMockTest.test_13_restart_starts_over)
+A25：分页状态不持久化，重启后重新搜索从第一页开始。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec99/hypium_tests/test_search_paging_mock.py", line 296, in test_13_restart_starts_over
+    self.wait_loaded()
+AssertionError: None != 'search_load_more'
+----------------------------------------------------------------------
+Ran 15 tests in 246.869s
+FAILED (failures=8)

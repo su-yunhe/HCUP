@@ -1,0 +1,35 @@
+#!/bin/zsh
+# 临时调试脚本：基线手工走查用，分析结束后删除
+HDC=/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/hdc
+DEV=127.0.0.1:5555
+PY=/Users/bress/Documents/code/harmonycup-work/common/.venv/bin/python
+OUT=/Users/bress/Documents/code/harmonycup-work/cmu-spec99/logs
+
+h() { $HDC -t $DEV "$@"; }
+
+# dump <name>：导出布局并打印 App 内可见文本/可点击组件（过滤状态栏）
+dump() {
+  h shell uitest dumpLayout -p /data/local/tmp/$1.json >/dev/null
+  h file recv /data/local/tmp/$1.json $OUT/tmp-$1.json >/dev/null
+  $PY - $OUT/tmp-$1.json <<'EOF'
+import json, sys
+d = json.load(open(sys.argv[1]))
+def walk(n, sb=False):
+    a = n.get('attributes', {})
+    k = a.get('id', '') or a.get('key', '')
+    if k.startswith('StatusBar') or k.startswith('session') or 'Live' in k:
+        sb = True
+    t = a.get('type', '')
+    if not sb and (a.get('text') or t in ('TextInput', 'Button', 'List', 'Toast', 'Dialog') or a.get('clickable') == 'true'):
+        print(t, repr(a.get('text', '')), 'id=' + k, a.get('bounds', ''), 'click=' + a.get('clickable', ''))
+    for c in n.get('children', []):
+        walk(c, sb)
+walk(d)
+EOF
+}
+
+# shot <name>：截屏保存到 logs/
+shot() {
+  h shell snapshot_display -f /data/local/tmp/$1.jpeg >/dev/null
+  h file recv /data/local/tmp/$1.jpeg $OUT/$1.jpeg >/dev/null
+}

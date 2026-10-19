@@ -1,0 +1,1 @@
+- 基线现状（实测）：默认服务器超时 → 15s 后 1s 内弹出 `网络请求出错`，页面永久停在全屏 SpinKit（`SongsListPage.ets:39-41` 的 catch 没有复位 `isLoading`）。

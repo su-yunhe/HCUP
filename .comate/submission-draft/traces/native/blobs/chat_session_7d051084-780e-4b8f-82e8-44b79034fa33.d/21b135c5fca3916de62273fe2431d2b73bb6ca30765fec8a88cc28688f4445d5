@@ -1,0 +1,91 @@
+Found 30 matches
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/0-analyze.md:
+  Line 72: 2. **不编造**。所有结论要给出文件路径和行号；没验证的标注"未验证"。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 3: 标注约定：【实测】在模拟器上实际操作或命令验证过；【代码】读源码得出，带 `文件:行号`；【推断】我的推测，未验证；
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 84: - `common/entities/SongsResult.ets:13-19` `Result { songs }`、`SongsData { result }`，没有 hasMore / songCount 字段。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 116: 4. hasMore 的依据是路由传入的 `trackCount`；搜索页没有这个值，只能依赖接口返回（acceptance U3）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 161: 响应结构：`{"result":{"songs":[…],"hasMore":true,"songCount":272},"code":200,"trp":{…}}`。歌曲条目里有 `id`、`name`、`artists[]`、`duration`、`album` 等字段，
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 167: | 多页 | `周杰伦`，offset 0～150 | 每页 30 首，`hasMore=true`，`songCount=272`（offset=90 那次返回 274） |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 171: | 两页内结束 | `想你就写信 李硕 张鑫`，offset 0 / 30 | 30 首 `hasMore=true` / 10 首 `hasMore=false`，`songCount=40` |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 172: | 超出范围（小结果集） | 同上，offset 60 | `{"result":{"songCount":0},"code":200}`，**没有 `songs`，也没有 `hasMore`** |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 173: | 零结果 | `qzxwvkjhgfdsa1234567890zz` | `{"result":{"songCount":0},"code":200}`，同上 |
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 179: 1. 接口确实有 `hasMore` 和 `songCount` 字段，acceptance U3 里"`hasMore` 是推断"那部分已经实测确认。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 180: 2. **`hasMore` 和 `songCount` 不一致**：`周杰伦` 的 `hasMore` 在 offset=180 就变成 false，这时只加载了 210 首，`songCount` 却是 272。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 181:    如果用 `songCount` 判断会多加载 2 页；按 offset 一直往下请求还会拿到重复数据（offset 300）。所以只能以 `hasMore` 为准。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/baseline-notes.md:
+  Line 199:    响应 `{ code, result: { songs, hasMore, songCount } }`；脚本已删除，结构现在已经和 7.3 的真实响应对上）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 23: - **R2**：`想你就写信 李硕 张鑫`，`songCount=40`；第一页 30 首、`hasMore=true`，第二页 10 首、`hasMore=false`。适合"一次加载更多就到底"。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 24: - **R7**：`周杰伦`，`songCount=272`；offset 0～150 每页 30 首、`hasMore=true`；offset=180 那页仍有 30 首，但 `hasMore=false`。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 26: - **R0**：`qzxwvkjhgfdsa1234567890zz`，零结果，响应里只有 `songCount: 0`。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 74: 5. 页面离开时进行中的请求可以不取消，但回调不得引发崩溃，离开后也不得再发新请求（未验证，自测覆盖 A27）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 158:   - 边界条件：n 恰好等于 L 时由接口 hasMore 决定（U3）；没滑到底时该项可能不在 UI 树里（List 只布局可见项和缓存项，推断，见 baseline-notes 第 8 节）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 190:   - 边界条件：n == L（正好一页）时取决于接口 hasMore，见 U3
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 206:   - 边界条件：真实接口零结果的响应是 `{"result":{"songCount":0},"code":200}`，没有 `songs`，也没有 `hasMore`（实测）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 378: - 来源：场景三 步骤 1、2｜证据：`SPEC_EXPLICIT`（判定依据见 U3）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 389:   - 边界条件：真实接口的 `hasMore` 可能在还有数据时就变成 false（R7 在 offset=180、已加载 210 首时为 false，`songCount` 是 272，实测）。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 390:     这时以 `hasMore` 为准停止，不要用 `songCount` 继续加载（见 U3）
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 438:   - 边界条件：真实接口超出范围有两种表现（实测）：R2 的 offset=60 返回 `{"result":{"songCount":0}}`，没有 `songs`；
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 534:   - 零结果（`{"result":{"songCount":0}}`）在基线里也走进同一个 catch，但它**不是失败**，应按 A8 处理。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 557: **U3 hasMore 依据什么判定（A7、A19、A22）**
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 558: - 选项：(a) 读接口 `result.hasMore`；(b) 已加载数 < `result.songCount`；(c) 本页条数 == L。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 562:   2. `hasMore` 和 `songCount` 不一致：R7 在 offset=180、已加载 210 首时 `hasMore=false`，`songCount` 却是 272，并且一次请求里还变成过 274。用 (b) 会多加载 2 页，和"接口表明"的语义冲突。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 600: 真实服务器数据集：R0、R2、R7（定义见第 0 节）。每次跑自测前先用 curl 复核 `songCount` 和 `hasMore` 的位置，因为搜索结果会变。
+
+/Users/bress/Documents/code/harmonycup-work/cmu-spec99/spec/acceptance.md:
+  Line 603: 可配置的失败（网络断开、`{"code":400}`、响应体结构异常）；零结果/超出范围（只返回 `songCount: 0`）；空页 + hasMore=true 的异常页；

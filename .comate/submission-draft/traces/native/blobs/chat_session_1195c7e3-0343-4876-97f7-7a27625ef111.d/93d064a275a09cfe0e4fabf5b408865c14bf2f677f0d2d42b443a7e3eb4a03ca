@@ -1,0 +1,172 @@
+<file>
+     1→import { http } from "@kit.NetworkKit"
+     2→import { BusinessError } from "@kit.BasicServicesKit"
+     3→import { DialogUtil, LogUtil } from "@pura/harmony-utils"
+     4→import Constants from "../constants/Constants"
+     5→import { PlayListsResult } from "../../api/playListApi"
+     6→import { uint8ArrayToString } from "../functions/functions"
+     7→
+     8→/**
+     9→ * 网络请求工具类
+    10→ * HTTP Request
+    11→ */
+    12→const TAG = '[HTTPRequest]'
+    13→
+    14→export class HttpRequest {
+    15→  private url: string = ''
+    16→  private usingCache:boolean = true
+    17→
+    18→  constructor(url: string, usingCache?:boolean) {
+    19→    this.url = url
+    20→    if(usingCache) { this.usingCache = usingCache }
+    21→  }
+    22→
+    23→  /**
+    24→   * Http请求
+    25→   * @param useCookie 是否使用cookie (boolean)
+    26→   * @returns
+    27→   */
+    28→  public async Request(useCookie:boolean = true): Promise<http.HttpResponse> {
+    29→    const cookie:string | undefined = await AppStorage.get('cookie')
+    30→    return new Promise((resolve, reject) => {
+    31→      let httpRequest = http.createHttp()
+    32→      httpRequest.request(
+    33→        this.url,
+    34→        {
+    35→          method: http.RequestMethod.POST,
+    36→          header: {
+    37→            'Content-Type': 'application/json',
+    38→            'cookie': useCookie ? cookie : '',
+    39→          },
+    40→          usingCache: this.usingCache,
+    41→          expectDataType: http.HttpDataType.OBJECT,
+    42→          connectTimeout: 15000,
+    43→          readTimeout: 15000,
+    44→        }, (err: BusinessError, data: http.HttpResponse) => {
+    45→        if (!err) {
+    46→          // 解析HTTP响应内容
+    47→          console.info('Data Result:' + JSON.stringify(data.result))
+    48→          console.info('code:' + JSON.stringify(data.responseCode))
+    49→          // 调用destroy方法主动销毁
+    50→          httpRequest.destroy()
+    51→          resolve(data)  // 返回请求数据
+    52→        } else {
+    53→          LogUtil.error(TAG + 'HttpRequest Error: ' + JSON.stringify(err))
+    54→          httpRequest.off('headersReceive')
+    55→          httpRequest.destroy()
+    56→          reject(err)  // 出现错误时reject
+    57→          setTimeout(() => {
+    58→            DialogUtil.showConfirmDialog({ title: '网络请求出错', message: Constants.HTTP_ERROR_MSG})
+    59→          },1000)
+    60→        }
+    61→      })
+    62→    })
+    63→  }
+    64→
+    65→  /**
+    66→   * Http请求 (流式)
+    67→   * @param useCookie 是否使用Cookie(boolean)
+    68→   * @returns
+    69→   */
+    70→  public async RequestInStream(useCookie:boolean = true): Promise<http.HttpResponse> {
+    71→    const cookie:string | undefined = await AppStorage.get('cookie')
+    72→    return new Promise((resolve, reject) => {
+    73→      let httpRequest = http.createHttp()
+    74→
+    75→      // 创建一个存储所有接收数据的容器
+    76→      let resView = new Uint8Array(0);
+    77→
+    78→      // 当收到数据时
+    79→      httpRequest.on('dataReceive', (data: ArrayBuffer) => {
+    80→        const newView = new Uint8Array(resView.length + data.byteLength);
+    81→        newView.set(resView, 0);
+    82→        newView.set(new Uint8Array(data), resView.length);
+    83→        resView = newView
+    84→      });
+    85→
+    86→      // 当数据接收完毕时
+    87→      httpRequest.on('dataEnd', () => {
+    88→        let resultString = uint8ArrayToString(resView)
+    89→        try {
+    90→          const result:PlayListsResult = JSON.parse(resultString);
+    91→          const data: http.HttpResponse = {
+    92→            result: result,
+    93→            responseCode: 200,
+    94→            header: {},
+    95→            resultType: http.HttpDataType.OBJECT,
+    96→            cookies: "",
+    97→            performanceTiming: {dnsTiming: 0, tcpTiming: 0, tlsTiming: 0, firstSendTiming: 0, firstReceiveTiming: 0, totalFinishTiming: 0, redirectTiming: 0, responseHeaderTiming: 0, responseBodyTiming: 0, totalTiming: 0}
+    98→          }
+    99→          resolve(data)
+   100→        } catch (err) {
+   101→          setTimeout(() => {
+   102→            DialogUtil.showConfirmDialog({ title: '网络请求出错', message: Constants.HTTP_ERROR_MSG})
+   103→          },1000)
+   104→          reject(err)
+   105→        }
+   106→      });
+   107→
+   108→      // 发起请求
+   109→      let streamInfo: http.HttpRequestOptions = {
+   110→        method: http.RequestMethod.POST,
+   111→        header: {
+   112→          'Content-Type': 'application/json',
+   113→          'cookie': useCookie ? cookie : '',
+   114→        },
+   115→        usingCache: this.usingCache,
+   116→        expectDataType: http.HttpDataType.OBJECT,
+   117→        connectTimeout: 15000,
+   118→        readTimeout: 15000,
+   119→      }
+   120→      httpRequest.requestInStream(this.url, streamInfo);
+   121→    });
+   122→  }
+   123→
+   124→  /**
+   125→   * Http请求 (根据VipType)_
+   126→   * @returns
+   127→   */
+   128→  public async RequestWithVipType(): Promise<http.HttpResponse> {
+   129→    const vipType:number | undefined = await AppStorage.get('vipType')
+   130→    let cookie:string | undefined = ''
+   131→    if(vipType == 0) { cookie = await AppStorage.get('pubCookie') }
+   132→    else { cookie = await AppStorage.get('cookie') }
+   133→    return new Promise((resolve, reject) => {
+   134→      let httpRequest = http.createHttp()
+   135→      httpRequest.request(
+   136→        this.url,
+   137→        {
+   138→          method: http.RequestMethod.GET,
+   139→          header: {
+   140→            'Content-Type': 'application/json',
+   141→            'cookie': cookie
+   142→          },
+   143→          usingCache: this.usingCache,
+   144→          expectDataType: http.HttpDataType.OBJECT,
+   145→          connectTimeout: 15000,
+   146→          readTimeout: 15000,
+   147→        }, (err: BusinessError, data: http.HttpResponse) => {
+   148→        if (!err) {
+   149→          // 解析HTTP响应内容
+   150→          console.info('Data Result:' + JSON.stringify(data.result))
+   151→          console.info('code:' + JSON.stringify(data.responseCode))
+   152→          console.info('header:' + JSON.stringify(data.header))
+   153→          // 调用destroy方法主动销毁
+   154→          httpRequest.destroy()
+   155→          resolve(data)  // 返回请求数据
+   156→        } else {
+   157→          LogUtil.error(TAG + 'HttpRequest Error: ' + JSON.stringify(err))
+   158→          httpRequest.off('headersReceive')
+   159→          httpRequest.destroy()
+   160→          reject(err)  // 出现错误时reject
+   161→          setTimeout(() => {
+   162→            DialogUtil.showConfirmDialog({ title: '网络请求出错', message: Constants.HTTP_ERROR_MSG})
+   163→          },1000)
+   164→        }
+   165→      })
+   166→    })
+   167→  }
+   168→}
+   169→
+</file>
+<metadata>The file has 169 lines in total.</metadata>

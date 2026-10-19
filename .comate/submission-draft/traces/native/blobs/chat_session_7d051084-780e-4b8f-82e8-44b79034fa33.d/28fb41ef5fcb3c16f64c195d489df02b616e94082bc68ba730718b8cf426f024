@@ -1,0 +1,366 @@
+Command executed successfully.
+Exit code: 0
+Output:
+     1	import { http } from "@kit.NetworkKit"
+     2	import { BusinessError } from "@kit.BasicServicesKit"
+     3	import { DialogUtil, LogUtil } from "@pura/harmony-utils"
+     4	import Constants from "../constants/Constants"
+     5	import { PlayListsResult } from "../../api/playListApi"
+     6	import { uint8ArrayToString } from "../functions/functions"
+     7	
+     8	/**
+     9	 * 网络请求工具类
+    10	 * HTTP Request
+    11	 */
+    12	const TAG = '[HTTPRequest]'
+    13	
+    14	export class HttpRequest {
+    15	  private url: string = ''
+    16	  private usingCache:boolean = true
+    17	
+    18	  constructor(url: string, usingCache?:boolean) {
+    19	    this.url = url
+    20	    if(usingCache) { this.usingCache = usingCache }
+    21	  }
+    22	
+    23	  /**
+    24	   * Http请求
+    25	   * @param useCookie 是否使用cookie (boolean)
+    26	   * @returns
+    27	   */
+    28	  public async Request(useCookie:boolean = true): Promise<http.HttpResponse> {
+    29	    const cookie:string | undefined = await AppStorage.get('cookie')
+    30	    return new Promise((resolve, reject) => {
+    31	      let httpRequest = http.createHttp()
+    32	      httpRequest.request(
+    33	        this.url,
+    34	        {
+    35	          method: http.RequestMethod.POST,
+    36	          header: {
+    37	            'Content-Type': 'application/json',
+    38	            'cookie': useCookie ? cookie : '',
+    39	          },
+    40	          usingCache: this.usingCache,
+    41	          expectDataType: http.HttpDataType.OBJECT,
+    42	          connectTimeout: 15000,
+    43	          readTimeout: 15000,
+    44	        }, (err: BusinessError, data: http.HttpResponse) => {
+    45	        if (!err) {
+    46	          // 解析HTTP响应内容
+    47	          console.info('Data Result:' + JSON.stringify(data.result))
+    48	          console.info('code:' + JSON.stringify(data.responseCode))
+    49	          // 调用destroy方法主动销毁
+    50	          httpRequest.destroy()
+    51	          resolve(data)  // 返回请求数据
+    52	        } else {
+    53	          LogUtil.error(TAG + 'HttpRequest Error: ' + JSON.stringify(err))
+    54	          httpRequest.off('headersReceive')
+    55	          httpRequest.destroy()
+    56	          reject(err)  // 出现错误时reject
+    57	          setTimeout(() => {
+    58	            DialogUtil.showConfirmDialog({ title: '网络请求出错', message: Constants.HTTP_ERROR_MSG})
+    59	          },1000)
+    60	        }
+    61	      })
+    62	    })
+    63	  }
+    64	
+    65	  /**
+    66	   * Http请求 (流式)
+    67	   * @param useCookie 是否使用Cookie(boolean)
+    68	   * @returns
+    69	   */
+    70	  public async RequestInStream(useCookie:boolean = true): Promise<http.HttpResponse> {
+    71	    const cookie:string | undefined = await AppStorage.get('cookie')
+    72	    return new Promise((resolve, reject) => {
+    73	      let httpRequest = http.createHttp()
+    74	
+    75	      // 创建一个存储所有接收数据的容器
+    76	      let resView = new Uint8Array(0);
+    77	
+    78	      // 当收到数据时
+    79	      httpRequest.on('dataReceive', (data: ArrayBuffer) => {
+    80	        const newView = new Uint8Array(resView.length + data.byteLength);
+    81	        newView.set(resView, 0);
+    82	        newView.set(new Uint8Array(data), resView.length);
+    83	        resView = newView
+    84	      });
+    85	
+    86	      // 当数据接收完毕时
+    87	      httpRequest.on('dataEnd', () => {
+    88	        let resultString = uint8ArrayToString(resView)
+    89	        try {
+    90	          const result:PlayListsResult = JSON.parse(resultString);
+    91	          const data: http.HttpResponse = {
+    92	            result: result,
+    93	            responseCode: 200,
+    94	            header: {},
+    95	            resultType: http.HttpDataType.OBJECT,
+    96	            cookies: "",
+    97	            performanceTiming: {dnsTiming: 0, tcpTiming: 0, tlsTiming: 0, firstSendTiming: 0, firstReceiveTiming: 0, totalFinishTiming: 0, redirectTiming: 0, responseHeaderTiming: 0, responseBodyTiming: 0, totalTiming: 0}
+    98	          }
+    99	          resolve(data)
+   100	        } catch (err) {
+   101	          setTimeout(() => {
+   102	            DialogUtil.showConfirmDialog({ title: '网络请求出错', message: Constants.HTTP_ERROR_MSG})
+   103	          },1000)
+   104	          reject(err)
+   105	        }
+   106	      });
+   107	
+   108	      // 发起请求
+   109	      let streamInfo: http.HttpRequestOptions = {
+   110	        method: http.RequestMethod.POST,
+   111	        header: {
+   112	          'Content-Type': 'application/json',
+   113	          'cookie': useCookie ? cookie : '',
+   114	        },
+   115	        usingCache: this.usingCache,
+   116	        expectDataType: http.HttpDataType.OBJECT,
+   117	        connectTimeout: 15000,
+   118	        readTimeout: 15000,
+   119	      }
+   120	      httpRequest.requestInStream(this.url, streamInfo);
+   121	    });
+   122	  }
+   123	
+   124	  /**
+   125	   * Http请求 (根据VipType)_
+   126	   * @returns
+   127	   */
+   128	  public async RequestWithVipType(): Promise<http.HttpResponse> {
+   129	    const vipType:number | undefined = await AppStorage.get('vipType')
+   130	    let cookie:string | undefined = ''
+   131	    if(vipType == 0) { cookie = await AppStorage.get('pubCookie') }
+   132	    else { cookie = await AppStorage.get('cookie') }
+   133	    return new Promise((resolve, reject) => {
+   134	      let httpRequest = http.createHttp()
+   135	      httpRequest.request(
+   136	        this.url,
+   137	        {
+   138	          method: http.RequestMethod.GET,
+   139	          header: {
+   140	            'Content-Type': 'application/json',
+   141	            'cookie': cookie
+   142	          },
+   143	          usingCache: this.usingCache,
+   144	          expectDataType: http.HttpDataType.OBJECT,
+   145	          connectTimeout: 15000,
+   146	          readTimeout: 15000,
+   147	        }, (err: BusinessError, data: http.HttpResponse) => {
+   148	        if (!err) {
+   149	          // 解析HTTP响应内容
+   150	          console.info('Data Result:' + JSON.stringify(data.result))
+   151	          console.info('code:' + JSON.stringify(data.responseCode))
+   152	          console.info('header:' + JSON.stringify(data.header))
+   153	          // 调用destroy方法主动销毁
+   154	          httpRequest.destroy()
+   155	          resolve(data)  // 返回请求数据
+   156	        } else {
+   157	          LogUtil.error(TAG + 'HttpRequest Error: ' + JSON.stringify(err))
+   158	          httpRequest.off('headersReceive')
+   159	          httpRequest.destroy()
+   160	          reject(err)  // 出现错误时reject
+   161	          setTimeout(() => {
+   162	            DialogUtil.showConfirmDialog({ title: '网络请求出错', message: Constants.HTTP_ERROR_MSG})
+   163	          },1000)
+   164	        }
+   165	      })
+   166	    })
+   167	  }
+   168	}
+     1	import Constants from "../constants/Constants"
+     2	import { Artist } from "../entities/SongsResult"
+     3	import { util } from "@kit.ArkTS"
+     4	
+     5	/**
+     6	 * 通用函数
+     7	 */
+     8	
+     9	/**
+    10	 * 获取网易云API Url
+    11	 * （根据用户设置）
+    12	 * @returns string - ApiUrl
+    13	 */
+    14	export async function getApiUrl(): Promise<string | undefined> {
+    15	  let rootUrl:string | undefined = Constants.ROOT_URL
+    16	  const isCustomApiUrl:boolean | undefined = await AppStorage.get('set-isCustomApiUrl')
+    17	  if(isCustomApiUrl) {
+    18	    rootUrl = await AppStorage.get('set-customApiUrl')
+    19	  }
+    20	  return rootUrl
+    21	}
+    22	
+    23	/**
+    24	 * 转换 Artists[] 至 string
+    25	 * @param artists
+    26	 * @returns
+    27	 */
+    28	export async function getArtists(artists:Artist[]): Promise<string> {
+    29	  let artistStr:string = ''
+    30	  for(let artist of artists) {
+    31	    artistStr = artistStr + artist.name + ', '
+    32	  }
+    33	  return artistStr.slice(0,-2)
+    34	}
+    35	
+    36	/**
+    37	 * 转换时间函数
+    38	 * @param dur 时间number（ms）
+    39	 * @returns string - 分:秒 形式
+    40	 */
+    41	export function changeDuration(dur: number): string {
+    42	  const seconds = Math.floor(dur / 1000)
+    43	  const minutes = Math.floor(seconds / 60)
+    44	  const remainingSeconds = seconds % 60
+    45	  return `${minutes}:${remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds}`
+    46	}
+    47	
+    48	/**
+    49	 * 是否使用公共Cookie（根据用户设置）
+    50	 * @returns
+    51	 */
+    52	export async function isUsePubCookie(): Promise<boolean> {
+    53	  const isUsePubCookie:boolean | undefined = AppStorage.get('set-isUsePubCookie')
+    54	  if(isUsePubCookie) return true
+    55	  else return false
+    56	}
+    57	
+    58	/**
+    59	 * 使用正则表达式匹配并删除所有 HTTPOnly 标记
+    60	 * @param cookieString
+    61	 * @returns string - cookie
+    62	 */
+    63	export function removeHTTPOnly(cookieString: string): string {
+    64	  return cookieString.replace(/HTTPOnly;/g, "")
+    65	}
+    66	
+    67	/**
+    68	 * b -> mb
+    69	 */
+    70	export function changeb2Mb(b: number): number {
+    71	  return parseFloat((b / 1000000).toFixed(2));
+    72	}
+    73	
+    74	/**
+    75	 * 替换fileName的非法字符
+    76	 * @param input
+    77	 * @returns
+    78	 */
+    79	export function sanitizeFileName(input: string): string {
+    80	  const invalidCharsPattern = /[<>:"/\\|?*]/g;
+    81	  const sanitized = input.replace(invalidCharsPattern, ' ');
+    82	  return sanitized;
+    83	}
+    84	
+    85	/**
+    86	 * 使用TextDecoder编码Uint8Array
+    87	 * @param buffer
+    88	 * @returns
+    89	 */
+    90	export function uint8ArrayToString(buffer: Uint8Array): string {
+    91	  const decoder = new util.TextDecoder('utf-8');
+    92	  return decoder.decode(buffer);
+    93	}
+     1	import { getSongPicUrl } from "../../api/songApi"
+     2	import { Song, SongClass } from "../../common/entities/SongsResult"
+     3	import { getArtists } from "../../common/functions/functions"
+     4	import { SongSheet } from "../sheets/SongSheet"
+     5	
+     6	@Preview
+     7	@Component
+     8	export struct SongCard {
+     9	  @State hasAnimation:boolean = false
+    10	  @State isShowSheet:boolean = false
+    11	  @State startWidth:string = '100%'
+    12	
+    13	  @State picUrl:string = ''
+    14	  song:Song = SongClass
+    15	  sid:number = -1
+    16	  artists:string = ''
+    17	
+    18	
+    19	  async aboutToAppear(): Promise<void> {
+    20	    if(this.hasAnimation) { this.startWidth = '30%'}
+    21	    const artistsStr = await getArtists(this.song.artists)
+    22	    this.artists = artistsStr
+    23	
+    24	    const picUrl = await getSongPicUrl(this.song)
+    25	    this.picUrl = picUrl
+    26	  }
+    27	
+    28	  build() {
+    29	    Button() {
+    30	      Row() {
+    31	        Text(`${this.sid + 1}`).width(40).fontWeight(FontWeight.Bold)
+    32	        Image(this.picUrl + '?param=100y100').width(50).padding({right:10}).borderRadius(5)
+    33	        Column() {
+    34	          Text(this.song.name).textStyle(16)
+    35	          Text(this.artists).textStyle(12)
+    36	        }
+    37	        .layoutWeight(1)
+    38	        .width(`100%`)
+    39	      }
+    40	      .width(this.startWidth)
+    41	      .onAppear( () => { this.startWidth = '100%' })
+    42	      .animation({
+    43	        duration: 600,
+    44	        curve: Curve.LinearOutSlowIn,
+    45	      })
+    46	    }
+    47	    .backgroundColor(Color.Transparent)
+    48	    .borderRadius(5)
+    49	    .type(ButtonType.Normal)
+    50	    .width('100%')
+    51	    .height(60)
+    52	    .padding({ left: 20, right: 20 })
+    53	    .bindSheet(this.isShowSheet, this.Sheet(), {
+    54	      height: '70%',
+    55	      dragBar: true,
+    56	      onDisappear: () => { this.isShowSheet = false }
+    57	    })
+    58	    .onClick(() => { this.isShowSheet = !this.isShowSheet })
+    59	  }
+    60	
+    61	  @Builder
+    62	  Sheet() {
+    63	    SongSheet({ song: this.song, isShowSheet: this.isShowSheet, artists:this.artists, picUrl:this.picUrl })
+    64	  }
+    65	}
+    66	
+    67	@Extend(Text) function textStyle(size:number) {
+    68	  .fontSize(size)
+    69	  .alignSelf(ItemAlign.Start)
+    70	  .fontColor($r('app.color.reverse'))
+    71	  .maxLines(1)
+    72	  .textOverflow({ overflow: TextOverflow.Ellipsis })
+    73	}
+    74	
+    75	
+    76	
+    77	
+     1	import { ToastUtil } from "@pura/harmony-utils";
+     2	import { BackButton } from "../buttons/BackButton";
+     3	import { CommonCircleButton } from "../buttons/CircleButton";
+     4	import { PlayController } from "../play/PlayController";
+     5	
+     6	@Component
+     7	export struct ListHead {
+     8	  title:string = ''
+     9	
+    10	  build() {
+    11	    Row({ space: 20 }) {
+    12	      BackButton()
+    13	      Text(`${this.title}`).fontSize(18).fontColor($r('app.color.reverse')).maxLines(1)
+    14	        .textOverflow({ overflow: TextOverflow.Ellipsis }).layoutWeight(1).textAlign(TextAlign.Center)
+    15	      PlayController()
+    16	    }
+    17	    .justifyContent(FlexAlign.SpaceBetween)
+    18	    .padding({ left: 10, right: 10 })
+    19	    .width('100%')
+    20	    .backgroundColor(Color.Transparent)
+    21	    .onClick(() => {
+    22	      ToastUtil.showToast(`${this.title}`)
+    23	    })
+    24	  }
+    25	}

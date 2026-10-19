@@ -1,0 +1,6 @@
+    def click_load_more(self) -> None:
+        self.driver.click(self.require_component(BY.key(K_LOAD_MORE), "找不到'点击加载更多'"))
+
+    def assert_card(self, index: int, name: str) -> None:
+        """序号为 index、歌名为 name 的卡片在当前屏（序号与歌名同一行，排除状态栏里的同名数字）。"""
+        names = [c.getBounds() for c in (self

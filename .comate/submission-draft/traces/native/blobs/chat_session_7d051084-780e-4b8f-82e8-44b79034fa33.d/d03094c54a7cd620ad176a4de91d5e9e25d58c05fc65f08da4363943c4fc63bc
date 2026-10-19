@@ -1,0 +1,15 @@
+#### A22 空页兜底
+
+- 来源：Spec 未提及｜证据：`UNCONFIRMED_ASSUMPTION`（U3 第 3 点）
+- 原子行为（推荐）：某页返回 0 首，即使接口仍声明 hasMore=true，也视为没有更多，显示 `没有更多了~`。
+- 可观察结果：模拟服务对 offset=30 返回空 songs + hasMore=true 时，底部是 `没有更多了~`，不会无限出现 `点击加载更多`。
+- 八维度：
+  - 入口：同 A9
+  - 前置数据：模拟服务构造上述异常页
+  - 用户动作：点击 `点击加载更多`
+  - UI 结果：如上
+  - 数据结果：`list` 不变，`hasMore == false`
+  - 网络结果：1 次
+  - 返回结果：不适用，返回会销毁页面
+  - 边界条件：网易搜索约有 600 条上限，超过后 offset 会拿不到数据（第三方 issue Binaryify/NeteaseCloudMusicApi#497 的用户反馈，未验证）
+- 稳定选择器：`search_no_more`。

@@ -1,0 +1,244 @@
+Command executed successfully.
+Exit code: 0
+Output:
+     1	import { router } from '@kit.ArkUI'
+     2	import { Song } from '../common/entities/SongsResult'
+     3	import { SongCard } from '../components/main/SongCard'
+     4	import { playList } from '../common/entities/PlayList'
+     5	import { ListHead } from '../components/head/ListHead'
+     6	import { SpinKit, SpinType } from '@pura/spinkit'
+     7	import { LogUtil } from '@pura/harmony-utils'
+     8	import { getPlayListSongs } from '../api/playListApi'
+     9	import { BottomPlayController } from '../components/play/BottomPlayController'
+    10	
+    11	/**
+    12	 * 歌单二级页面
+    13	 */
+    14	
+    15	const TAG = '[PlayListPage] '
+    16	
+    17	@Entry
+    18	@Component
+    19	struct PlayListPage {
+    20	  @StorageProp('bottomRectHeight') bottomRectHeight: number = 0
+    21	  @StorageProp('topRectHeight') topRectHeight: number = 0
+    22	
+    23	  private playList: playList = Object(router.getParams())['playList']
+    24	  private trackCount: number = Object(router.getParams())['trackCount']
+    25	
+    26	  @State hasLoaded: boolean = false // 判定是否已加载 避免重复加载
+    27	  @State isLoading: boolean = true
+    28	  @State list: Array<Song> = new Array()
+    29	  @State isLoadingMore: boolean = false
+    30	  @State hasMore: boolean = true
+    31	
+    32	  private currentOffset: number = 0 // 歌曲偏移量
+    33	  hasAnimation:boolean | undefined = false
+    34	
+    35	  async onPageShow(): Promise<void> {
+    36	    this.hasAnimation = AppStorage.get('set-hasAnimation')
+    37	    if (!this.hasLoaded) {
+    38	      await this.loadSongs(30, 0)
+    39	    }
+    40	  }
+    41	
+    42	  async loadSongs(limit: number, offset: number): Promise<void> {
+    43	    if (!this.hasMore) return // 没有更多歌曲直接返回
+    44	    if (offset === 0) {
+    45	      this.isLoading = true // 初次加载
+    46	    } else {
+    47	      this.isLoadingMore = true // 加载更多
+    48	    }
+    49	
+    50	    try {
+    51	      const result = await getPlayListSongs(this.playList.id, offset)
+    52	      this.list = [...this.list, ...result] // 合并歌曲列表
+    53	      this.currentOffset += limit
+    54	
+    55	      if (this.list.length >= this.trackCount) {
+    56	        this.hasMore = false
+    57	      }
+    58	    } catch (e) {
+    59	      LogUtil.error(TAG + 'Error fetching songs: ', e)
+    60	    } finally {
+    61	      this.isLoading = false
+    62	      this.isLoadingMore = false
+    63	      this.hasLoaded = true
+    64	    }
+    65	  }
+    66	
+    67	  build() {
+    68	    Stack({ alignContent: Alignment.Bottom }) {
+    69	      if (this.isLoading == true) {
+    70	        Column() {
+    71	          SpinKit({ spinType: SpinType.spinO, spinSize: 60, spinColor: Color.Gray }).width(60)
+    72	        }.height('100%').width('100%').justifyContent(FlexAlign.Center)
+    73	      } else {
+    74	        Column({ space: 10 }) {
+    75	          ListHead({ title: this.playList.name })
+    76	          List() {
+    77	            ForEach(this.list, (item: Song, index) => {
+    78	              ListItem() {
+    79	                SongCard({ song: item, sid: index, hasAnimation: this.hasAnimation })
+    80	              }
+    81	            });
+    82	            // 添加加载更多
+    83	            if (this.isLoadingMore) {
+    84	              ListItem() {
+    85	                Column() {
+    86	                  SpinKit({ spinType: SpinType.spinO, spinSize: 30, spinColor: Color.Gray }).width(30)
+    87	                }.justifyContent(FlexAlign.Center).width('100%').height(50)
+    88	              }
+    89	            } else if (this.hasMore) {
+    90	              ListItem() {
+    91	                Text("点击加载更多")
+    92	                  .onClick(() => {
+    93	                    this.loadSongs(30, this.currentOffset)
+    94	                  })
+    95	                  .padding({ top:10, bottom:px2vp(this.bottomRectHeight) })
+    96	                  .fontColor($r('app.color.reverse'))
+    97	                  .width('100%')
+    98	                  .textAlign(TextAlign.Center)
+    99	              }
+   100	            } else if (!this.hasMore) {
+   101	              ListItem() {
+   102	                Text('没有更多了~').fontSize(16).textAlign(TextAlign.Center).width('100%').height(50);
+   103	              }
+   104	            }
+   105	            ListItem().height( px2vp(this.bottomRectHeight) + 80 )
+   106	          }
+   107	          .height('100%')
+   108	          .layoutWeight(1)
+   109	          .width('100%')
+   110	          .scrollBar(BarState.Auto)
+   111	        }
+   112	        .height('100%')
+   113	      }
+   114	      BottomPlayController()
+   115	      .padding({ left: 10, right: 10, bottom: px2vp(this.bottomRectHeight)})
+   116	      .backgroundColor(Color.Transparent)
+   117	    }
+   118	    .width('100%')
+   119	    .height('100%')
+   120	    .padding({ top: px2vp(this.topRectHeight) })
+   121	    .backgroundColor($r('app.color.background'));
+   122	  }
+   123	}     1	import { LogUtil } from "@pura/harmony-utils"
+     2	import Constants from "../common/constants/Constants"
+     3	import { playList } from "../common/entities/PlayList"
+     4	import { PlayListSongs } from "../common/entities/PlayListSongs"
+     5	import { Song } from "../common/entities/SongsResult"
+     6	import { User, UserClass } from "../common/entities/User"
+     7	import { getApiUrl } from "../common/functions/functions"
+     8	import { HttpRequest } from "../common/utils/HttpRequestUtils"
+     9	import PreferencesUtils from "../common/utils/PreferencesUtils"
+    10	
+    11	/**
+    12	 * 歌单类API
+    13	 */
+    14	
+    15	const TAG = '[playListApi] '
+    16	
+    17	/**
+    18	 * 获取歌单列表
+    19	 * @param usingCache 是否缓存
+    20	 * @returns list
+    21	 */
+    22	export interface PlayListsResult {
+    23	  more:boolean
+    24	  playlist:playList[]
+    25	}
+    26	
+    27	export async function getPlayLists(offset:number): Promise<PlayListsResult> {
+    28	  let list:Array<playList> = new Array()
+    29	  let hasMore:boolean = false
+    30	  const user = await PreferencesUtils.getPreferenceValue<User>(Constants.USER_PREF,'user',UserClass)
+    31	  const rootUrl = await getApiUrl()
+    32	  const url:string = `${rootUrl}/user/playlist?uid=${user.data.account.id}&limit=10&offset=${offset}`
+    33	  const request = new HttpRequest(url)
+    34	  await request.RequestInStream().then((data) => {
+    35	    const dataGot:PlayListsResult = data.result as PlayListsResult
+    36	    LogUtil.info('dataGot: ' + JSON.stringify(dataGot))
+    37	    hasMore = dataGot.more
+    38	    for(let item of dataGot.playlist) {
+    39	      list.push({
+    40	        coverImgUrl: item.coverImgUrl,
+    41	        name: item.name,
+    42	        id: item.id,
+    43	        playCount: item.playCount,
+    44	        subscribedCount: item.subscribedCount,
+    45	        userId: item.userId,
+    46	        trackCount: item.trackCount
+    47	      })
+    48	    }
+    49	  })
+    50	
+    51	  const result: PlayListsResult = {
+    52	    more: hasMore,
+    53	    playlist: list
+    54	  }
+    55	  return result
+    56	}
+    57	
+    58	/**
+    59	 * 获取歌单内歌曲列表
+    60	 * @param listId 歌单ID
+    61	 * @param trackCount 歌曲总数
+    62	 * @param offset 偏移
+    63	 * @returns list 歌曲列表
+    64	 */
+    65	export async function getPlayListSongs(listId:number, offset:number): Promise<Array<Song>> {
+    66	  let list:Array<Song> = new Array()
+    67	  const rootUrl = await getApiUrl()
+    68	  const url:string = `${rootUrl}/playlist/track/all?id=${listId}&limit=30&offset=${offset}`
+    69	  const request = new HttpRequest(url)
+    70	  await request.Request().then((data) => {
+    71	    const dataGot:PlayListSongs = data.result as PlayListSongs
+    72	    for(let song of dataGot.songs) {
+    73	      list.push({
+    74	        id: song.id ,
+    75	        name: song.name,
+    76	        artists: song.ar,
+    77	        duration: song.dt,
+    78	      })
+    79	    }
+    80	  })
+    81	  console.log('getPlayListSongs: ' + JSON.stringify(list))
+    82	  return list;
+    83	}     1	import { QualityType } from "../entities/SongDownload"
+     2	
+     3	/**
+     4	 * 常量类
+     5	 */
+     6	export default class Constants {
+     7	  static readonly VERSION: string = '0.9.7.1'
+     8	  static readonly VER_DESC: string = ' - Beta'
+     9	
+    10	  static readonly USER_PREF: string = 'UserPreference'
+    11	  static readonly SET_PERF: string = 'Settings'
+    12	
+    13	  static readonly ROOT_URL: string = 'http://111.229.38.178:3000'
+    14	  static readonly EAPI_URL: string = 'https://interface.music.163.com/eapi'
+    15	  static readonly MUSIC_URL: string = 'https://music.163.com'
+    16	  static readonly API_URL: string = 'https://api.chenlvin.cc'
+    17	
+    18	  static readonly COOKIE_EXPIRY_DAYS = 7;
+    19	
+    20	  static readonly QUALITY: QualityType[] = ['standard','higher','exhigh','lossless']
+    21	  static readonly QUALITY_NAME: string[] = ['标准','高','极高','无损']
+    22	
+    23	  // Messages
+    24	  static readonly HTTP_ERROR_MSG: string = '网络请求发生错误，请检查：\n1. 网络连接是否正常\n2. API服务器是否正常'
+    25	}     1	{
+     2	  "src": [
+     3	    "pages/Index",
+     4	    "pages/Settings",
+     5	    "pages/SongsListPage",
+     6	    "pages/login/LoginPage",
+     7	    "pages/login/WebLogin",
+     8	    "pages/DownloadPage",
+     9	    "pages/PlayListPage",
+    10	    "pages/WebPage",
+    11	    "pages/login/QrCodeLogin"
+    12	  ]
+    13	}

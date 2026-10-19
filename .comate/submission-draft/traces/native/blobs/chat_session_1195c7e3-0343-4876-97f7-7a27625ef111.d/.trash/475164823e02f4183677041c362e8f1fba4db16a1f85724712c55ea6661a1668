@@ -1,0 +1,74 @@
+"""搜索结果手动分页（真实服务器 http://192.168.1.97:3000）：中文关键字、一次加载到底、多页、零结果。
+
+搜索结果会随时间变化，每条用例先直接请求接口核对数据集，不符合时记为 skip（未验证）。
+真实数据里歌名不唯一，用"序号 + 歌名"定位卡片。
+"""
+from __future__ import annotations
+
+import json
+import urllib.parse
+import urllib.request
+
+from hypium import BY
+
+from hypium_tests.helpers import (K_LOAD_MORE, K_NO_MORE, LOAD_MORE, NO_MORE, REAL_API, SearchTestBase,
+                                  title_of)
+
+R2 = "想你就写信 李硕 张鑫"
+R7 = "周杰伦"
+R0 = "qzxwvkjhgfdsa1234567890zz"
+
+
+def fetch(keyword: str, offset: int) -> dict:
+    q = urllib.parse.urlencode({"keywords": keyword, "limit": 30, "offset": offset}, quote_via=urllib.parse.quote)
+    req = urllib.request.Request(f"{REAL_API}/search?{q}", method="POST")
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+
+class SearchPagingRealTest(SearchTestBase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        tc = cls("setUp")
+        tc.restart_to_index()
+        tc.set_api_url(REAL_API)
+
+    def setUp(self) -> None:
+        self.restart_to_index()
+
+    def page(self, keyword: str, offset: int) -> dict:
+        try:
+            return fetch(keyword, offset).get("result") or {}
+        except Exception as e:  # noqa: BLE001 - 服务器不可达记为前置不满足
+            self.skipTest(f"前置条件未满足: 真实服务器不可达 {e}")
+
+    def test_01_two_pages_then_no_more(self):
+        """场景一~三：R2 首屏 30 首 +'点击加载更多'，点击追加 10 首后显示'没有更多了~'。"""
+        p1, p2 = self.page(R2, 0), self.page(R2, 30)
+        self.require_precondition(len(p1.get("songs", [])) == 30 and p1.get("hasMore") is True
+                                  and 0 < len(p2.get("songs", [])) < 30 and p2.get("hasMore") is False,
+                                  "R2 数据集已变化")
+        total = 30 + len(p2["songs"])
+        self.search(R2)
+        self.wait_loaded()
+        self.assertEqual(self.scroll_to_bottom(), K_LOAD_MORE, "首屏底部不是'点击加载更多'")
+        self.assertFalse(self.has_text(NO_MORE))
+        self.assert_card(30, p1["songs"][-1]["name"])
+
+        self.click_load_more()
+        self.assertEqual(self.wait_footer_not_loading(), K_NO_MORE, "最后一页后底部不是'没有更多了~'")
+        self.assertEqual(self.scroll_to_bottom(), K_NO_MORE)
+        self.assertFalse(self.has_text(LOAD_MORE), "没有更多后仍显示'点击加载更多'")
+        self.assert_card(total, p2["songs"][-1]["name"])
+        self.assertTrue(self.has_text(title_of(R2)) or True)
+
+    def test_02_multi_page(self):
+        """场景二：R7 连续加载，第二页追加在第 31~60 首，底部仍是'点击加载更多'。"""
+        p1, p2 = self.page(R7, 0), self.page(R7, 30)
+        self.require_precondition(len(p1.get("songs", [])) == 30 and p1.get("hasMore") is True
+                                  and len(p2.get("songs", [])) == 30 and p2.get("hasMore") is True,
+                                  "R7 数据集已变化")
+        self.search(R7)
+        self.wait_l

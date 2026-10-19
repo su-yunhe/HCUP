@@ -1,0 +1,10 @@
+#!/bin/zsh
+# 临时调试脚本：基线复查用，分析结束后删除
+HDC=/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/hdc
+DEV=127.0.0.1:5555
+PY=/Users/bress/Documents/code/harmonycup-work/common/.venv/bin/python
+OUT=/Users/bress/Documents/code/harmonycup-work/cmu-spec99/logs
+
+h() { $HDC -t $DEV "$@"; }
+
+# du

@@ -1,0 +1,3 @@
+1. **请求与 loading 绑定**：点击回调里先做重入判断（`isLoading || isLoadingMore || !hasMore` 直接返回），
+   再同步置 `isLoadingMore = true`，在同一次调用里发请求。不允许先改 UI 再延迟发请求，也不允许请求发出后才置 loading。
+2. **结束后恢复**：成功、失败都在

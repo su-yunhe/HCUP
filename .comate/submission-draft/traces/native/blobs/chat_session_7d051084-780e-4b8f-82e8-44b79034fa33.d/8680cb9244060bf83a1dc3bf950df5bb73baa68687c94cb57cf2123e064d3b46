@@ -1,0 +1,3 @@
+1. 接口确实有 `hasMore` 和 `songCount` 字段，acceptance U3 里"`hasMore` 是推断"那部分已经实测确认。
+2. **`hasMore` 和 `songCount` 不一致**：`周杰伦` 的 `hasMore` 在 offset=180 就变成 false，这时只加载了 210 首，`songCount` 却是 272。
+   如果用 `songCount` 判断会多加载 2 页；按 offset 一直往下请求还会拿到重复数据（offset 300）。所以只能以 `hasMore` 为准。

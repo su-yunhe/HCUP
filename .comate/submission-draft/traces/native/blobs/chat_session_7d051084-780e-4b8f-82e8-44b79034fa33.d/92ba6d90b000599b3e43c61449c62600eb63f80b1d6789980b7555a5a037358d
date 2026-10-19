@@ -1,0 +1,208 @@
+Command executed successfully.
+Exit code: 0
+Output:
+     1	import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
+     2	import { hilog } from '@kit.PerformanceAnalysisKit';
+     3	import { window } from '@kit.ArkUI';
+     4	import { BusinessError } from '@kit.BasicServicesKit';
+     5	import PreferencesUtils from '../common/utils/PreferencesUtils';
+     6	import { getLoginInfo } from '../common/functions/getLoginInfo';
+     7	import Constants from '../common/constants/Constants';
+     8	import { LogUtil } from '@pura/harmony-utils';
+     9	import { appInit } from '../common/functions/appInit';
+    10	
+    11	
+    12	export default class EntryAbility extends UIAbility {
+    13	  async onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): Promise<void> {
+    14	    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
+    15	
+    16	    // 初始化
+    17	    await PreferencesUtils.loadPreference(this.context, Constants.USER_PREF)
+    18	    await PreferencesUtils.loadPreference(this.context, Constants.SET_PERF)
+    19	    LogUtil.init(0x1010, 'Cloud Music', true)
+    20	    appInit()
+    21	
+    22	  }
+    23	
+    24	  onDestroy(): void {
+    25	    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onDestroy');
+    26	  }
+    27	
+    28	  onWindowStageCreate(windowStage: window.WindowStage): void {
+    29	    windowStage.loadContent('pages/Index', async (err, data) => {
+    30	      if (err.code) {
+    31	        return;
+    32	      }
+    33	
+    34	      getLoginInfo()
+    35	
+    36	      let windowClass: window.Window = windowStage.getMainWindowSync(); // 获取应用主窗口
+    37	      // 1. 设置窗口全屏
+    38	      let isLayoutFullScreen = true;
+    39	      windowClass.setWindowLayoutFullScreen(isLayoutFullScreen).then(() => {
+    40	        console.info('Succeeded in setting the window layout to full-screen mode.');
+    41	      }).catch((err: BusinessError) => {
+    42	        console.error('Failed to set the window layout to full-screen mode. Cause:' + JSON.stringify(err));
+    43	      });
+    44	
+    45	      // 2. 获取布局避让遮挡的区域
+    46	      let type = window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR; // 以导航条避让为例
+    47	      let avoidArea = windowClass.getWindowAvoidArea(type);
+    48	      let bottomRectHeight = avoidArea.bottomRect.height; // 获取到导航条区域的高度
+    49	      AppStorage.setOrCreate('bottomRectHeight', bottomRectHeight);
+    50	
+    51	      type = window.AvoidAreaType.TYPE_SYSTEM; // 以状态栏避让为例
+    52	      avoidArea = windowClass.getWindowAvoidArea(type);
+    53	      let topRectHeight = avoidArea.topRect.height; // 获取状态栏区域高度
+    54	      AppStorage.setOrCreate('topRectHeight', topRectHeight);
+    55	
+    56	      // 3. 注册监听函数，动态获取避让区域数据
+    57	      windowClass.on('avoidAreaChange', (data) => {
+    58	        if (data.type === window.AvoidAreaType.TYPE_SYSTEM) {
+    59	          let topRectHeight = data.area.topRect.height;
+    60	          AppStorage.setOrCreate('topRectHeight', topRectHeight);
+    61	        } else if (data.type == window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR) {
+    62	          let bottomRectHeight = data.area.bottomRect.height;
+    63	          AppStorage.setOrCreate('bottomRectHeight', bottomRectHeight);
+    64	        }
+    65	      });
+    66	
+    67	    });
+    68	  }
+    69	
+    70	  onWindowStageDestroy(): void {
+    71	    // Main window is destroyed, release UI related resources
+    72	    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageDestroy');
+    73	  }
+    74	
+    75	  onForeground(): void {
+    76	    // Ability has brought to foreground
+    77	    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onForeground');
+    78	  }
+    79	
+    80	  onBackground(): void {
+    81	    // Ability has back to background
+    82	    hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onBackground');
+    83	  }
+    84	}
+     1	{
+     2	}     1	import { hilog } from '@kit.PerformanceAnalysisKit';
+     2	import { describe, beforeAll, beforeEach, afterEach, afterAll, it, expect } from '@ohos/hypium';
+     3	
+     4	export default function abilityTest() {
+     5	  describe('ActsAbilityTest', () => {
+     6	    // Defines a test suite. Two parameters are supported: test suite name and test suite function.
+     7	    beforeAll(() => {
+     8	      // Presets an action, which is performed only once before all test cases of the test suite start.
+     9	      // This API supports only one parameter: preset action function.
+    10	    })
+    11	    beforeEach(() => {
+    12	      // Presets an action, which is performed before each unit test case starts.
+    13	      // The number of execution times is the same as the number of test cases defined by **it**.
+    14	      // This API supports only one parameter: preset action function.
+    15	    })
+    16	    afterEach(() => {
+    17	      // Presets a clear action, which is performed after each unit test case ends.
+    18	      // The number of execution times is the same as the number of test cases defined by **it**.
+    19	      // This API supports only one parameter: clear action function.
+    20	    })
+    21	    afterAll(() => {
+    22	      // Presets a clear action, which is performed after all test cases of the test suite end.
+    23	      // This API supports only one parameter: clear action function.
+    24	    })
+    25	    it('assertContain', 0, () => {
+    26	      // Defines a test case. This API supports three parameters: test case name, filter parameter, and test case function.
+    27	      hilog.info(0x0000, 'testTag', '%{public}s', 'it begin');
+    28	      let a = 'abc';
+    29	      let b = 'b';
+    30	      // Defines a variety of assertion methods, which are used to declare expected boolean conditions.
+    31	      expect(a).assertContain(b);
+    32	      expect(a).assertEqual(a);
+    33	    })
+    34	  })
+    35	}     1	import abilityTest from './Ability.test';
+     2	
+     3	export default function testsuite() {
+     4	  abilityTest();
+     5	}     1	{
+     2	  "module": {
+     3	    "name": "entry_test",
+     4	    "type": "feature",
+     5	    "deviceTypes": [
+     6	      "phone",
+     7	      "tablet",
+     8	      "2in1"
+     9	    ],
+    10	    "deliveryWithInstall": true,
+    11	    "installationFree": false
+    12	  }
+    13	}
+     1	{
+     2	  "module": {
+     3	    "name": "entry",
+     4	    "type": "entry",
+     5	    "description": "$string:module_desc",
+     6	    "mainElement": "EntryAbility",
+     7	    "deviceTypes": [
+     8	      "phone",
+     9	      "tablet",
+    10	      "2in1"
+    11	    ],
+    12	    "deliveryWithInstall": true,
+    13	    "installationFree": false,
+    14	    "pages": "$profile:main_pages",
+    15	    "abilities": [
+    16	      {
+    17	        "name": "EntryAbility",
+    18	        "srcEntry": "./ets/entryability/EntryAbility.ets",
+    19	        "description": "$string:EntryAbility_desc",
+    20	        "icon": "$media:layered_image",
+    21	        "label": "$string:EntryAbility_label",
+    22	        "startWindowIcon": "$media:icon",
+    23	        "startWindowBackground": "$color:start_window_background",
+    24	        "exported": true,
+    25	        "backgroundModes": [
+    26	          "audioPlayback"
+    27	        ],
+    28	        "skills": [
+    29	          {
+    30	            "entities": [
+    31	              "entity.system.home"
+    32	            ],
+    33	            "actions": [
+    34	              "action.system.home"
+    35	            ],
+    36	          }
+    37	        ]
+    38	      }
+    39	    ],
+    40	      "requestPermissions": [
+    41	        {
+    42	          "name": "ohos.permission.INTERNET",
+    43	          "reason": '$string:REASON_INTERNET_PERMISSION'
+    44	        },
+    45	        {
+    46	          "name": "ohos.permission.KEEP_BACKGROUND_RUNNING",
+    47	          "reason": '$string:REASON_KEEP_BACKGROUND_RUNNING'
+    48	        }
+    49	      ]
+    50	//    "extensionAbilities": [
+    51	//      {
+    52	//        "name": "EntryBackupAbility",
+    53	//        "srcEntry": "./ets/entrybackupability/EntryBackupAbility.ets",
+    54	//        "type": "backup",
+    55	//        "exported": false,
+    56	//        "metadata": [
+    57	//          {
+    58	//            "name": "ohos.extension.backup",
+    59	//            "resource": "$profile:backup_config"
+    60	//          }
+    61	//        ],
+    62	//      }
+    63	//    ]
+    64	  }
+    65	}README.md
+scripts
+skills
+spec-harness
+test-harness

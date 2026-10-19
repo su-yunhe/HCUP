@@ -1,0 +1,7 @@
+    def load_more_and_wait(self) -> str | None:
+        self.click_load_more()
+        return self.wait_footer_not_loading()
+
+    def assert_index_of(self, kw: str, i: int) -> None:
+        """第 i 首卡片左侧的序号文本是 i（同一行，排除状态栏里的同名数字）。"""
+    

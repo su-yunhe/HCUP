@@ -1,0 +1,33 @@
+## 3. Spec 描述的入口在哪
+
+【实测】安装基线 HAP 后冷启动，首页就是搜索入口；输入 `mock75` 点击搜索按钮后进入结果页，标题 `"mock75" 的搜索结果`。
+
+调用链【代码】：
+
+1. `EntryAbility.ets:29` `windowStage.loadContent('pages/Index')`
+2. `pages/Index.ets:34` 渲染 `SearchComponent()`（叠在歌单区域上方）
+3. `components/main/SearchComponent.ets:14-17` TextInput，`onChange` 写入 `@State searchKeyword`
+4. `SearchComponent.ets:20-33` 搜索按钮：`if (this.searchKeyword)` 为真时
+   `router.pushUrl({ url: 'pages/SongsListPage', params: { 'searchKeyword': … } })`，否则 `ToastUtil.showToast('请输入搜索内容')`
+5. 路由注册：`resources/base/profile/main_pages.json:5` `"pages/SongsListPage"`
+6. `pages/SongsListPage.ets:22` 从 `router.getParams()` 取 `searchKeyword`；`:25-30` `onPageShow` 里 `!hasLoaded` 才调 `loadSongs()`
+
+TextInput 没有 `onSubmit`，回车不会提交（【实测】）。
+
+## 4. 相关现状
+
+**页面组件** `pages/SongsListPage.ets`【代码】
+
+- 状态：`:19` `hasLoaded`、`:20` `isLoading`（初值 true）、`:21` `list: Array<Song>`；没有 hasMore、offset、isLoadingMore。
+- `:32-42` `loadSongs()`：置 `isLoading=true` → `getSongsList(keyword)` → `this.list = result`（覆盖写法）→ `isLoading=false`、`hasLoaded=true`。
+  catch 只打日志，**不复位 `isLoading`**，失败后永远停在全屏 loading（【实测】确认）。
+- `:46-54` `isLoading` 时整页只渲染全屏 SpinKit；`:55-72` 否则渲染 `ListHead` + `List`。
+  这是 if/else 分支，切换 `isLoading` 会销毁并重建整个 List（会丢滚动位置）。
+- `:58-65` List：`ForEach(this.list, (item, index) => ListItem { SongCard({ song, sid: index, hasAnimation }) })`，没有 keyGenerator；
+  末尾 `:64` 一个空 ListItem，底部 padding 为导航条高度。
+- 没有 `BottomPlayController`（歌单页有），列表底部不会被遮挡。
+
+**网络服务**【代码】
+
+- `api/songApi.ets:15-32` `getSongsList(searchKeyword)`：URL `${rootUrl}/search?keywords=${encodeURIComponent(kw)}`，**没有 limit/offset**；
+  只取 `result.songs`，丢弃其他字段；返回 

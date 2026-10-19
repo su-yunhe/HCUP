@@ -1,0 +1,20 @@
+```mermaid
+stateDiagram-v2
+    [*] --> LOADING_FIRST: onPageShow 且 !hasLoaded，发 search(offset=0)
+    LOADING_FIRST --> READY_MORE: 成功且 hasMore
+    LOADING_FIRST --> READY_END: 成功且 !hasMore
+    LOADING_FIRST --> FIRST_FAILED: 失败
+    READY_MORE --> LOADING_MORE: 点击“点击加载更多”，同步置 isLoadingMore 并立即发 search(offset=currentOffset)
+    LOADING_MORE --> READY_MORE: 成功且 hasMore，追加 list，offset 前进
+    LOADING_MORE --> READY_END: 成功且 !hasMore，追加 list
+    LOADING_MORE --> READY_MORE: 失败，list/offset/hasMore 不变
+    READY_END --> [*]
+```
+
+| 状态 | 列表区域 | 列表底部 | 允许发 /search 的动作 |
+| --- | --- | --- | --- |
+| LOADING_FIRST | 全屏 SpinKit，不渲染列表（基线行为） | 无 | 无；onPageShow 再触发也不重复发 |
+| READY_MORE | 已加载歌曲 | 只有 `点击加载更多` | 只有点击 `点击加载更多`，每次点击恰好 1 个请求 |
+| LOADING_MORE | 已加载歌曲原样保留 | 只有小号加载指示（不加文案，见 U2） | 无；重复点击、滚动都不发 |
+| READY_END | 全部歌曲 | 只有 `没有更多了~` | 无 |
+| FIRST_FAILED | 见 U8 | 见 U8 | 见 U8 |

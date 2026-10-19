@@ -1,0 +1,5 @@
+1. 本机起一个兼容 `/search`、`/song/detail` 的模拟服务（我用 Python `http.server` 写的临时脚本，按关键字里的数字决定结果总数，
+   响应 `{ code, result: { songs, hasMore, songCount } }`；脚本已删除，结构现在已经和 7.3 的真实响应对上）。
+   开发阶段重建时要补上真实接口的几种边界：零结果/超出范围时不返回 `songs` 和 `hasMore`、纯空格返回 `{"code":400}`、
+   `hasMore` 提前变 false。
+2. `hdc -t 127.0.0.1:5555 rport tcp:3000

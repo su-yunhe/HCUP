@@ -1,0 +1,100 @@
+"""搜索结果手动分页（模拟服务）：请求参数、次数、加载状态、失败、连点、返回/重进/重启、输入边界。
+
+模拟服务跑在本机 127.0.0.1:3999，经 `hdc rport` 映射到模拟器；只通过应用设置切换 API 地址（U10），
+用完在 tearDownClass 里改回真实服务器地址。每条用例用不同的关键字，歌名互不相同。
+"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.helpers import (K_INPUT, K_LIST, K_LOAD_MORE, K_LOADING, K_LOADING_MORE, K_NO_MORE, LOAD_MORE,
+                                  NO_MORE, REAL_API, SearchTestBase, title_of)
+from hypium_tests.mock_server import PORT, STATE, MockServer
+
+MOCK_API = f"http://127.0.0.1:{PORT}"
+
+
+class SearchPagingMockTest(SearchTestBase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        cls.server = MockServer()
+        cls.server.start()
+        cls.hdc("rport", f"tcp:{PORT}", f"tcp:{PORT}")
+        tc = cls("setUp")
+        tc.restart_to_index()
+        tc.set_api_url(MOCK_API)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        try:
+            tc = cls("setUp")
+            tc.restart_to_index()
+            tc.set_api_url(REAL_API)
+        finally:
+            cls.hdc("fport", "rm", f"tcp:{PORT}", f"tcp:{PORT}")
+            cls.server.stop()
+
+    def setUp(self) -> None:
+        STATE.reset()
+        self.restart_to_index()
+
+    def song(self, kw: str, i: int) -> str:
+        return f"{kw}-歌曲{i}"
+
+    def assert_page_end(self, kw: str, last: int, footer: str) -> None:
+        """滑到底：最后一首是第 last 首、第 last+1 首不存在、底部项为 footer。"""
+        got = self.scroll_to_bottom()
+        self.assertEqual(got, footer, f"列表底部应为 {footer}，实际 {got}")
+        self.assertTrue(self.has_text(self.song(kw, last)), f"底部附近没有第 {last} 首")
+        self.assertFalse(self.has_text(self.song(kw, last + 1)), f"出现了第 {last + 1} 首")
+        if footer == K_LOAD_MORE:
+            self.assertTrue(self.has_text(LOAD_MORE))
+            self.assertFalse(self.has_text(NO_MORE), "两种底部文案同时出现")
+        if footer == K_NO_MORE:
+            self.assertTrue(self.has_text(NO_MORE))
+            self.assertFalse(self.has_text(LOAD_MORE), "没有更多后仍显示'点击加载更多'")
+
+    def load_more_and_wait(self) -> str | None:
+        self.click_load_more()
+        return self.wait_footer_not_loading()
+
+    # ---------- 场景一 ----------
+
+    def test_01_first_page_shows_load_more_without_auto_request(self):
+        """A1 A2 A3 A5 A6：首屏 30 首，滑到底显示'点击加载更多'，滑动不自动请求。"""
+        kw = "pga75"
+        self.search(kw)
+        self.wait_loaded()
+        self.require_text(self.song(kw, 1), "首屏没有第 1 首")
+        self.assertEqual(STATE.search_requests(kw), [(kw, 30, 0)], "首页请求应为 limit=30&offset=0 且只有 1 次")
+        self.assert_page_end(kw, 30, K_LOAD_MORE)
+        # 底部继续上拉、停留，都不应触发请求
+        for _ in range(3):
+            self.swipe_list("UP")
+        self.driver.wait(3)
+        self.assertEqual(STATE.search_offsets(kw), [0], "滑到底后自动发起了请求")
+        self.assertTrue(self.has_text(LOAD_MORE), "停留在底部后'点击加载更多'消失")
+        self.assertFalse(self.has_text(self.song(kw, 31)), "未点击就追加了第 31 首")
+
+    def test_02_first_page_loading_state(self):
+        """A4：首页请求期间显示全屏加载，不显示任何底部文案。"""
+        kw = "pgb75"
+        STATE.delay_first = 3
+        self.type_keyword(kw)
+        self.submit()
+        self.require_component(BY.key(K_LOADING), "首页请求期间没有全屏加载 search_loading", timeout=2.5)
+        self.assertFalse(self.has_text(LOAD_MORE), "首页加载中显示了'点击加载更多'")
+        self.assertFalse(self.has_text(NO_MORE), "首页加载中显示了'没有更多了~'")
+        self.wait_loaded()
+        self.require_text(title_of(kw), "首页加载结束后没有标题")
+        self.require_text(self.song(kw, 1), "首页加载结束后没有歌曲")
+        self.assertEqual(STATE.search_offsets(kw), [0])
+
+    def test_03_small_result_shows_no_more(self):
+        """A7：首批即全部（3 首），显示'没有更多了~'，没有'点击加载更多'。"""
+        kw = "pgc3"
+        self.search(kw)
+        self.wait_loaded()
+  

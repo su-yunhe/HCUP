@@ -1,0 +1,134 @@
+# 基线理解结论（cmu-spec99）
+
+标注约定：【实测】在模拟器上实际操作或命令验证过；【代码】读源码得出，带 `文件:行号`；【推断】我的推测，未验证；
+【Spec】`spec/requirement.md` 原文。路径均相对 `entry/src/main/ets/`，另有说明的除外。
+
+## 1. 基线快照
+
+- 已打 tag `baseline-cmu-spec99` → `1e6a42a`（HEAD）。【实测】
+- `metadata.json` 的 `base_commit` 是 `34bbc9d`（已有 tag `base/cmu-spec99`）。`1e6a42a` 相对它只改了
+  `oh-package-lock.json5` 的 2 行（`git diff --stat 34bbc9d HEAD`），没有业务代码改动。【实测】
+- 会话开始时工作区已有一处未提交修改，不是本阶段产生的：`build-profile.json5` 新增了 `"targetSdkVersion": "6.1.0(23)"`。
+  基线构建是带着这处修改做的。`spec/` 整个目录未被 git 跟踪。【实测】
+- 本阶段新增 `logs/`：`baseline-build.log`（clean 构建全量日志）、`baseline-index.jpeg`、`baseline-search-bottom.jpeg`、
+  `baseline-layout-index.json`（首页 UI 树）。没有修改任何业务代码。
+
+## 2. 构建基线状态
+
+命令（工程根目录执行）：
+
+```bash
+D=/Applications/DevEco-Studio.app/Contents
+export JAVA_HOME=$D/jbr/Contents/Home DEVECO_SDK_HOME=$D/sdk PATH=$D/jbr/Contents/Home/bin:$D/tools/node/bin:$PATH
+$D/tools/hvigor/bin/hvigorw clean --no-daemon
+$D/tools/hvigor/bin/hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon 2>&1 | tee logs/baseline-build.log
+```
+
+- 结果：BUILD SUCCESSFUL，产物 `entry/build/default/outputs/default/entry-default-unsigned.hap`（约 2.2MB，未签名）。【实测】
+- 坑：hvigorw/hdc/node 都不在 PATH 里。不设 `JAVA_HOME` 时，增量构建会因为全部 UP-TO-DATE 而"成功"，但 clean 后会在
+  `PackageHap` 失败：`00308018 Unable to locate a Java Runtime`。必须用 DevEco 自带的 JBR。【实测】
+- 构建后 `git status` 没有出现 `BuildProfile.ets` 之类的噪声文件。【实测】
+
+告警清单（与之后的构建对比用）：【实测，统计自 `logs/baseline-build.log`】
+
+| 类别 | 数量 | 说明 |
+| --- | --- | --- |
+| ArkTS WARN 合计 | 617 | 558 条在 `oh_modules`（三方库），59 条在 `entry/src` |
+| 资源冲突 Warning | 12 | `page_show` / `lib_name` 在 `@pura/spinkit` 与 `@yunkss/ef_audio` 的 string.json 里重复声明 |
+| 签名 | 1 | `No signingConfig found for product default` |
+
+`entry/src` 的 59 条按类型：`px2vp` 已废弃 19、`Function may throw exceptions` 8、`showToast` 已废弃 8、
+`pushUrl` 已废弃 7、`getParams` 已废弃 5、`backgroundTaskManager` syscap 3、`getContext` 已废弃 3、
+`replaceUrl` 已废弃 2、`back` 已废弃 2、`vp2px`/`decode` 已废弃各 1。
+
+和本题相关的现有告警：`SongsListPage.ets:22:48` getParams；`SongsListPage.ets:50:28`、`64:42`、`74:21` px2vp；
+`SearchComponent.ets:28:20` pushUrl。**新代码每多调用一次 `px2vp` / `getParams` / `pushUrl` / `showToast`，
+都会多一条同类告警**，开发时尽量复用已有调用，或者在对比时单独说明。
+
+## 3. Spec 描述的入口在哪
+
+【实测】安装基线 HAP 后冷启动，首页就是搜索入口；输入 `mock75` 点击搜索按钮后进入结果页，标题 `"mock75" 的搜索结果`。
+
+调用链【代码】：
+
+1. `EntryAbility.ets:29` `windowStage.loadContent('pages/Index')`
+2. `pages/Index.ets:34` 渲染 `SearchComponent()`（叠在歌单区域上方）
+3. `components/main/SearchComponent.ets:14-17` TextInput，`onChange` 写入 `@State searchKeyword`
+4. `SearchComponent.ets:20-33` 搜索按钮：`if (this.searchKeyword)` 为真时
+   `router.pushUrl({ url: 'pages/SongsListPage', params: { 'searchKeyword': … } })`，否则 `ToastUtil.showToast('请输入搜索内容')`
+5. 路由注册：`resources/base/profile/main_pages.json:5` `"pages/SongsListPage"`
+6. `pages/SongsListPage.ets:22` 从 `router.getParams()` 取 `searchKeyword`；`:25-30` `onPageShow` 里 `!hasLoaded` 才调 `loadSongs()`
+
+TextInput 没有 `onSubmit`，回车不会提交（【实测】）。
+
+## 4. 相关现状
+
+**页面组件** `pages/SongsListPage.ets`【代码】
+
+- 状态：`:19` `hasLoaded`、`:20` `isLoading`（初值 true）、`:21` `list: Array<Song>`；没有 hasMore、offset、isLoadingMore。
+- `:32-42` `loadSongs()`：置 `isLoading=true` → `getSongsList(keyword)` → `this.list = result`（覆盖写法）→ `isLoading=false`、`hasLoaded=true`。
+  catch 只打日志，**不复位 `isLoading`**，失败后永远停在全屏 loading（【实测】确认）。
+- `:46-54` `isLoading` 时整页只渲染全屏 SpinKit；`:55-72` 否则渲染 `ListHead` + `List`。
+  这是 if/else 分支，切换 `isLoading` 会销毁并重建整个 List（会丢滚动位置）。
+- `:58-65` List：`ForEach(this.list, (item, index) => ListItem { SongCard({ song, sid: index, hasAnimation }) })`，没有 keyGenerator；
+  末尾 `:64` 一个空 ListItem，底部 padding 为导航条高度。
+- 没有 `BottomPlayController`（歌单页有），列表底部不会被遮挡。
+
+**网络服务**【代码】
+
+- `api/songApi.ets:15-32` `getSongsList(searchKeyword)`：URL `${rootUrl}/search?keywords=${encodeURIComponent(kw)}`，**没有 limit/offset**；
+  只取 `result.songs`，丢弃其他字段；返回 `Array<Song>`。
+- `api/songApi.ets:38-48` `getSongInfo` 也调 `/search`，共用 `SongsData` 类型；当前唯一调用点 `playerControl.ets:43` 已被注释掉。
+  扩展 `SongsData` 时保持字段可选，不影响它。
+- `getSongsList` 的唯一调用方是 `SongsListPage.ets:35`，改签名不会波及其他页面。
+- `common/entities/SongsResult.ets:13-19` `Result { songs }`、`SongsData { result }`，没有 hasMore / songCount 字段。
+- `common/utils/HttpRequestUtils.ets:28-63` `Request()`：POST，header 带 AppStorage 里的 `cookie`；`usingCache` 默认 true；
+  连接/读取超时都是 15s；出错时 reject，并在 1s 后 `DialogUtil.showConfirmDialog({ title: '网络请求出错', … })`。
+  `:20` 构造函数 `if (usingCache)` 只在传真值时赋值，**无法关闭缓存**（基线 bug，只记录）。
+  HTTP 200 但响应体结构不对时不会弹窗，异常在调用方 `.then` 里抛出。
+- `common/functions/functions.ets:14-21` `getApiUrl()`：默认 `Constants.ROOT_URL`（`Constants.ets:13`，`http://111.229.38.178:3000`），
+  开启自定义时用 AppStorage `set-customApiUrl`。
+
+**卡片** `components/main/SongCard.ets`【代码】
+
+- `:19-26` 每张卡片 `aboutToAppear` 时调 `getSongPicUrl` → 每张一次 `/song/detail?ids=`（【实测】首屏 30 张卡片产生 30 次）。
+- `:31` 序号 `Text(sid + 1)`；`:40-45` 开启动画时宽度从 30% 到 100%，600ms；`:53-58` 点击切换 bindSheet 打开 SongSheet。
+
+**本地存储**：搜索没有任何本地存储。【代码】Preferences 只存用户与设置（`appInit.ets:27-73`）。
+
+## 5. 可复用的既有实现
+
+**歌单页手动分页** `pages/PlayListPage.ets`（与本题最接近，推荐沿用）【代码】
+
+- 状态 `:26-32`：`hasLoaded`、`isLoading`、`list`、`isLoadingMore`、`hasMore`（初值 true）、`currentOffset`。
+- `:42-65` `loadSongs(limit, offset)`：offset==0 置 `isLoading`，否则置 `isLoadingMore`；成功后 `list = [...list, ...result]`、
+  `currentOffset += limit`；用 `list.length >= trackCount` 判 hasMore；`finally` 复位两个 loading 与 `hasLoaded`。
+- `:82-104` 列表底部三选一：`isLoadingMore` → 小号 SpinKit（spinO, 30）；`hasMore` → `Text("点击加载更多").onClick(loadSongs(30, currentOffset))`；
+  否则 `Text('没有更多了~')`。文案与本题 Spec 逐字相同。
+- `api/playListApi.ets:65-83` `getPlayListSongs(listId, offset)`：URL 里 `limit=30&offset=${offset}`。
+- `api/playListApi.ets:22-56` `getPlayLists(offset)` 返回 `{ more, playlist }`，是"列表 + 是否还有更多"一起返回的现成写法。
+
+沿用时要补的缺口（【代码】推断）：
+
+1. 没有重入守卫，只靠 UI 切换防重复点击（`:43` 只判断 `hasMore`）。
+2. `:63` `finally` 里 `hasLoaded = true`，失败也会标记为已加载，回前台不再重试——与搜索页现有 `hasLoaded` 语义不同，照抄前要想清楚。
+3. `:105` 末尾占位高度 `bottomRectHeight + 80` 是给 `BottomPlayController` 让位的，搜索页没有这个控件，不需要照抄。
+4. hasMore 的依据是路由传入的 `trackCount`；搜索页没有这个值，只能依赖接口返回（acceptance U3）。
+
+**其他**：路由统一用 `router.pushUrl` + `router.getParams()`；状态管理是页面内 `@State` + `AppStorage`/`@StorageProp`；
+加载指示统一用 `@pura/spinkit`。【代码】
+
+## 6. 缺失项（Spec 要求、基线完全没有）
+
+【代码】+【实测】
+
+1. 搜索请求的分页参数（limit/offset）——`songApi.ets:18`。
+2. 接口"是否还有更多"的解析与返回——`SongsResult.ets:13-19`、`songApi.ets:21-29`。
+3. 搜索结果页的 hasMore / currentOffset / isLoadingMore 状态——`SongsListPage.ets:19-21`。
+4. 列表底部的 `点击加载更多`、加载更多指示、`没有更多了~`——`SongsListPage.ets:58-65` 只有歌曲和一个占位项。
+   【实测】D(75) 滑到底，最后一项是 `30 mock75-歌曲30`，下面没有任何文字（`logs/baseline-search-bottom.jpeg`）。
+5. 追加写法（基线是覆盖写法 `SongsListPage.ets:36`）。
+6. 所有组件都没有 `.id()`/`.key()`（`entry/src/main/ets` 全量 grep 无结果）。
+7. TextInput 没有 `onSubmit`（是否补见 acceptance U7）。
+
+<!-- APPEND_NOTES -->

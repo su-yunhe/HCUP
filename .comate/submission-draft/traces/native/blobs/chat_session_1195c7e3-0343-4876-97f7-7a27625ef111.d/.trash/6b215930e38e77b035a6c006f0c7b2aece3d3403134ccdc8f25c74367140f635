@@ -1,0 +1,2 @@
+    def wait_footer_not_loading(self, timeout: float = 20) -> str | None:
+        """等加载更多的指示消失，再滑到底返回底部项（追加后原底部项会被新歌曲挤出屏幕）。

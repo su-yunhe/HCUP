@@ -1,0 +1,9 @@
+- **决议：(a)**。理由：规则统一成"hasMore=false 就显示 `没有更多了~`"，跟 `PlayListPage.ets:100-103` 一致；两种选项都满足"不显示 `点击加载更多`"这一 Spec 要求。
+
+**U2 加载更多时的加载状态长什么样（A11）**
+- 选项：(a) 复用 PlayListPage 的小号 SpinKit（`spinO`，30，`PlayListPage.ets:83-88`），不加文案；(b) SpinKit + 自造文案（如"加载中..."）。
+- **决议：(a)**。理由：Spec 没有给加载文案，自造文案没有依据；复用既有写法最贴近基线。测试能观察到的是 `点击加载更多` 消失，以及我们自己的 `search_loading_more`。
+
+**U3 hasMore 依据什么判定（A7、A19、A22）**
+- 选项：(a) 读接口 `result.hasMore`；(b) 已加载数 < `result.songCount`；(c) 本页条数 == L。
+- **决议：只用 (a)**：`hasMore = result.hasMore === true`；字段缺失按 false；本页没有 `songs` 或为空时强制 false。不用 (b) 兜底。

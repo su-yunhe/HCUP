@@ -1,0 +1,35 @@
+    # ---------- 场景二、三 ----------
+
+    def test_05_load_more_appends_until_no_more(self):
+        """A9-A15 A18-A21：逐页追加 30→60→75，加载中保留原列表，最后显示'没有更多了~'且不再请求。"""
+        kw = "pge75"
+        STATE.delay_more = 2.5
+        self.search(kw)
+        self.wait_loaded()
+        self.assertEqual(self.scroll_to_bottom(), K_LOAD_MORE)
+
+        self.click_load_more()
+        self.require_component(BY.key(K_LOADING_MORE), "点击后没有加载指示 search_loading_more", timeout=2)
+        self.assertFalse(self.has_text(LOAD_MORE), "加载中仍显示'点击加载更多'")
+        self.assertFalse(self.has_text(NO_MORE), "加载中显示了'没有更多了~'")
+        self.assertFalse(self.exists(BY.key(K_LOADING)), "加载更多时出现了全屏加载（替换了列表）")
+        self.assertTrue(self.has_text(self.song(kw, 30)), "加载中第一页内容被替换")
+        self.assertEqual(STATE.search_requests(kw), [(kw, 30, 0), (kw, 30, 30)], "下一页请求应为 offset=30")
+
+        self.assertEqual(self.wait_footer_not_loading(), K_LOAD_MORE, "第二页后应仍有更多")
+        self.assertFalse(self.has_text(self.song(kw, 1)), "追加后列表跳回了顶部")
+        self.assert_page_end(kw, 60, K_LOAD_MORE)
+        self.assertTrue(self.has_text("60"), "第 60 首序号不连续")
+
+        self.assertEqual(self.load_more_and_wait(), K_NO_MORE, "最后一页后应显示'没有更多了~'")
+        self.assert_page_end(kw, 75, K_NO_MORE)
+        self.assertEqual(STATE.search_offsets(kw), [0, 30, 60])
+
+        # 没有更多后：点击文案、上下滑动都不请求，全程找不到'点击加载更多'
+        self.driver.click(BY.key(K_NO_MORE))
+        self.driver.wait(1)
+        self.scroll_to_top(self.song(kw, 1), watch_absent=LOAD_MORE)
+        self.assertEqual(self.scroll_to_bottom(), K_NO_MORE)
+        self.assertEqual(STATE.search_offsets(kw), [0, 30, 60], "没有更多后又发起了请求")
+
+    def test_06_new_songs_browsable(s

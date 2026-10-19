@@ -1,0 +1,27 @@
+```mermaid
+stateDiagram-v2
+    [*] --> LOADING_FIRST: onPageShow 且 !hasLoaded，发 search(offset=0)
+    LOADING_FIRST --> READY_MORE: 成功且 hasMore
+    LOADING_FIRST --> READY_END: 成功且 !hasMore（含零结果）
+    LOADING_FIRST --> FIRST_FAILED: 失败
+    FIRST_FAILED --> LOADING_FIRST: 点击“点击加载更多”，或 onPageShow（hasLoaded 仍为 false），重发 search(offset=0)
+    READY_MORE --> LOADING_MORE: 点击“点击加载更多”，同步置 isLoadingMore 并立即发 search(offset=currentOffset)
+    LOADING_MORE --> READY_MORE: 成功且 hasMore，追加 list，offset 前进
+    LOADING_MORE --> READY_END: 成功且 !hasMore，追加 list
+    LOADING_MORE --> READY_MORE: 失败，list/offset/hasMore 不变
+    READY_END --> [*]
+```
+
+| 状态 | 列表区域 | 列表底部 | 允许发 /search 的动作 |
+| --- | --- | --- | --- |
+| LOADING_FIRST | 全屏 SpinKit，不渲染列表（基线行为） | 无 | 无；onPageShow 再触发也不重复发 |
+| READY_MORE | 已加载歌曲 | 只有 `点击加载更多` | 只有点击 `点击加载更多`，每次点击恰好 1 个请求 |
+| LOADING_MORE | 已加载歌曲原样保留 | 只有小号 SpinKit（不加文案，U2） | 无；重复点击、滚动都不发 |
+| READY_END | 全部歌曲（零结果时为空） | 只有 `没有更多了~` | 无 |
+| FIRST_FAILED | 空列表（标题照常显示） | 只有 `点击加载更多`（U8） | 点击 `点击加载更多` 以 offset=0 重试，恰好 1 个请求 |
+
+成功与失败的判定（U8 已确认）：响应 `code == 200` 且 `result` 是对象就算成功——`songs` 缺失按空数组处理，
+`hasMore` 缺失按 false 处理（U3）；网络错误、`code != 200`、没有 `result` 都算失败。
+
+FIRST_FAILED 重试时回到 LOADING_FIRST，显示全屏 SpinKit。这是我定的细节：列表本来就是空的，沿用
+`PlayListPage.ets:44-48`"offset==0 走 isLoading"的写法即可，Spec 和决议都没有约束这一点。

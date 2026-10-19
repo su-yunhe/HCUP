@@ -1,0 +1,54 @@
+# 2-submit 整理阶段导出的 git 状态快照（冻结时间 2026-10-18 23:31 之后导出；导出前后工程文件未改动）
+## git rev-parse HEAD
+1e6a42a336e66963e26ab76824f3caae71bac884
+## git branch --show-current
+dev
+## git tag -l（含指向）
+base/cmu-spec99 -> 34bbc9d Harmony Cup sanitized baseline snapshot
+baseline-cmu-spec99 -> 1e6a42a chore: 记录 ohpm install 重建的依赖锁文件
+## git log --all --format='%H %ci %an %s'
+1e6a42a336e66963e26ab76824f3caae71bac884 2026-10-14 17:24:26 +0800 bress chore: 记录 ohpm install 重建的依赖锁文件
+34bbc9d862701e28718383f6a62fd99f801176ec 2026-09-24 08:00:00 +0800 Harmony Cup Harmony Cup sanitized baseline snapshot
+## git status --porcelain -uall（不含 .comate/submission-draft 本身）
+ M build-profile.json5
+ M entry/src/main/ets/api/songApi.ets
+ M entry/src/main/ets/common/entities/SongsResult.ets
+ M entry/src/main/ets/components/main/SearchComponent.ets
+ M entry/src/main/ets/pages/SongsListPage.ets
+?? hypium_tests/__init__.py
+?? hypium_tests/helpers.py
+?? hypium_tests/mock_server.py
+?? hypium_tests/test_search_paging_mock.py
+?? hypium_tests/test_search_paging_real.py
+?? logs/baseline-build.log
+?? logs/baseline-index.jpeg
+?? logs/baseline-layout-index.json
+?? logs/baseline-real-bottom.jpeg
+?? logs/baseline-real-zero-result.jpeg
+?? logs/baseline-search-bottom.jpeg
+?? logs/build.log
+?? logs/install.log
+?? logs/reports/2026-10-18-22-54-13/task_log.log
+?? logs/reports/2026-10-18-22-55-03/task_log.log
+?? logs/reports/2026-10-18-22-55-56/task_log.log
+?? logs/reports/2026-10-18-23-01-33/task_log.log
+?? logs/reports/2026-10-18-23-09-41/task_log.log
+?? logs/reports/2026-10-18-23-11-45/task_log.log
+?? logs/selftest.json
+?? logs/selftest.log
+?? spec/0-analyze.md
+?? spec/1-do.md
+?? spec/2-submit.md
+?? spec/3-package.md
+?? spec/acceptance.md
+?? spec/baseline-notes.md
+?? spec/metadata.json
+?? spec/requirement.md
+## git diff --stat 34bbc9d（已跟踪文件）
+ build-profile.json5                                |  3 +-
+ entry/src/main/ets/api/songApi.ets                 | 35 +++++++++---
+ entry/src/main/ets/common/entities/SongsResult.ets | 12 ++++
+ .../main/ets/components/main/SearchComponent.ets   | 24 +++++---
+ entry/src/main/ets/pages/SongsListPage.ets         | 64 ++++++++++++++++++++--
+ oh-package-lock.json5                              |  3 +-
+ 6 files changed, 118 insertions(+), 23 deletions(-)

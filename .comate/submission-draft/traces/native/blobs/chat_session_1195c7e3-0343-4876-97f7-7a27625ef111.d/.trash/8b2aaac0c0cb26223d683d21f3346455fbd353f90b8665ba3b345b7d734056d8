@@ -1,0 +1,36 @@
+  @State hasLoaded:boolean = false // 判定是否已加载 避免重复加载
+  @State isLoading:boolean = true
+  @State list:Array<Song> = new Array()
+  private searchKeyword:string = Object(router.getParams())['searchKeyword']
+  hasAnimation:boolean | undefined = false
+
+  async onPageShow(): Promise<void> {
+    this.hasAnimation = AppStorage.get('set-hasAnimation')
+    if (!this.hasLoaded) {
+      await this.loadSongs();
+    }
+  }
+
+  async loadSongs(): Promise<void> {
+    this.isLoading = true;
+    try {
+      const result = await getSongsList(this.searchKeyword);
+      this.list = result;
+      this.isLoading = false;
+      this.hasLoaded = true;
+    } catch (e) {
+      LogUtil.error( TAG + 'Error fetching songs: ', JSON.stringify(e));
+    }
+  }
+
+  build() {
+    Stack() {
+      if(this.isLoading == true) {
+        Column() {
+          SpinKit({ spinType: SpinType.spinO, spinSize:60, spinColor:Color.Gray }).width(60)
+        }
+        .padding({ bottom: px2vp(this.topRectHeight) })
+        .height('100%')
+        .width('100%')
+        .justifyContent(FlexAlign.Center)
+      }

@@ -1,0 +1,13 @@
+import { promptAction, router } from "@kit.ArkUI"
+import { ToastUtil } from "@pura/harmony-utils"
+import { PlayController } from "../play/PlayController"
+
+@Component
+export struct SearchComponent {
+  @State searchKeyword:string = ''
+
+  // 提交搜索（搜索按钮与回车共用），纯空格按空输入处理
+  private submitSearch: () => void = () => {
+    if(this.searchKeyword.trim()) {
+      router.pushUrl({
+        url: 'pages/SongsListPage'

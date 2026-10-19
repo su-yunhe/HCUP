@@ -1,0 +1,14 @@
+# 验收矩阵：搜索结果支持手动分页加载（cmu-spec99）
+
+依据：`spec/requirement.md`（下称 Spec）。基线现状与证据见 `spec/baseline-notes.md`。
+代码位置均指基线快照 `baseline-cmu-spec99`（1e6a42a）。本文件只拆需求，不含实现。
+
+## 0. 约定
+
+证据等级：
+
+- `SPEC_EXPLICIT`：Spec 明文
+- `REASONABLE_DERIVATION`：由 Spec 明文 + 基线代码/实测推出
+- `UNCONFIRMED_ASSUMPTION`：Spec 未说明，需要你拍板，汇总见第 4 节（U1～U10）
+
+公共

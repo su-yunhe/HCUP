@@ -1,0 +1,6 @@
+**U3 hasMore 依据什么判定（A7、A19、A22）**
+- 选项：(a) 读接口 `result.hasMore`；(b) 已加载数 < `result.songCount`；(c) 本页条数 == L。
+- 推荐：**只用 (a)**：`hasMore = result.hasMore === true`；字段缺失按 false；本页没有 `songs` 或为空时强制 false。不要用 (b) 兜底。
+- 理由（已在真实接口实测，见 baseline-notes 7.3）：
+  1. Spec 原文是"当接口表明全部搜索结果已经加载完成"，接口确实返回 `hasMore`。
+  2. `hasMore` 和 `songCount` 不一致：R7 在 offset=180、已加载 210 首时 `hasMore=false`，`son

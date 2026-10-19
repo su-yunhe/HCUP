@@ -1,0 +1,13 @@
+    def swipe_list(self, direction: str, distance: int = 80, swipe_time: float = 0.25) -> None:
+        self.driver.swipe(direction, distance, area=BY.key(K_LIST), swipe_time=swipe_time)
+        self.driver.wait(0.6)
+
+    def scroll_to_bottom(self, max_swipes: int = 25) -> str:
+        """一直上滑到列表底部出现加载/文案项，返回该项的 key。"""
+        for _ in range(max_swipes):
+            if self.footer() is None:
+                self.swipe_list("UP")
+                continue
+            self.swipe_list("UP", 40)  # 再推一下，保证底部项完整可见
+            f = self.footer()
+            if f is not None:  # 推的过程中刚好追加完成时，底部项会被

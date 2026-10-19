@@ -1,0 +1,3 @@
+        self.assertEqual(field.getText(), url, "API 地址没有设置成功")
+        self.driver.press_back()
+        self.require_component(BY.key(K_INPUT), "从设置返回后不在 Index")

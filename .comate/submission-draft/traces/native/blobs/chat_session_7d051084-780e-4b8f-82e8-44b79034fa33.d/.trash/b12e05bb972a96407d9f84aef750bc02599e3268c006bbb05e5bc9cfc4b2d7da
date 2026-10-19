@@ -1,0 +1,47 @@
+#### A26 空输入 / 纯空格 / 回车提交
+
+- 来源：Spec 只写"输入关键字并提交搜索"｜证据：空输入 `REASONABLE_DERIVATION`（保持基线）；纯空格 `UNCONFIRMED_ASSUMPTION`（U6）；回车 `UNCONFIRMED_ASSUMPTION`（U7）
+- 原子行为：
+  - 空输入：点击搜索按钮弹 toast `请输入搜索内容`，不跳转、不请求（基线实测）
+  - 纯空格：基线会跳转，并以 `   ` 作为关键字请求（基线实测，`SearchComponent.ets:27` 只判断真值）
+  - 回车：基线按回车无任何反应（实测：没有跳转，也没有请求；TextInput 没有 `onSubmit`）
+- 可观察结果：toast 文本 `请输入搜索内容`；页面停留在 Index。
+- 八维度：
+  - 入口：Index
+  - 前置数据：无
+  - 用户动作：空输入点按钮；输入纯空格点按钮；输入关键字后按回车
+  - UI 结果：如上
+  - 数据结果：无
+  - 网络结果：空输入时 0 次
+  - 返回结果：不适用，没有离开 Index
+  - 边界条件：取消输入（清空后点按钮）等同空输入
+- 稳定选择器：`search_input`、`search_button`；toast 用文本匹配。
+
+#### A27 加载中离开页面
+
+- 来源：由 Spec 推出｜证据：`REASONABLE_DERIVATION`
+- 原子行为：LOADING_FIRST 或 LOADING_MORE 时按返回离开，应用不崩溃，Index 正常可用。
+- 可观察结果：回到 Index 后搜索框可用；应用进程仍在。
+- 八维度：
+  - 入口：同 A9
+  - 前置数据：模拟服务加 ≥3s 延时
+  - 用户动作：点击 `点击加载更多` 后立即返回
+  - UI 结果：如上
+  - 数据结果：不适用，页面已销毁
+  - 网络结果：已发出的请求可以完成；离开后不再发新请求
+  - 返回结果：即本条
+  - 边界条件：失败场景下 1s 后的 `网络请求出错` 弹窗可能弹在 Index 上（基线行为，`HttpRequestUtils.ets:57-59`）
+- 稳定选择器：`search_input`。
+
+#### A28 首页请求失败
+
+- 来源：Spec 未提及｜证据：`UNCONFIRMED_ASSUMPTION`（U8）
+- 基线现状（实测）：默认服务器超时 → 15s 后 1s 内弹出 `网络请求出错`，页面永久停在全屏 SpinKit（`SongsListPage.ets:39-41` 的 catch 没有复位 `isLoading`）。
+- 推荐处理见 U8。八维度：入口同 E0；前置数据为首页失败；用户动作无；UI/数据/网络按 U8；返回同 A27；边界条件：失败后回前台会重发首页（A24）。
+- 稳定选择器：`search_loading`、`search_load_more`。
+
+#### A29 回归：歌单页分页不受影响
+
+- 来源：由"沿用基线结构"推出｜证据：`REASONABLE_DERIVATION`
+- 原子行为：PlayListPage 的 `点击加载更多` / `没有更多了~`（`PlayListPage.ets:82-104`）文案与行为不变；如果抽公共组件，两处表现要一致。
+- 八维度：入口为 Index 歌单 → PlayListPage；前置数据需要登录（本地无法满足，见 baseline-notes 第 7 节）；其余维度与基线一致；不适用部分是因为不在本题 Spec 范

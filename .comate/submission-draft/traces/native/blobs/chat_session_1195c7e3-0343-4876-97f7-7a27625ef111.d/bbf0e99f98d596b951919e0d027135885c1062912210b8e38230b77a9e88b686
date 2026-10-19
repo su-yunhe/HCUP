@@ -1,0 +1,10 @@
+  // 提交搜索（搜索按钮与回车共用），纯空格按空输入处理
+  submitSearch() {
+    if(this.searchKeyword.trim()) {
+      router.pushUrl({
+        url: 'pages/SongsListPage',
+        params: { 'searchKeyword': this.searchKeyword }
+      })
+    } else { ToastUtil.showToast('请输入搜索内容') }
+  }
+}

@@ -1,0 +1,44 @@
+"""搜索结果手动分页（真实服务器 http://192.168.1.97:3000）：中文关键字、一次加载到底、多页、零结果。
+
+搜索结果会随时间变化，每条用例先直接请求接口核对数据集，不符合时记为 skip（未验证）。
+真实数据里歌名不唯一，用"序号 + 歌名"定位卡片。
+"""
+from __future__ import annotations
+
+import json
+import urllib.parse
+import urllib.request
+
+from hypium import BY
+
+from hypium_tests.helpers import (K_LOAD_MORE, K_NO_MORE, LOAD_MORE, NO_MORE, REAL_API, SearchTestBase,
+                                  title_of)
+
+R2 = "想你就写信 李硕 张鑫"
+R7 = "周杰伦"
+R0 = "qzxwvkjhgfdsa1234567890zz"
+
+
+def fetch(keyword: str, offset: int) -> dict:
+    q = urllib.parse.urlencode({"keywords": keyword, "limit": 30, "offset": offset}, quote_via=urllib.parse.quote)
+    req = urllib.request.Request(f"{REAL_API}/search?{q}", method="POST")
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+
+class SearchPagingRealTest(SearchTestBase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        tc = cls("setUp")
+        tc.restart_to_index()
+        tc.set_api_url(REAL_API)
+
+    def setUp(self) -> None:
+        self.restart_to_index()
+
+    def page(self, keyword: str, offset: int) -> dict:
+        try:
+            return fetch(keyword, offset).get("result") or {}
+        except Ex

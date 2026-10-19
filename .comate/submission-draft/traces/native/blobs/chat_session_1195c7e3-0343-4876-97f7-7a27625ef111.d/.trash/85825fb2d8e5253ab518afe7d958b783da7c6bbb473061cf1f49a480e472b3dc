@@ -1,0 +1,33 @@
+"""搜索结果手动分页（模拟服务）：请求参数、次数、加载状态、失败、连点、返回/重进/重启、输入边界。
+
+模拟服务跑在本机 127.0.0.1:3999，经 `hdc rport` 映射到模拟器；只通过应用设置切换 API 地址（U10），
+用完在 tearDownClass 里改回真实服务器地址。每条用例用不同的关键字，歌名互不相同。
+"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.helpers import (K_INPUT, K_LIST, K_LOAD_MORE, K_LOADING, K_LOADING_MORE, K_NO_MORE, LOAD_MORE,
+                                  NO_MORE, REAL_API, SearchTestBase, title_of)
+from hypium_tests.mock_server import PORT, STATE, MockServer
+
+MOCK_API = f"http://127.0.0.1:{PORT}"
+
+
+class SearchPagingMockTest(SearchTestBase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        cls.server = MockServer()
+        cls.server.start()
+        cls.hdc("rport", f"tcp:{PORT}", f"tcp:{PORT}")
+        tc = cls("setUp")
+        tc.restart_to_index()
+        tc.set_api_url(MOCK_API)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        try:
+            tc = cls("setUp")
+   

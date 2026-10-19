@@ -1,0 +1,26 @@
+    def swipe_list(self, direction: str, distance: int = 80, swipe_time: float = 0.25) -> None:
+        self.driver.swipe(direction, distance, area=BY.key(K_LIST), swipe_time=swipe_time)
+        self.driver.wait(0.6)
+
+    def scroll_to_bottom(self, max_swipes: int = 25) -> str:
+        """一直上滑到列表底部出现加载/文案项，返回该项的 key。"""
+        for _ in range(max_swipes):
+            if self.footer() is None:
+                self.swipe_list("UP")
+                continue
+            self.swipe_list("UP", 40)  # 再推一下，保证底部项完整可见
+            f = self.footer()
+            if f is not None:  # 推的过程中刚好追加完成时，底部项会被挤出屏幕，继续滑
+                return f
+        self.fail("滑动多次后仍未到达列表底部")
+
+    def scroll_to_top(self, first_text: str, max_swipes: int = 25, watch_absent: str | None = None,
+                      distance: int = 80) -> None:
+        """一直下滑直到出现 first_text；watch_absent 不为空时，途中每一屏都断言该文本不存在。"""
+        swipe_time = 0.25 if distance >= 60 else 0.8  # 找中间某首时慢滑，避免惯性滑过头
+        for _ in range(max_swipes):
+            if watch_absent is not None:
+                self.assertFalse(self.has_text(watch_absent), f"滚动途中出现了不应存在的 {watch_absent!r}")
+            if self.has_text(first_text):
+                return
+            self.swipe_list("DOWN", distance, swipe_t

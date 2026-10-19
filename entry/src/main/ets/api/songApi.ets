@@ -2,24 +2,37 @@ import { LogUtil } from "@pura/harmony-utils"
 import { SongDetail } from "../common/entities/SongDetail"
 import { QualityType } from "../common/entities/SongDownload"
 import { SongPlay } from "../common/entities/SongPlay"
-import { Song, SongClass, SongsData } from "../common/entities/SongsResult"
+import { SearchSongsData, Song, SongClass, SongsData } from "../common/entities/SongsResult"
 import { getApiUrl, isUsePubCookie } from "../common/functions/functions"
 import { HttpRequest } from "../common/utils/HttpRequestUtils"
 
 const TAG = '[Song API - songApi] '
+
+export interface SongsListResult {
+  hasMore:boolean
+  songs:Array<Song>
+}
+
 /**
- * 搜素歌曲列表
+ * 搜素歌曲列表（分页）
  * @param searchKeyword 搜索词
- * @returns list 歌曲列表
+ * @param offset 偏移
+ * @returns hasMore 是否还有更多, songs 歌曲列表
  */
-export async function getSongsList(searchKeyword:string): Promise<Array<Song>> {
+export async function getSongsList(searchKeyword:string, offset:number): Promise<SongsListResult> {
   let list:Array<Song> = new Array()
+  let hasMore:boolean = false
   const rootUrl = await getApiUrl()
-  const url:string = `${rootUrl}/search?keywords=${encodeURIComponent(searchKeyword)}`
+  const url:string = `${rootUrl}/search?keywords=${encodeURIComponent(searchKeyword)}&limit=30&offset=${offset}`
   const request = new HttpRequest(url)
   await request.Request().then((data) => {
-    const dataGot:SongsData = data.result as SongsData
-    for(let song of dataGot.result.songs) {
+    const dataGot:SearchSongsData = data.result as SearchSongsData
+    // 接口返回错误码或没有 result 时视为请求失败
+    if ((dataGot.code !== undefined && dataGot.code !== 200) || !dataGot.result) {
+      throw new Error(TAG + '搜索失败: ' + JSON.stringify(dataGot))
+    }
+    const songs:Song[] = dataGot.result.songs ?? []
+    for(let song of songs) {
       list.push({
         id: song.id,
         name: song.name,
@@ -27,8 +40,14 @@ export async function getSongsList(searchKeyword:string): Promise<Array<Song>> {
         duration: song.duration,
       })
     }
+    // 只以接口 hasMore 为准；本页为空时不再继续请求
+    hasMore = dataGot.result.hasMore === true && list.length > 0
   })
-  return list;
+  const result: SongsListResult = {
+    hasMore: hasMore,
+    songs: list
+  }
+  return result
 }
 
 /**

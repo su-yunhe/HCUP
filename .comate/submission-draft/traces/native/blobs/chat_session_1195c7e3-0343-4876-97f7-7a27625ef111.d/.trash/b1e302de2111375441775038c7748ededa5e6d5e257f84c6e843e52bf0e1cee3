@@ -1,0 +1,32 @@
+"""cmu-spec99 自测公共部分：应用重启、API 地址切换、搜索与列表滚动辅助。"""
+from __future__ import annotations
+
+import os
+import shutil
+import subprocess
+import time
+
+from hypium import BY, KeyCode
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "cc.chenlvin.cloudmusic"
+REAL_API = "http://192.168.1.97:3000"
+
+LOAD_MORE = "点击加载更多"
+NO_MORE = "没有更多了~"
+K_INPUT = "search_input"
+K_BUTTON = "search_button"
+K_LOADING = "search_loading"
+K_LIST = "search_result_list"
+K_LOAD_MORE = "search_load_more"
+K_LOADING_MORE = "search_loading_more"
+K_NO_MORE = "search_no_more"
+FOOTER_KEYS = (K_LOADING_MORE, K_LOAD_MORE, K_NO_MORE)
+
+HDC = shutil.which("hdc") or "/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/hdc"
+
+
+def title_of(keyword: str) -> str:
+    return f'"{keyword}

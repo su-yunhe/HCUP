@@ -1,0 +1,9 @@
+#### A28 首页请求失败
+
+- 来源：Spec 未提及｜证据：`UNCONFIRMED_ASSUMPTION`（U8）
+- 基线现状（实测）：
+  - 网络层失败（默认服务器超时）：15s 后再过 1s 弹出 `网络请求出错`，页面永久停在全屏 SpinKit（`SongsListPage.ets:39-41` 的 catch 没有复位 `isLoading`）。
+  - 业务层失败（真实接口纯空格返回 `{"code":400}`）：同样永久停在全屏 SpinKit，但没有弹窗。
+  - 零结果（`{"result":{"songCount":0}}`）在基线里也走进同一个 catch，但它**不是失败**，应按 A8 处理。
+- 推荐处理见 U8。八维度：入口同 E0；前置数据为首页失败；用户动作无；UI/数据/网络按 U8；返回同 A27；边界条件：失败后回前台会重发首页（A24）。
+- 稳定选择器：`search_loading`、`search_load_more`。

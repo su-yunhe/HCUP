@@ -1,0 +1,14 @@
+    # ---------- 场景二、三 ----------
+
+    def test_05_load_more_appends_until_no_more(self):
+        """A9-A15 A18-A21：逐页追加 30→60→75，加载中保留原列表，最后显示'没有更多了~'且不再请求。"""
+        kw = "pge75"
+        STATE.delay_more = 2.5
+        self.search(kw)
+        self.wait_loaded()
+        self.assertEqual(self.scroll_to_bottom(), K_LOAD_MORE)
+
+        self.click_load_more()
+        self.require_component(BY.key(K_LOADING_MORE), "点击后没有加载指示 search_loading_more", timeout=2)
+        self.assertFalse(self.has_text(LOAD_MORE), "加载中仍显示'点击加载更多'")
+        self.assertFalse(self.has_text(NO_MORE), "加

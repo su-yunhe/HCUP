@@ -1,0 +1,6 @@
+        self.assertEqual(field.getText(), url, "API 地址没有设置成功")
+        for _ in range(3):  # 第一次返回可能只是收起键盘
+            self.driver.press_back()
+            if self.find_or_none(BY.key(K_INPUT), timeout=2) is not None:
+                return
+        self.fail("从设置返回后不在 Index")

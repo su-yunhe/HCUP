@@ -1,0 +1,44 @@
+Command executed successfully.
+Exit code: 0
+Output:
+exit=1
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/bress/Documents/code/harmonycup-work/common/.venv/lib/python3.13/site-packages/ohos/environment/dmlib.py:150: ResourceWarning: unclosed file <_io.BufferedReader name=5>
+  if not is_proc_running(process_name):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+]
+]
+[2026-10-18 22:54:18,621] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'extras': {}, 'event_name': 'TestTaskDebug', 'uploaded': 0, 'event_id': '907001003', 'product_name': 'xDevice', 'product_version': '6.1.0.210', 'user ... (32 characters truncated) ... 52132f583cab91', 'updated_at': datetime.datetime(2026, 10, 18, 22, 54, 13, 797026), 'created_at': datetime.datetime(2026, 10, 18, 22, 54, 13, 796959)}, {'extras': {'bundle_name': 'cc.chenlvin.cloudmusic'}, 'event_name': 'AppInfo', 'uploaded': 0, 'event_id': '907001004', 'product_name': 'xDevice', 'pro ... (65 characters truncated) ... 52132f583cab91', 'updated_at': datetime.datetime(2026, 10, 18, 22, 54, 18, 612087), 'created_at': datetime.datetime(2026, 10, 18, 22, 54, 18, 612010)}]]]
+[2026-10-18 22:54:18,621] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'extras': {}, 'event_name': 'TestTaskDebug', 'uploaded': 0, 'event_id': '907001003', 'product_name': 'xDevice', 'product_version': '6.1.0.210', 'user ... (32 characters truncated) ... 52132f583cab91', 'updated_at': datetime.datetime(2026, 10, 18, 22, 54, 13, 797026), 'created_at': datetime.datetime(2026, 10, 18, 22, 54, 13, 796959)}, {'extras': {'bundle_name': 'cc.chenlvin.cloudmusic'}, 'event_name': 'AppInfo', 'uploaded': 0, 'event_id': '907001004', 'product_name': 'xDevice', 'pro ... (65 characters truncated) ... 52132f583cab91', 'updated_at': datetime.datetime(2026, 10, 18, 22, 54, 18, 612087), 'created_at': datetime.datetime(2026, 10, 18, 22, 54, 18, 612010)}]]]
+[2026-10-18 22:54:18,622] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'extras': {}, 'event_name': 'TestTaskDebug', 'uploaded': 0, 'event_id': '907001003', 'product_name': 'xDevice', 'product_version': '6.1.0.210', 'user ... (32 characters truncated) ... 52132f583cab91', 'updated_at': datetime.datetime(2026, 10, 18, 22, 54, 13, 797026), 'created_at': datetime.datetime(2026, 10, 18, 22, 54, 13, 796959)}, {'extras': {'bundle_name': 'cc.chenlvin.cloudmusic'}, 'event_name': 'AppInfo', 'uploaded': 0, 'event_id': '907001004', 'product_name': 'xDevice', 'pro ... (65 characters truncated) ... 52132f583cab91', 'updated_at': datetime.datetime(2026, 10, 18, 22, 54, 18, 612087), 'created_at': datetime.datetime(2026, 10, 18, 22, 54, 18, 612010)}]]]
+[2026-10-18 22:54:18,623] [6217428992] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: SELECT eventdata.id, eventdata.event_id, eventdata.event_name, eventdata.user_id, eventdata.product_name, eventdata.product_version, eventdata.uploaded, eventdata.extras, eventdata.created_at, eventdata.updated_at 
+FROM eventdata 
+WHERE eventdata.created_at <= ? AND eventdata.uploaded = ?]
+[parameters: [{}]]]
+setUpClass (hypium_tests.test_search_paging_mock.SearchPagingMockTest) ... ERROR
+======================================================================
+ERROR: setUpClass (hypium_tests.test_search_paging_mock.SearchPagingMockTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec99/hypium_tests/test_search_paging_mock.py", line 27, in setUpClass
+    tc.set_api_url(MOCK_API)
+    ~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/cmu-spec99/hypium_tests/helpers.py", line 87, in set_api_url
+    self.require_component(BY.key(K_INPUT), "从设置返回后不在 Index")
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bress/Documents/code/harmonycup-work/common/test-harness/harness/driver.py", line 50, in require_component
+    self.fail(message)
+    ~~~~~~~~~^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/case.py", line 732, in fail
+    raise self.failureException(msg)
+AssertionError: 从设置返回后不在 Index
+----------------------------------------------------------------------
+Ran 0 tests in 31.544s
+FAILED (errors=1)

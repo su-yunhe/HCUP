@@ -1,0 +1,36 @@
+## 5. 可复用的既有实现
+
+**歌单页手动分页** `pages/PlayListPage.ets`（与本题最接近，推荐沿用）【代码】
+
+- 状态 `:26-32`：`hasLoaded`、`isLoading`、`list`、`isLoadingMore`、`hasMore`（初值 true）、`currentOffset`。
+- `:42-65` `loadSongs(limit, offset)`：offset==0 置 `isLoading`，否则置 `isLoadingMore`；成功后 `list = [...list, ...result]`、
+  `currentOffset += limit`；用 `list.length >= trackCount` 判 hasMore；`finally` 复位两个 loading 与 `hasLoaded`。
+- `:82-104` 列表底部三选一：`isLoadingMore` → 小号 SpinKit（spinO, 30）；`hasMore` → `Text("点击加载更多").onClick(loadSongs(30, currentOffset))`；
+  否则 `Text('没有更多了~')`。文案与本题 Spec 逐字相同。
+- `api/playListApi.ets:65-83` `getPlayListSongs(listId, offset)`：URL 里 `limit=30&offset=${offset}`。
+- `api/playListApi.ets:22-56` `getPlayLists(offset)` 返回 `{ more, playlist }`，是"列表 + 是否还有更多"一起返回的现成写法。
+
+沿用时要补的缺口（【代码】推断）：
+
+1. 没有重入守卫，只靠 UI 切换防重复点击（`:43` 只判断 `hasMore`）。
+2. `:63` `finally` 里 `hasLoaded = true`，失败也会标记为已加载，回前台不再重试——与搜索页现有 `hasLoaded` 语义不同，照抄前要想清楚。
+3. `:105` 末尾占位高度 `bottomRectHeight + 80` 是给 `BottomPlayController` 让位的，搜索页没有这个控件，不需要照抄。
+4. hasMore 的依据是路由传入的 `trackCount`；搜索页没有这个值，只能依赖接口返回（acceptance U3）。
+
+**其他**：路由统一用 `router.pushUrl` + `router.getParams()`；状态管理是页面内 `@State` + `AppStorage`/`@StorageProp`；
+加载指示统一用 `@pura/spinkit`。【代码】
+
+## 6. 缺失项（Spec 要求、基线完全没有）
+
+【代码】+【实测】
+
+1. 搜索请求的分页参数（limit/offset）——`songApi.ets:18`。
+2. 接口"是否还有更多"的解析与返回——`SongsResult.ets:13-19`、`songApi.ets:21-29`。
+3. 搜索结果页的 hasMore / currentOffset / isLoadingMore 状态——`SongsListPage.ets:19-21`。
+4. 列表底部的 `点击加载更多`、加载更多指示、`没有更多了~`——`SongsListPage.ets:58-65` 只有歌曲和一个占位项。
+   【实测】D(75) 滑到底，最后一项是 `30 mock75-歌曲30`，下面没有任何文字（`logs/baseline-search-bottom.jpeg`）。
+5. 追加写法（基线是覆盖写法 `SongsListPage.ets:36`）。
+6. 所有组件都没有 `.id()`/`.key()`（`entry/src/main/ets` 全量 grep 无结果）。
+7. TextInput 没有 `onSubmit`（是否补见 acceptance U7）。
+
+<!-- APPEND_NOTES -->

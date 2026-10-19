@@ -1,0 +1,3 @@
+        name = self.require_text(self.song(kw, i), f"找不到第 {i} 首").getBounds()
+        rows = [c.getBounds() for c in (self.driver.find_all_components(BY.text(str(i))) or [])]
+        self.a

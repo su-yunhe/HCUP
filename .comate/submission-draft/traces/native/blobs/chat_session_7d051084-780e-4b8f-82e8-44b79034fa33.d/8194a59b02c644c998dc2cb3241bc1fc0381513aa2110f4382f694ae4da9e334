@@ -1,0 +1,16 @@
+1. 本机起一个兼容 `/search`、`/song/detail` 的模拟服务（我用 Python `http.server` 写的临时脚本，按关键字里的数字决定结果总数，
+   响应 `{ code, result: { songs, hasMore, songCount } }`；该脚本已删除，`hasMore` 字段是按 U3 推断构造的）。
+2. `hdc -t 127.0.0.1:5555 rport tcp:3000 tcp:3000`，让模拟器的 127.0.0.1:3000 转发到本机。
+3. 应用内 设置 → 打开"自定义API服务器地址" → 填 `http://127.0.0.1:3000` → 点 `设置`（`pages/Settings.ets:114-158`，
+   写入 Preferences `Settings` 的 `isCustomApiUrl`/`customApiUrl`，重启后仍生效）。明文 HTTP 可用。
+4. 自测脚本可以通过同样的 UI 步骤配置，或者在 `setUp` 里检查当前设置。
+
+设备：`127.0.0.1:5555`，`const.product.model=emulator`，`OpenHarmony-6.1.0.115`，屏幕 1308×2880。【实测】
+
+**本阶段对模拟器状态的改动**（都可以逆转）：
+
+- 卸载了模拟器上原有的同 bundleName（`cc.chenlvin.cloudmusic`）应用，它的 versionName 是 `1.3.6.2`，不是本题基线（`0.9.7.1`）；
+  原应用的数据（如登录态）随之清除。
+- 安装了本题基线 unsigned HAP。
+- 应用设置里"自定义API服务器地址"现在是开启状态，值为 `http://127.0.0.1:3000`。模拟服务已停止，rport 已移除；
+  不重新起模拟服务的话，搜索会失败（和默认服务器一样）。

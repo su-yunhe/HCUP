@@ -1,0 +1,42 @@
+| 服务端（NeteaseCloudMusicApi） | 需要 | 默认服务器不可用；**你提供的 `http://192.168.1.97:3000` 可用**（2026-10-18 晚复查） | 见下 |
+| WebDAV | 不需要 | — | 【代码】无相关代码 |
+| 测试数据 | 需要多页结果、两页内结束的结果、零结果；失败/延时 | 真实服务器能给前三种；失败、延时、异常页仍要靠模拟服务 | 见 7.2、7.3 |
+
+### 7.1 默认服务器仍不可达
+
+【实测，2026-10-18 首次 + 晚间复查，两次都 HTTP 000 / 15s 超时】
+
+- 应用内：以 `   ` 搜索，15s 后 hilog 报 `HttpRequest Error: {"code":2300028,"message":"Operation timeout"}`，弹出 `网络请求出错`。
+- 本机 `curl -m 15 http://111.229.38.178:3000/search?...` 超时；`nc -z 111.229.38.178 3000` 失败；同一时间 `https://www.baidu.com` 返回 200。
+- 官方评测环境能不能连上这个服务器，**无法验证**（acceptance U10）。
+
+### 7.2 当前可用的服务器
+
+- 模拟器里应用的"自定义API服务器地址"已开启，值为 `http://192.168.1.97:3000`（这是你配置的，我没改）。【实测】
+- 模拟器现在有 Wi-Fi（状态栏出现 Wi-Fi 图标），应用通过这个地址能正常搜索。【实测】
+- 本机直接请求同一地址也能拿到数据，响应时间 0.4～2s，偶尔接近 5s。【实测】
+
+### 7.3 真实 `/search` 接口行为
+
+【实测，本机 curl `POST http://192.168.1.97:3000/search?...`，2026-10-18。搜索结果会随时间变化，下列数字只代表当时】
+
+响应结构：`{"result":{"songs":[…],"hasMore":true,"songCount":272},"code":200,"trp":{…}}`。歌曲条目里有 `id`、`name`、`artists[]`、`duration`、`album` 等字段，
+基线 `Song` 只用到前四个。
+
+| 情况 | 请求 | 结果 |
+| --- | --- | --- |
+| 不带分页参数 | `keywords=周杰伦` | 30 首，和 `limit=30&offset=0` 完全相同 |
+| 多页 | `周杰伦`，offset 0～150 | 每页 30 首，`hasMore=true`，`songCount=272`（offset=90 那次返回 274） |
+| **hasMore 提前变 false** | `周杰伦`，offset 180、210、240 | 每页仍然有 30 首，但 `hasMore=false` |
+| 尾页 | `周杰伦`，offset 270 | 2 首，`hasMore=false`；offset 0～270 合计 272 首，按 id 没有重复 |
+| 超出范围 | `周杰伦`，offset 300 | 仍返回 30 首，`hasMore=false`，内容与 offset 240 那页重复 28 首 |
+| 两页内结束 | `想你就写信 李硕 张鑫`，offset 0 / 30 | 30 首 `hasMore=true` / 10 首 `hasMore=false`，`songCount=40` |
+| 超出范围（小结果集） | 同上，offset 60 | `{"result":{"songCount":0},"code":200}`，**没有 `songs`，也没有 `hasMore`** |
+| 零结果 | `qzxwvkjhgfdsa1234567890zz` | `{"result":{"songCount":0},"code":200}`，同上 |
+| 纯空格 | `keywords=%20%20%20` | HTTP 200，响应体 `{"code":400}`，**没有 `result`** |
+| 重复请求 | 同一请求连发两次 | 两次结果完全相同 |
+
+由此得出的结论：
+
+1. 接口确实有 `hasMore` 和 `songCount` 字段，acceptance U3 里"`hasMore` 是推断"那部分已经实测确认。
+2. **`hasMore` 和 `songCount`

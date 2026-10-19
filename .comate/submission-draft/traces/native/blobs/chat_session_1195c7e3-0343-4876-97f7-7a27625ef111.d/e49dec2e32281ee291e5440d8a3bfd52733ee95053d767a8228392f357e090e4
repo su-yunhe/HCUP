@@ -1,0 +1,3 @@
+        self.assertEqual(self.wait_footer_not_loading(), K_LOAD_MORE, "第二页后应仍有更多")
+        self.assertFalse(self.has_text(self.song(kw, 1)), "追加后列表跳回了顶部")
+        self.assert_page_end(kw, 60, K_LOAD_MORE)

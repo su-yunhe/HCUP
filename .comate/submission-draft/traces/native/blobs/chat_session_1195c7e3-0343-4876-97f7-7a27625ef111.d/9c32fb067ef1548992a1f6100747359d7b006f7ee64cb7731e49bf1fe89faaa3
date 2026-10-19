@@ -1,0 +1,351 @@
+"""搜索结果手动分页（模拟服务）：请求参数、次数、加载状态、失败、连点、返回/重进/重启、输入边界。
+
+模拟服务跑在本机 127.0.0.1:3999，经 `hdc rport` 映射到模拟器；只通过应用设置切换 API 地址（U10），
+用完在 tearDownClass 里改回真实服务器地址。每条用例用不同的关键字，歌名互不相同。
+"""
+from __future__ import annotations
+
+from hypium import BY
+
+from hypium_tests.helpers import (BUNDLE, K_INPUT, K_LIST, K_LOAD_MORE, K_LOADING, K_LOADING_MORE, K_NO_MORE,
+                                  LOAD_MORE, NO_MORE, REAL_API, SearchTestBase, title_of)
+from hypium_tests.mock_server import PORT, STATE, MockServer
+
+MOCK_API = f"http://127.0.0.1:{PORT}"
+
+
+class SearchPagingMockTest(SearchTestBase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        cls.server = MockServer()
+        cls.server.start()
+        cls.hdc("rport", f"tcp:{PORT}", f"tcp:{PORT}")
+        tc = cls("setUp")
+        tc.restart_to_index()
+        tc.set_api_url(MOCK_API)
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        try:
+            tc = cls("setUp")
+            tc.restart_to_index()
+            tc.set_api_url(REAL_API)
+        finally:
+            cls.hdc("fport", "rm", f"tcp:{PORT}", f"tcp:{PORT}")
+            cls.server.stop()
+
+    def setUp(self) -> None:
+        STATE.reset()
+        self.restart_to_index()
+
+    def song(self, kw: str, i: int) -> str:
+        return f"{kw}-歌曲{i}"
+
+    def assert_page_end(self, kw: str, last: int, footer: str) -> None:
+        """滑到底：最后一首是第 last 首、第 last+1 首不存在、底部项为 footer。"""
+        got = self.scroll_to_bottom()
+        self.assertEqual(got, footer, f"列表底部应为 {footer}，实际 {got}")
+        self.assertTrue(self.has_text(self.song(kw, last)), f"底部附近没有第 {last} 首")
+        self.assertFalse(self.has_text(self.song(kw, last + 1)), f"出现了第 {last + 1} 首")
+        if footer == K_LOAD_MORE:
+            self.assertTrue(self.has_text(LOAD_MORE))
+            self.assertFalse(self.has_text(NO_MORE), "两种底部文案同时出现")
+        if footer == K_NO_MORE:
+            self.assertTrue(self.has_text(NO_MORE))
+            self.assertFalse(self.has_text(LOAD_MORE), "没有更多后仍显示'点击加载更多'")
+
+    def load_more_and_wait(self) -> str | None:
+        self.click_load_more()
+        return self.wait_footer_not_loading()
+
+    def assert_index_of(self, kw: str, i: int) -> None:
+        self.assert_card(i, self.song(kw, i))
+
+    # ---------- 场景一 ----------
+
+    def test_01_first_page_shows_load_more_without_auto_request(self):
+        """A1 A2 A3 A5 A6：首屏 30 首，滑到底显示'点击加载更多'，滑动不自动请求。"""
+        kw = "pga75"
+        self.search(kw)
+        self.wait_loaded()
+        self.require_text(self.song(kw, 1), "首屏没有第 1 首")
+        self.assertEqual(STATE.search_requests(kw), [(kw, 30, 0)], "首页请求应为 limit=30&offset=0 且只有 1 次")
+        self.assert_page_end(kw, 30, K_LOAD_MORE)
+        # 底部继续上拉、停留，都不应触发请求
+        for _ in range(3):
+            self.swipe_list("UP")
+        self.driver.wait(3)
+        self.assertEqual(STATE.search_offsets(kw), [0], "滑到底后自动发起了请求")
+        self.assertTrue(self.has_text(LOAD_MORE), "停留在底部后'点击加载更多'消失")
+        self.assertFalse(self.has_text(self.song(kw, 31)), "未点击就追加了第 31 首")
+
+    def test_02_first_page_loading_state(self):
+        """A4：首页请求期间显示全屏加载，不显示任何底部文案。"""
+        kw = "pgb75"
+        STATE.delay_first = 3
+        self.type_keyword(kw)
+        self.submit()
+        self.require_component(BY.key(K_LOADING), "首页请求期间没有全屏加载 search_loading", timeout=2.5)
+        self.assertFalse(self.has_text(LOAD_MORE), "首页加载中显示了'点击加载更多'")
+        self.assertFalse(self.has_text(NO_MORE), "首页加载中显示了'没有更多了~'")
+        self.wait_loaded()
+        self.require_text(title_of(kw), "首页加载结束后没有标题")
+        self.require_text(self.song(kw, 1), "首页加载结束后没有歌曲")
+        self.assertEqual(STATE.search_offsets(kw), [0])
+
+    def test_03_small_result_shows_no_more(self):
+        """A7：首批即全部（3 首），显示'没有更多了~'，没有'点击加载更多'。"""
+        kw = "pgc3"
+        self.search(kw)
+        self.wait_loaded()
+        self.assert_page_end(kw, 3, K_NO_MORE)
+        self.driver.click(BY.key(K_NO_MORE))
+        self.driver.wait(1.5)
+        self.assertEqual(STATE.search_offsets(kw), [0], "点击'没有更多了~'发起了请求")
+
+    def test_04_zero_result(self):
+        """A8：零结果（响应只有 songCount: 0）显示'没有更多了~'，不当作失败。"""
+        kw = "pgd0"
+        self.search(kw)
+        self.wait_loaded()
+        self.require_component(BY.key(K_NO_MORE), "零结果时没有'没有更多了~'")
+        self.assertFalse(self.has_text(LOAD_MORE), "零结果时显示了'点击加载更多'")
+        self.assertFalse(self.has_text(self.song(kw, 1)))
+        self.assertFalse(self.has_text("网络请求出错"), "零结果被当成网络错误")
+        self.assertEqual(STATE.search_offsets(kw), [0])
+
+    # ---------- 场景二、三 ----------
+
+    def test_05_load_more_appends_until_no_more(self):
+        """A9-A15 A18-A21：逐页追加 30→60→75，加载中保留原列表，最后显示'没有更多了~'且不再请求。"""
+        kw = "pge75"
+        STATE.delay_more = 2.5
+        self.search(kw)
+        self.wait_loaded()
+        self.assertEqual(self.scroll_to_bottom(), K_LOAD_MORE)
+
+        self.click_load_more()
+        self.require_component(BY.key(K_LOADING_MORE), "点击后没有加载指示 search_loading_more", timeout=2)
+        self.assertFalse(self.has_text(LOAD_MORE), "加载中仍显示'点击加载更多'")
+        self.assertFalse(self.has_text(NO_MORE), "加载中显示了'没有更多了~'")
+        self.assertFalse(self.exists(BY.key(K_LOADING)), "加载更多时出现了全屏加载（替换了列表）")
+        self.assertTrue(self.has_text(self.song(kw, 30)), "加载中第一页内容被替换")
+        self.assertEqual(STATE.search_requests(kw), [(kw, 30, 0), (kw, 30, 30)], "下一页请求应为 offset=30")
+
+        self.assertEqual(self.wait_footer_not_loading(), K_LOAD_MORE, "第二页后应仍有更多")
+        self.assertFalse(self.has_text(self.song(kw, 1)), "追加后列表跳回了顶部")
+        self.assert_page_end(kw, 60, K_LOAD_MORE)
+        self.assert_index_of(kw, 60)
+
+        self.assertEqual(self.load_more_and_wait(), K_NO_MORE, "最后一页后应显示'没有更多了~'")
+        self.assert_page_end(kw, 75, K_NO_MORE)
+        self.assertEqual(STATE.search_offsets(kw), [0, 30, 60])
+
+        # 没有更多后：点击文案、上下滑动都不请求，全程找不到'点击加载更多'
+        self.driver.click(BY.key(K_NO_MORE))
+        self.driver.wait(1)
+        self.scroll_to_top(self.song(kw, 1), watch_absent=LOAD_MORE)
+        self.assertEqual(self.scroll_to_bottom(), K_NO_MORE)
+        self.assertEqual(STATE.search_offsets(kw), [0, 30, 60], "没有更多后又发起了请求")
+
+    def test_06_new_songs_browsable(self):
+        """A13 A14：追加的歌曲序号从 31 连续，新卡片可点击打开详情。"""
+        kw = "pgf45"
+        self.search(kw)
+        self.wait_loaded()
+        self.scroll_to_bottom()
+        self.assertEqual(self.load_more_and_wait(), K_NO_MORE)
+        self.assert_page_end(kw, 45, K_NO_MORE)
+        self.scroll_to_top(self.song(kw, 31), max_swipes=6)
+        self.assert_index_of(kw, 31)
+        self.driver.wait(1)  # 等卡片宽度动画结束
+        self.driver.click(BY.text(self.song(kw, 33)))
+        self.require_text("播放", "点击新追加的卡片没有打开详情")
+        self.driver.press_back()
+        self.driver.wait(1)
+        self.assertFalse(self.has_text("播放"), "详情未关闭")
+        self.assertTrue(self.has_text(self.song(kw, 33)), "关闭详情后列表位置变化")
+        self.assertEqual(STATE.search_offsets(kw), [0, 30])
+
+    def test_07_rapid_clicks_single_request(self):
+        """A16：快速连点'点击加载更多'只发 1 次请求、只追加 1 页。"""
+        kw = "pgg95"
+        STATE.delay_more = 1.5
+        self.search(kw)
+        self.wait_loaded()
+        self.scroll_to_bottom()
+        b = self.require_component(BY.key(K_LOAD_MORE), "找不到'点击加载更多'").getBounds()
+        pos = ((b.left + b.right) // 2, (b.top + b.bottom) // 2)
+        for _ in range(4):
+            self.driver.click(pos)
+        self.assertEqual(self.wait_footer_not_loading(), K_LOAD_MORE)
+        self.driver.wait(1)
+        self.assertEqual(STATE.search_offsets(kw), [0, 30], "连点产生了重复请求")
+        self.assert_page_end(kw, 60, K_LOAD_MORE)
+        self.assertLessEqual(len(self.driver.find_all_components(BY.text(self.song(kw, 60))) or []), 1)
+
+    def test_08_load_more_failure_keeps_list(self):
+        """A17：下一页失败（网络断开、业务错误）保留列表、恢复入口，可用相同 offset 重试。"""
+        kw = "pgh75"
+        STATE.failures[30] = ["drop", "code400"]
+        self.search(kw)
+        self.wait_loaded()
+        self.scroll_to_bottom()
+
+        self.click_load_more()
+        self.assertEqual(self.wait_footer_not_loading(), K_LOAD_MORE, "网络失败后没有恢复'点击加载更多'")
+        self.assertTrue(self.dismiss_error_dialog(), "网络失败时没有出现基线的'网络请求出错'弹窗")
+        self.assert_page_end(kw, 30, K_LOAD_MORE)
+
+        self.click_load_more()
+        self.assertEqual(self.wait_footer_not_loading(), K_LOAD_MORE, "业务失败后没有恢复'点击加载更多'")
+        self.assert_page_end(kw, 30, K_LOAD_MORE)
+
+        self.assertEqual(self.load_more_and_wait(), K_LOAD_MORE)
+        self.assert_page_end(kw, 60, K_LOAD_MORE)
+        self.assertEqual(STATE.search_offsets(kw), [0, 30, 30, 30], "重试应使用相同 offset")
+
+    def test_09_empty_page_stops(self):
+        """A22：某页返回空 songs 但 hasMore=true 时视为没有更多，不再出现入口。"""
+        kw = "pgi75"
+        STATE.empty_pages.add(30)
+        self.search(kw)
+        self.wait_loaded()
+        self.scroll_to_bottom()
+        self.assertEqual(self.load_more_and_wait(), K_NO_MORE, "空页后应显示'没有更多了~'")
+        self.assert_page_end(kw, 30, K_NO_MORE)
+        self.assertEqual(STATE.search_offsets(kw), [0, 30])
+
+    # ---------- 跨场景 ----------
+
+    def test_10_first_page_failure_retry(self):
+        """A28：首页失败结束全屏加载，空列表 + '点击加载更多'，点击以 offset=0 重试，可多次重试。"""
+        kw = "pgj75"
+        STATE.failures[0] = ["code400", "drop"]
+        self.search(kw)
+        self.wait_loaded()
+        self.require_component(BY.key(K_LOAD_MORE), "首页失败后没有'点击加载更多'重试入口")
+        self.assertTrue(self.has_text(title_of(kw)), "首页失败后没有标题")
+        self.assertFalse(self.has_text(NO_MORE), "首页失败显示了'没有更多了~'")
+        self.assertFalse(self.has_text(self.song(kw, 1)))
+
+        self.click_load_more()
+        self.wait_loaded()
+        self.assertTrue(self.dismiss_error_dialog(), "网络失败时没有'网络请求出错'弹窗")
+        self.require_component(BY.key(K_LOAD_MORE), "第二次失败后没有重试入口")
+        self.assertFalse(self.has_text(self.song(kw, 1)))
+
+        self.click_load_more()
+        self.wait_loaded()
+        self.require_text(self.song(kw, 1), "重试成功后没有第一页歌曲")
+        self.assertEqual(STATE.search_offsets(kw), [0, 0, 0], "重试应以 offset=0 请求")
+        self.assert_page_end(kw, 30, K_LOAD_MORE)
+        self.assertEqual(self.load_more_and_wait(), K_LOAD_MORE)
+        self.assertEqual(STATE.search_offsets(kw), [0, 0, 0, 30])
+
+    def test_11_back_and_reenter_starts_over(self):
+        """A23：加载若干页后返回，再次搜索从 offset=0 开始，列表与 hasMore 不残留。"""
+        kw = "pgk75"
+        self.search(kw)
+        self.wait_loaded()
+        self.scroll_to_bottom()
+        self.assertEqual(self.load_more_and_wait(), K_LOAD_MORE)
+        self.driver.press_back()
+        inp = self.require_component(BY.key(K_INPUT), "返回后不在 Index")
+        self.assertEqual(inp.getText(), kw, "返回后搜索框没有保留关键字")
+        self.submit()
+        self.require_text(title_of(kw), "再次搜索没有进入结果页")
+        self.wait_loaded()
+        self.assert_page_end(kw, 30, K_LOAD_MORE)
+        self.assertEqual(STATE.search_offsets(kw), [0, 30, 0])
+
+    def test_12_background_and_sheet_keep_state(self):
+        """A24：切后台再回前台、打开关闭歌曲详情后，列表与分页状态保持，不重发请求。"""
+        kw = "pgl95"
+        self.search(kw)
+        self.wait_loaded()
+        self.scroll_to_bottom()
+        self.assertEqual(self.load_more_and_wait(), K_LOAD_MORE)
+        self.assert_page_end(kw, 60, K_LOAD_MORE)
+        self.driver.go_home()
+        self.driver.wait(1.5)
+        self.driver.start_app(BUNDLE, wait_time=2)
+        self.require_text(title_of(kw), "回到前台后不在结果页")
+        self.assertEqual(self.footer(), K_LOAD_MORE, "回到前台后底部状态变化")
+        self.assertTrue(self.has_text(self.song(kw, 60)), "回到前台后列表变化")
+        self.driver.wait(1)
+        self.driver.click(BY.text(self.song(kw, 58)))
+        self.require_text("播放", "点击卡片没有打开详情")
+        self.driver.press_back()
+        self.driver.wait(1)
+        self.assertEqual(self.footer(), K_LOAD_MORE, "关闭详情后底部状态变化")
+        self.assertEqual(STATE.search_offsets(kw), [0, 30], "回到前台或关闭详情后重发了请求")
+
+    def test_13_restart_starts_over(self):
+        """A25：分页状态不持久化，重启后重新搜索从第一页开始。"""
+        kw = "pgm75"
+        self.search(kw)
+        self.wait_loaded()
+        self.scroll_to_bottom()
+        self.assertEqual(self.load_more_and_wait(), K_LOAD_MORE)
+        self.restart_to_index()
+        self.assertFalse(self.has_text(title_of(kw)), "重启后没有回到 Index")
+        self.search(kw)
+        self.wait_loaded()
+        self.assert_page_end(kw, 30, K_LOAD_MORE)
+        self.assertEqual(STATE.search_offsets(kw), [0, 30, 0])
+
+    def test_14_empty_blank_and_enter(self):
+        """A26：空输入/纯空格（按钮或回车）toast 且不跳转、不请求；关键字按回车与按钮一致。"""
+        for text, enter in (("", False), ("   ", False), ("", True), ("   ", True)):
+            self.type_keyword(text)
+            self.driver.start_listen_toast()
+            self.submit(enter)
+            toast = self.driver.get_latest_toast(timeout=3)
+            self.assertEqual(toast, "请输入搜索内容", f"输入 {text!r}（回车={enter}）没有提示")
+            self.driver.wait(1)
+            self.assertTrue(self.exists(BY.key(K_INPUT)), f"输入 {text!r} 后离开了 Index")
+            self.assertFalse(self.exists(BY.key(K_LIST)) or self.exists(BY.key(K_LOADING)))
+        self.driver.press_back()  # 收起键盘
+        self.driver.wait(0.5)
+        if not self.exists(BY.key(K_INPUT)):
+            self.restart_to_index()
+        with STATE.lock:
+            self.assertEqual(STATE.requests, [], "空输入或纯空格发起了搜索请求")
+
+        kw = " pgn3"  # 带首尾空格的关键字照常提交，不做 trim
+        self.search(kw, enter=True)
+        self.wait_loaded()
+        self.assert_page_end(kw, 3, K_NO_MORE)
+        self.assertEqual(STATE.search_offsets(kw), [0])
+
+    def test_15_leave_while_loading(self):
+        """A27：首页加载中、加载更多中返回，应用不崩溃，Index 可继续使用。"""
+        kw = "pgo75"
+        STATE.delay_more = 3
+        self.search(kw)
+        self.wait_loaded()
+        self.scroll_to_bottom()
+        self.click_load_more()
+        self.driver.press_back()
+        self.require_component(BY.key(K_INPUT), "加载更多中返回后不在 Index")
+        self.driver.wait(4)
+        self.assertTrue(self.app_alive(), "加载更多中返回后应用崩溃")
+        self.assertTrue(self.exists(BY.key(K_INPUT)))
+        self.assertEqual(STATE.search_offsets(kw), [0, 30], "离开页面后又发起了请求")
+
+        kw2 = "pgp75"
+        STATE.delay_first = 3
+        self.type_keyword(kw2)
+        self.submit()
+        self.require_component(BY.key(K_LOADING), "首页加载中没有全屏加载", timeout=2.5)
+        self.driver.press_back()
+        self.require_component(BY.key(K_INPUT), "首页加载中返回后不在 Index")
+        self.driver.wait(4)
+        self.assertTrue(self.app_alive(), "首页加载中返回后应用崩溃")
+        STATE.delay_first = 0
+        self.search(kw2)
+        self.wait_loaded()
+        self.require_text(self.song(kw2, 1), "返回后重新搜索没有结果")
