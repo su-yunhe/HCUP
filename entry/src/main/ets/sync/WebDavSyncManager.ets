@@ -688,19 +688,19 @@ export class WebDavSyncManager {
     this.status = WebDavSyncStatus.SYNCING;
     console.info('[WebDavSyncManager] Sync status set to SYNCING');
 
-    // 先确保远程目录存在
-    const client = this.createClient();
-    const preflight = await this.preflightRemoteRoot(client);
-    if (preflight !== null) {
-      this.status = WebDavSyncStatus.ERROR;
-      console.error(`[WebDavSyncManager] Preflight check failed: ${preflight.message}`);
-      return preflight;
-    }
-
-    // yield 给 UI 线程
-    await new Promise<void>((resolve) => setTimeout(resolve, 0));
-
     try {
+      // 先确保远程目录存在
+      const client = this.createClient();
+      const preflight = await this.preflightRemoteRoot(client);
+      if (preflight !== null) {
+        this.status = WebDavSyncStatus.ERROR;
+        console.error(`[WebDavSyncManager] Preflight check failed: ${preflight.message}`);
+        return preflight;
+      }
+
+      // yield 给 UI 线程
+      await new Promise<void>((resolve) => setTimeout(resolve, 0));
+
       const syncManager = DataSyncManager.getInstance();
       const dbManager = DBManager.getInstance();
 
