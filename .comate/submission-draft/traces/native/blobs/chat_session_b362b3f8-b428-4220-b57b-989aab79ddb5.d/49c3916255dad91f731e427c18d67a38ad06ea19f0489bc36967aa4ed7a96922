@@ -1,0 +1,4 @@
+        # 页面内精确文本“搜索”只有这一个按钮（输入法窗口里的“搜索”键不属于本应用，按 id 排除）
+        exact = self.driver.find_all_components(BY.text(TEXT_SEARCH)) or []
+        in_page = [c for c in exact if c.getBounds().bottom <= inp.getBounds().bottom + 200]
+        self.assertEqual([c.getId() for c in in_page], [SEARCH_BUTTON])

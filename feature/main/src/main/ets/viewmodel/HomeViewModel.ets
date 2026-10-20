@@ -1,6 +1,7 @@
 import { BaseNetWorkListUiState, BaseNetWorkListViewModel } from "base";
 import { GoodsRepository, PageRepository } from "data";
 import { Goods, GoodsSearchRequest, Home, NetworkPageData, NetworkResponse } from "model";
+import { GoodsNavigator } from "navigation";
 import { RequestHelper } from "result";
 
 /**
@@ -22,6 +23,23 @@ export default class HomeViewModel extends BaseNetWorkListViewModel<Goods> {
    */
   @Trace
   pageData: Home = new Home();
+  /**
+   * 上次跳转搜索页的时间戳，用于防止连点重复入栈
+   */
+  private lastSearchNavigateTime: number = 0;
+
+  /**
+   * 跳转商品搜索页（1 秒内重复点击只跳转一次）
+   * @returns {void} 无返回值
+   */
+  toSearch(): void {
+    const now: number = Date.now();
+    if (now - this.lastSearchNavigateTime < 1000) {
+      return;
+    }
+    this.lastSearchNavigateTime = now;
+    GoodsNavigator.toSearch();
+  }
 
   /**
    * 重写请求列表数据方法来实现全部商品分页

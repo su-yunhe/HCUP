@@ -1,0 +1,37 @@
+## 3. Spec 描述的入口当前在哪
+
+### 3.1 首页顶部搜索框（场景一·步骤1 的起点）
+
+- 组件【代码】：`feature/main/src/main/ets/component/HomeTopBar.ets`
+  - `onSearchTap` 参数默认是空函数：`:13-15`
+  - 搜索行：`titleBuilder()` `:49-72`，Row 里是 `ic_search` 图标 + Text `$r("app.string.search_goods")`（= `搜索商品`，`feature/main/src/main/resources/base/element/string.json:68-69`），`:71` `.onClick((): void => this.onSearchTap())`
+- 调用点【代码】：`feature/main/src/main/ets/view/HomePage.ets:38` 写的是 `HomeTopBar();`，**没传 `onSearchTap`**，所以点击什么都不会发生。
+- 【实测】冷启动 → 首页正常加载 → 点 `搜索商品`（bounds `[628,192][797,241]`，点击坐标 (654,216)）→ 页面不变，没有跳转。
+- 首页是 Navigation 的根内容，不是路由页：`entry/src/main/ets/navigation/NavigationHost.ets:37-42`（`Navigation(this.navPathStack) { MainPage() }` + `.navDestination(this.PagesMap)`）。启动流程不会自动进入 Splash/Guide（`LaunchNavigator` 没有调用点），冷启动直接到首页。
+
+### 3.2 商品搜索页（goods/search）
+
+- 路由名【代码】：`GoodsRoutes.Search = "goods/search"`，`core/navigation/src/main/ets/goods/GoodsRoutes.ts:13`
+- 跳转封装【代码】：`GoodsNavigator.toSearch()`，`core/navigation/src/main/ets/goods/GoodsNavigator.ets:35-37`。全工程**没有调用点**（grep `toSearch` 只命中定义）。
+- 注册【代码】：`feature/goods/src/main/ets/navigation/GoodsGraph.ets:18` → `GoodsSearchNav.ets:8-11` → `GoodsSearchPage()`；`entry/src/main/ets/entryability/EntryAbility.ets:106` `new GoodsGraph().register()`。
+- 页面【代码】：`feature/goods/src/main/ets/view/GoodsSearchPage.ets`，是**占位页**：`AppNavDestination({ title: "商品搜索", viewModel })`（`:21-24`），内容只有 `Text("商品搜索页面内容视图")`（`:35`）。
+- ViewModel【代码】：`feature/goods/src/main/ets/viewmodel/GoodsSearchViewModel.ets:7-9`，空类，继承 `BaseViewModel`。
+- 不需要登录：`core/navigation/src/main/ets/RouteInterceptor.ts:17-36` 的需登录列表里没有 goods 路由，`requiresLogin()` 在 `:54-56`。
+- 【实测】基线 UI 里没有任何入口能进入这个页面，占位页**没有在设备上看到**，上面只是读代码得出的结论。
+
+### 3.3 商品分类列表页（goods/category，场景一·步骤5 的目标）
+
+- 路由名【代码】：`GoodsRoutes.Category = "goods/category"`，`GoodsRoutes.ts:17`
+- 跳转封装【代码】：`GoodsNavigator.toCategory(params?: GoodsCategoryParam)`，`GoodsNavigator.ets:44-50`；**没有调用点**。
+- 参数【代码】：`GoodsCategoryParam { typeId?, featured?, recommend?, keyword?, minPrice? }`，`core/navigation/src/main/ets/goods/GoodsParam.ets:9-30`，其中 `keyword?: string` 在 `:25`。由导出 `core/navigation/Index.ets:34` 可以拿到。
+- 注册【代码】：`GoodsGraph.ets:20` → `GoodsCategoryNav.ets:8-11` → `GoodsCategoryPage()`。
+- 页面【代码】：`feature/goods/src/main/ets/view/GoodsCategoryPage.ets`，同样是**占位页**：标题 `"商品分类"`（`:22`），内容 `Text("商品分类页面内容视图")`（`:35`）。ViewModel `GoodsCategoryViewModel.ets:7-9` 也是空的。
+- 【推断】"商品分类列表页"指的就是这个页面，而不是底部 tab 的"分类"（`MainRoutes.Category`，`core/navigation/src/main/ets/main/MainNavigator.ets:30-32`）。依据：只有 `GoodsCategoryParam` 带 `keyword` 字段，MainNavigator.toCategory 不接收参数。
+- README 也写明这两个页面没做：`README.md:137` `商品搜索 (search) 待开发`、`README.md:140` `商品分类页面 (category) 待开发`。
+
+### 3.4 其它相关但不在范围内的入口
+
+- 首页分类宫格也没接点击：`HomePage.ets:69` `HomeCategorySection({ categories })` 没传 `onCategoryClick`（组件里的回调在 `HomeCategorySection.ets:76`）。Spec 没要求，**不处理**。
+- `feature/goods/src/main/resources/base/element/string.json` 里已经有 `comprehensive=综合`、`sales=销量`、`price=价格`、`price_range=价格区间`、`min_price`/`max_price`、`reset=重置`（`:80-114`）。【推断】上游完整版的分类页可能带排序/筛选，但 Spec 没要求，**不做**。
+
+<!-- CHUNK3 -->

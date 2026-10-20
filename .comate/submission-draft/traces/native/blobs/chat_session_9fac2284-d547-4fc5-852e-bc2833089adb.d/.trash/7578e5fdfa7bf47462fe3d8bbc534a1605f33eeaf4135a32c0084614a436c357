@@ -1,0 +1,63 @@
+### A9 键盘"搜索"键触发搜索
+
+- 来源：场景一·步骤4「用户点击键盘上的搜索按钮或搜索框右侧"搜索"按钮，系统将关键词去除首尾空格后保存到搜索历史。」
+- 证据等级：SPEC_EXPLICIT
+- 原子行为：输入框 `enterKeyType = Search`，`onSubmit` 走和按钮同一条提交流程。
+- 可观察结果：输入 `手机` 后发回车/搜索键（Hypium `press_key(ENTER)` 或输入法的搜索键），跳到结果页。
+- 八维度：
+  - 入口：A1。
+  - 前置数据：无。
+  - 用户动作：键盘搜索键。
+  - UI 结果：跳转结果页（A12）。
+  - 数据结果：写 L1（A11）。
+  - 网络结果：结果页发 R2 一次。
+  - 返回结果：A23。
+  - 边界条件：空串/纯空格 → A37；连按 → A40。
+- 稳定选择器：`goods_search_input`。
+
+### A10 搜索框右侧"搜索"按钮触发搜索
+
+- 来源：场景一·步骤4（同上）
+- 证据等级：SPEC_EXPLICIT
+- 原子行为：输入框右侧有一个文本为 `搜索` 的可点击按钮，点了提交。
+- 可观察结果：Text/Button `搜索` 存在，clickable；它的 bounds.left 不小于输入框的 bounds.right，或者在同一行的右端。
+- 八维度：
+  - 入口：A1。
+  - 前置数据：无。
+  - 用户动作：单击 `搜索`。
+  - UI 结果：跳转结果页。
+  - 数据结果：写 L1。
+  - 网络结果：结果页发 R2 一次。
+  - 返回结果：A23。
+  - 边界条件：输入为空时按钮**也要可点**（场景四要求点了之后"系统检测"为空，不能直接置灰或隐藏）；页面上精确文本为 `搜索` 的节点只能有这一个（`搜索历史`、`推荐搜索`、`商品搜索` 是不同的精确文本，但如果官方用 CONTAINS 匹配就会撞，所以至少保证精确匹配唯一）。
+- 稳定选择器：`goods_search_button`（需补 `.id()`）；文本 `搜索`。
+
+### A11 关键词去首尾空格后写入搜索历史
+
+- 来源：场景一·步骤4（同上）
+- 证据等级：SPEC_EXPLICIT
+- 原子行为：`keyword.trim()` 非空时调用 `SearchHistoryRepository.addSearchHistory(trimmed)`（基线 `SearchHistoryRepository.ets:30-39` 本身已经 trim，并把 searchTime 设为 `Date.now()`）。
+- 可观察结果：输入 `␣␣手机␣␣` 搜索后返回，历史第一个标签文本是 `手机`（没有空格）。
+- 八维度：
+  - 入口：A1。
+  - 前置数据：无。
+  - 用户动作：输入带首尾空格的词 → 搜索。
+  - UI 结果：返回后历史标签显示 trim 后的文本。
+  - 数据结果：L1 新增（或更新）主键为 `手机` 的记录，searchTime 是最新的。
+  - 网络结果：不适用（本地）。
+  - 返回结果：A23。
+  - 边界条件：中间空格保留（`Xiaomi 17 Pro`）；全角空格 `　`：`String.prototype.trim` 会去掉 U+3000（ECMAScript 把它算作空白），表现和半角一致；**ORM `save` 对新主键是否真的会插入还没验证**（baseline-notes §8.4），实现时第一件事就是在设备上验证。
+- 稳定选择器：`search_history_tag_0`。
+
+### A12 跳转到商品分类列表页并带上关键词
+
+- 来源：场景一·步骤5「系统跳转到商品分类列表页，以该关键词为筛选条件展示搜索结果商品列表。」
+- 证据等级：SPEC_EXPLICIT（目标路由 `goods/category` 属于 REASONABLE_DERIVATION：基线 `GoodsCategoryParam.keyword` 就是为这个准备的，`core/navigation/.../goods/GoodsParam.ets:22-25`）
+- 原子行为：`GoodsNavigator.toCategory({ keyword: trimmed })`。
+- 可观察结果：出现结果页（NavDestination 标题 `商品分类`，沿用基线占位页），搜索页被压在栈里。
+- 八维度：
+  - 入口：搜索页。
+  - 前置数据：无。
+  - 用户动作：A9/A10/A19/A24 任意一种触发方式。
+  - UI 结果：结果页。
+  - 数据结果：参数 keyword = tri

@@ -1,0 +1,25 @@
+"""场景一：首页进入搜索页、两个区域、输入、两种搜索触发、去空格、跳转结果页。"""
+from hypium import BY
+
+from hypium_tests.search_helpers import (
+    HISTORY_CLEAR, HISTORY_SECTION, RECOMMEND_SECTION, RESULT_ITEM, RESULT_KEYWORD, SEARCH_BUTTON,
+    SEARCH_INPUT, TEXT_HISTORY, TEXT_RECOMMEND, TEXT_SEARCH, SearchTestCase,
+)
+
+
+class TestScenario1Search(SearchTestCase):
+
+    def test_a01_a03_enter_search_page_focus_and_keyboard(self):
+        """A1-A3：点首页搜索框进入搜索页，输入框自动聚焦并弹出软键盘。"""
+        self.open_search()
+        self.require_text("商品搜索", "搜索页标题不存在")
+        self.require_component(BY.key(SEARCH_BUTTON), "搜索按钮不存在")
+        self.assertTrue(self.search_input().isFocused(), "搜索框未自动获取焦点")
+        self.assertTrue(self.keyboard_visible(), "进入搜索页后软键盘未弹出")
+
+    def test_a05_no_history_section_when_empty(self):
+        """A5：无历史时不渲染“搜索历史”区域，但“推荐搜索”在。"""
+        self.open_search()
+        self.require_text(TEXT_RECOMMEND, "推荐搜索标题不存在")
+        self.assertIsNone(self.find_or_none(BY.text(TEXT_HISTORY), timeout=2), "无历史时不应出现“搜索历史”")
+        self.assertIsNone(self.find_or_none(BY.key(HISTORY_SECTION), ti

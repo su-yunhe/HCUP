@@ -1,0 +1,138 @@
+<file>
+     1→import { AppNavDestination, BaseNetWorkListView, GoodsGridItem, GoodsListItem, RefreshLayout, TitleWithLine } from "ui";
+     2→import { Goods } from "model";
+     3→import { HomeBanner } from "../component/HomeBanner";
+     4→import { HomeCategorySection } from "../component/HomeCategorySection";
+     5→import { HomeCouponSection } from "../component/HomeCouponSection";
+     6→import { HomeFlashSaleSection } from "../component/HomeFlashSaleSection";
+     7→import { HomeTopBar } from "../component/HomeTopBar";
+     8→import HomeViewModel from "../viewmodel/HomeViewModel";
+     9→import { P100, SpaceVerticalSmall } from "designsystem";
+    10→import { bp } from "state";
+    11→import { GoodsNavigator } from "navigation";
+    12→
+    13→/**
+    14→ * @file 首页视图
+    15→ * @author Joker.X
+    16→ */
+    17→@ComponentV2
+    18→export struct HomePage {
+    19→  /**
+    20→   * 首页 ViewModel
+    21→   */
+    22→  @Local
+    23→  private vm: HomeViewModel = new HomeViewModel();
+    24→  /**
+    25→   * 列表滚动控制器，用于刷新同步
+    26→   */
+    27→  private listScroller: Scroller = new Scroller();
+    28→
+    29→  /**
+    30→   * 构建首页
+    31→   * @returns {void} 无返回值
+    32→   */
+    33→  build() {
+    34→    AppNavDestination({
+    35→      viewModel: this.vm,
+    36→      hideTitleBar: true,
+    37→    }) {
+    38→      HomeTopBar();
+    39→      BaseNetWorkListView({
+    40→        uiState: this.vm.uiState,
+    41→        onRetry: (): void => this.vm.retryRequest(),
+    42→        content: (): void => this.HomeContent()
+    43→      });
+    44→    }
+    45→  }
+    46→
+    47→  /**
+    48→   * 首页内容视图
+    49→   * @returns {void} 无返回值
+    50→   */
+    51→  @Builder
+    52→  private HomeContent() {
+    53→    RefreshLayout({
+    54→      loading: this.vm.isLoading,
+    55→      isEnableSlideUp: this.vm.isEnableSlideUp,
+    56→      scroller: this.listScroller,
+    57→      onRefresh: (direction): void => this.vm.onRefreshDirection(direction),
+    58→    }) {
+    59→      List({ space: 12, scroller: this.listScroller }) {
+    60→        ListItem() {
+    61→          HomeBanner({ bannerList: this.vm.pageData.banner ?? [] });
+    62→        }
+    63→
+    64→        ListItem() {
+    65→          HomeCouponSection({ coupons: this.vm.pageData.coupon ?? [] });
+    66→        }
+    67→
+    68→        ListItem() {
+    69→          HomeCategorySection({ categories: this.vm.pageData.category ?? [] });
+    70→        }
+    71→
+    72→        ListItem() {
+    73→          HomeFlashSaleSection({
+    74→            goodsList: this.vm.pageData.flashSale ?? [],
+    75→            onGoodsClick: (id: number): void => {
+    76→              GoodsNavigator.toDetail(id);
+    77→            }
+    78→          });
+    79→        }
+    80→
+    81→        ListItem() {
+    82→          TitleWithLine({ text: $r("app.string.recommend_goods") });
+    83→        }
+    84→
+    85→        ListItem() {
+    86→          Grid() {
+    87→            ForEach(this.vm.pageData.recommend ?? [], (item: Goods): void => {
+    88→              GridItem() {
+    89→                GoodsListItem({
+    90→                  goods: item,
+    91→                  onItemClick: (id: number): void => {
+    92→                    GoodsNavigator.toDetail(id);
+    93→                  }
+    94→                });
+    95→              }
+    96→            }, (item: Goods): string => `${item.id}`);
+    97→          }
+    98→          .columnsTemplate(bp({ sm: "1fr", md: "1fr 1fr", lg: "1fr 1fr" }))
+    99→          .columnsGap($r("app.float.space_padding_small"))
+   100→          .rowsGap($r("app.float.space_padding_small"))
+   101→          .width(P100);
+   102→        }
+   103→
+   104→        ListItem() {
+   105→          TitleWithLine({ text: $r("app.string.all_goods") });
+   106→        }
+   107→
+   108→        ListItem() {
+   109→          Grid() {
+   110→            ForEach(this.vm.listData, (item: Goods): void => {
+   111→              GridItem() {
+   112→                GoodsGridItem({
+   113→                  goods: item,
+   114→                  onItemClick: (id: number): void => {
+   115→                    GoodsNavigator.toDetail(id);
+   116→                  }
+   117→                });
+   118→              }
+   119→            }, (item: Goods): string => `${item.id}`);
+   120→          }
+   121→          .columnsTemplate(bp({ sm: "1fr 1fr", md: "1fr 1fr 1fr", lg: "1fr 1fr 1fr 1fr" }))
+   122→          .columnsGap($r("app.float.space_padding_small"))
+   123→          .rowsGap($r("app.float.space_padding_small"))
+   124→          .width(P100);
+   125→        }
+   126→
+   127→        SpaceVerticalSmall()
+   128→
+   129→      }
+   130→      .edgeEffect(EdgeEffect.None)
+   131→      .padding($r("app.float.space_padding_medium"));
+   132→    }
+   133→  }
+   134→}
+   135→
+</file>
+<metadata>The file has 135 lines in total.</metadata>

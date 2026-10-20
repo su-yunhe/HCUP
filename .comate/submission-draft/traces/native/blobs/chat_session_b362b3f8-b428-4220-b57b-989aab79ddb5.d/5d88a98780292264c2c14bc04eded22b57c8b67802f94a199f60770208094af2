@@ -1,0 +1,4 @@
+        exact = [c for c in (self.driver.find_all_components(BY.text(TEXT_SEARCH)) or [])
+                 if c.getId() != "" or c.getType() == "Text"]
+        app_buttons = [c for c in exact if c.getId() == SEARCH_BUTTON]
+        self.assertEqual(len(app_buttons), 1)

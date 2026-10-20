@@ -1,0 +1,16 @@
+# 验收矩阵：商品搜索功能（cml-combo-search）
+
+输入：`spec/requirement.md`（下称 Spec）；基线 `261589401b664d4a9a5622f748071d14e04108e2`（tag `baseline-cml-combo-search`）。
+基线事实与行号见 `spec/baseline-notes.md`，本文只在必要处引用。
+
+## 0. 约定
+
+证据等级：
+
+- `SPEC_EXPLICIT`：Spec 明文
+- `REASONABLE_DERIVATION`：由 Spec 明文 + 基线代码推导，基本不会有第二种理解
+- `UNCONFIRMED_ASSUMPTION`：Spec 未写、存在多种合理做法，需你拍板（第 6 节汇总）
+
+Spec 指定的界面文案（逐字，实现与自测都必须完全一致）：
+
+- `搜索历史`

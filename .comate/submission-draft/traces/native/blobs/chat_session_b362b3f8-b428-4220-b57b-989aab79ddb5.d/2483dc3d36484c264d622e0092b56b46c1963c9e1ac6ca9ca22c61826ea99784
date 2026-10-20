@@ -1,0 +1,124 @@
+"""场景一：首页进入搜索页、两个区域、输入、两种搜索触发、去空格、跳转结果页。"""
+from hypium import BY
+
+from hypium_tests.search_helpers import (
+    HISTORY_CLEAR, HISTORY_SECTION, RECOMMEND_SECTION, RESULT_ITEM, RESULT_KEYWORD, SEARCH_BUTTON,
+    SEARCH_INPUT, TEXT_HISTORY, TEXT_RECOMMEND, TEXT_SEARCH, SearchTestCase,
+)
+
+
+class TestScenario1Search(SearchTestCase):
+
+    def test_a01_a03_enter_search_page_focus_and_keyboard(self):
+        """A1-A3：点首页搜索框进入搜索页，输入框自动聚焦并弹出软键盘。"""
+        self.open_search()
+        self.require_text("商品搜索", "搜索页标题不存在")
+        self.require_component(BY.key(SEARCH_BUTTON), "搜索按钮不存在")
+        self.assertTrue(self.search_input().isFocused(), "搜索框未自动获取焦点")
+        self.assertTrue(self.keyboard_visible(), "进入搜索页后软键盘未弹出")
+
+    def test_a05_no_history_section_when_empty(self):
+        """A5：无历史时不渲染“搜索历史”区域，但“推荐搜索”在。"""
+        self.open_search()
+        self.require_text(TEXT_RECOMMEND, "推荐搜索标题不存在")
+        self.assertIsNone(self.find_or_none(BY.text(TEXT_HISTORY), timeout=2), "无历史时不应出现“搜索历史”")
+        self.assertIsNone(self.find_or_none(BY.key(HISTORY_SECTION), timeout=1), "无历史时不应渲染历史区域")
+        self.assertIsNone(self.find_or_none(BY.key(HISTORY_CLEAR), timeout=1), "无历史时不应出现删除图标")
+
+    def test_a04_a06_a07_sections_layout(self):
+        """A4/A6/A7：有历史时历史区域在上、推荐区域在下，推荐词来自服务端。"""
+        self.open_search()
+        self.search_and_back("手机")
+        history_title = self.require_text(TEXT_HISTORY, "搜索后返回未出现“搜索历史”")
+        recommend_title = self.require_text(TEXT_RECOMMEND, "推荐搜索标题不存在")
+        self.assertEqual(self.history(), ["手机"])
+        self.assertLessEqual(self.search_input().getBounds().bottom, history_title.getBounds().top,
+                             "历史区域应在输入框下方")
+        self.assertLess(history_title.getBounds().top, recommend_title.getBounds().top,
+                        "历史区域应在推荐区域上方")
+        self.assertIsNotNone(self.find_or_none(BY.key(RECOMMEND_SECTION), timeout=1))
+        rec0 = self.wait_recommend()
+        self.require_precondition(rec0 is not None, "推荐词接口不可达（模拟器网络）")
+        self.assertTrue(rec0.getText(), "推荐标签文本为空")
+        self.assertGreater(rec0.getBounds().top, recommend_title.getBounds().top, "推荐标签应在推荐标题下方")
+
+    def test_a08_input_sync(self):
+        """A8：输入内容实时显示在搜索框，且不会触发跳转。"""
+        self.open_search()
+        self.type_keyword("Xiaomi 17 Pro")
+        self.assertEqual(self.input_value(), "Xiaomi 17 Pro")
+        self.assertTrue(self.on_search_page(), "仅输入不应跳转")
+
+    def test_a09_keyboard_enter_triggers_search(self):
+        """A9/A12：键盘搜索键触发搜索并跳转结果页。"""
+        self.open_search()
+        self.type_keyword("手机")
+        self.press_enter()
+        self.assertTrue(self.on_result_page(), "按键盘搜索键后未进入结果页")
+        self.assertEqual(self.result_keyword(), "手机")
+        self.require_text("商品分类", "结果页标题不存在")
+
+    def test_a10_search_button_position_and_click(self):
+        """A10：输入框右侧有唯一的“搜索”按钮，点击触发搜索。"""
+        self.open_search()
+        button = self.require_component(BY.key(SEARCH_BUTTON), "搜索按钮不存在")
+        self.assertEqual(button.getText(), TEXT_SEARCH)
+        self.assertTrue(button.isClickable(), "搜索按钮应可点击")
+        inp = self.search_input()
+        self.assertGreaterEqual(button.getBounds().left, inp.getBounds().right, "搜索按钮应在输入框右侧")
+        self.assertTrue(self.same_row(button, inp), "搜索按钮应与输入框同一行")
+        exact = [c for c in (self.driver.find_all_components(BY.text(TEXT_SEARCH)) or [])
+                 if c.getId() != "" or c.getType() == "Text"]
+        app_buttons = [c for c in exact if c.getId() == SEARCH_BUTTON]
+        self.assertEqual(len(app_buttons), 1)
+        self.type_keyword("手机")
+        self.click_search_button()
+        self.assertTrue(self.on_result_page(), "点“搜索”后未进入结果页")
+
+    def test_a11_trim_before_save(self):
+        """A11/A43：首尾空格去除后保存，中间空格保留；跳转参数同为去空格后的词。"""
+        self.open_search()
+        self.type_keyword("  手机  ")
+        self.click_search_button()
+        self.assertTrue(self.on_result_page(), "未进入结果页")
+        self.assertEqual(self.result_keyword(), "手机")
+        self.back_to_search()
+        self.assertEqual(self.wait_history("手机"), ["手机"])
+        self.search_and_back(" Xiaomi 17 Pro ")
+        self.assertEqual(self.wait_history("Xiaomi 17 Pro"), ["Xiaomi 17 Pro", "手机"])
+
+    def test_a13_result_list_shows_goods(self):
+        """A12/A13/A15：结果页按关键词加载商品列表并显示当前关键词。"""
+        self.open_search()
+        self.type_keyword("Xiaomi 17")
+        self.click_search_button()
+        self.assertTrue(self.on_result_page(), "未进入结果页")
+        self.assertEqual(self.result_keyword(), "Xiaomi 17")
+        item = self.find_or_none(BY.key(f"{RESULT_ITEM}0"), timeout=30)
+        self.require_precondition(item is not None, "商品接口不可达或无数据（模拟器网络）")
+        self.back_to_search()
+        self.assertEqual(self.input_value(), "Xiaomi 17", "返回后输入框应保留上次搜索词")
+
+    def test_a14_empty_result(self):
+        """A14：无匹配商品时不展示商品卡片、页面不崩溃，可返回搜索页。"""
+        self.open_search()
+        self.type_keyword("zzzz不存在的商品")
+        self.click_search_button()
+        self.assertTrue(self.on_result_page(), "未进入结果页")
+        self.driver.wait(5)
+        self.assertIsNone(self.find_or_none(BY.key(f"{RESULT_ITEM}0"), timeout=1), "无结果时不应有商品卡片")
+        self.require_text("暂无数据", "空结果文案不存在")
+        self.assertIsNotNone(self.find_or_none(BY.key(RESULT_KEYWORD), timeout=1))
+        self.back_to_search()
+        self.assertEqual(self.wait_history("zzzz不存在的商品")[0], "zzzz不存在的商品")
+
+    def test_a42_reenter_from_home(self):
+        """A42：返回首页再进入，输入框为空且重新聚焦，历史为最新。"""
+        self.open_search()
+        self.search_and_back("手机")
+        self.back_to_home()
+        self.open_search()
+        self.assertEqual(self.input_value(), "", "重新进入时输入框应为空")
+        self.assertTrue(self.search_input().isFocused(), "重新进入时输入框应聚焦")
+        self.assertEqual(self.history(), ["手机"])
+        self.assertIsNotNone(self.find_or_none(BY.key(SEARCH_INPUT), timeout=1))

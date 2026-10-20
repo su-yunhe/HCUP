@@ -1,0 +1,63 @@
+### A13 结果页按关键词请求并展示商品列表
+
+- 来源：场景一·步骤5（同上）
+- 证据等级：SPEC_EXPLICIT（请求字段 `keyWord` 是 REASONABLE_DERIVATION：基线 `GoodsSearchRequest.keyWord`，`core/model/.../request/GoodsSearchRequest.ets:26-29`）
+- 原子行为：`GoodsCategoryViewModel` 继承 `BaseNetWorkListViewModel<Goods>`，`requestListData()` 组装 `GoodsSearchRequest{page, size, keyWord}`，调 `GoodsRepository.getGoodsPage()`。
+- 可观察结果：列表里有商品卡片（复用 `GoodsGridItem`/`GoodsListItem`，显示 title 和价格）。实测公网服务 `keyWord=Xiaomi 17` 共 8 条、`小米` 16 条（baseline-notes §7）。
+- 八维度：
+  - 入口：A12。
+  - 前置数据：服务端有匹配商品。
+  - 用户动作：无（进入就加载）。
+  - UI 结果：LOADING → SUCCESS 商品列表。
+  - 数据结果：不写本地。
+  - 网络结果：进入时**恰好 1 次** R2(page=1)，body 里带 `keyWord`。
+  - 返回结果：返回搜索页时结果页销毁；再次搜索是新实例、新请求。
+  - 边界条件：A14。
+- 稳定选择器：`goods_category_list`、`goods_category_item_{i}`（需补 `.id()`）。
+
+### A14 结果页的空结果、失败和分页
+
+- 来源：场景一·步骤5 的延伸
+- 证据等级：REASONABLE_DERIVATION（直接沿用基线列表页的通用行为）
+- 原子行为：空列表显示 `暂无数据`；失败显示 `网络连接失败` + `重新加载`；下拉刷新、上滑加载更多、最后一页不再加载。
+- 可观察结果：搜一个不存在的词（比如 `zzzz不存在`）→ 显示 `暂无数据`。
+- 八维度：
+  - 入口：A12。
+  - 前置数据：无匹配的关键词 / 断网。
+  - 用户动作：下拉、上滑、点重新加载。
+  - UI 结果：空态、错误态、追加数据。
+  - 数据结果：不适用。
+  - 网络结果：刷新 page=1；加载更多 page+1，`isLoading` 期间不重复发；`pagination.size*page >= total` 时不再发（`BaseNetWorkListViewModel.ets:153-188`）。
+  - 返回结果：不适用。
+  - 边界条件：`BaseNetWorkListView` 四层状态都常驻在组件树里（只改 opacity），SUCCESS 状态下 `暂无数据`/`网络连接失败` 文本节点依然能查到（baseline-notes §8.3）→ U16。
+- 稳定选择器：`goods_category_list`；文本 `暂无数据` / `重新加载`。
+
+### A15 结果页是否显示当前关键词
+
+- 来源：场景一·步骤5「以该关键词为筛选条件」
+- 证据等级：UNCONFIRMED_ASSUMPTION（U5）
+- 原子行为：（推荐做）结果页顶部显示当前 keyword 文本。
+- 可观察结果：结果页上存在精确文本等于 keyword 的节点。
+- 八维度：入口 A12；前置数据 无；用户动作 无；UI 结果 显示 keyword；数据结果 不适用；网络结果 不适用；返回结果 不适用；边界条件 关键词很长时单行省略号，但节点 text 仍是完整值。
+- 稳定选择器：`goods_category_keyword`（需补 `.id()`，仅当 U5 采纳）。
+
+## 3. 场景二：点击历史 / 推荐标签搜索
+
+### A16 历史最多显示 10 条
+
+- 来源：场景二·步骤1「用户进入搜索页面，历史记录区域展示最近10条搜索记录，每条记录以圆角标签形式展示关键词。」
+- 证据等级：SPEC_EXPLICIT
+- 原子行为：`getRecentSearchHistory(10)`（基线 `SearchHistoryRepository.ets:79-81` 已提供）。
+- 可观察结果：搜了 11 个不同的词以后，历史标签正好 10 个；最早搜的那个不在了。
+- 八维度：
+  - 入口：A1。
+  - 前置数据：L1 ≥ 11 条。
+  - 用户动作：进入页面。
+  - UI 结果：10 个标签。
+  - 数据结果：数据库是否也裁到 10 条 → U11（UI 上看不出来）。
+  - 网络结果：不适用。
+  - 返回结果：返回后仍是 10 条（A23）。
+  - 边界条件：0 条 → A5；1 条；正好 10 条；第 11 条挤掉最旧的（A26）。
+- 稳定选择器：`search_history_tag_0` … `search_history_tag_9`；`search_history_tag_10` 不存在。
+
+<!-- CHUNK7 -->

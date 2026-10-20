@@ -1,0 +1,157 @@
+<file>
+     1→import { BaseViewModel } from "base";
+     2→import { getWindowSafeAreaState, WindowSafeAreaState } from "state";
+     3→
+     4→/**
+     5→ * @file 通用导航容器：统一 NavDestination 与 ViewModel 生命周期转发
+     6→ * @author Joker.X
+     7→ */
+     8→@ComponentV2
+     9→export struct AppNavDestination {
+    10→  /**
+    11→   * 传入的视图模型实例（必传）
+    12→   */
+    13→  @Param
+    14→  @Require
+    15→  viewModel: BaseViewModel;
+    16→  /**
+    17→   * 业务内容渲染
+    18→   */
+    19→  @BuilderParam
+    20→  content: CustomBuilder;
+    21→  /**
+    22→   * 是否启用安全区（默认开启）
+    23→   */
+    24→  @Param
+    25→  safeAreaEnabled: boolean = true;
+    26→  /**
+    27→   * 是否隐藏标题栏（默认不隐藏）
+    28→   */
+    29→  @Param
+    30→  hideTitleBar: boolean = false;
+    31→  /**
+    32→   * 标题内容（可选）
+    33→   */
+    34→  @Param
+    35→  title: string | CustomBuilder | NavDestinationCommonTitle | NavDestinationCustomTitle | Resource = "";
+    36→  /**
+    37→   * 标题栏配置
+    38→   */
+    39→  @Param
+    40→  titleOptions: NavigationTitleOptions = {
+    41→    backgroundColor: $r("app.color.bg_grey")
+    42→  };
+    43→  /**
+    44→   * 导航栏菜单内容（可选）
+    45→   */
+    46→  @Param
+    47→  menus: Array<NavigationMenuItem> | CustomBuilder = [];
+    48→  /**
+    49→   * 导航栏菜单配置（可选）
+    50→   */
+    51→  @Param
+    52→  menuOptions: NavigationMenuOptions | undefined = undefined;
+    53→  /**
+    54→   * 页面背景色
+    55→   */
+    56→  @Param
+    57→  pageBackgroundColor: ResourceColor | ColorMetrics = $r("app.color.bg_grey");
+    58→  /**
+    59→   * 当前窗口安全区状态（可外部传入，默认内部获取）
+    60→   */
+    61→  @Param
+    62→  windowSafeAreaState: WindowSafeAreaState = getWindowSafeAreaState();
+    63→  /**
+    64→   * 自定义页面内边距（默认使用安全区）
+    65→   */
+    66→  @Param
+    67→  paddingValue: Padding | Length | LocalizedPadding | undefined = undefined;
+    68→
+    69→  /**
+    70→   * 页面出现时的生命周期回调
+    71→   * @returns {void} 无返回值
+    72→   */
+    73→  aboutToAppear(): void {
+    74→    this.viewModel.aboutToAppear();
+    75→  }
+    76→
+    77→  /**
+    78→   * 页面隐藏时的生命周期回调
+    79→   * @returns {void} 无返回值
+    80→   */
+    81→  aboutToDisappear(): void {
+    82→    this.viewModel.aboutToDisappear();
+    83→  }
+    84→
+    85→  /**
+    86→   * 页面销毁时的生命周期回调
+    87→   * @returns {void} 无返回值
+    88→   */
+    89→  aboutToBeDeleted(): void {
+    90→    this.viewModel.aboutToBeDeleted();
+    91→  }
+    92→
+    93→  /**
+    94→   * 组件构建完成（API 12+）
+    95→   * @returns {void} 无返回值
+    96→   */
+    97→  onDidBuild(): void {
+    98→    this.viewModel.onDidBuild();
+    99→  }
+   100→
+   101→  /**
+   102→   * 组件即将回收
+   103→   * @returns {void} 无返回值
+   104→   */
+   105→  aboutToRecycle(): void {
+   106→    this.viewModel.aboutToRecycle();
+   107→  }
+   108→
+   109→  /**
+   110→   * 主题即将应用
+   111→   * @param {Theme} theme - 主题对象
+   112→   * @returns {void} 无返回值
+   113→   */
+   114→  onWillApplyTheme(theme: Theme): void {
+   115→    this.viewModel.onWillApplyTheme(theme);
+   116→  }
+   117→
+   118→  /**
+   119→   * 渲染通用 NavDestination
+   120→   * @returns {void} 无返回值
+   121→   */
+   122→  build() {
+   123→    NavDestination() {
+   124→      if (this.content) {
+   125→        this.content();
+   126→      }
+   127→    }
+   128→    .title(this.title, this.titleOptions)
+   129→    .hideTitleBar(this.hideTitleBar)
+   130→    .menus(this.menus, this.menuOptions)
+   131→    .onShown((reason: VisibilityChangeReason) => {
+   132→      this.viewModel.onShown(reason);
+   133→    })
+   134→    .onHidden((reason: VisibilityChangeReason) => {
+   135→      this.viewModel.onHidden(reason);
+   136→    })
+   137→    .backgroundColor(this.pageBackgroundColor)
+   138→    .padding(this.paddingValue ?? (this.safeAreaEnabled ? this.getSafeAreaPadding() : 0));
+   139→  }
+   140→
+   141→  /**
+   142→   * 获取安全区内边距
+   143→   * @returns {Padding} 安全区内边距
+   144→   */
+   145→  private getSafeAreaPadding(): Padding {
+   146→    return {
+   147→      top: this.windowSafeAreaState.topInset,
+   148→      left: this.windowSafeAreaState.leftInset,
+   149→      bottom: this.windowSafeAreaState.bottomInset,
+   150→      right: this.windowSafeAreaState.rightInset
+   151→    };
+   152→  }
+   153→}
+   154→
+</file>
+<metadata>The file has 154 lines in total.</metadata>

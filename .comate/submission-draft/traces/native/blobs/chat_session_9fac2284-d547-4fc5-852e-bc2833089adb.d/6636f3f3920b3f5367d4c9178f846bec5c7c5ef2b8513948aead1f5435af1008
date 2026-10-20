@@ -1,0 +1,1 @@
+- 输入框的 placeholder 在 dump 里是 `hint` 属性，不是 `text`（首页 dump 中的 TextInput 类组件未出现，**未验证**）；"搜索框为空"的断言应该检查 `text == ""`。

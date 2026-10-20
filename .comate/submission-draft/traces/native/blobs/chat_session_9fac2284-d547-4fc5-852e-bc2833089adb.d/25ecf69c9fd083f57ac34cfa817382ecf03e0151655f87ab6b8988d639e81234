@@ -1,0 +1,260 @@
+<file>
+     1→<div align="center">
+     2→
+     3→<img src="docs/images/graphs/logo.svg" width="120" alt="青商城Logo"/>
+     4→
+     5→# 青商城 · HarmonyOS
+     6→
+     7→_🛍️ 基于 ArkTS 与 ArkUI 的鸿蒙电商应用_
+     8→
+     9→<!-- 语言切换按钮 -->
+    10→<div align="center">
+    11→  <a href="README_EN.md">🌍 English</a>
+    12→</div>
+    13→
+    14→[![GitHub](https://img.shields.io/badge/GitHub-CoolMallArkTS-blue?style=flat-square&logo=github)](https://github.com/Joker-x-dev/CoolMallArkTS)
+    15→[![Gitee](https://img.shields.io/badge/Gitee-CoolMallArkTS-red?style=flat-square&logo=gitee)](https://gitee.com/Joker-x-dev/CoolMallArkTS)
+    16→[![API](https://img.shields.io/badge/API-文档-orange?style=flat-square&logo=postman)](https://coolmall.apifox.cn)
+    17→[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Joker-x-dev/CoolMallKotlin)
+    18→
+    19→</div>
+    20→
+    21→## 📖 项目简介
+    22→
+    23→这是一个基于 ArkTS 和 ArkUI 打造的开源电商学习项目，旨在展示如何运用现代 HarmonyOS
+    24→开发技术构建一个完整的电商应用。项目涵盖用户认证、商品展示、购物车、订单支付等核心流程，适合开发者学习参考现代
+    25→HarmonyOS 开发技术。
+    26→
+    27→作为热爱技术的个人开发者，我将工作之外半年多的时间都投入到这个项目中。每一个功能的实现、每一次代码的优化，都是我在闲暇时间精心打磨的成果。尽管进度可能不如专职团队那么快，而且某些功能的实现还不够完善，但我会持续改进，不断完善。如果你对
+    28→HarmonyOS 开发感兴趣，无论是学习还是共同创造，都欢迎加入。
+    29→
+    30→> 如果项目对您有帮助，请给个 Star 支持 ⭐ 这对我来说很重要，能给我带来长期更新维护的动力！
+    31→
+    32→## 📱 项目预览
+    33→
+    34→> 💡 **说明**：由于功能模块较多，截图不下，这里仅展示部分界面。
+    35→
+    36→<img src="docs/images/preview/Mobile 1.png" alt="青商城移动端预览1"/>
+    37→<img src="docs/images/preview/Mobile 2.png" alt="青商城移动端预览2"/>
+    38→<img src="docs/images/preview/Tablet 1.png" alt="青商城平板端预览1"/>
+    39→<img src="docs/images/preview/Tablet 2.png" alt="青商城平板端预览2"/>
+    40→<img src="docs/images/preview/Foldable 1.png" alt="青商城折叠屏预览"/>
+    41→
+    42→## 📍 项目地址
+    43→
+    44→- **GitHub 地址**：[https://github.com/Joker-x-dev/CoolMallArkTS](https://github.com/Joker-x-dev/CoolMallArkTS)
+    45→- **Gitee 地址**：[https://gitee.com/Joker-x-dev/CoolMallArkTS](https://gitee.com/Joker-x-dev/CoolMallArkTS)
+    46→
+    47→### 相关文档
+    48→
+    49→- **青商城 API 接口文档**：[在线查看](https://coolmall.apifox.cn)
+    50→  - 接口文档会随着项目开发进度同步更新，主要包含各接口的请求参数和返回数据示例
+    51→
+    52→
+    53→- **IBest-UI-V2 组件库文档**：[在线查看](https://ibestui-v2.ibestservices.com)
+    54→  - 组件库使用说明与参数配置，包含常用组件示例
+    55→
+    56→
+    57→- **IBest-ORM 数据库文档**：[在线查看](https://ibest-orm.ibestservices.com/)
+    58→  - 本地数据库能力与实体定义说明，包含基础使用示例
+    59→
+    60→## 🛠️ 技术栈
+    61→
+    62→### 核心技术
+    63→
+    64→| 类别    | 技术选型                           | 说明                     |
+    65→|-------|--------------------------------|------------------------|
+    66→| 编程语言  | ArkTS                          | HarmonyOS NEXT 主流语言   |
+    67→| UI 框架 | ArkUI                          | 声明式 UI 框架            |
+    68→| 架构模式  | MVVM                           | View + ViewModel 分离   |
+    69→| 导航框架  | Navigation                     | 路由与页面导航管理       |
+    70→| 状态管理  | V2（ObservedV2/AppStorageV2）     | 新版状态管理能力           |
+    71→| 组件库   | IBest-UI-V2                    | 业务组件库与基础控件封装       |
+    72→
+    73→### 功能模块
+    74→
+    75→| 类别    | 技术选型      | 说明            |
+    76→|-------|-----------|---------------|
+    77→| 网络请求  | Axios     | 网络客户端与拦截器封装 |
+    78→| 数据库   | IBest-ORM | 本地数据库能力      |
+    79→
+    80→## ✨ 项目特点
+    81→
+    82→- **现代化架构**: 采用模块化设计，各功能模块高度解耦
+    83→- **声明式 UI**: 使用 ArkUI 构建现代化用户界面
+    84→- **主题适配**: 完整支持浅色/深色主题动态切换
+    85→- **国际化**: 支持中英文语言切换，便于全球化推广
+    86→- **响应式编程**: 基于 V2 状态管理的响应式编程范式
+    87→- **完整的测试覆盖** `计划中`
+    88→- **屏幕适配**: 支持平板 / 折叠屏 / 手机
+    89→
+    90→## 📚 资源与参考
+    91→
+    92→- **资源说明**: 项目中的部分素材来自网络，仅用于学习交流
+    93→- **图标来源**: 项目使用的图标库来自[图鸟 Icon](https://github.com/tuniaoTech)
+    94→
+    95→## 📱 功能模块目录
+    96→
+    97→> **状态说明：**
+    98→> - `已完成` - 功能页面已完整实现并可以正常使用
+    99→> - `待完善` - 功能页面基本实现，但还需要进一步优化和完善
+   100→> - `待优化` - 功能页面已实现，但需要性能优化或体验优化
+   101→> - `仅页面` - 只完成了页面UI，功能逻辑尚未实现
+   102→> - `待开发` - 功能页面尚未开发，陆续实现中
+   103→
+   104→- **主模块 (main)**
+   105→    - 首页 (home) `待完善`
+   106→    - 分类 (category) `待完善`
+   107→    - 购物车 (cart) `待完善`
+   108→    - 我的 (me) `待完善`
+   109→
+   110→
+   111→- **认证模块 (auth)**
+   112→    - 登录主页 (login) `待完善`
+   113→    - 账号密码登录 (account-login) `已完成`
+   114→    - 注册页面 (register) `仅页面`
+   115→    - 找回密码 (reset-password) `仅页面`
+   116→    - 短信登录 (sms-login) `仅页面`
+   117→
+   118→
+   119→- **用户体系模块 (user)**
+   120→    - 个人中心 (profile) `仅页面`
+   121→    - 收货地址列表 (address-list) `已完成`
+   122→    - 收货地址详情 (address-detail) `已完成`
+   123→    - 用户足迹 (footprint) `已完成`
+   124→
+   125→
+   126→- **订单模块 (order)**
+   127→    - 订单列表 (list) `待完善`
+   128→    - 确认订单 (confirm) `待完善`
+   129→    - 订单详情 (detail) `待完善`
+   130→    - 订单支付 (pay) `已完成`
+   131→    - 退款申请 (refund) `已完成`
+   132→    - 订单评价 (comment) `待完善`
+   133→    - 订单物流 (logistics) `已完成`
+   134→
+   135→
+   136→- **商品模块 (goods)**
+   137→    - 商品搜索 (search) `待开发`
+   138→    - 商品详情 (detail) `待完善`
+   139→    - 商品评价 (comment) `待开发`
+   140→    - 商品分类页面 (category) `待开发`
+   141→
+   142→
+   143→- **营销模块 (market)**
+   144→    - 优惠券管理 (coupon) `待开发`
+   145→
+   146→
+   147→- **客服模块 (cs)**
+   148→    - 客服聊天 (chat) `待开发`
+   149→
+   150→
+   151→- **反馈模块 (feedback)**
+   152→    - 反馈列表 (list) `待开发`
+   153→    - 提交反馈 (submit) `待开发`
+   154→
+   155→
+   156→- **通用模块 (common)**
+   157→    - 关于我们 (about) `待开发`
+   158→    - WebView 页面 (web) `待开发`
+   159→    - 应用设置 (settings) `待开发`
+   160→    - 用户协议 (user-agreement) `待开发`
+   161→    - 隐私政策 (privacy-policy) `待开发`
+   162→    - 贡献者列表 (contributors) `待开发`
+   163→
+   164→
+   165→- **启动流程模块 (launch)**
+   166→    - 启动页 (splash) `待开发`
+   167→    - 引导页 (guide) `待开发`
+   168→
+   169→## 项目结构
+   170→
+   171→```
+   172→AppScope/               # 应用配置
+   173→entry/                  # 应用入口模块
+   174→core/                   # 核心模块
+   175→│   ├── base/           # 基类
+   176→│   ├── data/           # 数据层
+   177→│   ├── database/       # 数据库
+   178→│   ├── datastore/      # 数据存储
+   179→│   ├── designsystem/   # 设计系统
+   180→│   ├── ibestui/        # IBest UI 组件库
+   181→│   ├── model/          # 数据模型
+   182→│   ├── navigation/     # 导航
+   183→│   ├── network/        # 网络层
+   184→│   ├── result/         # 结果处理
+   185→│   ├── state/          # 全局状态
+   186→│   ├── ui/             # UI组件
+   187→│   └── util/           # 工具类
+   188→feature/                # 功能模块
+   189→│   ├── auth/           # 认证模块
+   190→│   ├── common/         # 公共模块
+   191→│   ├── cs/             # 客服模块
+   192→│   ├── feedback/       # 反馈模块
+   193→│   ├── goods/          # 商品模块
+   194→│   ├── launch/         # 启动模块
+   195→│   ├── main/           # 主模块
+   196→│   ├── market/         # 营销模块
+   197→│   ├── order/          # 订单模块
+   198→│   └── user/           # 用户模块
+   199→```
+   200→
+   201→## 🚀 开发计划
+   202→
+   203→这是一个纯粹由个人热情驱动的开源项目。作为一名全职开发者，我只能在工作之余的时间来维护它，每一行代码都凝聚着我下班后和周末的心血。尽管时间有限，我仍然希望通过这个项目创建一个完整的电商学习案例，它更适合作为学习参考而非商业应用，因为某些方面还未达到商业级水准。我的目标是为其他开发者提供一个学习现代
+   204→HarmonyOS 开发技术的实践平台。
+   205→
+   206→由于时间和精力的限制，项目的更新节奏可能不会很快，但我会坚持长期投入，一步一步地完善每个功能模块。如果你有兴趣参与贡献，无论是代码、设计还是文档方面，都将非常欢迎！
+   207→
+   208→### 🌟 鸿蒙版本（当前）
+   209→
+   210→- **技术栈**：ArkTS + ArkUI + MVVM
+   211→- **架构特点**：模块化设计 + 原子化服务
+   212→
+   213→### 📱 Android 版本（维护中）
+   214→
+   215→- **技术栈**：Kotlin + Jetpack Compose + MVVM
+   216→- **架构特点**：模块化设计 + Clean Architecture
+   217→- **项目地址**：
+   218→    - **GitHub**：[https://github.com/Joker-x-dev/CoolMallKotlin](https://github.com/Joker-x-dev/CoolMallKotlin)
+   219→    - **Gitee**：[https://gitee.com/Joker-x-dev/CoolMallKotlin](https://gitee.com/Joker-x-dev/CoolMallKotlin)
+   220→
+   221→### 🍎 iOS 版本（计划中）
+   222→
+   223→- **技术栈**：Swift + SwiftUI + MVVM
+   224→- **架构特点**：模块化设计 + 组件化开发
+   225→
+   226→### 🔧 近期重点
+   227→
+   228→1. **核心交易完善**：完善下单、支付、订单列表/详情等核心流程的细节
+   229→2. **首页与分类完善**：优化首页、分类、购物车的核心交互与数据链路
+   230→
+   231→### 🚀 中长期规划
+   232→
+   233→3. **业务模块扩展**：逐步补齐客服、反馈、商品、订单、营销等业务模块
+   234→4. **质量提升**：补充测试与性能优化，提升可维护性
+   235→5. **文档完善**：持续更新开发文档与使用说明
+   236→
+   237→## 👥 加入群聊
+   238→
+   239→欢迎加入青商城开发者交流群，一起分享学习心得，讨论技术问题！
+   240→
+   241→<div align="left">
+   242→  <img src="docs/images/group/qq.jpg" width="200" alt="QQ群二维码"/>
+   243→  <p>扫码或搜索群号加入 QQ 群</p>
+   244→</div>
+   245→
+   246→## 🤝 参与贡献
+   247→
+   248→欢迎对 HarmonyOS 开发感兴趣的同学参与贡献：
+   249→
+   250→- **代码贡献**: 提交 Pull Request，完善功能实现或修复问题
+   251→- **问题反馈**: 通过 Issue 报告 Bug 或提出功能建议
+   252→- **文档优化**: 完善项目文档、添加使用说明或开发指南
+   253→- **设计支持**: 提供 UI/UX 设计建议或素材资源
+   254→- **测试协助**: 参与功能测试，提供使用反馈和改进建议
+   255→
+   256→让我们一起打造一个优质的鸿蒙学习项目！ 🚀
+   257→
+</file>
+<metadata>The file has 257 lines in total.</metadata>

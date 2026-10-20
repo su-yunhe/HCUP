@@ -1,0 +1,303 @@
+Command executed successfully.
+Exit code: 0
+Output:
+2615894 Harmony Cup sanitized baseline snapshot
+base/cml-combo-search
+?? spec/
+core:
+base
+data
+database
+datastore
+designsystem
+ibestui
+model
+navigation
+network
+result
+state
+ui
+util
+
+entry:
+build
+build-profile.json5
+hvigorfile.ts
+obfuscation-rules.txt
+oh-package-lock.json5
+oh-package.json5
+oh_modules
+src
+
+entry/src/main/ets:
+adapter
+entryability
+entrybackupability
+navigation
+view
+viewmodel
+
+feature:
+auth
+common
+cs
+feedback
+goods
+launch
+main
+market
+order
+user
+{
+  "app": {
+    "signingConfigs": [],
+    "products": [
+      {
+        "name": "default",
+        "targetSdkVersion": "6.0.1(21)",
+        "compatibleSdkVersion": "6.0.1(21)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "base",
+      "srcPath": "./core/base"
+    },
+    {
+      "name": "data",
+      "srcPath": "./core/data"
+    },
+    {
+      "name": "database",
+      "srcPath": "./core/database"
+    },
+    {
+      "name": "datastore",
+      "srcPath": "./core/datastore"
+    },
+    {
+      "name": "designsystem",
+      "srcPath": "./core/designsystem"
+    },
+    {
+      "name": "model",
+      "srcPath": "./core/model"
+    },
+    {
+      "name": "network",
+      "srcPath": "./core/network"
+    },
+    {
+      "name": "result",
+      "srcPath": "./core/result"
+    },
+    {
+      "name": "state",
+      "srcPath": "./core/state"
+    },
+    {
+      "name": "ui",
+      "srcPath": "./core/ui"
+    },
+    {
+      "name": "util",
+      "srcPath": "./core/util"
+    },
+    {
+      "name": "navigation",
+      "srcPath": "./core/navigation"
+    },
+    {
+      "name": "auth",
+      "srcPath": "./feature/auth"
+    },
+    {
+      "name": "main",
+      "srcPath": "./feature/main"
+    },
+    {
+      "name": "user",
+      "srcPath": "./feature/user"
+    },
+    {
+      "name": "order",
+      "srcPath": "./feature/order"
+    },
+    {
+      "name": "goods",
+      "srcPath": "./feature/goods"
+    },
+    {
+      "name": "market",
+      "srcPath": "./feature/market"
+    },
+    {
+      "name": "cs",
+      "srcPath": "./feature/cs"
+    },
+    {
+      "name": "feedback",
+      "srcPath": "./feature/feedback"
+    },
+    {
+      "name": "common",
+      "srcPath": "./feature/common"
+    },
+    {
+      "name": "launch",
+      "srcPath": "./feature/launch"
+    },
+    {
+      "name": "ibestui",
+      "srcPath": "./core/ibestui"
+    }
+  ]
+}
+<div align="center">
+
+<img src="docs/images/graphs/logo.svg" width="120" alt="青商城Logo"/>
+
+# 青商城 · HarmonyOS
+
+_🛍️ 基于 ArkTS 与 ArkUI 的鸿蒙电商应用_
+
+<!-- 语言切换按钮 -->
+<div align="center">
+  <a href="README_EN.md">🌍 English</a>
+</div>
+
+[![GitHub](https://img.shields.io/badge/GitHub-CoolMallArkTS-blue?style=flat-square&logo=github)](https://github.com/Joker-x-dev/CoolMallArkTS)
+[![Gitee](https://img.shields.io/badge/Gitee-CoolMallArkTS-red?style=flat-square&logo=gitee)](https://gitee.com/Joker-x-dev/CoolMallArkTS)
+[![API](https://img.shields.io/badge/API-文档-orange?style=flat-square&logo=postman)](https://coolmall.apifox.cn)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Joker-x-dev/CoolMallKotlin)
+
+</div>
+
+## 📖 项目简介
+
+这是一个基于 ArkTS 和 ArkUI 打造的开源电商学习项目，旨在展示如何运用现代 HarmonyOS
+开发技术构建一个完整的电商应用。项目涵盖用户认证、商品展示、购物车、订单支付等核心流程，适合开发者学习参考现代
+HarmonyOS 开发技术。
+
+作为热爱技术的个人开发者，我将工作之外半年多的时间都投入到这个项目中。每一个功能的实现、每一次代码的优化，都是我在闲暇时间精心打磨的成果。尽管进度可能不如专职团队那么快，而且某些功能的实现还不够完善，但我会持续改进，不断完善。如果你对
+HarmonyOS 开发感兴趣，无论是学习还是共同创造，都欢迎加入。
+
+> 如果项目对您有帮助，请给个 Star 支持 ⭐ 这对我来说很重要，能给我带来长期更新维护的动力！
+
+## 📱 项目预览
+
+> 💡 **说明**：由于功能模块较多，截图不下，这里仅展示部分界面。
+
+<img src="docs/images/preview/Mobile 1.png" alt="青商城移动端预览1"/>
+<img src="docs/images/preview/Mobile 2.png" alt="青商城移动端预览2"/>
+<img src="docs/images/preview/Tablet 1.png" alt="青商城平板端预览1"/>
+<img src="docs/images/preview/Tablet 2.png" alt="青商城平板端预览2"/>
+<img src="docs/images/preview/Foldable 1.png" alt="青商城折叠屏预览"/>
+
+## 📍 项目地址
+
+- **GitHub 地址**：[https://github.com/Joker-x-dev/CoolMallArkTS](https://github.com/Joker-x-dev/CoolMallArkTS)
+- **Gitee 地址**：[https://gitee.com/Joker-x-dev/CoolMallArkTS](https://gitee.com/Joker-x-dev/CoolMallArkTS)
+
+### 相关文档
+
+- **青商城 API 接口文档**：[在线查看](https://coolmall.apifox.cn)
+  - 接口文档会随着项目开发进度同步更新，主要包含各接口的请求参数和返回数据示例
+
+
+- **IBest-UI-V2 组件库文档**：[在线查看](https://ibestui-v2.ibestservices.com)
+  - 组件库使用说明与参数配置，包含常用组件示例
+
+
+- **IBest-ORM 数据库文档**：[在线查看](https://ibest-orm.ibestservices.com/)
+  - 本地数据库能力与实体定义说明，包含基础使用示例
+
+## 🛠️ 技术栈
+
+### 核心技术
+
+| 类别    | 技术选型                           | 说明                     |
+|-------|--------------------------------|------------------------|
+| 编程语言  | ArkTS                          | HarmonyOS NEXT 主流语言   |
+| UI 框架 | ArkUI                          | 声明式 UI 框架            |
+| 架构模式  | MVVM                           | View + ViewModel 分离   |
+| 导航框架  | Navigation                     | 路由与页面导航管理       |
+| 状态管理  | V2（ObservedV2/AppStorageV2）     | 新版状态管理能力           |
+| 组件库   | IBest-UI-V2                    | 业务组件库与基础控件封装       |
+
+### 功能模块
+
+| 类别    | 技术选型      | 说明            |
+|-------|-----------|---------------|
+| 网络请求  | Axios     | 网络客户端与拦截器封装 |
+| 数据库   | IBest-ORM | 本地数据库能力      |
+
+## ✨ 项目特点
+
+- **现代化架构**: 采用模块化设计，各功能模块高度解耦
+- **声明式 UI**: 使用 ArkUI 构建现代化用户界面
+- **主题适配**: 完整支持浅色/深色主题动态切换
+- **国际化**: 支持中英文语言切换，便于全球化推广
+- **响应式编程**: 基于 V2 状态管理的响应式编程范式
+- **完整的测试覆盖** `计划中`
+- **屏幕适配**: 支持平板 / 折叠屏 / 手机
+
+## 📚 资源与参考
+
+- **资源说明**: 项目中的部分素材来自网络，仅用于学习交流
+- **图标来源**: 项目使用的图标库来自[图鸟 Icon](https://github.com/tuniaoTech)
+
+## 📱 功能模块目录
+
+> **状态说明：**
+> - `已完成` - 功能页面已完整实现并可以正常使用
+> - `待完善` - 功能页面基本实现，但还需要进一步优化和完善
+> - `待优化` - 功能页面已实现，但需要性能优化或体验优化
+> - `仅页面` - 只完成了页面UI，功能逻辑尚未实现
+> - `待开发` - 功能页面尚未开发，陆续实现中
+
+- **主模块 (main)**
+    - 首页 (home) `待完善`
+    - 分类 (category) `待完善`
+    - 购物车 (cart) `待完善`
+    - 我的 (me) `待完善`
+
+
+- **认证模块 (auth)**
+    - 登录主页 (login) `待完善`
+    - 账号密码登录 (account-login) `已完成`
+    - 注册页面 (register) `仅页面`
+    - 找回密码 (reset-password) `仅页面`
+    - 短信登录 (sms-login) `仅页面`
+
+
+- **用户体系模块 (user)**
+    - 个人中心 (profile) `仅页面`

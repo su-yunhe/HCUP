@@ -1,0 +1,127 @@
+import { P100, rowCenter, size, SpaceHorizontalSmall } from "designsystem";
+import { IBestDialog } from "ibestui";
+import { GoodsSearchKeyword } from "model";
+import { AppNavDestination } from "ui";
+import GoodsSearchViewModel from "../viewmodel/GoodsSearchViewModel";
+
+/**
+ * 搜索输入框组件 ID
+ */
+const SEARCH_INPUT_ID: string = "goods_search_input";
+
+/**
+ * @file 商品搜索页面视图
+ * @author Joker.X
+ */
+@ComponentV2
+export struct GoodsSearchPage {
+  /**
+   * 商品搜索页面 ViewModel
+   */
+  @Local
+  private vm: GoodsSearchViewModel = new GoodsSearchViewModel();
+
+  /**
+   * 构建商品搜索页面
+   * @returns {void} 无返回值
+   */
+  build() {
+    AppNavDestination({
+      title: "商品搜索",
+      viewModel: this.vm
+    }) {
+      this.GoodsSearchContent();
+
+      IBestDialog({
+        visible: this.vm.showClearDialog,
+        message: $r("app.string.search_history_clear_message"),
+        showCancelButton: true,
+        confirmButtonText: $r("app.string.search_history_clear_confirm"),
+        cancelButtonText: $r("app.string.cancel"),
+        closeOnClickOverlay: true,
+        closeOnBackPress: true,
+        onConfirm: (): void => this.vm.confirmClearHistory(),
+        onCancel: (): void => this.vm.hideClearDialogModal(),
+        onClose: (): void => this.vm.hideClearDialogModal()
+      });
+    }
+  }
+
+  /**
+   * 商品搜索页面内容视图
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private GoodsSearchContent() {
+    Column() {
+      this.SearchBar();
+
+      Scroll() {
+        Column() {
+          if (this.vm.historyList.length > 0) {
+            this.HistorySection();
+          }
+
+          this.RecommendSection();
+        }
+        .width(P100)
+        .alignItems(HorizontalAlign.Start);
+      }
+      .width(P100)
+      .layoutWeight(1)
+      .align(Alignment.Top)
+      .scrollBar(BarState.Off)
+      .edgeEffect(EdgeEffect.None);
+    }
+    .width(P100)
+    .height(P100);
+  }
+
+  /**
+   * 搜索栏：输入框 + 右侧搜索按钮
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private SearchBar() {
+    Row() {
+      Row() {
+        Image($r("app.media.ic_search"))
+          .fillColor($r("app.color.text_tertiary"))
+          .attributeModifier(size(18));
+
+        TextInput({ text: this.vm.keyword, placeholder: $r("app.string.search_hint") })
+          .id(SEARCH_INPUT_ID)
+          .layoutWeight(1)
+          .height(P100)
+          .padding({ left: 6, right: 6 })
+          .fontSize($r("app.float.body_medium"))
+          .backgroundColor(Color.Transparent)
+          .borderRadius(0)
+          .enterKeyType(EnterKeyType.Search)
+          .defaultFocus(true)
+          .onAppear((): void => this.requestInputFocus())
+          .onChange((value: string): void => this.vm.updateKeyword(value))
+          .onSubmit((enterKey: EnterKeyType, event: SubmitEvent): void => {
+            if (!this.vm.searchByInput()) {
+              // 内容为空时不搜索，保持输入框编辑状态
+              event.keepEditableState();
+            }
+          });
+      }
+      .attributeModifier(rowCenter())
+      .layoutWeight(1)
+      .height(38)
+      .padding({ left: $r("app.float.space_horizontal_medium") })
+      .backgroundColor($r("app.color.bg_white"))
+      .borderRadius($r("app.float.radius_medium"));
+
+      SpaceHorizontalSmall();
+
+      Text($r("app.string.search"))
+        .id("goods_search_button")
+        .fontSize($r("app.float.body_medium"))
+        .fontColor($r("app.color.primary"))
+        .height(38)
+        .padding({ left: 8, right: 8 })
+        .onClick((): void => {
+          th

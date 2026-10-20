@@ -1,0 +1,8 @@
+---
+name: Local build/device environment for cml-combo-search
+description: Non-obvious CLI build prerequisites and emulator quirks on this Mac for the HarmonyOS cml-combo-search task
+type: reference
+---
+
+- CLI `hvigorw` build fails at PackageHap ("Unable to locate a Java Runtime") unless `JAVA_HOME=/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home`; also set `DEVECO_SDK_HOME=$D/sdk` and add `$D/tools/{hvigor,node,ohpm}/bin` + `$D/sdk/default/openharmony/toolchains` (hdc) to PATH. None are on PATH by default.
+- Emulator `127.0.0.1:5555` is arm64-v8a (matches official spec per harness env_check), so the payment-SDK x86_64 install issue from the contest FAQ does not apply;

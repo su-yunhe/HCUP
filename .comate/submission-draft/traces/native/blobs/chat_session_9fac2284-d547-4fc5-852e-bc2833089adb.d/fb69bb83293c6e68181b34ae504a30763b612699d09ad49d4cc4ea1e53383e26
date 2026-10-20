@@ -1,0 +1,338 @@
+Command executed successfully.
+Exit code: 0
+Output:
+=== feature/goods/src/main/ets/view/GoodsSearchPage.ets
+     1	import { AppNavDestination } from "ui";
+     2	import GoodsSearchViewModel from "../viewmodel/GoodsSearchViewModel";
+     3	
+     4	/**
+     5	 * @file 商品搜索页面视图
+     6	 * @author Joker.X
+     7	 */
+     8	@ComponentV2
+     9	export struct GoodsSearchPage {
+    10	  /**
+    11	   * 商品搜索页面 ViewModel
+    12	   */
+    13	  @Local
+    14	  private vm: GoodsSearchViewModel = new GoodsSearchViewModel();
+    15	
+    16	  /**
+    17	   * 构建商品搜索页面
+    18	   * @returns {void} 无返回值
+    19	   */
+    20	  build() {
+    21	    AppNavDestination({
+    22	      title: "商品搜索",
+    23	      viewModel: this.vm
+    24	    }) {
+    25	      this.GoodsSearchContent();
+    26	    }
+    27	  }
+    28	
+    29	  /**
+    30	   * 商品搜索页面内容视图
+    31	   * @returns {void} 无返回值
+    32	   */
+    33	  @Builder
+    34	  private GoodsSearchContent() {
+    35	    Text("商品搜索页面内容视图")
+    36	  }
+    37	}
+=== feature/goods/src/main/ets/view/GoodsCategoryPage.ets
+     1	import { AppNavDestination } from "ui";
+     2	import GoodsCategoryViewModel from "../viewmodel/GoodsCategoryViewModel";
+     3	
+     4	/**
+     5	 * @file 商品分类页面视图
+     6	 * @author Joker.X
+     7	 */
+     8	@ComponentV2
+     9	export struct GoodsCategoryPage {
+    10	  /**
+    11	   * 商品分类页面 ViewModel
+    12	   */
+    13	  @Local
+    14	  private vm: GoodsCategoryViewModel = new GoodsCategoryViewModel();
+    15	
+    16	  /**
+    17	   * 构建商品分类页面
+    18	   * @returns {void} 无返回值
+    19	   */
+    20	  build() {
+    21	    AppNavDestination({
+    22	      title: "商品分类",
+    23	      viewModel: this.vm
+    24	    }) {
+    25	      this.GoodsCategoryContent();
+    26	    }
+    27	  }
+    28	
+    29	  /**
+    30	   * 商品分类页面内容视图
+    31	   * @returns {void} 无返回值
+    32	   */
+    33	  @Builder
+    34	  private GoodsCategoryContent() {
+    35	    Text("商品分类页面内容视图")
+    36	  }
+    37	}
+=== feature/goods/src/main/ets/viewmodel/GoodsSearchViewModel.ets
+     1	import { BaseViewModel } from "base";
+     2	
+     3	/**
+     4	 * @file 商品搜索页面 ViewModel
+     5	 * @author Joker.X
+     6	 */
+     7	@ObservedV2
+     8	export default class GoodsSearchViewModel extends BaseViewModel {
+     9	}
+=== feature/goods/src/main/ets/viewmodel/GoodsCategoryViewModel.ets
+     1	import { BaseViewModel } from "base";
+     2	
+     3	/**
+     4	 * @file 商品分类页面 ViewModel
+     5	 * @author Joker.X
+     6	 */
+     7	@ObservedV2
+     8	export default class GoodsCategoryViewModel extends BaseViewModel {
+     9	}
+=== feature/goods/src/main/ets/navigation/GoodsSearchNav.ets
+     1	import { GoodsSearchPage } from "../view/GoodsSearchPage";
+     2	
+     3	/**
+     4	 * @file 商品搜索页面导航入口
+     5	 * @returns {void} 无返回值
+     6	 * @author Joker.X
+     7	 */
+     8	@Builder
+     9	export function GoodsSearchNav(): void {
+    10	  GoodsSearchPage();
+    11	}
+=== feature/goods/src/main/ets/navigation/GoodsCategoryNav.ets
+     1	import { GoodsCategoryPage } from "../view/GoodsCategoryPage";
+     2	
+     3	/**
+     4	 * @file 商品分类页面导航入口
+     5	 * @returns {void} 无返回值
+     6	 * @author Joker.X
+     7	 */
+     8	@Builder
+     9	export function GoodsCategoryNav(): void {
+    10	  GoodsCategoryPage();
+    11	}
+=== feature/goods/src/main/ets/navigation/GoodsGraph.ets
+     1	import { RouteBuild, RouteGraph } from "navigation";
+     2	import { GoodsRoutes } from "navigation/src/main/ets/goods/GoodsRoutes";
+     3	import { GoodsDetailNav } from "./GoodsDetailNav";
+     4	import { GoodsSearchNav } from "./GoodsSearchNav";
+     5	import { GoodsCommentNav } from "./GoodsCommentNav";
+     6	import { GoodsCategoryNav } from "./GoodsCategoryNav";
+     7	
+     8	/**
+     9	 * @file 商品模块导航图
+    10	 * @author Joker.X
+    11	 */
+    12	export class GoodsGraph implements RouteGraph {
+    13	  /**
+    14	   * 注册商品模块导航路由
+    15	   */
+    16	  register(): void {
+    17	    RouteBuild.register(GoodsRoutes.Detail, wrapBuilder(GoodsDetailNav));
+    18	    RouteBuild.register(GoodsRoutes.Search, wrapBuilder(GoodsSearchNav));
+    19	    RouteBuild.register(GoodsRoutes.Comment, wrapBuilder(GoodsCommentNav));
+    20	    RouteBuild.register(GoodsRoutes.Category, wrapBuilder(GoodsCategoryNav));
+    21	  }
+    22	}
+=== core/navigation/src/main/ets/goods/GoodsNavigator.ets
+     1	import { GoodsIdParam } from "../NavigationParam";
+     2	import { navigateTo } from "../NavigationService";
+     3	import { GoodsRoutes } from "./GoodsRoutes";
+     4	import { GoodsCategoryParam } from "./GoodsParam";
+     5	
+     6	/**
+     7	 * @file 商品模块导航封装
+     8	 * @author Joker.X
+     9	 */
+    10	export class GoodsNavigator {
+    11	  /**
+    12	   * 跳转到商品详情
+    13	   * @param {number} goodsId - 商品 ID
+    14	   * @returns {void} 无返回值
+    15	   */
+    16	  static toDetail(goodsId: number): void {
+    17	    const params: GoodsIdParam = { goodsId };
+    18	    navigateTo(GoodsRoutes.Detail, params);
+    19	  }
+    20	
+    21	  /**
+    22	   * 跳转到商品评价
+    23	   * @param {number} goodsId - 商品 ID
+    24	   * @returns {void} 无返回值
+    25	   */
+    26	  static toComment(goodsId: number): void {
+    27	    const params: GoodsIdParam = { goodsId };
+    28	    navigateTo(GoodsRoutes.Comment, params);
+    29	  }
+    30	
+    31	  /**
+    32	   * 跳转到商品搜索
+    33	   * @returns {void} 无返回值
+    34	   */
+    35	  static toSearch(): void {
+    36	    navigateTo(GoodsRoutes.Search);
+    37	  }
+    38	
+    39	  /**
+    40	   * 跳转到商品分类
+    41	   * @param {GoodsCategoryParam} [params] - 商品分类参数
+    42	   * @returns {void} 无返回值
+    43	   */
+    44	  static toCategory(params?: GoodsCategoryParam): void {
+    45	    if (params) {
+    46	      navigateTo(GoodsRoutes.Category, params);
+    47	      return;
+    48	    }
+    49	    navigateTo(GoodsRoutes.Category);
+    50	  }
+    51	}
+=== core/navigation/src/main/ets/goods/GoodsParam.ets
+     1	/**
+     2	 * @file 商品模块导航参数定义
+     3	 * @author Joker.X
+     4	 */
+     5	
+     6	/**
+     7	 * 商品分类参数
+     8	 */
+     9	export interface GoodsCategoryParam {
+    10	  /**
+    11	   * 类型 ID（可选）
+    12	   */
+    13	  typeId?: string;
+    14	  /**
+    15	   * 是否精选
+    16	   */
+    17	  featured?: boolean;
+    18	  /**
+    19	   * 是否推荐
+    20	   */
+    21	  recommend?: boolean;
+    22	  /**
+    23	   * 关键词（可选）
+    24	   */
+    25	  keyword?: string;
+    26	  /**
+    27	   * 最小金额（可选）
+    28	   */
+    29	  minPrice?: string;
+    30	}
+=== core/navigation/src/main/ets/goods/GoodsRoutes.ts
+     1	/**
+     2	 * @file 商品模块路由常量定义
+     3	 * @author Joker.X
+     4	 */
+     5	export const GoodsRoutes = {
+     6	  /**
+     7	   * 商品详情路由
+     8	   */
+     9	  Detail: "goods/detail",
+    10	  /**
+    11	   * 商品搜索路由
+    12	   */
+    13	  Search: "goods/search",
+    14	  /**
+    15	   * 商品分类页面路由
+    16	   */
+    17	  Category: "goods/category",
+    18	  /**
+    19	   * 商品评价路由
+    20	   */
+    21	  Comment: "goods/comment"
+    22	};
+=== core/navigation/src/main/ets/main/MainNavigator.ets
+     1	import { navigateTo } from "../NavigationService";
+     2	import { MainRoutes } from "./MainRoutes";
+     3	import { MainCartParam } from "./MainParam";
+     4	
+     5	/**
+     6	 * @file 主模块导航封装
+     7	 * @author Joker.X
+     8	 */
+     9	export class MainNavigator {
+    10	  /**
+    11	   * 跳转到主框架
+    12	   * @returns {void} 无返回值
+    13	   */
+    14	  static toMain(): void {
+    15	    navigateTo(MainRoutes.Main);
+    16	  }
+    17	
+    18	  /**
+    19	   * 跳转到首页
+    20	   * @returns {void} 无返回值
+    21	   */
+    22	  static toHome(): void {
+    23	    navigateTo(MainRoutes.Home);
+    24	  }
+    25	
+    26	  /**
+    27	   * 跳转到分类页
+    28	   * @returns {void} 无返回值
+    29	   */
+    30	  static toCategory(): void {
+    31	    navigateTo(MainRoutes.Category);
+    32	  }
+    33	
+    34	  /**
+    35	   * 跳转到购物车页
+    36	   * @param {boolean} [showBackIcon] - 是否显示返回按钮
+    37	   * @returns {void} 无返回值
+    38	   */
+    39	  static toCart(showBackIcon?: boolean): void {
+    40	    if (showBackIcon !== undefined) {
+    41	      const params: MainCartParam = { showBackIcon };
+    42	      navigateTo(MainRoutes.Cart, params);
+    43	      return;
+    44	    }
+    45	    navigateTo(MainRoutes.Cart);
+    46	  }
+    47	
+    48	  /**
+    49	   * 跳转到我的页面
+    50	   * @returns {void} 无返回值
+    51	   */
+    52	  static toMine(): void {
+    53	    navigateTo(MainRoutes.Me);
+    54	  }
+    55	}
+feature/goods/src/main/ets/component:
+CommentCard.ets
+CommentItem.ets
+GoodsBanner.ets
+GoodsCommentsCard.ets
+GoodsDetailBottomBar.ets
+GoodsDetailRichHeader.ets
+GoodsDetailRichImageItem.ets
+GoodsDetailTopBar.ets
+GoodsInfoCard.ets
+GoodsShippingServiceCard.ets
+
+feature/goods/src/main/ets/navigation:
+GoodsCategoryNav.ets
+GoodsCommentNav.ets
+GoodsDetailNav.ets
+GoodsGraph.ets
+GoodsSearchNav.ets
+
+feature/goods/src/main/ets/view:
+GoodsCategoryPage.ets
+GoodsCommentPage.ets
+GoodsDetailPage.ets
+GoodsSearchPage.ets
+
+feature/goods/src/main/ets/viewmodel:
+GoodsCategoryViewModel.ets
+GoodsCommentViewModel.ets
+GoodsDetailViewModel.ets
+GoodsSearchViewModel.ets

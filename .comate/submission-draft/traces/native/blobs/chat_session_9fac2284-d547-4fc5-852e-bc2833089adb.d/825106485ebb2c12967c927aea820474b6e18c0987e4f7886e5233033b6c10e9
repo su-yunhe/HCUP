@@ -1,0 +1,100 @@
+Found 33 matches
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/view/GoodsSearchPage.ets:
+  Line 9: export struct GoodsSearchPage {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/view/GoodsCategoryPage.ets:
+  Line 9: export struct GoodsCategoryPage {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/navigation/GoodsSearchNav.ets:
+  Line 1: import { GoodsSearchPage } from "../view/GoodsSearchPage";
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/navigation/GoodsSearchNav.ets:
+  Line 10:   GoodsSearchPage();
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/navigation/GoodsCategoryNav.ets:
+  Line 1: import { GoodsCategoryPage } from "../view/GoodsCategoryPage";
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/navigation/GoodsCategoryNav.ets:
+  Line 10:   GoodsCategoryPage();
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/navigation/GoodsGraph.ets:
+  Line 18:     RouteBuild.register(GoodsRoutes.Search, wrapBuilder(GoodsSearchNav));
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/navigation/GoodsGraph.ets:
+  Line 20:     RouteBuild.register(GoodsRoutes.Category, wrapBuilder(GoodsCategoryNav));
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/navigation/src/main/ets/main/MainNavigator.ets:
+  Line 30:   static toCategory(): void {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/navigation/src/main/ets/goods/GoodsNavigator.ets:
+  Line 35:   static toSearch(): void {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/navigation/src/main/ets/goods/GoodsNavigator.ets:
+  Line 36:     navigateTo(GoodsRoutes.Search);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/navigation/src/main/ets/goods/GoodsNavigator.ets:
+  Line 44:   static toCategory(params?: GoodsCategoryParam): void {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/navigation/src/main/ets/goods/GoodsNavigator.ets:
+  Line 46:       navigateTo(GoodsRoutes.Category, params);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/navigation/src/main/ets/goods/GoodsNavigator.ets:
+  Line 49:     navigateTo(GoodsRoutes.Category);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/data/src/main/ets/repository/SearchHistoryRepository.ets:
+  Line 8: export class SearchHistoryRepository {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/data/src/main/ets/repository/SearchHistoryRepository.ets:
+  Line 27:   * const repo: SearchHistoryRepository = new SearchHistoryRepository();
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/data/src/main/ets/repository/SearchHistoryRepository.ets:
+  Line 28:    * await repo.addSearchHistory("手机");
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/data/src/main/ets/repository/SearchHistoryRepository.ets:
+  Line 30:   async addSearchHistory(keyword: string): Promise<void> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/data/src/main/ets/repository/SearchHistoryRepository.ets:
+  Line 38:     return this.dataSource.addSearchHistory(history);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/data/src/main/ets/repository/SearchHistoryRepository.ets:
+  Line 54:   clearAllSearchHistory(): Promise<void> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/data/src/main/ets/repository/SearchHistoryRepository.ets:
+  Line 55:     return this.dataSource.clearAllSearchHistory();
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/data/src/main/ets/repository/SearchHistoryRepository.ets:
+  Line 79:   getRecentSearchHistory(limit: number): Promise<SearchHistory[]> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/data/src/main/ets/repository/SearchHistoryRepository.ets:
+  Line 80:     return this.dataSource.getRecentSearchHistory(limit);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/data/src/main/ets/repository/GoodsRepository.ets:
+  Line 55:   async getSearchKeywordList(): Promise<NetworkResponse<GoodsSearchKeyword[]>> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/data/src/main/ets/repository/GoodsRepository.ets:
+  Line 56:     return this.networkDataSource.getSearchKeywordList();
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 44:   async addSearchHistory(searchHistory: SearchHistory): Promise<void> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 61:   async clearAllSearchHistory(): Promise<void> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 89:   async getRecentSearchHistory(limit: number): Promise<SearchHistory[]> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSource.ets:
+  Line 13:   addSearchHistory(searchHistory: SearchHistory): Promise<void>;
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSource.ets:
+  Line 26:   clearAllSearchHistory(): Promise<void>;
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSource.ets:
+  Line 45:   getRecentSearchHistory(limit: number): Promise<SearchHistory[]>;
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/network/src/main/ets/datasource/goods/GoodsNetworkDataSourceImpl.ets:
+  Line 48:   async getSearchKeywordList(): Promise<NetworkResponse<GoodsSearchKeyword[]>> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/network/src/main/ets/datasource/goods/GoodsNetworkDataSource.ets:
+  Line 38:   getSearchKeywordList(): Promise<NetworkResponse<GoodsSearchKeyword[]>>;

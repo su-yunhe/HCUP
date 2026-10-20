@@ -1,0 +1,193 @@
+<file>
+     1→import { NetworkPageData, NetworkPageMeta, NetworkResponse } from "model";
+     2→import { RequestHelper } from "result";
+     3→import { BaseNetWorkListUiState } from "../state/BaseNetWorkListUiState";
+     4→import { BaseViewModel } from "./BaseViewModel";
+     5→import { JSON } from "@kit.ArkTS";
+     6→
+     7→/**
+     8→ * @file 网络列表请求 ViewModel 基类
+     9→ * @description 提供通用的网络列表请求 ViewModel 基类，包含 UI 状态管理和请求执行逻辑。
+    10→ * @param T 列表数据项类型
+    11→ * @author Joker.X
+    12→ */
+    13→@ObservedV2
+    14→export abstract class BaseNetWorkListViewModel<T> extends BaseViewModel {
+    15→  /**
+    16→   * 列表页 UI 状态
+    17→   */
+    18→  @Trace
+    19→  uiState: BaseNetWorkListUiState = BaseNetWorkListUiState.LOADING;
+    20→  /**
+    21→   * 列表数据
+    22→   */
+    23→  @Trace
+    24→  listData: Array<T> = [];
+    25→  /**
+    26→   * 是否正在加载
+    27→   */
+    28→  @Trace
+    29→  isLoading: boolean = false;
+    30→  /**
+    31→   * 是否启用上滑加载更多
+    32→   */
+    33→  @Trace
+    34→  isEnableSlideUp: boolean = true;
+    35→  /**
+    36→   * 当前页码
+    37→   */
+    38→  protected currentPage: number = 1;
+    39→  /**
+    40→   * 每页数量
+    41→   */
+    42→  protected pageSize: number = 10;
+    43→  /**
+    44→   * 控制请求失败时是否显示 Toast 提示
+    45→   */
+    46→  protected showErrorToast: boolean = false;
+    47→
+    48→  /**
+    49→   * 子类必须实现此方法，返回分页请求 Promise
+    50→   * @returns {Promise<NetworkResponse<NetworkPageData<T>>>} 网络请求 Promise
+    51→   */
+    52→  protected abstract requestListData(): Promise<NetworkResponse<NetworkPageData<T>>>;
+    53→
+    54→  /**
+    55→   * 页面出现时初始化列表数据
+    56→   * @returns {void} 无返回值
+    57→   */
+    58→  aboutToAppear(): void {
+    59→    this.initLoad();
+    60→  }
+    61→
+    62→  /**
+    63→   * 初始化加载（子类可在 aboutToAppear 中调用）
+    64→   * @returns {void} 无返回值
+    65→   */
+    66→  protected initLoad(): void {
+    67→    this.loadListData();
+    68→  }
+    69→
+    70→  /**
+    71→   * 加载列表数据
+    72→   * @returns {void} 无返回值
+    73→   */
+    74→  protected loadListData(): void {
+    75→    RequestHelper.repository<NetworkPageData<T>>(this.requestListData())
+    76→      .toast(this.showErrorToast)
+    77→      .execute()
+    78→      .then((data: NetworkPageData<T>): void => this.handleSuccess(data))
+    79→      .catch((err: Error): void => this.handleError(err))
+    80→      .finally((): void => {
+    81→        this.isLoading = false;
+    82→      });
+    83→  }
+    84→
+    85→  /**
+    86→   * 处理成功响应
+    87→   * @param {NetworkPageData<T>} data - 分页数据
+    88→   * @returns {void} 无返回值
+    89→   */
+    90→  protected handleSuccess(data: NetworkPageData<T> | null): void {
+    91→    const pageData: NetworkPageData<T> = new NetworkPageData<T>(data ?? undefined);
+    92→    const list: Array<T> = pageData.list ?? [];
+    93→    const hasNextPage: boolean = this.calculateHasMore(pageData);
+    94→
+    95→    if (this.currentPage === 1) {
+    96→      this.listData = list;
+    97→      this.uiState = list.length === 0 ? BaseNetWorkListUiState.EMPTY : BaseNetWorkListUiState.SUCCESS;
+    98→      this.isEnableSlideUp = hasNextPage;
+    99→      return;
+   100→    }
+   101→
+   102→    this.listData = [...this.listData, ...list];
+   103→    console.log("数据量:", this.listData.length);
+   104→    console.log("本次数据:", JSON.stringify(list));
+   105→    console.log("是否还有更多:", hasNextPage);
+   106→    this.isEnableSlideUp = hasNextPage;
+   107→  }
+   108→
+   109→  /**
+   110→   * 处理错误响应
+   111→   * @param {Error} err - 错误对象
+   112→   * @returns {void} 无返回值
+   113→   */
+   114→  protected handleError(err: Error): void {
+   115→    console.error("[BaseNetWorkListViewModel] error:", err.message);
+   116→    if (this.currentPage === 1) {
+   117→      if (this.listData.length === 0) {
+   118→        this.uiState = BaseNetWorkListUiState.ERROR;
+   119→      }
+   120→      return;
+   121→    }
+   122→
+   123→    this.currentPage -= 1;
+   124→  }
+   125→
+   126→  /**
+   127→   * 重试请求
+   128→   * @returns {void} 无返回值
+   129→   */
+   130→  retryRequest(): void {
+   131→    this.uiState = BaseNetWorkListUiState.LOADING;
+   132→    this.currentPage = 1;
+   133→    this.loadListData();
+   134→  }
+   135→
+   136→  /**
+   137→   * 触发下拉刷新
+   138→   * @returns {void} 无返回值
+   139→   */
+   140→  onRefresh(): void {
+   141→    if (this.isLoading) {
+   142→      return;
+   143→    }
+   144→    this.isLoading = true;
+   145→    this.currentPage = 1;
+   146→    this.loadListData();
+   147→  }
+   148→
+   149→  /**
+   150→   * 触发上滑加载更多
+   151→   * @returns {void} 无返回值
+   152→   */
+   153→  onLoadMore(): void {
+   154→    if (this.isLoading || !this.isEnableSlideUp || this.listData.length === 0) {
+   155→      return;
+   156→    }
+   157→    this.isLoading = true;
+   158→    this.currentPage += 1;
+   159→    this.loadListData();
+   160→  }
+   161→
+   162→  /**
+   163→   * 处理下拉刷新或上滑加载更多
+   164→   * @param {"pull" | "slideUp"} direction - 触发方向
+   165→   * @returns {void} 无返回值
+   166→   */
+   167→  onRefreshDirection(direction: "pull" | "slideUp"): void {
+   168→    if (direction === "pull") {
+   169→      this.onRefresh();
+   170→      return;
+   171→    }
+   172→
+   173→    this.onLoadMore();
+   174→  }
+   175→
+   176→  /**
+   177→   * 计算是否还有更多数据
+   178→   * @param {NetworkPageData<T>} pageData - 分页数据
+   179→   * @returns {boolean} 是否还有更多
+   180→   */
+   181→  protected calculateHasMore(pageData: NetworkPageData<T>): boolean {
+   182→    const pagination: NetworkPageMeta | null = pageData.pagination;
+   183→    return pagination !== null
+   184→      && pagination.total !== null
+   185→      && pagination.size !== null
+   186→      && pagination.page !== null
+   187→      && pagination.size * pagination.page < pagination.total;
+   188→  }
+   189→}
+   190→
+</file>
+<metadata>The file has 190 lines in total.</metadata>

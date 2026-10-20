@@ -1,0 +1,76 @@
+Found 25 matches
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/view/GoodsSearchPage.ets:
+  Line 37:         message: $r("app.string.search_history_clear_message"),
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/view/GoodsSearchPage.ets:
+  Line 39:         confirmButtonText: $r("app.string.search_history_clear_confirm"),
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/view/GoodsSearchPage.ets:
+  Line 148:         Text($r("app.string.search_history"))
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/view/GoodsSearchPage.ets:
+  Line 156:           .id("search_history_clear")
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/view/GoodsSearchPage.ets:
+  Line 166:           this.KeywordTag(item, `search_history_tag_${index}`);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/view/GoodsSearchPage.ets:
+  Line 172:     .id("search_history_section")
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/entity/SearchHistoryEntity.ets:
+  Line 4:  * @file 搜索历史数据库实体，映射 goods_search_history 表。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/entity/SearchHistoryEntity.ets:
+  Line 7: @Table({ name: "goods_search_history" })
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/entity/SearchHistoryEntity.ets:
+  Line 8: export class SearchHistoryEntity {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 4: import { SearchHistoryEntity } from "../../entity/SearchHistoryEntity";
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 34:       this.orm.migrate(SearchHistoryEntity);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 46:     const entity: SearchHistoryEntity = this.toEntity(searchHistory);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 47:     this.orm.query(SearchHistoryEntity).where("keyword", entity.keyword).delete();
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 57:     this.orm.query(SearchHistoryEntity).where("keyword", keyword).delete();
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 65:     this.orm.query(SearchHistoryEntity).delete();
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 73:     const list: SearchHistoryEntity[] = this.orm.query(SearchHistoryEntity).find();
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 84:     return this.orm.query(SearchHistoryEntity).find().length;
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 103:     const result: SearchHistoryEntity[] = this.orm.query(SearchHistoryEntity).where("keyword", keyword).find();
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 104:     const entity: SearchHistoryEntity | undefined = result[0];
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 111:    * @returns {SearchHistoryEntity} 数据库实体
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 113:   private toEntity(history: SearchHistory): SearchHistoryEntity {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 114:     const entity: SearchHistoryEntity = new SearchHistoryEntity();
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 122:    * @param {SearchHistoryEntity} entity 数据库实体
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets:
+  Line 125:   private toModel(entity: SearchHistoryEntity): SearchHistory {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/core/database/Index.ets:
+  Line 12: export { SearchHistoryEntity } from "./src/main/ets/entity/SearchHistoryEntity";

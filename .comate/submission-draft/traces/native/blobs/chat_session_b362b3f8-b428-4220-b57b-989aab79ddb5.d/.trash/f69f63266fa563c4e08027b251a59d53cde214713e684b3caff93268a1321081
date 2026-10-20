@@ -1,0 +1,81 @@
+import { BaseViewModel } from "base";
+import { GoodsRepository, SearchHistoryRepository } from "data";
+import { GoodsSearchKeyword, SearchHistory } from "model";
+import { GoodsNavigator } from "navigation";
+import { RequestHelper } from "result";
+
+/**
+ * 搜索历史最多展示条数
+ */
+const MAX_HISTORY_COUNT: number = 10;
+
+/**
+ * @file 商品搜索页面 ViewModel
+ * @author Joker.X
+ */
+@ObservedV2
+export default class GoodsSearchViewModel extends BaseViewModel {
+  /**
+   * 商品仓库
+   */
+  private readonly goodsRepository: GoodsRepository = new GoodsRepository();
+  /**
+   * 搜索历史仓库
+   */
+  private readonly searchHistoryRepository: SearchHistoryRepository = new SearchHistoryRepository();
+  /**
+   * 搜索框输入内容
+   */
+  @Trace
+  keyword: string = "";
+  /**
+   * 搜索历史关键词列表（按搜索时间倒序，最多 10 条）
+   */
+  @Trace
+  historyList: string[] = [];
+  /**
+   * 推荐搜索关键词列表
+   */
+  @Trace
+  recommendList: GoodsSearchKeyword[] = [];
+  /**
+   * 清空历史确认弹窗显示状态
+   */
+  @Trace
+  showClearDialog: boolean = false;
+  /**
+   * 是否正在提交搜索（跳转结果页后锁定，页面重新显示时释放，防止连点重复跳转）
+   */
+  private isSubmitting: boolean = false;
+
+  /**
+   * 页面出现时加载搜索历史与推荐关键词
+   * @returns {void} 无返回值
+   */
+  aboutToAppear(): void {
+    this.loadSearchHistory();
+    this.loadRecommendKeywords();
+  }
+
+  /**
+   * 页面显示时（含从结果页返回）释放提交锁并刷新搜索历史
+   * @param {VisibilityChangeReason} reason - 可见性变化原因
+   * @returns {void} 无返回值
+   */
+  onShown(reason: VisibilityChangeReason): void {
+    this.isSubmitting = false;
+    this.loadSearchHistory();
+  }
+
+  /**
+   * 加载最近的搜索历史
+   * @returns {void} 无返回值
+   */
+  loadSearchHistory(): void {
+    this.searchHistoryRepository.getRecentSearchHistory(MAX_HISTORY_COUNT)
+      .then((list: SearchHistory[]): void => {
+        this.historyList = list.map((item: SearchHistory): string => item.keyword);
+      })
+      .catch((err: Error): void => {
+        console.error("[GoodsSearchViewModel] load history error:", err?.message);
+      });

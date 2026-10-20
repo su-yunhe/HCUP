@@ -1,0 +1,9 @@
+      .width(P100)
+      .layoutWeight(1)
+      .align(Alignment.Top)
+      .scrollBar(BarState.Off)
+      .edgeEffect(EdgeEffect.None)
+      .onScrollStart((): void => {
+        // 滚动标签区域时收起软键盘，避免键盘遮挡下方标签
+        this.getUIContext().getFocusController().clearFocus();
+      });

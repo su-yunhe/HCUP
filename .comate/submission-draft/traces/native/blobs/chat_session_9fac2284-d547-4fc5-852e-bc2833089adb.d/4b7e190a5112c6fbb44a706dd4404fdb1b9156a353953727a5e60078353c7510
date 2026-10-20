@@ -1,0 +1,5 @@
+- 证据等级：SPEC_EXPLICIT（"同时填进搜索框"属于 UNCONFIRMED_ASSUMPTION，U4 已定：填）
+- 原子行为：和 A19+A20 同一条流程：先把推荐词 name 填进搜索框，再提交。
+- 可观察结果：点 `Xiaomi 17` → 进入结果页；返回后输入框里是 `Xiaomi 17`。
+- 八维度：入口 A1；前置数据 R1 成功；用户动作 单击推荐标签；UI 结果 输入框填入该词，然后跳结果页；数据结果 A25；网络结果 R2 一次，keyWord=推荐词；返回结果 A23，输入框保留该词（U14）；边界条件 推荐词本身带空格（`Xiaomi 17 Pro`）就原样作为关键词；A40 连点。
+- 稳定选择器：`search_recommend_tag_{i}`、`goods_search_input`。

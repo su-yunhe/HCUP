@@ -1,0 +1,12 @@
+"""商品搜索题（cml-combo-search）自测公共辅助：启动、进入搜索页、搜索、读取历史等。
+
+只放本题流程相关的封装；设备连接与重试查找来自 common/test-harness 的 HarnessTestCase。
+"""
+from __future__ import annotations
+
+import time
+
+from hypium import BY
+from hypium.model import KeyCode, MatchPattern
+
+from harness.driver imp

@@ -1,0 +1,178 @@
+# 验收矩阵：商品搜索功能（cml-combo-search）
+
+输入：`spec/requirement.md`（下称 Spec）；基线 `261589401b664d4a9a5622f748071d14e04108e2`（tag `baseline-cml-combo-search`）。
+基线事实与行号见 `spec/baseline-notes.md`，本文只在必要处引用。
+
+## 0. 约定
+
+证据等级：
+
+- `SPEC_EXPLICIT`：Spec 明文
+- `REASONABLE_DERIVATION`：由 Spec 明文 + 基线代码推导，基本不会有第二种理解
+- `UNCONFIRMED_ASSUMPTION`：Spec 未写、存在多种合理做法，需你拍板（第 6 节汇总）
+
+Spec 指定的界面文案（逐字，实现与自测都必须完全一致）：
+
+- `搜索历史`（场景一·步骤2、场景三·步骤5）
+- `推荐搜索`（场景一·步骤2、场景三·步骤5）
+- `搜索`（场景一·步骤4：搜索框右侧"搜索"按钮）
+- `确认清空所有搜索历史吗？`（场景三·步骤2，末尾为全角问号）
+- `取消`、`确认`（场景三·步骤3）
+
+注意：基线编译后 `$r("app.string.confirm")` 实际是"确定"而不是"确认"（资源冲突，见 baseline-notes §8.2），"确认"按钮不能直接复用这个 key。
+
+稳定选择器（基线里全部没有，**需在实现时补 `.id()`**）：
+
+| id | 组件 | 位置 |
+| --- | --- | --- |
+| `home_search_bar` | 首页顶部搜索行 | `feature/main/.../component/HomeTopBar.ets:51-71` 的 Row |
+| `goods_search_input` | 搜索输入框 | 新增，`GoodsSearchPage` |
+| `goods_search_button` | 搜索框右侧"搜索"按钮 | 新增 |
+| `search_history_section` | 历史区域容器（含标题、垃圾桶、标签） | 新增 |
+| `search_history_clear` | 垃圾桶图标 | 新增 |
+| `search_history_tag_{i}` | 第 i 个历史标签（从 0 开始） | 新增 |
+| `search_recommend_section` | 推荐区域容器 | 新增 |
+| `search_recommend_tag_{i}` | 第 i 个推荐标签 | 新增 |
+| `goods_category_list` | 结果页商品列表 | 新增，`GoodsCategoryPage` |
+| `goods_category_item_{i}` | 结果页第 i 个商品 | 新增 |
+
+确认对话框沿用基线的 `IBestDialog`（第三方组件，内部按钮没法设 id），只能按文本 `取消` / `确认` / `确认清空所有搜索历史吗？` 定位。
+
+官方测试不知道我们的 id，大概率按**文本 + 类型**定位，所以文案和"同一页面不出现重复的同名文本"比 id 更关键；id 主要给自测用。
+
+## 1. 网络与本地数据状态机
+
+本需求涉及两个网络请求（都走基线已有接口，见 baseline-notes §4.2），外加一个本地库：
+
+- R1 推荐关键词：`POST goods/search/keyword/list`，无参数（`GoodsNetworkDataSourceImpl.ets:48-52`）
+- R2 商品分页：`POST goods/info/page`，body `GoodsSearchRequest{page,size,keyWord}`（`GoodsNetworkDataSourceImpl.ets:59-63`）
+- L1 搜索历史：IBest-ORM 表 `search_history`（`SearchHistoryRepository.ets`），不走网络
+
+### 1.1 搜索页（goods/search）
+
+```mermaid
+stateDiagram-v2
+  [*] --> Entering: 首页点击搜索框 push goods/search
+  Entering --> Ready: aboutToAppear 读 L1 最近10条 + 发 R1 一次 + 输入框聚焦
+  state Ready {
+    [*] --> RecLoading
+    RecLoading --> RecShown: R1 成功且有数据
+    RecLoading --> RecEmpty: R1 成功但无数据 / R1 失败
+  }
+  Ready --> Ready: 输入/删除字符（不发请求，不写 L1）
+  Ready --> Ready: 点搜索 & trim 后为空（不发请求、不跳转、不写 L1）
+  Ready --> Submitting: 点搜索/键盘搜索/点标签 & trim 后非空
+  Submitting --> Navigated: 写 L1（upsert + 时间置为最新）→ push goods/category{keyword}
+  Submitting --> Submitting: 提交中再点（忽略）
+  Navigated --> Ready: 从结果页返回 onShown → 重新读 L1（不再发 R1）
+  Ready --> Confirming: 点垃圾桶（只弹框）
+  Confirming --> Ready: 取消/返回键/点遮罩（L1 不变）
+  Confirming --> Ready: 确认 → 清空 L1 → 关框 → 历史区域移除
+  Ready --> [*]: 返回首页（pop）
+```
+
+| 用户动作 | R1 | R2 | L1 | 页面跳转 |
+| --- | --- | --- | --- | --- |
+| 从首页进入搜索页 | 发 1 次 | 不发 | 读 | — |
+| 在搜索框输入 | 不发 | 不发 | 不动 | 无 |
+| 有效关键词 + 点"搜索"/键盘搜索 | 不发 | 结果页发 1 次 | 写 1 次 | push goods/category |
+| 点历史 / 推荐标签 | 不发 | 结果页发 1 次 | 写 1 次 | push goods/category |
+| 空串 / 纯空格 + 点搜索 | 不发 | 不发 | 不动 | 无 |
+| 300ms 内连点两次搜索/标签 | 不发 | 仅 1 次 | 仅 1 次有效写 | 仅 push 1 次 |
+| 从结果页返回搜索页 | 不发（推荐词保持） | 不发 | 重读 | — |
+| 点垃圾桶 | 不发 | 不发 | 不动 | 无（只弹框） |
+| 对话框点"取消" | 不发 | 不发 | 不动 | 无 |
+| 对话框点"确认" | 不发 | 不发 | 清空 | 无 |
+
+约束：
+
+- 搜索页**不能**整页套 `BaseNetWorkView`/`BaseNetWorkListView` 去绑定 R1。否则 R1 加载中或失败时，输入框和历史区域会被 loading/错误层盖住，场景四·步骤4、场景三·步骤5 都会挂。R1 只影响"推荐搜索"区域。
+- 写 L1 必须在 push 之前 `await` 完成，保证返回时 onShown 读到的是新数据。
+- "提交中"锁在搜索页重新 onShown 时释放，不靠定时器。
+
+### 1.2 结果页（goods/category）
+
+```mermaid
+stateDiagram-v2
+  [*] --> LOADING: aboutToAppear 读路由参数 keyword → R2(page=1)
+  LOADING --> SUCCESS: list 非空
+  LOADING --> EMPTY: list 为空（"暂无数据"）
+  LOADING --> ERROR: 请求失败（"网络连接失败"+"重新加载"）
+  ERROR --> LOADING: 点"重新加载"（R2 page=1）
+  SUCCESS --> SUCCESS: 下拉刷新（isLoading 期间不重复发；R2 page=1）
+  SUCCESS --> SUCCESS: 上滑加载（isLoading 或无更多时不发；R2 page+1，失败回退页码）
+  SUCCESS --> [*]: 返回 → pop 回搜索页
+```
+
+loading 与请求的绑定沿用 `BaseNetWorkListViewModel`（`core/base/.../BaseNetWorkListViewModel.ets:74-160`）：`uiState` 初值 LOADING，请求结束（`finally`）后 `isLoading=false`；首屏状态由 `handleSuccess`/`handleError` 决定。
+
+## 2. 场景一：输入关键词搜索
+
+### A1 首页搜索框进入搜索页
+
+- 来源：场景一·步骤1「用户点击首页顶部搜索框，系统导航到商品搜索页面，搜索框自动聚焦并弹出软键盘。」
+- 证据等级：SPEC_EXPLICIT
+- 原子行为：点首页顶部"搜索商品"框，push 路由 `goods/search`。
+- 可观察结果：首页 Text `搜索商品` 被点击后，页面出现搜索输入框（TextInput/Search 类型）和 Text `搜索` 按钮；NavDestination 标题 `商品搜索`（基线占位页已有，见 U13）。
+- 八维度：
+  - 入口：冷启动后的首页（MainPage 主页 tab，默认就是）。
+  - 前置数据：无。首页数据加载失败时搜索框也在（HomeTopBar 在 BaseNetWorkListView 外面，`HomePage.ets:38`）。
+  - 用户动作：单击搜索框。
+  - UI 结果：进入搜索页。
+  - 数据结果：不适用（只跳转）。
+  - 网络结果：进入搜索页后触发 R1（见 A6），跳转本身不发请求。
+  - 返回结果：返回键/侧滑回到首页，首页状态不变。
+  - 边界条件：快速连点搜索框只能 push 一次（见 A42）；首页网络失败时仍能进入。
+- 稳定选择器：`home_search_bar`（需补 `.id()`）；文本 `搜索商品`。
+
+### A2 搜索框自动获取焦点
+
+- 来源：场景一·步骤1（同上）
+- 证据等级：SPEC_EXPLICIT
+- 原子行为：搜索页出现后，输入框自动获得焦点，用户不用点就能直接输入。
+- 可观察结果：dumpLayout 中输入框 `focused=true`；不点输入框直接 `input_text` 能输进去。
+- 八维度：
+  - 入口：A1 进入。
+  - 前置数据：无。
+  - 用户动作：无（自动发生）。
+  - UI 结果：输入框聚焦、显示光标。
+  - 数据结果：不适用。
+  - 网络结果：不适用。
+  - 返回结果：从结果页返回后是否再次聚焦 → U15。
+  - 边界条件：R1 加载中/失败都不能影响聚焦；页面转场动画期间请求焦点可能失败，要在页面真正显示后再请求一次（实现时验证）。
+- 稳定选择器：`goods_search_input`（需补 `.id()`）。
+
+### A3 自动弹出软键盘
+
+- 来源：场景一·步骤1（同上）
+- 证据等级：SPEC_EXPLICIT
+- 原子行为：输入框聚焦的同时拉起软键盘。
+- 可观察结果：输入法窗口出现（hidumper 窗口列表里能看到输入法窗口 / 截图下半屏是键盘）。Hypium 对键盘可见性的直接断言能力有限，**未验证**官方会怎么判定。
+- 八维度：
+  - 入口：A1。
+  - 前置数据：模拟器有可用输入法（未验证默认输入法会不会弹出来）。
+  - 用户动作：无。
+  - UI 结果：键盘可见。
+  - 数据结果 / 网络结果：不适用。
+  - 返回结果：键盘弹出时第一次按返回键是系统收起键盘，第二次才 pop 页面（系统行为，不需要处理）。
+  - 边界条件：同 A2。
+- 稳定选择器：不适用（系统输入法窗口）。
+
+### A4 有历史时显示"搜索历史"区域（在上方）
+
+- 来源：场景一·步骤2「搜索页面展示两个区域：上方为"搜索历史"标签列表（若有历史记录），下方为"推荐搜索"标签列表（从服务器加载的热门关键词）。」
+- 证据等级：SPEC_EXPLICIT
+- 原子行为：L1 非空时渲染标题 `搜索历史` + 历史标签列表。
+- 可观察结果：Text `搜索历史` 存在；它的 bounds.top 小于 Text `推荐搜索` 的 bounds.top；标签文本等于历史关键词。
+- 八维度：
+  - 入口：A1。
+  - 前置数据：L1 至少 1 条（先搜一次，或者在之前的会话里搜过）。
+  - 用户动作：进入页面。
+  - UI 结果：历史区域在推荐区域上方。
+  - 数据结果：读 L1，按时间倒序取前 10 条（A18/A19）。
+  - 网络结果：不发（本地）。
+  - 返回结果：从结果页返回要重新读（A25）。
+  - 边界条件：重启应用后重进仍显示（A43）。
+- 稳定选择器：`search_history_section`、`search_history_tag_{i}`；文本 `搜索历史`。
+
+<!-- CHUNK4 -->

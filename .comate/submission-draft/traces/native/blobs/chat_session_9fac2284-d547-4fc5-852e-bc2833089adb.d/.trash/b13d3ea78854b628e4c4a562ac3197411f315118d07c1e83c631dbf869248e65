@@ -1,0 +1,10 @@
+## 3. Spec 描述的入口当前在哪
+
+### 3.1 首页顶部搜索框（场景一·步骤1 的起点）
+
+- 组件【代码】：`feature/main/src/main/ets/component/HomeTopBar.ets`
+  - `onSearchTap` 参数默认是空函数：`:13-15`
+  - 搜索行：`titleBuilder()` `:49-72`，Row 里是 `ic_search` 图标 + Text `$r("app.string.search_goods")`（= `搜索商品`，`feature/main/src/main/resources/base/element/string.json:68-69`），`:71` `.onClick((): void => this.onSearchTap())`
+- 调用点【代码】：`feature/main/src/main/ets/view/HomePage.ets:38` 写的是 `HomeTopBar();`，**没传 `onSearchTap`**，所以点击什么都不会发生。
+- 【实测】冷启动 → 首页正常加载 → 点 `搜索商品`（bounds `[628,192][797,241]`，点击坐标 (654,216)）→ 页面不变，没有跳转。
+- 首页是 Navigation 的根内容，不是路由页：`entry/src/main/ets/navigation/Navigation

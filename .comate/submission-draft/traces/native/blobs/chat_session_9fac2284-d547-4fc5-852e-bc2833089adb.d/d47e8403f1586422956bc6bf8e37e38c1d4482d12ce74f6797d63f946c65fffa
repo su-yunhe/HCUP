@@ -1,0 +1,193 @@
+Command executed successfully.
+Exit code: 0
+Output:
+     1	import { BaseNetWorkListUiState, BaseViewModel } from "base";
+     2	import { FootprintRepository } from "data";
+     3	import { Footprint, Goods } from "model";
+     4	import { GoodsNavigator } from "navigation";
+     5	
+     6	/**
+     7	 * @file 足迹页面 ViewModel
+     8	 * @author Joker.X
+     9	 */
+    10	@ObservedV2
+    11	export default class FootprintViewModel extends BaseViewModel {
+    12	  /**
+    13	   * 足迹仓库
+    14	   */
+    15	  private readonly repository: FootprintRepository = new FootprintRepository();
+    16	  /**
+    17	   * 足迹列表
+    18	   */
+    19	  @Trace
+    20	  footprints: Footprint[] = [];
+    21	  /**
+    22	   * 足迹商品列表
+    23	   */
+    24	  @Trace
+    25	  goodsList: Goods[] = [];
+    26	  /**
+    27	   * 足迹数量
+    28	   */
+    29	  @Trace
+    30	  footprintCount: number = 0;
+    31	  /**
+    32	   * 页面 UI 状态
+    33	   */
+    34	  @Trace
+    35	  uiState: BaseNetWorkListUiState = BaseNetWorkListUiState.LOADING;
+    36	  /**
+    37	   * 清空弹窗显示状态
+    38	   */
+    39	  @Trace
+    40	  showClearDialog: boolean = false;
+    41	
+    42	  /**
+    43	   * 页面显示时回调
+    44	   * @returns {void} 无返回值
+    45	   */
+    46	  aboutToAppear(): void {
+    47	    this.loadFootprints();
+    48	  }
+    49	
+    50	  /**
+    51	   * 加载足迹数据
+    52	   * @returns {void} 无返回值
+    53	   */
+    54	  loadFootprints(): void {
+    55	    this.uiState = BaseNetWorkListUiState.LOADING;
+    56	    Promise.all([
+    57	      this.repository.getAllFootprints(),
+    58	      this.repository.getFootprintCount()
+    59	    ])
+    60	      .then((result: (Footprint[] | number)[]): void => {
+    61	        const footprints: Footprint[] = result[0] as Footprint[];
+    62	        const count: number = result[1] as number;
+    63	        this.footprints = footprints;
+    64	        this.goodsList = this.convertFootprintsToGoods(footprints);
+    65	        this.footprintCount = count;
+    66	        this.uiState = footprints.length > 0
+    67	          ? BaseNetWorkListUiState.SUCCESS
+    68	          : BaseNetWorkListUiState.EMPTY;
+    69	      })
+    70	      .catch((): void => {
+    71	        this.uiState = BaseNetWorkListUiState.ERROR;
+    72	      });
+    73	  }
+    74	
+    75	  /**
+    76	   * 是否显示清空操作
+    77	   * @returns {boolean} 是否显示
+    78	   */
+    79	  shouldShowClearAction(): boolean {
+    80	    return this.footprints.length > 0;
+    81	  }
+    82	
+    83	  /**
+    84	   * 跳转商品详情
+    85	   * @param {number} goodsId - 商品 ID
+    86	   * @returns {void} 无返回值
+    87	   */
+    88	  toGoodsDetail(goodsId: number): void {
+    89	    GoodsNavigator.toDetail(goodsId);
+    90	  }
+    91	
+    92	  /**
+    93	   * 显示清空弹窗
+    94	   * @returns {void} 无返回值
+    95	   */
+    96	  showClearDialogModal(): void {
+    97	    this.showClearDialog = true;
+    98	  }
+    99	
+   100	  /**
+   101	   * 隐藏清空弹窗
+   102	   * @returns {void} 无返回值
+   103	   */
+   104	  hideClearDialogModal(): void {
+   105	    this.showClearDialog = false;
+   106	  }
+   107	
+   108	  /**
+   109	   * 确认清空足迹
+   110	   * @returns {void} 无返回值
+   111	   */
+   112	  confirmClearAll(): void {
+   113	    this.repository.clearAllFootprints()
+   114	      .then((): void => {
+   115	        this.hideClearDialogModal();
+   116	        this.loadFootprints();
+   117	      })
+   118	      .catch((): void => {
+   119	        this.hideClearDialogModal();
+   120	      });
+   121	  }
+   122	
+   123	  /**
+   124	   * 将足迹列表转换为商品列表
+   125	   * @param {Footprint[]} footprints - 足迹列表
+   126	   * @returns {Goods[]} 商品列表
+   127	   */
+   128	  private convertFootprintsToGoods(footprints: Footprint[]): Goods[] {
+   129	    return footprints.map((item: Footprint): Goods => {
+   130	      const goods = new Goods();
+   131	      goods.id = item.goodsId;
+   132	      goods.title = item.goodsName;
+   133	      goods.subTitle = item.goodsSubTitle ?? "";
+   134	      goods.mainPic = item.goodsMainPic;
+   135	      goods.price = item.goodsPrice;
+   136	      goods.sold = item.goodsSold;
+   137	      return goods;
+   138	    });
+   139	  }
+   140	}
+./core/ui/src/main/resources/en/element/string.json:88:      "name": "confirm",
+./core/ui/src/main/resources/en/element/string.json:92:      "name": "cancel",
+./core/ui/src/main/resources/en/element/string.json:112:      "name": "search",
+./core/ui/src/main/resources/en/element/string.json:116:      "name": "search_hint",
+./core/ui/src/main/resources/base/element/string.json:88:      "name": "confirm",
+./core/ui/src/main/resources/base/element/string.json:89:      "value": "确定"
+./core/ui/src/main/resources/base/element/string.json:92:      "name": "cancel",
+./core/ui/src/main/resources/base/element/string.json:93:      "value": "取消"
+./core/ui/src/main/resources/base/element/string.json:112:      "name": "search",
+./core/ui/src/main/resources/base/element/string.json:113:      "value": "搜索"
+./core/ui/src/main/resources/base/element/string.json:116:      "name": "search_hint",
+./core/ui/src/main/resources/base/element/string.json:117:      "value": "输入内容进行搜索"
+./feature/order/src/main/resources/en/element/string.json:112:      "name": "confirm",
+./feature/order/src/main/resources/en/element/string.json:116:      "name": "cancel",
+./feature/order/src/main/resources/base/element/string.json:112:      "name": "confirm",
+./feature/order/src/main/resources/base/element/string.json:113:      "value": "确认"
+./feature/order/src/main/resources/base/element/string.json:116:      "name": "cancel",
+./feature/order/src/main/resources/base/element/string.json:117:      "value": "取消"
+./feature/launch/src/main/resources/en/element/string.json:37:      "value": "Auth, product display, search & categories\nCart management, full order & payment flow\nLearning cases close to real business scenarios"
+./feature/launch/src/main/resources/base/element/string.json:37:      "value": "用户认证、商品展示、搜索分类\n购物车管理、订单支付全流程实现\n贴近真实商业场景的学习案例"
+./feature/cs/src/main/resources/base/element/string.json:29:      "value": "加载更多历史消息"
+./feature/cs/src/main/resources/base/element/string.json:33:      "value": "正在加载历史消息..."
+./feature/user/src/main/resources/en/element/string.json:36:      "name": "ok",
+./feature/user/src/main/resources/en/element/string.json:40:      "name": "confirm",
+./feature/user/src/main/resources/en/element/string.json:44:      "name": "cancel",
+./feature/user/src/main/resources/base/element/string.json:36:      "name": "ok",
+./feature/user/src/main/resources/base/element/string.json:37:      "value": "确认"
+./feature/user/src/main/resources/base/element/string.json:40:      "name": "confirm",
+./feature/user/src/main/resources/base/element/string.json:41:      "value": "确认"
+./feature/user/src/main/resources/base/element/string.json:44:      "name": "cancel",
+./feature/user/src/main/resources/base/element/string.json:45:      "value": "取消"
+./feature/user/src/main/resources/base/element/string.json:129:      "value": "清空 (%d)"
+./feature/user/src/main/resources/base/element/string.json:213:      "value": "清空足迹"
+./feature/user/src/main/resources/base/element/string.json:217:      "value": "确认清空全部足迹吗？"
+./feature/goods/src/main/resources/en/element/string.json:92:      "name": "search_history",
+./feature/goods/src/main/resources/en/element/string.json:96:      "name": "recommended_search",
+./feature/goods/src/main/resources/en/element/string.json:116:      "name": "confirm",
+./feature/goods/src/main/resources/base/element/string.json:92:      "name": "search_history",
+./feature/goods/src/main/resources/base/element/string.json:93:      "value": "搜索历史"
+./feature/goods/src/main/resources/base/element/string.json:96:      "name": "recommended_search",
+./feature/goods/src/main/resources/base/element/string.json:97:      "value": "推荐搜索"
+./feature/goods/src/main/resources/base/element/string.json:116:      "name": "confirm",
+./feature/goods/src/main/resources/base/element/string.json:117:      "value": "确定"
+./feature/main/src/main/resources/en/element/string.json:64:      "name": "search",
+./feature/main/src/main/resources/en/element/string.json:68:      "name": "search_goods",
+./feature/main/src/main/resources/base/element/string.json:64:      "name": "search",
+./feature/main/src/main/resources/base/element/string.json:65:      "value": "搜索"
+./feature/main/src/main/resources/base/element/string.json:68:      "name": "search_goods",
+./feature/main/src/main/resources/base/element/string.json:69:      "value": "搜索商品"
+./feature/main/src/main/resources/base/element/string.json:73:      "value": "推荐商品"

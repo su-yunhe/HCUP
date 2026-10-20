@@ -1,0 +1,62 @@
+import { P100, rowCenter, size, SpaceHorizontalSmall } from "designsystem";
+import { IBestDialog } from "ibestui";
+import { GoodsSearchKeyword } from "model";
+import { AppNavDestination } from "ui";
+import GoodsSearchViewModel from "../viewmodel/GoodsSearchViewModel";
+
+/**
+ * 搜索输入框组件 ID
+ */
+const SEARCH_INPUT_ID: string = "goods_search_input";
+
+/**
+ * @file 商品搜索页面视图
+ * @author Joker.X
+ */
+@ComponentV2
+export struct GoodsSearchPage {
+  /**
+   * 商品搜索页面 ViewModel
+   */
+  @Local
+  private vm: GoodsSearchViewModel = new GoodsSearchViewModel();
+
+  /**
+   * 构建商品搜索页面
+   * @returns {void} 无返回值
+   */
+  build() {
+    AppNavDestination({
+      title: "商品搜索",
+      viewModel: this.vm
+    }) {
+      this.GoodsSearchContent();
+
+      IBestDialog({
+        visible: this.vm.showClearDialog,
+        message: $r("app.string.search_history_clear_message"),
+        showCancelButton: true,
+        confirmButtonText: $r("app.string.search_history_clear_confirm"),
+        cancelButtonText: $r("app.string.cancel"),
+        closeOnClickOverlay: true,
+        closeOnBackPress: true,
+        onConfirm: (): void => this.vm.confirmClearHistory(),
+        onCancel: (): void => this.vm.hideClearDialogModal(),
+        onClose: (): void => this.vm.hideClearDialogModal()
+      });
+    }
+  }
+
+  /**
+   * 商品搜索页面内容视图
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private GoodsSearchContent() {
+    Column() {
+      this.SearchBar();
+
+      Scroll() {
+        Column() {
+          if (this.vm.historyList.length > 0) {
+            this.HistorySection(

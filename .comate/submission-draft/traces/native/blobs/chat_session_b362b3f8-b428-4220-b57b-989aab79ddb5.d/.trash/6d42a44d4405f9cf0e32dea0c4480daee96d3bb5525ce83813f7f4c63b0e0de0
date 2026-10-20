@@ -1,0 +1,70 @@
+"""场景三：清空历史（删除图标 → 确认框 → 取消 / 确认 / 返回键）。"""
+from hypium import BY
+
+from hypium_tests.search_helpers import (
+    HISTORY_CLEAR, HISTORY_SECTION, RECOMMEND_SECTION, TEXT_CANCEL, TEXT_CLEAR_MESSAGE, TEXT_CONFIRM,
+    TEXT_HISTORY, TEXT_RECOMMEND, SearchTestCase,
+)
+
+
+class TestScenario3Clear(SearchTestCase):
+
+    def seed(self, *words: str) -> None:
+        self.open_search()
+        for w in words:
+            self.search_and_back(w)
+        self.assertEqual(self.wait_history(words[-1]), list(reversed(words)))
+
+    def open_dialog(self):
+        self.driver.click(self.require_component(BY.key(HISTORY_CLEAR), "删除图标不存在"))
+        return self.require_text(TEXT_CLEAR_MESSAGE, "点删除图标后未弹出确认框", timeout=5)
+
+    def test_a27_trash_icon_right_of_title(self):
+        """A27：历史标题右侧显示删除图标。"""
+        self.seed("手机")
+        title = self.require_text(TEXT_HISTORY, "搜索历史标题不存在")
+        icon = self.require_component(BY.key(HISTORY_CLEAR), "删除图标不存在")
+        self.assertTrue(icon.isClickable(), "删除图标应可点击")
+        self.assertGreater(icon.getBounds().left, title.getBounds().right, "删除图标应在标题右侧")
+        self.assertTrue(self.same_row(icon, title), "删除图标应与标题同一行")
+
+    def test_a28_a29_a30_dialog_and_cancel(self):
+        """A28-A30：弹出确认框（文案、取消/确认按钮在下方）；点取消关框且历史不变。"""
+        self.seed("苹果", "香蕉")
+        message = self.open_dialog()
+        cancel = self.require_text(TEXT_CANCEL, "确认框缺少“取消”")
+        confirm = self.require_text(TEXT_CONFIRM, "确认框缺少“确认”")
+        self.assertGreater(cancel.getBounds().top, message.getBounds().top, "取消按钮应在提示下方")
+        self.assertGreater(confirm.getBounds().top, message.getBounds().top, "确认按钮应在提示下方")
+        self.assertEqual(len(self.driver.find_all_components(BY.text(TEXT_CLEAR_MESSAGE)) or []), 1)
+        self.driver.click(cancel)
+        self.driver.wait(1)
+        self.assertIsNone(self.find_or_none(BY.text(TEXT_CLEAR_MESSAGE), timeout=2), "点取消后确认框未关闭")
+        self.assertEqual(self.history(), ["香蕉", "苹果"])
+        # 取消后能再次弹出
+        self.open_dialog()
+        self.driver.click(self.require_text(TEXT_CANCEL, "确认框缺少“取消”"))
+        self.driver.wait(1)
+        self.assertEqual(self.history(), ["香蕉", "苹果"])
+        # 重启后历史仍在
+        self.launch()
+        self.open_search()
+        self.assertEqual(self.history(), ["香蕉", "苹果"])
+
+    def test_a31_a32_a33_confirm_clears(self):
+        """A31-A33：点确认清空历史并关框；历史区域消失只剩推荐区域；搜索框为空；重启后仍为空。"""
+        self.seed("苹果", "香蕉")
+        self.assertEqual(self.input_value(), "香蕉")
+        self.open_dialog()
+        self.driver.click(self.require_text(TEXT_CONFIRM, "确认框缺少“确认”"))
+        self.driver.wait(1)
+        self.assertIsNone(self.find_or_none(BY.text(TEXT_CLEAR_MESSAGE), timeout=2), "点确认后确认框未关闭")
+        self.assertIsNone(self.find_or_none(BY.text(TEXT_HISTORY), timeout=2), "清空后“搜索历史”应消失")
+        self.assertIsNone(self.find_or_none(BY.key(HISTORY_SECTION), timeout=1))
+        self.assertIsNone(self.find_or_none(BY.key(HISTORY_CLEAR), timeout=1))
+        self.require_text(TEXT_RECOMMEND, "清空后“推荐搜索”应保留")
+        self.assertIsNotNone(self.find_or_none(BY.key(RECOMMEND_SECTION), timeout=1))
+        self.assertEqual(self.input_value(), "", "清空后搜索框应为空")
+        self.assertTrue(self.on_search_page(), "清空后应仍在搜索页")
+        # 清空后重新搜索，历史只剩新词
+        self.sear

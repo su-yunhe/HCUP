@@ -1,0 +1,36 @@
+## 5. 可复用的既有实现
+
+| 需要的能力 | 基线里最接近的实现 | 复用方式 |
+| --- | --- | --- |
+| 带路由参数的分页列表 VM | `GoodsCommentViewModel.ets:13-38`：`extends BaseNetWorkListViewModel<Comment>`，`getRouteParams<GoodsIdParam>(GoodsRoutes.Comment)` 取参数，`requestListData()` 里组装请求 | `GoodsCategoryViewModel` 照这个写，参数换成 `GoodsCategoryParam`，请求换成 `GoodsSearchRequest{keyWord}` |
+| 分页列表页面 | `GoodsCommentPage.ets:28-73`：`BaseNetWorkListView` + `RefreshLayout` + `List/ForEach` | `GoodsCategoryPage` 照抄结构 |
+| 商品卡片 | `core/ui/.../goods/GoodsGridItem.ets:22`、`GoodsListItem.ets:19`；首页"全部商品"的双列网格 `HomePage.ets:105-124`（`Grid` + `bp({sm:"1fr 1fr",...})`） | 结果页直接用 `GoodsGridItem`，点击 `GoodsNavigator.toDetail(id)` |
+| 本地列表 + "清空" + 确认框 | 足迹页：`FootprintPage.ets:25-49`（`IBestDialog({ visible, title, message, showCancelButton, confirmButtonText, cancelButtonText, onConfirm, onCancel, onClose })`），`FootprintViewModel.ets:39-40`（`@Trace showClearDialog`）、`:96-121`（show / hide / confirmClearAll：清完再关框，失败也关框） | 搜索页的清空历史照这个写；注意按钮文本不能用 `$r("app.string.confirm")`（§8.2） |
+| "删了再插"来实现置顶 upsert | `FootprintLocalDataSourceImpl.ets:44-47`：`deleteById` + `insert` | 如果 §8.4 验证出 `save` 不可靠，就改成这种写法 |
+| 路由跳转与取参 | `navigateTo(name, params)` `core/navigation/src/main/ets/NavigationService.ets:51-78`；`getRouteParams<T>(name)` `:192-203`；`GoodsNavigator.toCategory(params)` 已经封装好 | 搜索页调 `GoodsNavigator.toCategory({ keyword })`；首页调 `GoodsNavigator.toSearch()` |
+| 删除 / 搜索图标 | `core/ui/src/main/resources/base/media/ic_delete.svg`（足迹页"清空"菜单用的就是它，`FootprintPage.ets:31`）、`ic_search.svg` | 直接 `$r("app.media.ic_delete")` |
+| 文案资源 | `feature/goods/.../string.json:92-97`：`search_history=搜索历史`、`recommended_search=推荐搜索`；`core/ui/.../string.json:112-117`：`search=搜索`、`search_hint=输入内容进行搜索`；`cancel=取消`（`core/ui/.../string.json:92-93`） | 这几个编译后的值都和 Spec 一致，可以直接用（§8.2 已核对） |
+| 组件库 | `@ibestservices/ibest-ui-v2@1.1.1`（经 `core/ibestui/Index.ets:6` 整体 re-export）：`IBestSearch`（`autoFocus`、`showRightButton`、`rightButtonText`、`enterKeyType`、`onSearch`、`onRightButtonClick`、`$value`）、`IBestTag`（`text`、`round`、`onTagClick`）、`IBestDialog` | 可选。代价是三方组件内部节点设不了 `.id()`；用原生 `TextInput`/`Search` + `.id()` 可观测性更好。实现时二选一，见 §8.7 |
+
+## 6. 缺失项（Spec 要求但基线没有）
+
+1. 首页搜索框点击跳转：`HomePage.ets:38` 要传 `onSearchTap: () => GoodsNavigator.toSearch()`。
+2. 搜索页整页 UI 与逻辑：输入框（自动聚焦 + 弹键盘）、"搜索"按钮、键盘搜索键、历史区域（标题 + 垃圾桶 + 最多 10 个圆角标签，条件渲染）、推荐区域（R1 请求 + 标签）、清空确认框、空输入校验、防连点、`onShown` 刷新历史。
+3. 结果页整页 UI 与逻辑：读 `keyword` 参数、分页请求 `goods/info/page`、商品网格、空 / 错误 / 加载更多。
+4. `SearchHistoryRepository` 没有从 `core/data/Index.ets` 导出。
+5. 文本为 `确认` 的资源（现有的 `confirm`/`ok` 编译后都不是"确认"，§8.2），以及 `确认清空所有搜索历史吗？` 的资源。
+6. 所有稳定选择器（`.id()`）：feature 代码里一个都没有（§8.1）。
+7. 搜索历史 upsert 的正确性：§8.4 没验证之前，不能假设 `save` 一定能"新增或置顶"。
+
+## 7. 前置环境需求
+
+- 登录：**不需要**（§3.2，goods 路由不在拦截列表里）。
+- 服务端【实测，2026-10-20，从开发机 curl】：
+  - `POST https://mall.dusksnow.top/app/goods/search/keyword/list` → `code=1000`，20 条：`Xiaomi 17`、`Xiaomi 17 Pro`、`Xiaomi 17 Ultra`、`Xiaomi 17T Pro`、`REDMI K90 Pro`、`REDMI Note 17 Pro`、`REDMI Turbo 5`、`Xiaomi Pad 8 Pro`、`REDMI Pad 2 Pro`、`REDMI Watch 6`、`小米手环 10`、`小爱音箱`、`路由器 BE7000`、`米家洗衣机`、`米家扫拖机器人`、`智能摄像机`、`充电宝`、`蓝牙耳机`、`电视 S Mini LED`、`旅行热水杯`（按 sortNum 1..20 升序返回）。
+  - `POST goods/info/page {"page":1,"size":3,"keyWord":"Xiaomi 17"}` → total 8（`Xiaomi 17T Pro`、`Xiaomi 17T`、`Xiaomi 17 Max`……）；`keyWord:"小米"` → total 16；`keyWord:"手机"` → total 0（可以拿来测空结果）。
+  - 只发了上面这些不带任何凭据的公开查询请求。
+- 正式评测：技术答疑原文——"正式评测使用官方受控的服务、数据或测试适配条件，并通过基线已有的数据访问机制接入"，"不要将自建服务地址硬编码为数据源"。所以必须走 `GoodsRepository` → `GoodsNetworkDataSourceImpl`，方法签名和请求 / 响应模型保持不变。【推断】官方推荐词的内容可能和公网的不一样，自测不能写死具体的推荐词文本，应该"读第 0 个推荐标签的文本再用"。
+- 模拟器【实测】：`127.0.0.1:5555`，`emulator 6.1.0.115`、API 23、1308×2880、`arm64-v8a`、语言 `zh-Hans`；`harness.env_check` 输出"✓ 环境与官方评测规格一致"。
+- 模拟器网络【实测】：DNS 用的是 `114.114.114.114`/`8.8.8.8`（`/etc/resolv.conf`），在当前网络下解析时好时坏——第一次冷启动首页显示了 `网络连接失败`，`ping mall.dusksnow.top` 先报 `Try again`，过一会儿再试就能解析（RTT 异常大）。自测前要先确认首页能加载出来，失败的用例要区分"网络问题"和"功能问题"。
+- WebDAV、测试账号、本地 mock 服务：都不需要。
+- Hypium 环境：`../common/.venv`（hypium 6.1.0.210），`../common/test-harness`；`hdc` 在 `$D/s

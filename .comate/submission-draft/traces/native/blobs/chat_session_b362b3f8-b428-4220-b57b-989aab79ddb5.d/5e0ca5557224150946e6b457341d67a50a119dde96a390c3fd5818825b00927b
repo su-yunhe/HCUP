@@ -1,0 +1,31 @@
+Command executed successfully.
+Exit code: 0
+Output:
+[2026-10-20 13:47:38,259] [8417992448] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-20 13:47:40,336] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'event_id': '907001003', 'updated_at': datetime.datetime(2026, 10, 20, 13, 47, 38, 260828), 'product_version': '6.1.0.210', 'extras': {}, 'created_at ... (32 characters truncated) ... 0, 13, 47, 38, 260764), 'user_id': 'hypium_66f149365b27d47e1d6c162dd2cc8488', 'product_name': 'xDevice', 'uploaded': 0, 'event_name': 'TestTaskDebug'}, {'event_id': '907001004', 'updated_at': datetime.datetime(2026, 10, 20, 13, 47, 40, 326909), 'product_version': '6.1.0.210', 'extras': {'bundle_name': ... (61 characters truncated) ...  10, 20, 13, 47, 40, 326724), 'user_id': 'hypium_66f149365b27d47e1d6c162dd2cc8488', 'product_name': 'xDevice', 'uploaded': 0, 'event_name': 'AppInfo'}]]]
+[2026-10-20 13:47:40,337] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'event_id': '907001003', 'updated_at': datetime.datetime(2026, 10, 20, 13, 47, 38, 260828), 'product_version': '6.1.0.210', 'extras': {}, 'created_at ... (32 characters truncated) ... 0, 13, 47, 38, 260764), 'user_id': 'hypium_66f149365b27d47e1d6c162dd2cc8488', 'product_name': 'xDevice', 'uploaded': 0, 'event_name': 'TestTaskDebug'}, {'event_id': '907001004', 'updated_at': datetime.datetime(2026, 10, 20, 13, 47, 40, 326909), 'product_version': '6.1.0.210', 'extras': {'bundle_name': ... (61 characters truncated) ...  10, 20, 13, 47, 40, 326724), 'user_id': 'hypium_66f149365b27d47e1d6c162dd2cc8488', 'product_name': 'xDevice', 'uploaded': 0, 'event_name': 'AppInfo'}]]]
+[2026-10-20 13:47:40,337] [8417992448] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: INSERT INTO eventdata (event_id, event_name, user_id, product_name, product_version, uploaded, extras, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id]
+[parameters: [{'event_id': '907001003', 'updated_at': datetime.datetime(2026, 10, 20, 13, 47, 38, 260828), 'product_version': '6.1.0.210', 'extras': {}, 'created_at ... (32 characters truncated) ... 0, 13, 47, 38, 260764), 'user_id': 'hypium_66f149365b27d47e1d6c162dd2cc8488', 'product_name': 'xDevice', 'uploaded': 0, 'event_name': 'TestTaskDebug'}, {'event_id': '907001004', 'updated_at': datetime.datetime(2026, 10, 20, 13, 47, 40, 326909), 'product_version': '6.1.0.210', 'extras': {'bundle_name': ... (61 characters truncated) ...  10, 20, 13, 47, 40, 326724), 'user_id': 'hypium_66f149365b27d47e1d6c162dd2cc8488', 'product_name': 'xDevice', 'uploaded': 0, 'event_name': 'AppInfo'}]]]
+[2026-10-20 13:47:40,339] [6195277824] [Analysis] [WARNING] [(builtins.ValueError) Datetime values must have timezone information. Use datetime.now(timezone.utc), or annotate the field with NaiveDatetime for naive storage.
+[SQL: SELECT eventdata.id, eventdata.event_id, eventdata.event_name, eventdata.user_id, eventdata.product_name, eventdata.product_version, eventdata.uploaded, eventdata.extras, eventdata.created_at, eventdata.updated_at 
+FROM eventdata 
+WHERE eventdata.created_at <= ? AND eventdata.uploaded = ?]
+[parameters: [{}]]]
+home bar Component#0
+input Component#1 True
+button Component#2
+recommend title Component#3
+history title None
+rec0 None
+softKeyboard1        0         30133   33    2105 102  0    104  0           [ 0    0    1308 2880 ] [ 0       0       ] [ 1       1       0.5     0.5     ]
+SCBKeyboardPanel     0         1401    34    2134 1    0    103  0           [ 0    0    1308 2880 ] [ 0       0       ] [ 1       1       0.5     0.5     ]
+SCBKeyboardDialog27  0         1401    35    2106 1    0    -1   0           [ 0    0    0    0    ] [ 0       0       ] [ 1       1       0       0       ]
+input text '  手机  '
+keyword label Component#5
+item0 None
+history0 None

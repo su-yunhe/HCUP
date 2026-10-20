@@ -1,0 +1,165 @@
+Command executed successfully.
+Exit code: 0
+Output:
+     1	import axios, { AxiosInstance, AxiosResponse, AxiosError } from '@ohos/axios';
+     2	
+     3	import { setupInterceptors } from './interceptors/AppInterceptors';
+     4	
+     5	/**
+     6	 * 网络客户端
+     7	 * 管理 Axios 实例和拦截器配置。
+     8	 * @author Joker.X
+     9	 */
+    10	export class NetworkClient {
+    11	  // 单例实例
+    12	  private static instance: NetworkClient;
+    13	  // Axios 实例
+    14	  private axiosInstance: AxiosInstance;
+    15	  // 基础 URL
+    16	  private readonly BASE_URL = 'https://mall.dusksnow.top/app/';
+    17	
+    18	  private constructor() {
+    19	    this.axiosInstance = axios.create({
+    20	      baseURL: this.BASE_URL,
+    21	      timeout: 10000,
+    22	      headers: {
+    23	        'Content-Type': 'application/json'
+    24	      }
+    25	    });
+    26	    // 初始化拦截器
+    27	    setupInterceptors(this.axiosInstance);
+    28	  }
+    29	
+    30	  /**
+    31	   * 获取 NetworkClient 单例
+    32	   */
+    33	  public static getInstance(): NetworkClient {
+    34	    if (!NetworkClient.instance) {
+    35	      NetworkClient.instance = new NetworkClient();
+    36	    }
+    37	    return NetworkClient.instance;
+    38	  }
+    39	
+    40	  /**
+    41	   * 获取 Axios 实例
+    42	   */
+    43	  public getAxios(): AxiosInstance {
+    44	    return this.axiosInstance;
+    45	  }
+    46	
+    47	  /**
+    48	   * 静态访问属性，方便直接通过 NetworkClient.http 调用
+    49	   */
+    50	  public static get http(): AxiosInstance {
+    51	    return NetworkClient.getInstance().getAxios();
+    52	  }
+    53	}
+    54	
+    55	export { AxiosResponse, AxiosError };
+     1	import { BaseNetWorkListUiState, BaseNetWorkListViewModel } from "base";
+     2	import { GoodsRepository, PageRepository } from "data";
+     3	import { Goods, GoodsSearchRequest, Home, NetworkPageData, NetworkResponse } from "model";
+     4	import { RequestHelper } from "result";
+     5	
+     6	/**
+     7	 * @file 首页 ViewModel
+     8	 * @author Joker.X
+     9	 */
+    10	@ObservedV2
+    11	export default class HomeViewModel extends BaseNetWorkListViewModel<Goods> {
+    12	  /**
+    13	   * 商品仓库
+    14	   */
+    15	  private goodsRepository: GoodsRepository = new GoodsRepository();
+    16	  /**
+    17	   * 页面数据仓库
+    18	   */
+    19	  private pageRepository: PageRepository = new PageRepository();
+    20	  /**
+    21	   * 首页页面数据
+    22	   */
+    23	  @Trace
+    24	  pageData: Home = new Home();
+    25	
+    26	  /**
+    27	   * 重写请求列表数据方法来实现全部商品分页
+    28	   *
+    29	   * @return 商品分页数据流
+    30	   */
+    31	  protected requestListData(): Promise<NetworkResponse<NetworkPageData<Goods>>> {
+    32	    const request = new GoodsSearchRequest();
+    33	    request.page = this.currentPage;
+    34	    request.size = this.pageSize;
+    35	    return this.goodsRepository.getGoodsPage(request);
+    36	  }
+    37	
+    38	  /**
+    39	   * 页面出现时初始化页面数据
+    40	   * @returns {void} 无返回值
+    41	   */
+    42	  aboutToAppear(): void {
+    43	    this.loadHomeData();
+    44	  }
+    45	
+    46	  /**
+    47	   * 加载首页数据
+    48	   * @returns {void} 无返回值
+    49	   */
+    50	  loadHomeData(): void {
+    51	    RequestHelper.repository<Home>(this.pageRepository.getHomeData())
+    52	      .toast(false)
+    53	      .execute()
+    54	      .then((data: Home): void => {
+    55	        const homeData: Home = new Home(data);
+    56	        this.pageData = new Home(data);
+    57	        this.listData = homeData.goods ?? [];
+    58	        this.uiState = BaseNetWorkListUiState.SUCCESS;
+    59	      })
+    60	      .catch((): void => {
+    61	        this.uiState = BaseNetWorkListUiState.ERROR;
+    62	      })
+    63	      .finally((): void => {
+    64	        this.isLoading = false;
+    65	      });
+    66	  }
+    67	
+    68	  /**
+    69	   * 触发下拉刷新
+    70	   * @returns {void} 无返回值
+    71	   */
+    72	  onRefresh(): void {
+    73	    if (this.isLoading) {
+    74	      return;
+    75	    }
+    76	    this.isLoading = true;
+    77	    this.currentPage = 1;
+    78	    this.loadHomeData();
+    79	  }
+    80	
+    81	  /**
+    82	   * 重试请求
+    83	   * @returns {void} 无返回值
+    84	   */
+    85	  retryRequest(): void {
+    86	    this.uiState = BaseNetWorkListUiState.LOADING;
+    87	    this.currentPage = 1;
+    88	    this.loadHomeData();
+    89	  }
+    90	}
+entry/src/main/ets/entryability/EntryAbility.ets:15:import { IBestORMInit } from 'database';
+entry/src/main/ets/entryability/EntryAbility.ets:51:    await this.initIBestORM();
+entry/src/main/ets/entryability/EntryAbility.ets:93:  async initIBestORM(): Promise<void> {
+entry/src/main/ets/entryability/EntryAbility.ets:94:    await IBestORMInit(this.context, { name: "app.db" });
+entry/src/main/ets/entryability/EntryAbility.ets:101:    new MainGraph().register();
+entry/src/main/ets/entryability/EntryAbility.ets:102:    new AuthGraph().register();
+entry/src/main/ets/entryability/EntryAbility.ets:103:    new CommonGraph().register();
+entry/src/main/ets/entryability/EntryAbility.ets:104:    new CsGraph().register();
+entry/src/main/ets/entryability/EntryAbility.ets:105:    new FeedbackGraph().register();
+entry/src/main/ets/entryability/EntryAbility.ets:106:    new GoodsGraph().register();
+entry/src/main/ets/entryability/EntryAbility.ets:107:    new LaunchGraph().register();
+entry/src/main/ets/entryability/EntryAbility.ets:108:    new UserGraph().register();
+entry/src/main/ets/entryability/EntryAbility.ets:109:    new OrderGraph().register();
+entry/src/main/ets/entryability/EntryAbility.ets:110:    new MarketGraph().register();
+entry/src/main/ets/navigation/NavigationHost.ets:2:import { RouteBuild, NAV_PATH_STACK_KEY, setNavPathStack } from 'navigation';
+entry/src/main/ets/navigation/NavigationHost.ets:17:    setNavPathStack(this.navPathStack);
+entry/src/main/ets/navigation/NavigationHost.ets:37:    Navigation(this.navPathStack) {

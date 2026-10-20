@@ -1,0 +1,41 @@
+# 验收矩阵：商品搜索功能（cml-combo-search）
+
+输入：`spec/requirement.md`（下称 Spec）；基线 `261589401b664d4a9a5622f748071d14e04108e2`（tag `baseline-cml-combo-search`）。
+基线事实与行号见 `spec/baseline-notes.md`，本文只在必要处引用。
+
+## 0. 约定
+
+证据等级：
+
+- `SPEC_EXPLICIT`：Spec 明文
+- `REASONABLE_DERIVATION`：由 Spec 明文 + 基线代码推导，基本不会有第二种理解
+- `UNCONFIRMED_ASSUMPTION`：Spec 未写、存在多种合理做法，需你拍板（第 6 节汇总）
+
+Spec 指定的界面文案（逐字，实现与自测都必须完全一致）：
+
+- `搜索历史`（场景一·步骤2、场景三·步骤5）
+- `推荐搜索`（场景一·步骤2、场景三·步骤5）
+- `搜索`（场景一·步骤4：搜索框右侧"搜索"按钮）
+- `确认清空所有搜索历史吗？`（场景三·步骤2，末尾为全角问号）
+- `取消`、`确认`（场景三·步骤3）
+
+注意：基线编译后 `$r("app.string.confirm")` 实际是"确定"而不是"确认"（资源冲突，见 baseline-notes §8.2），"确认"按钮不能直接复用这个 key。
+
+稳定选择器（基线里全部没有，**需在实现时补 `.id()`**）：
+
+| id | 组件 | 位置 |
+| --- | --- | --- |
+| `home_search_bar` | 首页顶部搜索行 | `feature/main/.../component/HomeTopBar.ets:51-71` 的 Row |
+| `goods_search_input` | 搜索输入框 | 新增，`GoodsSearchPage` |
+| `goods_search_button` | 搜索框右侧"搜索"按钮 | 新增 |
+| `search_history_section` | 历史区域容器（含标题、垃圾桶、标签） | 新增 |
+| `search_history_clear` | 垃圾桶图标 | 新增 |
+| `search_history_tag_{i}` | 第 i 个历史标签（从 0 开始） | 新增 |
+| `search_recommend_section` | 推荐区域容器 | 新增 |
+| `search_recommend_tag_{i}` | 第 i 个推荐标签 | 新增 |
+| `goods_category_list` | 结果页商品列表 | 新增，`GoodsCategoryPage` |
+| `goods_category_item_{i}` | 结果页第 i 个商品 | 新增 |
+
+确认对话框沿用基线的 `IBestDialog`（第三方组件，内部按钮没法设 id），只能按文本 `取消` / `确认` / `确认清空所有搜索历史吗？` 定位。
+
+官方测试不知道我们的 id，大概率按**文本 + 类型**定位，所以文案和"同一页面不出现

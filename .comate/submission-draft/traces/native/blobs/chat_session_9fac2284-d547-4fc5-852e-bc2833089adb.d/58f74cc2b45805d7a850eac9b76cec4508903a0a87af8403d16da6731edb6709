@@ -1,0 +1,37 @@
+Found 12 matches
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 90: - 推荐关键词模型【代码】：`GoodsSearchKeyword { id, name, sortNum, createTime?, updateTime? }`，`core/model/src/main/ets/entity/GoodsSearchKeyword.ets:5-37`。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 131: | 文案资源 | `feature/goods/.../string.json:92-97`：`search_history=搜索历史`、`recommended_search=推荐搜索`；`core/ui/.../string.json:112-117`：`search=搜索`、`search_hint=输入内容进行搜索`；`cancel=取消`（`core/ui/.../string.json:92-93`） | 这几个编译后的值都和 Spec 一致，可以直接用（§8.2 已核对） |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 132: | 组件库 | `@ibestservices/ibest-ui-v2@1.1.1`（经 `core/ibestui/Index.ets:6` 整体 re-export）：`IBestSearch`（`autoFocus`、`showRightButton`、`rightButtonText`、`enterKeyType`、`onSearch`、`onRightButtonClick`、`$value`）、`IBestTag`（`text`、`round`、`onTagClick`）、`IBestDialog` | 可选。代价是三方组件内部节点设不了 `.id()`；用原生 `TextInput`/`Search` + `.id()` 可观测性更好。实现时二选一，见 §8.7 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 137: 2. 搜索页整页 UI 与逻辑：输入框（自动聚焦 + 弹键盘）、"搜索"按钮、键盘搜索键、历史区域（标题 + 垃圾桶 + 最多 10 个圆角标签，条件渲染）、推荐区域（R1 请求 + 标签）、清空确认框、空输入校验、防连点、`onShown` 刷新历史。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 151: - 正式评测：技术答疑原文——"正式评测使用官方受控的服务、数据或测试适配条件，并通过基线已有的数据访问机制接入"，"不要将自建服务地址硬编码为数据源"。所以必须走 `GoodsRepository` → `GoodsNetworkDataSourceImpl`，方法签名和请求 / 响应模型保持不变。【推断】官方推荐词的内容可能和公网的不一样，自测不能写死具体的推荐词文本，应该"读第 0 个推荐标签的文本再用"。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 175: | `search_history` / `recommended_search` | 只在 feature/goods | 搜索历史 / 推荐搜索 | 可以用 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 186:   - 结果页如果复用这个组件，"`暂无数据` 存在 / 不存在" 这种断言没法区分状态（acceptance U16）。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 199: - 搜索页里 `搜索`（按钮）、`搜索历史`、`推荐搜索`、`商品搜索`（标题）都含"搜索"二字：精确匹配没有冲突，`CONTAINS` 匹配会冲突。要保证精确文本 `搜索` 在页面上只出现一次。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 201: - 同一个词可能同时出现在历史和推荐两个区域（点了推荐词再返回之后一定会这样），按文本查找会命中两个节点；历史在上方，按树顺序先命中历史。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 202: - 推荐词之间存在前缀关系（`Xiaomi 17` / `Xiaomi 17 Pro` / `Xiaomi 17 Ultra` / `Xiaomi 17T Pro`）：精确匹配没问题，模糊匹配会命中多个。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 203: - 结果页的商品标题可能包含关键词（`Xiaomi 17` → `Xiaomi 17T Pro`），如果结果页还显示关键词（U5），要用精确匹配才能区分。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/baseline-notes.md:
+  Line 208: - 三方组件（`IBestDialog`、`IBestSearch`、`IBestTag`）的内部节点不能设 id；`IBestDialog` 的按钮只能按文本定位。用 `IBestSearch` 的话，输入框本体也拿不到我们的 id，只能用外层容器的 id 再按类型 `TextInput` 往下找。【推断】用原生 `TextInput`（或 `Search`）+ `.id()` 更稳，实现时定。

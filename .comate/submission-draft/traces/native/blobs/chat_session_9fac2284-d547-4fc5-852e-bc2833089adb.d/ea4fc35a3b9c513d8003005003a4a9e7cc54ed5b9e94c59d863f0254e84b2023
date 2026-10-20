@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+"""Temporary helper: dump current UI layout of the emulator and print nodes with text/id."""
+import json
+import subprocess
+import sys
+
+HDC = "/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/hdc"
+DEV = "127.0.0.1:5555"
+
+
+def hdc(*args):
+    return subprocess.run([HDC, "-t", DEV, *args], capture_output=True, text=True).stdout
+
+
+def dump(name="l"):
+    remote = f"/data/local/tmp/{name}.json"
+    local = f"/tmp/cml_{name}.json"
+    hdc("shell", f"uitest dumpLayout -p {remote}")
+    hdc("file", "recv", remote, local)
+    return json.load(open(local))
+
+
+def walk(n, depth=0, show_all=False):
+    a = n.get("attributes", {})
+    t = a.get("text", "")
+    if show_all or t or a.get("id") or a.get("key"):
+        print(" " * min(depth, 24), a.get("type"), repr(t)[:50], "id=" + a.get("id", ""),
+              "focused=" + a.get("focused", ""), a.get("bounds"))
+    for c in n.get("children", []):
+        walk(c, depth + 1, show_all)
+
+
+if __name__ == "__main__":
+    name = sys.argv[1] if len(sys.argv) > 1 else "l"
+    walk(dump(name), show_all=len(sys.argv) > 2)

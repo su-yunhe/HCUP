@@ -1,0 +1,40 @@
+# 基线理解：商品搜索功能（cml-combo-search）
+
+记录日期：2026-10-20。标注方式：
+
+- 【代码】有 `文件:行号` 的代码实证（路径相对工程根目录）
+- 【实测】在模拟器上实际操作/抓取到的结果
+- 【Spec】`spec/requirement.md` 原文
+- 【推断】我的推测，**未验证**
+
+## 1. 基线快照标识
+
+- HEAD：`261589401b664d4a9a5622f748071d14e04108e2`（`2615894 Harmony Cup sanitized baseline snapshot`），和 `spec/metadata.json` 的 `base_commit` 一致。
+- 分支：`cml-combo-search`。
+- 标签：新打了 `baseline-cml-combo-search` → 2615894；仓库原本已有 `base/cml-combo-search`，指向同一个提交。
+- 分析阶段工作区状态：`git status` 只有未跟踪的 `spec/`、`logs/`；没有改任何已跟踪文件。`**/BuildProfile.ets` 已在 `.gitignore` 里，并且 `git ls-files` 中没有任何 BuildProfile.ets，所以 debug 构建不会产生已跟踪的噪声文件。
+
+## 2. 构建基线状态
+
+环境：macOS（arm64）+ DevEco Studio 自带工具链。命令行构建前必须设置 `JAVA_HOME`，否则 `PackageHap` 报 `00308018 Unable to locate a Java Runtime`（第一次构建就是这样失败的）：
+
+```bash
+D=/Applications/DevEco-Studio.app/Contents
+export JAVA_HOME=$D/jbr/Contents/Home
+export DEVECO_SDK_HOME=$D/sdk
+export PATH=$JAVA_HOME/bin:$D/tools/hvigor/bin:$D/tools/node/bin:$D/tools/ohpm/bin:$D/sdk/default/openharmony/toolchains:$PATH
+hvigorw clean --no-daemon
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon
+```
+
+- 结果【实测】：`BUILD SUCCESSFUL in 16 s 505 ms`（clean 之后全量构建）。产物 `entry/build/default/outputs/default/entry-default-unsigned.hap`（约 19.6 MB）。
+- 日志：`logs/baseline-build.log`（全量）、`logs/baseline-clean.log`；告警归一化清单 `logs/baseline-warnings.txt`（去掉绝对路径、排序去重，共 440 条，实现阶段可以直接 diff）。
+- 已有告警分类【实测】：
+  - ArkTS 告警 240 条：`oh_modules` 内 166 条（ibest-ui-v2 等三方库）；工程源码 74 条，全在和本题无关的文件里——`core/util/.../NotificationUtil.ets` 21、`core/designsystem/.../Row.ets` 18、`Column.ets` 16、`Scroll.ets` 6、`entry/.../WindowAdapter.ets` 4、`core/util/.../ImageUtil.ets` 3、`ContextUtil.ets` 2、`OrderGoodsCard.ets` 2、`PermissionUtils.ets` 1、`feature/main/.../MainViewModel.ets` 1。类型只有两种：`Function may throw exceptions`、`'@BuilderParam' attribute ... can only be initialized by '@Builder'`。
+  - 资源重名告警 195 条（194 条去重后）：`'xxx' conflict, first declared`，例如 `confirm`、`cancel`、`ok`、`search`、`page_show` 等，见 §8.2。
+  - 其它 6 条：`No signingConfig found for product default`；`sourceMapsPath not found` ×3（ibest-ui-v2、cashiersdk、blueshieldsdk）；`'delete' conflict`；一条 FAQ 提示。
+  - `feature/goods` 当前没有任何 ArkTS 告警，实现后这个模块新增的告警一眼就能看出来。
+- 安装【实测】：`hdc -t 127.0.0.1:5555 install -r entry/build/default/outputs/default/entry-default-unsigned.hap` → `install bundle successfully`（`logs/baseline-install.log`）。未签名的 HAP 可以直接装到模拟器上；bundleName `com.joker.coolmall`，安装后 `updateTime=1792467464300`。
+- 支付 SDK 架构问题：技术答疑里提到的"x86_64 模拟器装不上"在本机**不存在**——本机 Mac 是 arm64，模拟器 `const.product.cpu.abilist = arm64-v8a`，原始包能直接安装。不需要做调试隔离，`abiFilters` 也不用改。
+
+<!-- CHUNK2 -->

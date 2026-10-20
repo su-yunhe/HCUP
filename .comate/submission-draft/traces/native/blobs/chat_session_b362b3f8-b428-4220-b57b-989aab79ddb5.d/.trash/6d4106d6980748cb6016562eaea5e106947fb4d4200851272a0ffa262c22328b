@@ -1,0 +1,15 @@
+"""场景二：历史 / 推荐标签搜索，最近 10 条、倒序、去重置顶、返回后排第一。"""
+from hypium import BY
+
+from hypium_tests.search_helpers import HISTORY_TAG, RECOMMEND_TAG, SearchTestCase
+
+
+class TestScenario2Tags(SearchTestCase):
+
+    def test_a16_a26_history_limit_10(self):
+        """A16/A26：搜 11 个不同词后只显示最近 10 条，最早的被挤掉。"""
+        self.open_search()
+        words = [f"k{i}" for i in range(1, 12)]
+        for w in words:
+            self.search_and_back(w)
+        items = self.

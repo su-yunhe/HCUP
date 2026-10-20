@@ -1,0 +1,139 @@
+Found 46 matches
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 12: - `UNCONFIRMED_ASSUMPTION`：Spec 未写、存在多种合理做法，需你拍板（第 6 节汇总）
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 116: - 可观察结果：首页 Text `搜索商品` 被点击后，页面出现搜索输入框（TextInput/Search 类型）和 Text `搜索` 按钮；NavDestination 标题 `商品搜索`（基线占位页已有，见 U13）。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 141:   - 返回结果：从结果页返回后是否再次聚焦 → U15。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 209:   - 边界条件：R1 失败或返回空 → U2；展示条数 → U3；顺序沿用服务端（按 sortNum）→ U17。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 234:   - 返回结果：从结果页返回，输入框保留最后一次搜索的词（U14）。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 337:   - 边界条件：`BaseNetWorkListView` 四层状态都常驻在组件树里（只改 opacity），SUCCESS 状态下 `暂无数据`/`网络连接失败` 文本节点依然能查到（baseline-notes §8.3）→ U16。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 343: - 证据等级：UNCONFIRMED_ASSUMPTION（U5）
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 344: - 原子行为：（推荐做）结果页顶部显示当前 keyword 文本。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 347: - 稳定选择器：`goods_category_keyword`（需补 `.id()`，仅当 U5 采纳）。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 362:   - 数据结果：数据库是否也裁到 10 条 → U11（UI 上看不出来）。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 392: - 八维度：入口 A1；前置数据 L1 非空；用户动作 单击某个历史标签；UI 结果 输入框显示该词；数据结果 A21；网络结果 结果页 R2；返回结果 输入框保留该词（U14）；边界条件 输入框里原来有别的文本时直接覆盖。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 418:   - 边界条件：手动输入 `␣A␣` 也算同一个词（trim 后相等）；大小写算不算同一个词 → U10；**ORM `save` 对已有主键能不能更新 searchTime 还没验证**（baseline-notes §8.4）。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 440:   - UI 结果：历史列表刷新；推荐区域不变；输入框保留该词（U14）。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 442:   - 网络结果：不发 R1（U2 / 状态机 §1.1）。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 450: - 证据等级：SPEC_EXPLICIT（"同时填入搜索框"是 U4）
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 471: - 八维度：入口 A1；前置数据 已有 10 条；用户动作 再搜一个新词；UI 结果 仍 10 个标签，第 0 位是新词；数据结果 U11；网络结果 不适用；返回结果 A23；边界条件 第 11 个词是已有的词时总数不变，只调顺序。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 499:   - 边界条件：连点图标只出一个框；对话框要不要标题 → U6；这句提示的文案只能有一份，不能同时放在标题和正文里。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 543: - 八维度：入口 A31；前置数据 无；用户动作 无；UI 结果 同上；数据结果 L1 为空；网络结果 **不重新请求 R1**；返回结果 不适用；边界条件 R1 失败时"推荐搜索"标题也要保留（U2），否则这一步的"只剩推荐搜索区域"就不成立。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 550: - 原子行为：（推荐）确认清空时同时把 `vm.keyword` 置成 `""`（U8）。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 552: - 八维度：入口 A31；前置数据 输入框里可能还留着上次搜索的词（A19/U14）；用户动作 无；UI 结果 输入框为空；数据结果/网络结果 不适用；返回结果 不适用；边界条件 【推断】placeholder 在 dump 里是 `hint` 属性，不是 `text`（未验证），所以断言要看 `text == ""`。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 558: - 证据等级：UNCONFIRMED_ASSUMPTION（U7）
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 580: - 可观察结果：同 A35；输入框里的空格保留（U9）。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 590: - 八维度：入口 A1；前置数据 空 / 纯空格；用户动作 键盘搜索键；UI 结果 不变，焦点留在输入框（U9）；数据结果 不写；网络结果 不发；返回结果 不适用；边界条件 有些输入法在空内容时会把搜索键置灰，这是输入法的行为，不影响判定。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 605: - 证据等级：SPEC_EXPLICIT（"不弹 toast"、"保留空格"是 U9）
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 643: - 证据等级：REASONABLE_DERIVATION（中间空格）/ UNCONFIRMED_ASSUMPTION（大小写，U10）
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 656: | 关闭（返回键 / 遮罩） | A34 | U7 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 659: | 无数据 | A5（无历史）、U2（无推荐）、A14（无结果） | 历史用 if 不渲染；结果页显示 `暂无数据` |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 662: | 请求失败 | U2（R1 失败）、A14（R2 失败） | R1 失败不能影响历史和输入框 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 666: ## 6. UNCONFIRMED_ASSUMPTION 汇总（需要你判断）
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 670: | U1 | 软键盘怎么保证弹出、官方怎么判定（A3） | a. `defaultFocus(true)`；b. 页面 onShown 后 `focusControl.requestFocus(id)`；c. a+b | c | 转场期间单独请求焦点不稳；官方大概率只能断言 `focused=true` |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 671: | U2 | 推荐词请求失败或返回空时（A6/A32） | a. 隐藏整个推荐区域；b. 保留标题 `推荐搜索`，不显示标签；c. 整页错误态 | b | 场景三·步骤5 要求"只剩推荐搜索区域"；c 会盖住输入框和历史，和场景四冲突 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 672: | U3 | 推荐词显示几条 | a. 全部（目前 20 条）；b. 截成 10 条 | a | Spec 只给历史定了上限，推荐没写；截断可能让官方期望的词消失 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 673: | U4 | 点推荐标签是否也填进搜索框（A24） | a. 填；b. 不填 | a | 场景二·步骤5 写的是"同样执行搜索"，和步骤2 的历史标签保持一致 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 674: | U5 | 结果页是否显示当前关键词（A15） | a. 顶部显示 keyword 文本，标题仍为 `商品分类`；b. 只显示列表 | a | "以该关键词为筛选条件"可能被断言为"页面上能看到关键词"；代价很小 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 675: | U6 | 确认框要不要标题（A28） | a. 不要标题，正文 = `确认清空所有搜索历史吗？`；b. 标题 `清空历史` + 同样的正文；c. 把提示放在标题里 | a | Spec 只给了一句提示；多加文本没有收益，还可能和其它断言撞 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 676: | U7 | 返回键 / 点遮罩关闭对话框（A34） | a. 等同取消，不 pop 页面；b. 不允许 | a | 和足迹页的 `onClose` 写法一致（`FootprintPage.ets:47`） |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 677: | U8 | 确认清空时是否同时清空输入框（A33） | a. 清；b. 不清 | a | 场景三·步骤5 明写"搜索框为空"；如果测试是接着场景二做的，输入框里还留着词 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 678: | U9 | 空搜时的反馈（A36/A39） | a. 无提示，输入框原样保留（包括空格）、焦点保留；b. toast 提示；c. 把空格清掉 | a | 原文"保持当前显示状态"；toast 会多出文本，清空格也算改了状态 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 679: | U10 | 去重是否区分大小写（A43） | a. 区分（精确比较）；b. 忽略大小写 | a | 主键就是 keyword 原文；Spec 没要求归一化 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 680: | U11 | 数据库是否裁到 10 条（A16） | a. 只在显示时取 10 条；b. 写入后删掉多余的 | a | UI 上看不出区别；a 直接用基线已有的 `getRecentSearchHistory(10)`，改动最小 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 681: | U12 | 连点防抖的方式（A40） | a. 提交锁，等搜索页重新可见时释放；b. 固定时间节流 | a | 跟页面状态绑定，不受设备快慢影响 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 682: | U13 | 搜索页是否保留标题栏 `商品搜索` | a. 保留（基线占位页 `GoodsSearchPage.ets:22` 就有）；b. 隐藏标题栏，把输入框放进顶栏 | a | 改动最小，可能还是官方判断"进了搜索页"的依据；代价是多一行标题 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 683: | U14 | 从结果页返回后输入框的内容 | a. 保留最后一次搜的词；b. 清空 | a | 自然行为；场景三需要的"搜索框为空"由 U8 兜住 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 684: | U15 | 从结果页返回后是否再次聚焦、弹键盘 | a. 不强制；b. 每次 onShown 都请求焦点 | a | Spec 只要求从首页进入时聚焦；返回时弹键盘可能挡住历史标签，影响后续点击 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 685: | U16 | 结果页是否复用 `BaseNetWorkListView`（A14） | a. 复用（opacity 隐藏，四层常驻在树里）；b. 改成 if 渲染的自定义容器 | a | 和基线所有列表页一致，参考实现大概率也是这样，官方脚本应该是在同样的树结构上写的；b 等于另起一套 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 686: | U17 | 推荐词顺序 | a. 按服务端返回的顺序；b. 前端按 sortNum 再排一次 | a | 实测服务端已按 sortNum 升序返回；不重复处理 |

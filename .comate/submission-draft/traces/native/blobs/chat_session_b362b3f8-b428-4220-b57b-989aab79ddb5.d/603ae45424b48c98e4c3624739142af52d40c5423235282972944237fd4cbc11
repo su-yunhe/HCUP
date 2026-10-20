@@ -1,0 +1,1 @@
+- [Build/device env](reference_build_env.md) — JAVA_HOME/PATH for hvigorw; emulator arm64; flaky emulator network; Hypium start_app needs "EntryAbility"

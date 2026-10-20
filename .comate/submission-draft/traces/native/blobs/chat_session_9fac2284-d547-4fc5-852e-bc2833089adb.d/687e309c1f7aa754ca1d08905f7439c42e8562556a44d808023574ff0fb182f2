@@ -1,0 +1,1 @@
+- 原子行为：搜索页出现后，输入框自动获得焦点，用户不用点就能直接输入。做法（U1）：输入框设 `defaultFocus(true)`；页面第一次 `onShown` 之后再调一次 `focusControl.requestFocus("goods_search_input")` 兜底。

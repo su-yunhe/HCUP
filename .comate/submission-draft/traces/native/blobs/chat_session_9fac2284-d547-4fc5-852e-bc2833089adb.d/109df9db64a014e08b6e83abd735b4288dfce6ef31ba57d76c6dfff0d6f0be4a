@@ -1,0 +1,40 @@
+Found 13 matches
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 14: 决策状态：U1–U17 已于 2026-10-20 由用户确认，**全部采用第 6 节的推荐方案**。文中的 `Ux` 引用都指已经定下的做法，不再是待定问题。证据等级保留 `UNCONFIRMED_ASSUMPTION`，用来表明这些行为是我们自己定的，不是 Spec 明文写的；交付时要列进已知风险。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 85: | 从结果页返回搜索页 | 不发（推荐词保持） | 不发 | 重读 | — |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 289:   - 边界条件：中间空格保留（`Xiaomi 17 Pro`）；全角空格 `　`：`String.prototype.trim` 会去掉 U+3000（ECMAScript 把它算作空白），表现和半角一致；**ORM `save` 对新主键是否真的会插入还没验证**（baseline-notes §8.4），实现时第一件事就是在设备上验证。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 340:   - 边界条件：`BaseNetWorkListView` 四层状态都常驻在组件树里（只改 opacity），SUCCESS 状态下 `暂无数据`/`网络连接失败` 文本节点依然能查到（baseline-notes §8.3）。按 U16 复用 `BaseNetWorkListView`；自测判断空态、错误态时不能只看这些文本节点在不在，还要看 `goods_category_item_0` 是否存在。
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 618: - 来源：`spec/1-do.md` 对网络类需求的要求（"快速重复点击验证是否产生重复请求"）
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 678: | U4 | 点推荐标签是否也填进搜索框 | 填：先填进去，再提交 | A24 | 场景二·步骤5 写的是"同样执行搜索"，和步骤2 的历史标签保持一致 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 679: | U5 | 结果页是否显示当前关键词 | 显示：标题栏下方展示 keyword 文本（`goods_category_keyword`），标题仍是 `商品分类` | A15 | "以该关键词为筛选条件"可能被断言为"页面上能看到关键词"；代价很小 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 682: | U8 | 确认清空时是否同时清空输入框 | 清：`vm.keyword = ""` | A33、§1.1 | 场景三·步骤5 明写"搜索框为空"；测试如果是接着场景二做的，输入框里还留着词 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 684: | U10 | 去重是否区分大小写 | 区分：trim 后按字符串精确比较 | A21、A43 | 主键就是 keyword 原文；Spec 没要求归一化 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 685: | U11 | 数据库是否裁到 10 条 | 不裁剪，只在读取时用 `getRecentSearchHistory(10)` 取前 10 条 | A16、A26 | UI 上看不出区别；直接用基线已有的方法，改动最小 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 687: | U13 | 搜索页是否保留标题栏 `商品搜索` | 保留（基线占位页 `GoodsSearchPage.ets:22` 就有） | A1 | 改动最小，也可能是官方判断"进入了搜索页"的依据；代价只是多一行标题 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 689: | U15 | 从结果页返回后是否再次聚焦、弹键盘 | 不强制聚焦，也不主动弹键盘 | A2、§1.1 | Spec 只要求从首页进入时聚焦；返回时弹键盘可能挡住历史标签，影响后续点击 |
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/spec/acceptance.md:
+  Line 690: | U16 | 结果页是否复用 `BaseNetWorkListView` | 复用（四层状态常驻在组件树里，靠 opacity 切换）；自测判断空态 / 错误态时要结合 `goods_category_item_0` 是否存在 | A13、A14 | 和基线所有列表页一致，参考实现大概率也是这样，官方脚本应该就是在这种树结构上写的；另写容器等于另起一套 |

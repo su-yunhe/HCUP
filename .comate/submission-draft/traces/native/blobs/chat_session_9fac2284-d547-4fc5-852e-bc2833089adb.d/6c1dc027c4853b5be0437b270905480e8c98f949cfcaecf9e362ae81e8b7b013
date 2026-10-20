@@ -1,0 +1,38 @@
+Command executed successfully.
+Exit code: 0
+Output:
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-44-    private migrateManyToManyTables;
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-45-    /**
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-46-     * 插入实体
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-47-     */
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-48-    insert<T extends object>(entity: T | T[]): number;
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-49-    /**
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-50-     * 保存实体（有主键更新，无主键插入）
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-51-     */
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts:52:    save<T extends object>(entity: T): number;
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-54-     * 级联插入实体（同时插入关联数据）
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-55-     * 需要在关联装饰器中配置 cascade: [CascadeType.Create]
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-56-     */
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-57-    insertWithRelations<T extends object>(entity: T): number;
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-58-    /**
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-59-     * 级联保存实体（同时保存关联数据）
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-60-     * 需要在关联装饰器中配置 cascade: [CascadeType.Create] 或 [CascadeType.Update]
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts-61-     */
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets-next/core/ORM.d.ts:62:    saveWithRelations<T extends object>(entity: T): number;
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-117-    private createEntity;
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-118-    /**
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-119-     * 更新实体（仅更新已存在的实体）
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-120-     */
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-121-    private updateEntity;
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-122-    /**
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-123-     * 保存或更新实体（根据操作类型和主键值决定）
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-124-     */
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts:125:    private saveOrUpdateEntity;
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-126-    /**
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-127-     * 删除实体
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-128-     */
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-129-    private deleteEntity;
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-130-    /**
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-131-     * 保存实体（创建或更新）
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts-132-     */
+oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/oh_modules/@ibestservices/ibest-orm/src/main/ets/core/CascadeManager.d.ts:133:    private saveEntity;

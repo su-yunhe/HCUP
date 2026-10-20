@@ -1,0 +1,153 @@
+<file>
+     1→import { BaseNetWorkListUiState, BaseNetWorkListViewModel } from "base";
+     2→import { AddressRepository } from "data";
+     3→import { Address, Ids, NetworkPageData, NetworkResponse, PageRequest } from "model";
+     4→import {
+     5→  RefreshResult,
+     6→  UserAddressListParam,
+     7→  UserNavigator,
+     8→  UserSelectAddressResult,
+     9→  getRouteParams,
+    10→  navigateBackWithResult
+    11→} from "navigation";
+    12→import { UserRoutes } from "navigation/src/main/ets/user/UserRoutes";
+    13→import { RequestHelper } from "result";
+    14→
+    15→/**
+    16→ * @file 地址列表页面 ViewModel
+    17→ * @author Joker.X
+    18→ */
+    19→@ObservedV2
+    20→export default class AddressListViewModel extends BaseNetWorkListViewModel<Address> {
+    21→  /**
+    22→   * 地址仓库
+    23→   */
+    24→  private repository: AddressRepository = new AddressRepository();
+    25→  /**
+    26→   * 路由参数
+    27→   */
+    28→  private readonly routeParam: UserAddressListParam =
+    29→    getRouteParams<UserAddressListParam>(UserRoutes.AddressList) ?? {};
+    30→  /**
+    31→   * 是否为选择模式
+    32→   */
+    33→  readonly isSelectMode: boolean = this.routeParam.isSelectMode ?? false;
+    34→  /**
+    35→   * 是否显示删除确认弹窗
+    36→   */
+    37→  @Trace
+    38→  isDeleteDialogVisible: boolean = false;
+    39→  /**
+    40→   * 当前待删除的地址 ID
+    41→   */
+    42→  @Trace
+    43→  deleteId: number | null = null;
+    44→
+    45→  /**
+    46→   * 请求地址分页数据
+    47→   * @returns {Promise<NetworkResponse<NetworkPageData<Address>>>} 网络请求 Promise
+    48→   */
+    49→  protected requestListData(): Promise<NetworkResponse<NetworkPageData<Address>>> {
+    50→    const request: PageRequest = new PageRequest();
+    51→    request.page = this.currentPage;
+    52→    request.size = this.pageSize;
+    53→    return this.repository.getAddressPage(request);
+    54→  }
+    55→
+    56→  /**
+    57→   * 地址卡片点击回调
+    58→   * 根据当前模式决定是编辑地址还是选择地址
+    59→   * @param {Address} address - 点击的地址
+    60→   * @returns {void} 无返回值
+    61→   */
+    62→  onAddressClick(address: Address): void {
+    63→    if (this.isSelectMode) {
+    64→      const result: UserSelectAddressResult = { address };
+    65→      navigateBackWithResult(result);
+    66→      return;
+    67→    }
+    68→    this.onEditAddress(address.id);
+    69→  }
+    70→
+    71→  /**
+    72→   * 点击新增地址
+    73→   * @returns {void} 无返回值
+    74→   */
+    75→  onAddAddress(): void {
+    76→    UserNavigator.toAddressDetail().then((result?: RefreshResult): void => {
+    77→      if (result?.refresh) {
+    78→        this.onRefresh();
+    79→      }
+    80→    });
+    81→  }
+    82→
+    83→  /**
+    84→   * 点击编辑地址
+    85→   * @param {number} addressId - 地址 ID
+    86→   * @returns {void} 无返回值
+    87→   */
+    88→  onEditAddress(addressId: number): void {
+    89→    UserNavigator.toAddressDetail(true, addressId).then((result?: RefreshResult): void => {
+    90→      if (result?.refresh) {
+    91→        this.onRefresh();
+    92→      }
+    93→    });
+    94→  }
+    95→
+    96→  /**
+    97→   * 点击删除地址
+    98→   * @param {number} addressId - 地址 ID
+    99→   * @returns {void} 无返回值
+   100→   */
+   101→  onDeleteAddress(addressId: number): void {
+   102→    this.showDeleteDialog(addressId);
+   103→  }
+   104→
+   105→  /**
+   106→   * 显示删除确认弹窗，并记录待删除的地址 ID
+   107→   * @param {number} addressId - 待删除的地址 ID
+   108→   * @returns {void} 无返回值
+   109→   */
+   110→  showDeleteDialog(addressId: number): void {
+   111→    this.deleteId = addressId;
+   112→    this.isDeleteDialogVisible = true;
+   113→  }
+   114→
+   115→  /**
+   116→   * 隐藏删除确认弹窗，并清空待删除 ID
+   117→   * @returns {void} 无返回值
+   118→   */
+   119→  hideDeleteDialog(): void {
+   120→    this.isDeleteDialogVisible = false;
+   121→    this.deleteId = null;
+   122→  }
+   123→
+   124→  /**
+   125→   * 执行删除操作，成功后刷新列表并关闭弹窗
+   126→   * @returns {void} 无返回值
+   127→   */
+   128→  deleteAddress(): void {
+   129→    const id: number | null = this.deleteId;
+   130→    if (id === null) {
+   131→      return;
+   132→    }
+   133→    RequestHelper.repository(this.repository.deleteAddress(new Ids([id])))
+   134→      .execute()
+   135→      .then((): void => {
+   136→        this.onRefresh();
+   137→        this.hideDeleteDialog();
+   138→      });
+   139→  }
+   140→
+   141→  /**
+   142→   * 是否显示底部操作按钮
+   143→   * @returns {boolean} 是否显示
+   144→   */
+   145→  shouldShowBottomButton(): boolean {
+   146→    return this.uiState !== BaseNetWorkListUiState.LOADING
+   147→      && this.uiState !== BaseNetWorkListUiState.ERROR;
+   148→  }
+   149→}
+   150→
+</file>
+<metadata>The file has 150 lines in total.</metadata>

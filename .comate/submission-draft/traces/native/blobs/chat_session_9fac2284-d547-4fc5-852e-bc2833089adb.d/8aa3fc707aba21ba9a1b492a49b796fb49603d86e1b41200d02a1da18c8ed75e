@@ -1,0 +1,79 @@
+Found 26 matches
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/main/src/main/ets/viewmodel/HomeViewModel.ets:
+  Line 11: export default class HomeViewModel extends BaseNetWorkListViewModel<Goods> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/user/src/main/ets/view/FootprintPage.ets:
+  Line 38:       IBestDialog({
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/user/src/main/ets/view/ProfilePage.ets:
+  Line 36:       IBestDialog({
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/user/src/main/ets/view/AddressListPage.ets:
+  Line 66:       IBestDialog({
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/user/src/main/ets/viewmodel/AddressListViewModel.ets:
+  Line 9:   getRouteParams,
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/user/src/main/ets/viewmodel/AddressListViewModel.ets:
+  Line 20: export default class AddressListViewModel extends BaseNetWorkListViewModel<Address> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/user/src/main/ets/viewmodel/AddressListViewModel.ets:
+  Line 29:     getRouteParams<UserAddressListParam>(UserRoutes.AddressList) ?? {};
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/user/src/main/ets/viewmodel/AddressDetailViewModel.ets:
+  Line 5: import { RefreshResult, UserAddressDetailParam, getRouteParams, navigateBackWithResult } from "navigation";
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/user/src/main/ets/viewmodel/AddressDetailViewModel.ets:
+  Line 24:     getRouteParams<UserAddressDetailParam>(UserRoutes.AddressDetail) ?? {};
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/viewmodel/GoodsCommentViewModel.ets:
+  Line 4: import { getRouteParams, GoodsIdParam } from "navigation";
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/viewmodel/GoodsCommentViewModel.ets:
+  Line 13: export default class GoodsCommentViewModel extends BaseNetWorkListViewModel<Comment> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/viewmodel/GoodsCommentViewModel.ets:
+  Line 21:   private readonly routeParam: GoodsIdParam = getRouteParams<GoodsIdParam>(GoodsRoutes.Comment);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/viewmodel/GoodsDetailViewModel.ets:
+  Line 14: import { getRouteParams, GoodsIdParam, OrderNavigator } from "navigation";
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/goods/src/main/ets/viewmodel/GoodsDetailViewModel.ets:
+  Line 73:   private readonly routeParam: GoodsIdParam = getRouteParams<GoodsIdParam>(GoodsRoutes.Detail);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/view/OrderDetailPage.ets:
+  Line 95:     IBestDialog({
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/viewmodel/OrderListViewModel.ets:
+  Line 11: export default class OrderListViewModel extends BaseNetWorkListViewModel<Order> {
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/viewmodel/OrderLogisticsViewModel.ets:
+  Line 4: import { OrderIdParam, getRouteParams } from "navigation";
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/viewmodel/OrderLogisticsViewModel.ets:
+  Line 21:   private readonly routeParam: OrderIdParam | undefined = getRouteParams<OrderIdParam>(OrderRoutes.Logistics);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/viewmodel/OrderCommentViewModel.ets:
+  Line 4: import { getRouteParams } from "navigation";
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/viewmodel/OrderCommentViewModel.ets:
+  Line 16:   private readonly routeParam: OrderCommentParam | undefined = getRouteParams<OrderCommentParam>(OrderRoutes.Comment);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/viewmodel/OrderRefundViewModel.ets:
+  Line 14: import { OrderIdParam, RefreshResult, getRouteParams, navigateBackWithResult } from "navigation";
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/viewmodel/OrderRefundViewModel.ets:
+  Line 35:   private readonly routeParam: OrderIdParam | undefined = getRouteParams<OrderIdParam>(OrderRoutes.Refund);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/viewmodel/OrderPayViewModel.ets:
+  Line 10:   getRouteParams,
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/viewmodel/OrderPayViewModel.ets:
+  Line 28:   private readonly routeParam: OrderPayParam | undefined = getRouteParams<OrderPayParam>(OrderRoutes.Pay);
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/viewmodel/OrderDetailViewModel.ets:
+  Line 14: import { GoodsNavigator, OrderIdParam, OrderNavigator, getRouteParams } from "navigation";
+
+/Users/bress/Documents/code/harmonycup-work/cml-combo-search/feature/order/src/main/ets/viewmodel/OrderDetailViewModel.ets:
+  Line 35:   private readonly routeParam: OrderIdParam | undefined = getRouteParams<OrderIdParam>(OrderRoutes.Detail);

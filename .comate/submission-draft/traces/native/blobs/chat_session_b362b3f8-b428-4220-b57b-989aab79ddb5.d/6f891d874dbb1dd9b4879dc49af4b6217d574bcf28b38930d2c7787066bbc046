@@ -1,0 +1,1 @@
+{"schemaVersion":1,"conversationId":"7154241","highWaterMark":1,"tasks":[{"id":"1","subject":"修复数据层：SearchHistory upsert + 导出仓库","description":"SearchHistoryLocalDataSourceImpl.addSearchHistory 改为 delete-where + insert（save 对新主键只走 UPDATE，已反汇编确认）；core/data/Index.ets 导出 SearchHistoryRepository","status":"pending","blocks":[],"blockedBy":[]}],"snapshotAtMs":1792474943677}

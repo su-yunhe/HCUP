@@ -1,0 +1,49 @@
+import { BaseNetWorkListViewModel } from "base";
+import { GoodsRepository } from "data";
+import { Goods, GoodsSearchRequest, NetworkPageData, NetworkResponse } from "model";
+import { getRouteParams, GoodsCategoryParam, GoodsNavigator } from "navigation";
+import { GoodsRoutes } from "navigation/src/main/ets/goods/GoodsRoutes";
+
+/**
+ * @file 商品分类页面 ViewModel
+ * @author Joker.X
+ */
+@ObservedV2
+export default class GoodsCategoryViewModel extends BaseNetWorkListViewModel<Goods> {
+  /**
+   * 商品仓库
+   */
+  private readonly repository: GoodsRepository = new GoodsRepository();
+  /**
+   * 路由参数
+   */
+  private readonly routeParam: GoodsCategoryParam | undefined =
+    getRouteParams<GoodsCategoryParam | undefined>(GoodsRoutes.Category);
+  /**
+   * 搜索关键词
+   */
+  readonly keyword: string = this.routeParam?.keyword ?? "";
+
+  /**
+   * 按关键词请求商品分页数据
+   * @returns {Promise<NetworkResponse<NetworkPageData<Goods>>>} 网络请求 Promise
+   */
+  protected requestListData(): Promise<NetworkResponse<NetworkPageData<Goods>>> {
+    const request: GoodsSearchRequest = new GoodsSearchRequest();
+    request.page = this.currentPage;
+    request.size = this.pageSize;
+    if (this.keyword) {
+      request.keyWord = this.keyword;
+    }
+    return this.repository.getGoodsPage(request);
+  }
+
+  /**
+   * 跳转商品详情
+   * @param {number} goodsId - 商品 ID
+   * @returns {void} 无返回值
+   */
+  toGoodsDetail(goodsId: number): void {
+    GoodsNavigator.toDetail(goodsId);
+  }
+}

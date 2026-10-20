@@ -1,4 +1,7 @@
-import { AppNavDestination } from "ui";
+import { P100, rowCenter, size, SpaceHorizontalSmall } from "designsystem";
+import { Goods } from "model";
+import { AppNavDestination, BaseNetWorkListView, GoodsGridItem, RefreshLayout } from "ui";
+import { bp } from "state";
 import GoodsCategoryViewModel from "../viewmodel/GoodsCategoryViewModel";
 
 /**
@@ -12,6 +15,10 @@ export struct GoodsCategoryPage {
    */
   @Local
   private vm: GoodsCategoryViewModel = new GoodsCategoryViewModel();
+  /**
+   * 列表滚动控制器
+   */
+  private listScroller: Scroller = new Scroller();
 
   /**
    * 构建商品分类页面
@@ -22,8 +29,54 @@ export struct GoodsCategoryPage {
       title: "商品分类",
       viewModel: this.vm
     }) {
-      this.GoodsCategoryContent();
+      Column() {
+        if (this.vm.keyword) {
+          this.KeywordBar();
+        }
+
+        Column() {
+          BaseNetWorkListView({
+            uiState: this.vm.uiState,
+            onRetry: (): void => this.vm.retryRequest(),
+            content: (): void => this.GoodsCategoryContent()
+          });
+        }
+        .width(P100)
+        .layoutWeight(1);
+      }
+      .width(P100)
+      .height(P100);
     }
+  }
+
+  /**
+   * 当前搜索关键词栏
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private KeywordBar() {
+    Row() {
+      Image($r("app.media.ic_search"))
+        .fillColor($r("app.color.text_tertiary"))
+        .attributeModifier(size(16));
+
+      SpaceHorizontalSmall();
+
+      Text(this.vm.keyword)
+        .id("goods_category_keyword")
+        .layoutWeight(1)
+        .fontSize($r("app.float.body_medium"))
+        .fontColor($r("app.color.text_primary"))
+        .maxLines(1)
+        .textOverflow({ overflow: TextOverflow.Ellipsis });
+    }
+    .attributeModifier(rowCenter())
+    .width(P100)
+    .height(44)
+    .padding({
+      left: $r("app.float.space_horizontal_medium"),
+      right: $r("app.float.space_horizontal_medium")
+    });
   }
 
   /**
@@ -32,6 +85,40 @@ export struct GoodsCategoryPage {
    */
   @Builder
   private GoodsCategoryContent() {
-    Text("商品分类页面内容视图")
+    RefreshLayout({
+      loading: this.vm.isLoading,
+      isEnableSlideUp: this.vm.isEnableSlideUp,
+      scroller: this.listScroller,
+      onRefresh: (direction: "pull" | "slideUp"): void => this.vm.onRefreshDirection(direction)
+    }) {
+      List({ scroller: this.listScroller }) {
+        ListItem() {
+          Grid() {
+            ForEach(this.vm.listData, (item: Goods, index: number): void => {
+              GridItem() {
+                GoodsGridItem({
+                  goods: item,
+                  onItemClick: (id: number): void => this.vm.toGoodsDetail(id)
+                });
+              }
+              .id(`goods_category_item_${index}`);
+            }, (item: Goods, index: number): string => `${item.id}-${index}`);
+          }
+          .columnsTemplate(bp({ sm: "1fr 1fr", md: "1fr 1fr 1fr", lg: "1fr 1fr 1fr 1fr" }))
+          .columnsGap($r("app.float.space_padding_small"))
+          .rowsGap($r("app.float.space_padding_small"))
+          .width(P100);
+        }
+      }
+      .id("goods_category_list")
+      .width(P100)
+      .height(P100)
+      .padding({
+        left: $r("app.float.space_horizontal_medium"),
+        right: $r("app.float.space_horizontal_medium"),
+        bottom: $r("app.float.space_padding_medium")
+      })
+      .edgeEffect(EdgeEffect.None);
+    }
   }
 }

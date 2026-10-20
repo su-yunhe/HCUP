@@ -1,0 +1,6 @@
+  async addSearchHistory(searchHistory: SearchHistory): Promise<void> {
+    // save 在主键有值时只执行 UPDATE，新关键词不会被插入，这里先删后插实现新增或置顶
+    const entity: SearchHistoryEntity = this.toEntity(searchHistory);
+    this.orm.query(SearchHistoryEntity).where("keyword", entity.keyword).delete();
+    this.orm.insert(entity);
+  }

@@ -1,0 +1,132 @@
+<file>
+     1→import { getORM } from "@ibestservices/ibest-orm";
+     2→import { SearchHistory } from "model";
+     3→import { SearchHistoryLocalDataSource } from "./SearchHistoryLocalDataSource";
+     4→import { SearchHistoryEntity } from "../../entity/SearchHistoryEntity";
+     5→
+     6→/**
+     7→ * @file 搜索历史本地数据源实现
+     8→ * @author Joker.X
+     9→ */
+    10→export class SearchHistoryLocalDataSourceImpl implements SearchHistoryLocalDataSource {
+    11→  /**
+    12→   * 迁移标记，防止重复执行 migrate
+    13→   */
+    14→  private static migrated: boolean = false;
+    15→  /**
+    16→   * ORM 实例，用于执行数据库操作
+    17→   */
+    18→  private orm = getORM();
+    19→
+    20→  /**
+    21→   * 构造函数，初始化 ORM 并确保搜索历史表已迁移
+    22→   * @returns {SearchHistoryLocalDataSourceImpl} 实例
+    23→   */
+    24→  constructor() {
+    25→    this.ensureMigrated();
+    26→  }
+    27→
+    28→  /**
+    29→   * 确保搜索历史表完成迁移
+    30→   * @returns {void} 无返回
+    31→   */
+    32→  private ensureMigrated(): void {
+    33→    if (!SearchHistoryLocalDataSourceImpl.migrated) {
+    34→      this.orm.migrate(SearchHistoryEntity);
+    35→      SearchHistoryLocalDataSourceImpl.migrated = true;
+    36→    }
+    37→  }
+    38→
+    39→  /**
+    40→   * 添加搜索历史记录
+    41→   * @param {SearchHistory} searchHistory 搜索历史记录
+    42→   * @returns {Promise<void>} Promise<void>
+    43→   */
+    44→  async addSearchHistory(searchHistory: SearchHistory): Promise<void> {
+    45→    this.orm.save(this.toEntity(searchHistory));
+    46→  }
+    47→
+    48→  /**
+    49→   * 根据关键词删除搜索历史记录
+    50→   * @param {string} keyword 搜索关键词
+    51→   * @returns {Promise<void>} Promise<void>
+    52→   */
+    53→  async removeSearchHistory(keyword: string): Promise<void> {
+    54→    this.orm.query(SearchHistoryEntity).where("keyword", keyword).delete();
+    55→  }
+    56→
+    57→  /**
+    58→   * 清空所有搜索历史记录
+    59→   * @returns {Promise<void>} Promise<void>
+    60→   */
+    61→  async clearAllSearchHistory(): Promise<void> {
+    62→    this.orm.query(SearchHistoryEntity).delete();
+    63→  }
+    64→
+    65→  /**
+    66→   * 获取所有搜索历史记录，按搜索时间倒序
+    67→   * @returns {Promise<SearchHistory[]>} 搜索历史列表
+    68→   */
+    69→  async getAllSearchHistory(): Promise<SearchHistory[]> {
+    70→    const list: SearchHistoryEntity[] = this.orm.query(SearchHistoryEntity).find();
+    71→    return list
+    72→      .map((entity) => this.toModel(entity))
+    73→      .sort((left, right) => (right.searchTime ?? 0) - (left.searchTime ?? 0));
+    74→  }
+    75→
+    76→  /**
+    77→   * 获取搜索历史记录数量
+    78→   * @returns {Promise<number>} 搜索历史数量
+    79→   */
+    80→  async getSearchHistoryCount(): Promise<number> {
+    81→    return this.orm.query(SearchHistoryEntity).find().length;
+    82→  }
+    83→
+    84→  /**
+    85→   * 获取指定数量的最新搜索历史记录
+    86→   * @param {number} limit 限制数量
+    87→   * @returns {Promise<SearchHistory[]>} 搜索历史列表
+    88→   */
+    89→  async getRecentSearchHistory(limit: number): Promise<SearchHistory[]> {
+    90→    const all: SearchHistory[] = await this.getAllSearchHistory();
+    91→    return all.slice(0, limit);
+    92→  }
+    93→
+    94→  /**
+    95→   * 根据关键词获取搜索历史记录
+    96→   * @param {string} keyword 搜索关键词
+    97→   * @returns {Promise<SearchHistory | undefined>} 匹配到的搜索历史
+    98→   */
+    99→  async getSearchHistoryByKeyword(keyword: string): Promise<SearchHistory | undefined> {
+   100→    const result: SearchHistoryEntity[] = this.orm.query(SearchHistoryEntity).where("keyword", keyword).find();
+   101→    const entity: SearchHistoryEntity | undefined = result[0];
+   102→    return entity ? this.toModel(entity) : undefined;
+   103→  }
+   104→
+   105→  /**
+   106→   * 将领域模型转换为数据库实体
+   107→   * @param {SearchHistory} history 搜索历史领域模型
+   108→   * @returns {SearchHistoryEntity} 数据库实体
+   109→   */
+   110→  private toEntity(history: SearchHistory): SearchHistoryEntity {
+   111→    const entity: SearchHistoryEntity = new SearchHistoryEntity();
+   112→    entity.keyword = history.keyword.trim();
+   113→    entity.searchTime = history.searchTime;
+   114→    return entity;
+   115→  }
+   116→
+   117→  /**
+   118→   * 将数据库实体转换为领域模型
+   119→   * @param {SearchHistoryEntity} entity 数据库实体
+   120→   * @returns {SearchHistory} 领域模型
+   121→   */
+   122→  private toModel(entity: SearchHistoryEntity): SearchHistory {
+   123→    const history: SearchHistory = new SearchHistory();
+   124→    history.keyword = entity.keyword ?? "";
+   125→    history.searchTime = entity.searchTime ?? Date.now();
+   126→    return history;
+   127→  }
+   128→}
+   129→
+</file>
+<metadata>The file has 129 lines in total.</metadata>

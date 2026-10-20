@@ -1,0 +1,32 @@
+"""场景四与跨场景边界：空输入 / 纯空格、连点、重启持久化。"""
+from hypium import BY
+
+from hypium_tests.search_helpers import (
+    HOME_SEARCH_BAR, HISTORY_TAG, RESULT_LIST, SEARCH_BUTTON, TEXT_HISTORY, TEXT_RECOMMEND, SearchTestCase,
+)
+
+
+class TestScenario4Edge(SearchTestCase):
+
+    def assert_stayed(self, history: list[str]) -> None:
+        self.driver.wait(1.5)
+        self.assertIsNone(self.find_or_none(BY.key(RESULT_LIST), timeout=1), "空输入不应跳转结果页")
+        self.assertTrue(self.on_search_page(), "空输入后应停留在搜索页")
+        self.assertEqual(self.history(), history, "空输入不应写入历史")
+        self.require_text(TEXT_RECOMMEND, "推荐搜索区域应保持")
+
+    def test_a35_empty_input_button(self):
+        """A35：空输入点“搜索”不跳转、不写历史（无历史前置）；连点多次也一样。"""
+        self.open_search()
+        for _ in range(3):
+            self.click_search_button()
+        self.assert_stayed([])
+        self.assertIsNone(self.find_or_none(BY.text(TEXT_HISTORY), timeout=1))
+
+    def test_a36_a37_a39_spaces_with_history(self):
+        """A36/A37/A39：有历史时纯空格点按钮 / 按键盘搜索键都不搜索；空格保留；之后正常搜索。"""
+        self.open_search()
+        self.search_and_back("手机")
+        self.back_to_home()
+        self.open_search()
+  

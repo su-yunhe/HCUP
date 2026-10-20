@@ -1,0 +1,49 @@
+"""临时探测脚本：确认搜索页在设备上的基本行为（不进仓库）。"""
+import sys
+import time
+
+from hypium import BY, UiDriver
+from hypium.model import KeyCode
+
+BUNDLE = "com.joker.coolmall"
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+d.stop_app(BUNDLE)
+d.start_app(BUNDLE, wait_time=3)
+
+
+def find(by, timeout=10):
+    end = time.time() + timeout
+    while time.time() < end:
+        c = d.find_component(by)
+        if c is not None:
+            return c
+        time.sleep(0.5)
+    return None
+
+
+bar = find(BY.key("home_search_bar"))
+print("home bar", bar)
+d.click(bar)
+time.sleep(1.5)
+inp = find(BY.key("goods_search_input"))
+print("input", inp, inp and inp.isFocused())
+print("button", find(BY.text("搜索")))
+print("recommend title", find(BY.text("推荐搜索")))
+print("history title", find(BY.text("搜索历史"), timeout=2))
+r0 = find(BY.key("search_recommend_tag_0"))
+print("rec0", r0 and r0.getText())
+# 键盘窗口
+out = d.shell("hidumper -s WindowManagerService -a '-a'")
+print("\n".join(l for l in out.splitlines() if "input" in l.lower() or "keyboard" in l.lower())[:2000])
+d.input_text(inp, "  手机  ")
+time.sleep(0.5)
+print("input text", repr(find(BY.key("goods_search_input")).getText()))
+d.press_key(KeyCode.ENTER)
+time.sleep(2)
+print("keyword label", find(BY.key("goods_category_keyword"), timeout=5))
+print("item0", find(BY.key("goods_category_item_0"), timeout=5))
+d.press_back()
+time.sleep(1.5)
+h0 = find(BY.key("search_history_tag_0"), timeout=5)
+print("history0", h0 and repr(h0.getText()))
+sys.exit(0)

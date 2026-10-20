@@ -1,0 +1,16 @@
+"""场景三：清空历史（删除图标 → 确认框 → 取消 / 确认 / 返回键）。"""
+from hypium import BY
+
+from hypium_tests.search_helpers import (
+    HISTORY_CLEAR, HISTORY_SECTION, RECOMMEND_SECTION, TEXT_CANCEL, TEXT_CLEAR_MESSAGE, TEXT_CONFIRM,
+    TEXT_HISTORY, TEXT_RECOMMEND, SearchTestCase,
+)
+
+
+class TestScenario3Clear(SearchTestCase):
+
+    def seed(self, *words: str) -> None:
+        self.open_search()
+        for w in words:
+            self.search_and_back(w)
+        self.assertEqual(self.wait_history(words[-1]), list(reversed(words)))

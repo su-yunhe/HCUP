@@ -1,0 +1,139 @@
+Command executed successfully.
+Exit code: 0
+Output:
+diff --git a/core/data/Index.ets b/core/data/Index.ets
+index c7585a6..d40346a 100644
+--- a/core/data/Index.ets
++++ b/core/data/Index.ets
+@@ -23,6 +23,8 @@ export { FeedbackRepository } from './src/main/ets/repository/FeedbackRepository
+ 
+ export { FootprintRepository } from './src/main/ets/repository/FootprintRepository';
+ 
++export { SearchHistoryRepository } from './src/main/ets/repository/SearchHistoryRepository';
++
+ export { OrderRepository } from './src/main/ets/repository/OrderRepository';
+ 
+ export { PageRepository } from './src/main/ets/repository/PageRepository';
+diff --git a/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets b/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets
+index 01231b9..a7e59a2 100644
+--- a/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets
++++ b/core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets
+@@ -42,7 +42,10 @@ export class SearchHistoryLocalDataSourceImpl implements SearchHistoryLocalDataS
+    * @returns {Promise<void>} Promise<void>
+    */
+   async addSearchHistory(searchHistory: SearchHistory): Promise<void> {
+-    this.orm.save(this.toEntity(searchHistory));
++    // 关键词不是主键，先删除同名记录再插入，实现新增或置顶
++    const entity: SearchHistoryEntity = this.toEntity(searchHistory);
++    this.orm.query(SearchHistoryEntity).where("keyword", entity.keyword ?? "").delete();
++    this.orm.insert(entity);
+   }
+ 
+   /**
+diff --git a/core/database/src/main/ets/entity/SearchHistoryEntity.ets b/core/database/src/main/ets/entity/SearchHistoryEntity.ets
+index 881c81b..d7d49ae 100644
+--- a/core/database/src/main/ets/entity/SearchHistoryEntity.ets
++++ b/core/database/src/main/ets/entity/SearchHistoryEntity.ets
+@@ -1,15 +1,20 @@
+ import { Table, Column, PrimaryKey, ColumnType } from "@ibestservices/ibest-orm";
+ 
+ /**
+- * @file 搜索历史数据库实体，映射 search_history 表。
++ * @file 搜索历史数据库实体，映射 goods_search_history 表。
+  * @author Joker.X
+  */
+-@Table({ name: "search_history" })
++@Table({ name: "goods_search_history" })
+ export class SearchHistoryEntity {
+   /**
+-   * 主键，使用搜索关键词作为主键
++   * 自增主键（ibest-orm 的 @PrimaryKey 固定为 INTEGER 类型，不能直接用文本关键词做主键）
+    */
+-  @PrimaryKey({ autoIncrement: false })
++  @PrimaryKey()
++  id?: number;
++  /**
++   * 搜索关键词，由数据源保证唯一
++   */
++  @Column({ type: ColumnType.TEXT })
+   keyword?: string;
+   /**
+    * 搜索时间戳
+diff --git a/feature/main/src/main/ets/component/HomeTopBar.ets b/feature/main/src/main/ets/component/HomeTopBar.ets
+index cb7d7e5..c8b28b7 100644
+--- a/feature/main/src/main/ets/component/HomeTopBar.ets
++++ b/feature/main/src/main/ets/component/HomeTopBar.ets
+@@ -68,6 +68,7 @@ export struct HomeTopBar {
+     })
+     .backgroundColor($r("app.color.bg_white"))
+     .borderRadius($r("app.float.radius_medium"))
++    .id("home_search_bar")
+     .onClick((): void => this.onSearchTap());
+   }
+ 
+diff --git a/feature/main/src/main/ets/view/HomePage.ets b/feature/main/src/main/ets/view/HomePage.ets
+index e628d32..d7a4cac 100644
+--- a/feature/main/src/main/ets/view/HomePage.ets
++++ b/feature/main/src/main/ets/view/HomePage.ets
+@@ -35,7 +35,9 @@ export struct HomePage {
+       viewModel: this.vm,
+       hideTitleBar: true,
+     }) {
+-      HomeTopBar();
++      HomeTopBar({
++        onSearchTap: (): void => this.vm.toSearch()
++      });
+       BaseNetWorkListView({
+         uiState: this.vm.uiState,
+         onRetry: (): void => this.vm.retryRequest(),
+diff --git a/feature/main/src/main/ets/viewmodel/HomeViewModel.ets b/feature/main/src/main/ets/viewmodel/HomeViewModel.ets
+index 1a47172..580bdc1 100644
+--- a/feature/main/src/main/ets/viewmodel/HomeViewModel.ets
++++ b/feature/main/src/main/ets/viewmodel/HomeViewModel.ets
+@@ -1,6 +1,7 @@
+ import { BaseNetWorkListUiState, BaseNetWorkListViewModel } from "base";
+ import { GoodsRepository, PageRepository } from "data";
+ import { Goods, GoodsSearchRequest, Home, NetworkPageData, NetworkResponse } from "model";
++import { GoodsNavigator } from "navigation";
+ import { RequestHelper } from "result";
+ 
+ /**
+@@ -22,6 +23,23 @@ export default class HomeViewModel extends BaseNetWorkListViewModel<Goods> {
+    */
+   @Trace
+   pageData: Home = new Home();
++  /**
++   * 上次跳转搜索页的时间戳，用于防止连点重复入栈
++   */
++  private lastSearchNavigateTime: number = 0;
++
++  /**
++   * 跳转商品搜索页（1 秒内重复点击只跳转一次）
++   * @returns {void} 无返回值
++   */
++  toSearch(): void {
++    const now: number = Date.now();
++    if (now - this.lastSearchNavigateTime < 1000) {
++      return;
++    }
++    this.lastSearchNavigateTime = now;
++    GoodsNavigator.toSearch();
++  }
+ 
+   /**
+    * 重写请求列表数据方法来实现全部商品分页
+ M core/data/Index.ets
+ M core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets
+ M core/database/src/main/ets/entity/SearchHistoryEntity.ets
+ M feature/goods/src/main/ets/view/GoodsCategoryPage.ets
+ M feature/goods/src/main/ets/view/GoodsSearchPage.ets
+ M feature/goods/src/main/ets/viewmodel/GoodsCategoryViewModel.ets
+ M feature/goods/src/main/ets/viewmodel/GoodsSearchViewModel.ets
+ M feature/goods/src/main/resources/base/element/string.json
+ M feature/goods/src/main/resources/en/element/string.json
+ M feature/main/src/main/ets/component/HomeTopBar.ets
+ M feature/main/src/main/ets/view/HomePage.ets
+ M feature/main/src/main/ets/viewmodel/HomeViewModel.ets
+?? hypium_tests/
+?? logs/
+?? spec/

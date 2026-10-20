@@ -1,0 +1,3 @@
+  async addSearchHistory(searchHistory: SearchHistory): Promise<void> {
+    this.orm.save(this.toEntity(searchHistory));
+  }

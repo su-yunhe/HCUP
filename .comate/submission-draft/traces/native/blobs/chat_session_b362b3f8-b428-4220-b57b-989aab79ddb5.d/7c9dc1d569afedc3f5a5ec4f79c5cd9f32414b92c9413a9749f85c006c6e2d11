@@ -1,0 +1,3 @@
+    const entity: SearchHistoryEntity = this.toEntity(searchHistory);
+    this.orm.query(SearchHistoryEntity).where("keyword", entity.keyword ?? "").delete();
+    this.orm.insert(entity);

@@ -1,0 +1,2 @@
+    // save 在主键有值时只执行 UPDATE，新关键词不会被插入，这里先删后插实现新增或置顶
+    const entity: SearchHistoryEntity = this.toEntity(searchHistory);

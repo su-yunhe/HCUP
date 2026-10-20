@@ -1,0 +1,55 @@
+## 8. 测试可观测性风险
+
+### 8.1 没有稳定 id
+
+- 【代码】`feature/` 和 `core/` 源码里 `.id(` / `.key(` 的使用次数都是 **0**。
+- 【实测】首页 dump 里唯一带 id 的业务节点是三方组件自动生成的 `ibest_pull_down_161`（下拉刷新），这个 id 不稳定，不能用。
+- 影响：新增的输入框、按钮、垃圾桶图标、标签都必须补 `.id()`（清单见 `acceptance.md` §0）。垃圾桶是纯图标，没有 id 就只能靠类型+顺序去找。
+
+### 8.2 资源重名导致的文案偏差
+
+工程有多个 HAR 模块，相同 key 的字符串在编译时只保留**第一个声明**的值（构建日志 `'confirm' conflict, first declared ... core/ui/.../string.json`）。用 `restool dump` 打开基线 HAP 核对编译后的实际值【实测】：
+
+| key | 声明位置与值 | HAP 中的实际值 | 对本题的影响 |
+| --- | --- | --- | --- |
+| `confirm` | core/ui「确定」、feature/goods「确定」、feature/user「确认」、feature/order「确认」 | **确定** | Spec 要的是 `确认`，**不能用这个 key** |
+| `ok` | feature/user「确认」等 | 默认「确认」，另外有 `zh_CN` 限定的「确定」 | 设备语言是 `zh-Hans`，会不会命中 `zh_CN` 未验证，**不能用** |
+| `cancel` | core/ui / user / order 都是「取消」 | 取消 | 可以用 |
+| `search` | core/ui、feature/main 都是「搜索」 | 搜索 | 可以用 |
+| `search_history` / `recommended_search` | 只在 feature/goods | 搜索历史 / 推荐搜索 | 可以用 |
+
+顺带：足迹页 `FootprintPage.ets:43` 用的 `$r("app.string.confirm")`，按上表实际显示的是"确定"（【推断】，因为要登录才能进足迹页，没有在设备上看到）。这是基线问题，按要求只记录，不修。
+
+新建资源 key 时要用本模块唯一的名字（例如 `search_history_clear_confirm`），否则会被别的模块先声明的同名 key 覆盖，而且会多出一条重名告警。设备语言是简体中文【实测 `persist.global.locale=zh-Hans`】，`$r` 取到的是 base 下的中文；en 目录下的值不影响评测。
+
+### 8.3 被隐藏的状态层仍然留在组件树里
+
+- 【代码】`BaseNetWorkListView.ets:78-118` 只用 opacity 隐藏非当前状态。
+- 【实测】首页加载成功后 dump 出来，`网络连接失败`、`重新加载`、`暂无数据`、`加载中...` 这些节点都还在，属性是 `visible=true`、`opacity=1.000000`（隐藏它们的 opacity 设在父容器上，节点本身拿不到）。
+- 影响：
+  - 结果页如果复用这个组件，"`暂无数据` 存在 / 不存在" 这种断言没法区分状态（acceptance U16）。
+  - 搜索页的历史区域必须用 `if` 渲染，否则清空之后 `搜索历史` 仍然"存在"（acceptance A5/A32）。
+  - 内容层叠在最上面，opacity 为 0 时有没有拦截点击，未验证。
+
+### 8.4 搜索历史 upsert 的语义没有验证
+
+- 【代码】`SearchHistoryLocalDataSourceImpl.ets:45` 用的是 `orm.save(entity)`；ibest-orm 2.0.2 的声明里注释是"保存实体（有主键更新，无主键插入）"（`oh_modules/.ohpm/@ibestservices+ibest-orm@2.0.2/.../ets-next/core/ORM.d.ts:49-52`）。
+- 【推断】`keyword` 是手动设置的非自增主键，新词一进来"有主键"就成立。如果 `save` 只根据"主键字段有没有值"来决定走 UPDATE，那新词会去 UPDATE 一个不存在的行，结果一条都写不进去。这个风险也可能不存在（如果它内部先查一次是否存在）。
+- 同一工程里，Cart 新增用的是 `insert`、更新才用 `save`（`CartLocalDataSourceImpl.ets:45` vs `:54`），足迹用的是 `deleteById + insert`（`FootprintLocalDataSourceImpl.ets:45-46`）；只有搜索历史是直接 `save`，而且这条链路在基线里从来没有被调用过。
+- 结论：**未验证**。实现阶段第一步就在设备上验证"新词能插入、旧词能更新 searchTime"；不行就改成 `deleteById + insert`。
+
+### 8.5 同名文本与选择器歧义
+
+- 搜索页里 `搜索`（按钮）、`搜索历史`、`推荐搜索`、`商品搜索`（标题）都含"搜索"二字：精确匹配没有冲突，`CONTAINS` 匹配会冲突。要保证精确文本 `搜索` 在页面上只出现一次。
+- 首页是 `搜索商品`，搜索页标题是 `商品搜索`，两个字符串不一样，不会冲突。
+- 同一个词可能同时出现在历史和推荐两个区域（点了推荐词再返回之后一定会这样），按文本查找会命中两个节点；历史在上方，按树顺序先命中历史。
+- 推荐词之间存在前缀关系（`Xiaomi 17` / `Xiaomi 17 Pro` / `Xiaomi 17 Ultra` / `Xiaomi 17T Pro`）：精确匹配没问题，模糊匹配会命中多个。
+- 结果页的商品标题可能包含关键词（`Xiaomi 17` → `Xiaomi 17T Pro`），如果结果页还显示关键词（U5），要用精确匹配才能区分。
+- 对话框里的 `确认` 和提示文案 `确认清空所有搜索历史吗？` 在 `CONTAINS` 匹配下会冲突，精确匹配下不会。
+
+### 8.6 其它
+
+- 三方组件（`IBestDialog`、`IBestSearch`、`IBestTag`）的内部节点不能设 id；`IBestDialog` 的按钮只能按文本定位。用 `IBestSearch` 的话，输入框本体也拿不到我们的 id，只能用外层容器的 id 再按类型 `TextInput` 往下找。【推断】用原生 `TextInput`（或 `Search`）+ `.id()` 更稳，实现时定。
+- 输入框的 placeholder 在 dump 里是 `hint` 属性，不是 `text`（首页 dump 中的 TextInput 类组件未出现，**未验证**）；"搜索框为空"的断言应该检查 `text == ""`。
+- 软键盘是否弹出，Hypium 没有直接的 API，只能靠窗口列表或截图（未验证具体做法）。
+- 模拟器网络不稳（§7），涉及 R1/R2 的用例需要预检 + 重试，不然会把网络抖动误判成功能失败。

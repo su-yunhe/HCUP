@@ -1,0 +1,2 @@
+- Emulator DNS (114.114.114.114 / 8.8.8.8) is flaky on this network: first app launch may show "网络连接失败"; retry/relaunch before judging network-dependent tests. Observed 2026-10-20: emulator ping RTT ~30 s while host curl was fine.
+- Hypium `start_app("com.joker.coolmall")` fails ("Fail to get main ability

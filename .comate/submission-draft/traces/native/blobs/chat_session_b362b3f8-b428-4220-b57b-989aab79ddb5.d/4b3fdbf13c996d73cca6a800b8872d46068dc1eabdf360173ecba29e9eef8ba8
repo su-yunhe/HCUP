@@ -1,0 +1,91 @@
+"""场景四与跨场景边界：空输入 / 纯空格、连点、重启持久化。"""
+from hypium import BY
+
+from hypium_tests.search_helpers import (
+    HOME_SEARCH_BAR, HISTORY_TAG, RESULT_LIST, SEARCH_BUTTON, TEXT_HISTORY, TEXT_RECOMMEND, SearchTestCase,
+)
+
+
+class TestScenario4Edge(SearchTestCase):
+
+    def assert_stayed(self, history: list[str]) -> None:
+        self.driver.wait(1.5)
+        self.assertIsNone(self.find_or_none(BY.key(RESULT_LIST), timeout=1), "空输入不应跳转结果页")
+        self.assertTrue(self.on_search_page(), "空输入后应停留在搜索页")
+        self.assertEqual(self.history(), history, "空输入不应写入历史")
+        self.require_text(TEXT_RECOMMEND, "推荐搜索区域应保持")
+
+    def test_a35_empty_input_button(self):
+        """A35：空输入点“搜索”不跳转、不写历史（无历史前置）；连点多次也一样。"""
+        self.open_search()
+        for _ in range(3):
+            self.click_search_button()
+        self.assert_stayed([])
+        self.assertIsNone(self.find_or_none(BY.text(TEXT_HISTORY), timeout=1))
+
+    def test_a36_a37_a39_spaces_with_history(self):
+        """A36/A37/A39：有历史时纯空格点按钮 / 按键盘搜索键都不搜索；空格保留；之后正常搜索。"""
+        self.open_search()
+        self.search_and_back("手机")
+        self.back_to_home()
+        self.open_search()
+        self.click_search_button()
+        self.assert_stayed(["手机"])
+        self.type_keyword("   ")
+        self.click_search_button()
+        self.assert_stayed(["手机"])
+        self.assertEqual(self.input_value(), "   ", "纯空格应原样保留在输入框")
+        self.press_enter()
+        self.assert_stayed(["手机"])
+        self.require_text(TEXT_HISTORY, "搜索历史区域应保持")
+        # 之后输入有效词仍能正常搜索（提交锁未被空搜锁死）
+        self.search_and_back("香蕉")
+        self.assertEqual(self.wait_history("香蕉"), ["香蕉", "手机"])
+
+    def test_a40_double_click_search_button_pushes_once(self):
+        """A40：快速双击“搜索”只进入一个结果页，返回一次即回到搜索页。"""
+        self.open_search()
+        self.type_keyword("手机")
+        self.driver.double_click(self.require_component(BY.key(SEARCH_BUTTON), "搜索按钮不存在"))
+        self.assertTrue(self.on_result_page(), "未进入结果页")
+        self.driver.wait(1.5)
+        self.back_to_search()
+        self.driver.wait(1)
+        self.assertTrue(self.on_search_page(), "返回一次应回到搜索页")
+        self.assertEqual(self.history(), ["手机"])
+
+    def test_a40_double_click_history_tag_pushes_once(self):
+        """A40：快速双击历史标签只进入一个结果页。"""
+        self.open_search()
+        self.search_and_back("手机")
+        self.driver.double_click(self.require_component(BY.key(f"{HISTORY_TAG}0"), "历史标签不存在"))
+        self.assertTrue(self.on_result_page(), "未进入结果页")
+        self.driver.wait(1.5)
+        self.back_to_search()
+        self.driver.wait(1)
+        self.assertTrue(self.on_search_page(), "返回一次应回到搜索页")
+        self.assertEqual(self.history(), ["手机"])
+
+    def test_a40_double_click_home_bar_pushes_once(self):
+        """A40：快速双击首页搜索框只打开一个搜索页。"""
+        self.driver.double_click(self.require_component(BY.key(HOME_SEARCH_BAR), "首页搜索框不存在"))
+        self.require_component(BY.key(SEARCH_BUTTON), "未进入搜索页")
+        self.driver.wait(1.5)
+        self.back_to_home()
+
+    def test_a41_history_persists_after_restart(self):
+        """A41：历史在重启应用后仍在，顺序不变。"""
+        self.open_search()
+        for w in ("苹果", "手机"):
+            self.search_and_back(w)
+        self.launch()
+        self.open_search()
+        self.assertEqual(self.history(), ["手机", "苹果"])
+
+    def test_partial_input_then_back_not_saved(self):
+        """部分操作：输入后不搜索直接返回首页，不写历史。"""
+        self.open_search()
+        self.type_keyword("手机")
+        self.back_to_home()
+        self.open_search()
+        self.assertIsNone(self.find_or_none(BY.text(TEXT_HISTORY), timeout=2))

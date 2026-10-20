@@ -23,6 +23,8 @@ export { FeedbackRepository } from './src/main/ets/repository/FeedbackRepository
 
 export { FootprintRepository } from './src/main/ets/repository/FootprintRepository';
 
+export { SearchHistoryRepository } from './src/main/ets/repository/SearchHistoryRepository';
+
 export { OrderRepository } from './src/main/ets/repository/OrderRepository';
 
 export { PageRepository } from './src/main/ets/repository/PageRepository';

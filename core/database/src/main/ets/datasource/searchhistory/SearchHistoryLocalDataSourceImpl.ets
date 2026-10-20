@@ -42,7 +42,10 @@ export class SearchHistoryLocalDataSourceImpl implements SearchHistoryLocalDataS
    * @returns {Promise<void>} Promise<void>
    */
   async addSearchHistory(searchHistory: SearchHistory): Promise<void> {
-    this.orm.save(this.toEntity(searchHistory));
+    // 关键词不是主键，先删除同名记录再插入，实现新增或置顶
+    const entity: SearchHistoryEntity = this.toEntity(searchHistory);
+    this.orm.query(SearchHistoryEntity).where("keyword", entity.keyword ?? "").delete();
+    this.orm.insert(entity);
   }
 
   /**

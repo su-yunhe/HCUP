@@ -1,0 +1,541 @@
+Command executed successfully.
+Exit code: 0
+Output:
+=== core/network/src/main/ets/datasource/goods/GoodsNetworkDataSourceImpl.ets
+     1	import { AxiosResponse } from "@ohos/axios";
+     2	import { NetworkClient } from "../../NetworkClient";
+     3	import {
+     4	  Category,
+     5	  Comment,
+     6	  Goods,
+     7	  GoodsSearchKeyword,
+     8	  GoodsSpec,
+     9	  GoodsSearchRequest,
+    10	  GoodsCommentSubmitRequest,
+    11	  GoodsCommentPageRequest,
+    12	  GoodsIdRequest,
+    13	  NetworkPageData,
+    14	  NetworkResponse
+    15	} from "model";
+    16	import { GoodsNetworkDataSource } from "./GoodsNetworkDataSource";
+    17	
+    18	/**
+    19	 * @file 商品相关数据源实现类
+    20	 * @author Joker.X
+    21	 */
+    22	export class GoodsNetworkDataSourceImpl implements GoodsNetworkDataSource {
+    23	  /**
+    24	   * 查询商品分类列表
+    25	   * @returns 商品分类列表响应
+    26	   */
+    27	  async getGoodsTypeList(): Promise<NetworkResponse<Category[]>> {
+    28	    const resp: AxiosResponse<NetworkResponse<Category[]>> =
+    29	      await NetworkClient.http.post("goods/type/list");
+    30	    return resp.data;
+    31	  }
+    32	
+    33	  /**
+    34	   * 查询商品规格列表
+    35	   * @param {GoodsIdRequest} params - 商品 ID 请求参数
+    36	   * @returns {Promise<NetworkResponse<GoodsSpec[]>>} 商品规格列表响应
+    37	   */
+    38	  async getGoodsSpecList(params: GoodsIdRequest): Promise<NetworkResponse<GoodsSpec[]>> {
+    39	    const resp: AxiosResponse<NetworkResponse<GoodsSpec[]>> =
+    40	      await NetworkClient.http.post("goods/spec/list", params);
+    41	    return resp.data;
+    42	  }
+    43	
+    44	  /**
+    45	   * 查询搜索关键词列表
+    46	   * @returns 搜索关键词列表响应
+    47	   */
+    48	  async getSearchKeywordList(): Promise<NetworkResponse<GoodsSearchKeyword[]>> {
+    49	    const resp: AxiosResponse<NetworkResponse<GoodsSearchKeyword[]>> =
+    50	      await NetworkClient.http.post("goods/search/keyword/list");
+    51	    return resp.data;
+    52	  }
+    53	
+    54	  /**
+    55	   * 分页查询商品
+    56	   * @param params 商品搜索请求参数
+    57	   * @returns 商品分页数据响应
+    58	   */
+    59	  async getGoodsPage(params: GoodsSearchRequest): Promise<NetworkResponse<NetworkPageData<Goods>>> {
+    60	    const resp: AxiosResponse<NetworkResponse<NetworkPageData<Goods>>> =
+    61	      await NetworkClient.http.post("goods/info/page", params);
+    62	    return resp.data;
+    63	  }
+    64	
+    65	  /**
+    66	   * 获取商品信息
+    67	   * @param id 商品ID
+    68	   * @returns 商品信息响应
+    69	   */
+    70	  async getGoodsInfo(id: string): Promise<NetworkResponse<Goods>> {
+    71	    const resp: AxiosResponse<NetworkResponse<Goods>> =
+    72	      await NetworkClient.http.get("goods/info/info", { params: { id } });
+    73	    return resp.data;
+    74	  }
+    75	
+    76	  /**
+    77	   * 提交商品评论
+    78	   * @param params 评论提交请求参数
+    79	   * @returns 提交结果响应
+    80	   */
+    81	  async submitGoodsComment(params: GoodsCommentSubmitRequest): Promise<NetworkResponse<boolean>> {
+    82	    const resp: AxiosResponse<NetworkResponse<boolean>> =
+    83	      await NetworkClient.http.post("goods/comment/submit", params);
+    84	    return resp.data;
+    85	  }
+    86	
+    87	  /**
+    88	   * 分页查询商品评论
+    89	   * @param params 评论分页请求参数
+    90	   * @returns 评论分页数据响应
+    91	   */
+    92	  async getGoodsCommentPage(params: GoodsCommentPageRequest): Promise<NetworkResponse<NetworkPageData<Comment>>> {
+    93	    const resp: AxiosResponse<NetworkResponse<NetworkPageData<Comment>>> =
+    94	      await NetworkClient.http.post("goods/comment/page", params);
+    95	    return resp.data;
+    96	  }
+    97	}
+=== core/data/src/main/ets/repository/GoodsRepository.ets
+     1	import { GoodsNetworkDataSource, GoodsNetworkDataSourceImpl } from "network";
+     2	import {
+     3	  Category,
+     4	  Comment,
+     5	  Goods,
+     6	  GoodsSearchKeyword,
+     7	  GoodsSpec,
+     8	  GoodsSearchRequest,
+     9	  GoodsCommentSubmitRequest,
+    10	  GoodsCommentPageRequest,
+    11	  GoodsIdRequest,
+    12	  NetworkPageData,
+    13	  NetworkResponse
+    14	} from "model";
+    15	
+    16	/**
+    17	 * @file 商品相关仓库类，封装商品模块请求
+    18	 * @author Joker.X
+    19	 */
+    20	export class GoodsRepository {
+    21	  /**
+    22	   * 商品网络数据源
+    23	   */
+    24	  private networkDataSource: GoodsNetworkDataSource;
+    25	
+    26	  /**
+    27	   * 构造函数
+    28	   * @param networkDataSource 可选的商品网络数据源实例
+    29	   */
+    30	  constructor(networkDataSource?: GoodsNetworkDataSource) {
+    31	    this.networkDataSource = networkDataSource ?? new GoodsNetworkDataSourceImpl();
+    32	  }
+    33	
+    34	  /**
+    35	   * 查询商品分类列表
+    36	   * @returns 商品分类列表
+    37	   */
+    38	  async getGoodsTypeList(): Promise<NetworkResponse<Category[]>> {
+    39	    return this.networkDataSource.getGoodsTypeList();
+    40	  }
+    41	
+    42	  /**
+    43	   * 查询商品规格列表
+    44	   * @param {GoodsIdRequest} params - 商品 ID 请求参数
+    45	   * @returns {Promise<NetworkResponse<GoodsSpec[]>>} 商品规格列表
+    46	   */
+    47	  async getGoodsSpecList(params: GoodsIdRequest): Promise<NetworkResponse<GoodsSpec[]>> {
+    48	    return this.networkDataSource.getGoodsSpecList(params);
+    49	  }
+    50	
+    51	  /**
+    52	   * 查询搜索关键词列表
+    53	   * @returns 搜索关键词列表
+    54	   */
+    55	  async getSearchKeywordList(): Promise<NetworkResponse<GoodsSearchKeyword[]>> {
+    56	    return this.networkDataSource.getSearchKeywordList();
+    57	  }
+    58	
+    59	  /**
+    60	   * 分页查询商品
+    61	   * @param params 商品搜索请求参数
+    62	   * @returns 商品分页数据
+    63	   */
+    64	  async getGoodsPage(params: GoodsSearchRequest): Promise<NetworkResponse<NetworkPageData<Goods>>> {
+    65	    return this.networkDataSource.getGoodsPage(params);
+    66	  }
+    67	
+    68	  /**
+    69	   * 获取商品信息
+    70	   * @param id 商品ID
+    71	   * @returns 商品详情
+    72	   */
+    73	  async getGoodsInfo(id: string): Promise<NetworkResponse<Goods>> {
+    74	    return this.networkDataSource.getGoodsInfo(id);
+    75	  }
+    76	
+    77	  /**
+    78	   * 提交商品评论
+    79	   * @param params 评论提交请求参数
+    80	   * @returns 提交结果
+    81	   */
+    82	  async submitGoodsComment(params: GoodsCommentSubmitRequest): Promise<NetworkResponse<boolean>> {
+    83	    return this.networkDataSource.submitGoodsComment(params);
+    84	  }
+    85	
+    86	  /**
+    87	   * 分页查询商品评论
+    88	   * @param params 评论分页请求参数
+    89	   * @returns 评论分页数据
+    90	   */
+    91	  async getGoodsCommentPage(params: GoodsCommentPageRequest): Promise<NetworkResponse<NetworkPageData<Comment>>> {
+    92	    return this.networkDataSource.getGoodsCommentPage(params);
+    93	  }
+    94	}
+=== core/data/src/main/ets/repository/SearchHistoryRepository.ets
+     1	import { SearchHistory } from "model";
+     2	import { SearchHistoryLocalDataSource, SearchHistoryLocalDataSourceImpl } from "database";
+     3	
+     4	/**
+     5	 * @file 搜索历史本地仓库，封装数据库数据源并提供业务方法。
+     6	 * @author Joker.X
+     7	 */
+     8	export class SearchHistoryRepository {
+     9	  /**
+    10	   * 本地数据源实例
+    11	   */
+    12	  private dataSource: SearchHistoryLocalDataSource;
+    13	
+    14	  /**
+    15	   * 构造函数
+    16	   * @param {SearchHistoryLocalDataSource} dataSource 可选的数据源实例
+    17	   */
+    18	  constructor(dataSource: SearchHistoryLocalDataSource = new SearchHistoryLocalDataSourceImpl()) {
+    19	    this.dataSource = dataSource;
+    20	  }
+    21	
+    22	  /**
+    23	   * 添加搜索历史记录
+    24	   * @param {string} keyword 搜索关键词
+    25	   * @returns {Promise<void>} Promise<void>
+    26	   * @example
+    27	  * const repo: SearchHistoryRepository = new SearchHistoryRepository();
+    28	   * await repo.addSearchHistory("手机");
+    29	   */
+    30	  async addSearchHistory(keyword: string): Promise<void> {
+    31	    const trimmed: string = keyword.trim();
+    32	    if (!trimmed) {
+    33	      return;
+    34	    }
+    35	    const history: SearchHistory = new SearchHistory();
+    36	    history.keyword = trimmed;
+    37	    history.searchTime = Date.now();
+    38	    return this.dataSource.addSearchHistory(history);
+    39	  }
+    40	
+    41	  /**
+    42	   * 根据关键词删除搜索历史记录
+    43	   * @param {string} keyword 搜索关键词
+    44	   * @returns {Promise<void>} Promise<void>
+    45	   */
+    46	  removeSearchHistory(keyword: string): Promise<void> {
+    47	    return this.dataSource.removeSearchHistory(keyword);
+    48	  }
+    49	
+    50	  /**
+    51	   * 清空所有搜索历史记录
+    52	   * @returns {Promise<void>} Promise<void>
+    53	   */
+    54	  clearAllSearchHistory(): Promise<void> {
+    55	    return this.dataSource.clearAllSearchHistory();
+    56	  }
+    57	
+    58	  /**
+    59	   * 获取所有搜索历史记录，按搜索时间倒序
+    60	   * @returns {Promise<SearchHistory[]>} 搜索历史列表
+    61	   */
+    62	  getAllSearchHistory(): Promise<SearchHistory[]> {
+    63	    return this.dataSource.getAllSearchHistory();
+    64	  }
+    65	
+    66	  /**
+    67	   * 获取搜索历史记录数量
+    68	   * @returns {Promise<number>} 搜索历史数量
+    69	   */
+    70	  getSearchHistoryCount(): Promise<number> {
+    71	    return this.dataSource.getSearchHistoryCount();
+    72	  }
+    73	
+    74	  /**
+    75	   * 获取指定数量的最新搜索历史记录
+    76	   * @param {number} limit 限制数量
+    77	   * @returns {Promise<SearchHistory[]>} 搜索历史列表
+    78	   */
+    79	  getRecentSearchHistory(limit: number): Promise<SearchHistory[]> {
+    80	    return this.dataSource.getRecentSearchHistory(limit);
+    81	  }
+    82	
+    83	  /**
+    84	   * 根据关键词获取搜索历史记录
+    85	   * @param {string} keyword 搜索关键词
+    86	   * @returns {Promise<SearchHistory | undefined>} 匹配到的搜索历史
+    87	   */
+    88	  getSearchHistoryByKeyword(keyword: string): Promise<SearchHistory | undefined> {
+    89	    return this.dataSource.getSearchHistoryByKeyword(keyword);
+    90	  }
+    91	}
+=== core/database/src/main/ets/datasource/searchhistory/SearchHistoryLocalDataSourceImpl.ets
+     1	import { getORM } from "@ibestservices/ibest-orm";
+     2	import { SearchHistory } from "model";
+     3	import { SearchHistoryLocalDataSource } from "./SearchHistoryLocalDataSource";
+     4	import { SearchHistoryEntity } from "../../entity/SearchHistoryEntity";
+     5	
+     6	/**
+     7	 * @file 搜索历史本地数据源实现
+     8	 * @author Joker.X
+     9	 */
+    10	export class SearchHistoryLocalDataSourceImpl implements SearchHistoryLocalDataSource {
+    11	  /**
+    12	   * 迁移标记，防止重复执行 migrate
+    13	   */
+    14	  private static migrated: boolean = false;
+    15	  /**
+    16	   * ORM 实例，用于执行数据库操作
+    17	   */
+    18	  private orm = getORM();
+    19	
+    20	  /**
+    21	   * 构造函数，初始化 ORM 并确保搜索历史表已迁移
+    22	   * @returns {SearchHistoryLocalDataSourceImpl} 实例
+    23	   */
+    24	  constructor() {
+    25	    this.ensureMigrated();
+    26	  }
+    27	
+    28	  /**
+    29	   * 确保搜索历史表完成迁移
+    30	   * @returns {void} 无返回
+    31	   */
+    32	  private ensureMigrated(): void {
+    33	    if (!SearchHistoryLocalDataSourceImpl.migrated) {
+    34	      this.orm.migrate(SearchHistoryEntity);
+    35	      SearchHistoryLocalDataSourceImpl.migrated = true;
+    36	    }
+    37	  }
+    38	
+    39	  /**
+    40	   * 添加搜索历史记录
+    41	   * @param {SearchHistory} searchHistory 搜索历史记录
+    42	   * @returns {Promise<void>} Promise<void>
+    43	   */
+    44	  async addSearchHistory(searchHistory: SearchHistory): Promise<void> {
+    45	    this.orm.save(this.toEntity(searchHistory));
+    46	  }
+    47	
+    48	  /**
+    49	   * 根据关键词删除搜索历史记录
+    50	   * @param {string} keyword 搜索关键词
+    51	   * @returns {Promise<void>} Promise<void>
+    52	   */
+    53	  async removeSearchHistory(keyword: string): Promise<void> {
+    54	    this.orm.query(SearchHistoryEntity).where("keyword", keyword).delete();
+    55	  }
+    56	
+    57	  /**
+    58	   * 清空所有搜索历史记录
+    59	   * @returns {Promise<void>} Promise<void>
+    60	   */
+    61	  async clearAllSearchHistory(): Promise<void> {
+    62	    this.orm.query(SearchHistoryEntity).delete();
+    63	  }
+    64	
+    65	  /**
+    66	   * 获取所有搜索历史记录，按搜索时间倒序
+    67	   * @returns {Promise<SearchHistory[]>} 搜索历史列表
+    68	   */
+    69	  async getAllSearchHistory(): Promise<SearchHistory[]> {
+    70	    const list: SearchHistoryEntity[] = this.orm.query(SearchHistoryEntity).find();
+    71	    return list
+    72	      .map((entity) => this.toModel(entity))
+    73	      .sort((left, right) => (right.searchTime ?? 0) - (left.searchTime ?? 0));
+    74	  }
+    75	
+    76	  /**
+    77	   * 获取搜索历史记录数量
+    78	   * @returns {Promise<number>} 搜索历史数量
+    79	   */
+    80	  async getSearchHistoryCount(): Promise<number> {
+    81	    return this.orm.query(SearchHistoryEntity).find().length;
+    82	  }
+    83	
+    84	  /**
+    85	   * 获取指定数量的最新搜索历史记录
+    86	   * @param {number} limit 限制数量
+    87	   * @returns {Promise<SearchHistory[]>} 搜索历史列表
+    88	   */
+    89	  async getRecentSearchHistory(limit: number): Promise<SearchHistory[]> {
+    90	    const all: SearchHistory[] = await this.getAllSearchHistory();
+    91	    return all.slice(0, limit);
+    92	  }
+    93	
+    94	  /**
+    95	   * 根据关键词获取搜索历史记录
+    96	   * @param {string} keyword 搜索关键词
+    97	   * @returns {Promise<SearchHistory | undefined>} 匹配到的搜索历史
+    98	   */
+    99	  async getSearchHistoryByKeyword(keyword: string): Promise<SearchHistory | undefined> {
+   100	    const result: SearchHistoryEntity[] = this.orm.query(SearchHistoryEntity).where("keyword", keyword).find();
+   101	    const entity: SearchHistoryEntity | undefined = result[0];
+   102	    return entity ? this.toModel(entity) : undefined;
+   103	  }
+   104	
+   105	  /**
+   106	   * 将领域模型转换为数据库实体
+   107	   * @param {SearchHistory} history 搜索历史领域模型
+   108	   * @returns {SearchHistoryEntity} 数据库实体
+   109	   */
+   110	  private toEntity(history: SearchHistory): SearchHistoryEntity {
+   111	    const entity: SearchHistoryEntity = new SearchHistoryEntity();
+   112	    entity.keyword = history.keyword.trim();
+   113	    entity.searchTime = history.searchTime;
+   114	    return entity;
+   115	  }
+   116	
+   117	  /**
+   118	   * 将数据库实体转换为领域模型
+   119	   * @param {SearchHistoryEntity} entity 数据库实体
+   120	   * @returns {SearchHistory} 领域模型
+   121	   */
+   122	  private toModel(entity: SearchHistoryEntity): SearchHistory {
+   123	    const history: SearchHistory = new SearchHistory();
+   124	    history.keyword = entity.keyword ?? "";
+   125	    history.searchTime = entity.searchTime ?? Date.now();
+   126	    return history;
+   127	  }
+   128	}
+=== core/database/src/main/ets/entity/SearchHistoryEntity.ets
+     1	import { Table, Column, PrimaryKey, ColumnType } from "@ibestservices/ibest-orm";
+     2	
+     3	/**
+     4	 * @file 搜索历史数据库实体，映射 search_history 表。
+     5	 * @author Joker.X
+     6	 */
+     7	@Table({ name: "search_history" })
+     8	export class SearchHistoryEntity {
+     9	  /**
+    10	   * 主键，使用搜索关键词作为主键
+    11	   */
+    12	  @PrimaryKey({ autoIncrement: false })
+    13	  keyword?: string;
+    14	  /**
+    15	   * 搜索时间戳
+    16	   */
+    17	  @Column({ type: ColumnType.INTEGER })
+    18	  searchTime?: number;
+    19	}
+=== core/model/src/main/ets/request/GoodsSearchRequest.ets
+     1	/**
+     2	 * @file 商品搜索分页请求模型
+     3	 * @author Joker.X
+     4	 */
+     5	export class GoodsSearchRequest {
+     6	  /**
+     7	   * 页码
+     8	   */
+     9	  page: number = 1;
+    10	  /**
+    11	   * 每页大小
+    12	   */
+    13	  size: number = 20;
+    14	  /**
+    15	   * 商品分类ID列表
+    16	   */
+    17	  typeId?: number[] | null;
+    18	  /**
+    19	   * 最低价格
+    20	   */
+    21	  minPrice?: string | null;
+    22	  /**
+    23	   * 最高价格
+    24	   */
+    25	  maxPrice?: string | null;
+    26	  /**
+    27	   * 搜索关键词
+    28	   */
+    29	  keyWord?: string | null;
+    30	  /**
+    31	   * 排序字段
+    32	   */
+    33	  order?: string | null;
+    34	  /**
+    35	   * 排序方式
+    36	   */
+    37	  sort?: string | null;
+    38	  /**
+    39	   * 推荐
+    40	   */
+    41	  recommend?: boolean;
+    42	  /**
+    43	   * 精选
+    44	   */
+    45	  featured?: boolean;
+    46	
+    47	  /**
+    48	   * @param {Partial<GoodsSearchRequest>} init - 初始化数据
+    49	   */
+    50	  constructor(init?: Partial<GoodsSearchRequest>) {
+    51	    if (!init) {
+    52	      return;
+    53	    }
+    54	    this.page = init.page ?? this.page;
+    55	    this.size = init.size ?? this.size;
+    56	    this.typeId = init.typeId ?? this.typeId;
+    57	    this.minPrice = init.minPrice ?? this.minPrice;
+    58	    this.maxPrice = init.maxPrice ?? this.maxPrice;
+    59	    this.keyWord = init.keyWord ?? this.keyWord;
+    60	    this.order = init.order ?? this.order;
+    61	    this.sort = init.sort ?? this.sort;
+    62	    this.recommend = init.recommend ?? this.recommend;
+    63	    this.featured = init.featured ?? this.featured;
+    64	  }
+    65	}
+=== core/model/src/main/ets/entity/GoodsSearchKeyword.ets
+     1	/**
+     2	 * @file 搜索关键词
+     3	 * @author Joker.X
+     4	 */
+     5	export class GoodsSearchKeyword {
+     6	  /**
+     7	   * ID
+     8	   */
+     9	  id: number = 0;
+    10	  /**
+    11	   * 名称
+    12	   */
+    13	  name: string = "";
+    14	  /**
+    15	   * 排序
+    16	   */
+    17	  sortNum: number = 0;
+    18	  /**
+    19	   * 创建时间
+    20	   */
+    21	  createTime?: string | null = null;
+    22	  /**
+    23	   * 更新时间
+    24	   */
+    25	  updateTime?: string | null = null;
+    26	
+    27	  constructor(init?: Partial<GoodsSearchKeyword>) {
+    28	    if (!init) {
+    29	      return;
+    30	    }
+    31	    this.id = init.id ?? this.id;
+    32	    this.name = init.name ?? this.name;
+    33	    this.sortNum = init.sortNum ?? this.sortNum;
+    34	    this.createTime = init.createTime ?? this.createTime;
+    35	    this.updateTime = init.updateTime ?? this.updateTime;
+    36	  }
+    37	}

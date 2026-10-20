@@ -1,0 +1,117 @@
+"""商品搜索题（cml-combo-search）自测公共辅助：启动、进入搜索页、搜索、读取历史等。
+
+只放本题流程相关的封装；设备连接与重试查找来自 common/test-harness 的 HarnessTestCase。
+"""
+from __future__ import annotations
+
+import time
+
+from hypium import BY
+from hypium.model import KeyCode, MatchPattern
+
+from harness.driver import HarnessTestCase
+
+BUNDLE = "com.joker.coolmall"
+ABILITY = "EntryAbility"
+
+# 稳定选择器（与 spec/acceptance.md §0 一致）
+HOME_SEARCH_BAR = "home_search_bar"
+SEARCH_INPUT = "goods_search_input"
+SEARCH_BUTTON = "goods_search_button"
+HISTORY_SECTION = "search_history_section"
+HISTORY_CLEAR = "search_history_clear"
+HISTORY_TAG = "search_history_tag_"
+RECOMMEND_SECTION = "search_recommend_section"
+RECOMMEND_TAG = "search_recommend_tag_"
+RESULT_LIST = "goods_category_list"
+RESULT_KEYWORD = "goods_category_keyword"
+RESULT_ITEM = "goods_category_item_"
+
+# Spec 指定文案
+TEXT_HISTORY = "搜索历史"
+TEXT_RECOMMEND = "推荐搜索"
+TEXT_SEARCH = "搜索"
+TEXT_CLEAR_MESSAGE = "确认清空所有搜索历史吗？"
+TEXT_CANCEL = "取消"
+TEXT_CONFIRM = "确认"
+
+NETWORK_TIMEOUT = 30
+
+
+class SearchTestCase(HarnessTestCase):
+    """本题测试基类：每个用例默认清数据冷启动，保证历史记录从空开始。"""
+
+    clear_data_on_setup = True
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        # 缺席断言很多，隐式等待调小，由 find_or_none 显式轮询
+        cls.driver.set_implicit_wait_time(1)
+
+    def setUp(self) -> None:
+        self.launch(clear_data=self.clear_data_on_setup)
+
+    # ---------- 应用与页面 ----------
+
+    def launch(self, clear_data: bool = False) -> None:
+        self.driver.stop_app(BUNDLE)
+        if clear_data:
+            self.driver.clear_app_data(BUNDLE)
+        self.driver.start_app(BUNDLE, ABILITY, wait_time=2)
+        self.require_component(BY.key(HOME_SEARCH_BAR), "冷启动后首页搜索框未出现", timeout=20)
+
+    def open_search(self) -> None:
+        bar = self.require_component(BY.key(HOME_SEARCH_BAR), "首页搜索框未出现")
+        self.driver.click(bar)
+        self.require_component(BY.key(SEARCH_INPUT), "点击首页搜索框后未进入搜索页")
+        self.driver.wait(1)
+
+    def back_to_search(self) -> None:
+        """从结果页返回搜索页（键盘弹出时第一次返回只收起键盘，所以最多按 3 次）。"""
+        for _ in range(3):
+            self.driver.press_back()
+            self.driver.wait(1)
+            if self.on_search_page():
+                return
+        self.fail("返回后未回到搜索页")
+
+    def back_to_home(self) -> None:
+        for _ in range(4):
+            self.driver.press_back()
+            self.driver.wait(1)
+            if self.find_or_none(BY.key(HOME_SEARCH_BAR), timeout=1) is not None:
+                return
+        self.fail("返回后未回到首页")
+
+    def on_search_page(self) -> bool:
+        return (self.find_or_none(BY.key(SEARCH_INPUT), timeout=1) is not None
+                and self.find_or_none(BY.key(RESULT_LIST), timeout=1) is None)
+
+    def on_result_page(self, timeout: float = 8) -> bool:
+        return self.find_or_none(BY.key(RESULT_LIST), timeout=timeout) is not None
+
+    # ---------- 输入与搜索 ----------
+
+    def search_input(self):
+        return self.require_component(BY.key(SEARCH_INPUT), "搜索输入框不存在")
+
+    def input_value(self) -> str:
+        return self.search_input().getText() or ""
+
+    def type_keyword(self, text: str) -> None:
+        self.driver.input_text(self.search_input(), text)
+        self.driver.wait(0.5)
+
+    def click_search_button(self) -> None:
+        self.driver.click(self.require_component(BY.key(SEARCH_BUTTON), "搜索按钮不存在"))
+        self.driver.wait(0.5)
+
+    def press_enter(self) -> None:
+        self.driver.press_key(KeyCode.ENTER)
+        self.driver.wait(0.5)
+
+    def search_and_back(self, keyword: str) -> None:
+        """输入关键词 → 点“搜索” → 确认进入结果页 → 返回搜索页。"""
+        self.type_keyword(keyword)
+        self.click_search_button()

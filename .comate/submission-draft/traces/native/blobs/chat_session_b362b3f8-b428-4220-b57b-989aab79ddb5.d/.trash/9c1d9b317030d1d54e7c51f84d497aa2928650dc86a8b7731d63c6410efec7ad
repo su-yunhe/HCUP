@@ -1,0 +1,11 @@
+"""临时探测脚本 3：进入搜索页后的截图与窗口列表。"""
+import time
+
+from hypium import BY, UiDriver
+
+BUNDLE = "com.joker.coolmall"
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+d.stop_app(BUNDLE)
+d.start_app(BUNDLE, "EntryAbility", wait_time=3)
+time.sleep(2)
+d.click(d.find_component(B

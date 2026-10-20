@@ -1,0 +1,207 @@
+<file>
+     1→import { hilog } from "@kit.PerformanceAnalysisKit";
+     2→import { getUserState } from "state";
+     3→import { Any } from "model";
+     4→import { requiresLogin, getLoginRoute } from "./RouteInterceptor";
+     5→
+     6→/**
+     7→ * @file 全局导航服务：集中存放 NavPathStack，提供统一跳转 API，方便 ViewModel 直接调用
+     8→ * @author Joker.X
+     9→ */
+    10→
+    11→/**
+    12→ * Provider / Consumer 共享的键名
+    13→ */
+    14→export const NAV_PATH_STACK_KEY: string = "navStack";
+    15→
+    16→/**
+    17→ * 全局导航栈实例
+    18→ */
+    19→let globalNavStack: NavPathStack | undefined;
+    20→
+    21→const DOMAIN: number = 0;
+    22→
+    23→/**
+    24→ * 设置全局导航栈实例（在 NavigationHost aboutToAppear 中调用）
+    25→ * @param {NavPathStack} stack - 导航栈实例
+    26→ * @returns {void} 无返回值
+    27→ */
+    28→export function setNavPathStack(stack: NavPathStack): void {
+    29→  globalNavStack = stack;
+    30→}
+    31→
+    32→/**
+    33→ * 获取当前导航栈实例
+    34→ * @returns {NavPathStack | undefined} 导航栈实例；未初始化时返回 undefined
+    35→ */
+    36→export function getNavPathStack(): NavPathStack | undefined {
+    37→  if (!globalNavStack) {
+    38→    const msg: string = "[NavigationService] nav stack is not initialized, call setNavPathStack first.";
+    39→    hilog.error(DOMAIN, "NavSvc", msg);
+    40→    return undefined;
+    41→  }
+    42→  return globalNavStack;
+    43→}
+    44→
+    45→/**
+    46→ * 路由跳转（入栈）
+    47→ * @param {string} name - 路由名称
+    48→ * @param {Any} [params] - 跳转参数
+    49→ * @returns {void} 无返回值
+    50→ */
+    51→export function navigateTo(name: string, params?: Any): void {
+    52→  if (requiresLogin(name)) {
+    53→    const userState = getUserState();
+    54→    if (!userState.isLoggedIn()) {
+    55→      hilog.info(DOMAIN, "NavSvc", `[NavigationService] Intercepting route to ${name}, redirecting to Login`);
+    56→      name = getLoginRoute();
+    57→    }
+    58→  }
+    59→
+    60→  const stack: NavPathStack | undefined = getNavPathStack();
+    61→  if (!stack) {
+    62→    return;
+    63→  }
+    64→  try {
+    65→    if (params !== undefined) {
+    66→      stack.pushPath({
+    67→        name: name,
+    68→        param: params
+    69→      });
+    70→      return;
+    71→    }
+    72→    stack.pushPath({
+    73→      name: name
+    74→    });
+    75→  } catch (err) {
+    76→    hilog.error(DOMAIN, "NavSvc", "[NavigationService] navigateTo failed: %{public}s", JSON.stringify(err));
+    77→  }
+    78→}
+    79→
+    80→/**
+    81→ * 返回上一页
+    82→ * @returns {void} 无返回值
+    83→ */
+    84→export function navigateBack(): void {
+    85→  const stack: NavPathStack | undefined = getNavPathStack();
+    86→  if (!stack) {
+    87→    return;
+    88→  }
+    89→  try {
+    90→    stack.pop();
+    91→  } catch (err) {
+    92→    hilog.error(DOMAIN, "NavSvc", "[NavigationService] navigateBack failed: %{public}s", JSON.stringify(err));
+    93→  }
+    94→}
+    95→
+    96→/**
+    97→ * 携带结果返回上一页（触发上一跳中的 onPop 回调）
+    98→ * @param {Any} [result={}] - 返回结果
+    99→ * @param {boolean} [animated=true] - 是否需要动画
+   100→ * @returns {void} 无返回值
+   101→ */
+   102→export function navigateBackWithResult(result: Any | object = {}, animated?: boolean): void {
+   103→  const stack: NavPathStack | undefined = getNavPathStack();
+   104→  if (!stack) {
+   105→    return;
+   106→  }
+   107→  try {
+   108→    stack.pop(result, animated);
+   109→  } catch (err) {
+   110→    hilog.error(DOMAIN, "NavSvc", "[NavigationService] navigateBackWithResult failed: %{public}s", JSON.stringify(err));
+   111→  }
+   112→}
+   113→
+   114→/**
+   115→ * 返回到指定路由
+   116→ * @param {string} name - 目标路由名称
+   117→ * @param {boolean} inclusive - 是否移除目标自身（默认 false）
+   118→ * @returns {void} 无返回值
+   119→ */
+   120→export function popTo(name: string, inclusive: boolean = false): void {
+   121→  const stack: NavPathStack | undefined = getNavPathStack();
+   122→  if (!stack) {
+   123→    return;
+   124→  }
+   125→  try {
+   126→    stack.popToName(name, inclusive);
+   127→  } catch (err) {
+   128→    hilog.error(DOMAIN, "NavSvc", "[NavigationService] popTo failed: %{public}s", JSON.stringify(err));
+   129→  }
+   130→}
+   131→
+   132→/**
+   133→ * 跳转并监听返回结果（使用 ArkUI promise 版本 pushDestinationByName）
+   134→ * @param {string} name - 路由名称
+   135→ * @param {Any} [params] - 跳转参数
+   136→ * @param {(info: PopInfo) => void} [onPop] - 返回结果回调（在目标页调用 pop(result) 时触发）
+   137→ * @returns {Promise<void>} 跳转完成 Promise
+   138→ */
+   139→export function navigateToWithResult(name: string, params?: Any,
+   140→  onPop?: (info: PopInfo) => void): Promise<void> {
+   141→  if (requiresLogin(name)) {
+   142→    const userState = getUserState();
+   143→    if (!userState.isLoggedIn()) {
+   144→      hilog.info(DOMAIN, "NavSvc", `[NavigationService] Intercepting route to ${name}, redirecting to Login`);
+   145→      name = getLoginRoute();
+   146→    }
+   147→  }
+   148→
+   149→  const stack: NavPathStack | undefined = getNavPathStack();
+   150→  if (!stack) {
+   151→    return Promise.resolve();
+   152→  }
+   153→
+   154→  const safeParam: Object | undefined = params as Object | undefined;
+   155→  try {
+   156→    if (onPop) {
+   157→      return stack.pushDestinationByName(name, safeParam, onPop).catch((err: Any) => {
+   158→        hilog.error(DOMAIN, "NavSvc", "[NavigationService] navigateToWithResult failed: %{public}s",
+   159→          JSON.stringify(err));
+   160→      });
+   161→    }
+   162→    return stack.pushDestinationByName(name, safeParam).catch((err: Any) => {
+   163→      hilog.error(DOMAIN, "NavSvc", "[NavigationService] navigateToWithResult failed: %{public}s", JSON.stringify(err));
+   164→    });
+   165→  } catch (err) {
+   166→    hilog.error(DOMAIN, "NavSvc", "[NavigationService] navigateToWithResult failed: %{public}s", JSON.stringify(err));
+   167→    return Promise.resolve();
+   168→  }
+   169→}
+   170→
+   171→/**
+   172→ * 跳转并以 Promise 形式获取返回结果（上层可 await）
+   173→ * @template T
+   174→ * @param {string} name - 路由名称
+   175→ * @param {Any} [params] - 跳转参数
+   176→ * @returns {Promise<T | undefined>} 返回结果（未回传时为 undefined）
+   177→ */
+   178→export function navigateToForResult<T>(name: string, params?: Any): Promise<T | undefined> {
+   179→  return new Promise<T | undefined>((resolve) => {
+   180→    navigateToWithResult(name, params, (info: PopInfo) => {
+   181→      resolve(info?.result as T);
+   182→    });
+   183→  });
+   184→}
+   185→
+   186→/**
+   187→ * 获取指定路由的首个参数（类型安全，屏蔽 unknown）
+   188→ * @template T
+   189→ * @param {string} name - 路由名称
+   190→ * @returns {T} 参数对象；未获取到时返回 undefined
+   191→ */
+   192→export function getRouteParams<T>(name: string): T {
+   193→  const stack: NavPathStack | undefined = getNavPathStack();
+   194→  if (!stack) {
+   195→    return undefined as T;
+   196→  }
+   197→  try {
+   198→    return stack.getParamByName(name)[0] as T;
+   199→  } catch (err) {
+   200→    hilog.error(DOMAIN, "NavSvc", "[NavigationService] getRouteParams failed: %{public}s", JSON.stringify(err));
+   201→    return undefined as T;
+   202→  }
+   203→}
+   204→
+</file>
+<metadata>The file has 204 lines in total.</metadata>

@@ -1,0 +1,8 @@
+## 5. 可复用的既有实现
+
+| 需要的能力 | 基线里最接近的实现 | 复用方式 |
+| --- | --- | --- |
+| 带路由参数的分页列表 VM | `GoodsCommentViewModel.ets:13-38`：`extends BaseNetWorkListViewModel<Comment>`，`getRouteParams<GoodsIdParam>(GoodsRoutes.Comment)` 取参数，`requestListData()` 里组装请求 | `GoodsCategoryViewModel` 照这个写，参数换成 `GoodsCategoryParam`，请求换成 `GoodsSearchRequest{keyWord}` |
+| 分页列表页面 | `GoodsCommentPage.ets:28-73`：`BaseNetWorkListView` + `RefreshLayout` + `List/ForEach` | `GoodsCategoryPage` 照抄结构 |
+| 商品卡片 | `core/ui/.../goods/GoodsGridItem.ets:22`、`GoodsListItem.ets:19`；首页"全部商品"的双列网格 `HomePage.ets:105-124`（`Grid` + `bp({sm:"1fr 1fr",...})`） | 结果页直接用 `GoodsGridItem`，点击 `GoodsNavigator.toDetail(id)` |
+| 本地列表 + "清空" + 确认框 | 足迹页：`FootprintPage.ets:25-49`（`IBestDialog({ visible, title, message, showCancelButton, confirmButtonText, cancelButtonText, onConfirm, onCancel, onClose })

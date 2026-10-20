@@ -1,0 +1,30 @@
+"""临时探测脚本 2：推荐词加载、返回后的历史。"""
+import time
+
+from hypium import BY, UiDriver
+
+BUNDLE = "com.joker.coolmall"
+d = UiDriver.connect(device_sn="127.0.0.1:5555")
+
+
+def find(by, timeout=10):
+    end = time.time() + timeout
+    while time.time() < end:
+        c = d.find_component(by)
+        if c is not None:
+            return c
+        time.sleep(0.5)
+    return None
+
+
+def texts():
+    return [c.getText() for c in (d.find_all_components(BY.type("Text")) or [])]
+
+
+print("current texts:", texts()[:40])
+print("keyword label", find(BY.key("goods_category_keyword"), timeout=1))
+print("item0", find(BY.key("goods_category_item_0"), timeout=1))
+print("input", find(BY.key("goods_search_input"), timeout=1))
+print("rec0", find(BY.key("search_recommend_tag_0"), timeout=1))
+print("hist0", find(BY.key("search_history_tag_0"), timeout=1))
+d.capture_screen("/tmp/probe2.png")
