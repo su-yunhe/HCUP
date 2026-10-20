@@ -1,0 +1,19 @@
+{
+  "startedAtUtc": "2026-10-17T10:55:24.5696967Z",
+  "finishedAtUtc": "2026-10-17T10:55:24.9722745Z",
+  "argv": [
+    "D:/HCUP/vg-spec1/hypium_tests/network_isolation/bin/VgSpec1WfpGuard.exe",
+    "--check",
+    "--target-pid",
+    "38368",
+    "--target-start-utc",
+    "2026-10-17T10:19:41.1394029Z",
+    "--target-sha256",
+    "3bdccb9ded50976d16fb74510dcddf46cbab5baf62bbad1cc32a32a32922c3ff",
+    "--instance-root",
+    "D:/HCUP/vg-spec1/logs/development-round-02/manual-instance/instances"
+  ],
+  "exitCode": 0,
+  "stdout": "{\"mode\":\"check\",\"nativeWfpCalls\":0,\"engineOpen\":false,\"administrator\":false,\"pointerBytes\":8,\"layout\":{\"DisplayData.size\":16,\"ByteBlob.size\":16,\"Value.size\":16,\"Session.size\":72,\"SubLayer.size\":72,\"FilterCondition.size\":40,\"Action.size\":20,\"ContextUnion.size\":16,\"Filter.size\":200,\"DisplayData.description\":8,\"ByteBlob.data\":8,\"Value.pointer\":8,\"Session.flags\":32,\"Session.txnWaitTimeoutInMSec\":36,\"Session.processId\":40,\"Session.sid\":48,\"Session.username\":56,\"Session.kernelMode\":64,\"SubLayer.weight\":64,\"FilterCondition.matchType\":16,\"FilterCondition.conditionValue\":24,\"Action.filterType\":4,\"Filter.flags\":32,\"Filter.providerKey\":40,\"Filter.providerData\":48,\"Filter.layerKey\":64,\"Filter.subLayerKey\":80,\"Filter.weight\":96,\"Filter.numFilterConditions\":112,\"Filter.filterCondition\":120,\"Filter.action\":128,\"Filter.context\":152,\"Filter.reserved\":168,\"Filter.filterId\":176,\"Filter.effectiveWeight\":184},\"fixedExecutable\":\"D:\\\\HarmonyDev\\\\vg-spec1-isolated-emulator61\\\\Emulator.exe\",\"fixedExecutableExists\":true,\"fixedExecutableSha256\":\"3bdccb9ded50976d16fb74510dcddf46cbab5baf62bbad1cc32a32a32922c3ff\",\"guids\":{\"connectV4\":\"c38d57d1-05a7-4c33-904f-7fbceee60e82\",\"connectV6\":\"4a72393b-319f-44bc-84c3-ba54dcb3b6b4\",\"appId\":\"d78e1e87-8644-4ea5-9437-d809ecefc971\"},\"target\":{\"path\":\"D:\\\\HarmonyDev\\\\vg-spec1-isolated-emulator61\\\\Emulator.exe\",\"pid\":38368,\"startTimeUtc\":\"2026-10-17T10:19:41.1394029Z\",\"sha256\":\"3bdccb9ded50976d16fb74510dcddf46cbab5baf62bbad1cc32a32a32922c3ff\",\"instance\":\"VgSpec1ManualOffline\",\"instanceRoot\":\"D:\\\\HCUP\\\\vg-spec1\\\\logs\\\\development-round-02\\\\manual-instance\\\\instances\",\"hdcPort\":\"11237\",\"guardOk\":true,\"lastGuardUtc\":\"2026-10-17T10:55:24.8496300Z\"},\"constants\":{\"dynamic\":1,\"empty\":0,\"byteBlob\":12,\"equal\":0,\"block\":4097,\"rpcAuthWinnt\":10}}\r\n",
+  "stderr": null
+}

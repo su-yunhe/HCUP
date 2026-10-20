@@ -1,0 +1,11 @@
+--- previous/evidence.py
++++ current/evidence.py
+@@ -19,7 +19,7 @@
+ 
+ ROOT = Path(__file__).resolve().parents[1]
+ BUNDLE = "io.qzz.weiyu"
+-DEVICE = "127.0.0.1:11235"
++DEVICE = os.environ.get("VG_TEST_DEVICE", "127.0.0.1:11235")
+ PORT = 28762
+ DB_DIR = f"/data/app/el2/100/database/{BUNDLE}/entry/rdb"
+ PREFS = f"/data/app/el2/100/base/{BUNDLE}/haps/entry/preferences/webdav_state_store"

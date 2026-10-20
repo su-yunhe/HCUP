@@ -1,0 +1,37 @@
+--- previous/run_verification.ps1
++++ current/run_verification.ps1
+@@ -1,7 +1,9 @@
+ param(
+     [switch]$SourceFrozen,
+     [string]$RunName = 'formal-round-01',
+-    [string]$Device = '127.0.0.1:11235'
++    [string]$Device = '127.0.0.1:11235',
++    [ValidateSet('development-round-01','development-round-02')]
++    [string]$EvidenceRound = 'development-round-01'
+ )
+ 
+ . 'D:/hongmengcup/Enter-HarmonyEnv.ps1'
+@@ -13,12 +15,13 @@
+ if ($RunName -notmatch '^[a-zA-Z0-9_-]+$') { throw 'RunName must be one simple directory name' }
+ $taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+ if ($taskRoot -ne 'D:\HCUP\vg-spec1') { throw 'This verification script is scoped to vg-spec1' }
+-$runDirectory = Join-Path $taskRoot ('logs/development-round-01/' + $RunName)
++$runDirectory = Join-Path $taskRoot ('logs/' + $EvidenceRound + '/' + $RunName)
+ if (Test-Path -LiteralPath (Join-Path $runDirectory 'selftest.json')) {
+     throw 'This run already has a report; choose a fresh -RunName to preserve raw evidence'
+ }
+ New-Item -ItemType Directory -Force -Path $runDirectory | Out-Null
+ $env:VG_RUN_DIRECTORY = $runDirectory
++$env:VG_TEST_DEVICE = $Device
+ $env:PYTHONPATH = 'D:/HCUP/common/test-harness;D:/HCUP/vg-spec1'
+ $env:VG_VERIFICATION_MANIFEST = Join-Path $runDirectory 'installed-hap-manifest.json'
+ Push-Location $taskRoot
+@@ -44,7 +47,7 @@
+     if ($installExit -ne 0 -or (Select-String -LiteralPath (Join-Path $runDirectory 'install.log') -Pattern '\[Fail\]|Failure' -Quiet)) {
+         throw 'Freshly built HAP did not install successfully'
+     }
+-    python -c "from hypium_tests.evidence import *; out=Path(os.environ['VG_RUN_DIRECTORY']); before=json.loads((out/'source-before-build.json').read_text(encoding='utf8')); current=source_fingerprint(); assert current==before, 'SOURCE CHANGED DURING BUILD; INVALID'; hap=ROOT/'entry/build/default/outputs/default/entry-default-unsigned.hap'; write_json(Path(os.environ['VG_VERIFICATION_MANIFEST']), {'coordinator_frozen':True,'installed_at':utc(),'source':current,'hap_sha256':digest(hap.read_bytes()),'evidence_dir':out.relative_to(ROOT).as_posix()})"
++    python -c "from hypium_tests.evidence import *; out=Path(os.environ['VG_RUN_DIRECTORY']); before=json.loads((out/'source-before-build.json').read_text(encoding='utf8')); current=source_fingerprint(); assert current==before, 'SOURCE CHANGED DURING BUILD; INVALID'; hap=ROOT/'entry/build/default/outputs/default/entry-default-unsigned.hap'; write_json(Path(os.environ['VG_VERIFICATION_MANIFEST']), {'coordinator_frozen':True,'installed_at':utc(),'device':DEVICE,'source':current,'hap_sha256':digest(hap.read_bytes()),'evidence_dir':out.relative_to(ROOT).as_posix()})"
+     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+ 
+     Push-Location $runDirectory

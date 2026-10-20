@@ -1,0 +1,34 @@
+--- 05-tests-used/run_wfp_offline.ps1
++++ 06-preparation/run_wfp_offline.ps1
+@@ -7,6 +7,8 @@
+     [string]$RunName = ('wfp-offline-' + (Get-Date -Format yyyyMMdd-HHmmss)),
+     [string]$RuntimeDirectory = '',
+     [string]$BaseManifest = 'D:/HCUP/vg-spec1/logs/development-round-02/manual-full-round-02/installed-hap-manifest.json',
++    [string]$LaunchScript = 'D:/HCUP/vg-spec1/workflow/start-reviewed-network-test.ps1',
++    [string]$LaunchMetadata = 'D:/HCUP/vg-spec1/workflow/reviewed-network-launch-05.json',
+     [ValidateRange(60,3600)][int]$HelperStartWaitSeconds = 1800
+ )
+ . 'D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1'
+@@ -16,6 +18,11 @@
+ if ($RunName -notmatch '^[a-zA-Z0-9_-]+$') { throw 'Simple fresh RunName required' }
+ $taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+ if ($taskRoot -ne 'D:\HCUP\vg-spec1') { throw 'Scoped to vg-spec1' }
++$taskLaunchScript = [IO.Path]::GetFullPath($LaunchScript)
++$taskLaunchMetadata = [IO.Path]::GetFullPath($LaunchMetadata)
++foreach ($taskLaunchFile in @($taskLaunchScript, $taskLaunchMetadata)) {
++    if (-not $taskLaunchFile.StartsWith(($taskRoot + '\workflow\'), [StringComparison]::OrdinalIgnoreCase) -or -not [IO.File]::Exists($taskLaunchFile)) { throw 'Reviewed launch archive input must be an existing task workflow file' }
++}
+ $runDirectory = Join-Path $taskRoot ('logs/development-round-02/' + $RunName)
+ if ((Test-Path -LiteralPath (Join-Path $runDirectory 'installed-hap-manifest.json')) -or (Test-Path -LiteralPath (Join-Path $runDirectory 'selftest.json'))) { throw 'Choose fresh RunName; preserve prior results' }
+ New-Item -ItemType Directory -Force -Path $runDirectory | Out-Null
+@@ -55,8 +62,8 @@
+ Copy-Item -LiteralPath $helperInfo.helperExe -Destination $actualHelperArchive
+ $launcherArchive = Join-Path $archive 'user-launcher'
+ New-Item -ItemType Directory -Path $launcherArchive | Out-Null
+-Copy-Item -LiteralPath (Join-Path $taskRoot 'workflow/start-reviewed-network-test.ps1') -Destination $launcherArchive
+-Copy-Item -LiteralPath (Join-Path $taskRoot 'workflow/reviewed-network-launch-05.json') -Destination $launcherArchive
++Copy-Item -LiteralPath $taskLaunchScript -Destination $launcherArchive
++Copy-Item -LiteralPath $taskLaunchMetadata -Destination $launcherArchive
+ $helperInfo.sourceFiles | ForEach-Object {
+     if ((Get-FileHash -LiteralPath (Join-Path $taskRoot $_.path) -Algorithm SHA256).Hash.ToLowerInvariant() -ne $_.sha256) { throw 'Reviewed helper source changed before test' }
+ }

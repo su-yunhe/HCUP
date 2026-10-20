@@ -1,0 +1,76 @@
+{
+  "at": "2026-10-17T10:17:27.497812+00:00",
+  "device": "127.0.0.1:11237",
+  "ports": [
+    "9914",
+    "9920",
+    "9958"
+  ],
+  "ownership_basis": "This role was the sole device writer/controller from creation of dedicated VgSpec1ManualOffline. These Hypium8012 forwards were created by the preparation/bootstrap connects recorded in this native verification session, prior to file-logged runs. No other task used11237. Current fport inventory matched each exact pair before removal.",
+  "creation_lines_in_flat_log": false,
+  "earlier_inventory_attempt": "An assertion seeking an earlier flat-file fport inventory failed before any removal; the inventory was absent, not fabricated. Cleanup used exclusive dedicated-device ownership and native preparation history instead.",
+  "removed": [
+    {
+      "started_at": "2026-10-17T10:17:27.295253+00:00",
+      "finished_at": "2026-10-17T10:17:27.349366+00:00",
+      "argv": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11237",
+        "fport",
+        "rm",
+        "tcp:9914",
+        "tcp:8012"
+      ],
+      "exit_code": 0,
+      "stdout": "Remove forward ruler success, ruler:tcp:9914 tcp:8012\r\r\n",
+      "stderr": ""
+    },
+    {
+      "started_at": "2026-10-17T10:17:27.351370+00:00",
+      "finished_at": "2026-10-17T10:17:27.400419+00:00",
+      "argv": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11237",
+        "fport",
+        "rm",
+        "tcp:9920",
+        "tcp:8012"
+      ],
+      "exit_code": 0,
+      "stdout": "Remove forward ruler success, ruler:tcp:9920 tcp:8012\r\r\n",
+      "stderr": ""
+    },
+    {
+      "started_at": "2026-10-17T10:17:27.402419+00:00",
+      "finished_at": "2026-10-17T10:17:27.459360+00:00",
+      "argv": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11237",
+        "fport",
+        "rm",
+        "tcp:9958",
+        "tcp:8012"
+      ],
+      "exit_code": 0,
+      "stdout": "Remove forward ruler success, ruler:tcp:9958 tcp:8012\r\r\n",
+      "stderr": ""
+    }
+  ],
+  "after": {
+    "started_at": "2026-10-17T10:17:27.460360+00:00",
+    "finished_at": "2026-10-17T10:17:27.497812+00:00",
+    "argv": [
+      "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+      "-t",
+      "127.0.0.1:11237",
+      "fport",
+      "ls"
+    ],
+    "exit_code": 0,
+    "stdout": "[Empty]\r\r\n",
+    "stderr": ""
+  }
+}

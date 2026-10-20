@@ -1,0 +1,284 @@
+{
+  "taskId": "vg-spec1",
+  "stage": "2-submit",
+  "purpose": "Build instructions authoring and static evidence checks only",
+  "nativeThreadId": "01a149ce-78c0-7c11-9e52-20fd4500d201",
+  "authoringAtUtc": "2026-10-17T12:25:04.9658483Z",
+  "outputs": [
+    ".comate/submission-draft/build.md",
+    ".comate/submission-draft/audit/build-authoring.json"
+  ],
+  "outputSha256": {
+    "buildMd": "bf0beda24b4f8542e11b20669a6073dd71c40a6ca335c10355db8b31027ffee0"
+  },
+  "mutations": "Created only the two authorized draft documents; did not change production code, resources, configuration, tests, existing workflow files, or existing evidence.",
+  "execution": {
+    "buildRun": false,
+    "dependencyInstallRun": false,
+    "deviceCommandRun": false,
+    "newAcceptanceClaims": false,
+    "checks": "Read existing files, checked relative links and absence of private absolute paths, hashed current HAP and compared 222 frozen build inputs to the saved install manifest."
+  },
+  "documentChecks": {
+    "privateAbsolutePathPattern": "(?i)[cd]:[/\\\\]|/Users/",
+    "privateAbsolutePathMatches": 0,
+    "relativeLinkCount": 33,
+    "allLinkedSourcesExist": true,
+    "coreCommandsIndependentOfHistoricalVerificationScripts": true,
+    "declaredSdk": "6.0.2(22)",
+    "actualToolchainApi": 23,
+    "actualDeviceApi": 23,
+    "unsignedSigningBoundaryDisclosed": true,
+    "historicalScriptPrivatePathLimitationDisclosed": true,
+    "syntheticAutomaticTestPreconditionsSeparatedFromOrdinaryInitialization": true
+  },
+  "commandSources": [
+    {
+      "command": "ohpm install",
+      "source": "logs/ohpm-install.log",
+      "support": "Existing output says install completed in 0s 165ms; workflow/setup-result.json records ohpm_install pass. Exact historical argv is absent; build.md expressly identifies this gap and gives the basic install command."
+    },
+    {
+      "command": "hvigorw --mode module -p module=entry@default -p buildMode=debug clean assembleHap --no-daemon",
+      "source": "hypium_tests/run_verification.ps1",
+      "result": "logs/development-round-02/manual-full-round-02/build.log; build.exit.txt=0"
+    },
+    {
+      "command": "hdc list targets",
+      "source": "workflow/verification/baseline-round-01.md",
+      "support": "Recorded initial target discovery"
+    },
+    {
+      "command": "hdc -t 127.0.0.1:11237 install -r entry/build/default/outputs/default/entry-default-unsigned.hap",
+      "source": "hypium_tests/run_verification.ps1",
+      "result": "logs/development-round-02/manual-full-round-02/install.log; install.exit.txt=0; installed-hap-manifest.json records device 11237"
+    },
+    {
+      "command": "hdc -t 127.0.0.1:11237 shell aa start -a EntryAbility -b io.qzz.weiyu",
+      "source": "workflow/verification/baseline-round-01.md",
+      "support": "Same launch arguments recorded with baseline serial 11235; build.md discloses serial substitution. traces/baseline-round-01/start-app.log says start ability successfully, exit 0; automatic tests explicitly start same bundle and ability."
+    }
+  ],
+  "currentArtifact": {
+    "relativePath": "entry/build/default/outputs/default/entry-default-unsigned.hap",
+    "bytes": 9121443,
+    "sha256": "a3574072f81f37e14c0f0c1b335673d44e7aa1691c83488a065d4b7c91278a36",
+    "matchesSavedInstalledManifest": true
+  },
+  "sourceFingerprint": {
+    "manifestPath": "logs/development-round-02/manual-full-round-02/installed-hap-manifest.json",
+    "manifestSha256": "b4b3df3ab98a0cbd6940613687a4827f8111c77dc13814580849847e550c4a6d",
+    "buildInputCount": 222,
+    "currentBuildInputsAllMatchSavedManifest": true,
+    "mismatches": [],
+    "reportedEtsFileCount": 193,
+    "reportedEtsAggregateSha256": "17493881420eeb97d206c463c2b82f1176b9d3870ec8e1f4af08bab2b7cf2f5e",
+    "reportedEtsFingerprintSource": "workflow/verification/round-01.md"
+  },
+  "unresolvedItems": [
+    "Exact historical OHPM argv was not retained in the installation log or setup result; no extra parameters are invented.",
+    "Public environment and full test harness remain for 3-package archival; this authoring task does not package them.",
+    "Historical verification PowerShell entry points require environment path adaptation before replay in a relocated package.",
+    "Relative links are checked against current source locations; final package placement still requires 3-package validation."
+  ],
+  "evidenceFingerprints": [
+    {
+      "packageRelativePath": "logs/development-round-02/manual-full-round-02/build.exit.txt",
+      "sourceRelativePath": "logs/development-round-02/manual-full-round-02/build.exit.txt",
+      "exists": true,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "packageRelativePath": "logs/development-round-02/manual-full-round-02/build.log",
+      "sourceRelativePath": "logs/development-round-02/manual-full-round-02/build.log",
+      "exists": true,
+      "sha256": "9155ec194707efa25ff9a70a0f5a97de2f29899c045c2724d5da95238d27db69"
+    },
+    {
+      "packageRelativePath": "logs/development-round-02/manual-full-round-02/hap-file.json",
+      "sourceRelativePath": "logs/development-round-02/manual-full-round-02/hap-file.json",
+      "exists": true,
+      "sha256": "3ee65e0b8b54673b9f86912b01b39acbed504071f3745b61918a93567d628f8c"
+    },
+    {
+      "packageRelativePath": "logs/development-round-02/manual-full-round-02/hap-sha256.json",
+      "sourceRelativePath": "logs/development-round-02/manual-full-round-02/hap-sha256.json",
+      "exists": true,
+      "sha256": "c4a60b8bfdb97766db7b32255e2a7b8ead0d703b7d0ddf75b8d1c26be9a0596f"
+    },
+    {
+      "packageRelativePath": "logs/development-round-02/manual-full-round-02/hypium.exit.txt",
+      "sourceRelativePath": "logs/development-round-02/manual-full-round-02/hypium.exit.txt",
+      "exists": true,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "packageRelativePath": "logs/development-round-02/manual-full-round-02/hypium.log",
+      "sourceRelativePath": "logs/development-round-02/manual-full-round-02/hypium.log",
+      "exists": true,
+      "sha256": "c209001e1521b8e573aeea2905def8bad778e1dfe5cc79445f2fece7d3cb7821"
+    },
+    {
+      "packageRelativePath": "logs/development-round-02/manual-full-round-02/install.exit.txt",
+      "sourceRelativePath": "logs/development-round-02/manual-full-round-02/install.exit.txt",
+      "exists": true,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "packageRelativePath": "logs/development-round-02/manual-full-round-02/install.log",
+      "sourceRelativePath": "logs/development-round-02/manual-full-round-02/install.log",
+      "exists": true,
+      "sha256": "e95f4d6e8f627b7cb6cb9dadc94fc29b1fcaba15d818a3cadaa0e68893acb3be"
+    },
+    {
+      "packageRelativePath": "logs/development-round-02/manual-full-round-02/installed-hap-manifest.json",
+      "sourceRelativePath": "logs/development-round-02/manual-full-round-02/installed-hap-manifest.json",
+      "exists": true,
+      "sha256": "b4b3df3ab98a0cbd6940613687a4827f8111c77dc13814580849847e550c4a6d"
+    },
+    {
+      "packageRelativePath": "logs/development-round-02/manual-full-round-02/selftest.json",
+      "sourceRelativePath": "logs/development-round-02/manual-full-round-02/selftest.json",
+      "exists": true,
+      "sha256": "ac8b3308f2c8d858a1783cd378bd5ec7b0bc33ead6618bee1d4d96c1f485889b"
+    },
+    {
+      "packageRelativePath": "logs/development-round-02/manual-full-round-02/warning-comparison.json",
+      "sourceRelativePath": "logs/development-round-02/manual-full-round-02/warning-comparison.json",
+      "exists": true,
+      "sha256": "3accb3edbd17cb41f6feb599e1437b307f07cd728a93d7f027c4e1db266274c9"
+    },
+    {
+      "packageRelativePath": "logs/development-round-02/manual-instance/commands.jsonl",
+      "sourceRelativePath": "logs/development-round-02/manual-instance/commands.jsonl",
+      "exists": true,
+      "sha256": "e75ae108dd1b36fa7476d7aeb4cb716327c4a07ced37cb55b0db848110f22fc6"
+    },
+    {
+      "packageRelativePath": "logs/ohpm-install.log",
+      "sourceRelativePath": "logs/ohpm-install.log",
+      "exists": true,
+      "sha256": "9360f5ffbce977166f497f9f32fcb20657249c958ff4469e426ca5d170339fec"
+    },
+    {
+      "packageRelativePath": "project/AppScope/app.json5",
+      "sourceRelativePath": "AppScope/app.json5",
+      "exists": true,
+      "sha256": "f4fc1828d7933d5a14ef9ff76c9e1e8127021b81990798ac0d334cede1801389"
+    },
+    {
+      "packageRelativePath": "project/build-profile.json5",
+      "sourceRelativePath": "build-profile.json5",
+      "exists": true,
+      "sha256": "903e95ef221cd22c2a9fdf8eac8fe0430319e05ffaa4da2fdbe9f6bb21fb2ef4"
+    },
+    {
+      "packageRelativePath": "project/entry/src/main/module.json5",
+      "sourceRelativePath": "entry/src/main/module.json5",
+      "exists": true,
+      "sha256": "0edeb715afe43d19daf7e6eb3a36e86af5542b34b5a47bb515e566b4ee6d46ba"
+    },
+    {
+      "packageRelativePath": "project/hvigor/hvigor-config.json5",
+      "sourceRelativePath": "hvigor/hvigor-config.json5",
+      "exists": true,
+      "sha256": "b842b41debc57dcae27bb65ffcb1d96b5ca55c31bae0c24423f40f592b52e9fe"
+    },
+    {
+      "packageRelativePath": "project/hypium_tests/bootstrap_device.py",
+      "sourceRelativePath": "hypium_tests/bootstrap_device.py",
+      "exists": true,
+      "sha256": "b2b77c851bc8a5c9765a76d6c96877fb9e30ab4488bd76f7d8f94fd0f95a360e"
+    },
+    {
+      "packageRelativePath": "project/hypium_tests/README.md",
+      "sourceRelativePath": "hypium_tests/README.md",
+      "exists": true,
+      "sha256": "56f8be6848758669d58d67c95cd0783ce206f681f3073a284bf3a2b525680887"
+    },
+    {
+      "packageRelativePath": "project/hypium_tests/run_verification.ps1",
+      "sourceRelativePath": "hypium_tests/run_verification.ps1",
+      "exists": true,
+      "sha256": "cd8039c403cb87bcf69880d2373389537d28aeb0668807cc5eafc77b17307359"
+    },
+    {
+      "packageRelativePath": "project/hypium_tests/test_restore_confirmation.py",
+      "sourceRelativePath": "hypium_tests/test_restore_confirmation.py",
+      "exists": true,
+      "sha256": "5457f0f70692c701b3bef5666a42942eff83b410c38bf6d508e9aa5ecadab5f6"
+    },
+    {
+      "packageRelativePath": "project/oh-package-lock.json5",
+      "sourceRelativePath": "oh-package-lock.json5",
+      "exists": true,
+      "sha256": "6293e224f06b1fe96f4747f06df4be14ed22e79df66945379a35be148c634504"
+    },
+    {
+      "packageRelativePath": "project/oh-package.json5",
+      "sourceRelativePath": "oh-package.json5",
+      "exists": true,
+      "sha256": "7d1958cea9d1241f2e1c3c6ed4b2dce48a5dd4285a924e077978287bbf3dc3ca"
+    },
+    {
+      "packageRelativePath": "project/spec/metadata.json",
+      "sourceRelativePath": "spec/metadata.json",
+      "exists": true,
+      "sha256": "92a41fc04e0bb8ff18e0fce0e9324039fb369a4c879cffd2477c2e9b15e58c9c"
+    },
+    {
+      "packageRelativePath": "project/spec/requirement.md",
+      "sourceRelativePath": "spec/requirement.md",
+      "exists": true,
+      "sha256": "cb03466bca1943ed5d0e5d191f14607fb2e9b7d6195540275be8c9205477ec48"
+    },
+    {
+      "packageRelativePath": "project/traces/baseline-round-01/environment.json",
+      "sourceRelativePath": "traces/baseline-round-01/environment.json",
+      "exists": true,
+      "sha256": "a7a511e2af5ac2be5b6914b2e617ff7ae7d62fa38619d8467c4512c611ea97a5"
+    },
+    {
+      "packageRelativePath": "project/traces/baseline-round-01/install-unsigned.exit.txt",
+      "sourceRelativePath": "traces/baseline-round-01/install-unsigned.exit.txt",
+      "exists": true,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "packageRelativePath": "project/traces/baseline-round-01/install-unsigned.log",
+      "sourceRelativePath": "traces/baseline-round-01/install-unsigned.log",
+      "exists": true,
+      "sha256": "4373de28cf3f1e1cdf2698d488d31455ec1a102561035f013405c4b45d781cd0"
+    },
+    {
+      "packageRelativePath": "project/traces/baseline-round-01/start-app.exit.txt",
+      "sourceRelativePath": "traces/baseline-round-01/start-app.exit.txt",
+      "exists": true,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "packageRelativePath": "project/traces/baseline-round-01/start-app.log",
+      "sourceRelativePath": "traces/baseline-round-01/start-app.log",
+      "exists": true,
+      "sha256": "bc4bd248d1572c3f2e55d8f5b81ea541e62c0d6c7ac7a903b220e672e2f0c83a"
+    },
+    {
+      "packageRelativePath": "project/workflow/setup-result.json",
+      "sourceRelativePath": "workflow/setup-result.json",
+      "exists": true,
+      "sha256": "284955b9669bab9cdbf4ec5f75960de3e5550998f0e79204d441608495edab80"
+    },
+    {
+      "packageRelativePath": "project/workflow/verification/baseline-round-01.md",
+      "sourceRelativePath": "workflow/verification/baseline-round-01.md",
+      "exists": true,
+      "sha256": "9a520b40d0be81a43a0c178c24047418e3422f56ae49181e49f319a0e3f580fd"
+    },
+    {
+      "packageRelativePath": "project/workflow/verification/round-01.md",
+      "sourceRelativePath": "workflow/verification/round-01.md",
+      "exists": true,
+      "sha256": "9d36bc13ae26154a1fc4d4dbf21d88b9f33d044b3e117aa0114cf848d60e84aa"
+    }
+  ]
+}

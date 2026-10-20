@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "task_id": "vg-spec1",
+  "phase": "2-submit",
+  "reviewer": "/root/submission_requirements",
+  "native_session_id": "01a149cb-a1d7-7711-af7b-8144cd1945fd",
+  "reviewed_at_utc": "2026-10-17 12:33:18 UTC",
+  "status": "pass_prepared_pending_user_fields_and_final_snapshot",
+  "formal_submission_ready": false,
+  "all_hard_constraints_proven": false,
+  "scope": "Independent requirements/materials review of the eight assigned draft documents and directly referenced local audit metadata; no production/test/global-workflow changes.",
+  "remaining_material_issues": [],
+  "closed_findings": [
+    {
+      "id": "AR01",
+      "finding": "solution.fragment.md root aggregation exclusion-list path",
+      "resolution": "Line 19 now references tasks/vg-spec1/audit/excluded-files.json."
+    },
+    {
+      "id": "AR02",
+      "finding": "Current-stage configuration snapshot was not explicitly indexed",
+      "resolution": "trace-index.md line 8 now references audit/current-config/manifest.json; all 8 archived configuration hashes match."
+    }
+  ],
+  "trace_template": {
+    "official_fields": 24,
+    "draft_fields": 24,
+    "missing_labels": [],
+    "fields": [
+      {
+        "draft_line": 3,
+        "official_template_line": 3,
+        "field": "题目 ID",
+        "status": "present"
+      },
+      {
+        "draft_line": 4,
+        "official_template_line": 4,
+        "field": "AI实际参与环节与会话范围",
+        "status": "present"
+      },
+      {
+        "draft_line": 5,
+        "official_template_line": 5,
+        "field": "基线构建准备版本/时间/输出",
+        "status": "present_with_disclosed_gap"
+      },
+      {
+        "draft_line": 6,
+        "official_template_line": 6,
+        "field": "Agent名称及版本",
+        "status": "present_with_disclosed_gap"
+      },
+      {
+        "draft_line": 7,
+        "official_template_line": 7,
+        "field": "模型版本及参数",
+        "status": "present_with_disclosed_gap"
+      },
+      {
+        "draft_line": 8,
+        "official_template_line": 8,
+        "field": "Skill/提示/工具/编排配置版本及位置",
+        "status": "present"
+      },
+      {
+        "draft_line": 9,
+        "official_template_line": 9,
+        "field": "运行期间配置变更及原因",
+        "status": "present_with_disclosed_gap"
+      },
+      {
+        "draft_line": 10,
+        "official_template_line": 10,
+        "field": "主会话ID",
+        "status": "present_with_disclosed_gap"
+      },
+      {
+        "draft_line": 11,
+        "official_template_line": 11,
+        "field": "关联及子会话ID",
+        "status": "present_with_disclosed_gap"
+      },
+      {
+        "draft_line": 12,
+        "official_template_line": 12,
+        "field": "全部相关原生记录及读取方式",
+        "status": "present_with_snapshot_boundary"
+      },
+      {
+        "draft_line": 13,
+        "official_template_line": 13,
+        "field": "失败/重试/未采用方案",
+        "status": "present"
+      },
+      {
+        "draft_line": 14,
+        "official_template_line": 14,
+        "field": "提示/工具/检索/编辑/构建/自测位置",
+        "status": "present"
+      },
+      {
+        "draft_line": 15,
+        "official_template_line": 15,
+        "field": "导出时间/方法/读取方式",
+        "status": "present_with_disclosed_gap"
+      },
+      {
+        "draft_line": 16,
+        "official_template_line": 16,
+        "field": "北京时间成果冻结时间",
+        "status": "pending_user_field"
+      },
+      {
+        "draft_line": 17,
+        "official_template_line": 17,
+        "field": "官方基线及最终版本标识",
+        "status": "present_with_pending_team_version"
+      },
+      {
+        "draft_line": 18,
+        "official_template_line": 18,
+        "field": "完整差异及二进制清单位置",
+        "status": "present_with_projection_boundary"
+      },
+      {
+        "draft_line": 19,
+        "official_template_line": 19,
+        "field": "与提交源码对应关系",
+        "status": "present_with_projection_boundary"
+      },
+      {
+        "draft_line": 20,
+        "official_template_line": 20,
+        "field": "人工操作及记录",
+        "status": "present_with_pending_user_declaration"
+      },
+      {
+        "draft_line": 21,
+        "official_template_line": 21,
+        "field": "人工修改索引",
+        "status": "present_with_pending_user_declaration"
+      },
+      {
+        "draft_line": 22,
+        "official_template_line": 22,
+        "field": "人工修改人/目的/文件/前后版本/原始证据",
+        "status": "pending_user_field"
+      },
+      {
+        "draft_line": 23,
+        "official_template_line": 23,
+        "field": "公开检索/复用及来源条目",
+        "status": "present_with_pending_user_declaration"
+      },
+      {
+        "draft_line": 24,
+        "official_template_line": 24,
+        "field": "工作目录及来源保护配置",
+        "status": "present_with_pending_user_declaration"
+      },
+      {
+        "draft_line": 25,
+        "official_template_line": 25,
+        "field": "脱敏范围",
+        "status": "present_with_disclosed_limitations"
+      },
+      {
+        "draft_line": 26,
+        "official_template_line": 26,
+        "field": "记录缺失及原因",
+        "status": "present_with_disclosed_gap"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "id": "R01",
+      "status": "pass",
+      "evidence": [
+        "pending-fields.md:5",
+        "pending-fields.md:6",
+        "human-changes.md:3",
+        "solution.fragment.md:15",
+        "solution.fragment.md:17"
+      ],
+      "finding": "All empty team/task inputs remain pending; no inference of no edits/issues/sources or of a team freeze time."
+    },
+    {
+      "id": "R02",
+      "status": "pass",
+      "evidence": [
+        "traces/sessions.json",
+        "traces/filtered-session-index.jsonl",
+        "trace-index.md:28",
+        "solution.fragment.md:7"
+      ],
+      "finding": "13 distinct native sessions: 8 analysis/development and 5 materials. Three root sidebar identities have matching raw index rows; child sidebar and all Comate identity fields remain explicitly unverified. Initial mixed overview excluded."
+    },
+    {
+      "id": "R03",
+      "status": "pass",
+      "evidence": [
+        "traces/sessions.json"
+      ],
+      "finding": "All 13 native exports and all 13 Markdown files exist; independently recomputed SHA-256 values match export_sha256 and markdown_sha256."
+    },
+    {
+      "id": "R04",
+      "status": "pass",
+      "evidence": [
+        "solution.fragment.md:3",
+        "solution.fragment.md:9",
+        "solution.fragment.md:11",
+        "solution.fragment.md:13",
+        "solution.fragment.md:15",
+        "workflow/development-handoff.md"
+      ],
+      "finding": "28 local requirement IDs and 19 planned cases are not equated to official F-points. Old HAP/device reuse, WFP transport rather than guest LinkDown, zero-arrival interpretation, retained failures/diagnostic gaps and untested conditions are disclosed."
+    },
+    {
+      "id": "R05",
+      "status": "pass",
+      "evidence": [
+        "sources.fragment.md:3",
+        "sources.fragment.md:9",
+        "sources.fragment.md:18",
+        "sources.fragment.md:20"
+      ],
+      "finding": "Baseline and observed technical/tool sources are listed with evidence references; empty extra_sources/source_guard declarations remain pending. No full source-compliance audit is claimed."
+    },
+    {
+      "id": "R06",
+      "status": "pass",
+      "evidence": [
+        "audit/taskbook-versions.json",
+        "audit/current-config/manifest.json",
+        "trace-index.md:8"
+      ],
+      "finding": "Four current taskbook project/common hashes and three official template hashes independently match the recorded values; team/task input hashes match; no spec/history directory. All 8 current-stage configuration snapshot hashes match. The parent-workspace Git commit is not represented as a task feature commit or as proof of unrecorded historical taskbooks."
+    },
+    {
+      "id": "R07",
+      "status": "pass_with_boundary",
+      "evidence": [
+        "changes/project-manifest.json",
+        "audit/excluded-files.json",
+        "audit/diff-validation.json",
+        "trace-index.md:18",
+        "trace-index.md:19",
+        "solution.fragment.md:19",
+        "delivery-notes.md:7"
+      ],
+      "finding": "4175 unique manifest paths; 84 exclusions = 64 emulator runtime + 6 pyc + 14 mixed initialization raw snapshots. Exclusion/manifest intersection is empty, no entry/AppScope exclusions, no generated draft paths included. No other .comate files exist in the manifest. Completeness is explicitly limited to the manifest projection, not an unfiltered local-directory archive. The derived draft remains outside project to prevent self-reference."
+    },
+    {
+      "id": "R08",
+      "status": "pass_with_boundary",
+      "evidence": [
+        "audit/diff-validation.json",
+        "delivery-notes.md:5"
+      ],
+      "finding": "Documents consistently report patch --check/apply exit 0, 4175 comparisons, zero mismatch/extra/source-change and preserved whitespace warnings. This reviewer read that audit and checked the projection metadata, but did not rerun patch application or full 4175-file comparison."
+    },
+    {
+      "id": "R09",
+      "status": "pass_as_fragment",
+      "evidence": [
+        "submission.json.fragment:2",
+        "submission.json.fragment:3",
+        "submission.json.fragment:4",
+        "submission.json.fragment:5",
+        "submission.json.fragment:6",
+        "audit/submission-state.json"
+      ],
+      "finding": "JSON parses and has the five official per-task fields; paths are the expected package-relative forward-slash paths, with build/index file paths. submitted is a prepared task-list entry, not proof of upload or of completed team freeze. Team-wide all-task assembly remains 3-package work."
+    },
+    {
+      "id": "R10",
+      "status": "pass_with_disclosure",
+      "evidence": [
+        "audit/client-version.json",
+        "trace-index.md:6",
+        "pending-fields.md:8",
+        "auto-filled-facts.md",
+        "audit/sensitive-pattern-scan.json"
+      ],
+      "finding": "Current Windows OpenAI.Codex 26.1013.4894.0 is supported by the collected Get-AppxPackage record; CLI 0.163.0-alpha.10.2 stays separate. Historical GUI/Mac/Comate-extension evidence is not inferred. Pattern scan records two encrypted_content false positives and no unresolved credential hits within that limited scan; it is not a full secrets or source-compliance audit."
+    }
+  ],
+  "pending_user_fields": {
+    "team": [
+      "version",
+      "contact",
+      "freeze_time",
+      "members[].name",
+      "members[].work",
+      "source_guard"
+    ],
+    "task": [
+      "human_edits",
+      "known_issues",
+      "extra_sources",
+      "md_export_dir"
+    ],
+    "only_3_package": [
+      "submitted_tasks",
+      "attempted_not_submitted",
+      "zip_out"
+    ]
+  },
+  "disclosed_unverified_items": [
+    "Comate sessionUuid/IDE mapping and extension/Mac product versions",
+    "Historical desktop GUI versions and model parameters not output by native records",
+    "Official baseline report, exact preparation-script hash and original start/end times",
+    "Historical helper05 mismatch details and helper06 traceback/filename/winerror",
+    "IDE native Markdown export directory"
+  ],
+  "next_steps_for_root": [
+    "Refresh snapshots of the same 13 sessions after this review and verify their new hashes/cutoffs; the review's recorded session-index hash is the pre-refresh audit snapshot.",
+    "Retain every pending field and the distinction between collected facts and user declarations.",
+    "At separately authorized 3-package, perform formal freeze/aggregation and copy project exactly from the manifest; changed project scope requires fresh patch/byte validation.",
+    "Do not claim that this prepared-materials review proves every hard constraint, full secrets/source compliance, official results, or formal submission readiness."
+  ],
+  "input_sha256": {
+    "trace-index.md": "f824ae666d6a5f1bb4c17416aab0e5c005cf38adc568b8d1064b137394f93e7d",
+    "solution.fragment.md": "3e69e3d32e0b15c4f2ff5a97c9bbf6e340ea6d79e9da90892d816dc9eb051c64",
+    "sources.fragment.md": "928913a406f68a37eaa2ea0be49e0a0c247528e5a2091c49b2206ad5ad724f0c",
+    "human-changes.md": "86a31d2e9c7df00947e79181997cee7b6368a26bb1ed696b7f5d946c198ce4b5",
+    "pending-fields.md": "0efbd45f9e15fe18b4ce5c6d032c8f63736b769c440ec353dfbe7f33608cd907",
+    "auto-filled-facts.md": "854916bbb316e600680703c8efd802dd4006ac7bc5f9a7e4eaebbda85c066455",
+    "delivery-notes.md": "188e636d7b8c508884041c8c171da83d42a9f97ec6a252b0dc23de98b0636e27",
+    "submission.json.fragment": "0d5b7bb88b63fc21fd8661c447dffb5659850fd39e6c1812113f1160f55f95f4",
+    "audit/current-config/manifest.json": "3ad49619cf716b60c92a812e11bcc49de82b2fdbb685175d8a2fd78050294670",
+    "audit/client-version.json": "5080b70c8dc5288da4e521924057e5c920df86896aa4e4ed9206971563487788",
+    "audit/taskbook-versions.json": "698035047148dbefb21cc18a199b3bba22246036e01f6ef02ab59362a8105cf7",
+    "audit/diff-validation.json": "0e3576bc992d8e755bb487a1081fb85c01f20dddb03d21a9b7b503d16f16a9a0",
+    "audit/excluded-files.json": "a688a011504e89ffd74268dec11af92d49844761deb57dea9546ba29b1a7b7a0",
+    "changes/project-manifest.json": "5a2def57fb1723aec9180ed207dcab8b3f056675a75f21e2e3040af33f843777",
+    "traces/sessions.json": "c98548373c3a90ec7f24344c223a9c60847d6555511e876ba2be6070f7e996af"
+  },
+  "writes": [
+    "audit/requirements-review.json",
+    "audit/requirements-review.md"
+  ],
+  "limitations": [
+    "No build/device commands run.",
+    "No full native-event content/source-compliance audit.",
+    "No independent patch reapplication or complete project byte comparison.",
+    "Current client version is reviewed from the collected audit record, not independently queried from the operating system."
+  ]
+}

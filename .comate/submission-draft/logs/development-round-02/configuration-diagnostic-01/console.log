@@ -1,0 +1,57 @@
+[2026-10-17 17:35:48,286] [14632] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-17 17:35:48,287] [14632] [EnvPool] [INFO] [Report path: D:\HCUP\vg-spec1\logs\development-round-02\configuration-diagnostic-01\reports\2026-10-17-17-35-48]
+[2026-10-17 17:35:48,288] [14632] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-17 17:35:48,288] [14632] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-17 17:35:48,288] [14632] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-17 17:35:48,290] [14632] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-17 17:35:48,290] [14632] [EnvPool] [INFO] [Get device by selector]
+[2026-10-17 17:35:48,290] [14632] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-17 17:35:48,656] [38608] [Hdc] [INFO] [127.0.0.1:11235		TCP	Offline	localhost
+127.0.0.1:11237		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-17 17:35:49,296] [14632] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11237'], label:phone]]
+[2026-10-17 17:35:49,296] [14632] [EnvPool] [INFO] [Device 127.0.0.1:11237: extend value: {}]
+[2026-10-17 17:35:49,544] [14632] [Device] [INFO] [6.0.2.3]
+[2026-10-17 17:35:49,729] [14632] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-17 17:35:49,729] [14632] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-17 17:35:49,807] [14632] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: None]
+[2026-10-17 17:35:49,807] [14632] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-17 17:35:49,883] [14632] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-17 17:35:49,883] [14632] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-17 17:35:49,944] [14632] [Device] [INFO] [Device agent is up to date!]
+[2026-10-17 17:35:52,189] [14632] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]
+[2026-10-17 17:35:54,261] [14632] [DeviceUIProxy] [INFO] [tcp forward port: 9950 for 127.0.0.1:11237]
+[2026-10-17 17:35:54,994] [14632] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-17 17:35:54,995] [14632] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-17 17:35:54,995] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:11237, io.qzz.weiyu)</div>]
+[2026-10-17 17:35:55,602] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:11237, io.qzz.weiyu) cost: 0.607s</div>]
+[2026-10-17 17:35:55,602] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:11237, io.qzz.weiyu, EntryAbility)</div>]
+[2026-10-17 17:35:56,704] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:11237, io.qzz.weiyu, EntryAbility) cost: 1.102s</div>]
+[2026-10-17 17:35:56,704] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('settings_entry_button'))</div>]
+[2026-10-17 17:35:58,532] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('settings_entry_button')) cost: 1.829s</div>]
+[2026-10-17 17:35:59,567] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('settings_section_sync'))</div>]
+[2026-10-17 17:36:00,621] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('settings_section_sync')) cost: 1.052s</div>]
+[2026-10-17 17:36:00,791] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input'))</div>]
+[2026-10-17 17:36:00,853] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input')) cost: 0.062s</div>]
+[2026-10-17 17:36:00,889] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11237)</div>]
+[2026-10-17 17:36:00,916] [14632] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11237) cost: 0.026s</div>]
+[2026-10-17 17:36:03,721] [14632] [Device] [WARNING] [Component exception: [{'code': 17000004, 'message': 'Widget: {selfMatcher=[{attrName:visible; value:true; Pattern:0},{attrName:id; value:webdav_endpoint_input; Pattern:0},]}46:1093dose not exist on current UI! Check if the UI has changed after you got the widget object(NoCandidates)'}], try to recover]
+Traceback (most recent call last):
+  File "<stdin>", line 12, in <module>
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\frontend_api.py", line 504, in O00oO00oO0O
+    return do_hypium_rpc ( iiI1i11ii , oO0 , * args )
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\frontend_api.py", line 487, in do_hypium_rpc
+    return call_backend_api_with_retry ( Ooo , OooO0Oo , o0oO00 , i1iII11iii , api_level = o0Oo0o000O0oO , ** kwargs )
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\frontend_api.py", line 415, in call_backend_api_with_retry
+    raise OooOOO0oO0Oo
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\frontend_api.py", line 393, in call_backend_api_with_retry
+    return FrontEndClass . call_backend_api ( api_name , caller , list ( params ) , ** kwargs )
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\frontend_api.py", line 261, in call_backend_api
+    raise UiComponentDisappearError ( iiiiII11II , frontend_obj )
+hypium.exception.UiComponentDisappearError: {'code': 17000004, 'message': 'Widget: {selfMatcher=[{attrName:visible; value:true; Pattern:0},{attrName:id; value:webdav_endpoint_input; Pattern:0},]}46:1093dose not exist on current UI! Check if the UI has changed after you got the widget object(NoCandidates)'}

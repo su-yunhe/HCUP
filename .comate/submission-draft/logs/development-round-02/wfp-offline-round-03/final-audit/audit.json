@@ -1,0 +1,165 @@
+{
+  "task": "vg-spec1",
+  "run": "logs\\development-round-02\\wfp-offline-round-03",
+  "pass": 1,
+  "fail": 0,
+  "skip": 0,
+  "duration_including_user_wait_seconds": 1950.176,
+  "source_count": 222,
+  "source_before_manifest_after_current_equal": true,
+  "hap_sha256": "a3574072f81f37e14c0f0c1b335673d44e7aa1691c83488a065d4b7c91278a36",
+  "helper_sha256": "c62ce4afcdf172ecda02b31a6c006f4f4cca92346328d158b97409cd14acc8ff",
+  "helper_12_sources_equal": true,
+  "archived_sources_hashes_valid": true,
+  "used_files": [
+    {
+      "path": "hypium_tests/wfp_controller.py",
+      "sha256": "919a3304b9efa32ef4a0a40e6227049ad2d495cea3a20be688250b984cbc0958"
+    },
+    {
+      "path": "hypium_tests/wfp_offline_confirmation.py",
+      "sha256": "b0ae62334cfcf8373d10df3ecf6f057dbc61b8b38d5dc88c1f9c9722e049d87e"
+    },
+    {
+      "path": "hypium_tests/run_wfp_offline.ps1",
+      "sha256": "0c767653d099a739f6cf5247584532fbc7c82fb8dca31fad5976a1fc7f0a604f"
+    },
+    {
+      "path": "hypium_tests/lifecycle_regression.py",
+      "sha256": "e4d47884dfeb224552ede95fc2888a0efbe840c1929818bf238f0272d9742155"
+    }
+  ],
+  "semantic_snapshot_count": 17,
+  "all_nine_tables_equal": true,
+  "cancels": [
+    {
+      "mode": "button",
+      "window_start": "2026-10-17T11:56:02.232358+00:00",
+      "window_end": "2026-10-17T11:56:20.111415+00:00",
+      "reopen_end": "2026-10-17T11:56:22.648682+00:00",
+      "requests": 0,
+      "downloads": 0,
+      "nine_tables_equal": true,
+      "preferences_equal": true,
+      "UI0_equal": true,
+      "continuous_guard_endpoints_equal": true
+    },
+    {
+      "mode": "gesture",
+      "window_start": "2026-10-17T11:56:33.655249+00:00",
+      "window_end": "2026-10-17T11:56:58.468468+00:00",
+      "reopen_end": "2026-10-17T11:57:01.113034+00:00",
+      "requests": 0,
+      "downloads": 0,
+      "nine_tables_equal": true,
+      "preferences_equal": true,
+      "UI0_equal": true,
+      "continuous_guard_endpoints_equal": true
+    },
+    {
+      "mode": "outside",
+      "window_start": "2026-10-17T11:57:11.794787+00:00",
+      "window_end": "2026-10-17T11:57:29.417773+00:00",
+      "reopen_end": "2026-10-17T11:57:32.009528+00:00",
+      "requests": 0,
+      "downloads": 0,
+      "nine_tables_equal": true,
+      "preferences_equal": true,
+      "UI0_equal": true,
+      "continuous_guard_endpoints_equal": true
+    }
+  ],
+  "negative": {
+    "window_start": "2026-10-17T11:54:48.008952+00:00",
+    "window_end": "2026-10-17T11:55:38.213005+00:00",
+    "requests": 0,
+    "downloads": 0,
+    "observed_result": {
+      "before": null,
+      "after": "⚠️ WebDAV 连接失败：STEP remoteRoot PUT 0: BusinessError: Operation timeout raw={\"code\":2300028,\"message\":\"Operation timeout\"}"
+    }
+  },
+  "positives": [
+    {
+      "phase": "online-before-wfp",
+      "requests": [
+        [
+          "HEAD",
+          200,
+          0
+        ],
+        [
+          "HEAD",
+          200,
+          0
+        ],
+        [
+          "GET",
+          200,
+          1324
+        ]
+      ]
+    },
+    {
+      "phase": "online-after-wfp-restored",
+      "requests": [
+        [
+          "HEAD",
+          200,
+          0
+        ],
+        [
+          "HEAD",
+          200,
+          0
+        ],
+        [
+          "GET",
+          200,
+          1324
+        ]
+      ]
+    }
+  ],
+  "host_health_windows": 5,
+  "all_host_health_HEAD_GET200": true,
+  "blocked_status_observations": 141,
+  "max_logged_observation_gap_seconds": 1.698402,
+  "one_block_identity_throughout_product_window": true,
+  "intentional_lease_expiry_cleanup": {
+    "success": true,
+    "filters": [
+      {
+        "id": "72670",
+        "key": "6d07bf69-76f5-4143-9c06-c1b17f3fb4ed",
+        "layerGuid": "c38d57d1-05a7-4c33-904f-7fbceee60e82",
+        "layerName": "ALE_AUTH_CONNECT_V4",
+        "verified": true
+      },
+      {
+        "id": "72671",
+        "key": "cf8e2cdd-9497-428a-ad9d-72b16c0544ba",
+        "layerGuid": "4a72393b-319f-44bc-84c3-ba54dcb3b6b4",
+        "layerName": "ALE_AUTH_CONNECT_V6",
+        "verified": true
+      }
+    ],
+    "subLayerGuid": "20266f10-44e7-4605-9dbe-33ad809cbd48",
+    "readOnlyTransaction": true,
+    "observerClosed": true,
+    "expectedFilterReturnCode": 2150760451,
+    "expectedSubLayerReturnCode": 2150760455,
+    "event": "cleanup_verification",
+    "timestampUtc": "2026-10-17T11:57:42.8986503Z",
+    "nonce": "348b3a916fe546f7b7a5b215bda4ec8c"
+  },
+  "controller_sticky_failure": null,
+  "guest_system_offline_claim": false,
+  "isolation_scope": "Dedicated Emulator copy outbound IPv4/IPv6 WFP; empirical same NAT path blocked and restored",
+  "final_app_pid": "12657",
+  "faultlogger_raw": "total 16384\r\ndrwxr-x--- 2 hiview log 4096 2026-10-17 17:26 .\r\ndrwxr-x--- 8 hiview log 4096 2026-10-17 17:26 ..\r\n",
+  "faultlogger_entries": [],
+  "hilog_crash_marker_matches": [],
+  "crash_evidence_scope": "retained ring buffer and current faultlogger only",
+  "owned_forward_cleanup": "hypium.log:26 created9968; removed9968->8012; fport Empty"
+}

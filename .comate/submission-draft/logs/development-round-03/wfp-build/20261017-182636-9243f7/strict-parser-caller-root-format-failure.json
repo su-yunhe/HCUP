@@ -1,0 +1,128 @@
+[
+  {
+    "name": "observed-official-command",
+    "accepted": false,
+    "expectedAccepted": true,
+    "pass": false,
+    "reason": "Instance root differs from the fixed startup scope."
+  },
+  {
+    "name": "duplicate-start-same-value",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Duplicate target argument: -start"
+  },
+  {
+    "name": "conflicting-start",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Duplicate target argument: -start"
+  },
+  {
+    "name": "duplicate-port",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Duplicate target argument: -hdcPort"
+  },
+  {
+    "name": "wrong-port",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Expected explicit HDC port 11237."
+  },
+  {
+    "name": "compact-port",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Unsupported target argument: -hdcPort11237"
+  },
+  {
+    "name": "equals-port",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Unsupported target argument: -hdcPort=11237"
+  },
+  {
+    "name": "old-instance-alias",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Unsupported target argument: -instance"
+  },
+  {
+    "name": "old-root-alias",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Unsupported target argument: -path"
+  },
+  {
+    "name": "old-port-alias",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Unsupported target argument: -hvdport"
+  },
+  {
+    "name": "instance-prefix-only",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Unexpected emulator instance."
+  },
+  {
+    "name": "missing-port-value",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Missing target argument value: -hdcPort"
+  },
+  {
+    "name": "unknown-option",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Unsupported target argument: -unknown"
+  },
+  {
+    "name": "wrong-image-root",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Instance root differs from the fixed startup scope."
+  },
+  {
+    "name": "wrong-bootmode",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Instance root differs from the fixed startup scope."
+  },
+  {
+    "name": "wrong-command-executable",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Unexpected command-line executable."
+  },
+  {
+    "name": "duplicate-root",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Duplicate target argument: -instancePath"
+  },
+  {
+    "name": "different-existing-instance-root",
+    "accepted": false,
+    "expectedAccepted": false,
+    "pass": true,
+    "reason": "Directory must be a child of this task's logs directory."
+  }
+]

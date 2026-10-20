@@ -1,0 +1,11 @@
+{
+  "classification": "synthetic_budget_check_failure_before_live_execution",
+  "check": "overbudget_successful_read_rejected",
+  "actual": "No error was raised after an injected .51-second sleep in this initial local check",
+  "expected": "TimeoutError",
+  "root_cause_confirmed": false,
+  "correction": "Successful read now uses the same conservative monotonic .45-second deadline as retries, preserving margin inside the approved .5-second ceiling",
+  "production_changed": false,
+  "helper_changed": false,
+  "live_requests_written": false
+}

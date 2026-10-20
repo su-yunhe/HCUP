@@ -1,0 +1,62 @@
+[
+  {
+    "term": "csrftoken",
+    "offset": 1332343,
+    "context": "ookie(\"x-siteId\"),this.delCookie(\"X-HD-SESSION\"),this.delCookie(mt),this.delCookie(\"urlBeforeLogin\"),sessionStorage.removeItem(\"alliance_privacy_signed\")}getCsrftoken(){return this.utilService.getDeveloperUserInfoData().csrftoken}delCookie(ke){this.utilService.delCookie(ke,{domain:this.auiEnvService.getEnv().oAuthConfig.cookieDomain||location.hostname})}setCookie(ke,lt,kt,Xt){[\"x-siteId\",\"x-userType\",\"x-country\",\"x-hd-grey\",\"x-teamId\",\"X-HD-SESSION\"].includes(ke)&&this.getCookieExpireTime()?this.utilService.setCookie(ke,lt,this.getCookieOptions(this.utilService.dateStrToDate(this.getCookieExpireTime()))):\"developer_userinfo\"===ke?(Xt||this.utilService.setCookie(ke,lt,this.getCookieOptions())"
+  },
+  {
+    "term": "csrftoken",
+    "offset": 1333985,
+    "context": "delCookie(\"x-userType\");let be=\"{\";be=be+'\"siteid\":\"'+kt+'\",',be=be+'\"expiretime\":\"'+(null==ke?void 0:ke.expireTime)+'\",',ke.teamId&&(be=be+'\"teamid\":\"'+ke.teamId+'\",'),et&&(be=be+'\"cookieExpireTime\":\"'+et+'\",'),be=be+'\"csrftoken\":\"'+lt+'\"',be+=\"}\",be=encodeURIComponent(be),this.setCookie(\"developer_userinfo\",be,et,Xt),we&&[\"x-siteId\",\"x-userType\",\"x-country\",\"x-hd-grey\",\"x-teamId\"].forEach(w=>{this.utilService.getCookie(w)&&this.setCookie(w,this.utilService.getCookie(w))})}checkLoginCS(ke){return new se.c(lt=>{if(this.isLogin()){const kt=new Date,Xt=kt.setMinutes(kt.getMinutes()+50);this.isATExpire()?this.refreshToken(ke,()=>{lt.next(void 0)}):(this.getExpireTime().replace(\"T\",\"\").replace(\""
+  },
+  {
+    "term": "getDeveloperUserInfoData",
+    "offset": 1314076,
+    "context": "R.next(null),R.complete()},complete(){R.complete()}})})}setAccountLoginTime(){let y=this;return new f.c(R=>{this.datePipe.transform(new Date((new Date).getTime()+36e5-12e4),\"yyyyMMddHHmmss\",\"+0000\")<=this.auiUtilService.getDeveloperUserInfoData().expiretime.replace(\"T\",\"\").replace(\"Z\",\"\")&&!this.auiUtilService.getCookie(\"x-teamId\")?y.auiOpengwService.setAccountLoginTime({req:{}}).subscribe({next(Ce){R.next(Ce)},error(){R.next(null),R.complete()},complete(){R.complete()}}):(R.next(null),R.complete())})}getRouteInfo(){return new f.c(y=>{this.auiOpengwService.getUserRouteInfo({req:{}}).subscribe({next(R){const ae=R.userRouteInfoList&&R.userRouteInfoList.filter(ve=>!ve.memberUserID);y.next(ae&&a"
+  },
+  {
+    "term": "getDeveloperUserInfoData",
+    "offset": 1317319,
+    "context": "newUnReadMsgNumber:R[1].newUnReadMsgNumber})),y({unReadMsgNumber:z.User.unReadMsgNumber||0,unReadMsgNumberAll:z.User.unReadMsgNumberAll||0})})})}getSiteId(){return this.auiEnvService.checkEnv(\"site\"),this.auiUtilService.getDeveloperUserInfoData().siteid||this.auiEnvService.getEnv().site.china}isLogin(){try{return(!!this.getCookieExpireTime()&&this.getCookieExpireTime()||!!this.getExpireTime()&&this.getExpireTime()).replace(\"T\",\"\").replace(\"Z\",\"\")>=this.datePipe.transform(new Date,\"yyyyMMddHHmmss\",\"+0000\")}catch{return!1}}getExpireTime(){return this.auiUtilService.getDeveloperUserInfoData().expiretime}getCookieExpireTime(){return this.auiUtilService.getDeveloperUserDataInfo().cookieExpireTime"
+  },
+  {
+    "term": "getDeveloperUserInfoData",
+    "offset": 1317669,
+    "context": "getCookieExpireTime()||!!this.getExpireTime()&&this.getExpireTime()).replace(\"T\",\"\").replace(\"Z\",\"\")>=this.datePipe.transform(new Date,\"yyyyMMddHHmmss\",\"+0000\")}catch{return!1}}getExpireTime(){return this.auiUtilService.getDeveloperUserInfoData().expiretime}getCookieExpireTime(){return this.auiUtilService.getDeveloperUserDataInfo().cookieExpireTime}get isChinaUser(){if(this.isLogin()){const y=this.auiEnvService.getEnv();return y.site||console.error(\"\\u62e6\\u622a\\u5668 - \\u8bf7\\u63d0\\u4f9b site \\u914d\\u7f6e\\u9879\"),this.getSiteId()===y.site.china}return\"cn\"===$.V.language.val}checkIsSignPrivacyAgreement(){let y=this;return new f.c(R=>{y.auiOpengwService.querySign({agreementInfoList:[y.USER_2C"
+  },
+  {
+    "term": "getDeveloperUserInfoData",
+    "offset": 1325378,
+    "context": ".top.location.href),setTimeout(()=>{const lt=this.getRegUrl(ke);this.auiSafeService.isSafeUrl(lt)&&(window.top.location.href=location.href=lt)},30)}getSiteId(){return this.auiEnvService.checkEnv(\"site\"),this.utilService.getDeveloperUserInfoData().siteid||this.auiEnvService.getEnv().site.china}getTeamId(){return this.auiEnvService.checkEnv(\"site\"),this.utilService.getDeveloperUserInfoData().teamid}checkExpireLogin(ke,lt){if(this.isLogin()){const kt=new Date,Xt=kt.setMinutes(kt.getMinutes()+50);return this.isATExpire()?(this.refreshToken(ke,()=>{window.location.reload()}),!1):this.getExpireTime().replace(\"T\",\"\").replace(\"Z\",\"\")<=this.datePipe.transform(new Date(Xt),\"yyyyMMddHHmmss\",\"+0000\")?(t"
+  },
+  {
+    "term": "getDeveloperUserInfoData",
+    "offset": 1325524,
+    "context": ")}getSiteId(){return this.auiEnvService.checkEnv(\"site\"),this.utilService.getDeveloperUserInfoData().siteid||this.auiEnvService.getEnv().site.china}getTeamId(){return this.auiEnvService.checkEnv(\"site\"),this.utilService.getDeveloperUserInfoData().teamid}checkExpireLogin(ke,lt){if(this.isLogin()){const kt=new Date,Xt=kt.setMinutes(kt.getMinutes()+50);return this.isATExpire()?(this.refreshToken(ke,()=>{window.location.reload()}),!1):this.getExpireTime().replace(\"T\",\"\").replace(\"Z\",\"\")<=this.datePipe.transform(new Date(Xt),\"yyyyMMddHHmmss\",\"+0000\")?(this.refreshToken(ke),lt&&lt(),!0):(lt&&lt(),!0)}return this.loginCS(ke),!1}checkExpireLogin$(ke){return new se.c(lt=>this.isLogin()?this.isATExpir"
+  },
+  {
+    "term": "getDeveloperUserInfoData",
+    "offset": 1332316,
+    "context": "okie(\"x-hd-grey\"),this.delCookie(\"x-siteId\"),this.delCookie(\"X-HD-SESSION\"),this.delCookie(mt),this.delCookie(\"urlBeforeLogin\"),sessionStorage.removeItem(\"alliance_privacy_signed\")}getCsrftoken(){return this.utilService.getDeveloperUserInfoData().csrftoken}delCookie(ke){this.utilService.delCookie(ke,{domain:this.auiEnvService.getEnv().oAuthConfig.cookieDomain||location.hostname})}setCookie(ke,lt,kt,Xt){[\"x-siteId\",\"x-userType\",\"x-country\",\"x-hd-grey\",\"x-teamId\",\"X-HD-SESSION\"].includes(ke)&&this.getCookieExpireTime()?this.utilService.setCookie(ke,lt,this.getCookieOptions(this.utilService.dateStrToDate(this.getCookieExpireTime()))):\"developer_userinfo\"===ke?(Xt||this.utilService.setCookie(ke,"
+  },
+  {
+    "term": "getDeveloperUserInfoData",
+    "offset": 1333229,
+    "context": "e.dateStrToDate(kt)))}getCookieOptions(ke){return{domain:this.auiEnvService.getEnv().oAuthConfig.cookieDomain||location.hostname,secure:\"localhost\"!==location.hostname,expires:ke}}getExpireTime(){return this.utilService.getDeveloperUserInfoData().expiretime}getCookieExpireTime(){return this.utilService.getDeveloperUserDataInfo().cookieExpireTime}delDeveloperUserCookie(){this.delCookie(\"developer_userinfo\"),this.delCookie(\"developer_userdata\")}setLoginCookie(ke){const lt=ke.csrfToken||this.getCsrftoken(),kt=ke.siteID||this.getSiteId();let Xt=1===ke.sessionExpired,et=ke.cookieExpireTime||this.getCookieExpireTime(),we=this.getCookieExpireTime()&&ke.cookieExpireTime&&this.getCookieExpireTime()!="
+  },
+  {
+    "term": "getDeveloperUserInfoData",
+    "offset": 1387810,
+    "context": "substr(10,2),ae=Q.substr(12,2);return new Date(k,z-1,P,y,R,ae)}getDeveloperUserDataInfo(){try{return JSON.parse(this.getCookie(\"developer_userdata\"))||JSON.parse(this.getCookie(\"developer_userinfo\"))||{}}catch{return{}}}getDeveloperUserInfoData(){try{return JSON.parse(this.getCookie(\"developer_userinfo\"))||JSON.parse(this.getCookie(\"developer_userdata\"))||{}}catch{return{}}}searchByIgnoreWhitespace(N,Q){const k=new Set,z=(Q=Q.toLowerCase().replace(/\\s|\\u3000/g,\"\")).length;if(0===z)return[];if(1===z)return N.includes(Q)&&k.add(Q),Q=Q.toUpperCase(),N.includes(Q)&&k.add(Q),[...k];const P=N.split(\"\");let y=\"\",R=-1;const ae=P.length;for(let ve=0;ve<ae&&(y||!(z>P.length-ve));ve++){const Ce=P[ve];C"
+  },
+  {
+    "term": "getDeveloperUserInfoData",
+    "offset": 1388813,
+    "context": "s.auiEnvService.getEnv().oAuthConfig)||void 0===N?void 0:N.hdcRedirect;if(!z)return!1;const P=this.getCookie(\"x-country\");if(P&&null!==(Q=z.countries)&&void 0!==Q&&Q.length&&z.countries.includes(P))return!0;const y=this.getDeveloperUserInfoData().siteid;return!(void 0===y||null===(k=z.sites)||void 0===k||!k.length)&&z.sites.includes(Number(y))}isChinaSite(){var N,Q;const k=this.auiEnvService.getEnv(),z=this.getDeveloperUserInfoData().siteid||(null===(N=k.site)||void 0===N?void 0:N.china);return null!==(Q=k.site)&&void 0!==Q&&Q.china?Number(z)===Number(k.site.china):Number(z)===this.CHINA_SITE_ID}checkHdcWhiteFlag(){const N=this.getCookie(this.HDC_GREY_COOKIE_NAME);if(!N)return!1;const Q=N.ma"
+  },
+  {
+    "term": "getDeveloperUserInfoData",
+    "offset": 1389004,
+    "context": "des(P))return!0;const y=this.getDeveloperUserInfoData().siteid;return!(void 0===y||null===(k=z.sites)||void 0===k||!k.length)&&z.sites.includes(Number(y))}isChinaSite(){var N,Q;const k=this.auiEnvService.getEnv(),z=this.getDeveloperUserInfoData().siteid||(null===(N=k.site)||void 0===N?void 0:N.china);return null!==(Q=k.site)&&void 0!==Q&&Q.china?Number(z)===Number(k.site.china):Number(z)===this.CHINA_SITE_ID}checkHdcWhiteFlag(){const N=this.getCookie(this.HDC_GREY_COOKIE_NAME);if(!N)return!1;const Q=N.match(this.HDC_GREY_COOKIE_REGEX);if(!Q||0===Q.length)return!1;const k=Q[0];return k.length===this.HDC_GREY_COOKIE_LENGTH&&k.split(\"\")[this.HDC_WHITE_FLAG_INDEX]===this.INHDCWHITEFLAGBIT}}retur"
+  }
+]

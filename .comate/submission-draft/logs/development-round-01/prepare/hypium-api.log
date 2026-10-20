@@ -1,0 +1,12 @@
+D:\HCUP\common\.venv\Lib\site-packages\hypium\__init__.py
+start_app (self, package_name: str, page_name: str = None, params: str = '', wait_time: float = 1)
+stop_app (self, package_name: str, wait_time: float = 0.5)
+swipe (self, direction: str, distance: int = 60, area: Union[hypium.uidriver.interface.uitree.ISelector, hypium.uidriver.interface.uitree.IUiComponent] = None, side: str = None, start_point: tuple = None, swipe_time: float = 0.3, speed: int = None)
+fling (self, direction: str, distance: int = 50, area: Union[hypium.uidriver.interface.uitree.ISelector, hypium.uidriver.interface.uitree.IUiComponent] = None, speed: str = 'fast')
+click (self, target: Union[hypium.uidriver.interface.uitree.ISelector, hypium.uidriver.interface.uitree.IUiComponent, tuple], offset=None)
+double_click (self, target: Union[hypium.uidriver.interface.uitree.ISelector, hypium.uidriver.interface.uitree.IUiComponent, tuple], offset=None)
+press_back (self)
+press_key (self, key_code: Union[hypium.model.basic_data_type.KeyCode, int], key_code2: Union[hypium.model.basic_data_type.KeyCode, int] = None, mode='normal')
+find_component (self, target: hypium.uidriver.interface.uitree.ISelector, scroll_target: hypium.uidriver.interface.uitree.ISelector = None) -> hypium.uidriver.interface.uitree.IUiComponent
+find_all_components (self, target: hypium.uidriver.interface.uitree.ISelector, index: int = None) -> Union[hypium.uidriver.interface.uitree.IUiComponent, List[hypium.uidriver.interface.uitree.IUiComponent]]
+get_display_size (self) -> (<class 'int'>, <class 'int'>)

@@ -1,0 +1,62 @@
+[2026-10-17 15:59:29,624] [37736] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-17 15:59:29,626] [37736] [EnvPool] [INFO] [Report path: D:\HCUP\vg-spec1\reports\2026-10-17-15-59-29]
+[2026-10-17 15:59:29,626] [37736] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-17 15:59:29,627] [37736] [EnvPool] [INFO] [Env pool running in normal mode.]
+[2026-10-17 15:59:29,627] [37736] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-17 15:59:29,630] [37736] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-17 15:59:29,630] [37736] [EnvPool] [INFO] [Get device by selector]
+[2026-10-17 15:59:29,630] [37736] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-17 15:59:29,942] [36604] [Hdc] [INFO] [127.0.0.1:11235		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-17 15:59:30,641] [37736] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11235, label:phone], selection option:[device sn:['127.0.0.1:11235'], label:phone]]
+[2026-10-17 15:59:30,641] [37736] [EnvPool] [INFO] [Device 127.0.0.1:11235: extend value: {}]
+[2026-10-17 15:59:30,907] [37736] [Device] [INFO] [6.0.2.3]
+[2026-10-17 15:59:31,092] [37736] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-17 15:59:31,092] [37736] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-17 15:59:31,142] [37736] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: None]
+[2026-10-17 15:59:31,142] [37736] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-17 15:59:31,216] [37736] [Device] [INFO] [/bin/sh: cat: /data/local/tmp/agent.so: No such file or directory
+]
+[2026-10-17 15:59:31,216] [37736] [Device] [INFO] [local agent version 1.1.9, device agent version 0.0.0]
+[2026-10-17 15:59:31,216] [37736] [Device] [INFO] [start update agent, path is D:\HCUP\common\.venv\Lib\site-packages\devicetest\res\prototype\native\uitest_agent_v1.1.9.x86_64_so]
+[2026-10-17 15:59:31,834] [37736] [Device] [INFO] [Update agent finish.]
+[2026-10-17 15:59:34,052] [37736] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]
+[2026-10-17 15:59:36,148] [37736] [DeviceUIProxy] [INFO] [tcp forward port: 9921 for 127.0.0.1:11235]
+[2026-10-17 15:59:36,939] [37736] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-17 15:59:37,930] [37736] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-17 15:59:37,931] [37736] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:11235, io.qzz.weiyu)</div>]
+[2026-10-17 15:59:38,106] [37736] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-17 15:59:38,106] [37736] [DeviceTest] [INFO] [flash error msg.]
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\HCUP\vg-spec1\hypium_tests\prepare_device.py", line 70, in <module>
+    main()
+  File "D:\HCUP\vg-spec1\hypium_tests\prepare_device.py", line 30, in main
+    driver.start_app(BUNDLE)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one

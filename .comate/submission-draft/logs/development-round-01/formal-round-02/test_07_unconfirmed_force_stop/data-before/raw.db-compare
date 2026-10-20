@@ -1,0 +1,337 @@
+
+  CREATE TABLE IF NOT EXISTS words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'NEW',
+    fsrs_state TEXT NOT NULL DEFAULT '{}',
+    history TEXT NOT NULL DEFAULT '[]',
+    definition TEXT NOT NULL DEFAULT '{}',
+    due_date INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    book_id TEXT DEFAULT '',
+    tags TEXT DEFAULT '[]'
+  )
+
+
+  CREATE TABLE IF NOT EXISTS definitions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL UNIQUE,
+    definition TEXT NOT NULL,
+    source TEXT NOT NULL DEFAULT 'local',
+    created_at INTEGER NOT NULL
+  )
+
+
+  CREATE TABLE IF NOT EXISTS word_identities (
+    word TEXT PRIMARY KEY,
+    status TEXT NOT NULL DEFAULT 'NEW',
+    fsrs_state TEXT NOT NULL DEFAULT '{}',
+    history TEXT NOT NULL DEFAULT '[]',
+    due_date INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    total_reps INTEGER DEFAULT 0,
+    total_lapses INTEGER DEFAULT 0,
+    first_book_id TEXT DEFAULT ''
+  )
+
+
+  CREATE TABLE IF NOT EXISTS system_word_book_words (
+    book_id TEXT NOT NULL,
+    word TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    PRIMARY KEY (book_id, word)
+  )
+
+
+  CREATE TABLE IF NOT EXISTS version_control (
+    id INTEGER PRIMARY KEY,
+    version INTEGER NOT NULL,
+    timestamp INTEGER NOT NULL,
+    description TEXT DEFAULT ''
+  )
+
+
+  CREATE TABLE IF NOT EXISTS change_log (
+    id TEXT PRIMARY KEY,
+    timestamp INTEGER NOT NULL,
+    change_type TEXT NOT NULL,
+    entity_type TEXT NOT NULL,
+    entity_id INTEGER NOT NULL,
+    description TEXT NOT NULL,
+    previous_value TEXT DEFAULT '',
+    new_value TEXT DEFAULT ''
+  )
+
+
+  CREATE TABLE IF NOT EXISTS review_events (
+    id TEXT PRIMARY KEY,
+    word_id INTEGER NOT NULL,
+    rating INTEGER NOT NULL,
+    timestamp INTEGER NOT NULL,
+    prev_state_json TEXT NOT NULL,
+    new_state_json TEXT NOT NULL,
+    error_tag TEXT DEFAULT '',
+    reflection TEXT DEFAULT '',
+    scheduled_days REAL DEFAULT 0
+  )
+
+
+  CREATE TABLE IF NOT EXISTS vignette_cache (
+    word TEXT PRIMARY KEY,
+    vignette TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    last_used_at INTEGER NOT NULL,
+    size_bytes INTEGER NOT NULL
+  )
+
+
+  CREATE TABLE IF NOT EXISTS vignette_cache_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL,
+    vignette TEXT NOT NULL,
+    vignette_hash INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    last_used_at INTEGER NOT NULL,
+    size_bytes INTEGER NOT NULL,
+    UNIQUE (word, vignette_hash)
+  )
+
+
+  CREATE TABLE IF NOT EXISTS user_notebook_words (
+    word TEXT PRIMARY KEY,
+    created_at INTEGER NOT NULL
+  )
+
+
+  CREATE TABLE IF NOT EXISTS user_word_books (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    description TEXT DEFAULT '',
+    category TEXT DEFAULT '其他',
+    difficulty TEXT DEFAULT '初级',
+    cover_color TEXT DEFAULT '["#a8edea", "#fed6e3"]',
+    icon TEXT DEFAULT '📓'
+  )
+
+
+  CREATE TABLE IF NOT EXISTS user_word_book_words (
+    book_id TEXT NOT NULL,
+    word TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    PRIMARY KEY (book_id, word)
+  )
+
+
+  CREATE TABLE IF NOT EXISTS texts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    source_type TEXT NOT NULL DEFAULT 'paste',
+    source_ref TEXT NOT NULL DEFAULT '',
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL
+  )
+
+
+  CREATE INDEX IF NOT EXISTS idx_words_status ON words(status)
+
+
+  CREATE INDEX IF NOT EXISTS idx_words_word ON words(word)
+
+
+  CREATE INDEX IF NOT EXISTS idx_words_due ON words(due_date)
+
+
+  CREATE INDEX IF NOT EXISTS idx_words_created ON words(created_at)
+
+
+  CREATE INDEX IF NOT EXISTS idx_words_status_created ON words(status, created_at)
+
+
+  CREATE INDEX IF NOT EXISTS idx_words_book_status_created ON words(book_id, status, created_at)
+
+
+  CREATE INDEX IF NOT EXISTS idx_review_events_ts ON review_events(timestamp)
+
+
+  CREATE INDEX IF NOT EXISTS idx_review_events_ts_word ON review_events(timestamp, word_id)
+
+
+  CREATE INDEX IF NOT EXISTS idx_vignette_cache_used ON vignette_cache(last_used_at)
+
+
+  CREATE INDEX IF NOT EXISTS idx_vignette_items_word_used ON vignette_cache_items(word, last_used_at)
+
+
+  CREATE INDEX IF NOT EXISTS idx_vignette_items_used ON vignette_cache_items(last_used_at)
+
+
+  CREATE INDEX IF NOT EXISTS idx_user_word_book_words_book ON user_word_book_words(book_id)
+
+
+  CREATE INDEX IF NOT EXISTS idx_user_word_book_words_word ON user_word_book_words(word)
+
+
+  CREATE INDEX IF NOT EXISTS idx_system_word_book_words_book ON system_word_book_words(book_id)
+
+
+  CREATE INDEX IF NOT EXISTS idx_system_word_book_words_word ON system_word_book_words(word)
+
+
+  CREATE INDEX IF NOT EXISTS idx_word_identities_status ON word_identities(status)
+
+
+  CREATE INDEX IF NOT EXISTS idx_word_identities_due ON word_identities(due_date)
+
+
+  CREATE INDEX IF NOT EXISTS idx_texts_updated ON texts(updated_at)
+
+
+  CREATE INDEX IF NOT EXISTS idx_texts_created ON texts(created_at)
+
+
+  CREATE TABLE IF NOT EXISTS words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'NEW',
+    fsrs_state TEXT NOT NULL DEFAULT '{}',
+    history TEXT NOT NULL DEFAULT '[]',
+    definition TEXT NOT NULL DEFAULT '{}',
+    due_date INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    book_id TEXT DEFAULT '',
+    tags TEXT DEFAULT '[]'
+  )
+
+
+  CREATE TABLE IF NOT EXISTS words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'NEW',
+    fsrs_state TEXT NOT NULL DEFAULT '{}',
+    history TEXT NOT NULL DEFAULT '[]',
+    definition TEXT NOT NULL DEFAULT '{}',
+    due_date INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    book_id TEXT DEFAULT '',
+    tags TEXT DEFAULT '[]'
+  )
+
+
+  CREATE TABLE IF NOT EXISTS words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'NEW',
+    fsrs_state TEXT NOT NULL DEFAULT '{}',
+    history TEXT NOT NULL DEFAULT '[]',
+    definition TEXT NOT NULL DEFAULT '{}',
+    due_date INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    book_id TEXT DEFAULT '',
+    tags TEXT DEFAULT '[]'
+  )
+
+
+  CREATE TABLE IF NOT EXISTS word_identities (
+    word TEXT PRIMARY KEY,
+    status TEXT NOT NULL DEFAULT 'NEW',
+    fsrs_state TEXT NOT NULL DEFAULT '{}',
+    history TEXT NOT NULL DEFAULT '[]',
+    due_date INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    total_reps INTEGER DEFAULT 0,
+    total_lapses INTEGER DEFAULT 0,
+    first_book_id TEXT DEFAULT ''
+  )
+
+
+  CREATE TABLE IF NOT EXISTS words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'NEW',
+    fsrs_state TEXT NOT NULL DEFAULT '{}',
+    history TEXT NOT NULL DEFAULT '[]',
+    definition TEXT NOT NULL DEFAULT '{}',
+    due_date INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    book_id TEXT DEFAULT '',
+    tags TEXT DEFAULT '[]'
+  )
+
+
+  CREATE TABLE IF NOT EXISTS words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'NEW',
+    fsrs_state TEXT NOT NULL DEFAULT '{}',
+    history TEXT NOT NULL DEFAULT '[]',
+    definition TEXT NOT NULL DEFAULT '{}',
+    due_date INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    book_id TEXT DEFAULT '',
+    tags TEXT DEFAULT '[]'
+  )
+
+
+  CREATE TABLE IF NOT EXISTS words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'NEW',
+    fsrs_state TEXT NOT NULL DEFAULT '{}',
+    history TEXT NOT NULL DEFAULT '[]',
+    definition TEXT NOT NULL DEFAULT '{}',
+    due_date INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    book_id TEXT DEFAULT '',
+    tags TEXT DEFAULT '[]'
+  )
+
+
+  CREATE TABLE IF NOT EXISTS system_word_book_words (
+    book_id TEXT NOT NULL,
+    word TEXT NOT NULL,
+    created_at INTEGER NOT NULL,
+    PRIMARY KEY (book_id, word)
+  )
+
+
+  CREATE TABLE IF NOT EXISTS words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'NEW',
+    fsrs_state TEXT NOT NULL DEFAULT '{}',
+    history TEXT NOT NULL DEFAULT '[]',
+    definition TEXT NOT NULL DEFAULT '{}',
+    due_date INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    book_id TEXT DEFAULT '',
+    tags TEXT DEFAULT '[]'
+  )
+
+
+  CREATE TABLE IF NOT EXISTS words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL UNIQUE,
+    status TEXT NOT NULL DEFAULT 'NEW',
+    fsrs_state TEXT NOT NULL DEFAULT '{}',
+    history TEXT NOT NULL DEFAULT '[]',
+    definition TEXT NOT NULL DEFAULT '{}',
+    due_date INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL,
+    book_id TEXT DEFAULT '',
+    tags TEXT DEFAULT '[]'
+  )
+

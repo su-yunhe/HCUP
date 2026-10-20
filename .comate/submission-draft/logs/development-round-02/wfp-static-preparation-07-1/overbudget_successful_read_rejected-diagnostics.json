@@ -1,0 +1,17 @@
+[
+  {
+    "file": "wfp-controller-errors.jsonl",
+    "at": "2026-10-17T11:21:28.546385+00:00",
+    "context": "injected.monitor.read_status",
+    "operation": "unblock",
+    "exception_type": "TimeoutError",
+    "message": "status.json read exceeded the 0.5-second IPC budget",
+    "error": "TimeoutError('status.json read exceeded the 0.5-second IPC budget')",
+    "errno": null,
+    "winerror": null,
+    "filename": null,
+    "filename2": null,
+    "status_handle_cleanup_failed": false,
+    "traceback": "Traceback (most recent call last):\n  File \"D:\\HCUP\\vg-spec1\\logs\\development-round-02\\wfp-static-preparation-07-1\\check_ipc_reads.py\", line 69, in check\n    controller.read_status()\n  File \"D:\\HCUP\\vg-spec1\\hypium_tests\\wfp_controller.py\", line 276, in read_status\n    encoded = self.read_status_bytes()\n              ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\HCUP\\vg-spec1\\hypium_tests\\wfp_controller.py\", line 251, in read_status_bytes\n    raise TimeoutError(\"status.json read exceeded the 0.5-second IPC budget\")\nTimeoutError: status.json read exceeded the 0.5-second IPC budget\n"
+  }
+]

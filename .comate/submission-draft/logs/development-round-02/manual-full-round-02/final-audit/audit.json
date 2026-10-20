@@ -1,0 +1,246 @@
+{
+  "at": "2026-10-17T10:16:20.933144+00:00",
+  "device": "127.0.0.1:11237",
+  "source_input_files": 222,
+  "source_before_after_equal": true,
+  "hap_sha256": "a3574072f81f37e14c0f0c1b335673d44e7aa1691c83488a065d4b7c91278a36",
+  "archived_full_run_test_files_unchanged": true,
+  "new_independent_wfp_files_not_loaded_by_full13": true,
+  "local_nine_tables_still_equal_to_fixture": true,
+  "pid": "16237",
+  "faultlogger_raw": {
+    "started_at": "2026-10-17T10:16:16.847255+00:00",
+    "finished_at": "2026-10-17T10:16:16.922446+00:00",
+    "argv": [
+      "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+      "-t",
+      "127.0.0.1:11237",
+      "shell",
+      "ls",
+      "-la",
+      "/data/log/faultlog/faultlogger"
+    ],
+    "exit_code": 0,
+    "stdout": "total 16384\r\ndrwxr-x--- 2 hiview log 4096 2026-10-17 17:26 .\r\ndrwxr-x--- 8 hiview log 4096 2026-10-17 17:26 ..\r\n",
+    "stderr": ""
+  },
+  "bundle_hilog_command_exit": 0,
+  "bundle_hilog_crash_marker_lines": [],
+  "removed_owned_forwards": [
+    {
+      "port": "9904",
+      "ownership_logs": [
+        "logs/development-round-02/manual-full-round-01/hypium.log"
+      ],
+      "result": {
+        "started_at": "2026-10-17T10:16:19.266233+00:00",
+        "finished_at": "2026-10-17T10:16:19.327416+00:00",
+        "argv": [
+          "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+          "-t",
+          "127.0.0.1:11237",
+          "fport",
+          "rm",
+          "tcp:9904",
+          "tcp:8012"
+        ],
+        "exit_code": 0,
+        "stdout": "Remove forward ruler success, ruler:tcp:9904 tcp:8012\r\r\n",
+        "stderr": ""
+      }
+    },
+    {
+      "port": "9909",
+      "ownership_logs": [
+        "logs/development-round-02/manual-offline-round-01/hypium.log"
+      ],
+      "result": {
+        "started_at": "2026-10-17T10:16:19.328417+00:00",
+        "finished_at": "2026-10-17T10:16:19.384919+00:00",
+        "argv": [
+          "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+          "-t",
+          "127.0.0.1:11237",
+          "fport",
+          "rm",
+          "tcp:9909",
+          "tcp:8012"
+        ],
+        "exit_code": 0,
+        "stdout": "Remove forward ruler success, ruler:tcp:9909 tcp:8012\r\r\n",
+        "stderr": ""
+      }
+    },
+    {
+      "port": "9940",
+      "ownership_logs": [
+        "logs/development-round-02/manual-restored-positive-round-01/hypium.log"
+      ],
+      "result": {
+        "started_at": "2026-10-17T10:16:19.387023+00:00",
+        "finished_at": "2026-10-17T10:16:19.471257+00:00",
+        "argv": [
+          "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+          "-t",
+          "127.0.0.1:11237",
+          "fport",
+          "rm",
+          "tcp:9940",
+          "tcp:8012"
+        ],
+        "exit_code": 0,
+        "stdout": "Remove forward ruler success, ruler:tcp:9940 tcp:8012\r\r\n",
+        "stderr": ""
+      }
+    },
+    {
+      "port": "9947",
+      "ownership_logs": [
+        "logs/development-round-02/manual-full-round-02/hypium.log"
+      ],
+      "result": {
+        "started_at": "2026-10-17T10:16:19.473344+00:00",
+        "finished_at": "2026-10-17T10:16:19.529228+00:00",
+        "argv": [
+          "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+          "-t",
+          "127.0.0.1:11237",
+          "fport",
+          "rm",
+          "tcp:9947",
+          "tcp:8012"
+        ],
+        "exit_code": 0,
+        "stdout": "Remove forward ruler success, ruler:tcp:9947 tcp:8012\r\r\n",
+        "stderr": ""
+      }
+    },
+    {
+      "port": "9950",
+      "ownership_logs": [
+        "logs/development-round-02/configuration-diagnostic-01/console.log"
+      ],
+      "result": {
+        "started_at": "2026-10-17T10:16:19.530233+00:00",
+        "finished_at": "2026-10-17T10:16:19.587404+00:00",
+        "argv": [
+          "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+          "-t",
+          "127.0.0.1:11237",
+          "fport",
+          "rm",
+          "tcp:9950",
+          "tcp:8012"
+        ],
+        "exit_code": 0,
+        "stdout": "Remove forward ruler success, ruler:tcp:9950 tcp:8012\r\r\n",
+        "stderr": ""
+      }
+    },
+    {
+      "port": "9955",
+      "ownership_logs": [
+        "logs/development-round-02/configuration-diagnostic-03/console.log"
+      ],
+      "result": {
+        "started_at": "2026-10-17T10:16:19.588404+00:00",
+        "finished_at": "2026-10-17T10:16:19.654157+00:00",
+        "argv": [
+          "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+          "-t",
+          "127.0.0.1:11237",
+          "fport",
+          "rm",
+          "tcp:9955",
+          "tcp:8012"
+        ],
+        "exit_code": 0,
+        "stdout": "Remove forward ruler success, ruler:tcp:9955 tcp:8012\r\r\n",
+        "stderr": ""
+      }
+    },
+    {
+      "port": "9957",
+      "ownership_logs": [
+        "logs/development-round-02/manual-selected00-round-01/hypium.log"
+      ],
+      "result": {
+        "started_at": "2026-10-17T10:16:19.656157+00:00",
+        "finished_at": "2026-10-17T10:16:19.716115+00:00",
+        "argv": [
+          "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+          "-t",
+          "127.0.0.1:11237",
+          "fport",
+          "rm",
+          "tcp:9957",
+          "tcp:8012"
+        ],
+        "exit_code": 0,
+        "stdout": "Remove forward ruler success, ruler:tcp:9957 tcp:8012\r\r\n",
+        "stderr": ""
+      }
+    },
+    {
+      "port": "9959",
+      "ownership_logs": [
+        "logs/development-round-02/configuration-diagnostic-02/console.log"
+      ],
+      "result": {
+        "started_at": "2026-10-17T10:16:19.717115+00:00",
+        "finished_at": "2026-10-17T10:16:19.773963+00:00",
+        "argv": [
+          "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+          "-t",
+          "127.0.0.1:11237",
+          "fport",
+          "rm",
+          "tcp:9959",
+          "tcp:8012"
+        ],
+        "exit_code": 0,
+        "stdout": "Remove forward ruler success, ruler:tcp:9959 tcp:8012\r\r\n",
+        "stderr": ""
+      }
+    },
+    {
+      "port": "9996",
+      "ownership_logs": [
+        "logs/development-round-02/ime-preparation-01/console.log"
+      ],
+      "result": {
+        "started_at": "2026-10-17T10:16:19.775474+00:00",
+        "finished_at": "2026-10-17T10:16:19.865053+00:00",
+        "argv": [
+          "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+          "-t",
+          "127.0.0.1:11237",
+          "fport",
+          "rm",
+          "tcp:9996",
+          "tcp:8012"
+        ],
+        "exit_code": 0,
+        "stdout": "Remove forward ruler success, ruler:tcp:9996 tcp:8012\r\r\n",
+        "stderr": ""
+      }
+    }
+  ],
+  "forwards_after": {
+    "started_at": "2026-10-17T10:16:19.868044+00:00",
+    "finished_at": "2026-10-17T10:16:19.927022+00:00",
+    "argv": [
+      "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+      "-t",
+      "127.0.0.1:11237",
+      "fport",
+      "ls"
+    ],
+    "exit_code": 0,
+    "stdout": "127.0.0.1:11237    tcp:9914 tcp:8012    [Forward]\r\n127.0.0.1:11237    tcp:9920 tcp:8012    [Forward]\r\n127.0.0.1:11237    tcp:9958 tcp:8012    [Forward]\r\n",
+    "stderr": ""
+  },
+  "server_28762_closed": true,
+  "emulator_kept_running": true,
+  "crash_claim_scope": "Retained bundle-filtered hilog and accessible faultlogger directory; no hidden historical log claim"
+}

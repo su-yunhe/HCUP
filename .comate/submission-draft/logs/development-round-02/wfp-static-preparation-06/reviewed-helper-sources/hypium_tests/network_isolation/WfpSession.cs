@@ -1,0 +1,300 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+
+namespace VgSpec1.NetworkIsolation
+{
+    internal sealed class FilterRecord
+    {
+        public string id;
+        public string key;
+        public string layerGuid;
+        public string layerName;
+        public bool verified;
+    }
+
+    internal sealed class WfpSession : IDisposable
+    {
+        private readonly Action<string, Dictionary<string, object>> log;
+        private IntPtr engine = IntPtr.Zero;
+        private IntPtr appId = IntPtr.Zero;
+        private byte[] appIdBytes;
+        internal bool Active { get; private set; }
+        internal bool CleanupUnconfirmed { get; private set; }
+        internal bool EngineOpen { get { return engine != IntPtr.Zero; } }
+        internal Guid SessionGuid { get; private set; }
+        internal Guid SubLayerGuid { get; private set; }
+        internal readonly List<FilterRecord> Filters = new List<FilterRecord>();
+
+        internal WfpSession(Action<string, Dictionary<string, object>> logger) { log = logger; }
+
+        internal void Block()
+        {
+            if (CleanupUnconfirmed) throw new InvalidOperationException("Previous cleanup is unconfirmed; refuse another block.");
+            if (Active) return;
+            NativeWfp.CheckLayout(); // Required again immediately before every engine open.
+            bool transaction = false;
+            SessionGuid = Guid.NewGuid();
+            SubLayerGuid = Guid.NewGuid();
+            IntPtr name = Marshal.StringToHGlobalUni("vg-spec1 dynamic isolation " + SessionGuid);
+            try
+            {
+                Call("FwpmGetAppIdFromFileName0", NativeWfp.FwpmGetAppIdFromFileName0(TargetGuard.AllowedExecutable, out appId));
+                appIdBytes = ReadBlob(appId);
+                if (appIdBytes.Length == 0) throw new InvalidOperationException("APP_ID must not be empty.");
+                NativeWfp.Session session = new NativeWfp.Session();
+                session.sessionKey = SessionGuid;
+                session.displayData.name = name;
+                session.flags = NativeWfp.DynamicSession;
+                session.txnWaitTimeoutInMSec = 5000;
+                using (NativeAllocation allocation = new NativeAllocation(session))
+                    Call("FwpmEngineOpen0", NativeWfp.FwpmEngineOpen0(IntPtr.Zero, NativeWfp.RpcAuthWinnt,
+                        IntPtr.Zero, allocation.Pointer, out engine));
+                Call("FwpmTransactionBegin0", NativeWfp.FwpmTransactionBegin0(engine, 0));
+                transaction = true;
+                NativeWfp.SubLayer subLayer = new NativeWfp.SubLayer();
+                subLayer.subLayerKey = SubLayerGuid;
+                subLayer.displayData.name = name;
+                subLayer.flags = 0;
+                subLayer.weight = 0x100;
+                using (NativeAllocation allocation = new NativeAllocation(subLayer))
+                    Call("FwpmSubLayerAdd0", NativeWfp.FwpmSubLayerAdd0(engine, allocation.Pointer, IntPtr.Zero));
+                AddFilter(NativeWfp.ConnectV4, "ALE_AUTH_CONNECT_V4", name);
+                AddFilter(NativeWfp.ConnectV6, "ALE_AUTH_CONNECT_V6", name);
+                // No assumption/fallback: inability to read our uncommitted objects aborts.
+                VerifyFilters("pre_commit");
+                Call("FwpmTransactionCommit0", NativeWfp.FwpmTransactionCommit0(engine));
+                transaction = false;
+                VerifyFilters("post_commit");
+                Active = true;
+            }
+            catch
+            {
+                if (transaction && engine != IntPtr.Zero)
+                    log("native_call", Fields("function", "FwpmTransactionAbort0", "returnCode", NativeWfp.FwpmTransactionAbort0(engine)));
+                Close();
+                throw;
+            }
+            finally { Marshal.FreeHGlobal(name); }
+        }
+
+        private void AddFilter(Guid layer, string layerName, IntPtr name)
+        {
+            NativeWfp.FilterCondition condition = new NativeWfp.FilterCondition();
+            condition.fieldKey = NativeWfp.AppIdCondition;
+            condition.matchType = NativeWfp.MatchEqual;
+            condition.conditionValue.type = NativeWfp.ByteBlobType;
+            condition.conditionValue.pointer = appId;
+            NativeWfp.Filter filter = new NativeWfp.Filter();
+            filter.filterKey = Guid.NewGuid();
+            filter.displayData.name = name;
+            filter.flags = 0;
+            filter.layerKey = layer;
+            filter.subLayerKey = SubLayerGuid;
+            filter.weight.type = NativeWfp.Empty;
+            filter.action.type = NativeWfp.ActionBlock;
+            filter.numFilterConditions = 1;
+            using (NativeAllocation conditionMemory = new NativeAllocation(condition))
+            {
+                filter.filterCondition = conditionMemory.Pointer;
+                log("filter_add_input", DescribeFilter("add_input", filter, condition, null, true));
+                AssertExactScope(filter, condition, "add_input");
+                using (NativeAllocation filterMemory = new NativeAllocation(filter))
+                {
+                    ulong id;
+                    Call("FwpmFilterAdd0", NativeWfp.FwpmFilterAdd0(engine, filterMemory.Pointer, IntPtr.Zero, out id));
+                    if (id == 0) throw new InvalidOperationException("BFE returned an empty filter ID.");
+                    FilterRecord record = new FilterRecord { id = id.ToString(), key = filter.filterKey.ToString(),
+                        layerGuid = layer.ToString(), layerName = layerName, verified = false };
+                    Filters.Add(record);
+                    log("filter_added", Fields("filter", record, "subLayerGuid", SubLayerGuid.ToString(),
+                        "path", TargetGuard.AllowedExecutable, "appIdSha256", HashBytes(appIdBytes)));
+                }
+            }
+        }
+
+        private void AssertExactScope(NativeWfp.Filter filter, NativeWfp.FilterCondition condition, string stage)
+        {
+            List<Dictionary<string, object>> failures = new List<Dictionary<string, object>>();
+            bool readback = stage == "pre_commit" || stage == "post_commit";
+            Check(failures, "flags", filter.flags, readback ? "0 or INDEXED(0x40)" : "0", FlagsAllowed(filter.flags, readback));
+            Check(failures, "subLayerKey", filter.subLayerKey.ToString(), SubLayerGuid.ToString(), filter.subLayerKey == SubLayerGuid);
+            Check(failures, "ownedSubLayerNonempty", SubLayerGuid != Guid.Empty, true, SubLayerGuid != Guid.Empty);
+            Check(failures, "layerKey", filter.layerKey.ToString(), "ALE_AUTH_CONNECT_V4|V6",
+                filter.layerKey == NativeWfp.ConnectV4 || filter.layerKey == NativeWfp.ConnectV6);
+            Check(failures, "actionType", filter.action.type, NativeWfp.ActionBlock, filter.action.type == NativeWfp.ActionBlock);
+            Check(failures, "numConditions", filter.numFilterConditions, 1, filter.numFilterConditions == 1);
+            Check(failures, "conditionPointerPresent", filter.filterCondition != IntPtr.Zero, true, filter.filterCondition != IntPtr.Zero);
+            Check(failures, "conditionKey", condition.fieldKey.ToString(), NativeWfp.AppIdCondition.ToString(), condition.fieldKey == NativeWfp.AppIdCondition);
+            Check(failures, "matchType", condition.matchType, NativeWfp.MatchEqual, condition.matchType == NativeWfp.MatchEqual);
+            Check(failures, "conditionType", condition.conditionValue.type, NativeWfp.ByteBlobType, condition.conditionValue.type == NativeWfp.ByteBlobType);
+            Check(failures, "conditionValuePointerPresent", condition.conditionValue.pointer != IntPtr.Zero, true, condition.conditionValue.pointer != IntPtr.Zero);
+            Check(failures, "expectedAppIdNonempty", appIdBytes != null && appIdBytes.Length > 0, true, appIdBytes != null && appIdBytes.Length > 0);
+            EnforceChecks(stage, failures);
+        }
+
+        private void VerifyFilters(string phase)
+        {
+            if (Filters.Count != 2) throw new InvalidOperationException("Exactly two filters are required.");
+            foreach (FilterRecord expected in Filters)
+            {
+                IntPtr returned = IntPtr.Zero;
+                try
+                {
+                    Call("FwpmFilterGetById0", NativeWfp.FwpmFilterGetById0(engine, UInt64.Parse(expected.id), out returned));
+                    if (returned == IntPtr.Zero)
+                    {
+                        List<Dictionary<string, object>> missing = new List<Dictionary<string, object>>();
+                        Check(missing, "returnedFilterPointerPresent", false, true, false);
+                        EnforceChecks(phase, missing);
+                    }
+                    NativeWfp.Filter actual = (NativeWfp.Filter)Marshal.PtrToStructure(returned, typeof(NativeWfp.Filter));
+                    bool conditionDecoded = actual.numFilterConditions == 1 && actual.filterCondition != IntPtr.Zero;
+                    NativeWfp.FilterCondition condition = new NativeWfp.FilterCondition();
+                    if (conditionDecoded) condition = (NativeWfp.FilterCondition)Marshal.PtrToStructure(
+                        actual.filterCondition, typeof(NativeWfp.FilterCondition));
+                    Dictionary<string, object> raw = DescribeFilter(phase, actual, condition, expected, conditionDecoded);
+                    byte[] actualAppId = null;
+                    string blobError = null;
+                    if (conditionDecoded && condition.conditionValue.type == NativeWfp.ByteBlobType && condition.conditionValue.pointer != IntPtr.Zero)
+                    {
+                        try
+                        {
+                            NativeWfp.ByteBlob blob = (NativeWfp.ByteBlob)Marshal.PtrToStructure(condition.conditionValue.pointer, typeof(NativeWfp.ByteBlob));
+                            raw["appIdDeclaredSize"] = blob.size;
+                            raw["appIdDataPointerPresent"] = blob.data != IntPtr.Zero;
+                            actualAppId = ReadBlob(condition.conditionValue.pointer);
+                            raw["appIdBytes"] = actualAppId.Length;
+                            raw["appIdSha256"] = HashBytes(actualAppId);
+                        }
+                        catch (Exception error) { blobError = error.Message; }
+                    }
+                    else blobError = "Not decoded: exactly one non-null BYTE_BLOB condition is required.";
+                    raw["appIdReadError"] = blobError;
+                    // Raw fields are recorded before any flags/scope/identity assertion.
+                    log("filter_readback_raw", raw);
+                    AssertExactScope(actual, condition, phase);
+                    List<Dictionary<string, object>> identity = new List<Dictionary<string, object>>();
+                    Check(identity, "filterKey", actual.filterKey.ToString(), expected.key, actual.filterKey == new Guid(expected.key));
+                    Check(identity, "filterId", actual.filterId.ToString(), expected.id, actual.filterId.ToString() == expected.id);
+                    Check(identity, "expectedLayerKey", actual.layerKey.ToString(), expected.layerGuid, actual.layerKey == new Guid(expected.layerGuid));
+                    Check(identity, "appIdBlobReadable", blobError, null, actualAppId != null && blobError == null);
+                    Check(identity, "appIdBlobExactBytes", actualAppId == null ? null : HashBytes(actualAppId), HashBytes(appIdBytes),
+                        actualAppId != null && EqualBytes(actualAppId, appIdBytes));
+                    EnforceChecks(phase, identity);
+                    expected.verified = true;
+                    log("filter_verified", Fields("phase", phase, "filter", expected, "flags", actual.flags,
+                        "action", actual.action.type, "numConditions", actual.numFilterConditions,
+                        "conditionKey", condition.fieldKey.ToString(), "matchType", condition.matchType,
+                        "conditionType", condition.conditionValue.type, "appIdBytes", appIdBytes.Length,
+                        "appIdSha256", HashBytes(appIdBytes), "subLayerGuid", actual.subLayerKey.ToString()));
+                }
+                finally { if (returned != IntPtr.Zero) NativeWfp.FwpmFreeMemory0(ref returned); }
+            }
+        }
+
+        private Dictionary<string, object> DescribeFilter(string stage, NativeWfp.Filter filter,
+            NativeWfp.FilterCondition condition, FilterRecord expected, bool conditionDecoded)
+        {
+            return Fields("stage", stage, "validationPolicy", "add0_readback0_or_indexed_v06", "expectedFilter", expected,
+                "filterKey", filter.filterKey.ToString(), "filterId", filter.filterId.ToString(),
+                "flags", filter.flags, "flagsHex", "0x" + filter.flags.ToString("x8"),
+                "layerKey", filter.layerKey.ToString(), "subLayerKey", filter.subLayerKey.ToString(),
+                "ownedSubLayerKey", SubLayerGuid.ToString(), "actionType", filter.action.type,
+                "actionTypeHex", "0x" + filter.action.type.ToString("x8"), "actionFilterType", filter.action.filterType.ToString(),
+                "numConditions", filter.numFilterConditions, "conditionPointerPresent", filter.filterCondition != IntPtr.Zero,
+                "conditionDecoded", conditionDecoded, "conditionKey", conditionDecoded ? condition.fieldKey.ToString() : null,
+                "matchType", conditionDecoded ? (object)condition.matchType : null,
+                "conditionType", conditionDecoded ? (object)condition.conditionValue.type : null,
+                "conditionValuePointerPresent", conditionDecoded && condition.conditionValue.pointer != IntPtr.Zero,
+                "providerKeyPresent", filter.providerKey != IntPtr.Zero, "providerDataSize", filter.providerData.size,
+                "weightType", filter.weight.type, "effectiveWeightType", filter.effectiveWeight.type,
+                "reservedPointerPresent", filter.reserved != IntPtr.Zero,
+                "expectedAppIdBytes", appIdBytes == null ? 0 : appIdBytes.Length,
+                "expectedAppIdSha256", appIdBytes == null ? null : HashBytes(appIdBytes));
+        }
+
+        internal static bool FlagsAllowed(uint flags, bool readback)
+        {
+            return flags == 0 || (readback && flags == NativeWfp.FilterIndexed);
+        }
+
+        private static void Check(List<Dictionary<string, object>> failures, string field, object actual, object expected, bool passed)
+        {
+            if (!passed) failures.Add(Fields("field", field, "actual", actual, "expected", expected));
+        }
+
+        private void EnforceChecks(string stage, List<Dictionary<string, object>> failures)
+        {
+            if (failures.Count == 0) return;
+            log("scope_assertion_failed", Fields("stage", stage, "validationPolicy", "add0_readback0_or_indexed_v06", "failures", failures));
+            List<string> fields = new List<string>();
+            foreach (Dictionary<string, object> failure in failures) fields.Add((string)failure["field"]);
+            throw new InvalidOperationException("scope_assertion_failed:" + stage + ":" + String.Join(",", fields));
+        }
+
+        internal bool Close()
+        {
+            uint code = 0;
+            bool engineWasOpen = engine != IntPtr.Zero;
+            if (engine != IntPtr.Zero)
+            {
+                code = NativeWfp.FwpmEngineClose0(engine);
+                if (code != 0)
+                {
+                    try { log("native_call", Fields("function", "FwpmEngineClose0", "returnCode", code)); }
+                    catch (Exception) { Console.Error.WriteLine("NativeClose failed and logging also failed."); }
+                    return false;
+                }
+                engine = IntPtr.Zero;
+            }
+            Active = false;
+            if (appId != IntPtr.Zero) NativeWfp.FwpmFreeMemory0(ref appId);
+            appIdBytes = null;
+            // Logging failure must never prevent the successful native cleanup above.
+            try { if (engineWasOpen) log("session_closed", Fields("function", "FwpmEngineClose0", "returnCode", code,
+                "removalVerified", false, "verificationPending", true)); }
+            catch (Exception) { Console.Error.WriteLine("Session closed; logging failed."); }
+            if (engineWasOpen && !RemovalObserver.Verify(Filters, SubLayerGuid, log)) CleanupUnconfirmed = true;
+            if (!CleanupUnconfirmed) Filters.Clear();
+            // An observer failure is latched: a later no-op Close must not erase it.
+            return !CleanupUnconfirmed;
+        }
+
+        public void Dispose() { Close(); }
+
+        private void Call(string function, uint code)
+        {
+            log("native_call", Fields("function", function, "returnCode", code));
+            if (code != 0) throw new InvalidOperationException(function + " failed: 0x" + code.ToString("x8"));
+        }
+        private static byte[] ReadBlob(IntPtr pointer)
+        {
+            if (pointer == IntPtr.Zero) throw new InvalidOperationException("Null APP_ID blob.");
+            NativeWfp.ByteBlob blob = (NativeWfp.ByteBlob)Marshal.PtrToStructure(pointer, typeof(NativeWfp.ByteBlob));
+            if (blob.size == 0 || blob.size > 65536 || blob.data == IntPtr.Zero)
+                throw new InvalidOperationException("Invalid APP_ID blob size/data.");
+            byte[] bytes = new byte[blob.size];
+            Marshal.Copy(blob.data, bytes, 0, bytes.Length);
+            return bytes;
+        }
+        private static bool EqualBytes(byte[] left, byte[] right)
+        {
+            if (left.Length != right.Length) return false;
+            for (int index = 0; index < left.Length; index++) if (left[index] != right[index]) return false;
+            return true;
+        }
+        private static string HashBytes(byte[] bytes)
+        {
+            using (SHA256 hash = SHA256.Create())
+                return BitConverter.ToString(hash.ComputeHash(bytes)).Replace("-", "").ToLowerInvariant();
+        }
+        internal static Dictionary<string, object> Fields(params object[] pairs)
+        {
+            Dictionary<string, object> fields = new Dictionary<string, object>();
+            for (int index = 0; index < pairs.Length; index += 2) fields.Add((string)pairs[index], pairs[index + 1]);
+            return fields;
+        }
+    }
+}

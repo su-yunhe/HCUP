@@ -1,0 +1,82 @@
+{
+  "captured_at": "2026-10-17T11:57:32.010530+00:00",
+  "device": "127.0.0.1:11237",
+  "target_endpoint": "http://10.0.2.2:28762",
+  "transport": "guest NAT to host loopback, no HDC rport",
+  "id": {
+    "started_at": "2026-10-17T11:57:32.011531+00:00",
+    "finished_at": "2026-10-17T11:57:32.090358+00:00",
+    "argv": [
+      "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+      "-t",
+      "127.0.0.1:11237",
+      "shell",
+      "id"
+    ],
+    "exit_code": 0,
+    "stdout": "uid=2000(shell) gid=2000(shell) groups=2000(shell),1006(file_manager),1007(log),1097(netsys_socket),3009(readproc) context=u:r:sh:s0\r\n",
+    "stderr": ""
+  },
+  "interface": {
+    "started_at": "2026-10-17T11:57:32.091362+00:00",
+    "finished_at": "2026-10-17T11:57:32.167429+00:00",
+    "argv": [
+      "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+      "-t",
+      "127.0.0.1:11237",
+      "shell",
+      "ifconfig",
+      "eth0"
+    ],
+    "exit_code": 0,
+    "stdout": "eth0      Link encap:Ethernet  HWaddr 52:54:00:12:34:56\r\n          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0 \r\n          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1\r\n          RX packets:287 errors:0 dropped:0 overruns:0 frame:0 \r\n          TX packets:386 errors:0 dropped:0 overruns:0 carrier:0 \r\n          collisions:0 txqueuelen:1000 \r\n          RX bytes:68534 TX bytes:65471 \r\n\r\n",
+    "stderr": ""
+  },
+  "routes": {
+    "started_at": "2026-10-17T11:57:32.169436+00:00",
+    "finished_at": "2026-10-17T11:57:32.245440+00:00",
+    "argv": [
+      "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+      "-t",
+      "127.0.0.1:11237",
+      "shell",
+      "netstat",
+      "-rn"
+    ],
+    "exit_code": 0,
+    "stdout": "Kernel IP routing table\r\nDestination\tGateway \tGenmask \tFlags   MSS Window  irtt Iface\r\n0.0.0.0         10.0.2.2        0.0.0.0         UG        0 0          0 eth0\r\n10.0.2.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0\r\n",
+    "stderr": ""
+  },
+  "netconn": {
+    "started_at": "2026-10-17T11:57:32.247353+00:00",
+    "finished_at": "2026-10-17T11:57:32.338216+00:00",
+    "argv": [
+      "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+      "-t",
+      "127.0.0.1:11237",
+      "shell",
+      "hidumper",
+      "-s",
+      "NetConnManager"
+    ],
+    "exit_code": 0,
+    "stdout": "\r\n-------------------------------[ability]-------------------------------\r\n\r\n\r\n----------------------------------NetConnManager----------------------------------\r\nNet connect Info:\r\n\tSupplierId: 1004\r\n\tNetId: 101\r\n\tConnStat: 1\r\n\tIsAvailable: 1\r\n\tIsRoaming: 0\r\n\tStrength: 0\r\n\tFrequency: 0\r\n\tLinkUpBandwidthKbps: 0\r\n\tLinkDownBandwidthKbps: 0\r\n\tUid: 0\r\nDns result Info:\r\n\tnetId: 101\r\n\ttotalReports: 1\r\n\tfailReports: 1\r\n\r\n",
+    "stderr": ""
+  },
+  "ethernet": {
+    "started_at": "2026-10-17T11:57:32.340216+00:00",
+    "finished_at": "2026-10-17T11:57:32.430153+00:00",
+    "argv": [
+      "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+      "-t",
+      "127.0.0.1:11237",
+      "shell",
+      "hidumper",
+      "-s",
+      "EthernetManager"
+    ],
+    "exit_code": 0,
+    "stdout": "\r\n-------------------------------[ability]-------------------------------\r\n\r\n\r\n----------------------------------EthernetManager----------------------------------\r\nDevInterfaceState: \r\n    DevName: eth0\r\n    ConnLinkState: 2\r\n    LinkUp: 1\r\n    DHCPReqState: 1\r\n  [NetLinkInfo]  ifaceName_ = eth0  domain_ =     netAddrList_ =   [INetAddr]  type = 0  family = 1  prefixLength = 24  address = 10.0.*.**  netMask =   hostName =   port = 0    dnsList_ =   [INetAddr]  type = 1  family = 1  prefixLength = 0  address = 10.0.*.*  netMask =   hostName =   port = 0  [INetAddr]  type = 1  family = 1  prefixLength = 0  address = *  netMask =   hostName =   port = 0    routeList_ =   [Route]  iface_ = eth0  destination_ =   [INetAddr]  type = 1  family = 1  prefixLength = 0  address = 0.0.*.*  netMask =   hostName =   port = 0\r\n  gateway_ =   [INetAddr]  type = 0  family = 2  prefixLength = 0  address = 10.0.*.*  netMask =   hostName =   port = 0\r\n  rtnType_ = 1\r\n  mtu_ = 0\r\n  isHost_ = false\r\n  hasGateway_ = true\r\n  isDefaultRoute = false  [Route]  iface_ = eth0  destination_ =   [INetAddr]  type = 1  family = 0  prefixLength = 24  address = 10.0.*.*  netMask =   hostName =   port = 0\r\n  gateway_ =   [INetAddr]  type = 0  family = 0  prefixLength = 0  address = 0.0.*.*  netMask =   hostName =   port = 0\r\n  rtnType_ = 1\r\n  mtu_ = 0\r\n  isHost_ = false\r\n  hasGateway_ = true\r\n  isDefaultRoute = falserouteList_ =   mtu_ = 0  tcpBufferSizes_ =   ident_ =   isUserDefinedDnsServer_ = false    isIpv4LinkValid_ = false  isIpv6LinkValid_ = false  httpProxy = \t0\t\r\n{  isAvailable_  :1,  isRoaming_  :0,  strength_  :0,  frequency_  :0,  linkUpBandwidthKbps_  :0,  linkDownBandwidthKbps_  :0,  uid_  :0,  score_  :0}\r\n\r\n    InterfaceConfig: \r\n      Mode: 1\r\n\r\nConfig: \r\n    IpAddr: \r\n    Route: \r\n    GateWay: \r\n    NetMask: \r\n    DNSServers: \r\n    Domain: \r\n    NetCaps: {12, }\r\n    BearerType :3\r\n\r\n",
+    "stderr": ""
+  }
+}

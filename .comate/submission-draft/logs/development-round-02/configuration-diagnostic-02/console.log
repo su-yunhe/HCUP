@@ -1,0 +1,69 @@
+[2026-10-17 17:37:38,854] [38816] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-17 17:37:38,857] [38816] [EnvPool] [INFO] [Report path: D:\HCUP\vg-spec1\logs\development-round-02\configuration-diagnostic-02\reports\2026-10-17-17-37-38]
+[2026-10-17 17:37:38,857] [38816] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-17 17:37:38,858] [38816] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-17 17:37:38,858] [38816] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-17 17:37:38,860] [38816] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-17 17:37:38,860] [38816] [EnvPool] [INFO] [Get device by selector]
+[2026-10-17 17:37:38,861] [38816] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-17 17:37:39,217] [39964] [Hdc] [INFO] [127.0.0.1:11235		TCP	Offline	localhost
+127.0.0.1:11237		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-17 17:37:39,867] [38816] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11237'], label:phone]]
+[2026-10-17 17:37:39,867] [38816] [EnvPool] [INFO] [Device 127.0.0.1:11237: extend value: {}]
+[2026-10-17 17:37:40,128] [38816] [Device] [INFO] [6.0.2.3]
+[2026-10-17 17:37:40,331] [38816] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-17 17:37:40,331] [38816] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-17 17:37:40,392] [38816] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 12620]
+[2026-10-17 17:37:40,392] [38816] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-17 17:37:40,455] [38816] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-17 17:37:40,455] [38816] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-17 17:37:40,516] [38816] [Device] [INFO] [Device agent is up to date!]
+[2026-10-17 17:37:40,593] [38816] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-17 17:37:42,684] [38816] [DeviceUIProxy] [INFO] [tcp forward port: 9959 for 127.0.0.1:11237]
+[2026-10-17 17:37:42,869] [38816] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-17 17:37:42,869] [38816] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-17 17:37:42,869] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:11237, io.qzz.weiyu)</div>]
+[2026-10-17 17:37:43,478] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:11237, io.qzz.weiyu) cost: 0.609s</div>]
+[2026-10-17 17:37:43,478] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:11237, io.qzz.weiyu, EntryAbility)</div>]
+[2026-10-17 17:37:44,581] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:11237, io.qzz.weiyu, EntryAbility) cost: 1.102s</div>]
+[2026-10-17 17:37:44,581] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('settings_entry_button'))</div>]
+[2026-10-17 17:37:46,152] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('settings_entry_button')) cost: 1.572s</div>]
+[2026-10-17 17:37:47,188] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('settings_section_sync'))</div>]
+[2026-10-17 17:37:48,254] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('settings_section_sync')) cost: 1.066s</div>]
+[2026-10-17 17:37:49,340] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input'))</div>]
+[2026-10-17 17:37:49,394] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input')) cost: 0.055s</div>]
+[2026-10-17 17:37:49,426] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11237)</div>]
+[2026-10-17 17:37:49,456] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11237) cost: 0.03s</div>]
+[2026-10-17 17:37:49,626] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input'))</div>]
+[2026-10-17 17:37:50,188] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input')) cost: 0.562s</div>]
+[2026-10-17 17:37:50,218] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input'))</div>]
+[2026-10-17 17:37:52,139] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input')) cost: 1.92s</div>]
+[2026-10-17 17:37:52,139] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11237, 0.5)</div>]
+[2026-10-17 17:37:52,640] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11237, 0.5) cost: 0.501s</div>]
+[2026-10-17 17:37:52,640] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input'))</div>]
+[2026-10-17 17:37:52,709] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input')) cost: 0.07s</div>]
+[2026-10-17 17:37:52,709] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11237, 0.5)</div>]
+[2026-10-17 17:37:53,210] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11237, 0.5) cost: 0.501s</div>]
+[2026-10-17 17:37:53,210] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input'))</div>]
+[2026-10-17 17:37:53,282] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input')) cost: 0.072s</div>]
+[2026-10-17 17:37:53,282] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11237, 0.5)</div>]
+[2026-10-17 17:37:53,783] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11237, 0.5) cost: 0.501s</div>]
+[2026-10-17 17:37:53,783] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input'))</div>]
+[2026-10-17 17:37:53,853] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11237, BY.key('webdav_endpoint_input')) cost: 0.07s</div>]
+[2026-10-17 17:37:53,853] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11237, 0.5)</div>]
+[2026-10-17 17:37:54,354] [38816] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11237, 0.5) cost: 0.501s</div>]
+[('小艺输入法', 'Paf.Permission.appName', 'false', 'Text', '[391,934][917,1057]'), ('快捷准确、安全有趣的输入法', 'Paf.Permission.appDesc', 'false', 'Text', '[335,1078][973,1135]'), ('本应用需要联网，调用通讯录、相机、麦克风权限，可能会开启本地录音、拍照，读取通讯录、短信内容，读取并传送音频、图片，以提供通讯录词库、验证码提取、语音转文字、拍摄输入相关服务。我们仅在您使用具体业务功能时，才会触发上述行为收集使用相关的个人信息。详情请参阅关于小艺输入法与隐私的声明、权限使用说明。', 'paf_permission_privacy_text_0', 'false', 'Text', '[84,2201][1224,2406]'), ('请仔细阅读上述声明，点击“同意”，即表示您知悉并同意我们向您提供本应用服务。', 'paf_permission_privacy_text_1', 'false', 'Text', '[84,2420][1224,2502]'), ('取消', 'Paf.Permission.button_cancel', 'false', 'Button', '[56,2586][633,2726]'), ('同意', 'Paf.Permission.button_confirm', 'true', 'Button', '[675,2586][1252,2726]'), ('05, :, 37', 'ClockStatusView', 'false', 'Flex', '[56,37][195,121]'), ('05', '', 'false', 'Text', '[56,48][118,110]'), (':', 'TimeView_Text_timeText', 'false', 'Text', '[118,53][133,106]'), ('37', '', 'false', 'Text', '[133,48][195,110]'), ('100', 'BatteryComponent-batteryIcon_Text_batterySoc', 'false', 'Text', '[1163,57][1233,102]')]
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+  File "D:\HCUP\vg-spec1\hypium_tests\test_restore_confirmation.py", line 81, in get
+    return self.require_component(BY.key(key), f"Missing required stable component {key}", timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\test-harness\harness\driver.py", line 50, in require_component
+    self.fail(message)
+  File "D:\Program Files\Python312\Lib\unittest\case.py", line 715, in fail
+    raise self.failureException(msg)
+AssertionError: Missing required stable component webdav_endpoint_input

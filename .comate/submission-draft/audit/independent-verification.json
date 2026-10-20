@@ -1,0 +1,211 @@
+{
+  "at_utc": "2026-10-17T12:31:23.625744+00:00",
+  "task_id": "vg-spec1",
+  "phase": "2-submit",
+  "result": "pass",
+  "scope": "Independent draft material integrity review of the explicitly selected project-manifest projection, not an unfiltered entire local directory. Pending user fields and formal freeze do not become completed by this audit.",
+  "ready_for_final_submission": false,
+  "native_thread_id": "01a149cb-ea99-7851-8655-c555f6fb01f3",
+  "inherited_session_environment": "01a149ca-8abe-77e0-8c8a-d5a67eedee83",
+  "project_version": "sha256:2968c3ebfe338969634f8d28fece3c28fce3f71e87a2901d52538a3412787bba",
+  "checks": [
+    {
+      "id": "M01",
+      "status": "pass",
+      "item": "Selected project projection matches its manifest and current source",
+      "observed": {
+        "manifest_files": 4175,
+        "validation_project_files": 4175,
+        "byte_or_sha_mismatches": 0,
+        "extra_files": 0,
+        "current_source_mismatches": 0
+      }
+    },
+    {
+      "id": "M02",
+      "status": "pass",
+      "item": "Delivered binary diff matches recorded validation",
+      "observed": {
+        "bytes": 571193656,
+        "sha256": "0af67292ff56ecb45d8455ecadb0335cc9b3a99f314414002b6650bca12f084d",
+        "existing_apply_check_exit": 0,
+        "existing_apply_exit": 0,
+        "apply_rerun": false
+      }
+    },
+    {
+      "id": "M03",
+      "status": "pass",
+      "item": "Selected log mirror is byte exact",
+      "observed": {
+        "manifest_files": 3462,
+        "actual_files": 3462,
+        "mismatches": 0,
+        "unlisted": 0,
+        "selected_project_log_paths_equal": true
+      }
+    },
+    {
+      "id": "M04",
+      "status": "pass",
+      "item": "Content based binary inventory is complete for selected project",
+      "observed": {
+        "listed": 1169,
+        "NUL_in_first_8192_bytes": 1169,
+        "mismatches": 0,
+        "baseline_same_claims_checked_against_git_blob": 8,
+        "baseline_same_claims_all_match": true
+      }
+    },
+    {
+      "id": "M05",
+      "status": "pass",
+      "item": "Six production component snapshots match selected and current files",
+      "observed": {
+        "files": 6,
+        "mismatches": 0
+      }
+    },
+    {
+      "id": "M06",
+      "status": "pass",
+      "item": "Projection exclusions are explicit and absent from selected files",
+      "observed": {
+        "excluded_total": 84,
+        "emulator_runtime": 64,
+        "python_cache": 6,
+        "mixed_initialization_native_files": 14,
+        "draft_recursive_prefix_selected": false,
+        "manifest_exclusions_equal_audit": true
+      }
+    },
+    {
+      "id": "M07",
+      "status": "pass",
+      "item": "Exported native JSONL and Markdown have recorded hashes and consistent metadata",
+      "observed": {
+        "sessions": 13,
+        "parsed_JSONL_lines": 13253,
+        "parse_errors": 0,
+        "export_or_markdown_sha_mismatches": 0,
+        "native_id_mismatches": 0,
+        "parent_mismatches": 0,
+        "exact_task_cwd_sessions": 13,
+        "snapshot_only_sessions": 13,
+        "sidebar_index_rows": 3,
+        "independently_rehashed_outside_workspace_original_session_files": false
+      }
+    },
+    {
+      "id": "M08",
+      "status": "pass",
+      "item": "Trace template fields and package paths are supplied or truthfully pending",
+      "observed": {
+        "template_fields": 24,
+        "missing_template_fields": 0,
+        "local_markdown_links_checked": 35,
+        "missing_local_link_targets": 0,
+        "submission_fragment_three_paths_normalized": true,
+        "build_private_absolute_path_matches": 0
+      }
+    },
+    {
+      "id": "M09",
+      "status": "pass",
+      "item": "Redactions and snapshot limits are disclosed",
+      "observed": {
+        "internal_reasoning_redaction_records": 2069,
+        "foreign_search_metadata_redaction_records": 1,
+        "active_current_session_only_export_cutoff": true,
+        "Comate_double_ID_not_invented": true,
+        "child_inherited_CODEX_SESSION_ID_not_used_as_native_id": true
+      }
+    },
+    {
+      "id": "M10",
+      "status": "pass",
+      "item": "Existing final production verification is still associated with unchanged current inputs",
+      "observed": {
+        "production_inputs_matched_at_start_and_end": 222,
+        "HAP_SHA256": "a3574072f81f37e14c0f0c1b335673d44e7aa1691c83488a065d4b7c91278a36",
+        "new_build_or_device_or_suite_execution": false,
+        "existing_local_28_requirements_19_distinct_cases_claim_bounded": true
+      }
+    },
+    {
+      "id": "M11",
+      "status": "blocked",
+      "item": "User supplied declarations and team information",
+      "reason": "team version/contact/freeze_time/members/source_guard and task human_edits/known_issues/extra_sources/md_export_dir remain empty; draft marks them pending without guessing."
+    },
+    {
+      "id": "M12",
+      "status": "blocked",
+      "item": "Formal final freeze and complete final active trace cutoff",
+      "reason": "No user supplied formal freeze time; current material sessions are active and this review occurs after the exported cutoff. Refresh native snapshots at final packaging."
+    },
+    {
+      "id": "M13",
+      "status": "not_run",
+      "item": "Final package ZIP, full secret scan and external upload",
+      "reason": "Outside this 2-submit material audit; no package or official evaluation conclusion."
+    }
+  ],
+  "critical_input_sha256": {
+    "changes/project-manifest.json": "5a2def57fb1723aec9180ed207dcab8b3f056675a75f21e2e3040af33f843777",
+    "changes/final.diff": "0af67292ff56ecb45d8455ecadb0335cc9b3a99f314414002b6650bca12f084d",
+    "changes/binary-files.json": "2c30d7fd4214f69cb2c14d233d6bdb447ba9ab4b4906654b5f1e49fa15ca7c51",
+    "audit/diff-validation.json": "0e3576bc992d8e755bb487a1081fb85c01f20dddb03d21a9b7b503d16f16a9a0",
+    "audit/log-copy-manifest.json": "c234650755beb6153b5bdeaf2a33601abd7b9f0835c87df7492abe6356d5e7de",
+    "audit/excluded-files.json": "a688a011504e89ffd74268dec11af92d49844761deb57dea9546ba29b1a7b7a0",
+    "traces/sessions.json": "c98548373c3a90ec7f24344c223a9c60847d6555511e876ba2be6070f7e996af",
+    "traces/filtered-session-index.jsonl": "f46b8f12884052a8b0036916f12a9f0c34e0acda09b7d835ad950d319620d426",
+    "traces/code-snapshot/manifest.json": "5d6ce1ab6f1e3d1be123bb7b656eb1cf3a4bda283026ab5320434f5719350c99",
+    "build.md": "bf0beda24b4f8542e11b20669a6073dd71c40a6ca335c10355db8b31027ffee0",
+    "trace-index.md": "f824ae666d6a5f1bb4c17416aab0e5c005cf38adc568b8d1064b137394f93e7d",
+    "submission.json.fragment": "0d5b7bb88b63fc21fd8661c447dffb5659850fd39e6c1812113f1160f55f95f4",
+    "delivery-notes.md": "188e636d7b8c508884041c8c171da83d42a9f97ec6a252b0dc23de98b0636e27",
+    "pending-fields.md": "0efbd45f9e15fe18b4ce5c6d032c8f63736b769c440ec353dfbe7f33608cd907",
+    "sources.fragment.md": "928913a406f68a37eaa2ea0be49e0a0c247528e5a2091c49b2206ad5ad724f0c",
+    "solution.fragment.md": "3e69e3d32e0b15c4f2ff5a97c9bbf6e340ea6d79e9da90892d816dc9eb051c64"
+  },
+  "source_and_trace_limits": [
+    "13 exported sessions were parsed and hashed inside this task directory. Original C:/Users/... native source files were not revisited under the scoped read restriction; their original hashes and redaction source lines remain exporter-recorded facts.",
+    "Three sidebar mappings are supported by copied filtered index rows. Child parent/agent identity is supported by copied native session_meta.source.subagent.thread_spawn.",
+    "Current material session export is a cutoff snapshot; it does not yet include this independent audit.",
+    "Existing apply evidence was read and its output project fully rehashed; git apply, builds and full suites were not rerun.",
+    "No claim about hidden tests, official score, all 19 tests on one HAP/resolution, guest LinkDown or direct zero-attempt measurement.",
+    "No full secret scan or original-event redaction reconstruction performed in this audit."
+  ],
+  "execution_records": [
+    {
+      "command": "PowerShell: . D:/hongmengcup/Enter-HarmonyEnv.ps1; inline Python via python -B - hashes manifest/project/source/diff/logs/binaries/snapshots, parses native JSONL, checks metadata, index and paths",
+      "raw_command_location": "Current native thread tool call with exec session 86108; chunks 87de75 and 19ebc5",
+      "exit_code": 0,
+      "raw_result_summary": {
+        "project": 4175,
+        "log_mirror": 3462,
+        "binaries": 1169,
+        "snapshots": 6,
+        "sessions": 13,
+        "native_lines": 13253,
+        "mismatch_count": 0
+      }
+    },
+    {
+      "command": "PowerShell environment loader; inline Python checks 24 trace template labels, 35 local links and JSON paths",
+      "raw_command_location": "Current native thread tool chunk 6b94de",
+      "exit_code": 0
+    },
+    {
+      "command": "PowerShell environment loader; inline Python checks redaction accounting, existing apply outputs and package path normalization",
+      "raw_command_location": "Current native thread tool chunk 7ef955",
+      "exit_code": 0
+    }
+  ],
+  "mutations": [
+    ".comate/submission-draft/audit/independent-verification.json",
+    ".comate/submission-draft/audit/independent-verification.md"
+  ],
+  "production_or_existing_evidence_mutated": false
+}

@@ -1,0 +1,43 @@
+{
+  "scope": "Selected project text files; pattern-only scan, no credential values printed or changed",
+  "patterns": [
+    "private_key",
+    "credential_token",
+    "authorization_literal"
+  ],
+  "matches": [
+    {
+      "file": "traces/native/20261017T112652Z-893a8bb8/2026/10/17/rollout-2026-10-17T15-51-46-01a148d8-5def-7133-8676-f41f3b385ce1.jsonl",
+      "category": "credential_token",
+      "count": 1,
+      "matched_value_sha256": [
+        "e60d38ce5f63f85c20a5366f59132e40277d42e0fc42c98e4454d8627d7c8c91"
+      ],
+      "context": [
+        {
+          "line": 4208,
+          "field": ".payload.encrypted_content"
+        }
+      ],
+      "disposition": "false-positive random token-like substring in native internal encrypted_content; no credential assignment or plaintext secret found"
+    },
+    {
+      "file": "traces/native/20261017T121132Z-82530930/2026/10/17/rollout-2026-10-17T15-51-46-01a148d8-5def-7133-8676-f41f3b385ce1.jsonl",
+      "category": "credential_token",
+      "count": 1,
+      "matched_value_sha256": [
+        "e60d38ce5f63f85c20a5366f59132e40277d42e0fc42c98e4454d8627d7c8c91"
+      ],
+      "context": [
+        {
+          "line": 4208,
+          "field": ".payload.encrypted_content"
+        }
+      ],
+      "disposition": "false-positive random token-like substring in native internal encrypted_content; no credential assignment or plaintext secret found"
+    }
+  ],
+  "pass_no_pattern_hits": false,
+  "limitations": "Pattern scan only. Two historical native encrypted reasoning blobs contain coincidental prefix hits. Does not prove absence of all secrets/source compliance. Native visible exports omit internal reasoning.",
+  "pass_no_unresolved_credential_hits": true
+}

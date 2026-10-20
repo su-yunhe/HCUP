@@ -1,0 +1,114 @@
+{
+  "task": "vg-spec1",
+  "run": "logs\\development-round-02\\warm-lifecycle-round-01",
+  "result": "pass",
+  "counts": {
+    "pass": 1,
+    "fail": 0,
+    "skip": 0
+  },
+  "duration_seconds": 117.351,
+  "device": "127.0.0.1:11237",
+  "hap_sha256": "a3574072f81f37e14c0f0c1b335673d44e7aa1691c83488a065d4b7c91278a36",
+  "source_count": 222,
+  "source_before_manifest_after_current_equal": true,
+  "test_module_sha256": "e4d47884dfeb224552ede95fc2888a0efbe840c1929818bf238f0272d9742155",
+  "observed": {
+    "at": "2026-10-17T11:15:15.254348+00:00",
+    "before_pid": "11636",
+    "background_pid": "11636",
+    "return_pid": "11636",
+    "same_pid": true,
+    "modal_outcome": "platform_first_layer_dismissed",
+    "old_continue_clicked": false,
+    "force_stop_between_home_and_return": false,
+    "page_hide_callback_observed": false,
+    "callback_evidence_claim": "UI/process observations only; no production callback instrumentation",
+    "nine_tables_and_preferences_equal": true,
+    "UI0_equal": true,
+    "actual_requests_in_warm_and_reopen_windows": 0
+  },
+  "windows": [
+    {
+      "file": "webdav\\window-test_20_pending_confirmation_warm_home_and_return-fresh-reopen-no-late-request.json",
+      "methods": [],
+      "total": 0
+    },
+    {
+      "file": "webdav\\window-test_20_pending_confirmation_warm_home_and_return-live-server-positive-after-host-health.json",
+      "methods": [
+        [
+          "HEAD",
+          200,
+          "host-health"
+        ],
+        [
+          "GET",
+          200,
+          "host-health"
+        ]
+      ],
+      "total": 2
+    },
+    {
+      "file": "webdav\\window-test_20_pending_confirmation_warm_home_and_return-live-server-positive-after.json",
+      "methods": [
+        [
+          "HEAD",
+          200,
+          "device"
+        ],
+        [
+          "GET",
+          200,
+          "device"
+        ]
+      ],
+      "total": 2
+    },
+    {
+      "file": "webdav\\window-test_20_pending_confirmation_warm_home_and_return-live-server-positive-before-host-health.json",
+      "methods": [
+        [
+          "HEAD",
+          200,
+          "host-health"
+        ],
+        [
+          "GET",
+          200,
+          "host-health"
+        ]
+      ],
+      "total": 2
+    },
+    {
+      "file": "webdav\\window-test_20_pending_confirmation_warm_home_and_return-live-server-positive-before.json",
+      "methods": [
+        [
+          "HEAD",
+          200,
+          "device"
+        ],
+        [
+          "HEAD",
+          200,
+          "device"
+        ],
+        [
+          "GET",
+          200,
+          "device"
+        ]
+      ],
+      "total": 3
+    },
+    {
+      "file": "webdav\\window-test_20_pending_confirmation_warm_home_and_return-warm-home-return.json",
+      "methods": [],
+      "total": 0
+    }
+  ],
+  "cleanup": "cleanup.json",
+  "scope": "original T07 warm background supplement; no WFP and no claim of production lifecycle callback instrumentation"
+}

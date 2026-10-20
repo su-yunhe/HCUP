@@ -1,0 +1,74 @@
+[
+  {
+    "file": "wfp-controller-ipc-read-errors.jsonl",
+    "at": "2026-10-17T11:10:19.352010+00:00",
+    "context": "read_status.status_json",
+    "operation": "block",
+    "exception_type": "PermissionError",
+    "message": "[WinError 32] synthetic read denial: 'synthetic/status.json'",
+    "error": "PermissionError(13, 'synthetic read denial')",
+    "errno": 13,
+    "winerror": 32,
+    "filename": "synthetic/status.json",
+    "filename2": null,
+    "traceback": "Traceback (most recent call last):\n  File \"D:\\HCUP\\vg-spec1\\hypium_tests\\wfp_controller.py\", line 203, in read_status_bytes\n    encoded = path.read_bytes()\n              ^^^^^^^^^^^^^^^^^\n  File \"D:\\Program Files\\Python312\\Lib\\unittest\\mock.py\", line 1134, in __call__\n    return self._mock_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Program Files\\Python312\\Lib\\unittest\\mock.py\", line 1138, in _mock_call\n    return self._execute_mock_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Program Files\\Python312\\Lib\\unittest\\mock.py\", line 1199, in _execute_mock_call\n    result = effect(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\HCUP\\vg-spec1\\logs\\development-round-02\\wfp-static-preparation-07\\check_ipc_reads.py\", line 61, in injected_read\n    raise permission_error(code)\nPermissionError: [WinError 32] synthetic read denial: 'synthetic/status.json'\n",
+    "attempt": 1,
+    "elapsed_seconds": 0.0,
+    "retry_budget_seconds": 0.45,
+    "retry_allowed": true,
+    "retry_scheduled": true
+  },
+  {
+    "file": "wfp-controller-status.jsonl",
+    "observed_at": "2026-10-17T11:10:19.362880+00:00",
+    "expected_operation": "block",
+    "status": {
+      "schemaVersion": 1,
+      "task": "vg-spec1",
+      "nonce": "ec732d9fe2d14a14a37e19a78dfcc1bd",
+      "state": "BLOCKED",
+      "active": true,
+      "helperPid": 40588,
+      "timestampUtc": "2026-10-17T11:10:19.352010+00:00",
+      "lastAcceptedSequence": 2,
+      "lastAcceptedUtc": "2026-10-17T11:03:58.5683232Z",
+      "requestExpiresUtc": "2026-10-17T11:10:29.352010+00:00",
+      "totalDeadlineUtc": "2026-10-17T11:10:49.352010+00:00",
+      "blockDeadlineUtc": "2026-10-17T11:10:39.352010+00:00",
+      "target": {
+        "path": "D:\\HarmonyDev\\vg-spec1-isolated-emulator61\\Emulator.exe",
+        "pid": 38368,
+        "startTimeUtc": "2026-10-17T10:19:41.1394029Z",
+        "sha256": "3bdccb9ded50976d16fb74510dcddf46cbab5baf62bbad1cc32a32a32922c3ff",
+        "instance": "VgSpec1ManualOffline",
+        "instanceRoot": "D:\\HCUP\\vg-spec1\\logs\\development-round-02\\manual-instance\\instances",
+        "hdcPort": "11237",
+        "guardOk": true,
+        "lastGuardUtc": "2026-10-17T11:10:19.352010+00:00"
+      },
+      "filters": [
+        {
+          "id": "72666",
+          "key": "623341bd-240f-4de0-b504-574350ce9ff0",
+          "layerGuid": "c38d57d1-05a7-4c33-904f-7fbceee60e82",
+          "layerName": "ALE_AUTH_CONNECT_V4",
+          "verified": true
+        },
+        {
+          "id": "72667",
+          "key": "c45d2740-4c62-49e6-98b8-04c9b6919dfa",
+          "layerGuid": "4a72393b-319f-44bc-84c3-ba54dcb3b6b4",
+          "layerName": "ALE_AUTH_CONNECT_V6",
+          "verified": true
+        }
+      ],
+      "nativeEngineOpen": true,
+      "cleanupUnconfirmed": false,
+      "sessionGuid": "1cc58239-72ce-4057-8b79-480e6f76f18d",
+      "subLayerGuid": "f828e7e5-f126-447b-b111-fe25a1de583f",
+      "terminationReason": null,
+      "auditMode": "not_enabled",
+      "proof": "filter_configuration_only"
+    }
+  }
+]

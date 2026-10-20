@@ -1,0 +1,10 @@
+--- previous/run_offline.ps1
++++ current/run_offline.ps1
+@@ -22,6 +22,7 @@
+ $env:VG_BASE_MANIFEST = $BaseManifest
+ $env:VG_VERIFICATION_MANIFEST = Join-Path $runDirectory 'installed-hap-manifest.json'
+ $env:VG_OFFLINE_DEVICE = $Device
++$env:VG_TEST_DEVICE = $Device
+ python -c "from hypium_tests.evidence import *; base=json.loads(Path(os.environ['VG_BASE_MANIFEST']).read_text(encoding='utf8')); assert base['source']==source_fingerprint(); assert base['hap_sha256']==digest((ROOT/'entry/build/default/outputs/default/entry-default-unsigned.hap').read_bytes()); write_json(Path(os.environ['VG_RUN_DIRECTORY'])/'source-before-install.json',source_fingerprint())"
+ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+ & hdc -t $Device install -r (Join-Path $taskRoot 'entry/build/default/outputs/default/entry-default-unsigned.hap') 2>&1 | Tee-Object -FilePath (Join-Path $runDirectory 'install.log')

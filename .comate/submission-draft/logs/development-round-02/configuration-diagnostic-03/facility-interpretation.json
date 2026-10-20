@@ -1,0 +1,15 @@
+{
+  "recorded_at": "2026-10-17T09:48:52.4954759Z",
+  "scope": "configuration facility diagnostic only",
+  "raw_exit_code": 1,
+  "raw_failure": "ui_state password and sync_password masks were compared to cleartext expectations",
+  "observed": [
+    "Actual endpoint input and Back returned to WebDAV",
+    "All five configuration fields saved; password fields rendered asterisks",
+    "All five action buttons enabled and save result successful"
+  ],
+  "interpretation": "Diagnostic assertion error. Raw log retained. No production behavior verdict.",
+  "next_proof": "Fresh install selected test00 LOCAL fixture, then actual encrypted HEAD/GET preview validates saved credentials",
+  "user_completion_record": "logs/development-round-02/manual-ime-completion.json",
+  "sensitive_permissions_verified": false
+}

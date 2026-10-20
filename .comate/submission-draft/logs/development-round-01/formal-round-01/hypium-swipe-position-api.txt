@@ -1,0 +1,46 @@
+    def _generate_swipe_position(self, direction: str, distance: int, side: str = None,
+                                 start_point: tuple = None, area: Union[ISelector, IUiComponent] = None):
+
+        # 获取滑动区域以及中心坐标
+        driver = self.driver
+        base_x = 0
+        base_y = 0
+        if distance < 0 or distance > 100:
+            raise HypiumParamError(msg="distance [%s] is invalid, should be in range(0, 100)")
+        if area is None:
+            # 未指定区域时滑动区域为整个屏幕
+            display_size = driver.getDisplaySize()
+            center_x, center_y = display_size.X / 2, display_size.Y / 2
+            len_x, len_y = display_size.X, display_size.Y
+        else:
+            # 指定区域时滑动区域为控件所在的区域
+            area_type = type(area)
+            if isinstance(area, ISelector) or isinstance(area, IUiComponent):
+                component = _convert_to_uicomponent(driver, area)
+                widget_bound = component.getBounds()
+            elif isinstance(area, Rect):
+                widget_bound = area
+            else:
+                raise HypiumParamAreaError(area_type)
+            len_x = widget_bound.rightX - widget_bound.leftX
+            len_y = widget_bound.bottomY - widget_bound.topY
+            center_x = int((widget_bound.rightX + widget_bound.leftX) / 2)
+            center_y = int((widget_bound.topY + widget_bound.bottomY) / 2)
+            base_x = widget_bound.leftX
+            base_y = widget_bound.topY
+        distance = self._generate_absolute_distance(direction, distance / 100, len_x, len_y)
+        if start_point is None:
+            start_point = self._generate_center_swipe_start_point(side, (center_x, center_y), direction, distance)
+        else:
+            start_point = self._scale_to_position(start_point, (len_x, len_y))
+            # add area offset if the start point is specified by user.
+            start_point = (start_point[0] + base_x, start_point[1] + base_y)
+        end_point = self._generate_swipe_end_point(start_point, direction, distance)
+        x, y = start_point
+        x1, y1 = end_point
+        if x < 0 or y < 0 or x1 < 0 or y1 < 0:
+            raise ValueError("Invalid param, start or end point is negative, start %s, end %s, " \
+                             "please note that param [distance] is the percent of screen width/height)" %
+                             (start_point, end_point))
+        return (int(start_point[0]), int(start_point[1])), (int(end_point[0]), int(end_point[1]))
+

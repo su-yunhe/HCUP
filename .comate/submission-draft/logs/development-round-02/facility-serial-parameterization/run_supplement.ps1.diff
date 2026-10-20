@@ -1,0 +1,19 @@
+--- previous/run_supplement.ps1
++++ current/run_supplement.ps1
+@@ -11,6 +11,7 @@
+ New-Item -ItemType Directory -Path $runDirectory | Out-Null
+ $env:PYTHONPATH = 'D:/HCUP/common/test-harness;D:/HCUP/vg-spec1'
+ $env:VG_RUN_DIRECTORY = $runDirectory
++$env:VG_TEST_DEVICE = $Device
+ $env:VG_BASE_MANIFEST = Join-Path $taskRoot ('logs/development-round-01/' + $BaseRun + '/installed-hap-manifest.json')
+ $env:VG_VERIFICATION_MANIFEST = Join-Path $runDirectory 'installed-hap-manifest.json'
+ python -c "from hypium_tests.evidence import *; base=json.loads(Path(os.environ['VG_BASE_MANIFEST']).read_text(encoding='utf8')); assert base['source']==source_fingerprint(); assert base['hap_sha256']==digest((ROOT/'entry/build/default/outputs/default/entry-default-unsigned.hap').read_bytes()); out=Path(os.environ['VG_RUN_DIRECTORY']); write_json(out/'source-before-install.json',source_fingerprint())"
+@@ -19,7 +20,7 @@
+ $installExit = $LASTEXITCODE
+ $installExit | Set-Content -LiteralPath (Join-Path $runDirectory 'install.exit.txt')
+ if ($installExit -ne 0 -or (Select-String -LiteralPath (Join-Path $runDirectory 'install.log') -Pattern '\[Fail\]|Failure' -Quiet)) { throw 'Install failed' }
+-python -c "from hypium_tests.evidence import *; base=json.loads(Path(os.environ['VG_BASE_MANIFEST']).read_text(encoding='utf8')); out=Path(os.environ['VG_RUN_DIRECTORY']); assert base['source']==source_fingerprint(); base.update(installed_at=utc(),evidence_dir=out.relative_to(ROOT).as_posix(),base_manifest=os.environ['VG_BASE_MANIFEST']); write_json(Path(os.environ['VG_VERIFICATION_MANIFEST']),base)"
++python -c "from hypium_tests.evidence import *; base=json.loads(Path(os.environ['VG_BASE_MANIFEST']).read_text(encoding='utf8')); out=Path(os.environ['VG_RUN_DIRECTORY']); assert base['source']==source_fingerprint(); base.update(installed_at=utc(),device=DEVICE,evidence_dir=out.relative_to(ROOT).as_posix(),base_manifest=os.environ['VG_BASE_MANIFEST']); write_json(Path(os.environ['VG_VERIFICATION_MANIFEST']),base)"
+ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+ New-Item -ItemType Directory (Join-Path $runDirectory 'tests-used') | Out-Null
+ Get-ChildItem $PSScriptRoot -File | Copy-Item -Destination (Join-Path $runDirectory 'tests-used')

@@ -1,0 +1,20 @@
+--- previous/test_restore_confirmation.py
++++ current/test_restore_confirmation.py
+@@ -15,7 +15,7 @@
+ from hypium import BY
+ from harness.driver import HarnessTestCase
+ 
+-from hypium_tests.evidence import (BUNDLE, PORT, ROOT, Evidence, WebDavProbe,
++from hypium_tests.evidence import (BUNDLE, DEVICE, PORT, ROOT, Evidence, WebDavProbe,
+     digest, flatten, read_preferences, source_fingerprint, utc, write_json, PREFS)
+ 
+ FIELDS = ("endpoint", "username", "password", "sync_password", "remote_root")
+@@ -32,6 +32,8 @@
+         manifest = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
+         if not manifest.get("coordinator_frozen") or not manifest.get("installed_at"):
+             raise RuntimeError("Source freeze and fresh HAP install have not been confirmed")
++        if manifest.get("device") != cls.device_sn or DEVICE != cls.device_sn:
++            raise RuntimeError("Runner, fresh-install manifest and evidence target must identify the same device")
+         cls.original_source = source_fingerprint()
+         if manifest["source"] != cls.original_source:
+             raise RuntimeError("Production source changed since fresh build/install; evidence invalid")

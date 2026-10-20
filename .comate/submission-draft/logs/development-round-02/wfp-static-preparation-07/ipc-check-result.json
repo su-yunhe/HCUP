@@ -1,0 +1,168 @@
+{
+  "classification": "injected_local_ipc_checks_only",
+  "product_requirement_evidence": false,
+  "native_or_device_calls": 0,
+  "sourceSha256": "d86f4ce852933409fa60e3a91b49d841685b76cc7c242243742c4223c4369829",
+  "cases": [
+    {
+      "name": "one_winerror32_then_fresh",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.01599999999962165,
+      "error": null,
+      "diagnostics": "one_winerror32_then_fresh-diagnostics.json"
+    },
+    {
+      "name": "one_winerror5_then_fresh",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.015000000001236913,
+      "error": null,
+      "diagnostics": "one_winerror5_then_fresh-diagnostics.json"
+    },
+    {
+      "name": "one_winerror33_then_fresh",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.01599999999962165,
+      "error": null,
+      "diagnostics": "one_winerror33_then_fresh-diagnostics.json"
+    },
+    {
+      "name": "continuous_winerror32",
+      "result": "pass",
+      "read_attempts": 43,
+      "elapsed_seconds": 0.4529999999995198,
+      "error": "PermissionError",
+      "diagnostics": "continuous_winerror32-diagnostics.json"
+    },
+    {
+      "name": "stale_after_retry",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.01599999999962165,
+      "error": "AssertionError",
+      "diagnostics": "stale_after_retry-diagnostics.json"
+    },
+    {
+      "name": "identity_after_retry",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.0,
+      "error": "AssertionError",
+      "diagnostics": "identity_after_retry-diagnostics.json"
+    },
+    {
+      "name": "wrong_nonce_after_retry",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.015000000001236913,
+      "error": "AssertionError",
+      "diagnostics": "wrong_nonce_after_retry-diagnostics.json"
+    },
+    {
+      "name": "unknown_winerror_no_retry",
+      "result": "pass",
+      "read_attempts": 1,
+      "elapsed_seconds": 0.0,
+      "error": "PermissionError",
+      "diagnostics": "unknown_winerror_no_retry-diagnostics.json"
+    },
+    {
+      "name": "no_winerror_no_retry",
+      "result": "pass",
+      "read_attempts": 1,
+      "elapsed_seconds": 0.0,
+      "error": "PermissionError",
+      "diagnostics": "no_winerror_no_retry-diagnostics.json"
+    },
+    {
+      "name": "json_error_no_retry",
+      "result": "pass",
+      "read_attempts": 1,
+      "elapsed_seconds": 0.01599999999962165,
+      "error": "JSONDecodeError",
+      "diagnostics": "json_error_no_retry-diagnostics.json"
+    },
+    {
+      "name": "overbudget_successful_read_rejected",
+      "result": "pass",
+      "read_attempts": 1,
+      "elapsed_seconds": 0.5159999999996217,
+      "error": "TimeoutError",
+      "diagnostics": "overbudget_successful_read_rejected-diagnostics.json"
+    },
+    {
+      "name": "retry_then_overbudget_read_rejected",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.5149999999994179,
+      "error": "TimeoutError",
+      "diagnostics": "retry_then_overbudget_read_rejected-diagnostics.json"
+    },
+    {
+      "name": "fresh_blocked_after_retry",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.01600000000144064,
+      "error": null,
+      "diagnostics": "fresh_blocked_after_retry-diagnostics.json"
+    },
+    {
+      "name": "lease_expired_after_retry",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.014999999999417923,
+      "error": "AssertionError",
+      "diagnostics": "lease_expired_after_retry-diagnostics.json"
+    },
+    {
+      "name": "blocked_state_changed_after_retry",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.01599999999962165,
+      "error": "AssertionError",
+      "diagnostics": "blocked_state_changed_after_retry-diagnostics.json"
+    },
+    {
+      "name": "filter_id_changed_after_retry",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.0,
+      "error": "AssertionError",
+      "diagnostics": "filter_id_changed_after_retry-diagnostics.json"
+    },
+    {
+      "name": "session_changed_after_retry",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.01599999999962165,
+      "error": "AssertionError",
+      "diagnostics": "session_changed_after_retry-diagnostics.json"
+    },
+    {
+      "name": "sublayer_changed_after_retry",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.015000000001236913,
+      "error": "AssertionError",
+      "diagnostics": "sublayer_changed_after_retry-diagnostics.json"
+    },
+    {
+      "name": "successful_read_does_not_clear_sticky",
+      "result": "pass",
+      "read_attempts": 2,
+      "elapsed_seconds": 0.01599999999962165,
+      "error": null,
+      "diagnostics": "successful_read_does_not_clear_sticky-diagnostics.json"
+    },
+    {
+      "name": "request_writer_no_retry",
+      "result": "pass",
+      "write_attempts": 1,
+      "live_request_written": false
+    }
+  ],
+  "pass": 20,
+  "fail": 0
+}

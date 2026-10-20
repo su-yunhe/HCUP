@@ -1,0 +1,35 @@
+{
+  "classification": "facility_exception_recording_only",
+  "cases": [
+    {
+      "name": "primary_and_recovery_fail",
+      "result": "pass",
+      "raised": "PrimaryFailure",
+      "records": [
+        "preflight-primary-error.json",
+        "preflight-recovery-error.json"
+      ],
+      "synthetic_no_native_or_device_calls": true
+    },
+    {
+      "name": "only_recovery_fails",
+      "result": "pass",
+      "raised": "RecoveryFailure",
+      "records": [
+        "preflight-recovery-error.json"
+      ],
+      "synthetic_no_native_or_device_calls": true
+    },
+    {
+      "name": "successful_gate_retained",
+      "result": "pass",
+      "raised": null,
+      "records": [
+        "preflight-unblocked.json",
+        "preflight-verdict.json"
+      ],
+      "synthetic_no_native_or_device_calls": true
+    }
+  ],
+  "product_requirement_evidence": false
+}

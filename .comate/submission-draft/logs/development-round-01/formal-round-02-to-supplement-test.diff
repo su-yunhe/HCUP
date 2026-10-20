@@ -1,0 +1,46 @@
+--- formal02
++++ supplement01
+@@ -9,6 +9,7 @@
+ import os
+ import time
+ import unittest
++from contextlib import contextmanager
+ from pathlib import Path
+ 
+ from hypium import BY
+@@ -355,14 +356,25 @@
+         self.configure(("   ", "   ", "   ", "   ", "   "))
+         self.safe_cancel_scenario("outside", wait=False)
+ 
++    @contextmanager
++    def evidence_scope(self, name: str):
++        previous_e, previous_case = self.e, self.case
++        self.e = Evidence(previous_e.folder / name)
++        self.case = previous_case + "-" + name
++        try:
++            yield
++        finally:
++            self.e, self.case = previous_e, previous_case
++
+     def test_10_failing_or_delayed_server(self):
+         """R27: unavailable/503/delayed server cannot block first-layer cancellation."""
+         for mode in ("failure", "delay"):
+-            with self.subTest(server=mode):
++            with self.subTest(server=mode), self.evidence_scope(mode):
+                 self.probe.mode = mode
+                 self.safe_cancel_scenario("button", wait=False)
+-        self.configure(("http://127.0.0.1:1", "vg_user", "vg_password", "vg_spec1_sync_1234", "/weiyu_vignette"))
+-        self.safe_cancel_scenario("outside", wait=False)
++        with self.evidence_scope("unavailable-endpoint"):
++            self.configure(("http://127.0.0.1:1", "vg_user", "vg_password", "vg_spec1_sync_1234", "/weiyu_vignette"))
++            self.safe_cancel_scenario("outside", wait=False)
+ 
+     def test_11_continue_once_and_preserve_second_confirmation(self):
+         """R06/R28 plus existing download/preview/second-layer cancel regression."""
+@@ -405,5 +417,5 @@
+         self.assertTrue(result and "正在处理" not in result)
+         self.probe.mode = "success"
+         for mode in ("button", "gesture", "outside"):
+-            with self.subTest(cancel=mode):
++            with self.subTest(cancel=mode), self.evidence_scope(mode):
+                 self.safe_cancel_scenario(mode, wait=False)

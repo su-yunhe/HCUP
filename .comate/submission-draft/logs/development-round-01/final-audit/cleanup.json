@@ -1,0 +1,51 @@
+{
+  "at": "2026-10-17T08:53:57.958855+00:00",
+  "ports_proven_by_task_hypium_logs": [
+    "9915",
+    "9916",
+    "9918",
+    "9921",
+    "9922",
+    "9934",
+    "9942",
+    "9944",
+    "9966",
+    "9980",
+    "9995"
+  ],
+  "removed": [
+    {
+      "from": "tcp:9915",
+      "to": "tcp:8012",
+      "exit_code": 0,
+      "stdout": "Remove forward ruler success, ruler:tcp:9915 tcp:8012\r\r\n"
+    },
+    {
+      "from": "tcp:9916",
+      "to": "tcp:8012",
+      "exit_code": 0,
+      "stdout": "Remove forward ruler success, ruler:tcp:9916 tcp:8012\r\r\n"
+    },
+    {
+      "from": "tcp:9918",
+      "to": "tcp:8012",
+      "exit_code": 0,
+      "stdout": "Remove forward ruler success, ruler:tcp:9918 tcp:8012\r\r\n"
+    },
+    {
+      "from": "tcp:9921",
+      "to": "tcp:8012",
+      "exit_code": 0,
+      "stdout": "Remove forward ruler success, ruler:tcp:9921 tcp:8012\r\r\n"
+    },
+    {
+      "from": "tcp:9922",
+      "to": "tcp:8012",
+      "exit_code": 0,
+      "stdout": "Remove forward ruler success, ruler:tcp:9922 tcp:8012\r\r\n"
+    }
+  ],
+  "fport_after": "[Empty]\r\r\n",
+  "probe_port_closed": true,
+  "scope": "only forwards on assigned device proven in this task logs"
+}

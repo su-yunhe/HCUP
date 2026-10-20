@@ -1,0 +1,99 @@
+--- 06-tests-used/wfp_controller.py
++++ 07/wfp_controller.py
+@@ -10,6 +10,7 @@
+ from pathlib import Path
+ import threading
+ import time
++import traceback
+ 
+ from hypium_tests.evidence import ROOT, utc, write_json
+ 
+@@ -98,11 +99,20 @@
+             self.append("wfp-controller-requests.jsonl", {"written_at": utc(), **request})
+             return self.sequence
+ 
+-    def fail_sticky(self, error):
++    def exception_details(self, error, context):
++        return {"at": utc(), "context": context, "operation": self.operation,
++                "exception_type": type(error).__name__, "message": str(error),
++                "error": repr(error), "errno": getattr(error, "errno", None),
++                "winerror": getattr(error, "winerror", None),
++                "filename": str(error.filename) if getattr(error, "filename", None) is not None else None,
++                "filename2": str(error.filename2) if getattr(error, "filename2", None) is not None else None,
++                "traceback": "".join(traceback.format_exception(type(error), error, error.__traceback__))}
++
++    def fail_sticky(self, error, context="unspecified"):
+         with self.lock:
+             if self.failure is None:
+                 self.failure = repr(error)
+-                self.append("wfp-controller-errors.jsonl", {"at": utc(), "error": self.failure})
++                self.append("wfp-controller-errors.jsonl", self.exception_details(error, context))
+             # Cleanup can never erase the original failure.
+             if self.operation == "block":
+                 self.issue("unblock")
+@@ -180,11 +190,43 @@
+         if state["subLayerGuid"] != self.block_sublayer:
+             raise AssertionError("Owned sublayer changed during blocked interval")
+ 
++    def read_status_bytes(self):
++        """Only retry the specified Windows errors on this read-only IPC file."""
++        path = self.runtime / "status.json"
++        started = time.monotonic()
++        # Leave scheduling/logging margin inside the approved 0.5-second limit.
++        deadline = started + .45
++        attempt = 0
++        while True:
++            attempt += 1
++            try:
++                encoded = path.read_bytes()
++                if time.monotonic() - started > .5:
++                    raise TimeoutError("status.json read exceeded the 0.5-second IPC budget")
++                return encoded
++            except PermissionError as error:
++                retry_allowed = getattr(error, "winerror", None) in (5, 32, 33)
++                remaining = deadline - time.monotonic()
++                diagnostic = self.exception_details(error, "read_status.status_json")
++                diagnostic.update(attempt=attempt, elapsed_seconds=time.monotonic() - started,
++                                  retry_budget_seconds=.45, retry_allowed=retry_allowed,
++                                  retry_scheduled=retry_allowed and remaining > 0)
++                self.append("wfp-controller-ipc-read-errors.jsonl", diagnostic)
++                if not retry_allowed or remaining <= 0:
++                    raise
++                time.sleep(min(.01, max(0, deadline - time.monotonic())))
++                if time.monotonic() >= deadline:
++                    exhausted = self.exception_details(error, "read_status.status_json.retry_budget_exhausted")
++                    exhausted.update(attempt=attempt, elapsed_seconds=time.monotonic() - started,
++                                     retry_budget_seconds=.45, retry_allowed=True, retry_scheduled=False)
++                    self.append("wfp-controller-ipc-read-errors.jsonl", exhausted)
++                    raise
++
+     def read_status(self):
+         with self.lock:
+             # Serialize read and validation with the foreground phase guards:
+             # an older concurrent read must not look like a sequence rollback.
+-            encoded = (self.runtime / "status.json").read_bytes()
++            encoded = self.read_status_bytes()
+             if len(encoded) > 65536:
+                 raise AssertionError("Unexpected helper status size")
+             state = json.loads(encoded.decode("utf-8-sig"))
+@@ -213,7 +255,7 @@
+                             return
+                         self.issue()
+                 except BaseException as error:
+-                    self.fail_sticky(error)
++                    self.fail_sticky(error, "heartbeat.issue")
+ 
+         def monitor():
+             seen = False
+@@ -225,9 +267,9 @@
+                     seen = True
+                 except FileNotFoundError as error:
+                     if seen:
+-                        self.fail_sticky(error)
++                        self.fail_sticky(error, "monitor.read_status")
+                 except BaseException as error:
+-                    self.fail_sticky(error)
++                    self.fail_sticky(error, "monitor.read_status")
+ 
+         self.heartbeat_target = heartbeat
+         self.threads = [threading.Thread(target=monitor, daemon=True)]

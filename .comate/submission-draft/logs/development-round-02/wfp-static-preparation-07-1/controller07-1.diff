@@ -1,0 +1,86 @@
+--- 07-d86/wfp_controller.py
++++ 07.1/wfp_controller.py
+@@ -4,6 +4,8 @@
+ used by an explicitly approved runner after the user starts the reviewed helper.
+ """
+ from datetime import datetime, timedelta, timezone
++import ctypes
++from ctypes import wintypes
+ import hashlib
+ import json
+ import os
+@@ -106,6 +108,7 @@
+                 "winerror": getattr(error, "winerror", None),
+                 "filename": str(error.filename) if getattr(error, "filename", None) is not None else None,
+                 "filename2": str(error.filename2) if getattr(error, "filename2", None) is not None else None,
++                "status_handle_cleanup_failed": getattr(error, "status_handle_cleanup_failed", False),
+                 "traceback": "".join(traceback.format_exception(type(error), error, error.__traceback__))}
+ 
+     def fail_sticky(self, error, context="unspecified"):
+@@ -190,6 +193,49 @@
+         if state["subLayerGuid"] != self.block_sublayer:
+             raise AssertionError("Owned sublayer changed during blocked interval")
+ 
++    def read_status_once(self):
++        """Read only status.json, sharing replacement without requesting write access."""
++        path = self.runtime / "status.json"
++        kernel = ctypes.WinDLL("kernel32", use_last_error=True)
++        kernel.CreateFileW.argtypes = [wintypes.LPCWSTR, wintypes.DWORD, wintypes.DWORD,
++                                      wintypes.LPVOID, wintypes.DWORD, wintypes.DWORD, wintypes.HANDLE]
++        kernel.CreateFileW.restype = wintypes.HANDLE
++        kernel.ReadFile.argtypes = [wintypes.HANDLE, wintypes.LPVOID, wintypes.DWORD,
++                                   ctypes.POINTER(wintypes.DWORD), wintypes.LPVOID]
++        kernel.ReadFile.restype = wintypes.BOOL
++        kernel.CloseHandle.argtypes = [wintypes.HANDLE]
++        kernel.CloseHandle.restype = wintypes.BOOL
++
++        def native_error():
++            error = ctypes.WinError(ctypes.get_last_error())
++            error.filename = str(path)
++            return error
++
++        # GENERIC_READ; FILE_SHARE_READ|WRITE|DELETE; OPEN_EXISTING.
++        handle = kernel.CreateFileW(str(path), 0x80000000, 7, None, 3, 0x80, None)
++        if handle == ctypes.c_void_p(-1).value:
++            raise native_error()
++        primary_error = None
++        try:
++            buffer = ctypes.create_string_buffer(65537)
++            count = wintypes.DWORD()
++            if not kernel.ReadFile(handle, buffer, 65537, ctypes.byref(count), None):
++                raise native_error()
++            return buffer.raw[:count.value]
++        except BaseException as error:
++            primary_error = error
++            raise
++        finally:
++            if not kernel.CloseHandle(handle):
++                cleanup_error = native_error()
++                cleanup_error.status_handle_cleanup_failed = True
++                if primary_error is None:
++                    raise cleanup_error
++                primary_error.status_handle_cleanup_failed = True
++                primary_error.add_note("status.json CloseHandle also failed: winerror=" + str(cleanup_error.winerror)
++                                       + " errno=" + str(cleanup_error.errno) + " filename=" + str(cleanup_error.filename)
++                                       + " message=" + str(cleanup_error))
++
+     def read_status_bytes(self):
+         """Only retry the specified Windows errors on this read-only IPC file."""
+         path = self.runtime / "status.json"
+@@ -200,12 +246,13 @@
+         while True:
+             attempt += 1
+             try:
+-                encoded = path.read_bytes()
+-                if time.monotonic() - started > .5:
++                encoded = self.read_status_once()
++                if time.monotonic() >= deadline:
+                     raise TimeoutError("status.json read exceeded the 0.5-second IPC budget")
+                 return encoded
+             except PermissionError as error:
+-                retry_allowed = getattr(error, "winerror", None) in (5, 32, 33)
++                retry_allowed = (getattr(error, "winerror", None) in (5, 32, 33)
++                                 and not getattr(error, "status_handle_cleanup_failed", False))
+                 remaining = deadline - time.monotonic()
+                 diagnostic = self.exception_details(error, "read_status.status_json")
+                 diagnostic.update(attempt=attempt, elapsed_seconds=time.monotonic() - started,

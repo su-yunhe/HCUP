@@ -1,0 +1,74 @@
+{
+  "project": "D:\\HCUP\\vg-spec1",
+  "device_sn": "127.0.0.1:11235",
+  "env_warnings": [
+    "屏幕分辨率为 (1256, 2760)，官方评测使用 (1308, 2880)（Pura 90 Pro Max / PHEMU-FD00）。请在 DevEco Studio Device Manager 中确认模拟器机型。"
+  ],
+  "cases": [
+    {
+      "name": "test_00_first_use_empty_local_and_cloud (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_00_first_use_empty_local_and_cloud)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_01_wait_then_cancel_button (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_01_wait_then_cancel_button)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_02_actual_system_edge_gesture (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_02_actual_system_edge_gesture)",
+      "outcome": "fail",
+      "message": "AssertionError: Component#167 is not None : gesture failed to close first layer"
+    },
+    {
+      "name": "test_03_actual_outside_click (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_03_actual_outside_click)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_04_rapid_restore_clicks (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_04_rapid_restore_clicks)",
+      "outcome": "fail",
+      "message": "AssertionError: Missing required stable component webdav_restore_confirm_dialog"
+    },
+    {
+      "name": "test_05_return_and_reenter (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_05_return_and_reenter)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_06_cancel_then_force_stop (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_06_cancel_then_force_stop)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_07_unconfirmed_force_stop (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_07_unconfirmed_force_stop)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_08_empty_saved_configuration (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_08_empty_saved_configuration)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_09_whitespace_configuration (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_09_whitespace_configuration)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_10_failing_or_delayed_server (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_10_failing_or_delayed_server)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_11_continue_once_and_preserve_second_confirmation (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_11_continue_once_and_preserve_second_confirmation)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_12_existing_results_survive_all_cancels (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_12_existing_results_survive_all_cancels)",
+      "outcome": "skip",
+      "message": "未执行（所属类 setUpClass 出错或被跳过）"
+    }
+  ]
+}

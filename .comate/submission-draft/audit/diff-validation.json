@@ -1,0 +1,39 @@
+{
+  "base_commit": "9cbcf7292c8cc46955dc3b522ddbda41c66a61d9",
+  "snapshot_version": "sha256:2968c3ebfe338969634f8d28fece3c28fce3f71e87a2901d52538a3412787bba",
+  "clone_method": "git clone --no-hardlinks --no-checkout 本题工程 临时副本; git checkout --detach base_commit",
+  "byte_preservation": "temporary clone .git/info/attributes * -text; core.autocrlf=false; source repository/index untouched",
+  "checks": [
+    {
+      "command": [
+        "git",
+        "apply",
+        "--check",
+        "--binary",
+        "changes/final.diff"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "apply",
+        "--binary",
+        "changes/final.diff"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "D:/HCUP/vg-spec1/.comate/submission-draft/changes/final.diff:170: trailing whitespace.\n---\r\nD:/HCUP/vg-spec1/.comate/submission-draft/changes/final.diff:171: trailing whitespace.\nname: \"arkts-code-linter\"\r\nD:/HCUP/vg-spec1/.comate/submission-draft/changes/final.diff:172: trailing whitespace.\ndescription: \"基于华为 HarmonyOS NEXT 官方文档和 ArkTS 规范的代码检查工具。自动检测代码中的规范违规、性能问题和潜在错误，确保代码符合 HarmonyOS 应用开发最佳实践。\"\r\nD:/HCUP/vg-spec1/.comate/submission-draft/changes/final.diff:173: trailing whitespace.\n---\r\nD:/HCUP/vg-spec1/.comate/submission-draft/changes/final.diff:174: trailing whitespace.\n\r\nwarning: squelched 313185 whitespace errors\nwarning: 313190 lines add whitespace errors.\n"
+    }
+  ],
+  "compared_files": 4175,
+  "mismatches": [],
+  "extra_files": [],
+  "source_changed_during_collection": [],
+  "patch_bytes": 571193656,
+  "patch_sha256": "0af67292ff56ecb45d8455ecadb0335cc9b3a99f314414002b6650bca12f084d",
+  "pass": true,
+  "scope_note": "完整性针对project-manifest.json中的交付工程投影；不是未经筛选的本地全目录。3-package必须使用同一清单。"
+}

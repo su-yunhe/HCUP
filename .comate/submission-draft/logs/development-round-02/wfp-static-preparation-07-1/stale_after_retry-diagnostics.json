@@ -1,0 +1,37 @@
+[
+  {
+    "file": "wfp-controller-ipc-read-errors.jsonl",
+    "at": "2026-10-17T11:21:27.997261+00:00",
+    "context": "read_status.status_json",
+    "operation": "unblock",
+    "exception_type": "PermissionError",
+    "message": "[WinError 32] synthetic read denial: 'synthetic/status.json'",
+    "error": "PermissionError(13, 'synthetic read denial')",
+    "errno": 13,
+    "winerror": 32,
+    "filename": "synthetic/status.json",
+    "filename2": null,
+    "status_handle_cleanup_failed": false,
+    "traceback": "Traceback (most recent call last):\n  File \"D:\\HCUP\\vg-spec1\\hypium_tests\\wfp_controller.py\", line 249, in read_status_bytes\n    encoded = self.read_status_once()\n              ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Program Files\\Python312\\Lib\\unittest\\mock.py\", line 1134, in __call__\n    return self._mock_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Program Files\\Python312\\Lib\\unittest\\mock.py\", line 1138, in _mock_call\n    return self._execute_mock_call(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\Program Files\\Python312\\Lib\\unittest\\mock.py\", line 1199, in _execute_mock_call\n    result = effect(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\HCUP\\vg-spec1\\logs\\development-round-02\\wfp-static-preparation-07-1\\check_ipc_reads.py\", line 61, in injected_read\n    raise permission_error(code)\nPermissionError: [WinError 32] synthetic read denial: 'synthetic/status.json'\n",
+    "attempt": 1,
+    "elapsed_seconds": 0.0,
+    "retry_budget_seconds": 0.45,
+    "retry_allowed": true,
+    "retry_scheduled": true
+  },
+  {
+    "file": "wfp-controller-errors.jsonl",
+    "at": "2026-10-17T11:21:28.007965+00:00",
+    "context": "injected.monitor.read_status",
+    "operation": "unblock",
+    "exception_type": "AssertionError",
+    "message": "Stale/future helper status: 4.010704",
+    "error": "AssertionError('Stale/future helper status: 4.010704')",
+    "errno": null,
+    "winerror": null,
+    "filename": null,
+    "filename2": null,
+    "status_handle_cleanup_failed": false,
+    "traceback": "Traceback (most recent call last):\n  File \"D:\\HCUP\\vg-spec1\\logs\\development-round-02\\wfp-static-preparation-07-1\\check_ipc_reads.py\", line 69, in check\n    controller.read_status()\n  File \"D:\\HCUP\\vg-spec1\\hypium_tests\\wfp_controller.py\", line 280, in read_status\n    self.validate_status(state)\n  File \"D:\\HCUP\\vg-spec1\\hypium_tests\\wfp_controller.py\", line 133, in validate_status\n    raise AssertionError(\"Stale/future helper status: \" + str(age))\nAssertionError: Stale/future helper status: 4.010704\n"
+  }
+]

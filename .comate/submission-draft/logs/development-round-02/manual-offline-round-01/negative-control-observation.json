@@ -1,0 +1,26 @@
+{
+  "recorded_at": "2026-10-17T09:57:50.6643241Z",
+  "status": "failed_environment_isolation",
+  "product_failure_established": false,
+  "assertion": "User's method did not isolate the configured NAT path: actual encrypted preview was reached",
+  "user_method": "关闭了wifi开关",
+  "target_endpoint": "http://10.0.2.2:28762",
+  "transport": "guest NAT; no HDC rport",
+  "actual_observation": "After disconnect ACK, two HEAD 200 plus one GET 200 (1324 bytes) reached controlled server and existing second confirmation appeared",
+  "raw_window": "webdav/window-test_13_actual_offline_three_cancels_and_restore-offline-connection-negative-control.json",
+  "raw_state": "test_13_actual_offline_three_cancels_and_restore/user-disconnected-network-state.json",
+  "system_state": [
+    "eth0 UP",
+    "default route via10.0.2.2",
+    "NetConn IsAvailable=1",
+    "Ethernet LinkUp=1"
+  ],
+  "offline_three_cancels_status": "not_run after failed negative control",
+  "restoration": "user completion and nonce ACK retained; original failure unchanged",
+  "restored_positive_control": "logs/development-round-02/manual-restored-positive-round-01",
+  "raw_runner_exit": 1,
+  "raw_tests": 1,
+  "raw_fail": 1,
+  "raw_skip": 0,
+  "seconds": 432.127
+}

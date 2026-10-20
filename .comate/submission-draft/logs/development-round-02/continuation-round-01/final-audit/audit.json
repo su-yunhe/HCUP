@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-17T09:14:08.518220+00:00",
+  "source_unchanged": true,
+  "hap_sha256": "435d64b4b825cc85071e60feb617d77f76347973e6ea0570c07c5f22df823954",
+  "hap_matches_manifest": true,
+  "app_pid": "15768",
+  "faultlogger": "total 0\r\n",
+  "crash_markers": [],
+  "removed_task_forwards": [
+    {
+      "started_at": "2026-10-17T09:14:07.444846+00:00",
+      "finished_at": "2026-10-17T09:14:07.506716+00:00",
+      "argv": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11235",
+        "fport",
+        "rm",
+        "tcp:9962",
+        "tcp:8012"
+      ],
+      "exit_code": 0,
+      "stdout": "Remove forward ruler success, ruler:tcp:9962 tcp:8012\r\r\n",
+      "stderr": ""
+    }
+  ],
+  "forwards_after": "[Empty]\r\r\n",
+  "probe_port_closed": true,
+  "guest_identity": "uid=2000(shell) gid=2000(shell) groups=2000(shell),1006(file_manager),1007(log),1097(netsys_socket),3009(readproc) context=u:r:sh:s0\r\n",
+  "vm_kept_running": true,
+  "network_settings_changed_in_this_run": false,
+  "audit_facility_note": "Initial audit attempted utf16 decoding but log was utf8; preserved raw file, detected BOM/default and completed cleanup without rerunning tests"
+}

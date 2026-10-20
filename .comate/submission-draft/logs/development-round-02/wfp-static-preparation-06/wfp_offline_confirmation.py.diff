@@ -1,0 +1,47 @@
+--- 05-tests-used/wfp_offline_confirmation.py
++++ 06-preparation/wfp_offline_confirmation.py
+@@ -10,6 +10,7 @@
+ import sys
+ import shutil
+ import time
++import traceback
+ 
+ from hypium_tests.evidence import BUNDLE, ROOT, Evidence, digest, source_fingerprint, utc, write_json
+ from hypium_tests.offline_confirmation import OfflineRestoreTests
+@@ -67,6 +68,7 @@
+         help_result = evidence.command([hdc, "-h"])
+         if "tconn key [-remove]" not in help_result["stdout"] + help_result["stderr"]:
+             raise RuntimeError("Installed HDC did not document the target-only reconnect command")
++        primary_error = None
+         try:
+             cls.wfp.block()
+             cls.wfp.require_blocked(evidence, "before-target-reconnect")
+@@ -84,9 +86,26 @@
+                 raise AssertionError("Dedicated HDC transport did not reconnect under active filters")
+             evidence.screen("target-reconnected-under-active-wfp")
+             cls.wfp.require_blocked(evidence, "after-target-reconnect")
++        except BaseException:
++            primary_error = sys.exc_info()
++            write_json(evidence.folder / "preflight-primary-error.json", {
++                "at": utc(), "type": primary_error[0].__name__,
++                "message": str(primary_error[1]),
++                "traceback": "".join(traceback.format_exception(*primary_error))})
++            raise
+         finally:
+-            state = cls.wfp.unblock()
+-            write_json(evidence.folder / "preflight-unblocked.json", {"at": utc(), "status": state})
++            try:
++                state = cls.wfp.unblock()
++                write_json(evidence.folder / "preflight-unblocked.json", {"at": utc(), "status": state})
++            except BaseException:
++                recovery_error = sys.exc_info()
++                write_json(evidence.folder / "preflight-recovery-error.json", {
++                    "at": utc(), "type": recovery_error[0].__name__,
++                    "message": str(recovery_error[1]),
++                    "traceback": "".join(traceback.format_exception(*recovery_error)),
++                    "primary_error_preserved": primary_error is not None})
++                if primary_error is None:
++                    raise
+         write_json(evidence.folder / "preflight-verdict.json", {"at": utc(), "hdc_reconnect": "pass", "device": cls.device_sn, "global_server_kill_used": False, "UiDriver_initialized_during_preflight": False})
+ 
+     @classmethod

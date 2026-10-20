@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-17T11:58:08.298727+00:00",
+  "device": "127.0.0.1:11237",
+  "same_endpoint": "http://10.0.2.2:28762",
+  "actual_transport_isolation": "pass",
+  "three_cancels": "pass",
+  "before_and_restored_positive": "real HEAD/GET200 and second confirmation cancel",
+  "negative_control": "explicit network failure, all five actions idle, zero arrivals at live server",
+  "continuous_guard": "nonce/sequence/lease/target/session/filter identity checked throughout",
+  "post_product_failure_injection": "intentional heartbeat stop; controller_lease_expired and true observer NOT_FOUND queries; helper process gone",
+  "guest_system_offline_claim": false,
+  "boundary": "Per-program-copy outbound WFP isolation; preserve actual guest NetConn/Ethernet values"
+}

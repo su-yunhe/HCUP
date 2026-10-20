@@ -1,0 +1,62 @@
+DRIVER
+capture_screen (self, save_path: str, in_pc: bool = True, area: Union[hypium.model.basic_data_type.Rect, hypium.uidriver.interface.uitree.ISelector, hypium.uidriver.interface.uitree.IUiComponent] = None) -> str
+input_text (self, component: Union[hypium.uidriver.interface.uitree.ISelector, hypium.uidriver.interface.uitree.IUiComponent, tuple], text: str, mode: hypium.model.basic_data_type.InputTextMode = None)
+input_text_on_current_cursor (self, text: str)
+take_screenshot (self, mode: str = 'key')
+COMPONENT
+clearText (self)
+click (self)
+doubleClick (self)
+exist (self) -> bool
+getAllProperties (self) -> hypium.model.basic_data_type.JsonBase
+getBounds (self) -> hypium.model.basic_data_type.Rect
+getBoundsCenter (self) -> hypium.model.basic_data_type.Point
+getDescription (self) -> str
+getHint (self) -> str
+getId (self) -> str
+getKey (self) -> str
+getOriginalText (self) -> str
+getText (self) -> str
+getType (self) -> str
+inputText (self, text, mode=None)
+isCheckable (self)
+isChecked (self)
+isClickable (self) -> bool
+isEnabled (self) -> bool
+isFocused (self) -> bool
+isLongClickable (self)
+isScrollable (self) -> bool
+isSelected (self)
+longClick (self)
+scrollSearch (self, selector: hypium.uidriver.interface.uitree.ISelector, *args, **kwargs)
+SWIPE DOC 
+        @func    在屏幕上或者指定区域area中执行朝向指定方向direction的滑动操作。该接口用于执行不太精准的滑动操作。
+        @param   direction: 滑动方向，目前支持:
+                            "LEFT" 左滑
+                            "RIGHT" 右滑
+                            "UP" 上滑
+                            "DOWN" 下滑
+        @param   distance: 相对滑动区域总长度的滑动距离，范围为1-100, 表示滑动长度为滑动区域总长度的1%到100%， 默认为60
+        @param   area: 通过控件指定的滑动区域
+        @param   side: 滑动位置， 指定滑动区域内部(屏幕内部)执行操作的大概位置，支持:
+                        UiParam.LEFT 靠左区域
+                        UiParam.RIGHT 靠右区域
+                        UiParam.TOP 靠上区域
+                        UiParam.BOTTOM 靠下区域
+        @param   start_point: 滑动起始点, 默认为None, 表示在区域中间位置执行滑动操作, 可以传入滑动起始点坐标，支持使用(0.5, 0.5)
+                              这样的比例坐标。当同时传入side和start_point的时候,
+        @param   swipe_time: 滑动时间（s)， 默认0.3s
+        @param:  speed: 滑动速度, 单位像素/秒, 指定速度时, swipe_time不生效
+        @example    # 在屏幕上向上滑动, 距离40
+                    driver.swipe(UiParam.UP, distance=40)
+                    # 在屏幕上向右滑动, 滑动时间为0.1秒
+                    driver.swipe(UiParam.RIGHT, swipe_time=0.1)
+                    # 在屏幕起始点为比例坐标为(0.8, 0.8)的位置向上滑动，距离30
+                    driver.swipe(UiParam.UP, 30, start_point=(0.8, 0.8))
+                    # 在屏幕左边区域向下滑动， 距离30
+                    driver.swipe(UiParam.DOWN, 30, side=UiParam.LEFT)
+                    # 在屏幕右侧区域向上滑动，距离30
+                    driver.swipe(UiParam.UP, side=UiParam.RIGHT)
+                    # 在类型为Scroll的控件中向上滑动
+                    driver.swipe(UiParam.UP, area=BY.type("Scroll"))
+        

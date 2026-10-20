@@ -1,0 +1,823 @@
+{
+  "task_id": "vg-spec1",
+  "native_session_uuid": "01a148dd-4d44-7181-ab0a-5b756616c56b",
+  "created_at_utc": "2026-10-17T08:09:10.4592373Z",
+  "head": "9cbcf7292c8cc46955dc3b522ddbda41c66a61d9",
+  "production_tree_manifest_algorithm": "SHA256 of sorted path + TAB + actual-byte SHA256 + LF for tracked and nonignored untracked files under entry/src/main/ets",
+  "production_tree_file_count": 193,
+  "production_tree_manifest_sha256": "17493881420eeb97d206c463c2b82f1176b9d3870ec8e1f4af08bab2b7cf2f5e",
+  "modified_sources": [
+    {
+      "path": "entry/src/main/ets/pages/SettingsPage.ets",
+      "lines": 500,
+      "sha256": "4ff16deba838f5587de50e69e1dd9e8a0073166b7ceb34e7ad83e43080383146"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+      "lines": 281,
+      "sha256": "92828c4dd519ec81bc0a862dee2d2e710648c7dfa441589dad11eb027a07eba1"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsWebDavActions.ets",
+      "lines": 477,
+      "sha256": "5c71f650a8b3f805f5d881aa14ae66365eea0ed710b60cc3008f544a04c34230"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/WebDavRestoreConfirmDialog.ets",
+      "lines": 51,
+      "sha256": "26c6d7b280e4dc6617a828970bb13738e653b415abb3300888d97c020a14f763"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsSectionsMenu.ets",
+      "lines": 85,
+      "sha256": "69ddedce9f6b2054de2ba23714e82930939a82069a31f7009ef7e4f39b5d1580"
+    },
+    {
+      "path": "entry/src/main/ets/pages/index/components/TopNavigation.ets",
+      "lines": 143,
+      "sha256": "9b8814d033f4e8836d9e160b758e230c1e4de6c4a434f9e25fd1aeaf16ba3831"
+    }
+  ],
+  "production_tree_sources": [
+    {
+      "path": "entry/src/main/ets/algorithm/Algorithm.ets",
+      "sha256": "691e586ab2c07d8183b11e0e4187de38167f540a79c6185d3feb407b4a1397a3"
+    },
+    {
+      "path": "entry/src/main/ets/algorithm/FSRSOptimizer.ets",
+      "sha256": "4bd1747d4b6c83bbbd10564a822019650494ba9d5b01e53cc2668e0ddb81e1bb"
+    },
+    {
+      "path": "entry/src/main/ets/algorithm/LearningStepsPolicy.ets",
+      "sha256": "761e2d61fde6e5099db7df6de1823dccb9438b66745b8afaacc3bc9a626cf51c"
+    },
+    {
+      "path": "entry/src/main/ets/components/AchievementBanner.ets",
+      "sha256": "184526450f5b8497264e4e63fe3477cd39827d1d29cdd4999b99764df59e9168"
+    },
+    {
+      "path": "entry/src/main/ets/components/AddToBookDialog.ets",
+      "sha256": "4baef9a8298ad3cbd08af7d0e8835bc4d0df7bcdcef345e8756fc331a86b32b5"
+    },
+    {
+      "path": "entry/src/main/ets/components/BookCard.ets",
+      "sha256": "a9804e0988a1f59894dea3c4b32dbcc9a31b1e585a65aa350b4bab21ea062252"
+    },
+    {
+      "path": "entry/src/main/ets/components/ClickableText.ets",
+      "sha256": "0c71ffe32b1383c24b05548eead2f10fa7c4d3e3a3fb52ae8e2be4b70bb98af0"
+    },
+    {
+      "path": "entry/src/main/ets/components/CreateBookDialog.ets",
+      "sha256": "80133a4b10eb811f087bd6e11b9494fda72bc830953e1e060ea7a5a6be330e82"
+    },
+    {
+      "path": "entry/src/main/ets/components/DayDetailDialog.ets",
+      "sha256": "1b6a2e940d64a1ef86ffeaf5ab2b0cb3214edba7db86b0c3ce08322816855b99"
+    },
+    {
+      "path": "entry/src/main/ets/components/FilterBar.ets",
+      "sha256": "6704ec7b957aefae865c6b5af50f0fcb0cc5932f17bee46c77c5b0fb8829faa9"
+    },
+    {
+      "path": "entry/src/main/ets/components/GlassCard.ets",
+      "sha256": "2689174c74e39db743014d1dbea5f97e1037a547965e39333f003d827a3ce3a0"
+    },
+    {
+      "path": "entry/src/main/ets/components/ImportGuideDialog.ets",
+      "sha256": "e9a6d179cdf84e19f20225bc90f1130efad0215717f7a8701a139317f1b4d5cb"
+    },
+    {
+      "path": "entry/src/main/ets/components/LearningCalendar.ets",
+      "sha256": "7d21ac3fbadbd61663e75c45b75d8a4386d8f8d3b49efc4132876d09308cf4fb"
+    },
+    {
+      "path": "entry/src/main/ets/components/LearningHeatmap.ets",
+      "sha256": "7d1e8ea2e6b4bb8abda15d7c3eb861fa115daf2d26403e1b618f9fb5d65a8ee0"
+    },
+    {
+      "path": "entry/src/main/ets/components/QuickActions.ets",
+      "sha256": "cdfd4d9296763c264352f59287145f52f06a0ac564ba6f4fd5e528d901644808"
+    },
+    {
+      "path": "entry/src/main/ets/components/SkeletonLoader.ets",
+      "sha256": "a717645aa2496dfb96613414b9a178e98da554ddf20c18d6e67259fc6a54f224"
+    },
+    {
+      "path": "entry/src/main/ets/components/StatisticsPanel.ets",
+      "sha256": "a95192629081590c0a4b2c16a0874a4032bda3417b46fbce6edbda7f61e2a6d6"
+    },
+    {
+      "path": "entry/src/main/ets/components/WordBookSelectionDialog.ets",
+      "sha256": "67e71a65f023fb189e2b7d823cc243bfa22e6d1f6aae61d909b19568a0eb7a46"
+    },
+    {
+      "path": "entry/src/main/ets/context/ContextValidator.ets",
+      "sha256": "9587c5f765238e1282b459e720ca83a651e400bc91029bf34c2a4513aa750238"
+    },
+    {
+      "path": "entry/src/main/ets/context/OfflineContext.ets",
+      "sha256": "8701bf049937a4dc780905c76b1d0474b884e48502c2f0c1c9d44d9dc277f33a"
+    },
+    {
+      "path": "entry/src/main/ets/context/StoryGenerationPipeline.ets",
+      "sha256": "931615604e4ee67667982ce9861a93d8dddce8430fc046b3cc52d1696388739c"
+    },
+    {
+      "path": "entry/src/main/ets/context/TemplateBuilder.ets",
+      "sha256": "7633f102aa8ae8c9d5a4983c0f567c3674cf576264d8b3176c3414c2871d2070"
+    },
+    {
+      "path": "entry/src/main/ets/context/TemplateLoader.ets",
+      "sha256": "a21fcb3e78ae2fe23b37024aa972397f2766c1c522a96f6507f9606e5a781f96"
+    },
+    {
+      "path": "entry/src/main/ets/context/TemplateManager.ets",
+      "sha256": "ebff2fca0a4eda521eba88c27974d6a17893469c58718d2da4bf63b171664040"
+    },
+    {
+      "path": "entry/src/main/ets/context/TemplateTypes.ets",
+      "sha256": "7333d71102d800ae9c572a256dd1a94b2f9e73cd7951ebc158b5b9909f2b3f65"
+    },
+    {
+      "path": "entry/src/main/ets/database/DBConstants.ets",
+      "sha256": "e7be6b4d3e061c070937733b52b6702f6b40674f994d0d0e15afe502fbfdd8ad"
+    },
+    {
+      "path": "entry/src/main/ets/database/DBManager.ets",
+      "sha256": "e8072c1e3f05e3233b618e2e893cb5371468c674a1471d180c98ed69dc29ad96"
+    },
+    {
+      "path": "entry/src/main/ets/database/repositories/BaseRepository.ets",
+      "sha256": "237b25358e677bebf9d4133becfb42b4b8fd714154cdbf1b3d24fb3c31564819"
+    },
+    {
+      "path": "entry/src/main/ets/database/repositories/ReviewEventRepository.ets",
+      "sha256": "7ee240e09a255fcdc90c25b93d235d09ff5fdea95421a4e2ee78b75da3747b02"
+    },
+    {
+      "path": "entry/src/main/ets/database/repositories/TextRepository.ets",
+      "sha256": "8bbdc5152338e5905601a1bbd6b5194a4f75197516ba06dddc464fd7334902a6"
+    },
+    {
+      "path": "entry/src/main/ets/database/repositories/VignetteCacheRepository.ets",
+      "sha256": "cc0ec15abf4202ed86b1d831b7c319e4b3b741292a3fd6efeda0e494672df98a"
+    },
+    {
+      "path": "entry/src/main/ets/database/repositories/WordBookRepository.ets",
+      "sha256": "7b60d1ca6d2fc1a8b858e2d253c948365a2dcf9fc750b5ca1217c7603c176a6b"
+    },
+    {
+      "path": "entry/src/main/ets/database/repositories/WordIdentityRepository.ets",
+      "sha256": "f847c46f3d4d8321be1fff8bea89d8e2998f5c502dfa37eb9af4e9464957a723"
+    },
+    {
+      "path": "entry/src/main/ets/database/repositories/WordRepository.ets",
+      "sha256": "2bdd16df394f2338e2ef1abdf931740f1014546d6a100406c83512df36430c73"
+    },
+    {
+      "path": "entry/src/main/ets/database/SchemaManager.ets",
+      "sha256": "edc007fee45ff7aca942b64321c169f02e7fd23be12aadd22a4760abb40c9c33"
+    },
+    {
+      "path": "entry/src/main/ets/entryability/EntryAbility.ets",
+      "sha256": "114b9ba69da62b63e560e5c5cb2e1c5ab430443b2a7b10fac4c977c5fe0d1958"
+    },
+    {
+      "path": "entry/src/main/ets/entrybackupability/EntryBackupAbility.ets",
+      "sha256": "ae94f286234d41ad5fa9f70bfd11f61e2f609994d6f16687d1ce4ec442115e5d"
+    },
+    {
+      "path": "entry/src/main/ets/manager/BuiltInDictionary.ets",
+      "sha256": "3f9ee0e8b8efac1a53dceb6616f4f49f6ee6ff621a42adc19416abc12bf85b58"
+    },
+    {
+      "path": "entry/src/main/ets/manager/dictionary/AiClient.ets",
+      "sha256": "e5919b89792d19e235923e02969be6118dd974f80023b8fa4200e8803774ff5d"
+    },
+    {
+      "path": "entry/src/main/ets/manager/dictionary/DictionaryCache.ets",
+      "sha256": "a67d5e94df56a18dc668bd130293e3f0f75fcc59e900faec61bbae750ac314cc"
+    },
+    {
+      "path": "entry/src/main/ets/manager/dictionary/DictionaryModels.ets",
+      "sha256": "5f5ebac22acfe631037cd1f0bc19b7ad382b5d5d838c78ca55f0a537807c0729"
+    },
+    {
+      "path": "entry/src/main/ets/manager/dictionary/PromptBuilder.ets",
+      "sha256": "45109e86d471c9e5f402f330e79181727ebb0a56d3650d0ee6ea2bd9d8cdedd5"
+    },
+    {
+      "path": "entry/src/main/ets/manager/dictionary/ResponseParser.ets",
+      "sha256": "5e92a326cc31e5d13905438bff088faf7b472bb2a2b3295d2bf453cae455c612"
+    },
+    {
+      "path": "entry/src/main/ets/manager/DictionaryManager.ets",
+      "sha256": "e0078f037bfe5578036567f251591e55c6c80e7656a426401ae82322b5926a06"
+    },
+    {
+      "path": "entry/src/main/ets/manager/GuideManager.ets",
+      "sha256": "d03a0cff3ce5ccb0107184c6fde51f353f7cc460aaab29b537c7dd960ad2d743"
+    },
+    {
+      "path": "entry/src/main/ets/manager/PromptTemplateManager.ets",
+      "sha256": "3def7788df5a3996c291495bcfe4ed10c761e60f7aeb13d3794ef9f9da5b590e"
+    },
+    {
+      "path": "entry/src/main/ets/manager/ReviewTimeManager.ets",
+      "sha256": "bdc60947ea5540f80e94f0aa92103b45a8d47cdda31c088fa5760c86ebb081b2"
+    },
+    {
+      "path": "entry/src/main/ets/manager/SessionPlanner.ets",
+      "sha256": "d5d927e27fc46a936e8c5719576dc6e7f71baa06c19725b41d3dae966e05dfe7"
+    },
+    {
+      "path": "entry/src/main/ets/manager/ThemeManager.ets",
+      "sha256": "e760e965413ef0be25da22d1eb64ec2069093fa4e1051041964b69ef7c3aed41"
+    },
+    {
+      "path": "entry/src/main/ets/manager/TimeboxManager.ets",
+      "sha256": "ccdeede789046bee9f5d9131ad4e7256daa4f6f543e078f5b8a67bdef4bb99dd"
+    },
+    {
+      "path": "entry/src/main/ets/manager/TTSPlayer.ets",
+      "sha256": "0652af9648b72e6dc0cb818dbd15a694414e78c188af483fcef0246c789a17f5"
+    },
+    {
+      "path": "entry/src/main/ets/manager/UserStateManager.ets",
+      "sha256": "dd2b9daa7f29027bbfe47478f886d19e093c7f42e7294a838b9b5241497612b2"
+    },
+    {
+      "path": "entry/src/main/ets/manager/WordBookManager.ets",
+      "sha256": "b967866d42080d3df1cfa21fa6b0cef81760eea77dab2962484b1edd2731ae5e"
+    },
+    {
+      "path": "entry/src/main/ets/manager/WordLevelLoader.ets",
+      "sha256": "6527aaf653493586360fc57ce242bd28ce33d0098998d0b029d31da7ea627c2d"
+    },
+    {
+      "path": "entry/src/main/ets/model/AnimationModel.ets",
+      "sha256": "d30705834b4856264f604155f389eb3f50414480c9e455bfd0f62ef18047a11f"
+    },
+    {
+      "path": "entry/src/main/ets/model/BookModels.ts",
+      "sha256": "863502105eb5fa250fca0a808bdd143d6b7fae13ddabc40ea8d3c5e1fbd2ae73"
+    },
+    {
+      "path": "entry/src/main/ets/model/CardModel.ets",
+      "sha256": "b48f8d9c0fbbb2f6e46b09f14bd04323f5a6a4c846386bc3b5b28b4a6a44da8a"
+    },
+    {
+      "path": "entry/src/main/ets/model/ChartModel.ets",
+      "sha256": "608c4045a9ce3354854f3a9bea1edff6579336ad3156cc9cae977f1da0b833bc"
+    },
+    {
+      "path": "entry/src/main/ets/model/DesignTokens.ets",
+      "sha256": "73a9ea7bc3edfa331f1e0770a88b2d7b94a65ce9b8d944b0b6ddf95d35278ce0"
+    },
+    {
+      "path": "entry/src/main/ets/model/FSRSModels.ts",
+      "sha256": "2f3c0358aa9ba89ddbde028645cf9d0dbf0ccd0e14c05c9b8c13ba6032210c5c"
+    },
+    {
+      "path": "entry/src/main/ets/model/FsrsParamsPack.ets",
+      "sha256": "37fffc6de11b590a9bfb6774fffeebb81836fcffe730124dc40e11ea408d78ea"
+    },
+    {
+      "path": "entry/src/main/ets/model/GuideModels.ets",
+      "sha256": "21ea9aeaa497babbd3d70374c1493ebd9ade9bbbc842710da6106fa9b176505c"
+    },
+    {
+      "path": "entry/src/main/ets/model/HeatmapData.ets",
+      "sha256": "2a6b6ca4edc100458632d88d1bde65a1f72ed57e8c7cd1ffb36b758a46156fcb"
+    },
+    {
+      "path": "entry/src/main/ets/model/ReadContextSnapshot.ets",
+      "sha256": "5611bf48500a997bd5a34a1b8855594e724e235b1cb5e284fc4ce24d402c35ee"
+    },
+    {
+      "path": "entry/src/main/ets/model/SessionModels.ts",
+      "sha256": "1a8a777a25d56921c0b17357d39d13de508975972cd5af081f05fba6b7392955"
+    },
+    {
+      "path": "entry/src/main/ets/model/SettingsModels.ts",
+      "sha256": "6642a12f813d0dd6acccfb0f59da5513a504132beb93a1fb6b3839ded034a600"
+    },
+    {
+      "path": "entry/src/main/ets/model/TextModels.ts",
+      "sha256": "79076c9af19c18a8ae90e37af6e2cb3fcb7cfd62688d0f23cf888d991d242ef5"
+    },
+    {
+      "path": "entry/src/main/ets/model/Theme.ets",
+      "sha256": "927a2252af34f72a02b131198557436e4a45090046f2e1585823cc6374fab755"
+    },
+    {
+      "path": "entry/src/main/ets/model/ThemeColors.ets",
+      "sha256": "398c0a5f9b5e5619d9a7a7fda5d1f93fb1cccefbc5692c0345454eab2bee1d79"
+    },
+    {
+      "path": "entry/src/main/ets/model/TokenInterfaces.ets",
+      "sha256": "c18baea7ea3aee4b591deadfdde4abed110b3b7aec7df90451375006865ae024"
+    },
+    {
+      "path": "entry/src/main/ets/model/UICommon.ets",
+      "sha256": "3f305c7d32eb20eab67c897f6546f113361bd20dffeb748198019a3bf14f0a44"
+    },
+    {
+      "path": "entry/src/main/ets/model/WordBookCatalog.ets",
+      "sha256": "b44b179f8ba7732d0673f37d634062b9beedf4ed353053dfde26597bee75cf16"
+    },
+    {
+      "path": "entry/src/main/ets/model/WordEntities.ts",
+      "sha256": "eb5f5cae39b0f6f66e1b251ed36c614ce91024a6defa7bbc6715ec64a6c87503"
+    },
+    {
+      "path": "entry/src/main/ets/model/WordModel.ets",
+      "sha256": "8ce5dfc3101ab203fccbd9ab004ef01d6f0c3f19c876674f806fad69fca7765b"
+    },
+    {
+      "path": "entry/src/main/ets/pages/ContextSettingsDialog.ets",
+      "sha256": "2fe0d4cbda0ee0de842bd1c62e90de8f8cd7f120cc0a0fcd7054faf96354bca5"
+    },
+    {
+      "path": "entry/src/main/ets/pages/FeedbackBar.ets",
+      "sha256": "39bfbf84fc6deea0025d26e128a5487ffaa2d716cb59ce6f101b08cc942be29d"
+    },
+    {
+      "path": "entry/src/main/ets/pages/ImportPage.ets",
+      "sha256": "2a56618b57f9f70acf0cf3d99a995d20e3a3941f9966b16ed8cfa59c8ebf6c96"
+    },
+    {
+      "path": "entry/src/main/ets/pages/Index.ets",
+      "sha256": "a3ef9d3b3375e3c28d3c0614b9b36adf00521ff9b7c5ccfcc22843b0c6e6a608"
+    },
+    {
+      "path": "entry/src/main/ets/pages/index/components/LearningProgressCard.ets",
+      "sha256": "57ea8e84823fc4d5125f96d760aaca6339482a995efc722f52af9db670c01627"
+    },
+    {
+      "path": "entry/src/main/ets/pages/index/components/PrivacyPolicyDialog.ets",
+      "sha256": "ed3a41c64935bd601716a35705f8f4ac0d1a5645208ae79377904d3b179fc53d"
+    },
+    {
+      "path": "entry/src/main/ets/pages/index/components/ProgressRing.ets",
+      "sha256": "078ca43cf36cd7514b57b84cdb8d72f80bc1a7f72197d25db8720a13cb97d5f0"
+    },
+    {
+      "path": "entry/src/main/ets/pages/index/components/StatCard.ets",
+      "sha256": "81be3745b1fb3d628419490d7c263cb08b0d1eca7fb65fc80500586a9666f23d"
+    },
+    {
+      "path": "entry/src/main/ets/pages/index/components/TopNavigation.ets",
+      "sha256": "9b8814d033f4e8836d9e160b758e230c1e4de6c4a434f9e25fd1aeaf16ba3831"
+    },
+    {
+      "path": "entry/src/main/ets/pages/index/HomeTabContent.ets",
+      "sha256": "d0e52a3ea5732706171a008efec9ebee941d1617e8f64662cb065aa221573a89"
+    },
+    {
+      "path": "entry/src/main/ets/pages/index/IndexTypes.ts",
+      "sha256": "8c3cb432c45a1b90378499952d8f9d7f222275344d631bc9501846afbc47e5c5"
+    },
+    {
+      "path": "entry/src/main/ets/pages/index/WordBookTabContent.ets",
+      "sha256": "190a89622e5172fea5620226e5b1864e80453a4db29cd4bad5e74f5eecb465da"
+    },
+    {
+      "path": "entry/src/main/ets/pages/learning/controllers/AudioManager.ets",
+      "sha256": "06e35cb80c2e00c0fc895c9c113f12009e404853a51ce596e7438d2b8f76b9c7"
+    },
+    {
+      "path": "entry/src/main/ets/pages/learning/controllers/ContextController.ets",
+      "sha256": "81f085d994312836eb174327a05319cc5c465b7808e5d09dd0b46b71a3a6f02f"
+    },
+    {
+      "path": "entry/src/main/ets/pages/learning/controllers/ReviewManager.ets",
+      "sha256": "068f8f3d0d00d8cde208b946c92077b19c8d659647e3233e8977e06d7f28e756"
+    },
+    {
+      "path": "entry/src/main/ets/pages/learning/controllers/SessionManager.ets",
+      "sha256": "3c42f83726c455d42dac6a35f39431ede7a2b5bc9e09432261981758af70e1aa"
+    },
+    {
+      "path": "entry/src/main/ets/pages/learning/controllers/SnapshotManager.ets",
+      "sha256": "5a622a6dcfc98de82f693a533016a37d9a72e1ce12b95c7581456e95e068821b"
+    },
+    {
+      "path": "entry/src/main/ets/pages/learning/controllers/StoryController.ets",
+      "sha256": "321775cf586c19ad70db5b76668208f9c920aca7358462280ab7856b9d776fc1"
+    },
+    {
+      "path": "entry/src/main/ets/pages/learning/controllers/TaskLoader.ets",
+      "sha256": "992d75ceb21e910e63d56e0a9e4bccf3517636859eaf80de027a606061cf2afb"
+    },
+    {
+      "path": "entry/src/main/ets/pages/learning/controllers/TaskManager.ets",
+      "sha256": "217fe8c825ade5713bee23d35fe4f74d36d06208229d2ac73500d14d7c2591f4"
+    },
+    {
+      "path": "entry/src/main/ets/pages/learning/controllers/WordInteractionController.ets",
+      "sha256": "d6409a22a111c97a036bc7fdf7b0efc6096f276f43dbc9dfe952500fb3e5ea5c"
+    },
+    {
+      "path": "entry/src/main/ets/pages/LoggerPage.ets",
+      "sha256": "aae668059ba51ecbab3485ec1c70d3f60b73ef2f7e8ffb791a5fd77c8d4db8ed"
+    },
+    {
+      "path": "entry/src/main/ets/pages/NotebookPage.ets",
+      "sha256": "c23f774c61c24fdfa417cd14d9cb8c79a213f5c24c344403d11641441f21ef50"
+    },
+    {
+      "path": "entry/src/main/ets/pages/OnboardingPage.ets",
+      "sha256": "0921345b2e0de6b8d6562393b0956ac9094c271e026ef670740ad0b1fc20307c"
+    },
+    {
+      "path": "entry/src/main/ets/pages/ReadPage.ets",
+      "sha256": "911015671172657eeac034e91611a59eb6937a8b2f914780ca55a08dcc00f452"
+    },
+    {
+      "path": "entry/src/main/ets/pages/ReadPageHeader.ets",
+      "sha256": "70b21b20d1538e8c470873f3d0f3f36f12a113c11a523d0dff345d44f05cb227"
+    },
+    {
+      "path": "entry/src/main/ets/pages/ReadPageModels.ets",
+      "sha256": "032361101e0605136322e2b28d8bfa0c6e78b926e290005a5174d8068c32d961"
+    },
+    {
+      "path": "entry/src/main/ets/pages/ReadPageReviewHandler.ets",
+      "sha256": "3dcf5bad85fdedaa6e6d6650b8f9260b21fc646ee66bcb9647c882dcdd4f45d5"
+    },
+    {
+      "path": "entry/src/main/ets/pages/ReadPageTypes.ets",
+      "sha256": "20dd6cd8b751e6727edf60da614ab0a218f081ed2e98fe79ffd0e2a8addfadf3"
+    },
+    {
+      "path": "entry/src/main/ets/pages/ReadPersistenceController.ets",
+      "sha256": "44b8a3f028c5e0087cb68a5a8e7e85a6cc2cdfc99a81374c5b2292603ce87778"
+    },
+    {
+      "path": "entry/src/main/ets/pages/SessionCompletionView.ets",
+      "sha256": "cd9f4f3ef098699d39fd3ee32e57387f13772118f38aa5dfa654de2cc1562e58"
+    },
+    {
+      "path": "entry/src/main/ets/pages/SessionErrorView.ets",
+      "sha256": "442bcd52daf7b0aee43c3412e5c787811163cb35a654be6d70e4bb1cfc814db6"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/APIConfigSection.ets",
+      "sha256": "27008f8340bd947e542cb31613ea6b9189d711fd7d70c228d4afe28d1b816a10"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/ExternalDictionarySection.ets",
+      "sha256": "497f863e138920c94be4165d91bd88f8de76ac81c6ca9ae34ca21e6fb7c7067b"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/FSRSOptimizationSection.ets",
+      "sha256": "a788db1a41caeddf506c2ddddffd39d684aa8c4692c564425e2939579815492f"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/PreferencesSection.ets",
+      "sha256": "2a2b192179c289f9f6ca351412f89da9d136cd7327fe0848efb69ffa5f51ec6b"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsAboutSection.ets",
+      "sha256": "d59c40938549a87a5e98a657c17e3044d164ed5e7df71b09dbba18dc7e93cdd0"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsBackupSection.ets",
+      "sha256": "41743f1a512d86ea5825c55a3c1f0f7d96e3afdaeaa36efaaadec7e56ad30f7b"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsCommon.ets",
+      "sha256": "f81e02a6de2f6b03168141abb2a01f57425bbfbc604773467141f36169baeb4f"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsPrivacyDialog.ets",
+      "sha256": "d788455487e0a3ff45768c707bbee34167a3c3276ce6f942b920bf7a10d00c55"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsSectionsMenu.ets",
+      "sha256": "69ddedce9f6b2054de2ba23714e82930939a82069a31f7009ef7e4f39b5d1580"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsSyncDialog.ets",
+      "sha256": "d897bf17e3502a7ba0bb1cc9ebaf73b9e257236f141b6847c34b71f028ed69f3"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+      "sha256": "92828c4dd519ec81bc0a862dee2d2e710648c7dfa441589dad11eb027a07eba1"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsWebDavActions.ets",
+      "sha256": "5c71f650a8b3f805f5d881aa14ae66365eea0ed710b60cc3008f544a04c34230"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/WebDavRestoreConfirmDialog.ets",
+      "sha256": "26c6d7b280e4dc6617a828970bb13738e653b415abb3300888d97c020a14f763"
+    },
+    {
+      "path": "entry/src/main/ets/pages/SettingsPage.ets",
+      "sha256": "4ff16deba838f5587de50e69e1dd9e8a0073166b7ceb34e7ad83e43080383146"
+    },
+    {
+      "path": "entry/src/main/ets/pages/StoryView.ets",
+      "sha256": "6f436101e944e596b041643639d2ce7c783f51b4938d30602372c9fcaadf3f40"
+    },
+    {
+      "path": "entry/src/main/ets/pages/TaskLoadingOverlay.ets",
+      "sha256": "95c947bb0644a8baf3f988a2142b78dec37601d4f5d284b5e3ffd44755b085da"
+    },
+    {
+      "path": "entry/src/main/ets/pages/TextEditPage.ets",
+      "sha256": "a5bca64f64415ac7f6e5ca23ef99c53f48ccac2116df4fc5758fafcecf1f9290"
+    },
+    {
+      "path": "entry/src/main/ets/pages/TextReaderPage.ets",
+      "sha256": "1da788804e2f4608b3b20f6fe2ca7b14b911fa83661dccfc50d4dfaae2068bdc"
+    },
+    {
+      "path": "entry/src/main/ets/pages/TextsPage.ets",
+      "sha256": "03f5cd34e528067077fe8c05706069309e7bbf5625960df957d589b36d48f1e1"
+    },
+    {
+      "path": "entry/src/main/ets/pages/WordBookManagerPage.ets",
+      "sha256": "8b45792bbf4c5a0dcbdecb13f2b634bb0a0370dc12362998ff0a642dbfd8c30d"
+    },
+    {
+      "path": "entry/src/main/ets/pages/WordDetailDialog.ets",
+      "sha256": "1593bc03f032972f38b3c1eca2ce48651a77bb57b9e9bac0ccf2992003e9e4b2"
+    },
+    {
+      "path": "entry/src/main/ets/pages/WordDetailPage.ets",
+      "sha256": "4d615c220179e061845e1d62325db33a43950fff2769dcd874908c587d03f06b"
+    },
+    {
+      "path": "entry/src/main/ets/pages/WordList.ets",
+      "sha256": "5904777692ad14b3313b82c39f8caea0e03f9e6f2f25508c35c99abc027a120a"
+    },
+    {
+      "path": "entry/src/main/ets/pages/WordListPage.ets",
+      "sha256": "a851e4414475b151c36fed8a3211ba430f77c3eddeb589e068316f3ad732e01e"
+    },
+    {
+      "path": "entry/src/main/ets/pages/WordSidePanel.ets",
+      "sha256": "d8f7a9ec0309dd0ec4418a383ad28dec8938142d71533d377ba043eb660cce29"
+    },
+    {
+      "path": "entry/src/main/ets/sync/AutoWebDavSyncManager.ets",
+      "sha256": "8b2f724108c0790ae9fab4ac6e4963ce99939b336e27c3acd71c19284f0d49c3"
+    },
+    {
+      "path": "entry/src/main/ets/sync/DataExportImport.ets",
+      "sha256": "8069a46f8a56480c2a37d05d7319fefb70c28c79d41d039b0c4784d0c7782380"
+    },
+    {
+      "path": "entry/src/main/ets/sync/DataFileTransfer.ets",
+      "sha256": "1aa3fbd75dcbda7419e8c8db6b5c157b0a342fd3d39848fd9a6bfc1ee24e7fc4"
+    },
+    {
+      "path": "entry/src/main/ets/sync/DataSyncManager.ets",
+      "sha256": "3900ccb4718df919b938afd178249f0a4243b40da64a3df4120b8275188af0ad"
+    },
+    {
+      "path": "entry/src/main/ets/sync/FSRSParameterSync.ets",
+      "sha256": "c3bfea7cf2f12e7a51041465d3ea9dcee117d7a3b8415b26a5f37224030a4ccf"
+    },
+    {
+      "path": "entry/src/main/ets/sync/VersionControl.ets",
+      "sha256": "7e3bce16bf5d1ddb1c9b4d2343a2f2a9a82bf79d229d65134afe40069805b48e"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/Base64Util.ets",
+      "sha256": "4eeab8d3040b216692204729fd6c863ba0af53531348441de1b0f772729625b8"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/IWebDavBackend.ets",
+      "sha256": "3bc2dc811d0c1c6b5f6cdd5179441953dd921b524832e8266e4e5100f31ece6f"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/Sha256.ets",
+      "sha256": "88860aa4b4368758b0e12cce8767990f10f1f3df38b31243f8234fa07306daa2"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/WebDavBackupManager.ets",
+      "sha256": "4942e2666a73d7b5938c483046f9d7daad40c737fef4fe2cfaacc7c74434f87b"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/WebDavClient.ets",
+      "sha256": "b4200f8c685907e1ebc8e3740f27a5a6414b2bfdee2758183d1adc823d2f487b"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/WebDavCommon.ets",
+      "sha256": "9f61f1944e9f2552c02132bbd1e2779af60db2289de3d6185713183385950bcf"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/WebDavCrypto.ets",
+      "sha256": "52e78a398e9da067c348421335eb45926fbef906d68d1feb293426a411e73aff"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/WebDavCryptoTask.ets",
+      "sha256": "eb01020f57aa7e27c7745b58c61403a35f5e0b29d741ab874af907817f8e4071"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/WebDavEventsSync.ets",
+      "sha256": "38302a8039297b724f166955a41096868be102ff85c513ce3c0341a87d57a1c2"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/WebDavIncrementalSync.ets",
+      "sha256": "c0bf04f21de5bcf691490b9e7eabdbedb9b1415d814ae28f4b7579c9dabac6fc"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/WebDavModelSync.ets",
+      "sha256": "90846772cb0792a272c5201c89963366234d75e2affa4f9e04aa40a061108e42"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/WebDavSyncTask.ets",
+      "sha256": "c3de336d6432035a717594d438645618a034eb3fa3ffe3b13251e29f2ac3e1d9"
+    },
+    {
+      "path": "entry/src/main/ets/sync/webdav/WebDavXmlParser.ets",
+      "sha256": "e7a7ab90babfda761075a6e247ca295bba0158d40ce5d5906c625c8ddc57abdd"
+    },
+    {
+      "path": "entry/src/main/ets/sync/WebDavConflictResolver.ets",
+      "sha256": "14b13ce3dd2fbabf6515c199c9332d6a712b24fc3db95774bb3e391ce7e96dba"
+    },
+    {
+      "path": "entry/src/main/ets/sync/WebDavSyncManager.ets",
+      "sha256": "300cd1d88fb576b7d570698ae1df61ff5cfce9670f47f846e4f5d3d4ccec452b"
+    },
+    {
+      "path": "entry/src/main/ets/ui/Animations.ets",
+      "sha256": "2e0c3098749051de36febb09bd0957be2f7280f56dd1445369346b26e86c3b91"
+    },
+    {
+      "path": "entry/src/main/ets/ui/CelebrationParticles.ets",
+      "sha256": "cade926b55690ec0ad25ae1fdc465825fb946de3765b2b93d782ffd9842a0d21"
+    },
+    {
+      "path": "entry/src/main/ets/ui/EnhancedCards.ets",
+      "sha256": "eb4dc542e19ed552f244337fa68a239347cdefa57c0e453e8b35e2d10568499f"
+    },
+    {
+      "path": "entry/src/main/ets/ui/LoadingAnimations.ets",
+      "sha256": "f69c69ef5bff8568bc566d298d82f8c6a22940df0f23e890ffe605cf75db29c3"
+    },
+    {
+      "path": "entry/src/main/ets/ui/ProgressCharts.ets",
+      "sha256": "9aaa78a6fbbc5cb0bade5f00a55b1a4e5e16094f6c07348e5bff9d6bc4064dad"
+    },
+    {
+      "path": "entry/src/main/ets/ui/SpringAnimations.ets",
+      "sha256": "0bf646ef8743989c86c87e3819a7636fc5f1a79a6c2a90b28085bfc88390260e"
+    },
+    {
+      "path": "entry/src/main/ets/ui/SpringButton.ets",
+      "sha256": "f21d1745f0b02105be8c6bf433b607170a0b3f74ea5a4eacd3f663f2b5240423"
+    },
+    {
+      "path": "entry/src/main/ets/ui/SpringCard.ets",
+      "sha256": "2907bb40392e649668900526e6461129e934765f892d832430951be0912b4af0"
+    },
+    {
+      "path": "entry/src/main/ets/ui/TopBanner.ets",
+      "sha256": "ba18beae1999c8dc26f417cad5136e442b4096f486f00c2131340efbe68a3225"
+    },
+    {
+      "path": "entry/src/main/ets/utils/BookIdClassifier.ets",
+      "sha256": "d2cd9854d07d8c3504ae7c06d5b6d9800d6ac9b012c1981fa1681674896fd94c"
+    },
+    {
+      "path": "entry/src/main/ets/utils/BookImportParser.ets",
+      "sha256": "cf70ef68494ded79d01b35065a8188498c22fab196c79725dd4cbb3fb0513233"
+    },
+    {
+      "path": "entry/src/main/ets/utils/Constants.ets",
+      "sha256": "931432b11b47df506f2e10f8a405a1bb4529d042a6f78133ce4146c34500a134"
+    },
+    {
+      "path": "entry/src/main/ets/utils/ContextDefinitionStore.ets",
+      "sha256": "5f852e7204e9d007dd9db0c8938e4a7c7f1c72ad07e2b55329e9d4db35dc3772"
+    },
+    {
+      "path": "entry/src/main/ets/utils/ContextDefinitionTextBuilder.ets",
+      "sha256": "3a8af80f4da16bebfaa60d27866aad4be71b1f0d4bd95ae9273b15d9952ff391"
+    },
+    {
+      "path": "entry/src/main/ets/utils/ContextSequenceManager.ets",
+      "sha256": "a329eb80a1a455ccd9f401bbd9d45983408c254fdd906c2034394796d7d7bc8d"
+    },
+    {
+      "path": "entry/src/main/ets/utils/ContextWordMeaningStore.ets",
+      "sha256": "f782df0cdca5cbaf01096f0a9d3da4c9f4d8b9680b0fce325f9cff3ace8c8a34"
+    },
+    {
+      "path": "entry/src/main/ets/utils/CurrentBookStore.ets",
+      "sha256": "7c0ade55bd045248f38692cdcc6d0934fe33fcc3ba7c1392ed0a57b04fb75df4"
+    },
+    {
+      "path": "entry/src/main/ets/utils/DatabaseErrorUtil.ets",
+      "sha256": "1b14aafe3252b095da60eca753107b8c5099e363114a4b327a34952f9fe4bce4"
+    },
+    {
+      "path": "entry/src/main/ets/utils/ErrorClassifier.ets",
+      "sha256": "9e8222b85ee7dd36a11ef96ae2487cc6959dcee190a852bb7b97150131509b76"
+    },
+    {
+      "path": "entry/src/main/ets/utils/FeatureFlags.ets",
+      "sha256": "d8b92254cc83b891af4feb2986e86bcd0ba025a624cf95efdab3847bcbce919e"
+    },
+    {
+      "path": "entry/src/main/ets/utils/FriendlyErrorPresenter.ets",
+      "sha256": "405f4d1c5a5971ae917836b1204e6bc52b7b3b65159a848a815a191c53bd67bd"
+    },
+    {
+      "path": "entry/src/main/ets/utils/HistoryStack.ets",
+      "sha256": "41ce3e918d4a3cd70fe8267bb7a6f3212f9b1065f21f5446f5b8da7d896ec732"
+    },
+    {
+      "path": "entry/src/main/ets/utils/Logger.ets",
+      "sha256": "363a28191ec6a430316893244e1ad02e42a2f5f02e86c6321799b9c1270d10b2"
+    },
+    {
+      "path": "entry/src/main/ets/utils/NotebookWordSet.ets",
+      "sha256": "bff3bde52ec9e27c1b9c95deb693b6b2eccd67983474b157bbcf1344796bbbde"
+    },
+    {
+      "path": "entry/src/main/ets/utils/RouteParamNormalizer.ets",
+      "sha256": "f72b6a2f0fdcdc93b4ec4c556a84cf51722030f523092838ebf7bc86a36781c0"
+    },
+    {
+      "path": "entry/src/main/ets/utils/SecureStorage.ets",
+      "sha256": "f10f9a1b1e46c00614e676d25399f59b91b434710f24621f5a404deb9749d356"
+    },
+    {
+      "path": "entry/src/main/ets/utils/SeenContextStore.ets",
+      "sha256": "c4e34b389846ddb8c5410200b80fde0769cb448591442d83e742fedc867d62ad"
+    },
+    {
+      "path": "entry/src/main/ets/utils/SessionTransferStore.ets",
+      "sha256": "d403697553cc6dde8607be0eb2ad4a0bd2757ed11db8caf0c5a3507de658a05b"
+    },
+    {
+      "path": "entry/src/main/ets/utils/SettingsStore.ets",
+      "sha256": "e162c0c601cb2a8457b317ea8b8289303103e05e0d274e6df88fd56564007afe"
+    },
+    {
+      "path": "entry/src/main/ets/utils/SystemTtsManager.ets",
+      "sha256": "82b57d3caad41fee174762d83da127b8b4d1a7ec2ce8c163a110c06a8bb05d39"
+    },
+    {
+      "path": "entry/src/main/ets/utils/TextSanitizer.ets",
+      "sha256": "b1fc92560a6129130d1a669fe8e759a203c3ad1be17481615516e0fa009097b8"
+    },
+    {
+      "path": "entry/src/main/ets/utils/TranslationTextBuilder.ets",
+      "sha256": "9b6a36f13a2470745cac70998377b857696efb422cba240cbd5c313b7b3ea8de"
+    },
+    {
+      "path": "entry/src/main/ets/utils/TtsAudioFetcher.ets",
+      "sha256": "593911b5fb1f5df11e57729b77ab7ab01dda737ea92c065f02bc53c12c8dfd6b"
+    },
+    {
+      "path": "entry/src/main/ets/utils/UrlOpener.ets",
+      "sha256": "93c98db32162793931db3bc87d261fed772de3ce39188c7316a1b421c399f01b"
+    },
+    {
+      "path": "entry/src/main/ets/utils/UserWordBookNameValidator.ets",
+      "sha256": "a4ea57313e5c1cb7e7bc1ac5007bbb5a6798aafa4859fdd9a8e0fceedfde546d"
+    },
+    {
+      "path": "entry/src/main/ets/utils/WebDavLogger.ets",
+      "sha256": "c2cdfefb28282512366e49cf9b599c66de528bd8da759d19a17587654bd50982"
+    },
+    {
+      "path": "entry/src/main/ets/utils/WebDavStateStore.ets",
+      "sha256": "0b9bf8d3e1a615d66de0e200c60d25ecbbc25c56006cc28308c43c46a69b3f3b"
+    },
+    {
+      "path": "entry/src/main/ets/utils/WordDetailCache.ets",
+      "sha256": "62ba7e695780ce72c0091bd24697d78cf499cb9b0e7c5d4b2adc919d8c178b78"
+    },
+    {
+      "path": "entry/src/main/ets/vocabulary/SnowballSystem.ets",
+      "sha256": "ab6db1658e8977a906b8ab5b7bedbdb0a933e45811e8dc51751ae7b0aaae9166"
+    },
+    {
+      "path": "entry/src/main/ets/vocabulary/UnknownWordHandler.ets",
+      "sha256": "9d6ce659ad85c26e57730a9d0b1a8a4f9338e8728f4196743319fa913ffd9a91"
+    },
+    {
+      "path": "entry/src/main/ets/vocabulary/VocabularyTracker.ets",
+      "sha256": "f58819614ee15e8105343c9a98912269f3f16d0fe11746bc88d2c7d53b041ef2"
+    }
+  ],
+  "hap": [
+    {
+      "path": "D:/HCUP/vg-spec1/entry/build/default/outputs/default/entry-default-unsigned.hap",
+      "length": 9121443,
+      "sha256": "71706e931a5eb74c0e71986946b717ace80b3948c40ad9c6776cc7da5bde8508",
+      "last_write_utc": "2026-10-17T08:08:16.3724027Z"
+    }
+  ]
+}

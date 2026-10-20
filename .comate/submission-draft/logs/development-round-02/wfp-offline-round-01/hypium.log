@@ -1,0 +1,44 @@
+setUpClass (hypium_tests.wfp_offline_confirmation.WfpOfflineRestoreTests) ... ERROR
+
+======================================================================
+ERROR: setUpClass (hypium_tests.wfp_offline_confirmation.WfpOfflineRestoreTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec1\hypium_tests\wfp_offline_confirmation.py", line 71, in hdc_preflight
+    cls.wfp.block()
+  File "D:\HCUP\vg-spec1\hypium_tests\wfp_controller.py", line 270, in block
+    return self.await_state(True, self.issue("block"), 15)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\vg-spec1\hypium_tests\wfp_controller.py", line 240, in await_state
+    self.assert_healthy()
+  File "D:\HCUP\vg-spec1\hypium_tests\wfp_controller.py", line 112, in assert_healthy
+    raise AssertionError("WFP isolation evidence invalid: " + self.failure)
+AssertionError: WFP isolation evidence invalid: AssertionError("Helper terminated/failed: {'schemaVersion': 1, 'task': 'vg-spec1', 'nonce': 'e1ac1ca3b1754039a73dff7b51e40d4e', 'state': 'ERROR_UNBLOCKED', 'active': False, 'helperPid': 41408, 'timestampUtc': '2026-10-17T10:48:58.0427769Z', 'lastAcceptedSequence': 2, 'lastAcceptedUtc': '2026-10-17T10:48:57.8387224Z', 'requestExpiresUtc': '2026-10-17T10:49:06.8937870Z', 'totalDeadlineUtc': '2026-10-17T11:08:55.3917001Z', 'blockDeadlineUtc': None, 'target': {'path': 'D:\\\\HarmonyDev\\\\vg-spec1-isolated-emulator61\\\\Emulator.exe', 'pid': 38368, 'startTimeUtc': '2026-10-17T10:19:41.1394029Z', 'sha256': '3bdccb9ded50976d16fb74510dcddf46cbab5baf62bbad1cc32a32a32922c3ff', 'instance': 'VgSpec1ManualOffline', 'instanceRoot': 'D:\\\\HCUP\\\\vg-spec1\\\\logs\\\\development-round-02\\\\manual-instance\\\\instances', 'hdcPort': '11237', 'guardOk': True, 'lastGuardUtc': '2026-10-17T10:48:58.0303827Z'}, 'filters': [], 'nativeEngineOpen': False, 'cleanupUnconfirmed': False, 'sessionGuid': '810d9c3a-e371-4765-8b57-ed3fde28ad15', 'subLayerGuid': '93620bd4-0c8a-4f52-bf0e-8d05c11540e1', 'terminationReason': 'Refusing a filter outside the exact APP_ID/layer scope.', 'auditMode': 'not_enabled', 'proof': 'filter_configuration_only'}")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec1\hypium_tests\wfp_offline_confirmation.py", line 61, in setUpClass
+    raise original[1].with_traceback(original[2])
+  File "D:\HCUP\vg-spec1\hypium_tests\wfp_offline_confirmation.py", line 39, in setUpClass
+    cls.hdc_preflight()
+  File "D:\HCUP\vg-spec1\hypium_tests\wfp_offline_confirmation.py", line 88, in hdc_preflight
+    state = cls.wfp.unblock()
+            ^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\vg-spec1\hypium_tests\wfp_controller.py", line 296, in unblock
+    raise AssertionError("Helper did not confirm released dynamic session; inspect independent recovery evidence")
+AssertionError: Helper did not confirm released dynamic session; inspect independent recovery evidence
+
+----------------------------------------------------------------------
+Ran 0 tests in 971.939s
+
+FAILED (errors=1)
+
+项目: D:\HCUP\vg-spec1
+设备: 127.0.0.1:11237
+
+测试用例: 2  通过: 0  失败: 1  跳过(未验证): 1
+  - test_19_wfp_actual_outbound_isolation_three_cancels (hypium_tests.wfp_offline_confirmation.WfpOfflineRestoreTests.test_19_wfp_actual_outbound_isolation_three_cancels) — 未执行（所属类 setUpClass 出错或被跳过）
+  ✗ setUpClass (hypium_tests.wfp_offline_confirmation.WfpOfflineRestoreTests) — AssertionError: Helper did not confirm released dynamic session; inspect independent recovery evidence
+
+注意: 有 1 个用例被跳过，这些行为没有被验证，不能视为通过。
