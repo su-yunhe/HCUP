@@ -1,0 +1,157 @@
+{
+  "case": "test_00_unsaved_slow_backup_and_repeated_click",
+  "observations": [
+    {
+      "event": "backup_click",
+      "utc": "2026-10-16T08:30:50.241290+00:00",
+      "monotonic_ns": 136745906000000,
+      "case": "test_00_unsaved_slow_backup_and_repeated_click"
+    },
+    {
+      "event": "pending_ui_assertions_passed",
+      "prefix": "/run02/00/unsaved",
+      "began": "2026-10-16T08:30:55.892967+00:00",
+      "ended": "2026-10-16T08:30:57.157925+00:00",
+      "pending_before": [
+        {
+          "event": "pending",
+          "request_id": 3,
+          "path": "/run02/00/unsaved/backup.json.enc",
+          "utc": "2026-10-16T08:30:55.751313+00:00",
+          "monotonic_ns": 136751421000000,
+          "port": 18173
+        }
+      ],
+      "pending_after": [
+        {
+          "event": "pending",
+          "request_id": 3,
+          "path": "/run02/00/unsaved/backup.json.enc",
+          "utc": "2026-10-16T08:30:55.751313+00:00",
+          "monotonic_ns": 136751421000000,
+          "port": 18173
+        }
+      ],
+      "utc": "2026-10-16T08:30:57.158504+00:00",
+      "monotonic_ns": 136752828000000,
+      "case": "test_00_unsaved_slow_backup_and_repeated_click"
+    },
+    {
+      "event": "pending_ui_assertions_passed",
+      "prefix": "/run02/00/unsaved",
+      "began": "2026-10-16T08:30:57.639579+00:00",
+      "ended": "2026-10-16T08:30:58.835709+00:00",
+      "pending_before": [
+        {
+          "event": "pending",
+          "request_id": 3,
+          "path": "/run02/00/unsaved/backup.json.enc",
+          "utc": "2026-10-16T08:30:55.751313+00:00",
+          "monotonic_ns": 136751421000000,
+          "port": 18173
+        }
+      ],
+      "pending_after": [
+        {
+          "event": "pending",
+          "request_id": 3,
+          "path": "/run02/00/unsaved/backup.json.enc",
+          "utc": "2026-10-16T08:30:55.751313+00:00",
+          "monotonic_ns": 136751421000000,
+          "port": 18173
+        }
+      ],
+      "utc": "2026-10-16T08:30:58.836705+00:00",
+      "monotonic_ns": 136754500000000,
+      "case": "test_00_unsaved_slow_backup_and_repeated_click"
+    },
+    {
+      "event": "case_finished",
+      "case": "test_00_unsaved_slow_backup_and_repeated_click",
+      "utc": "2026-10-16T08:30:59.978020+00:00",
+      "monotonic_ns": 136755640000000
+    }
+  ],
+  "requests": [
+    {
+      "event": "received",
+      "request_id": 1,
+      "method": "HEAD",
+      "path": "/run02/00/unsaved",
+      "length": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "auth_valid": true,
+      "upload": false,
+      "host": "127.0.0.1:18173",
+      "utc": "2026-10-16T08:30:50.457587+00:00",
+      "monotonic_ns": 136746125000000,
+      "port": 18173
+    },
+    {
+      "event": "responded",
+      "request_id": 1,
+      "method": "HEAD",
+      "path": "/run02/00/unsaved",
+      "status": 200,
+      "utc": "2026-10-16T08:30:50.457587+00:00",
+      "monotonic_ns": 136746125000000,
+      "port": 18173
+    },
+    {
+      "event": "received",
+      "request_id": 2,
+      "method": "HEAD",
+      "path": "/run02/00/unsaved",
+      "length": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "auth_valid": true,
+      "upload": false,
+      "host": "127.0.0.1:18173",
+      "utc": "2026-10-16T08:30:55.688633+00:00",
+      "monotonic_ns": 136751359000000,
+      "port": 18173
+    },
+    {
+      "event": "responded",
+      "request_id": 2,
+      "method": "HEAD",
+      "path": "/run02/00/unsaved",
+      "status": 200,
+      "utc": "2026-10-16T08:30:55.689635+00:00",
+      "monotonic_ns": 136751359000000,
+      "port": 18173
+    },
+    {
+      "event": "received",
+      "request_id": 3,
+      "method": "PUT",
+      "path": "/run02/00/unsaved/backup.json.enc",
+      "length": 565,
+      "sha256": "2c0ac35442f5383cb286eb5f17e9ebb123ed16c40a41c060e163ff00a40710b2",
+      "auth_valid": true,
+      "upload": true,
+      "host": "127.0.0.1:18173",
+      "utc": "2026-10-16T08:30:55.751313+00:00",
+      "monotonic_ns": 136751421000000,
+      "port": 18173
+    },
+    {
+      "event": "pending",
+      "request_id": 3,
+      "path": "/run02/00/unsaved/backup.json.enc",
+      "utc": "2026-10-16T08:30:55.751313+00:00",
+      "monotonic_ns": 136751421000000,
+      "port": 18173
+    },
+    {
+      "event": "responded",
+      "request_id": 3,
+      "method": "PUT",
+      "path": "/run02/00/unsaved/backup.json.enc",
+      "status": 201,
+      "utc": "2026-10-16T08:30:58.836705+00:00",
+      "monotonic_ns": 136754500000000,
+      "port": 18173
+    }
+  ]
+}

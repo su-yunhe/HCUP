@@ -1,0 +1,45 @@
+**********************
+PowerShell transcript start
+Start time: 20261016151236
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Get-Content test-harness/harness/device.py -TotalCount 140
+Get-Content test-harness/harness/driver.py -TotalCount 180
+Get-Content test-harness/harness/env_check.py -TotalCount 180
+Start-Transcript -Path logs/baseline-20261016/device-start.log
+& D:/HCUP/common/.venv/Scripts/python.exe -m harness.env_check
+Write-Output "ENV_CHECK_EXIT=$LASTEXITCODE"
+hdc -t 127.0.0.1:5555 shell aa start -a EntryAbility -b io.qzz.weiyu
+Write-Output "START_EXIT=$LASTEXITCODE"
+hdc -t 127.0.0.1:5555 shell uitest dumpLayout
+Write-Output "DUMP_EXIT=$LASTEXITCODE"
+hdc -t 127.0.0.1:5555 shell uitest --help
+Stop-Transcript
+Process ID: 49696
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/baseline-20261016/device-start.log
+
+ENV_CHECK_EXIT=0
+
+START_EXIT=0
+
+DUMP_EXIT=0
+
+**********************
+PowerShell transcript end
+End time: 20261016151240
+**********************

@@ -1,0 +1,55 @@
+**********************
+PowerShell transcript start
+Start time: 20261016165411
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+$env:PYTHONDONTWRITEBYTECODE='1'
+$env:PYTHONIOENCODING='utf-8'
+Start-Transcript -Path logs/implementation-verification/final-cleanup.log
+rg -n 'tcp forward port' logs/implementation-verification/run02/selftest-raw.log logs/implementation-verification/run03/selftest-raw.log logs/implementation-verification/run04/selftest-raw.log
+foreach($verificationOwnPort in @(9982,9919,9931)) { hdc -t 127.0.0.1:5555 fport rm "tcp:$verificationOwnPort" tcp:8012; Write-Output "OWN_FORWARD_REMOVE_EXIT=$LASTEXITCODE" }
+hdc -t 127.0.0.1:5555 fport ls
+Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue | Where-Object { $_.LocalPort -in @(18173,18174,18175) } | Select-Object LocalPort,OwningProcess
+Get-CimInstance Win32_Process | Where-Object { $_.Name -like '*python*' -and $_.CommandLine -match 'harness\.runner|run-selected\.py' -and $_.CommandLine -match 'vg-spec13' } | Select-Object ProcessId,Name
+hdc -t 127.0.0.1:5555 shell param get const.product.model | Set-Content logs/implementation-verification/device-model.log
+hdc -t 127.0.0.1:5555 shell param get const.product.name | Set-Content logs/implementation-verification/device-name.log
+hdc -t 127.0.0.1:5555 shell hidumper -s DisplayManagerService -a '-a' | Set-Content logs/implementation-verification/device-display.log
+Write-Output "DISPLAY_DUMP_EXIT=$LASTEXITCODE"
+Get-ChildItem hypium_tests/__pycache__,workflow/verification/__pycache__ -File -ErrorAction SilentlyContinue | Select-Object FullName,Length
+git status --porcelain=v1 | Set-Content logs/implementation-verification/final-git-status.txt
+Stop-Transcript
+& D:/HCUP/common/.venv/Scripts/python.exe workflow/verification/analyze-build.py logs/implementation-verification/run03 | Set-Content logs/implementation-verification/run03/warnings-comparison.log
+Get-Content logs/implementation-verification/device-model.log -Raw
+Get-Content logs/implementation-verification/device-name.log -Raw
+Get-Content logs/implementation-verification/device-display.log | Select-String -Pattern 'density|dpi|Dpi|Density|width|height|Width|Height' | Select-Object -First 14
+Process ID: 54180
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/implementation-verification/final-cleanup.log
+
+
+OWN_FORWARD_REMOVE_EXIT=0
+
+OWN_FORWARD_REMOVE_EXIT=0
+
+OWN_FORWARD_REMOVE_EXIT=0
+
+DISPLAY_DUMP_EXIT=0
+
+**********************
+PowerShell transcript end
+End time: 20261016165412
+**********************

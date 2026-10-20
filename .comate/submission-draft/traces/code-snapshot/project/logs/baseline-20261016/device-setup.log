@@ -1,0 +1,51 @@
+**********************
+PowerShell transcript start
+Start time: 20261016151217
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -Path logs/baseline-20261016/device-setup.log
+Get-Date -Format o
+hdc list targets
+hdc -t 127.0.0.1:5555 shell param get const.product.software.version
+hdc -t 127.0.0.1:5555 shell param get const.ohos.apiversion
+hdc -t 127.0.0.1:5555 shell wm dump -a
+Get-ChildItem entry/build/default/outputs/default/*.hap | Select-Object Name,Length,LastWriteTime
+Get-ChildItem entry/build/default/outputs/default/*.hap | Get-FileHash -Algorithm SHA256
+hdc -t 127.0.0.1:5555 install entry/build/default/outputs/default/entry-default-unsigned.hap
+$baselineInstallExit = $LASTEXITCODE
+Write-Output "INSTALL_EXIT=$baselineInstallExit"
+Stop-Transcript
+@{ install_exit_code=$baselineInstallExit; device='127.0.0.1:5555'; timestamp=(Get-Date -Format o) } | ConvertTo-Json | Set-Content -Encoding utf8 logs/baseline-20261016/install-result.json
+Process ID: 47696
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/baseline-20261016/device-setup.log
+2026-10-16T15:12:17.9664052+08:00
+
+
+
+
+
+
+Name                        Length LastWriteTime
+----                        ------ -------------
+entry-default-unsigned.hap 8937956 2026/10/16 15:12:00
+                                 1
+INSTALL_EXIT=0
+**********************
+PowerShell transcript end
+End time: 20261016151219
+**********************

@@ -1,0 +1,211 @@
+{
+  "validated_at": "2026-10-16T09:26:21.678623+00:00",
+  "base_commit": "88db8789e28333c7b7dcc8db078f394a262b73c3",
+  "submitted_git_tree": "93dafec8eb504b56d1329df5e5ad59110c66d27e",
+  "diff_bytes": 82722306,
+  "diff_sha256": "8973cdc960ca5e6c02b33cd549258f4684c7d4ede1ceb9b444c5ef406b3ba837",
+  "git_apply_check_exit": 0,
+  "git_apply_exit": 0,
+  "files_compared": 750,
+  "missing": [],
+  "extra": [],
+  "hash_mismatches": [],
+  "method": "Two temporary local single-branch clones; detached official base; git apply --check --binary, then actual apply and SHA-256 comparison of every file, including process files.",
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "clone",
+        "--shared",
+        "--no-checkout",
+        "--single-branch",
+        "--branch",
+        "vg-spec13",
+        "D:\\HCUP\\vg-spec13",
+        "D:\\HCUP\\vg-spec13\\.comate\\submission-draft\\.work\\patch-usqzqt5_\\objects"
+      ],
+      "cwd_role": "source project",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "config",
+        "core.autocrlf",
+        "false"
+      ],
+      "cwd_role": "temporary baseline clone",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "checkout",
+        "--detach",
+        "88db8789e28333c7b7dcc8db078f394a262b73c3"
+      ],
+      "cwd_role": "temporary baseline clone",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "read-tree",
+        "--empty"
+      ],
+      "cwd_role": "temporary baseline clone",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "hash-object",
+        "-w",
+        "--no-filters",
+        "--stdin-paths"
+      ],
+      "cwd_role": "temporary baseline clone",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "update-index",
+        "--index-info"
+      ],
+      "cwd_role": "temporary baseline clone",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "write-tree"
+      ],
+      "cwd_role": "temporary baseline clone",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "diff",
+        "--binary",
+        "--full-index",
+        "--no-ext-diff",
+        "--no-textconv",
+        "88db8789e28333c7b7dcc8db078f394a262b73c3",
+        "93dafec8eb504b56d1329df5e5ad59110c66d27e",
+        "--"
+      ],
+      "cwd_role": "temporary baseline clone",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "clone",
+        "--shared",
+        "--no-checkout",
+        "--single-branch",
+        "--branch",
+        "vg-spec13",
+        "D:\\HCUP\\vg-spec13",
+        "D:\\HCUP\\vg-spec13\\.comate\\submission-draft\\.work\\patch-usqzqt5_\\apply-check"
+      ],
+      "cwd_role": "source project",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "config",
+        "core.autocrlf",
+        "false"
+      ],
+      "cwd_role": "temporary baseline clone",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "checkout",
+        "--detach",
+        "88db8789e28333c7b7dcc8db078f394a262b73c3"
+      ],
+      "cwd_role": "temporary baseline clone",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "apply",
+        "--check",
+        "--binary",
+        "D:\\HCUP\\vg-spec13\\.comate\\submission-draft\\changes\\final.diff"
+      ],
+      "cwd_role": "temporary baseline clone",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "apply",
+        "--binary",
+        "D:\\HCUP\\vg-spec13\\.comate\\submission-draft\\changes\\final.diff"
+      ],
+      "cwd_role": "temporary baseline clone",
+      "exit_code": 0
+    }
+  ]
+}

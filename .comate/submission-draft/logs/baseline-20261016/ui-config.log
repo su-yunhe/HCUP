@@ -1,0 +1,78 @@
+[2026-10-16 15:15:12,148] [47388] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-16 15:15:12,149] [47388] [EnvPool] [INFO] [Report path: D:\HCUP\vg-spec13\logs\baseline-20261016\reports\2026-10-16-15-15-12]
+[2026-10-16 15:15:12,150] [47388] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-16 15:15:12,151] [47388] [EnvPool] [INFO] [Env pool running in normal mode.]
+[2026-10-16 15:15:12,151] [47388] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-16 15:15:12,153] [47388] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-16 15:15:12,153] [47388] [EnvPool] [INFO] [Get device by selector]
+[2026-10-16 15:15:12,153] [47388] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-16 15:15:12,716] [49316] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-16 15:15:13,160] [47388] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5555'], label:phone]]
+[2026-10-16 15:15:13,160] [47388] [EnvPool] [INFO] [Device 127.0.0.1:5555: extend value: {}]
+[2026-10-16 15:15:13,409] [47388] [Device] [INFO] [6.0.2.3]
+[2026-10-16 15:15:13,591] [47388] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-16 15:15:13,591] [47388] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-16 15:15:13,656] [47388] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: None]
+[2026-10-16 15:15:13,656] [47388] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-16 15:15:13,718] [47388] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-16 15:15:13,718] [47388] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-16 15:15:13,776] [47388] [Device] [INFO] [Device agent is up to date!]
+[2026-10-16 15:15:16,018] [47388] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]
+[2026-10-16 15:15:18,158] [47388] [DeviceUIProxy] [INFO] [tcp forward port: 9923 for 127.0.0.1:5555]
+[2026-10-16 15:15:18,903] [47388] [Device] [INFO] [hypium base version: 6.1.0.210]
+2026-10-16T07:15:18.903111+00:00 input https://dav.example.com/dav/
+[2026-10-16 15:15:18,903] [47388] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-16 15:15:18,903] [47388] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('https://dav.example.com/dav/', None).type('TextInput'), http://127.0.0.1:18173)</div>]
+[2026-10-16 15:15:25,149] [47388] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('https://dav.example.com/dav/', None).type('TextInput'), http://127.0.0.1:18173) cost: 6.246s</div>]
+2026-10-16T07:15:25.414723+00:00 ('shell', 'uitest', 'uiInput', 'keyEvent', 'Back') exit= 0 No Error
+ 
+2026-10-16T07:15:25.414723+00:00 input username
+[2026-10-16 15:15:25,414] [47388] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('username', None).type('TextInput'), vg13-fixture)</div>]
+[2026-10-16 15:15:30,102] [47388] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('username', None).type('TextInput'), vg13-fixture) cost: 4.687s</div>]
+2026-10-16T07:15:30.384933+00:00 ('shell', 'uitest', 'uiInput', 'keyEvent', 'Back') exit= 0 No Error
+ 
+2026-10-16T07:15:30.384933+00:00 input password
+[2026-10-16 15:15:30,384] [47388] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('password', None).type('TextInput'), fixture-pass)</div>]
+[2026-10-16 15:15:35,246] [47388] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('password', None).type('TextInput'), fixture-pass) cost: 4.861s</div>]
+2026-10-16T07:15:35.524890+00:00 ('shell', 'uitest', 'uiInput', 'keyEvent', 'Back') exit= 0 No Error
+ 
+2026-10-16T07:15:35.524890+00:00 input sync password
+[2026-10-16 15:15:35,525] [47388] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('sync password', None).type('TextInput'), fixture-sync-pass)</div>]
+[2026-10-16 15:15:40,849] [47388] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('sync password', None).type('TextInput'), fixture-sync-pass) cost: 5.323s</div>]
+2026-10-16T07:15:41.117264+00:00 ('shell', 'uitest', 'uiInput', 'keyEvent', 'Back') exit= 0 No Error
+ 
+2026-10-16T07:15:41.117264+00:00 input /weiyu_sync
+[2026-10-16 15:15:41,117] [47388] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('/weiyu_sync', None).type('TextInput'), /vg13-baseline)</div>]
+[2026-10-16 15:15:45,627] [47388] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('/weiyu_sync', None).type('TextInput'), /vg13-baseline) cost: 4.51s</div>]
+2026-10-16T07:15:45.878225+00:00 ('shell', 'uitest', 'uiInput', 'keyEvent', 'Back') exit= 0 No Error
+ 
+2026-10-16T07:15:46.294064+00:00 ('shell', 'uitest', 'dumpLayout', '-p', '/data/local/tmp/vg13-04-configured-unsaved.json') exit= 0 DumpLayout saved to:/data/local/tmp/vg13-04-configured-unsaved.json
+ 
+2026-10-16T07:15:46.467837+00:00 ('file', 'recv', '/data/local/tmp/vg13-04-configured-unsaved.json', 'D:\\HCUP\\vg-spec13\\logs\\baseline-20261016\\04-configured-unsaved.json') exit= 0 FileTransfer finish, Size:80863, File count = 1, time:53ms rate:1525.72kB/s
+ 
+2026-10-16T07:15:46.899633+00:00 ('shell', 'uitest', 'screenCap', '-p', '/data/local/tmp/vg13-04-configured-unsaved.png') exit= 0 ScreenCap saved to /data/local/tmp/vg13-04-configured-unsaved.png
+ 
+2026-10-16T07:15:47.102646+00:00 ('file', 'recv', '/data/local/tmp/vg13-04-configured-unsaved.png', 'D:\\HCUP\\vg-spec13\\logs\\baseline-20261016\\04-configured-unsaved.png') exit= 0 FileTransfer finish, Size:226225, File count = 1, time:65ms rate:3480.38kB/s
+ 
+2026-10-16T07:15:47.813805+00:00 ('shell', 'uitest', 'dumpLayout', '-p', '/data/local/tmp/vg13-05-config-saved.json') exit= 0 DumpLayout saved to:/data/local/tmp/vg13-05-config-saved.json
+ 
+2026-10-16T07:15:47.982768+00:00 ('file', 'recv', '/data/local/tmp/vg13-05-config-saved.json', 'D:\\HCUP\\vg-spec13\\logs\\baseline-20261016\\05-config-saved.json') exit= 0 FileTransfer finish, Size:59040, File count = 1, time:52ms rate:1135.38kB/s
+ 
+2026-10-16T07:15:48.244678+00:00 ('shell', 'uitest', 'screenCap', '-p', '/data/local/tmp/vg13-05-config-saved.png') exit= 0 ScreenCap saved to /data/local/tmp/vg13-05-config-saved.png
+ 
+2026-10-16T07:15:48.433224+00:00 ('file', 'recv', '/data/local/tmp/vg13-05-config-saved.png', 'D:\\HCUP\\vg-spec13\\logs\\baseline-20261016\\05-config-saved.png') exit= 0 FileTransfer finish, Size:225244, File count = 1, time:51ms rate:4416.55kB/s
+ 
+2026-10-16T07:15:50.806081+00:00 ('shell', 'uitest', 'uiInput', 'swipe', '650', '2450', '650', '1100', '2000') exit= 0 No Error
+ 
+2026-10-16T07:15:50.977267+00:00 ('shell', 'uitest', 'dumpLayout', '-p', '/data/local/tmp/vg13-06-before-backup.json') exit= 0 DumpLayout saved to:/data/local/tmp/vg13-06-before-backup.json
+ 
+2026-10-16T07:15:51.149525+00:00 ('file', 'recv', '/data/local/tmp/vg13-06-before-backup.json', 'D:\\HCUP\\vg-spec13\\logs\\baseline-20261016\\06-before-backup.json') exit= 0 FileTransfer finish, Size:57650, File count = 1, time:57ms rate:1011.40kB/s
+ 
+2026-10-16T07:15:51.447428+00:00 ('shell', 'uitest', 'screenCap', '-p', '/data/local/tmp/vg13-06-before-backup.png') exit= 0 ScreenCap saved to /data/local/tmp/vg13-06-before-backup.png
+ 
+2026-10-16T07:15:51.628891+00:00 ('file', 'recv', '/data/local/tmp/vg13-06-before-backup.png', 'D:\\HCUP\\vg-spec13\\logs\\baseline-20261016\\06-before-backup.png') exit= 0 FileTransfer finish, Size:309575, File count = 1, time:56ms rate:5528.13kB/s
+ 

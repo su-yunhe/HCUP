@@ -1,0 +1,82 @@
+**********************
+PowerShell transcript start
+Start time: 20261016162536
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+$env:PYTHONDONTWRITEBYTECODE='1'
+Start-Transcript -Path logs/implementation-verification/run01/cleanup-corrected.log
+foreach($verificationTask in @('tcp:18173 tcp:18173','tcp:18174 tcp:18174','tcp:9983 tcp:8012')) {
+  hdc -t 127.0.0.1:5555 fport rm $verificationTask
+  Write-Output "REMOVE_TASK=$verificationTask EXIT=$LASTEXITCODE"
+}
+hdc -t 127.0.0.1:5555 fport ls
+Write-Output "LIST_EXIT=$LASTEXITCODE"
+Get-NetTCPConnection -State Listen -ErrorAction SilentlyContinue | Where-Object { $_.LocalPort -in @(18173,18174) } | Select-Object LocalPort,OwningProcess
+Get-CimInstance Win32_Process | Where-Object { $_.Name -like '*python*' -and $_.CommandLine -match 'harness\.runner' -and $_.CommandLine -match 'vg-spec13' } | Select-Object ProcessId,Name
+Stop-Transcript
+& D:/HCUP/common/.venv/Scripts/python.exe -c "from hypium.uidriver.uitree import UiTree; import inspect; print(inspect.getsource(UiTree.dump_to_file)); print(inspect.getsource(UiTree.dump_to_dir)); print(inspect.getsource(UiTree._run_dump_command))"
+Process ID: 49452
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/implementation-verification/run01/cleanup-corrected.log
+
+REMOVE_TASK=tcp:18173 tcp:18173 EXIT=0
+
+REMOVE_TASK=tcp:18174 tcp:18174 EXIT=0
+
+REMOVE_TASK=tcp:9983 tcp:8012 EXIT=0
+
+LIST_EXIT=0
+**********************
+PowerShell transcript end
+End time: 20261016162537
+**********************
+**********************
+PowerShell transcript start
+Start time: 20261016162548
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -Path logs/implementation-verification/run01/cleanup-corrected.log -Append
+hdc -t 127.0.0.1:5555 fport rm tcp:18173 tcp:18173
+hdc -t 127.0.0.1:5555 fport rm tcp:18174 tcp:18174
+hdc -t 127.0.0.1:5555 fport rm tcp:9983 tcp:8012
+hdc -t 127.0.0.1:5555 fport ls
+Stop-Transcript
+Process ID: 45388
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/implementation-verification/run01/cleanup-corrected.log
+
+
+
+
+**********************
+PowerShell transcript end
+End time: 20261016162548
+**********************

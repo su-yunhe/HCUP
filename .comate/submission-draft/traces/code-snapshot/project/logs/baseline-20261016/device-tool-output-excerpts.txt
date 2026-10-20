@@ -1,0 +1,44 @@
+Source: this verification agent's original exec_command tool return, chunk_id 221b3f.
+This is a verbatim excerpt, not a new device invocation. The full original tool
+return remains in native session 01a1438c-70c8-72b2-b340-732acfb87cb4.
+PowerShell Start-Transcript did not capture unredirected native stdout, so this
+excerpt supplements device-setup.log; it does not replace the native trace.
+
+2026-10-16T15:12:17.9664052+08:00
+127.0.0.1:5555
+emulator 6.1.0.115(SP11DEVC00E115R4P11)
+23
+/bin/sh: wm: inaccessible or not found
+[Info]App install path:D:\HCUP\vg-spec13\entry/build/default/outputs/default/entry-default-unsigned.hap msg:install bundle successfully.
+AppMod finish
+INSTALL_EXIT=0
+
+Source: original exec_command tool return, chunk_id b0b43d.
+Commands are retained in device-start.log. This is a verbatim excerpt of the
+native outputs; the output is not a new invocation or a substitute for the full trace.
+
+设备: 127.0.0.1:5555
+系统版本: emulator 6.1.0.115(SP11DEVC00E115R4P11)
+屏幕分辨率: (1308, 2880)
+官方评测环境: Pura 90 Pro Max / PHEMU-FD00 / HarmonyOS 6.1.0（API 23）/ 镜像 6.1.0.115 / (1308, 2880) @ 560dpi
+✓ 环境与官方评测规格一致。
+ENV_CHECK_EXIT=0
+start ability successfully.
+START_EXIT=0
+DumpLayout saved to:/data/local/tmp/layout_14280908083.json
+DUMP_EXIT=0
+Illegal argument: --help
+
+Source: original exec_command tool return, chunk_id 06a6e2.
+Forwardport result:OK
+RPORT_EXIT=0
+127.0.0.1:5555    tcp:18173 tcp:18173    [Reverse]
+
+Source: original exec_command tool return, chunk_id 7c03e8.
+Remove forward ruler success, ruler:tcp:18173 tcp:18173
+REMOVE_RPORT_EXIT=0
+
+Source: original exec_command tool return, chunk_id fdbf04.
+FIXTURE_REMAINING=0
+FIXTURE_LISTENERS=0
+PORT_LIST_EXIT=0

@@ -1,0 +1,41 @@
+10-16 15:16:31.585   332   332 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting cloud backup ====
+10-16 15:16:31.585   332   332 I A03d00/JSAPP: [WebDavSyncManager] Backup status set to SYNCING
+10-16 15:16:31.682   332   332 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18173/vg13-baseline - 200 in 96ms
+10-16 15:16:31.682   332   332 I A03d00/JSAPP: [WebDavSyncManager] Exporting data from database
+10-16 15:16:31.685   332   332 I A03d00/JSAPP: [DataSyncManager] Exporting 0 words in batches
+10-16 15:16:31.685   332   332 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 15:16:31.685   332   332 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 15:16:31.687   332   332 I A03d00/JSAPP: [WebDavSyncManager] Export complete data_size=277 chars ms=5
+10-16 15:16:31.687   332   332 I A03d00/JSAPP: [WebDavSyncManager] Starting encryption and upload in background
+10-16 15:16:31.689   332   993 I A03d00/JSAPP: [WebDavSyncTask] Starting backup with encryption in taskpool data_size=277 chars
+10-16 15:16:31.689   332   993 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 15:16:31.689   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=277 chars
+10-16 15:16:31.689   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 15:16:31.689   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=285
+10-16 15:16:31.691   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 15:16:31.691   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 15:16:32.311   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 15:16:32.958   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 15:16:33.547   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 15:16:34.101   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 15:16:34.740   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 15:16:35.345   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 15:16:35.936   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 15:16:36.550   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 15:16:36.550   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=4859
+10-16 15:16:36.550   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 15:16:36.561   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 15:16:36.561   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=565 chars ms=4872
+10-16 15:16:36.561   332   993 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=565 chars ms=4872
+10-16 15:16:36.561   332   993 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /vg13-baseline/backup.json.enc
+10-16 15:16:36.638   332   993 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18173/vg13-baseline - 200 in 77ms
+10-16 15:16:44.712   332   993 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18173/vg13-baseline/backup.json.enc - 201 in 8074ms
+10-16 15:16:44.712   332   993 I A03d00/JSAPP: [WebDavSyncTask] Backup completed successfully total_ms=13023 encrypt_ms=4872 upload_ms=8151
+10-16 15:16:44.712   332   332 I A03d00/JSAPP: [WebDavSyncManager] Local VersionControl timestamp updated after backup
+10-16 15:16:44.712   332   332 I A03d00/JSAPP: [WebDavSyncManager] ==== Backup completed successfully total_ms=13127 export_ms=5 upload_ms=13025 ====
+10-16 15:16:44.712   332   332 I A03d00/JSAPP: [WebDavSyncManager] Backup status reset to IDLE
+10-16 15:18:01.696   332  6074 I C02d07/ProcessorProxy: end to take data from observer=ha_app_event, seq=1, size=3
+10-16 15:18:01.696   332  6074 I C04707/HaAppEvent: OnEvents, 3
+10-16 15:18:01.704   332  6074 I C02d07/EventMappingDao: delete 3 records, observerSeq=1, ret=0
+10-16 15:18:01.706   332  6074 I C02d07/EventDao: delete 3 records, ret=0
+10-16 15:18:01.706   332  6074 I C02d07/Store: delete 0 params unused

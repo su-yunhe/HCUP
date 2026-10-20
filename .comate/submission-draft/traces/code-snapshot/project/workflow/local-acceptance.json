@@ -1,0 +1,84 @@
+{
+  "task": "vg-spec13",
+  "reviewed_by": "orchestrator",
+  "reviewed_at": "2026-10-16T08:59:08.232116+00:00",
+  "result": "local_validation_complete",
+  "mandatory_requirements": {
+    "A01": "pass",
+    "A02": "pass",
+    "A03": "pass",
+    "A04": "pass",
+    "A05": "pass",
+    "A06": "pass",
+    "A07": "pass",
+    "A08": "pass",
+    "A09": "pass",
+    "A10": "pass",
+    "A11": "pass",
+    "A12": "pass",
+    "A13": "pass",
+    "A14": "pass",
+    "A15": "pass",
+    "A16": "pass",
+    "R01": "pass",
+    "R02": "pass",
+    "R03": "pass",
+    "R04": "pass",
+    "R05": "pass",
+    "R06": "pass",
+    "R07": "pass",
+    "R08": "pass",
+    "R09": "pass",
+    "R10": "pass"
+  },
+  "hypium_counts": {
+    "pass": 17,
+    "fail": 0,
+    "error": 0,
+    "skip": 0
+  },
+  "combined_runs": [
+    "run02",
+    "run04"
+  ],
+  "single_full_suite_run": false,
+  "every_aggregated_case_verified_against_original_report": true,
+  "source_reference": "workflow/implementation/source-fingerprint-v2.json",
+  "source_aggregate_sha256": "e463b2682fed306471dc9068eadf9666cc9928c02a297363a334bf70ff7b30d3",
+  "source_files_checked": 299,
+  "source_mismatches": [],
+  "hap": "entry/build/default/outputs/default/entry-default-unsigned.hap",
+  "hap_sha256": "40971677431e7da2238dcff28e814dbe0ed81b889c093ee249be638fb34fd341",
+  "tracked_build_noise": [],
+  "diff_check_exit_code": 0,
+  "warnings": {
+    "baseline": 759,
+    "clean_build": 756,
+    "new_diagnostics": 0
+  },
+  "non_executed_probes": {
+    "D03": "not_run",
+    "B09": "not_run",
+    "B16": "not_run",
+    "B18": "not_run",
+    "B19": "not_run"
+  },
+  "coverage_limit_rationale": "All explicit Spec requirements and approved executable R branches passed. D03/B18/B19 optional fault injection was unavailable without production backdoors; B09/B16 have no applicable UI. Limits are disclosed, not recorded as passed.",
+  "official_hidden_tests": "not_run",
+  "production_files_changed": [
+    "entry/src/main/ets/pages/SettingsPage.ets",
+    "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+    "entry/src/main/ets/pages/settings/SettingsWebDavBuilders.ets",
+    "entry/src/main/ets/pages/settings/SettingsNavigationBuilders.ets",
+    "entry/src/main/ets/sync/ManualWebDavBackupController.ets",
+    "entry/src/main/ets/sync/WebDavSyncManager.ets"
+  ],
+  "evidence": {
+    "logs/selftest.json": "ee7c32772898c0c8640c59576a5940b860d389d062bddf6cf4f95e4b225fb778",
+    "workflow/verification/final-report.md": "934b93877709518ac2da8c4dee4afb029f935c4407af46413dc72af05c436974",
+    "workflow/verification/summary.md": "55a2e7b410eb877e5e2017a1cfefc78d3616d67e360a3b190e275338763b2923",
+    "logs/implementation-verification/final-source-fingerprint-comparison.json": "c74817befdb8c6d722139a287f3ac26ec7e46f13bc9a8ca75b14443d2a8e2805",
+    "logs/implementation-verification/final-cleanup.log": "91c3b0ac5b7ef965be078a7fe66e4bdfaeffb9565375de844073d00dd6103b73"
+  },
+  "cache_cleanup": "Deletion was denied; bytecode preserved and locally ignored in cache directories. No shared Git configuration changed."
+}

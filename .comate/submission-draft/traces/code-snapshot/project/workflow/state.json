@@ -1,0 +1,486 @@
+{
+  "schema_version": 1,
+  "task_id": "vg-spec13",
+  "root": "D:\\HCUP\\vg-spec13",
+  "project": "D:\\HCUP\\vg-spec13",
+  "base_commit": "88db8789e28333c7b7dcc8db078f394a262b73c3",
+  "baseline_bundle": "repo_bundles/vignette-88db8789e2-base.bundle",
+  "spec_sha256": "ba156110d18109eecd2627ab66690b293da6cac504caef6650333a9a6e124677",
+  "metadata_sha256": "6ace3344962c66300a23b017d435e18bc9d340d8b77eaec478a3f6a96006f920",
+  "phase": "acceptance",
+  "status": "local_validation_complete",
+  "created_at": "2026-10-16T07:06:59.711646+00:00",
+  "sessions": [
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a13fc4-2611-7761-a580-1283e0c70541",
+      "registered_at": "2026-10-16T07:06:59.711646+00:00",
+      "purpose": "Initialization only; this overview conversation also contains environment setup and other task preparation. Not feature-development evidence."
+    },
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a1438a-e703-72b1-8078-9425872e0989",
+      "registered_at": "2026-10-16T07:10:06.434478+00:00",
+      "purpose": "Dedicated vg-spec13 analysis-only session for spec-harness/0-analyze.md"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements",
+      "session_id": "01a1438c-25bf-7831-93ca-1b4ade7410ee",
+      "registered_at": "2026-10-16T07:11:07.405907+00:00",
+      "session_id_resolved_at": "2026-10-16T07:18:08.943187+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/baseline",
+      "session_id": "01a1438c-70c8-72b2-b340-732acfb87cb4",
+      "registered_at": "2026-10-16T07:11:07.486942+00:00",
+      "session_id_resolved_at": "2026-10-16T07:18:08.943187+00:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/design_review",
+      "session_id": "01a1438c-a3f8-7830-8855-e873768d2311",
+      "registered_at": "2026-10-16T07:11:07.576753+00:00",
+      "session_id_resolved_at": "2026-10-16T07:18:08.943187+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/baseline",
+      "session_id": "01a1438c-70c8-72b2-b340-732acfb87cb4",
+      "registered_at": "2026-10-16T07:11:58.248626+00:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/design_review",
+      "session_id": "01a1438c-a3f8-7830-8855-e873768d2311",
+      "registered_at": "2026-10-16T07:11:58.350307+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements",
+      "session_id": "01a1438c-25bf-7831-93ca-1b4ade7410ee",
+      "registered_at": "2026-10-16T07:12:13.276455+00:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/implementation_audit",
+      "session_id": "01a1438f-c587-7983-a558-f76c8a73af3e",
+      "registered_at": "2026-10-16T07:15:36.550988+00:00"
+    },
+    {
+      "role": "orchestrator",
+      "agent_id": "/root",
+      "session_id": "01a143b8-b8fa-7491-a22c-c0e5faed0de0",
+      "registered_at": "2026-10-16T08:00:19.169390+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements",
+      "session_id": "01a143b9-c1b8-7721-9a85-0962250f5524",
+      "registered_at": "2026-10-16T08:00:19.251203+00:00",
+      "session_id_source": "Role directly reported CODEX_THREAD_ID in native message"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements",
+      "session_id": "01a143b9-c1b8-7721-9a85-0962250f5524",
+      "registered_at": "2026-10-16T08:01:09.886419+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/verification",
+      "session_id": "01a143ba-f85b-7aa1-b567-2ae28bd2742e",
+      "registered_at": "2026-10-16T08:02:21.697790+00:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/design",
+      "session_id": "01a143bb-a10f-7601-a510-405d234afe12",
+      "registered_at": "2026-10-16T08:02:21.798786+00:00",
+      "session_id_source": "Role directly reported CODEX_THREAD_ID in native message"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/design",
+      "session_id": "01a143bb-a10f-7601-a510-405d234afe12",
+      "registered_at": "2026-10-16T08:04:29.468011+00:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/implementation",
+      "session_id": "01a143bf-40f7-7d62-b34c-af46d1698de6",
+      "registered_at": "2026-10-16T08:06:46.374843+00:00"
+    },
+    {
+      "role": "orchestrator",
+      "agent_id": "/root",
+      "session_id": "01a143f4-3a36-78a0-a6e2-8b599d476dc4",
+      "registered_at": "2026-10-16T09:07:58.594972+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/submission_requirements",
+      "session_id": "01a143f6-10df-7423-9349-1ac52e71fabb",
+      "registered_at": "2026-10-16T09:07:58.676911+00:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/submission_design",
+      "session_id": "01a143f6-357c-70a1-afbd-efd13c14d146",
+      "registered_at": "2026-10-16T09:07:58.756616+00:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/submission_implementation",
+      "session_id": "01a143f6-f41b-70d0-8ea0-6b6239218c8d",
+      "registered_at": "2026-10-16T09:08:58.913868+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/submission_verification",
+      "session_id": "01a143ff-22b5-72e3-862a-7d5c9f465547",
+      "registered_at": "2026-10-16T09:18:56.356704+00:00"
+    }
+  ],
+  "approved_artifacts": {
+    "prepared_inputs": [
+      "spec/requirement.md",
+      "spec/metadata.json"
+    ],
+    "analysis": [
+      {
+        "path": "spec/acceptance.md",
+        "sha256": "14a95fcf91b40bdc268b2a0552995cf91932067e00d66e17b876de57c9e7c770",
+        "reviewed_by": "orchestrator and scoped role reviews; not a user product-policy decision"
+      },
+      {
+        "path": "spec/baseline-notes.md",
+        "sha256": "e65df210dd5cf65b66f2719ab4fbede3e6cd99dc576706c64746e9d08065c1a9",
+        "reviewed_by": "orchestrator and scoped role reviews; not a user product-policy decision"
+      }
+    ],
+    "implementation_requirements": {
+      "path": "workflow/requirements/implementation-review-v1.md",
+      "sha256": "b6f2c67c11425b087d654a286866c7e584b527f2a5d067d5054958041dabee06",
+      "reviewed_by": "orchestrator"
+    },
+    "implementation_design": {
+      "path": "workflow/design/implementation-plan-v1.md",
+      "sha256": "52c1ecbd06bfc1f55453c961ace20ec7e6a9d8cdce34632be6cb62faaf47162a",
+      "reviewed_by": "orchestrator",
+      "includes": "Explicit per-run settings passed to preflight; optional helper snapshot extension approved."
+    },
+    "design_revision_F01": {
+      "path": "workflow/design/final-source-review-v1.md",
+      "sha256": "38c145abcde428de9645855b84f14cc1c77ca60560c8d482616c9674ac27d465",
+      "reviewed_by": "orchestrator"
+    },
+    "test14_oracle_review": {
+      "path": "workflow/requirements/test14-oracle-review-v1.md",
+      "sha256": "046d797bfa5394981ef9356b2bb2c43959145e0c36d8f48459055710052b929a",
+      "reviewed_by": "orchestrator",
+      "scope": "Only occupied-other-task rejection terminal wording; all spinner/button/network assertions retained"
+    },
+    "local_acceptance": {
+      "path": "workflow/local-acceptance.json",
+      "sha256": "e7e8314ef9731c1af945ed606ec0095aa0f7b0623ee36e7cd3e48780d8b00dec",
+      "reviewed_by": "orchestrator"
+    },
+    "final_verification": {
+      "path": "workflow/verification/final-report.md",
+      "sha256": "934b93877709518ac2da8c4dee4afb029f935c4407af46413dc72af05c436974",
+      "reviewed_by": "orchestrator"
+    }
+  },
+  "code_fingerprint": {
+    "head": "88db8789e28333c7b7dcc8db078f394a262b73c3",
+    "manifest": "workflow/implementation/source-fingerprint-v2.json",
+    "manifest_sha256": "b88673ed175d44cb089d8315cad702f28d7a72ff6796c1bbd46c44bc9dd09396",
+    "source_aggregate_sha256": "e463b2682fed306471dc9068eadf9666cc9928c02a297363a334bf70ff7b30d3"
+  },
+  "failures": [
+    {
+      "fingerprint": "vg-spec13-baseline-loadingprogress-missing",
+      "phase": "requirements",
+      "classification": "observed baseline gap, not introduced regression",
+      "requirement": "scenario 1 step 4; A05/A06",
+      "evidence": [
+        "spec/baseline-notes.md",
+        "logs/baseline-20261016/09-busy-late.json",
+        "logs/baseline-20261016/09-busy-late.png",
+        "logs/baseline-20261016/fixture-requests.jsonl"
+      ],
+      "repair_started": false,
+      "reason": "Analysis-only request prohibits production edits.",
+      "status": "resolved; original failure evidence preserved",
+      "resolved_by": "workflow/local-acceptance.json"
+    },
+    {
+      "fingerprint": "vg13-nested-builder-value-parameters-F01",
+      "classification": "static architecture risk confirmed against official Builder guidance, not runtime reproduction",
+      "phase": "design",
+      "evidence": [
+        "workflow/design/final-source-review-v1.md"
+      ],
+      "repair_started": true,
+      "repair_evidence": "workflow/implementation/implementation-checks-v2.json",
+      "status": "resolved; original failure evidence preserved",
+      "resolved_by": "workflow/local-acceptance.json"
+    },
+    {
+      "fingerprint": "vg13-run01-slow-uitest-cli",
+      "classification": "test transport performance; interrupted, no product conclusion",
+      "phase": "verification",
+      "evidence": [
+        "logs/implementation-verification/run01/run-result.json"
+      ],
+      "repair_started": true,
+      "status": "resolved; original failure evidence preserved",
+      "resolved_by": "workflow/local-acceptance.json"
+    },
+    {
+      "fingerprint": "vg13-test14-other-task-warning-oracle",
+      "phase": "verification",
+      "classification": "test oracle overreach confirmed by requirements role",
+      "evidence": [
+        "logs/implementation-verification/run02/selftest.json"
+      ],
+      "repair_started": true,
+      "excluded_hypothesis": "No evidence of manual spinner/second backup remaining: observed rejection warning is about another task.",
+      "status": "resolved; original failure evidence preserved",
+      "review": "workflow/requirements/test14-oracle-review-v1.md",
+      "resolved_by": "workflow/local-acceptance.json"
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "U01",
+      "topic": "unsaved input versus manager configuration",
+      "source": "spec/acceptance.md section 8",
+      "status": "resolved as reversible technical choice for implementation",
+      "blocks_current_analysis": false,
+      "resolution_evidence": "workflow/requirements/implementation-review-v1.md"
+    },
+    {
+      "id": "U02",
+      "topic": "whether real preflight alone satisfies network clause",
+      "source": "spec/acceptance.md section 8",
+      "status": "resolved as reversible technical choice for implementation",
+      "blocks_current_analysis": false,
+      "resolution_evidence": "workflow/requirements/implementation-review-v1.md"
+    },
+    {
+      "id": "U03",
+      "topic": "invalid input behavior",
+      "source": "spec/acceptance.md section 8",
+      "status": "resolved as reversible technical choice for implementation",
+      "blocks_current_analysis": false,
+      "resolution_evidence": "workflow/requirements/implementation-review-v1.md"
+    },
+    {
+      "id": "U04",
+      "topic": "very fast completion visibility",
+      "source": "spec/acceptance.md section 8",
+      "status": "resolved as reversible technical choice for implementation",
+      "blocks_current_analysis": false,
+      "resolution_evidence": "workflow/requirements/implementation-review-v1.md"
+    },
+    {
+      "id": "U05",
+      "topic": "duplicate and concurrent operation behavior",
+      "source": "spec/acceptance.md section 8",
+      "status": "resolved as reversible technical choice for implementation",
+      "blocks_current_analysis": false,
+      "resolution_evidence": "workflow/requirements/implementation-review-v1.md"
+    },
+    {
+      "id": "U06",
+      "topic": "timeout/cancel semantics while actual I/O may survive",
+      "source": "spec/acceptance.md section 8",
+      "status": "resolved as reversible technical choice for implementation",
+      "blocks_current_analysis": false,
+      "resolution_evidence": "workflow/requirements/implementation-review-v1.md"
+    },
+    {
+      "id": "U07",
+      "topic": "navigation and reentry state",
+      "source": "spec/acceptance.md section 8",
+      "status": "resolved as reversible technical choice for implementation",
+      "blocks_current_analysis": false,
+      "resolution_evidence": "workflow/requirements/implementation-review-v1.md"
+    },
+    {
+      "id": "U08",
+      "topic": "restart behavior",
+      "source": "spec/acceptance.md section 8",
+      "status": "resolved as reversible technical choice for implementation",
+      "blocks_current_analysis": false,
+      "resolution_evidence": "workflow/requirements/implementation-review-v1.md"
+    },
+    {
+      "id": "U09",
+      "topic": "no business-data backup behavior",
+      "source": "spec/acceptance.md section 8",
+      "status": "resolved as reversible technical choice for implementation",
+      "blocks_current_analysis": false,
+      "resolution_evidence": "workflow/requirements/implementation-review-v1.md"
+    },
+    {
+      "id": "U10",
+      "topic": "configuration snapshot during an operation",
+      "source": "spec/acceptance.md section 8",
+      "status": "resolved as reversible technical choice for implementation",
+      "blocks_current_analysis": false,
+      "resolution_evidence": "workflow/requirements/implementation-review-v1.md"
+    }
+  ],
+  "next_action": "Use .comate/submission-draft/DELIVERY.md and validation-report.json for stage 3; fill explicit missing user fields, preserve scoped evidence, and assemble team package separately.",
+  "config_snapshot": "system-config\\initial-20261016T070659Z",
+  "record_gaps": [],
+  "updated_at": "2026-10-16T09:18:56.441593+00:00",
+  "last_event_id": "754af66eca7a49caa7196eb7f8ba7dd2",
+  "layout": "HCUP: the task root is the Git worktree and project root",
+  "native_snapshot_gaps": [],
+  "last_trace_snapshot": "traces\\native\\20261016T085922Z-337531ac\\manifest.json",
+  "setup_complete": true,
+  "analysis_scope": {
+    "request": "spec-harness/0-analyze.md",
+    "outputs": [
+      "spec/acceptance.md",
+      "spec/baseline-notes.md"
+    ],
+    "production_edits_authorized": false,
+    "implementation_started": false,
+    "active_orchestrator_session": "01a1438a-e703-72b1-8078-9425872e0989",
+    "role_limitations": {
+      "harmony_requirements": "acceptance document only",
+      "harmony_design": "read-only source/data-flow review",
+      "harmony_implementation": "read-only change-scope audit",
+      "harmony_verification": "unchanged baseline build/install/exercise and baseline notes"
+    },
+    "status": "complete",
+    "completed_at": "2026-10-16T07:29:39.854148+00:00",
+    "qa": "logs/analysis-document-qa.json",
+    "production_files_changed": [],
+    "role_reviews_complete": true
+  },
+  "analysis_validation": {
+    "build": "pass",
+    "install": "pass",
+    "launch": "pass",
+    "single_saved_fixture_backup": "observed",
+    "baseline_loadingprogress": "fail",
+    "other_boundaries": "not_run",
+    "official_evaluation": "not_run",
+    "all_functional_requirements_satisfied": false,
+    "fixture_cleaned": true
+  },
+  "implementation_scope": {
+    "request": "spec-harness/1-do.md",
+    "authorized_at": "2026-10-16T08:01:48.658736+00:00",
+    "production_edits_authorized": true,
+    "active_orchestrator_session": "01a143b8-b8fa-7491-a22c-c0e5faed0de0",
+    "scope": "Complete this task and local verification; no external submission.",
+    "production_frozen": true,
+    "frozen_at": "2026-10-16T08:28:05.023355+00:00",
+    "status": "complete"
+  },
+  "baseline_snapshot": {
+    "head": "88db8789e28333c7b7dcc8db078f394a262b73c3",
+    "evidence": "workflow/baseline-provenance.json",
+    "preparation": "workflow/setup-result.json"
+  },
+  "verification_lease": {
+    "owner": "/root/verification",
+    "id": "vg-spec13-01a143b8-verification-v2",
+    "status": "released",
+    "scope": "Exclusive device operations only after conflict check; no production writes"
+  },
+  "implementation_validation": {
+    "task": "vg-spec13",
+    "reviewed_by": "orchestrator",
+    "reviewed_at": "2026-10-16T08:59:08.232116+00:00",
+    "result": "local_validation_complete",
+    "mandatory_requirements": {
+      "A01": "pass",
+      "A02": "pass",
+      "A03": "pass",
+      "A04": "pass",
+      "A05": "pass",
+      "A06": "pass",
+      "A07": "pass",
+      "A08": "pass",
+      "A09": "pass",
+      "A10": "pass",
+      "A11": "pass",
+      "A12": "pass",
+      "A13": "pass",
+      "A14": "pass",
+      "A15": "pass",
+      "A16": "pass",
+      "R01": "pass",
+      "R02": "pass",
+      "R03": "pass",
+      "R04": "pass",
+      "R05": "pass",
+      "R06": "pass",
+      "R07": "pass",
+      "R08": "pass",
+      "R09": "pass",
+      "R10": "pass"
+    },
+    "hypium_counts": {
+      "pass": 17,
+      "fail": 0,
+      "error": 0,
+      "skip": 0
+    },
+    "combined_runs": [
+      "run02",
+      "run04"
+    ],
+    "single_full_suite_run": false,
+    "every_aggregated_case_verified_against_original_report": true,
+    "source_reference": "workflow/implementation/source-fingerprint-v2.json",
+    "source_aggregate_sha256": "e463b2682fed306471dc9068eadf9666cc9928c02a297363a334bf70ff7b30d3",
+    "source_files_checked": 299,
+    "source_mismatches": [],
+    "hap": "entry/build/default/outputs/default/entry-default-unsigned.hap",
+    "hap_sha256": "40971677431e7da2238dcff28e814dbe0ed81b889c093ee249be638fb34fd341",
+    "tracked_build_noise": [],
+    "diff_check_exit_code": 0,
+    "warnings": {
+      "baseline": 759,
+      "clean_build": 756,
+      "new_diagnostics": 0
+    },
+    "non_executed_probes": {
+      "D03": "not_run",
+      "B09": "not_run",
+      "B16": "not_run",
+      "B18": "not_run",
+      "B19": "not_run"
+    },
+    "coverage_limit_rationale": "All explicit Spec requirements and approved executable R branches passed. D03/B18/B19 optional fault injection was unavailable without production backdoors; B09/B16 have no applicable UI. Limits are disclosed, not recorded as passed.",
+    "official_hidden_tests": "not_run",
+    "production_files_changed": [
+      "entry/src/main/ets/pages/SettingsPage.ets",
+      "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+      "entry/src/main/ets/pages/settings/SettingsWebDavBuilders.ets",
+      "entry/src/main/ets/pages/settings/SettingsNavigationBuilders.ets",
+      "entry/src/main/ets/sync/ManualWebDavBackupController.ets",
+      "entry/src/main/ets/sync/WebDavSyncManager.ets"
+    ],
+    "evidence": {
+      "logs/selftest.json": "ee7c32772898c0c8640c59576a5940b860d389d062bddf6cf4f95e4b225fb778",
+      "workflow/verification/final-report.md": "934b93877709518ac2da8c4dee4afb029f935c4407af46413dc72af05c436974",
+      "workflow/verification/summary.md": "55a2e7b410eb877e5e2017a1cfefc78d3616d67e360a3b190e275338763b2923",
+      "logs/implementation-verification/final-source-fingerprint-comparison.json": "c74817befdb8c6d722139a287f3ac26ec7e46f13bc9a8ca75b14443d2a8e2805",
+      "logs/implementation-verification/final-cleanup.log": "91c3b0ac5b7ef965be078a7fe66e4bdfaeffb9565375de844073d00dd6103b73"
+    },
+    "cache_cleanup": "Deletion was denied; bytecode preserved and locally ignored in cache directories. No shared Git configuration changed."
+  }
+}

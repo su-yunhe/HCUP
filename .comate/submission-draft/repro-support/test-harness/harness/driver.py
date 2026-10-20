@@ -1,0 +1,101 @@
+"""UiDriver 的薄封装基类：带超时重试的查找/等待/断言辅助方法。
+
+各题的测试用例应继承 `HarnessTestCase`，只编写该题 spec 描述的断言逻辑；
+设备连接、重试查找、报告格式等通用部分由本框架负责。
+"""
+from __future__ import annotations
+
+import time
+import unittest
+
+from hypium import BY, UiDriver  # type: ignore[import-not-found]
+
+from . import device as device_mod
+
+DEFAULT_TIMEOUT = 15
+DEFAULT_POLL_INTERVAL = 0.5
+
+
+class HarnessTestCase(unittest.TestCase):
+    """所有题目的 Hypium 测试类的通用基类。
+
+    子类可直接使用 `self.driver`（已连接的 UiDriver）、
+    `self.require_text()`、`self.require_component()`、`self.find_or_none()`。
+    设备序列号通过类属性 `device_sn` 传入（由 runner 负责设置），
+    若单独运行某个测试文件，也可以设置环境变量 HDC_DEVICE 或在命令行传 --device。
+    """
+
+    device_sn: str | None = None
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        sn = cls.device_sn or device_mod.select_device(None)
+        cls.driver = UiDriver.connect(device_sn=sn)
+        cls.driver.set_implicit_wait_time(5)
+
+    def find_or_none(self, by, timeout: float = DEFAULT_TIMEOUT):
+        """按 `by` 条件轮询查找组件，超时返回 None（不触发失败）。"""
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            component = self.driver.find_component(by)
+            if component is not None:
+                return component
+            self.driver.wait(DEFAULT_POLL_INTERVAL)
+        return None
+
+    def require_component(self, by, message: str, timeout: float = DEFAULT_TIMEOUT):
+        """按 `by` 条件轮询查找组件，超时则用 `message` 调用 self.fail()。"""
+        component = self.find_or_none(by, timeout=timeout)
+        if component is None:
+            self.fail(message)
+        return component
+
+    def require_text(self, text: str, message: str, timeout: float = DEFAULT_TIMEOUT):
+        """查找包含指定文本的组件，等价于题包 Hypium 示例中的用法。"""
+        return self.require_component(BY.text(text), message, timeout=timeout)
+
+    def require_type(self, component_type: str, message: str, timeout: float = DEFAULT_TIMEOUT):
+        """查找指定类型（如 'List'、'Slider'、'Toggle'）的组件。"""
+        return self.require_component(BY.type(component_type), message, timeout=timeout)
+
+    def require_precondition(self, condition: bool, message: str) -> None:
+        """前置条件不满足时记为 skip（未验证），而不是通过或失败。"""
+        if not condition:
+            self.skipTest(f"前置条件未满足: {message}")
+
+    @staticmethod
+    def slider_value(slider) -> float:
+        """读取 Slider 当前值（UI dump 里 Slider 的 text 即其数值，如 '18.000000'）。"""
+        return float(slider.getText())
+
+    def sliders(self) -> list:
+        """当前页面所有 Slider，按页面从上到下的顺序。"""
+        return self.driver.find_all_components(BY.type("Slider")) or []
+
+    def set_slider(self, index: int, value: float, vmin: float, vmax: float,
+                   tolerance: float | None = None, attempts: int = 3) -> float:
+        """点击第 index 个 Slider 轨道上对应 value 的位置，返回最终读到的实际值。
+
+        实测（HarmonyOS 6.1 模拟器）：点击轨道会直接跳值，轨道铺满组件 bounds，位置与数值线性对应；
+        刚进入页面后的第一次点击观察到被丢弃过一次，所以读回值与目标不符时会重试。
+        实际值取决于被测 Slider 的 step：返回值不等于 value 不代表 harness 出错，
+        可能正是被测应用的 Slider 取不到该值，调用方应对返回值做断言。
+        """
+        tol = tolerance if tolerance is not None else (vmax - vmin) * 0.02
+        actual = self.slider_value(self.sliders()[index])
+        for _ in range(attempts):
+            b = self.sliders()[index].getBounds()
+            frac = (value - vmin) / (vmax - vmin)
+            x = min(max(int(b.left + frac * (b.right - b.left)), b.left + 2), b.right - 2)
+            self.driver.click((x, (b.top + b.bottom) // 2))
+            self.driver.wait(0.8)
+            actual = self.slider_value(self.sliders()[index])
+            if abs(actual - value) <= tol:
+                break
+        return actual
+
+    def text_after(self, label: str) -> str | None:
+        """页面文本序列里紧跟在 label 之后的那一项（用于读取“标题 + 数值”形式的行）。"""
+        texts = [t.getText() for t in (self.driver.find_all_components(BY.type("Text")) or [])]
+        texts = [t for t in texts if t]
+        return texts[texts.index(label) + 1] if label in texts else None

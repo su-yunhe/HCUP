@@ -1,0 +1,127 @@
+**********************
+PowerShell transcript start
+Start time: 20261016151804
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -Path logs/baseline-20261016/device-finish.log
+Get-Date -Format o
+hdc -t 127.0.0.1:5555 shell uitest dumpLayout -p /data/local/tmp/vg13-settled.json
+hdc -t 127.0.0.1:5555 file recv /data/local/tmp/vg13-settled.json logs/baseline-20261016/11-settled.json
+hdc -t 127.0.0.1:5555 shell uitest screenCap -p /data/local/tmp/vg13-settled.png
+hdc -t 127.0.0.1:5555 file recv /data/local/tmp/vg13-settled.png logs/baseline-20261016/11-settled.png
+$baselineUi = Get-Content logs/baseline-20261016/11-settled.json -Raw | ConvertFrom-Json
+function Show-Ui($n) { if($n.attributes.type -eq 'Button' -or $n.attributes.text -match '备份|正在|处理中') { $n.attributes | Select-Object text,type,bounds,enabled,id | ConvertTo-Json -Compress }; foreach($c in $n.children) { Show-Ui $c } }
+Show-Ui $baselineUi
+$baselineAppProcess = hdc -t 127.0.0.1:5555 shell pidof io.qzz.weiyu
+Write-Output "APP_PID=$baselineAppProcess"
+hdc -t 127.0.0.1:5555 shell hilog -x -P $baselineAppProcess *> logs/baseline-20261016/app-hilog.log
+Write-Output "HILOG_EXIT=$LASTEXITCODE"
+hdc -t 127.0.0.1:5555 fport rm tcp:18173 tcp:18173
+Write-Output "REMOVE_RPORT_EXIT=$LASTEXITCODE"
+hdc fport ls
+$baselineFixtureProcess = Get-CimInstance Win32_Process | Where-Object { $_.Name -match '^python.*\.exe$' -and $_.CommandLine -match 'webdav-fixture\.py' }
+$baselineFixtureProcess | Select-Object ProcessId,Name,CommandLine | Format-List
+$baselineFixtureProcess | ForEach-Object { Stop-Process -Id $_.ProcessId; Write-Output "STOPPED_FIXTURE_PID=$($_.ProcessId)" }
+@{ event='server_stopped_by_owner'; utc=(Get-Date).ToUniversalTime().ToString('o'); process_ids=@($baselineFixtureProcess.ProcessId) } | ConvertTo-Json -Compress | Add-Content -Encoding utf8 logs/baseline-20261016/fixture-requests.jsonl
+Get-NetTCPConnection -LocalPort 18173 -State Listen -ErrorAction SilentlyContinue
+Stop-Transcript
+Process ID: 20056
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/baseline-20261016/device-finish.log
+2026-10-16T15:18:04.6758725+08:00
+
+
+
+
+{"text":"保存设置","type":"Button","bounds":"[154,1309][654,1463]","enabled":"true","id":""}
+{"text":"测试连接","type":"Button","bounds":"[682,1309][1154,1463]","enabled":"true","id":""}
+{"text":"立即同步","type":"Button","bounds":"[154,1625][1154,1779]","enabled":"true","id":""}
+{"text":"立即备份","type":"Button","bounds":"[154,1864][654,2018]","enabled":"true","id":""}
+{"text":"从云端恢复","type":"Button","bounds":"[682,1864][1154,2018]","enabled":"true","id":""}
+{"text":"✅ 备份已上传","type":"Text","bounds":"[517,2046][791,2095]","enabled":"true","id":""}
+{"text":"【立即备份】完整备份所有数据到云端","type":"Text","bounds":"[154,2432][1154,2481]","enabled":"true","id":""}
+{"text":"• 适合换设备前、定期备份使用","type":"Text","bounds":"[168,2481][1168,2530]","enabled":"true","id":""}
+APP_PID=332
+PS>ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.585   332   332 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting cloud backup ===="
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.585   332   332 I A03d00/JSAPP: [WebDavSyncManager] Backup status set to SYNCING"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.682   332   332 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18173/vg13-baseline - 200 in 96ms"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.682   332   332 I A03d00/JSAPP: [WebDavSyncManager] Exporting data from database"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.685   332   332 I A03d00/JSAPP: [DataSyncManager] Exporting 0 words in batches"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.685   332   332 I A03d00/JSAPP: [WordBookRepository] Fetching user word books"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.685   332   332 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.687   332   332 I A03d00/JSAPP: [WebDavSyncManager] Export complete data_size=277 chars ms=5"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.687   332   332 I A03d00/JSAPP: [WebDavSyncManager] Starting encryption and upload in background"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.689   332   993 I A03d00/JSAPP: [WebDavSyncTask] Starting backup with encryption in taskpool data_size=277 chars"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.689   332   993 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.689   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=277 chars"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.689   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.689   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=285"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.691   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:31.691   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:32.311   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:32.958   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:33.547   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:34.101   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:34.740   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:35.345   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:35.936   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:36.550   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:36.550   332   993 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=4859"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:36.550   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:36.561   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:36.561   332   993 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=565 chars ms=4872"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:36.561   332   993 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=565 chars ms=4872"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:36.561   332   993 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /vg13-baseline/backup.json.enc"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:36.638   332   993 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18173/vg13-baseline - 200 in 77ms"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:44.712   332   993 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18173/vg13-baseline/backup.json.enc - 201 in 8074ms"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:44.712   332   993 I A03d00/JSAPP: [WebDavSyncTask] Backup completed successfully total_ms=13023 encrypt_ms=4872 upload_ms=8151"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:44.712   332   332 I A03d00/JSAPP: [WebDavSyncManager] Local VersionControl timestamp updated after backup"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:44.712   332   332 I A03d00/JSAPP: [WebDavSyncManager] ==== Backup completed successfully total_ms=13127 export_ms=5 upload_ms=13025 ===="
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:16:44.712   332   332 I A03d00/JSAPP: [WebDavSyncManager] Backup status reset to IDLE"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:18:01.696   332  6074 I C02d07/ProcessorProxy: end to take data from observer=ha_app_event, seq=1, size=3"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:18:01.696   332  6074 I C04707/HaAppEvent: OnEvents, 3"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:18:01.704   332  6074 I C02d07/EventMappingDao: delete 3 records, observerSeq=1, ret=0"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:18:01.706   332  6074 I C02d07/EventDao: delete 3 records, ret=0"
+>> ParameterBinding(Out-File): name="InputObject"; value="10-16 15:18:01.706   332  6074 I C02d07/Store: delete 0 params unused"
+HILOG_EXIT=0
+
+REMOVE_RPORT_EXIT=0
+
+
+ProcessId   : 49312
+Name        : python.exe
+CommandLine : "D:\HCUP\common\.venv\Scripts\python.exe" -u logs/baseline-20261016/webdav-fixture.py
+
+ProcessId   : 45880
+Name        : python.exe
+CommandLine : "D:\Program Files\Python312\python.exe" -u logs/baseline-20261016/webdav-fixture.py
+
+STOPPED_FIXTURE_PID=49312
+PS>TerminatingError(Stop-Process): "The running command stopped because the preference variable "ErrorActionPreference" or common parameter is set to Stop: Cannot find a process with the process identifier 45880."
+>> TerminatingError(Stop-Process): "The running command stopped because the preference variable "ErrorActionPreference" or common parameter is set to Stop: Cannot find a process with the process identifier 45880."
+>> TerminatingError(Stop-Process): "The running command stopped because the preference variable "ErrorActionPreference" or common parameter is set to Stop: Cannot find a process with the process identifier 45880."
+Stop-Process:
+Line |
+  22 |  … xtureProcess | ForEach-Object { Stop-Process -Id $_.ProcessId; Write- …
+     |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Cannot find a process with the process identifier 45880.
+PS>$global:?
+False
+**********************
+PowerShell transcript end
+End time: 20261016151806
+**********************

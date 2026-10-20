@@ -1,0 +1,72 @@
+**********************
+PowerShell transcript start
+Start time: 20261016151420
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+@'
+from hypium import BY
+print([n for n in dir(BY) if not n.startswith('_')])
+'@ | & D:/HCUP/common/.venv/Scripts/python.exe -
+@'
+from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
+from pathlib import Path
+from datetime import datetime, timezone
+import base64, hashlib, json, threading, time
+ROOT = Path(__file__).resolve().parent
+LOCK = threading.Lock()
+AUTH = 'Basic ' + base64.b64encode(b'vg13-fixture:fixture-pass').decode()
+def record(**data):
+    data['utc'] = datetime.now(timezone.utc).isoformat()
+    with LOCK, (ROOT / 'fixture-requests.jsonl').open('a', encoding='utf8') as f:
+        f.write(json.dumps(data, ensure_ascii=False) + '\n')
+class Dav(BaseHTTPRequestHandler):
+    protocol_version = 'HTTP/1.1'
+    def handle_request(self):
+        body = self.rfile.read(int(self.headers.get('Content-Length', '0')))
+        allowed = self.headers.get('Authorization') == AUTH
+        delay = 8 if self.command == 'PUT' and self.path.endswith('backup.json.enc') else 0
+        record(event='received', method=self.command, path=self.path, length=len(body), sha256=hashlib.sha256(body).hexdigest(), auth_valid=allowed, delay_seconds=delay)
+        time.sleep(delay)
+        status = (404 if self.command == 'GET' else 201 if self.command == 'PUT' else 200) if allowed else 401
+        self.send_response(status)
+        self.send_header('Content-Length', '0')
+        self.send_header('Connection', 'close')
+        self.end_headers()
+        record(event='responded', method=self.command, path=self.path, status=status)
+    do_HEAD = do_GET = do_PUT = do_DELETE = handle_request
+    def log_message(self, *_): pass
+record(event='server_started', address='127.0.0.1:18173')
+try:
+    ThreadingHTTPServer(('127.0.0.1', 18173), Dav).serve_forever()
+finally:
+    record(event='server_stopped')
+'@ | Set-Content -Encoding utf8 logs/baseline-20261016/webdav-fixture.py
+Start-Transcript -Path logs/baseline-20261016/fixture-port.log
+hdc -t 127.0.0.1:5555 rport tcp:18173 tcp:18173
+Write-Output "RPORT_EXIT=$LASTEXITCODE"
+hdc fport ls
+Stop-Transcript
+Process ID: 44628
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/baseline-20261016/fixture-port.log
+
+RPORT_EXIT=0
+
+**********************
+PowerShell transcript end
+End time: 20261016151420
+**********************

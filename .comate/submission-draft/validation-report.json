@@ -1,0 +1,126 @@
+{
+  "result": "pass",
+  "checks": [
+    {
+      "check": "required outputs",
+      "pass": true,
+      "detail": [
+        "changes/final.diff",
+        "changes/binary-files.json",
+        "changes/patch-validation.json",
+        "build.md",
+        "trace-index.md",
+        "sources.fragment.md",
+        "solution.fragment.md",
+        "submission.json.fragment",
+        "human-changes.md",
+        "NEEDS-INPUT.md",
+        "AUTO-FACTS.md",
+        "DELIVERY.md",
+        "traces/session-inventory.json",
+        "traces/session-index.filtered.jsonl",
+        "traces/code-snapshot/manifest.json",
+        "logs/copy-manifest.json",
+        "repro-support/run-selftest.ps1"
+      ]
+    },
+    {
+      "check": "sealed project file set and hashes",
+      "pass": true,
+      "detail": {
+        "files": 750
+      }
+    },
+    {
+      "check": "no recursive staging or .git in project",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "mixed-task initialization raw files excluded",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "patch independently applies and compares all files",
+      "pass": true,
+      "detail": 750
+    },
+    {
+      "check": "patch checksum and final tree",
+      "pass": true,
+      "detail": "93dafec8eb504b56d1329df5e5ad59110c66d27e"
+    },
+    {
+      "check": "frozen application and configuration remain unchanged",
+      "pass": true,
+      "detail": {
+        "reference_files": 299,
+        "mismatches": []
+      }
+    },
+    {
+      "check": "all original logs copied byte for byte",
+      "pass": true,
+      "detail": {
+        "logs": 337,
+        "mismatches": []
+      }
+    },
+    {
+      "check": "scoped native and Markdown traces exist with matching checksums",
+      "pass": true,
+      "detail": {
+        "sessions": 15,
+        "mismatches": []
+      }
+    },
+    {
+      "check": "each exported thread ID matches its own native metadata id",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "registered dedicated sessions present",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "every official trace-index field filled or explicitly pending",
+      "pass": true,
+      "detail": {
+        "fields": 24,
+        "absent": []
+      }
+    },
+    {
+      "check": "build instructions contain no private absolute path",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "three package paths relative slash format with file targets",
+      "pass": true,
+      "detail": {
+        "project_path": "tasks/vg-spec13/project",
+        "build_instructions": "tasks/vg-spec13/build.md",
+        "trace_index": "tasks/vg-spec13/trace-index.md"
+      }
+    },
+    {
+      "check": "material tools and copied Harness Python parse",
+      "pass": true,
+      "detail": {
+        "files": 12
+      }
+    },
+    {
+      "check": "private-key and common API-key signature scan",
+      "pass": true,
+      "detail": {
+        "matching_paths_only": [],
+        "scope": "heuristic scan; not proof that no undisclosed secret exists"
+      }
+    }
+  ]
+}

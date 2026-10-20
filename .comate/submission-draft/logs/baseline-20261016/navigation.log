@@ -1,0 +1,142 @@
+**********************
+PowerShell transcript start
+Start time: 20261016151307
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -Path logs/baseline-20261016/navigation.log
+hdc -t 127.0.0.1:5555 shell uitest uiInput click 1180 234
+hdc -t 127.0.0.1:5555 shell uitest dumpLayout -p /data/local/tmp/vg13-settings.json
+hdc -t 127.0.0.1:5555 file recv /data/local/tmp/vg13-settings.json logs/baseline-20261016/02-settings.json
+hdc -t 127.0.0.1:5555 shell uitest screenCap -p /data/local/tmp/vg13-settings.png
+hdc -t 127.0.0.1:5555 file recv /data/local/tmp/vg13-settings.png logs/baseline-20261016/02-settings.png
+$baselineUi = Get-Content logs/baseline-20261016/02-settings.json -Raw | ConvertFrom-Json
+function Show-Ui($n) { if($n.attributes.text) { $n.attributes | Select-Object text,type,bounds,id | ConvertTo-Json -Compress }; foreach($c in $n.children) { Show-Ui $c } }
+Show-Ui $baselineUi
+Stop-Transcript
+Process ID: 39024
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/baseline-20261016/navigation.log
+
+
+
+
+
+{"text":"←","type":"Text","bounds":"[56,185][141,283]","id":""}
+{"text":"设置","type":"Text","bounds":"[197,197][323,271]","id":""}
+{"text":"学习与偏好","type":"Text","bounds":"[522,850][768,907]","id":""}
+{"text":"任务计划、语音、难度与语境","type":"Text","bounds":"[371,921][918,970]","id":""}
+{"text":"›","type":"Text","bounds":"[1177,877][1196,943]","id":""}
+{"text":"外部词典","type":"Text","bounds":"[546,1075][743,1132]","id":""}
+{"text":"外链词典模板配置","type":"Text","bounds":"[476,1146][813,1195]","id":""}
+{"text":"›","type":"Text","bounds":"[1177,1102][1196,1168]","id":""}
+{"text":"FSRS优化","type":"Text","bounds":"[537,1300][753,1357]","id":""}
+{"text":"根据记忆表现优化算法参数","type":"Text","bounds":"[392,1371][897,1420]","id":""}
+{"text":"›","type":"Text","bounds":"[1177,1327][1196,1393]","id":""}
+{"text":"API配置","type":"Text","bounds":"[557,1525][732,1582]","id":""}
+{"text":"提供商、接口与模型选择","type":"Text","bounds":"[413,1596][876,1645]","id":""}
+{"text":"›","type":"Text","bounds":"[1177,1552][1196,1618]","id":""}
+{"text":"WebDAV 配置","type":"Text","bounds":"[491,1750][799,1807]","id":""}
+{"text":"云端连接与自动同步设置","type":"Text","bounds":"[413,1821][876,1870]","id":""}
+{"text":"›","type":"Text","bounds":"[1177,1777][1196,1843]","id":""}
+{"text":"备份与恢复","type":"Text","bounds":"[522,1975][768,2032]","id":""}
+{"text":"云端/本地数据导入导出","type":"Text","bounds":"[426,2046][863,2095]","id":""}
+{"text":"›","type":"Text","bounds":"[1177,2002][1196,2068]","id":""}
+{"text":"关于","type":"Text","bounds":"[595,2200][694,2257]","id":""}
+{"text":"版本、隐私与开源信息","type":"Text","bounds":"[434,2271][855,2320]","id":""}
+{"text":"›","type":"Text","bounds":"[1177,2227][1196,2293]","id":""}
+{"text":"03, :, 13","type":"Flex","bounds":"[42,47][181,131]","id":"ClockStatusView"}
+{"text":"03","type":"Text","bounds":"[42,58][104,120]","id":""}
+{"text":":","type":"Text","bounds":"[104,63][119,116]","id":"TimeView_Text_timeText"}
+{"text":"13","type":"Text","bounds":"[119,58][181,120]","id":""}
+{"text":"100","type":"Text","bounds":"[1177,67][1247,112]","id":"BatteryComponent-batteryIcon_Text_batterySoc"}
+**********************
+PowerShell transcript end
+End time: 20261016151309
+**********************
+**********************
+PowerShell transcript start
+Start time: 20261016151329
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -Path logs/baseline-20261016/navigation.log -Append
+hdc -t 127.0.0.1:5555 shell uitest uiInput click 650 1780
+hdc -t 127.0.0.1:5555 shell uitest dumpLayout -p /data/local/tmp/vg13-webdav.json
+hdc -t 127.0.0.1:5555 file recv /data/local/tmp/vg13-webdav.json logs/baseline-20261016/03-webdav-initial.json
+hdc -t 127.0.0.1:5555 shell uitest screenCap -p /data/local/tmp/vg13-webdav.png
+hdc -t 127.0.0.1:5555 file recv /data/local/tmp/vg13-webdav.png logs/baseline-20261016/03-webdav-initial.png
+$baselineUi = Get-Content logs/baseline-20261016/03-webdav-initial.json -Raw | ConvertFrom-Json
+function Show-Ui($n) { if($n.attributes.text -or $n.attributes.type -eq 'TextInput') { $n.attributes | Select-Object text,type,bounds,id,hint | ConvertTo-Json -Compress }; foreach($c in $n.children) { Show-Ui $c } }
+Show-Ui $baselineUi
+hdc -t 127.0.0.1:5555 rport -h
+Stop-Transcript
+function Slice-Lines([string]$file,[int]$first,[int]$last) { $lineNo=0; Get-Content -LiteralPath $file | ForEach-Object { $lineNo++; if($lineNo -ge $first -and $lineNo -le $last) { '{0,4}: {1}' -f $lineNo,$_ } } }
+Slice-Lines entry/src/main/ets/sync/webdav/WebDavSyncTask.ets 1 220
+Slice-Lines entry/src/main/ets/sync/webdav/WebDavClient.ets 1 180
+Process ID: 14400
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/baseline-20261016/navigation.log
+
+
+
+
+
+{"text":"←","type":"Text","bounds":"[56,185][141,283]","id":"","hint":""}
+{"text":"WebDAV 配置","type":"Text","bounds":"[197,197][602,271]","id":"","hint":""}
+{"text":"基础配置","type":"Text","bounds":"[154,486][1154,543]","id":"","hint":""}
+{"text":"WebDAV 地址","type":"Text","bounds":"[154,585][1154,634]","id":"","hint":""}
+{"text":"http://127.0.0.1:18164/recovered","type":"TextInput","bounds":"[154,648][1154,802]","id":"","hint":"https://dav.example.com/dav/"}
+{"text":"账号","type":"Text","bounds":"[154,844][1154,893]","id":"","hint":""}
+{"text":"vg14-local","type":"TextInput","bounds":"[154,907][1154,1061]","id":"","hint":"username"}
+{"text":"密码","type":"Text","bounds":"[154,1103][1154,1152]","id":"","hint":""}
+{"text":"************","type":"TextInput","bounds":"[154,1166][929,1320]","id":"","hint":"password"}
+{"text":"显示","type":"Button","bounds":"[957,1166][1154,1320]","id":"","hint":""}
+{"text":"同步密码（用于 AES 加密）","type":"Text","bounds":"[154,1362][1154,1411]","id":"","hint":""}
+{"text":"***************","type":"TextInput","bounds":"[154,1425][929,1579]","id":"","hint":"sync password"}
+{"text":"显示","type":"Button","bounds":"[957,1425][1154,1579]","id":"","hint":""}
+{"text":"远端目录","type":"Text","bounds":"[154,1621][1154,1670]","id":"","hint":""}
+{"text":"/sync","type":"TextInput","bounds":"[154,1684][1154,1838]","id":"","hint":"/weiyu_sync"}
+{"text":"提示：请先在 WebDAV 服务端创建该目录（只需一次）","type":"Text","bounds":"[154,1880][1154,1978]","id":"","hint":""}
+{"text":"自动同步","type":"Text","bounds":"[98,2132][1210,2189]","id":"","hint":""}
+{"text":"启用自动同步","type":"Text","bounds":"[154,2290][449,2347]","id":"","hint":""}
+{"text":"进入前台时按间隔自动同步","type":"Text","bounds":"[154,2347][659,2396]","id":"","hint":""}
+{"text":"手动操作","type":"Text","bounds":"[98,2609][1210,2666]","id":"","hint":""}
+{"text":"保存设置","type":"Button","bounds":"[154,2708][654,2782]","id":"","hint":""}
+{"text":"测试连接","type":"Button","bounds":"[682,2708][1154,2782]","id":"","hint":""}
+{"text":"03, :, 13","type":"Flex","bounds":"[42,47][181,131]","id":"ClockStatusView","hint":""}
+{"text":"03","type":"Text","bounds":"[42,58][104,120]","id":"","hint":""}
+{"text":":","type":"Text","bounds":"[104,63][119,116]","id":"TimeView_Text_timeText","hint":""}
+{"text":"13","type":"Text","bounds":"[119,58][181,120]","id":"","hint":""}
+{"text":"100","type":"Text","bounds":"[1177,67][1247,112]","id":"BatteryComponent-batteryIcon_Text_batterySoc","hint":""}
+
+**********************
+PowerShell transcript end
+End time: 20261016151331
+**********************

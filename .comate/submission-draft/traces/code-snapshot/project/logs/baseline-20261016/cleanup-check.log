@@ -1,0 +1,46 @@
+**********************
+PowerShell transcript start
+Start time: 20261016151839
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -Path logs/baseline-20261016/cleanup-check.log
+$baselineFixtureRemaining = @(Get-CimInstance Win32_Process | Where-Object { $_.Name -match '^python.*\.exe$' -and $_.CommandLine -match 'webdav-fixture\.py' })
+Write-Output "FIXTURE_REMAINING=$($baselineFixtureRemaining.Count)"
+$baselineListenRemaining = @(Get-NetTCPConnection -State Listen | Where-Object { $_.LocalPort -eq 18173 })
+Write-Output "FIXTURE_LISTENERS=$($baselineListenRemaining.Count)"
+hdc fport ls
+Write-Output "PORT_LIST_EXIT=$LASTEXITCODE"
+@{ event='server_stop_verified'; utc=(Get-Date).ToUniversalTime().ToString('o'); process_count=$baselineFixtureRemaining.Count; listener_count=$baselineListenRemaining.Count; detail='Stopped venv launcher PID 49312; child PID 45880 exited with it before second Stop-Process. Earlier cleanup shell exit 1 retained in device-finish log.' } | ConvertTo-Json -Compress | Add-Content -Encoding utf8 logs/baseline-20261016/fixture-requests.jsonl
+Stop-Transcript
+$baselineManifest = [ordered]@{}
+git ls-files | ForEach-Object { if (Test-Path -LiteralPath $_ -PathType Leaf) { $baselineManifest[$_] = (Get-FileHash -Algorithm SHA256 -LiteralPath $_).Hash.ToLower() } }
+$baselineManifest | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 logs/baseline-20261016/source-after.json
+Get-FileHash logs/baseline-20261016/source-before.json,logs/baseline-20261016/source-after.json -Algorithm SHA256 | Format-List
+Get-FileHash entry/build/default/outputs/default/entry-default-unsigned.hap -Algorithm SHA256 | Select-Object Path,Hash | ConvertTo-Json | Set-Content -Encoding utf8 logs/baseline-20261016/hap-sha256.json
+git diff --name-only
+rg -n 'WebDav|backup|Backup|export' logs/baseline-20261016/app-hilog.log | Select-Object -Last 20
+Process ID: 11136
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/baseline-20261016/cleanup-check.log
+FIXTURE_REMAINING=0
+FIXTURE_LISTENERS=0
+
+PORT_LIST_EXIT=0
+**********************
+PowerShell transcript end
+End time: 20261016151842
+**********************

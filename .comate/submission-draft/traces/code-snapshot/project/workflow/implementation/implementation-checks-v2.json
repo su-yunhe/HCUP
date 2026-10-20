@@ -1,0 +1,64 @@
+{
+  "design_sha256": "52c1ecbd06bfc1f55453c961ace20ec7e6a9d8cdce34632be6cb62faaf47162a",
+  "build_result": "D:\\HCUP\\vg-spec13\\logs\\implementation-build\\20261016-162656-result.json",
+  "build_exit_code": 0,
+  "hap": "D:\\HCUP\\vg-spec13\\entry\\build\\default\\outputs\\default\\entry-default-unsigned.hap",
+  "hap_bytes": 9002995,
+  "hap_sha256": "212fb45ccf577011aefb3d1596b6239a3d0a571bcc3226076cf9b1a69abebfa9",
+  "line_counts": {
+    "entry/src/main/ets/pages/SettingsPage.ets": 498,
+    "entry/src/main/ets/pages/settings/SettingsSyncSection.ets": 400,
+    "entry/src/main/ets/pages/settings/SettingsWebDavBuilders.ets": 455,
+    "entry/src/main/ets/pages/settings/SettingsNavigationBuilders.ets": 129,
+    "entry/src/main/ets/sync/ManualWebDavBackupController.ets": 110,
+    "entry/src/main/ets/sync/WebDavSyncManager.ets": 1219
+  },
+  "new_any_unknown_tokens": {
+    "entry/src/main/ets/pages/SettingsPage.ets": [],
+    "entry/src/main/ets/pages/settings/SettingsSyncSection.ets": [],
+    "entry/src/main/ets/pages/settings/SettingsWebDavBuilders.ets": [],
+    "entry/src/main/ets/pages/settings/SettingsNavigationBuilders.ets": [],
+    "entry/src/main/ets/sync/ManualWebDavBackupController.ets": [],
+    "entry/src/main/ets/sync/WebDavSyncManager.ets": []
+  },
+  "diff_check_exit_code": 0,
+  "diff_check_output": "",
+  "warning_comparison": {
+    "comparison": "file + message multiset; line numbers ignored because code moved",
+    "baseline_log": "D:\\HCUP\\vg-spec13\\logs\\baseline-20261016\\build-raw.log",
+    "build_log": "D:\\HCUP\\vg-spec13\\logs\\implementation-build\\20261016-162656-build.log",
+    "baseline_count": 759,
+    "current_count": 754,
+    "added": [],
+    "removed": [
+      {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "message": "'showToast' has been deprecated.",
+        "count": 2
+      },
+      {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "message": "Function may throw exceptions. Special handling is required.",
+        "count": 1
+      },
+      {
+        "file": "entry/src/main/ets/ui/LoadingAnimations.ets",
+        "message": "The @Prop property 'text' cannot be an optional parameter.",
+        "count": 1
+      },
+      {
+        "file": "entry/src/main/ets/ui/LoadingAnimations.ets",
+        "message": "The @Prop property 'duration' cannot be an optional parameter.",
+        "count": 1
+      }
+    ],
+    "new_file_diagnostics": []
+  },
+  "source_aggregate_sha256": "e463b2682fed306471dc9068eadf9666cc9928c02a297363a334bf70ff7b30d3",
+  "changed_tracked_files_since_implementation_start": [
+    "entry/src/main/ets/pages/SettingsPage.ets",
+    "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+    "entry/src/main/ets/sync/WebDavSyncManager.ets"
+  ],
+  "device_commands_performed": false
+}
