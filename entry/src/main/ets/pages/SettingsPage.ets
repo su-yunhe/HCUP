@@ -462,6 +462,7 @@ struct SettingsPage {
         // Header
         Row() {
           Text('←')
+            .id('settings_header_back')
             .fontSize(DesignTokens.Typography.FONT_SIZE_2XL)
             .fontColor(this.colors.GRAY_900)
             .onClick(() => { this.handleHeaderBack(); })
@@ -504,6 +505,7 @@ struct SettingsPage {
                     .height(64)
                     .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
                     .alignItems(VerticalAlign.Center)
+                    .id('settings_section_' + item.id)
                     .onClick(() => {
                       if (item.id === 'logger') {
                         router.pushUrl({ url: 'pages/LoggerPage' });
