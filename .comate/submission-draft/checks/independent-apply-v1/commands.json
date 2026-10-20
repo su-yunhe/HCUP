@@ -1,0 +1,230 @@
+[
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "-c",
+      "core.filemode=false",
+      "-c",
+      "core.quotepath=false",
+      "ls-files",
+      "--stage",
+      "-z"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec24",
+    "exit_code": 0,
+    "stdout": "command-00.stdout.raw",
+    "stderr": "command-00.stderr.raw"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "-c",
+      "core.filemode=false",
+      "-c",
+      "core.quotepath=false",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec24",
+    "exit_code": 0,
+    "stdout": "command-01.stdout.raw",
+    "stderr": "command-01.stderr.raw"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "-c",
+      "core.filemode=false",
+      "-c",
+      "core.quotepath=false",
+      "clone",
+      "--no-local",
+      "--depth",
+      "1",
+      "--single-branch",
+      "--no-tags",
+      "--no-checkout",
+      "--branch",
+      "cml-spec24",
+      "D:\\HCUP\\cml-spec24",
+      "D:\\HCUP\\cml-spec24\\.comate\\submission-check\\independent-22cdf5270e79\\applied-project"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec24",
+    "exit_code": 0,
+    "stdout": "command-02.stdout.raw",
+    "stderr": "command-02.stderr.raw"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "-c",
+      "core.filemode=false",
+      "-c",
+      "core.quotepath=false",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec24\\.comate\\submission-check\\independent-22cdf5270e79\\applied-project",
+    "exit_code": 0,
+    "stdout": "command-03.stdout.raw",
+    "stderr": "command-03.stderr.raw"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "-c",
+      "core.filemode=false",
+      "-c",
+      "core.quotepath=false",
+      "rev-parse",
+      "--is-shallow-repository"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec24\\.comate\\submission-check\\independent-22cdf5270e79\\applied-project",
+    "exit_code": 0,
+    "stdout": "command-04.stdout.raw",
+    "stderr": "command-04.stderr.raw"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "-c",
+      "core.filemode=false",
+      "-c",
+      "core.quotepath=false",
+      "checkout",
+      "--detach",
+      "ab3dc7cd5d05a9a3fd7d4e9ddd0a49e1a05085d8"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec24\\.comate\\submission-check\\independent-22cdf5270e79\\applied-project",
+    "exit_code": 0,
+    "stdout": "command-05.stdout.raw",
+    "stderr": "command-05.stderr.raw"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "-c",
+      "core.filemode=false",
+      "-c",
+      "core.quotepath=false",
+      "apply",
+      "--check",
+      "--binary",
+      "--index",
+      "--whitespace=nowarn",
+      "D:\\HCUP\\cml-spec24\\.comate\\submission-draft\\changes\\final.diff"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec24\\.comate\\submission-check\\independent-22cdf5270e79\\applied-project",
+    "exit_code": 0,
+    "stdout": "command-06.stdout.raw",
+    "stderr": "command-06.stderr.raw"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "-c",
+      "core.filemode=false",
+      "-c",
+      "core.quotepath=false",
+      "apply",
+      "--binary",
+      "--index",
+      "--whitespace=nowarn",
+      "D:\\HCUP\\cml-spec24\\.comate\\submission-draft\\changes\\final.diff"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec24\\.comate\\submission-check\\independent-22cdf5270e79\\applied-project",
+    "exit_code": 0,
+    "stdout": "command-07.stdout.raw",
+    "stderr": "command-07.stderr.raw"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "-c",
+      "core.filemode=false",
+      "-c",
+      "core.quotepath=false",
+      "ls-files",
+      "--stage",
+      "-z"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec24\\.comate\\submission-check\\independent-22cdf5270e79\\applied-project",
+    "exit_code": 0,
+    "stdout": "command-08.stdout.raw",
+    "stderr": "command-08.stderr.raw"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "-c",
+      "core.filemode=false",
+      "-c",
+      "core.quotepath=false",
+      "write-tree"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec24\\.comate\\submission-check\\independent-22cdf5270e79\\applied-project",
+    "exit_code": 0,
+    "stdout": "command-09.stdout.raw",
+    "stderr": "command-09.stderr.raw"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "-c",
+      "core.filemode=false",
+      "-c",
+      "core.quotepath=false",
+      "ls-files",
+      "--stage",
+      "-z"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec24",
+    "exit_code": 0,
+    "stdout": "command-10.stdout.raw",
+    "stderr": "command-10.stderr.raw"
+  }
+]

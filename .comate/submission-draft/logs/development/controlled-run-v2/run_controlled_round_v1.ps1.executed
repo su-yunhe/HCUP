@@ -1,0 +1,41 @@
+param(
+  [Parameter(Mandatory=$true)][string]$Round,
+  [string]$Freeze='workflow/verification-freeze-v4.json',
+  [string[]]$Methods=@(),
+  [string]$ExpectedMainHash='74d10ad1219d5ef36697b248657d9c557aff5978c6ddc19a3eec96dc8ec8acf3',
+  [string]$ExpectedTestHash='70c5db809b865584b561ace940c3b3f2c472f446e431e89c57f5b2afe11b6a3d'
+)
+. 'D:/hongmengcup/Enter-HarmonyEnv.ps1'
+. 'D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1'
+. 'D:/HCUP/cml-spec24/workflow/verification/run_device_command.ps1'
+$ErrorActionPreference='Stop'
+if ($Round -notmatch '^controlled-[a-z0-9-]{1,50}$') {throw 'Use a unique controlled-* round name'}
+$taskRoot='D:/HCUP/cml-spec24'
+Set-Location -LiteralPath $taskRoot
+$logDir=Join-Path $taskRoot ('logs/development/'+$Round)
+if (Test-Path -LiteralPath (Join-Path $logDir 'suite.raw.log')) {throw 'Do not overwrite an earlier round'}
+New-Item -ItemType Directory -Path $logDir -Force | Out-Null
+$deviceDir=Join-Path $taskRoot 'logs/development/device-v4'
+$env:PYTHONDONTWRITEBYTECODE='1'
+$env:PYTHONPATH='D:/HCUP/common/test-harness;D:/HCUP/cml-spec24'
+$mainHap=(Resolve-Path -LiteralPath 'entry/build/default/outputs/emulator/entry-emulator-unsigned.hap').Path
+$testHap=(Resolve-Path -LiteralPath 'entry/build/default/outputs/ohosTest/entry-ohosTest-unsigned.hap').Path
+if ((Get-FileHash -LiteralPath $mainHap -Algorithm SHA256).Hash.ToLowerInvariant() -ne $ExpectedMainHash) {throw 'Main HAP differs from this authorized run'}
+if ((Get-FileHash -LiteralPath $testHap -Algorithm SHA256).Hash.ToLowerInvariant() -ne $ExpectedTestHash) {throw 'Test HAP differs from this authorized run'}
+Invoke-CmlDevice -Label ($Round+'-main') -HdcArguments @('install','-r',$mainHap) -EvidenceDirectory $deviceDir
+Invoke-CmlDevice -Label ($Round+'-test') -HdcArguments @('install','-r',$testHap) -EvidenceDirectory $deviceDir
+Invoke-CmlDevice -Label ($Round+'-bundle') -HdcArguments @('shell','bm','dump','-n','com.joker.coolmall') -EvidenceDirectory $deviceDir
+$env:CMLSPEC24_FIXTURE_INSTALL_RECEIPT=Join-Path $logDir 'install-receipt.json'
+python workflow/verification/prepare_fixture_receipt_v1.py --main-hap $mainHap --test-hap $testHap --default-hap entry/build/default/outputs/default/entry-default-unsigned.hap --main-install (Join-Path $deviceDir ($Round+'-main.command.json')) --test-install (Join-Path $deviceDir ($Round+'-test.command.json')) --bundle-dump (Join-Path $deviceDir ($Round+'-bundle.stdout.log')) --freeze $Freeze --out $env:CMLSPEC24_FIXTURE_INSTALL_RECEIPT
+if ($LASTEXITCODE -ne 0) {throw 'Native installation/package/source receipt failed'}
+foreach ($filename in @('controlled_ui_support_v1.py','test_controlled_ui_v1.py','run_controlled_round_v1.ps1')) {Copy-Item -LiteralPath ('workflow/verification/'+$filename) -Destination (Join-Path $logDir ($filename+'.executed'))}
+$testArguments=@('workflow/verification/test_controlled_ui_v1.py','--json',(Join-Path $logDir 'result.json'),'--failfast')
+foreach ($method in $Methods) {$testArguments+=@('--method',$method)}
+$started=Get-Date -AsUTC -Format o
+python @testArguments *> (Join-Path $logDir 'suite.raw.log')
+$result=$LASTEXITCODE
+[ordered]@{command=@('python')+$testArguments;started_utc=$started;ended_utc=(Get-Date -AsUTC -Format o);exit_code=$result;receipt=$env:CMLSPEC24_FIXTURE_INSTALL_RECEIPT;freeze=$Freeze;scope='device_controlled, not real HTTP'} | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $logDir 'suite.command.json')
+Invoke-CmlDevice -Label ($Round+'-pidon') -HdcArguments @('shell','hilog','-Q','pidon') -EvidenceDirectory $deviceDir
+Invoke-CmlDevice -Label ($Round+'-domainon') -HdcArguments @('shell','hilog','-Q','domainon') -EvidenceDirectory $deviceDir
+Get-Content -LiteralPath (Join-Path $logDir 'suite.raw.log') -Tail 32
+exit $result

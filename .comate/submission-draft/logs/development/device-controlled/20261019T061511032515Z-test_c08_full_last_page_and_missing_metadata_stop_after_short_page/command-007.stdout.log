@@ -1,0 +1,80 @@
+10-19 14:15:12.371  2966  2966 I C02c11/APPSPAWN: AppSpawnChild id 107 flags:0xc
+10-19 14:15:12.371  2966  2966 I C02c02/PARAM: ResetParamSecurityLabel Fd:18
+10-19 14:15:12.371  2966  2966 I C02d33/HitraceOption: FilterAppTrace com.joker.coolmall 2966
+10-19 14:15:12.371  2966  2966 W C02c11/APPSPAWN: errno:2 bind mount /system/app/ArkWebCoreLegacy to /mnt/sandbox/100/com.joker.coolmall/system/app/ArkWebCoreLegacy
+10-19 14:15:12.372  2966  2966 W C02c11/APPSPAWN: errno:2 bind mount /vendor/etc/hiai to /mnt/sandbox/100/com.joker.coolmall/vendor/etc/hiai
+10-19 14:15:12.372  2966  2966 W C02c11/APPSPAWN: errno:2 bind mount /data/data/hiai to /mnt/sandbox/100/com.joker.coolmall/data/data/hiai
+10-19 14:15:12.372  2966  2966 W C02c11/APPSPAWN: errno:2 bind mount /data/service/el1/public/themes/100/a/app to /mnt/sandbox/100/com.joker.coolmall/data/themes/a/app
+10-19 14:15:12.372  2966  2966 W C02c11/APPSPAWN: errno:2 bind mount /data/service/el1/public/themes/100/b/app to /mnt/sandbox/100/com.joker.coolmall/data/themes/b/app
+10-19 14:15:12.372  2966  2966 W C02c11/APPSPAWN: errno:2 bind mount /data/service/el1/100/for-all-app/fonts to /mnt/sandbox/100/com.joker.coolmall/data/service/el1/public/for-all-app/fonts
+10-19 14:15:12.372  2966  2966 W C02c11/APPSPAWN: errno:2 bind mount /chip_prod/lib64/passthrough to /mnt/sandbox/100/com.joker.coolmall/chip_prod/lib64/passthrough
+10-19 14:15:12.372  2966  2966 W C02c11/APPSPAWN: errno:2 bind mount /data/app/el1/bundle/public/com.huawei.hmos.arkwebcorelegacy to /mnt/sandbox/100/com.joker.coolmall/data/storage/el1/bundle/arkwebcorelegacy
+10-19 14:15:12.372  2966  2966 W C02c11/APPSPAWN: check dir /data/app/el1/bundle/public/com.huawei.hmos.arkwebcorelegacy failed,strerror:No such file or directory
+10-19 14:15:12.372  2966  2966 W C02c11/APPSPAWN: check dir /data/app/el1/public/aot_compiler/ark_cache/com.joker.coolmall failed,strerror:No such file or directory
+10-19 14:15:12.381  2966  2966 W C02c11/APPSPAWN: errno:2 bind mount /data/preload/app to /mnt/sandbox/100/com.joker.coolmall/data/preload/app
+10-19 14:15:12.383  2966  2966 E C02c11/APPSPAWN: [sandbox_dec.c:180]open dec file fail.
+10-19 14:15:12.383  2966  2966 I C05a03/Selinux: Hap type for com.joker.coolmall is changing from u:r:appspawn:s0 to o:r:debug_hap:s0:x94,x334,x512,x868,x1024
+10-19 14:15:12.383  2966  2966 I C05a03/Selinux: Hap setcon finish for com.joker.coolmall
+10-19 14:15:12.384  2966  2966 I C05a05/SecCompEnhanceClient: [RegisterCheckCallback]Register secComp: sessionId=3718066216, seqNum=******893.
+10-19 14:15:12.385  2966  4975 W C057c1/IPCWorkThread: ThreadHandler: proto:0 policy:1 name:OS_IPC_0_4975 invoker:14067872
+10-19 14:15:12.385  2966  4976 W C057c1/IPCWorkThread: ThreadHandler: proto:0 policy:0 name:OS_IPC_1_4976 invoker:14068432
+10-19 14:15:12.385  2966  2966 I C02d0b/HICHECKER: hichecker param is empty.
+10-19 14:15:12.385  2966  2966 I C04500/webview: SelectWebcoreBeforeProcessRun: SelectWebcoreBeforeProcessRun for app com.joker.coolmall.
+10-19 14:15:12.385  2966  2966 I C04500/webview: CalculateActiveWebEngineVersion: CalculateActiveWebEngineVersion, enforce EVERGREEN
+10-19 14:15:12.386  2966  2966 I C01317/AppKit: [MTHRD3190]mainthread start, pid:2966
+10-19 14:15:12.387  2966  4977 I C02d06/XCollie: init default task finished.
+10-19 14:15:12.387  2966  2966 I C01317/AppKit: [MTHRD431]attach
+10-19 14:15:12.397  2966  4975 I C01317/AppKit: [MTHRD825]ScheduleLaunchAbility called, ability FixtureAbility, type is 1.
+10-19 14:15:12.400  2966  4983 W C057c1/IPCWorkThread: ThreadHandler: proto:0 policy:0 name:OS_IPC_2_4983 invoker:14069008
+10-19 14:15:12.404  2966  2966 I C03900/ACE_UIContent: [69]AceForwardCompatibility [com.joker.coolmall] force:1 newpipe:1
+10-19 14:15:12.406  2966  2966 I C01317/AppKit: [MTHRD256]NativeLibPath empty
+10-19 14:15:12.406  2966  2966 I C01317/AppKit: [MTHRD1814]SmartGC: process is start. enable warm startup SmartGC: 0
+10-19 14:15:12.409  2966  2966 I C03f00/ArkCompiler: [ecmascript] asmint: 1, aot: 0, jit: 1, baseline jit: 0, bundle name: com.joker.coolmall, arkTSMode: dynamic
+10-19 14:15:12.413  2966  4989 E C01707/CONCUR: [Interface] task 4989 apply qos failed, errno = 4
+10-19 14:15:12.413  2966  2966 I C03f00/ArkCompiler: [ecmascript] multi-thread check enabled: 0
+10-19 14:15:12.413  2966  2966 I C03f00/ArkCompiler: [pgo] reset pgo profiler, pgo profiler is disabled
+10-19 14:15:12.413  2966  2966 I C03301/LIBUV: clean up handles in loop(4944)
+10-19 14:15:12.413  2966  2966 I C03301/LIBUV: loop:(4944) closed in 0s
+10-19 14:15:12.413  2966  2966 I C03301/LIBUV: close:4944, async_io_wfd:16
+10-19 14:15:12.413  2966  2966 I C03301/LIBUV: close:4944, backend_fd:10
+10-19 14:15:12.413  2966  2966 I C03301/LIBUV: init:4064
+10-19 14:15:12.413  2966  2966 I C03301/LIBUV: init:4064, backend_fd:10
+10-19 14:15:12.413  2966  2966 I C03301/LIBUV: open:4064, pipefd[0]:16
+10-19 14:15:12.413  2966  2966 I C03f00/ArkCompiler: [ecmascript] can not find aot file
+10-19 14:15:12.418  2966  2966 I C03f00/ArkCompiler: StartServer, componentName = <private>
+10-19 14:15:12.418  2966  2966 W C01321/JsRuntime: [CSM161]not Connected
+10-19 14:15:12.418  2966  2966 I C03f00/ArkCompiler: [ecmascript] JSNApi::NotifyDebugMode, tid = 2966, debugApp = 1, isDebugMode = 0, instanceId = 0
+10-19 14:15:12.419  2966  2966 I C03f00/ArkCompiler: [compiler] __jit_debug_register_code() is called.
+10-19 14:15:12.419  2966  2966 I C03f00/ArkCompiler: [compiler] success to register stub.an to debugger.
+10-19 14:15:12.420  2966  4988 I C01317/AppKit: [DRH393]File existed. dir: /data/storage/el2/base/cache/rawheap
+10-19 14:15:12.420  2966  4988 I C01317/AppKit: [DRH373]success to create /data/storage/el2/base/cache/rawheap
+10-19 14:15:12.420  2966  2966 W C01e00/ResourceManager: update userId, currentUserId_= 0, userId= 100
+10-19 14:15:12.420  2966  2966 E C01e00/ResourceManager: LoadThemesRes failed, userId = 100, bundleName = com.joker.coolmall
+10-19 14:15:12.420  2966  2966 W C01e00/ResourceManager: theme resources will clean, id 100
+10-19 14:15:12.420  2966  4997 I C02c03/PARAM_WATCHER: Add watcher keyPrefix persist.hdc.jdwp remoteWatcherId 861 success
+10-19 14:15:12.421  2966  4997 E C02c02/PARAM: [param_manager.c:723]Invalid workSpace for handle 13000650
+10-19 14:15:12.421  2966  4997 E C02c0b/BEGET: [parameter.c:79]GetParameterValue failed! the errNum is: 106
+10-19 14:15:12.421  2966  4984 W C01653/NativePreferences: LoadFromDisk: The settingXml /***/el1/***/i18*** load failed.
+10-19 14:15:12.422  2966  4997 I C02d13/HDC_LOG: AddWatchHdcdJdwp rc:0
+10-19 14:15:12.422  2966  4997 I C02d13/HDC_LOG: connect success cfd:25
+10-19 14:15:12.424  2966  4997 I C02d13/HDC_LOG: Send2Jdwp send pid:2966, pp:com.joker.coolmall, isDebug:1, msglen:30
+10-19 14:15:12.428  2966  2966 E C01301/CompatiblePolicyDeviceType: [calculateResourceType:81]deviceType is empty.
+10-19 14:15:12.432  2966  2966 W C01301/Ability: [resource_config_helper.cpp183]invalid source:
+10-19 14:15:12.432  2966  2966 W C01301/Ability: [resource_config_helper.cpp183]invalid source:
+10-19 14:15:12.432  2966  2966 I C01317/AppKit: [application_cleaner.cpp94]ClearTempData
+10-19 14:15:12.449  2966  2966 I C01317/AppKit: [JAS193]LoadModule
+10-19 14:15:12.450  2966  2966 W C01317/AppKit: [JAS906]null stage
+10-19 14:15:12.450  2966  2966 W C01317/AppKit: [JAS236]Not found AbilityStage.js
+10-19 14:15:12.456  2966  2966 I C03f00/ArkCompiler: [ecmascript] can not find aot file
+10-19 14:15:12.459  2966  4991 I C03f00/ArkCompiler: [pgo] will save profiler to file /data/storage/ark-profile/rt_entry_test.ap
+10-19 14:15:12.459  2966  2966 I C03f00/ArkCompiler: [ecmascript] start to execute module buffer with secure memory: /data/storage/el1/bundle/entry_test/ets/fixture/FixtureAbility.abc
+10-19 14:15:12.459  2966  2966 E C03f00/ArkCompiler: [common] Can not open xpm proc file, do not check secure memory anymore.
+10-19 14:15:12.463  2966  2966 E C01707/CONCUR: [Interface] task 4991 apply qos failed, errno = 4
+10-19 14:15:12.466  2966  2966 E C01707/CONCUR: [Interface] task 4990 apply qos failed, errno = 4
+10-19 14:15:12.468  2966  2966 E C01707/CONCUR: [Interface] task 4992 apply qos failed, errno = 4
+10-19 14:15:12.471  2966  2966 E C01707/CONCUR: [Interface] task 4991 apply qos failed, errno = 4
+10-19 14:15:12.473  2966  2966 E C01707/CONCUR: [Interface] task 4990 apply qos failed, errno = 4
+10-19 14:15:12.476  2966  2966 E C01707/CONCUR: [Interface] task 4992 apply qos failed, errno = 4
+10-19 14:15:12.487  2966  2966 E C01700/RSS: ResSchedClient::ReportData type not subscribed.
+10-19 14:15:12.487  2966  2966 I C03f04/MMG: [NMM:1376]Module:arkui.StateManagement
+10-19 14:15:12.492  2966  2966 I C03f04/MMG: [NMM:1376]Module:arkui.node

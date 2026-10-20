@@ -1,0 +1,805 @@
+{
+  "scope": "host read-only live service contract; not app UI validation",
+  "checks": [
+    {
+      "check": "03-goods-price-asc",
+      "status": "pass",
+      "detail": [
+        63,
+        115,
+        139,
+        229,
+        229,
+        249,
+        329,
+        349,
+        349,
+        399,
+        649,
+        699,
+        799,
+        799,
+        799,
+        949,
+        1099,
+        1199,
+        1299,
+        1349
+      ]
+    },
+    {
+      "check": "04-goods-price-desc",
+      "status": "pass",
+      "detail": [
+        8499,
+        7999,
+        6999,
+        5999,
+        5999,
+        5699,
+        5499,
+        4999,
+        4999,
+        4999,
+        4999,
+        4799,
+        4599,
+        4299,
+        3999,
+        3599,
+        3599,
+        3499,
+        2999,
+        2999
+      ]
+    },
+    {
+      "check": "05-goods-sold-asc",
+      "status": "pass",
+      "detail": [
+        1,
+        3,
+        4,
+        6,
+        7,
+        15,
+        16,
+        42,
+        43,
+        50,
+        116,
+        130,
+        139,
+        143,
+        159,
+        162,
+        164,
+        177,
+        186,
+        193
+      ]
+    },
+    {
+      "check": "06-goods-sold-desc",
+      "status": "pass",
+      "detail": [
+        9145,
+        5030,
+        4683,
+        4393,
+        3309,
+        2101,
+        2053,
+        1773,
+        1753,
+        1056,
+        932,
+        687,
+        653,
+        635,
+        631,
+        628,
+        557,
+        509,
+        459,
+        456
+      ]
+    },
+    {
+      "check": "price-scale-50-200",
+      "status": "pass",
+      "detail": [
+        830044,
+        830049,
+        830030
+      ]
+    },
+    {
+      "check": "lower-bound-exclusive",
+      "status": "pass",
+      "detail": "139 excluded at min139; 63 excluded at min63"
+    },
+    {
+      "check": "upper-bound-inclusive",
+      "status": "pass",
+      "detail": "139 included at max139"
+    },
+    {
+      "check": "equal-bounds-empty",
+      "status": "pass",
+      "detail": {
+        "total": 0,
+        "size": 100,
+        "page": 1
+      }
+    },
+    {
+      "check": "decimal-lower-bound",
+      "status": "pass",
+      "detail": [
+        830049
+      ]
+    },
+    {
+      "check": "root-not-expanded-by-service",
+      "status": "pass",
+      "detail": {
+        "total": 0,
+        "size": 100,
+        "page": 1
+      }
+    },
+    {
+      "check": "leaf-category-exact",
+      "status": "pass",
+      "detail": [
+        1,
+        830001,
+        830002,
+        830003,
+        830004,
+        830005,
+        830006,
+        830007,
+        830008,
+        830009,
+        830010,
+        830011
+      ]
+    },
+    {
+      "check": "multi-category-or",
+      "status": "pass",
+      "detail": [
+        1,
+        830049,
+        830050,
+        830001,
+        830002,
+        830003,
+        830004,
+        830005,
+        830006,
+        830007,
+        830008,
+        830009,
+        830010,
+        830011
+      ]
+    },
+    {
+      "check": "category-and-price",
+      "status": "pass",
+      "detail": [
+        830049
+      ]
+    },
+    {
+      "check": "empty-types-is-unfiltered",
+      "status": "pass",
+      "detail": 51
+    },
+    {
+      "check": "17-recommend-true",
+      "status": "pass",
+      "detail": 8
+    },
+    {
+      "check": "18-recommend-false",
+      "status": "pass",
+      "detail": 43
+    },
+    {
+      "check": "19-featured-true",
+      "status": "pass",
+      "detail": 9
+    },
+    {
+      "check": "20-featured-false",
+      "status": "pass",
+      "detail": 42
+    },
+    {
+      "check": "both-false-filters",
+      "status": "pass",
+      "detail": 34
+    },
+    {
+      "check": "pagination-20-20-11",
+      "status": "pass",
+      "detail": [
+        20,
+        20,
+        11,
+        0
+      ]
+    },
+    {
+      "check": "full-last-page-metadata",
+      "status": "pass",
+      "detail": {
+        "total": 51,
+        "size": 17,
+        "page": 3
+      }
+    },
+    {
+      "check": "default-stable-in-window",
+      "status": "pass",
+      "detail": [
+        1,
+        830040,
+        830041,
+        830042,
+        830043,
+        830044,
+        830045,
+        830046,
+        830047,
+        830048,
+        830049,
+        830050,
+        830001,
+        830002,
+        830003,
+        830004,
+        830005,
+        830006,
+        830007,
+        830008
+      ]
+    },
+    {
+      "check": "empty-sort-not-equivalent",
+      "status": "pass",
+      "detail": {
+        "omitted": [
+          1,
+          830040,
+          830041,
+          830042,
+          830043,
+          830044,
+          830045,
+          830046,
+          830047,
+          830048,
+          830049,
+          830050,
+          830001,
+          830002,
+          830003,
+          830004,
+          830005,
+          830006,
+          830007,
+          830008
+        ],
+        "empty": [
+          1,
+          830001,
+          830002,
+          830003,
+          830004,
+          830005,
+          830006,
+          830007,
+          830008,
+          830009,
+          830010,
+          830011,
+          830012,
+          830013,
+          830014,
+          830015,
+          830016,
+          830017,
+          830018,
+          830019
+        ]
+      }
+    },
+    {
+      "check": "keyword-case",
+      "status": "pass",
+      "detail": [
+        1
+      ]
+    },
+    {
+      "check": "keyword-empty-result",
+      "status": "pass",
+      "detail": {
+        "total": 0,
+        "size": 20,
+        "page": 1
+      }
+    },
+    {
+      "check": "category-shape",
+      "status": "pass",
+      "detail": "43 flat rows: 10 roots + 33 children"
+    }
+  ],
+  "catalogue": [
+    {
+      "id": 1,
+      "typeId": 801001,
+      "title": "Xiaomi 15S Pro",
+      "price": 5499,
+      "sold": 459,
+      "recommend": false,
+      "featured": true
+    },
+    {
+      "id": 830040,
+      "typeId": 801021,
+      "title": "米家洗衣机 迷你双区洗烘1kg",
+      "price": 1499,
+      "sold": 7,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830041,
+      "typeId": 801021,
+      "title": "米家洗衣机 优选版 洗烘13kg",
+      "price": 1999,
+      "sold": 6,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830042,
+      "typeId": 801022,
+      "title": "米家波轮洗衣机系列",
+      "price": 649,
+      "sold": 932,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830043,
+      "typeId": 801023,
+      "title": "小米小爱音箱 儿童版",
+      "price": 249,
+      "sold": 130,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830044,
+      "typeId": 801024,
+      "title": "Xiaomi路由器 4A 千兆版",
+      "price": 115,
+      "sold": 164,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830045,
+      "typeId": 801025,
+      "title": "米家智能保管箱30cm",
+      "price": 699,
+      "sold": 42,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830046,
+      "typeId": 801026,
+      "title": "小米中枢网关",
+      "price": 349,
+      "sold": 631,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830047,
+      "typeId": 801027,
+      "title": "米家车载吸尘器",
+      "price": 329,
+      "sold": 162,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830048,
+      "typeId": 801031,
+      "title": "米家直流变频两季扇",
+      "price": 799,
+      "sold": 195,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830049,
+      "typeId": 801032,
+      "title": "米家便携电热杯2",
+      "price": 139,
+      "sold": 1056,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830050,
+      "typeId": 801032,
+      "title": "米家智能消毒机",
+      "price": 949,
+      "sold": 3,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830001,
+      "typeId": 801001,
+      "title": "Xiaomi 17T Pro",
+      "price": 3999,
+      "sold": 306,
+      "recommend": false,
+      "featured": true
+    },
+    {
+      "id": 830002,
+      "typeId": 801001,
+      "title": "Xiaomi 17T",
+      "price": 2999,
+      "sold": 653,
+      "recommend": false,
+      "featured": true
+    },
+    {
+      "id": 830003,
+      "typeId": 801001,
+      "title": "Xiaomi 17 Max",
+      "price": 4799,
+      "sold": 434,
+      "recommend": false,
+      "featured": true
+    },
+    {
+      "id": 830004,
+      "typeId": 801001,
+      "title": "Xiaomi 17 Ultra 徕卡版",
+      "price": 7999,
+      "sold": 509,
+      "recommend": false,
+      "featured": true
+    },
+    {
+      "id": 830005,
+      "typeId": 801001,
+      "title": "Xiaomi 17 Ultra",
+      "price": 6999,
+      "sold": 410,
+      "recommend": false,
+      "featured": true
+    },
+    {
+      "id": 830006,
+      "typeId": 801001,
+      "title": "Xiaomi 17 Pro Max",
+      "price": 5999,
+      "sold": 5030,
+      "recommend": false,
+      "featured": true
+    },
+    {
+      "id": 830007,
+      "typeId": 801001,
+      "title": "Xiaomi 17 Pro",
+      "price": 4999,
+      "sold": 4393,
+      "recommend": false,
+      "featured": true
+    },
+    {
+      "id": 830008,
+      "typeId": 801001,
+      "title": "Xiaomi 17",
+      "price": 4299,
+      "sold": 3309,
+      "recommend": false,
+      "featured": true
+    },
+    {
+      "id": 830009,
+      "typeId": 801001,
+      "title": "Xiaomi 15 Ultra",
+      "price": 4999,
+      "sold": 2101,
+      "recommend": true,
+      "featured": false
+    },
+    {
+      "id": 830010,
+      "typeId": 801001,
+      "title": "Xiaomi 15 Pro",
+      "price": 4999,
+      "sold": 4683,
+      "recommend": true,
+      "featured": false
+    },
+    {
+      "id": 830011,
+      "typeId": 801001,
+      "title": "Xiaomi 15",
+      "price": 3599,
+      "sold": 9145,
+      "recommend": true,
+      "featured": false
+    },
+    {
+      "id": 830012,
+      "typeId": 801002,
+      "title": "Xiaomi MIX Flip 2",
+      "price": 4999,
+      "sold": 687,
+      "recommend": true,
+      "featured": false
+    },
+    {
+      "id": 830013,
+      "typeId": 801003,
+      "title": "Xiaomi Civi 5 Pro",
+      "price": 2499,
+      "sold": 1773,
+      "recommend": true,
+      "featured": false
+    },
+    {
+      "id": 830014,
+      "typeId": 801003,
+      "title": "Xiaomi Civi 4 Pro",
+      "price": 2099,
+      "sold": 2053,
+      "recommend": true,
+      "featured": false
+    },
+    {
+      "id": 830015,
+      "typeId": 801004,
+      "title": "REDMI K90 至尊版",
+      "price": 2999,
+      "sold": 139,
+      "recommend": true,
+      "featured": false
+    },
+    {
+      "id": 830016,
+      "typeId": 801005,
+      "title": "REDMI Note 17 Pro",
+      "price": 1599,
+      "sold": 4,
+      "recommend": true,
+      "featured": false
+    },
+    {
+      "id": 830017,
+      "typeId": 801006,
+      "title": "REDMI Turbo 5 Max",
+      "price": 2499,
+      "sold": 1753,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830018,
+      "typeId": 801007,
+      "title": "REDMI 17C",
+      "price": 799,
+      "sold": 1,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830019,
+      "typeId": 801008,
+      "title": "REDMI Pad 2 SE",
+      "price": 1199,
+      "sold": 16,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830020,
+      "typeId": 801008,
+      "title": "REDMI Pad 2",
+      "price": 1299,
+      "sold": 342,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830021,
+      "typeId": 801008,
+      "title": "REDMI Pad 2 Pro",
+      "price": 1899,
+      "sold": 297,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830022,
+      "typeId": 801009,
+      "title": "Xiaomi Pad 8 Pro",
+      "price": 2999,
+      "sold": 628,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830023,
+      "typeId": 801009,
+      "title": "Xiaomi Pad 8",
+      "price": 2799,
+      "sold": 635,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830024,
+      "typeId": 801009,
+      "title": "Xiaomi Pad 7 Ultra",
+      "price": 5699,
+      "sold": 218,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830025,
+      "typeId": 801010,
+      "title": "小米手环10 Pro",
+      "price": 399,
+      "sold": 397,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830026,
+      "typeId": 801011,
+      "title": "Xiaomi Wa ch S5",
+      "price": 1099,
+      "sold": 368,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830027,
+      "typeId": 801012,
+      "title": "REDMI 头戴降噪耳机",
+      "price": 349,
+      "sold": 50,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830028,
+      "typeId": 801012,
+      "title": "Xiaomi 耳夹式耳机",
+      "price": 799,
+      "sold": 116,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830029,
+      "typeId": 801012,
+      "title": "REDMI Buds 8",
+      "price": 229,
+      "sold": 193,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830030,
+      "typeId": 801013,
+      "title": "Xiaomi Tag",
+      "price": 63,
+      "sold": 143,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830031,
+      "typeId": 801014,
+      "title": "Xiaomi Book Pro 14",
+      "price": 8499,
+      "sold": 177,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830032,
+      "typeId": 801014,
+      "title": "REDMI Book 14 2025",
+      "price": 3599,
+      "sold": 454,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830033,
+      "typeId": 801015,
+      "title": "REDMI 显示器 G34WQ 2026",
+      "price": 1399,
+      "sold": 15,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830034,
+      "typeId": 801016,
+      "title": "米家智能显示器挂灯1S",
+      "price": 229,
+      "sold": 456,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830035,
+      "typeId": 801017,
+      "title": "小米电视S Mini LED 2026 系列",
+      "price": 3499,
+      "sold": 159,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830036,
+      "typeId": 801017,
+      "title": "小米电视S Pro Mini LED 2026",
+      "price": 5999,
+      "sold": 224,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830037,
+      "typeId": 801018,
+      "title": "REDMI智能电视 A Pro系列",
+      "price": 1349,
+      "sold": 557,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830038,
+      "typeId": 801019,
+      "title": "REDMI 智能电视 MAX系列",
+      "price": 4599,
+      "sold": 43,
+      "recommend": false,
+      "featured": false
+    },
+    {
+      "id": 830039,
+      "typeId": 801020,
+      "title": "米家洗衣机 多区洗衣机系列",
+      "price": 2999,
+      "sold": 186,
+      "recommend": false,
+      "featured": false
+    }
+  ]
+}

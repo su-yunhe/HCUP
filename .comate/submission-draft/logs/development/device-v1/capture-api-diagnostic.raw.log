@@ -1,0 +1,47 @@
+[2026-10-19 12:37:18,385] [22276] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-19 12:37:18,386] [22276] [EnvPool] [INFO] [Report path: D:\HCUP\cml-spec24\reports\2026-10-19-12-37-18]
+[2026-10-19 12:37:18,386] [22276] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-19 12:37:18,388] [22276] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-19 12:37:18,388] [22276] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-19 12:37:18,390] [22276] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-19 12:37:18,390] [22276] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 12:37:18,390] [22276] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 12:37:18,910] [35956] [Hdc] [INFO] [127.0.0.1:11235		TCP	Offline	localhost
+127.0.0.1:11237		TCP	Connected	localhost
+127.0.0.1:11239		TCP	Connected	localhost
+127.0.0.1:11241		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-19 12:37:19,402] [22276] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11241'], label:phone]]
+[2026-10-19 12:37:19,402] [22276] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11241'], label:phone]]
+[2026-10-19 12:37:19,402] [22276] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11241'], label:phone]]
+[2026-10-19 12:37:19,402] [22276] [EnvPool] [INFO] [Device 127.0.0.1:11241: extend value: {}]
+[2026-10-19 12:37:19,620] [22276] [Device] [INFO] [6.0.2.3]
+[2026-10-19 12:37:19,790] [22276] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-19 12:37:19,790] [22276] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-19 12:37:19,839] [22276] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 3996]
+[2026-10-19 12:37:19,839] [22276] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-19 12:37:19,886] [22276] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-19 12:37:19,886] [22276] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-19 12:37:19,921] [22276] [Device] [INFO] [Device agent is up to date!]
+[2026-10-19 12:37:19,964] [22276] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-19 12:37:22,046] [22276] [DeviceUIProxy] [INFO] [tcp forward port: 9929 for 127.0.0.1:11241]
+[2026-10-19 12:37:22,147] [22276] [Device] [INFO] [hypium base version: 6.1.0.210]
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 815, in capture_screen
+    return self._driver_impl.capture_screen(save_path, in_pc, area)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 1343, in capture_screen
+    raise HypiumParamError(msg="Only support jpeg image")
+hypium.exception.HypiumParamError: Only support jpeg image
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 815, in capture_screen
+    return self._driver_impl.capture_screen(save_path, in_pc, area)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 1343, in capture_screen
+    raise HypiumParamError(msg="Only support jpeg image")
+hypium.exception.HypiumParamError: Only support jpeg image

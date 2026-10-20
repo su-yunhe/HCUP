@@ -1,0 +1,236 @@
+{
+  "frozen_changes": [],
+  "packages": [
+    {
+      "target": "default",
+      "path": "D:\\HCUP\\cml-spec24\\entry\\build\\default\\outputs\\default\\entry-default-unsigned.hap",
+      "bytes": 19931107,
+      "sha256": "43a792044b881934ca1bec6ff14a51847dba4008afe0dd86a7e714f914975579",
+      "native_libs": [
+        "libs/arm64-v8a/libblueshield.so",
+        "libs/arm64-v8a/libutdid_native.so"
+      ],
+      "module": {
+        "app": {
+          "iconId": 167772163,
+          "debug": true,
+          "targetPatchAPIVersion": 0,
+          "minAPIVersion": 60001021,
+          "icon": "$media:layered_image",
+          "buildMode": "debug",
+          "label": "$string:app_name",
+          "bundleType": "app",
+          "versionName": "1.0.0",
+          "versionCode": 1000000,
+          "appEnvironments": [],
+          "compileSdkType": "HarmonyOS",
+          "labelId": 167772160,
+          "compileSdkVersion": "6.1.0.105",
+          "targetAPIVersion": 60001021,
+          "vendor": "example",
+          "bundleName": "com.joker.coolmall",
+          "apiReleaseType": "Release",
+          "targetMinorAPIVersion": 0
+        },
+        "module": {
+          "virtualMachine": "ark13.0.1.0",
+          "mainElement": "EntryAbility",
+          "installationFree": false,
+          "deliveryWithInstall": true,
+          "requestPermissions": [
+            {
+              "usedScene": {
+                "abilities": [
+                  "EntryAbility"
+                ],
+                "when": "inuse"
+              },
+              "name": "ohos.permission.INTERNET"
+            },
+            {
+              "name": "ohos.permission.GET_NETWORK_INFO"
+            },
+            {
+              "name": "ohos.permission.PRIVACY_WINDOW"
+            },
+            {
+              "usedScene": {},
+              "name": "ohos.permission.STORE_PERSISTENT_DATA"
+            }
+          ],
+          "description": "$string:module_desc",
+          "extensionAbilities": [
+            {
+              "exported": false,
+              "metadata": [
+                {
+                  "resourceId": 167772170,
+                  "resource": "$profile:backup_config",
+                  "name": "ohos.extension.backup"
+                }
+              ],
+              "srcEntry": "./ets/entrybackupability/EntryBackupAbility.ets",
+              "name": "EntryBackupAbility",
+              "type": "backup"
+            }
+          ],
+          "compileMode": "esmodule",
+          "type": "entry",
+          "dependencies": [],
+          "abilities": [
+            {
+              "exported": true,
+              "iconId": 167772163,
+              "orientation": "auto_rotation",
+              "startWindowIconId": 167772169,
+              "icon": "$media:layered_image",
+              "startWindowIcon": "$media:startIcon",
+              "startWindowBackgroundId": 167772167,
+              "description": "$string:EntryAbility_desc",
+              "label": "$string:EntryAbility_label",
+              "skills": [
+                {
+                  "entities": [
+                    "entity.system.home"
+                  ],
+                  "actions": [
+                    "ohos.want.action.home"
+                  ]
+                }
+              ],
+              "srcEntry": "./ets/entryability/EntryAbility.ets",
+              "descriptionId": 167772164,
+              "labelId": 167772165,
+              "startWindowBackground": "$color:start_window_background",
+              "name": "EntryAbility"
+            }
+          ],
+          "deviceTypes": [
+            "phone",
+            "tablet",
+            "2in1"
+          ],
+          "pages": "$profile:main_pages",
+          "descriptionId": 167772166,
+          "name": "entry",
+          "routerMap": "$profile:default-router-map",
+          "packageName": "entry"
+        }
+      }
+    },
+    {
+      "target": "emulator",
+      "path": "D:\\HCUP\\cml-spec24\\entry\\build\\default\\outputs\\emulator\\entry-emulator-unsigned.hap",
+      "bytes": 15082526,
+      "sha256": "d5ade0b52e502d23462eddb32cfa25d9b3bf3d270bfdfd796871d6b85c92b0d7",
+      "native_libs": [],
+      "module": {
+        "app": {
+          "iconId": 167772163,
+          "debug": true,
+          "targetPatchAPIVersion": 0,
+          "minAPIVersion": 60001021,
+          "icon": "$media:layered_image",
+          "buildMode": "debug",
+          "label": "$string:app_name",
+          "bundleType": "app",
+          "versionName": "1.0.0",
+          "versionCode": 1000000,
+          "appEnvironments": [],
+          "compileSdkType": "HarmonyOS",
+          "labelId": 167772160,
+          "compileSdkVersion": "6.1.0.105",
+          "targetAPIVersion": 60001021,
+          "vendor": "example",
+          "bundleName": "com.joker.coolmall",
+          "apiReleaseType": "Release",
+          "targetMinorAPIVersion": 0
+        },
+        "module": {
+          "virtualMachine": "ark13.0.1.0",
+          "mainElement": "EntryAbility",
+          "installationFree": false,
+          "deliveryWithInstall": true,
+          "requestPermissions": [
+            {
+              "usedScene": {
+                "abilities": [
+                  "EntryAbility"
+                ],
+                "when": "inuse"
+              },
+              "name": "ohos.permission.INTERNET"
+            },
+            {
+              "name": "ohos.permission.GET_NETWORK_INFO"
+            },
+            {
+              "name": "ohos.permission.PRIVACY_WINDOW"
+            },
+            {
+              "usedScene": {},
+              "name": "ohos.permission.STORE_PERSISTENT_DATA"
+            }
+          ],
+          "description": "$string:module_desc",
+          "extensionAbilities": [
+            {
+              "exported": false,
+              "metadata": [
+                {
+                  "resourceId": 167772170,
+                  "resource": "$profile:backup_config",
+                  "name": "ohos.extension.backup"
+                }
+              ],
+              "srcEntry": "./ets/entrybackupability/EntryBackupAbility.ets",
+              "name": "EntryBackupAbility",
+              "type": "backup"
+            }
+          ],
+          "compileMode": "esmodule",
+          "type": "entry",
+          "dependencies": [],
+          "abilities": [
+            {
+              "exported": true,
+              "iconId": 167772163,
+              "orientation": "auto_rotation",
+              "startWindowIconId": 167772169,
+              "icon": "$media:layered_image",
+              "startWindowIcon": "$media:startIcon",
+              "startWindowBackgroundId": 167772167,
+              "description": "$string:EntryAbility_desc",
+              "label": "$string:EntryAbility_label",
+              "skills": [
+                {
+                  "entities": [
+                    "entity.system.home"
+                  ],
+                  "actions": [
+                    "ohos.want.action.home"
+                  ]
+                }
+              ],
+              "srcEntry": "./ets/entryability/EntryAbility.ets",
+              "descriptionId": 167772164,
+              "labelId": 167772165,
+              "startWindowBackground": "$color:start_window_background",
+              "name": "EntryAbility"
+            }
+          ],
+          "deviceTypes": [
+            "phone",
+            "tablet",
+            "2in1"
+          ],
+          "pages": "$profile:main_pages",
+          "descriptionId": 167772166,
+          "name": "entry",
+          "routerMap": "$profile:default-router-map",
+          "packageName": "entry"
+        }
+      }
+    }
+  ]
+}

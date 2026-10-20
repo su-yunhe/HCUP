@@ -1,0 +1,70 @@
+"""Supplement A53 reset-after-P2 and A54 full keyword/type/price/sort identity."""
+import sys
+import unittest
+
+from hypium import BY
+from hypium_tests.test_goods_category_live import GoodsCategoryLiveTests
+
+
+class QueryScopeSupplement(GoodsCategoryLiveTests):
+    def test_13_full_query_refresh_more_layout_and_page2_reset(self):
+        self.click("gc.entry.home.search")
+        self.input("gs.search.input", "i")
+        before = len(self.requests())
+        self.click("gs.search.submit")
+        self.wait_page({"page": 1, "keyWord": "i"}, after=before)
+        self.click("gc.sort.trigger")
+        before = len(self.requests())
+        self.click("gc.sort.option.priceAsc")
+        self.wait_page({"page": 1, "keyWord": "i", "order": "price", "sort": "asc"}, after=before)
+        self.click("gc.filter.trigger")
+        self.input("gc.filter.min", "0")
+        self.input("gc.filter.max", "100000")
+        self.dismiss_keyboard()
+        types = [801001, 801003, 801008, 801009, 801012, 801014]
+        for type_id in types:
+            self.filter_tag(type_id, "full-query-tag-" + str(type_id))
+        before = len(self.requests())
+        self.click("gc.filter.confirm")
+        first = self.wait_page({"page": 1, "keyWord": "i", "minPrice": "0", "maxPrice": "100000", "order": "price", "sort": "asc"}, after=before)
+        self.assertEqual(set(first["request"]["data"]["typeId"]), set(types))
+        self.assert_top_cards(first, "full-query-initial")
+        before = len(self.requests())
+        self.fixed_swipe("DOWN")
+        refreshed = self.wait_page({"page": 1}, after=before)
+        self.assertEqual(refreshed["request"]["data"], first["request"]["data"], "Full-query refresh dropped a field")
+        self.assertEqual(len(self.requests()) - before, 1)
+        self.assert_top_cards(refreshed, "full-query-refreshed")
+        second = self.reach_page_two(refreshed, "full-query-next")
+        rows = refreshed["oracle"]["data"]["list"] + second["oracle"]["data"]["list"]
+        prices = [row["price"] for row in rows]
+        self.assertEqual(prices, sorted(prices), "Global numeric order failed across the page boundary")
+        self.assertTrue(all(row["typeId"] in types and 0 < row["price"] <= 100000 for row in rows))
+        expected_ids = [row["id"] for row in rows]
+        before = len(self.requests())
+        for layout in ["list", "grid"]:
+            self.click("gc.layout.toggle")
+            self.require_component(BY.key("gc." + layout), "Layout toggle lost requested container")
+            nodes = self.snapshot("full-query-page2-toggle-" + layout)
+            ids = self.visible_card_ids(nodes)
+            self.assertTrue(ids)
+            indexes = [expected_ids.index(goods_id) for goods_id in ids]
+            self.assertEqual(indexes, list(range(indexes[0], indexes[0] + len(indexes))), "Layout changed loaded goods/order")
+            self.assertEqual(self.require_component(BY.key("gc.sort.title"), "Sort title").getText(), "价格由低到高")
+            self.wait_quiet()
+            self.assertEqual(len(self.requests()), before, "Pure layout toggle reloaded a full query")
+        self.click("gc.filter.trigger")
+        self.click("gc.filter.reset")
+        self.assertEqual(len(self.requests()), before)
+        self.click("gc.filter.confirm")
+        reset = self.wait_page({"page": 1, "keyWord": "i", "order": "price", "sort": "asc"}, after=before)
+        for field in ["typeId", "minPrice", "maxPrice"]:
+            self.assertNotIn(field, reset["request"]["data"], "P2 reset retained editable constraint " + field)
+        self.assert_top_cards(reset, "page2-to-scoped-reset-page1")
+
+
+if __name__ == "__main__":
+    QueryScopeSupplement.device_sn = "127.0.0.1:11241"
+    suite = unittest.TestSuite([QueryScopeSupplement("test_13_full_query_refresh_more_layout_and_page2_reset")])
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    sys.exit(not result.wasSuccessful())

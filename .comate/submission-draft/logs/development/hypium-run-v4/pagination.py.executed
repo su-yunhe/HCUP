@@ -1,0 +1,81 @@
+"""Shared real-device fixed-coordinate pagination assertions (no production substitutes)."""
+from hypium import BY
+from .observation import page_pairs, rect
+
+class FixedPaginationChecks:
+    def fixed_swipe(self, direction):
+        coords = ("350", "2500", "350", "700") if direction == "UP" else ("350", "700", "350", "2500")
+        self.record("fixed-long-swipe", direction=direction, coordinates=coords, velocity=600)
+        self.hdc("shell", "uitest", "uiInput", "swipe", *coords, "600")
+        self.wait_quiet(0.45)
+
+    def pagination_refresh(self, layout):
+        first = self.enter_all()
+        if layout == "list":
+            count = len(self.requests())
+            self.click("gc.layout.toggle")
+            self.assertEqual(len(self.requests()), count)
+        self.require_component(BY.key("gc.refresh"), "Native Refresh contract missing")
+        self.require_component(BY.key("gc." + layout), "Layout contract missing")
+        initial = self.snapshot(layout + "-initial-geometry")
+        initial_cards = [n for n in initial if (n.get("key") or n.get("id", "")).startswith("gc.goods.")]
+        top_y = min(rect(n)[1] for n in initial_cards)
+        start = len(self.requests()) - 1
+        total = first["oracle"]["data"]["pagination"]["total"]
+        self.assertGreater(total, 40, "Live catalogue needs at least three pages")
+        observed = []
+        expected = []
+        for step in range(1, 41):
+            nodes = self.snapshot(layout + "-scan-" + str(step))
+            for goods_id in self.visible_card_ids(nodes):
+                if goods_id not in observed:
+                    observed.append(goods_id)
+            relevant = []
+            for pair in page_pairs(self.events()):
+                if pair["request"] in self.requests()[start:]:
+                    self.assertFalse(pair["ambiguous"], "Pagination requests must not compete with refresh")
+                    relevant.append(self.with_oracle(pair))
+            pages = [pair["request"]["data"]["page"] for pair in relevant]
+            self.assertEqual(pages, list(range(1, len(pages) + 1)), "An UP gesture emitted a wrong page or refresh")
+            expected = [row["id"] for pair in relevant for row in pair["oracle"]["data"]["list"]]
+            self.record("pagination-progress", layout=layout, step=step, pages=pages, observed=observed, total=total)
+            if len(expected) == total and len(observed) == total:
+                self.assertEqual(observed, expected, "UI append must preserve every oracle ID and order")
+                self.require_component(BY.key("gc.state.end"), "Last-page marker missing")
+                break
+            self.fixed_swipe("UP")
+        else:
+            self.fail("Fixed gestures did not expose all pages/items; inspect captured scroll position")
+        count = len(self.requests())
+        for step in range(3):
+            self.fixed_swipe("UP")
+            self.snapshot(layout + "-end-extra-up-" + str(step))
+            self.assertEqual(len(self.requests()), count, "Last-page UP must issue neither page4 nor page1")
+        for step in range(40):
+            nodes = self.snapshot(layout + "-return-" + str(step))
+            first_card = next((n for n in nodes if (n.get("key") or n.get("id")) == "gc.goods." + str(expected[0])), None)
+            if first_card is not None and first_card.get("bounds") == first_card.get("origBounds"):
+                break
+            visible = self.visible_card_ids(nodes)
+            first_index = min(expected.index(goods_id) for goods_id in visible)
+            if first_index <= (4 if layout == "grid" else 3):
+                # A final 1800px swipe overshoots the retained top and legitimately
+                # becomes a pull. Use a short move below the refresh threshold.
+                distance = 100
+                self.record("return-top-short-down", first_visible_index=first_index, distance_px=distance, velocity=1000, initial_top=top_y)
+                self.hdc("shell", "uitest", "uiInput", "swipe", "350", "900", "350", str(900 + distance), "1000")
+                self.wait_quiet(0.25)
+            else:
+                self.fixed_swipe("DOWN")
+            self.assertEqual(len(self.requests()), count, "Returning through retained pages must not reload")
+        else:
+            self.fail("Could not return to complete first card")
+        for repeat in range(2):
+            before = len(self.requests())
+            self.fixed_swipe("DOWN")
+            refreshed = self.wait_page({"page": 1}, after=before)
+            self.assertEqual(len(self.requests()) - before, 1, "One top DOWN must issue one refresh")
+            self.assertEqual(refreshed["request"]["data"], first["request"]["data"], "Refresh must preserve the complete query")
+            self.assert_top_cards(refreshed, layout + "-refresh-" + str(repeat))
+            self.assertIsNone(self.find_or_none(BY.key("gc.state.refreshing"), timeout=0.3), "Refresh state must finish")
+

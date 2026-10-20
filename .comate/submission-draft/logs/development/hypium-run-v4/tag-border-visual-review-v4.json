@@ -1,0 +1,26 @@
+{
+  "scope": "Manual visual review of actual v2/common-v4 saved UI; distinct from v1/history review",
+  "utc": "2026-10-19T05:41:20.218662+00:00",
+  "tag_id": 801032,
+  "text": "厨房小电",
+  "before": {
+    "tree": "logs\\development\\hypium\\20261019T052414436890Z-test_08_multigroup_selection_price_and_reset\\kitchen-tag-before.json",
+    "png": "logs\\development\\hypium\\20261019T052414436890Z-test_08_multigroup_selection_price_and_reset\\kitchen-tag-before.png",
+    "bounds": "[56,1838][343,1957]",
+    "origBounds": "[56,1838][343,1957]",
+    "selected": "false",
+    "png_sha256": "8355dbf3d9b20e2020a99570ec1469ef03df30a940ca806bb2eaabb13553ef5a",
+    "tree_sha256": "373cec6ff2e02062f77ea994a79e729b84776fb99b8f0b6488d270f70ea59ed2"
+  },
+  "after": {
+    "tree": "logs\\development\\hypium\\20261019T052414436890Z-test_08_multigroup_selection_price_and_reset\\kitchen-tag-after.json",
+    "png": "logs\\development\\hypium\\20261019T052414436890Z-test_08_multigroup_selection_price_and_reset\\kitchen-tag-after.png",
+    "bounds": "[56,1838][343,1957]",
+    "origBounds": "[56,1838][343,1957]",
+    "selected": "true",
+    "png_sha256": "18f380d73ec6e39b93846ea3c44c8936dcd3a410581e7f512190e46e0b71563d",
+    "tree_sha256": "e4296a401a7772731c5c627841bd0508c3df782fce1978737f57ba3cbd8f51a0"
+  },
+  "visual_result": "pass: before pale-gray border/black text, after blue border/blue text at same full rectangle; neighboring unselected tag retains gray border; reviewer actually viewed both full PNGs",
+  "pixel_histogram": "not_run; no claimed programmatic pixel-color metric"
+}

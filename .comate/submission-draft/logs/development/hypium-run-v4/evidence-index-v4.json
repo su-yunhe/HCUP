@@ -1,0 +1,639 @@
+{
+  "scope": "App original requests/responses and independent oracle counts remain distinct",
+  "cases": [
+    {
+      "test": 1,
+      "path": "logs/development/hypium/20261019T051732052059Z-test_01_home_entry_structure_and_layout",
+      "pairs": 1,
+      "ambiguous": 0,
+      "original_response_complete": 0,
+      "oracles": 1,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        }
+      ],
+      "pids": [
+        "12227"
+      ]
+    },
+    {
+      "test": 2,
+      "path": "logs/development/hypium/20261019T051741846276Z-test_02_category_tab_leaf_entry",
+      "pairs": 1,
+      "ambiguous": 0,
+      "original_response_complete": 0,
+      "oracles": 1,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001
+          ]
+        }
+      ],
+      "pids": [
+        "12441"
+      ]
+    },
+    {
+      "test": 3,
+      "path": "logs/development/hypium/20261019T051749345296Z-test_03_search_edit_empty_and_recover",
+      "pairs": 3,
+      "ambiguous": 0,
+      "original_response_complete": 3,
+      "oracles": 3,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "Xiaomi 15S Pro"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "cmlspec24nomatch20261019"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "Xiaomi 17T"
+        }
+      ],
+      "pids": [
+        "12737"
+      ]
+    },
+    {
+      "test": 4,
+      "path": "logs/development/hypium/20261019T051815290278Z-test_04_sort_five_options_and_real_numeric_order",
+      "pairs": 7,
+      "ambiguous": 0,
+      "original_response_complete": 0,
+      "oracles": 7,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "order": "price",
+          "sort": "asc"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "order": "sold",
+          "sort": "desc"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "order": "price",
+          "sort": "desc"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "order": "sold",
+          "sort": "asc"
+        },
+        {
+          "page": 1,
+          "size": 20
+        }
+      ],
+      "pids": [
+        "13040"
+      ]
+    },
+    {
+      "test": 5,
+      "path": "logs/development/hypium/20261019T051834453739Z-test_05_price_draft_cancel_confirm_and_reset",
+      "pairs": 4,
+      "ambiguous": 0,
+      "original_response_complete": 1,
+      "oracles": 4,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "minPrice": "50",
+          "maxPrice": "200"
+        },
+        {
+          "page": 1,
+          "size": 20
+        }
+      ],
+      "pids": [
+        "13522"
+      ]
+    },
+    {
+      "test": 6,
+      "path": "logs/development/hypium/20261019T051859434651Z-test_06_pagination_and_refresh",
+      "pairs": 12,
+      "ambiguous": 0,
+      "original_response_complete": 1,
+      "oracles": 12,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20
+        }
+      ],
+      "pids": [
+        "14089"
+      ]
+    },
+    {
+      "test": 7,
+      "path": "logs/development/hypium/20261019T052359142390Z-test_07_back_reentry_and_cold_start",
+      "pairs": 3,
+      "ambiguous": 0,
+      "original_response_complete": 0,
+      "oracles": 3,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        }
+      ],
+      "pids": [
+        "14570",
+        "19868"
+      ]
+    },
+    {
+      "test": 8,
+      "path": "logs/development/hypium/20261019T052414436890Z-test_08_multigroup_selection_price_and_reset",
+      "pairs": 4,
+      "ambiguous": 0,
+      "original_response_complete": 1,
+      "oracles": 4,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801013,
+            801032
+          ],
+          "minPrice": "50",
+          "maxPrice": "200"
+        },
+        {
+          "page": 1,
+          "size": 20
+        }
+      ],
+      "pids": [
+        "20022"
+      ]
+    },
+    {
+      "test": 9,
+      "path": "logs/development/hypium/20261019T052534208526Z-test_09_price_validation_single_sides_and_equal",
+      "pairs": 6,
+      "ambiguous": 0,
+      "original_response_complete": 2,
+      "oracles": 6,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "minPrice": "139"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "maxPrice": "139"
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "minPrice": "139",
+          "maxPrice": "139"
+        }
+      ],
+      "pids": [
+        "20193"
+      ]
+    },
+    {
+      "test": 10,
+      "path": "logs/development/hypium/20261019T052628472003Z-test_10_mask_back_cancel_and_repeated_confirm",
+      "pairs": 3,
+      "ambiguous": 0,
+      "original_response_complete": 0,
+      "oracles": 3,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20
+        }
+      ],
+      "pids": [
+        "21666"
+      ]
+    },
+    {
+      "test": 11,
+      "path": "logs/development/hypium/20261019T052648603515Z-test_11_page_two_query_replacement_and_complete_query",
+      "pairs": 10,
+      "ambiguous": 0,
+      "original_response_complete": 2,
+      "oracles": 10,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            801001,
+            801002,
+            801003,
+            801004,
+            801005,
+            801006,
+            801007
+          ]
+        },
+        {
+          "page": 1,
+          "size": 20
+        },
+        {
+          "page": 2,
+          "size": 20
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "order": "price",
+          "sort": "asc"
+        },
+        {
+          "page": 2,
+          "size": 20,
+          "order": "price",
+          "sort": "asc"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "minPrice": "0",
+          "maxPrice": "100000",
+          "order": "price",
+          "sort": "asc"
+        },
+        {
+          "page": 2,
+          "size": 20,
+          "minPrice": "0",
+          "maxPrice": "100000",
+          "order": "price",
+          "sort": "asc"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "米",
+          "minPrice": "0",
+          "maxPrice": "100000",
+          "order": "price",
+          "sort": "asc"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "米",
+          "minPrice": "0",
+          "maxPrice": "100000",
+          "order": "price",
+          "sort": "asc"
+        },
+        {
+          "page": 2,
+          "size": 20,
+          "keyWord": "米",
+          "minPrice": "0",
+          "maxPrice": "100000",
+          "order": "price",
+          "sort": "asc"
+        }
+      ],
+      "pids": [
+        "22666"
+      ]
+    },
+    {
+      "test": 12,
+      "path": "logs/development/hypium/20261019T052840514582Z-test_12_reset_preserves_external_keyword_and_sort",
+      "pairs": 4,
+      "ambiguous": 0,
+      "original_response_complete": 1,
+      "oracles": 4,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "米"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "米",
+          "order": "price",
+          "sort": "desc"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "米",
+          "typeId": [
+            801013,
+            801032
+          ],
+          "minPrice": "50",
+          "maxPrice": "200",
+          "order": "price",
+          "sort": "desc"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "米",
+          "order": "price",
+          "sort": "desc"
+        }
+      ],
+      "pids": [
+        "24540"
+      ]
+    },
+    {
+      "test": 13,
+      "path": "logs/development/hypium/20261019T052922796248Z-test_13_full_query_refresh_more_layout_and_page2_reset",
+      "pairs": 6,
+      "ambiguous": 0,
+      "original_response_complete": 1,
+      "oracles": 6,
+      "matched_requests": [
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "i"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "i",
+          "order": "price",
+          "sort": "asc"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "i",
+          "typeId": [
+            801001,
+            801003,
+            801008,
+            801009,
+            801012,
+            801014
+          ],
+          "minPrice": "0",
+          "maxPrice": "100000",
+          "order": "price",
+          "sort": "asc"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "i",
+          "typeId": [
+            801001,
+            801003,
+            801008,
+            801009,
+            801012,
+            801014
+          ],
+          "minPrice": "0",
+          "maxPrice": "100000",
+          "order": "price",
+          "sort": "asc"
+        },
+        {
+          "page": 2,
+          "size": 20,
+          "keyWord": "i",
+          "typeId": [
+            801001,
+            801003,
+            801008,
+            801009,
+            801012,
+            801014
+          ],
+          "minPrice": "0",
+          "maxPrice": "100000",
+          "order": "price",
+          "sort": "asc"
+        },
+        {
+          "page": 1,
+          "size": 20,
+          "keyWord": "i",
+          "order": "price",
+          "sort": "asc"
+        }
+      ],
+      "pids": [
+        "26022"
+      ]
+    }
+  ],
+  "note": "Counts reparse each actual PID separately from the retained raw stream, including all cold-start processes; per-case netlog.events.json alone contains the final PID only. Original raw responses are never replaced by oracle data."
+}

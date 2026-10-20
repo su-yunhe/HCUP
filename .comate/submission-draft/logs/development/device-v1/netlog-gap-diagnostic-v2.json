@@ -1,0 +1,42 @@
+{
+  "source_fact": "LogInterceptor.ets splits each pretty-JSON line into max800 JS-character chunks and emits each through hilog.info; each ordinary URL line is far shorter. No source changed.",
+  "records": [
+    {
+      "case": "20261019T043522413079Z-test_01_home_entry_structure_and_layout",
+      "pid": "3691",
+      "raw_sha256": "f54096517de70e3d5580593c244e2f1b7b11779da218910653f80d805fcc0f6a",
+      "error": "Expecting ':' delimiter: line 1 column 53435 (char 53434)",
+      "decoded_position": 53434,
+      "context": "\"updateTime\": \"2026-07-15 21:24:00\",        \"typeId\": 801001,          \"https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509251134_3abde293bce0cc1477b7c63902a1aead.jpg?w=1080&h=1261\",          \"https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509252052_3f0e1e31038f4782f2c7e0d36bf5c955.jpg?w=1080&h=1510\",          \"https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509251532_b81a47a724efb299beb05009d17fa88",
+      "max_tag_payload_utf8_bytes": 203,
+      "response_has_final_closing_brace": true,
+      "response_prefix": "{  \"code\": 1000,  \"data\": {    \"list\": [      {   ",
+      "response_tail": "se,        \"status\": 1,        \"sortNum\": 17,        \"specs\": null      }    ],    \"pagination\": {      \"total\": 19,      \"size\": 20,      \"page\": 1    }  },  \"message\": \"success\"}"
+    },
+    {
+      "case": "20261019T043551896667Z-test_02_category_tab_leaf_entry",
+      "pid": "4110",
+      "raw_sha256": "2773438163f0f27b3ba40d4883b759e25100c0bae028f38c1df4010a6f30acf2",
+      "error": "Expecting ':' delimiter: line 1 column 55162 (char 55161)",
+      "decoded_position": 55161,
+      "context": "ecommend\": false,        \"featured\": true,        \"status\": 1,          \"https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509251532_24f71cfdabc157b98c74cbae2eaaec27.jpg?w=1080&h=574\",          \"https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509251532_3ef24b5fa9c645e4118be24d12eab6b2.jpg?w=1080&h=1227\",          \"https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509251134_0eb6a3d0976633cb0e0d70eb1af8bdf",
+      "max_tag_payload_utf8_bytes": 203,
+      "response_has_final_closing_brace": true,
+      "response_prefix": "{  \"code\": 1000,  \"data\": {    \"list\": [      {   ",
+      "response_tail": "se,        \"status\": 1,        \"sortNum\": 10,        \"specs\": null      }    ],    \"pagination\": {      \"total\": 12,      \"size\": 20,      \"page\": 1    }  },  \"message\": \"success\"}"
+    },
+    {
+      "case": "20261019T043846324523Z-test_01_home_entry_structure_and_layout",
+      "pid": "6963",
+      "raw_sha256": "ada254cf3a4fed29b68755d8df9738edae74385b8fb7608c2c8b966a3b58bf38",
+      "error": "Expecting ':' delimiter: line 1 column 48709 (char 48708)",
+      "decoded_position": 48708,
+      "context": "     \"price\": 5999,        \"sold\": 5030,        \"content\": \"\",          \"https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509250905_49d8f814d26814a7161f900d8dfe08a8.jpg?w=1080&h=949\",          \"https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509250905_6ea3f8386f57d802cfc2fa494416f30c.jpg?w=1080&h=1131\",          \"https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202509250905_0e0e56712efcf6268c1756aae5102b9",
+      "max_tag_payload_utf8_bytes": 203,
+      "response_has_final_closing_brace": false,
+      "response_prefix": "{  \"code\": 1000,  \"data\": {    \"list\": [      {   ",
+      "response_tail": "606301000_c8dc3b860edc5ac1990a2b01aa9cb36f.jpg?w=1080&h=800\",          \"https://cdn.cnbj1.fds.api.mi-img.com/nr-pub/202606301000_e56a25f3f0388cf5e4515d4427877d51.jpg?w=1080&h=800\","
+    }
+  ],
+  "attribution": "Observed missing middle fields. Producer/socket flood remains a hypothesis; no fabricated complete JSON and no production failure inferred."
+}

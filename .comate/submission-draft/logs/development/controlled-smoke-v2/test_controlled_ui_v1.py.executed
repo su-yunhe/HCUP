@@ -1,0 +1,287 @@
+"""Explicit device_controlled suite; never discovered by the normal common runner."""
+import argparse
+import datetime as dt
+import json
+import pathlib
+import sys
+import time
+import unittest
+
+from hypium import BY
+from controlled_ui_support_v1 import ControlledUiCase
+
+
+class GoodsCategoryControlledTests(ControlledUiCase):
+    def test_c01_delayed_first_failure_business_failure_and_retry(self):
+        category = self.start_scenario(keyword="X")
+        self.settle(category)
+        first = self.wait_request(page=1, keyword="X", owner=category["owner"])
+        self.assert_visible("gc.state.loading", "first-pending")
+        self.wait_quiet(0.7)
+        self.assert_pending(first)
+        self.assert_visible("gc.state.loading", "first-still-pending")
+        count = len(self.requests())
+        self.input("gc.search.input", "X")
+        self.click("gc.search.submit")
+        self.dismiss_host_ime()
+        self.assertEqual(len(self.requests()), count, "Same FIRST query did not merge")
+        self.settle(first, reject=True)
+        self.assert_visible("gc.state.error", "first-rejected")
+        self.assert_absent("gc.state.loading")
+        self.click("gc.state.retry")
+        retry = self.wait_request(page=1, after=first["id"])
+        self.assertEqual(retry["request"], first["request"])
+        self.assert_data_prefix(self.settle(retry), "first-recovered")
+        replacement = self.submit_keyword("Y")
+        self.assert_visible("gc.state.loading", "replacement-pending")
+        self.settle(replacement, result="business")
+        self.assert_visible("gc.state.error", "replacement-business-error")
+        self.assert_absent("gc.state.loading")
+        self.click("gc.state.retry")
+        retry = self.wait_request(page=1, keyword="Y", after=replacement["id"])
+        self.assert_data_prefix(self.settle(retry), "replacement-recovered")
+
+    def test_c02_list_more_pending_gate_failure_and_same_page_retry(self):
+        first, settled = self.successful_start(layout="list")
+        first_ids = [r["id"] for r in json.loads(settled["responseJson"])["data"]["list"]]
+        more = self.reach_more(after=first["id"], owner=first["owner"])
+        self.assert_visible("gc.state.loadingMore", "more-pending")
+        count = len(self.requests())
+        for step in range(3):
+            self.goods_swipe("UP", "repeat-pending-more-" + str(step))
+            self.assertEqual(len(self.requests()), count, "PendingP2 repeated into duplicate requests")
+        self.assert_pending(more)
+        self.settle(more, reject=True)
+        nodes = self.assert_visible("gc.state.moreError", "more-rejected-retains-page1")
+        self.assert_absent("gc.state.loadingMore")
+        self.assertTrue(self.visible_card_ids(nodes))
+        self.assertTrue(set(self.visible_card_ids(nodes)).issubset(first_ids))
+        self.click("gc.state.moreError")
+        retry = self.wait_request(page=2, after=more["id"])
+        self.assertEqual(retry["request"], more["request"])
+        appended = self.settle(retry)
+        second_ids = [r["id"] for r in json.loads(appended["responseJson"])["data"]["list"]]
+        self.assertEqual(second_ids, list(range(100021, 100041)))
+        self.assert_absent("gc.state.moreError")
+        self.assert_absent("gc.state.loadingMore")
+        nodes = self.snapshot("more-retry-appended")
+        visible = self.visible_card_ids(nodes)
+        self.assertEqual(visible, sorted(visible))
+        self.assertTrue(set(visible).issubset(first_ids + second_ids))
+
+    def test_c03_grid_refresh_failure_then_empty_replacement(self):
+        first, settled = self.successful_start()
+        more = self.reach_more(after=first["id"])
+        appended = self.settle(more)
+        ids = [r["id"] for record in [settled,appended] for r in json.loads(record["responseJson"])["data"]["list"]]
+        self.return_to_top(ids)
+        self.goods_swipe("DOWN", "refresh-pending-gesture")
+        refresh = self.wait_request(page=1, after=more["id"])
+        self.assertEqual(refresh["request"], first["request"])
+        self.assert_visible("gc.state.refreshing", "refresh-pending")
+        self.assert_pending(refresh)
+        self.settle(refresh, reject=True)
+        self.assert_absent("gc.state.refreshing")
+        self.require_component(BY.text("刷新失败，点击重试"), "Refresh failure feedback absent")
+        nodes = self.snapshot("refresh-error-retains-old-data")
+        self.assertTrue(self.visible_card_ids(nodes))
+        self.assertTrue(set(self.visible_card_ids(nodes)).issubset(ids))
+        self.driver.click(self.require_component(BY.text("刷新失败，点击重试"), "Refresh retry"))
+        retry = self.wait_request(page=1, after=refresh["id"])
+        self.assertEqual(retry["request"], refresh["request"])
+        self.settle(retry, result="empty")
+        nodes = self.assert_visible("gc.state.empty", "refresh-empty-clears-data")
+        self.assertEqual(self.visible_card_ids(nodes), [])
+        self.assert_absent("gc.state.refreshing")
+        self.require_component(BY.key("gc.controls"), "Empty removed controls")
+        self.click("gc.state.emptyRefresh")
+        recover = self.wait_request(page=1, after=retry["id"])
+        self.assertEqual(recover["request"], retry["request"])
+        self.assert_data_prefix(self.settle(recover), "empty-action-refresh-recovers-data")
+
+    def test_c04_root_categories_fail_retry_and_resolve_real_leaf_ids(self):
+        category = self.start_scenario("root")
+        self.assertEqual(self.requests(), [], "Unresolved root issued a goods query")
+        self.click("gc.filter.trigger")
+        self.assert_visible("gc.filter.categories.loading", "categories-pending")
+        self.settle(category, reject=True)
+        self.assert_visible("gc.filter.categories.error", "categories-rejected")
+        self.assert_absent("gc.filter.categories.loading")
+        self.assertEqual(self.requests(), [], "Failed root categories issued a goods query")
+        self.click("gc.filter.categories.retry")
+        retry = self.wait_request("categories", after=category["id"])
+        self.settle(retry)
+        first = self.wait_request(page=1, owner=category["owner"])
+        self.assertEqual(set(first["request"]["typeId"]), {910001,910002})
+        self.assertNotIn(900001, first["request"]["typeId"])
+        self.assertTrue(self.require_component(BY.key("gc.filter.tag.910001"), "Resolved leaf tag").isSelected())
+        self.assertTrue(self.require_component(BY.key("gc.filter.tag.910002"), "Resolved leaf tag").isSelected())
+        self.click("gc.filter.trigger")
+        self.assert_data_prefix(self.settle(first), "root-recovered")
+
+    def test_c05_old_success_error_and_finally_do_not_override_new_query(self):
+        for old_first, reject in [(True,False),(False,True)]:
+            category = self.start_scenario(keyword="X")
+            self.settle(category)
+            old = self.wait_request(page=1, keyword="X", owner=category["owner"])
+            new = self.submit_keyword("Y")
+            if old_first:
+                self.settle(old, reject=reject)
+                self.assert_pending(new)
+                nodes = self.assert_visible("gc.state.loading", "old-finished-new-pending")
+                self.assertEqual(self.visible_card_ids(nodes), [])
+                self.assert_absent("gc.state.error")
+                current = self.settle(new)
+            else:
+                current = self.settle(new)
+                self.assert_data_prefix(current, "new-success-before-old-error")
+                self.settle(old, reject=reject)
+            rows = self.assert_data_prefix(current, "latest-Y-survives-" + str(old_first))
+            self.assertTrue(all(r["title"].startswith("Y") for r in rows))
+            self.assert_absent("gc.state.error")
+            self.assert_absent("gc.state.loading")
+
+    def test_c06_more_inflight_same_query_confirm_and_search_replace_page1(self):
+        for action in ["confirm","search"]:
+            first, _ = self.successful_start(keyword="X")
+            more = self.reach_more(after=first["id"], keyword="X")
+            self.assert_pending(more)
+            if action == "confirm":
+                self.click("gc.filter.trigger")
+                self.click("gc.filter.confirm")
+                replacement = self.wait_request(page=1, keyword="X", after=more["id"])
+                self.settle(more, reject=True)
+                self.assert_pending(replacement)
+                self.assert_visible("gc.state.loading", "old-more-error-does-not-end-new-first")
+                settled = self.settle(replacement)
+            else:
+                replacement = self.submit_keyword("X")
+                settled = self.settle(replacement)
+                self.settle(more)
+            self.assertEqual(replacement["request"], first["request"])
+            self.assert_data_prefix(settled, "same-query-replaced-" + action)
+            self.assert_absent("gc.state.moreError")
+            next_more = self.reach_more(after=replacement["id"], keyword="X")
+            self.assertEqual(next_more["request"]["page"], 2, "OldP2 contaminated replacement pagination")
+            self.settle(next_more)
+
+    def test_c07_real_back_reentry_and_cover_lifecycle(self):
+        category = self.start_scenario(keyword="X")
+        self.settle(category)
+        old = self.wait_request(page=1, keyword="X", owner=category["owner"])
+        self.click("gc.search.back")
+        self.require_component(BY.key("gcf.host.ready"), "Real back did not pop original Page")
+        self.input("gcf.control.keyword", "Y")
+        self.dismiss_host_ime()
+        self.click("gcf.nav.open")
+        new_cat = self.wait_request("categories", after=old["id"])
+        self.assertNotEqual(new_cat["owner"], old["owner"])
+        self.settle(new_cat)
+        new = self.wait_request(page=1, keyword="Y", owner=new_cat["owner"])
+        self.settle(old)
+        self.assert_pending(new)
+        self.assert_visible("gc.state.loading", "new-instance-pending-after-old-finished")
+        settled = self.settle(new)
+        self.assert_data_prefix(settled, "new-instance-survives-old")
+        count = len(self.requests())
+        self.click("gcf.nav.cover")
+        self.assert_visible("gcf.cover.page", "real-cover")
+        self.click("gcf.cover.back")
+        self.assert_data_prefix(settled, "completed-instance-cover-return")
+        self.assertEqual(len(self.requests()), count, "Completed original instance reloaded on cover return")
+        category = self.start_scenario(keyword="X")
+        self.settle(category)
+        hidden = self.wait_request(page=1, keyword="X", owner=category["owner"])
+        self.click("gcf.nav.cover")
+        self.assert_visible("gcf.cover.page", "cover-with-request-pending")
+        self.settle(hidden)
+        self.click("gcf.cover.back")
+        resumed = self.wait_request(page=1, keyword="X", after=hidden["id"], owner=hidden["owner"])
+        self.assertEqual(len([e for e in self.requests() if e["owner"] == hidden["owner"]]), 2)
+        self.assert_data_prefix(self.settle(resumed), "pending-instance-resumed-once")
+
+    def test_c08_full_last_page_and_missing_metadata_stop_after_short_page(self):
+        for scenario, last_page in [("fullEnd",2),("missingMeta",3)]:
+            first, settled = self.successful_start(scenario)
+            previous = first
+            all_ids = list(json.loads(settled["responseJson"])["data"]["list"])
+            for page in range(2,last_page+1):
+                previous = self.reach_more(after=previous["id"], page=page, owner=first["owner"])
+                completed = self.settle(previous)
+                all_ids += json.loads(completed["responseJson"])["data"]["list"]
+            count = len(self.requests())
+            for step in range(12):
+                nodes = self.goods_swipe("UP", scenario + "-end-" + str(step))
+                self.assertEqual(len(self.requests()), count, "Known terminal page emitted another request")
+                if any((n.get("key") or n.get("id")) == "gc.state.end" for n in nodes):
+                    break
+            else:
+                self.fail("Actual terminal marker did not become visible")
+            for step in range(3):
+                self.goods_swipe("UP", scenario + "-repeat-end-" + str(step))
+                self.assertEqual(len(self.requests()), count)
+            self.assertEqual([r["id"] for r in all_ids], list(range(100001,100041 if scenario=="fullEnd" else 100046)))
+            self.assert_absent("gc.state.loadingMore")
+
+    def test_c09_explicit_false_true_flags_reset_keeps_external_scope(self):
+        first, settled = self.successful_start("flags", "X")
+        self.assertEqual(first["request"].get("featured"), False)
+        self.assertEqual(first["request"].get("recommend"), True)
+        self.assertEqual(first["request"].get("keyWord"), "X")
+        self.assertEqual(first["request"].get("typeId"), [920001])
+        self.assertEqual(first["request"].get("minPrice"), "50")
+        self.assertEqual(settled["responseIds"], [100015,100021,100027])
+        self.click("gc.sort.trigger")
+        self.click("gc.sort.option.priceDesc")
+        sorted_request = self.wait_request(page=1, after=first["id"])
+        self.settle(sorted_request)
+        self.click("gc.filter.trigger")
+        self.assertEqual(self.require_component(BY.key("gc.filter.min"), "Preloaded minimum").getText(), "50")
+        count = len(self.requests())
+        self.click("gc.filter.reset")
+        self.assertEqual(len(self.requests()), count)
+        self.click("gc.filter.confirm")
+        reset = self.wait_request(page=1, after=sorted_request["id"])
+        expected = {"page":1,"size":20,"keyWord":"X","featured":False,"recommend":True,"order":"price","sort":"desc"}
+        self.assertEqual(reset["request"], expected)
+        response = self.settle(reset)
+        self.assertEqual(response["responseIds"], [100027,100021,100015,100009,100003])
+        self.assert_data_prefix(response, "flags-reset-keeps-scope")
+
+
+class EvidenceResult(unittest.TextTestResult):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cases = []
+
+    def save_case(self, test, outcome, message=""):
+        self.cases.append({"name":test.id(),"outcome":outcome,"message":message,"evidence_directory":str(getattr(test,"out",""))})
+
+    def addSuccess(self, test):
+        super().addSuccess(test); self.save_case(test,"pass")
+
+    def addFailure(self, test, err):
+        super().addFailure(test,err); self.save_case(test,"fail",self._exc_info_to_string(err,test))
+
+    def addError(self, test, err):
+        super().addError(test,err); self.save_case(test,"error",self._exc_info_to_string(err,test))
+
+    def addSkip(self, test, reason):
+        super().addSkip(test,reason); self.save_case(test,"not_run",reason)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--json", required=True)
+    parser.add_argument("--method", action="append", help="Explicit method(s); omission runs all nine")
+    args = parser.parse_args()
+    GoodsCategoryControlledTests.device_sn = "127.0.0.1:11241"
+    suite = unittest.TestSuite([GoodsCategoryControlledTests(name) for name in args.method]) if args.method else unittest.defaultTestLoader.loadTestsFromTestCase(GoodsCategoryControlledTests)
+    started = dt.datetime.now(dt.timezone.utc).isoformat()
+    before = time.monotonic()
+    result = unittest.TextTestRunner(verbosity=2,resultclass=EvidenceResult).run(suite)
+    data = {"scope":"device_controlled: original ArkUI Page/VM/repository/helper with test-only datasource; NOT real HTTP faults","device":"127.0.0.1:11241","started_utc":started,"ended_utc":dt.datetime.now(dt.timezone.utc).isoformat(),"seconds":time.monotonic()-before,"inherits_common_HarnessTestCase":True,"cases":result.cases,"pass":sum(c["outcome"]=="pass" for c in result.cases),"fail":len(result.failures),"error":len(result.errors),"not_run":len(result.skipped),"tests_run":result.testsRun}
+    output = pathlib.Path(args.json)
+    output.parent.mkdir(parents=True,exist_ok=True)
+    output.write_text(json.dumps(data,ensure_ascii=False,indent=2),encoding="utf-8")
+    sys.exit(not result.wasSuccessful())

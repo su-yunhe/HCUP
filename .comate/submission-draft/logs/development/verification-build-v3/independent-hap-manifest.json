@@ -1,0 +1,31 @@
+{
+  "utc": "2026-10-19T05:44:47.093037+00:00",
+  "note": "Actual independent rebuild outputs; test target differs from implementation historical manifest. Source freeze895 unchanged. No claim of byte-identical27238c historical test HAP.",
+  "packages": [
+    {
+      "target": "default",
+      "source": "entry\\build\\default\\outputs\\default\\entry-default-unsigned.hap",
+      "archive": "logs\\development\\verification-build-v3\\artifacts\\entry-default-unsigned.hap",
+      "bytes": 19922109,
+      "sha256": "d2556f8dcf4b1153f5caee687a83e770eb78f4517b4f7d95be114397f4d3e242",
+      "build_command": "logs\\development\\verification-build-v3\\default.command.json"
+    },
+    {
+      "target": "emulator",
+      "source": "entry\\build\\default\\outputs\\emulator\\entry-emulator-unsigned.hap",
+      "archive": "logs\\development\\verification-build-v3\\artifacts\\entry-emulator-unsigned.hap",
+      "bytes": 15073528,
+      "sha256": "9f014ad306f52aaade8d6dc4ec5c73f92b4612a93eb1e75629723f5a58de3937",
+      "build_command": "logs\\development\\verification-build-v3\\emulator.command.json"
+    },
+    {
+      "target": "ohosTest",
+      "source": "entry\\build\\default\\outputs\\ohosTest\\entry-ohosTest-unsigned.hap",
+      "archive": "logs\\development\\verification-build-v3\\artifacts\\entry-ohosTest-unsigned.hap",
+      "bytes": 9517645,
+      "sha256": "f9068559e1bef03949f6d77476d9a513d4da6790d0d308dd38657f8c012db001",
+      "build_command": "logs\\development\\verification-build-v3\\ohosTest.command.json"
+    }
+  ],
+  "isolation_audit": "logs/development/controlled-smoke-v1/package-audit.json"
+}

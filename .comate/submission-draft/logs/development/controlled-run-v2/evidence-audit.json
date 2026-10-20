@@ -1,0 +1,623 @@
+{
+  "scope": "Actual test-only datasource records + native UI geometry + original VM logs; NOT HTTP evidence",
+  "input_result": "logs\\development\\controlled-run-v2\\result.json",
+  "input_sha256": "bca84e4966c84dc4e2684172a3a49bf4557278654d571c2fccec695ae18e2c52",
+  "script_sha256": "e3834fe3bc45f93276eeacb1cbc01dd4f3259a8760c56290effac7dc08f77509",
+  "cases": [
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+      "outcome": "pass",
+      "directory": "D:\\HCUP\\cml-spec24\\logs\\development\\device-controlled\\20261019T061332133465Z-test_c07_real_back_reentry_and_cover_lifecycle",
+      "requests": [
+        {
+          "at": 1792390422375,
+          "seq": 3,
+          "event": "request",
+          "id": 1,
+          "owner": 1,
+          "scenario": "manual",
+          "kind": "categories",
+          "ids": []
+        },
+        {
+          "at": 1792390422375,
+          "seq": 4,
+          "event": "request",
+          "id": 2,
+          "owner": 1,
+          "scenario": "manual",
+          "kind": "goods",
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "X"
+          },
+          "ids": []
+        },
+        {
+          "at": 1792390440083,
+          "seq": 7,
+          "event": "request",
+          "id": 3,
+          "owner": 2,
+          "scenario": "manual",
+          "kind": "categories",
+          "ids": []
+        },
+        {
+          "at": 1792390440083,
+          "seq": 8,
+          "event": "request",
+          "id": 4,
+          "owner": 2,
+          "scenario": "manual",
+          "kind": "goods",
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "Y"
+          },
+          "ids": []
+        },
+        {
+          "at": 1792390479998,
+          "seq": 18,
+          "event": "request",
+          "id": 5,
+          "owner": 3,
+          "scenario": "manual",
+          "kind": "categories",
+          "ids": []
+        },
+        {
+          "at": 1792390479998,
+          "seq": 19,
+          "event": "request",
+          "id": 6,
+          "owner": 3,
+          "scenario": "manual",
+          "kind": "goods",
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "X"
+          },
+          "ids": []
+        },
+        {
+          "at": 1792390500269,
+          "seq": 26,
+          "event": "request",
+          "id": 7,
+          "owner": 3,
+          "scenario": "manual",
+          "kind": "goods",
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "X"
+          },
+          "ids": []
+        }
+      ],
+      "settled": {
+        "1": "resolve",
+        "3": "resolve",
+        "2": "resolve",
+        "4": "resolve",
+        "5": "resolve",
+        "6": "resolve",
+        "7": "resolve"
+      },
+      "event_count": 14,
+      "parse_errors": [],
+      "actual_record_checks": [
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "request",
+          "id": 1,
+          "seq": 3,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "request",
+          "id": 2,
+          "seq": 4,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "resolve",
+          "id": 1,
+          "seq": 5,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "request",
+          "id": 3,
+          "seq": 7,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "request",
+          "id": 4,
+          "seq": 8,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "resolve",
+          "id": 3,
+          "seq": 9,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "resolve",
+          "id": 2,
+          "seq": 10,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "resolve",
+          "id": 4,
+          "seq": 11,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "request",
+          "id": 5,
+          "seq": 18,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "request",
+          "id": 6,
+          "seq": 19,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "resolve",
+          "id": 5,
+          "seq": 20,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "resolve",
+          "id": 6,
+          "seq": 23,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "request",
+          "id": 7,
+          "seq": 26,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+          "event": "resolve",
+          "id": 7,
+          "seq": 27,
+          "status": "pass"
+        }
+      ],
+      "button_geometry": [],
+      "vm_event_lines": [
+        "10-19 14:13:42.375  2480  2480 I A03d00/JSAPP: [GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:14:00.083  2480  2480 I A03d00/JSAPP: [GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:14:18.105  2480  2480 I A03d00/JSAPP: [GoodsCategory] event=discard-success id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:14:27.416  2480  2480 I A03d00/JSAPP: [GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:14:27.416  2480  2480 I A03d00/JSAPP: [GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:14:39.998  2480  2480 I A03d00/JSAPP: [GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:14:59.730  2480  2480 I A03d00/JSAPP: [GoodsCategory] event=discard-success id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:15:00.269  2480  2480 I A03d00/JSAPP: [GoodsCategory] event=start id=2 version=2 epoch=2 kind=first page=1",
+        "10-19 14:15:09.444  2480  2480 I A03d00/JSAPP: [GoodsCategory] event=commit id=2 version=2 epoch=2 kind=first page=1",
+        "10-19 14:15:09.444  2480  2480 I A03d00/JSAPP: [GoodsCategory] event=finish id=2 version=2 epoch=2 kind=first page=1"
+      ],
+      "raw_sha256": "377973323195fb4bea1c373a8bec9b2f62aa7b620df68524890d615f456d83b2"
+    },
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+      "outcome": "pass",
+      "directory": "D:\\HCUP\\cml-spec24\\logs\\development\\device-controlled\\20261019T061511032515Z-test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+      "requests": [
+        {
+          "at": 1792390522507,
+          "seq": 3,
+          "event": "request",
+          "id": 1,
+          "owner": 1,
+          "scenario": "fullEnd",
+          "kind": "categories",
+          "ids": []
+        },
+        {
+          "at": 1792390522507,
+          "seq": 4,
+          "event": "request",
+          "id": 2,
+          "owner": 1,
+          "scenario": "fullEnd",
+          "kind": "goods",
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "ids": []
+        },
+        {
+          "at": 1792390561477,
+          "seq": 7,
+          "event": "request",
+          "id": 3,
+          "owner": 1,
+          "scenario": "fullEnd",
+          "kind": "goods",
+          "request": {
+            "page": 2,
+            "size": 20
+          },
+          "ids": []
+        },
+        {
+          "at": 1792390596797,
+          "seq": 11,
+          "event": "request",
+          "id": 4,
+          "owner": 2,
+          "scenario": "missingMeta",
+          "kind": "categories",
+          "ids": []
+        },
+        {
+          "at": 1792390596798,
+          "seq": 12,
+          "event": "request",
+          "id": 5,
+          "owner": 2,
+          "scenario": "missingMeta",
+          "kind": "goods",
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "ids": []
+        },
+        {
+          "at": 1792390636188,
+          "seq": 15,
+          "event": "request",
+          "id": 6,
+          "owner": 2,
+          "scenario": "missingMeta",
+          "kind": "goods",
+          "request": {
+            "page": 2,
+            "size": 20
+          },
+          "ids": []
+        },
+        {
+          "at": 1792390670783,
+          "seq": 17,
+          "event": "request",
+          "id": 7,
+          "owner": 2,
+          "scenario": "missingMeta",
+          "kind": "goods",
+          "request": {
+            "page": 3,
+            "size": 20
+          },
+          "ids": []
+        }
+      ],
+      "settled": {
+        "1": "resolve",
+        "2": "resolve",
+        "3": "resolve",
+        "4": "resolve",
+        "5": "resolve",
+        "6": "resolve",
+        "7": "resolve"
+      },
+      "event_count": 14,
+      "parse_errors": [],
+      "actual_record_checks": [
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "request",
+          "id": 1,
+          "seq": 3,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "request",
+          "id": 2,
+          "seq": 4,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "resolve",
+          "id": 1,
+          "seq": 5,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "resolve",
+          "id": 2,
+          "seq": 6,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "request",
+          "id": 3,
+          "seq": 7,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "resolve",
+          "id": 3,
+          "seq": 8,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "request",
+          "id": 4,
+          "seq": 11,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "request",
+          "id": 5,
+          "seq": 12,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "resolve",
+          "id": 4,
+          "seq": 13,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "resolve",
+          "id": 5,
+          "seq": 14,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "request",
+          "id": 6,
+          "seq": 15,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "resolve",
+          "id": 6,
+          "seq": 16,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "request",
+          "id": 7,
+          "seq": 17,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+          "event": "resolve",
+          "id": 7,
+          "seq": 18,
+          "status": "pass"
+        }
+      ],
+      "button_geometry": [],
+      "vm_event_lines": [
+        "10-19 14:15:22.507  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:15:39.803  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:15:39.803  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:16:01.477  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=start id=2 version=1 epoch=1 kind=more page=2",
+        "10-19 14:16:10.249  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=commit id=2 version=1 epoch=1 kind=more page=2",
+        "10-19 14:16:10.249  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=finish id=2 version=1 epoch=1 kind=more page=2",
+        "10-19 14:16:36.797  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:16:54.545  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:16:54.545  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:17:16.188  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=start id=2 version=1 epoch=1 kind=more page=2",
+        "10-19 14:17:24.920  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=commit id=2 version=1 epoch=1 kind=more page=2",
+        "10-19 14:17:24.920  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=finish id=2 version=1 epoch=1 kind=more page=2",
+        "10-19 14:17:50.783  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=start id=3 version=1 epoch=1 kind=more page=3",
+        "10-19 14:17:59.654  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=commit id=3 version=1 epoch=1 kind=more page=3",
+        "10-19 14:17:59.654  2966  2966 I A03d00/JSAPP: [GoodsCategory] event=finish id=3 version=1 epoch=1 kind=more page=3"
+      ],
+      "raw_sha256": "d1be9d7bb3e4c60a72e6784bf04d7c9cd81e15bdb6d20e94bf6c424e537904f8"
+    },
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c09_explicit_false_true_flags_reset_keeps_external_scope",
+      "outcome": "pass",
+      "directory": "D:\\HCUP\\cml-spec24\\logs\\development\\device-controlled\\20261019T061816698474Z-test_c09_explicit_false_true_flags_reset_keeps_external_scope",
+      "requests": [
+        {
+          "at": 1792390710282,
+          "seq": 3,
+          "event": "request",
+          "id": 1,
+          "owner": 1,
+          "scenario": "flags",
+          "kind": "categories",
+          "ids": []
+        },
+        {
+          "at": 1792390719196,
+          "seq": 5,
+          "event": "request",
+          "id": 2,
+          "owner": 1,
+          "scenario": "flags",
+          "kind": "goods",
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              920001
+            ],
+            "minPrice": "50",
+            "keyWord": "X",
+            "recommend": true,
+            "featured": false
+          },
+          "ids": []
+        },
+        {
+          "at": 1792390729648,
+          "seq": 7,
+          "event": "request",
+          "id": 3,
+          "owner": 1,
+          "scenario": "flags",
+          "kind": "goods",
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              920001
+            ],
+            "minPrice": "50",
+            "keyWord": "X",
+            "order": "price",
+            "sort": "desc",
+            "recommend": true,
+            "featured": false
+          },
+          "ids": []
+        },
+        {
+          "at": 1792390739376,
+          "seq": 9,
+          "event": "request",
+          "id": 4,
+          "owner": 1,
+          "scenario": "flags",
+          "kind": "goods",
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "X",
+            "order": "price",
+            "sort": "desc",
+            "recommend": true,
+            "featured": false
+          },
+          "ids": []
+        }
+      ],
+      "settled": {
+        "1": "resolve",
+        "2": "resolve",
+        "3": "resolve",
+        "4": "resolve"
+      },
+      "event_count": 8,
+      "parse_errors": [],
+      "actual_record_checks": [
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c09_explicit_false_true_flags_reset_keeps_external_scope",
+          "event": "request",
+          "id": 1,
+          "seq": 3,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c09_explicit_false_true_flags_reset_keeps_external_scope",
+          "event": "resolve",
+          "id": 1,
+          "seq": 4,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c09_explicit_false_true_flags_reset_keeps_external_scope",
+          "event": "request",
+          "id": 2,
+          "seq": 5,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c09_explicit_false_true_flags_reset_keeps_external_scope",
+          "event": "resolve",
+          "id": 2,
+          "seq": 6,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c09_explicit_false_true_flags_reset_keeps_external_scope",
+          "event": "request",
+          "id": 3,
+          "seq": 7,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c09_explicit_false_true_flags_reset_keeps_external_scope",
+          "event": "resolve",
+          "id": 3,
+          "seq": 8,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c09_explicit_false_true_flags_reset_keeps_external_scope",
+          "event": "request",
+          "id": 4,
+          "seq": 9,
+          "status": "pass"
+        },
+        {
+          "method": "__main__.GoodsCategoryControlledTests.test_c09_explicit_false_true_flags_reset_keeps_external_scope",
+          "event": "resolve",
+          "id": 4,
+          "seq": 10,
+          "status": "pass"
+        }
+      ],
+      "button_geometry": [],
+      "vm_event_lines": [
+        "10-19 14:18:39.196  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:18:48.067  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:18:48.067  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "10-19 14:18:49.648  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=start id=2 version=2 epoch=1 kind=first page=1",
+        "10-19 14:18:58.201  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=commit id=2 version=2 epoch=1 kind=first page=1",
+        "10-19 14:18:58.201  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=finish id=2 version=2 epoch=1 kind=first page=1",
+        "10-19 14:18:59.376  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=start id=3 version=3 epoch=1 kind=first page=1",
+        "10-19 14:19:07.733  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=commit id=3 version=3 epoch=1 kind=first page=1",
+        "10-19 14:19:07.733  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=finish id=3 version=3 epoch=1 kind=first page=1"
+      ],
+      "raw_sha256": "a2588b559099800b449f425c84b9b2734df66630393895f98f059cf1403778b0"
+    }
+  ],
+  "summary": {
+    "case_count": 3,
+    "actual_record_pass": 36,
+    "actual_record_fail": 0,
+    "button_geometry_pass": 0,
+    "failures": 0
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "events": [
+    {
+      "at": 1792388727594,
+      "seq": 3,
+      "event": "request",
+      "id": 1,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "categories",
+      "ids": []
+    },
+    {
+      "at": 1792388727594,
+      "seq": 4,
+      "event": "request",
+      "id": 2,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20,
+        "keyWord": "X"
+      },
+      "ids": []
+    },
+    {
+      "at": 1792388735510,
+      "seq": 5,
+      "event": "resolve",
+      "id": 1,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "categories",
+      "ids": [
+        900001,
+        910001,
+        910002,
+        900002,
+        920001
+      ],
+      "code": 1000
+    },
+    {
+      "at": 1792388748700,
+      "seq": 6,
+      "event": "reject",
+      "id": 2,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20,
+        "keyWord": "X"
+      },
+      "ids": [],
+      "error": "fixture transport failure 2"
+    }
+  ],
+  "records_by_seq": {
+    "3": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792388727594,
+        "responseIds": [],
+        "id": 1,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "categories"
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792388727594,\"responseIds\":[],\"id\":1,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"categories\"}"
+    },
+    "4": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792388727594,
+        "responseIds": [],
+        "id": 2,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20,
+          "keyWord": "X"
+        }
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792388727594,\"responseIds\":[],\"id\":2,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20,\"keyWord\":\"X\"}}"
+    },
+    "5": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792388727594,
+        "responseIds": [
+          900001,
+          910001,
+          910002,
+          900002,
+          920001
+        ],
+        "id": 1,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "categories",
+        "completedAt": 1792388735509,
+        "responseJson": "{\"data\":[{\"id\":900001,\"name\":\"夹具分组一\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910001,\"name\":\"运动户外\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910002,\"name\":\"数码\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":900002,\"name\":\"夹具分组二\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":920001,\"name\":\"家居\",\"parentId\":900002,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null}],\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792388727594,\"responseIds\":[900001,910001,910002,900002,920001],\"id\":1,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"categories\",\"completedAt\":1792388735509,\"responseJson\":\"{\\\"data\\\":[{\\\"id\\\":900001,\\\"name\\\":\\\"夹具分组一\\\",\\\"parentId\\\":null,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":910001,\\\"name\\\":\\\"运动户外\\\",\\\"parentId\\\":900001,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":910002,\\\"name\\\":\\\"数码\\\",\\\"parentId\\\":900001,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":900002,\\\"name\\\":\\\"夹具分组二\\\",\\\"parentId\\\":null,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":920001,\\\"name\\\":\\\"家居\\\",\\\"parentId\\\":900002,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null}],\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    },
+    "6": {
+      "event": "reject",
+      "complete": true,
+      "data": {
+        "state": "rejected",
+        "startedAt": 1792388727594,
+        "responseIds": [],
+        "id": 2,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20,
+          "keyWord": "X"
+        },
+        "error": "fixture transport failure 2",
+        "completedAt": 1792388748700
+      },
+      "raw": "{\"state\":\"rejected\",\"startedAt\":1792388727594,\"responseIds\":[],\"id\":2,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20,\"keyWord\":\"X\"},\"error\":\"fixture transport failure 2\",\"completedAt\":1792388748700}"
+    }
+  },
+  "parse_errors": []
+}

@@ -1,0 +1,75 @@
+10-19 14:05:46.825 27972 27972 I C02c11/APPSPAWN: AppSpawnChild id 102 flags:0xc
+10-19 14:05:46.825 27972 27972 I C02c02/PARAM: ResetParamSecurityLabel Fd:18
+10-19 14:05:46.825 27972 27972 I C02d33/HitraceOption: FilterAppTrace com.joker.coolmall 27972
+10-19 14:05:46.826 27972 27972 W C02c11/APPSPAWN: errno:2 bind mount /system/app/ArkWebCoreLegacy to /mnt/sandbox/100/com.joker.coolmall/system/app/ArkWebCoreLegacy
+10-19 14:05:46.826 27972 27972 W C02c11/APPSPAWN: errno:2 bind mount /vendor/etc/hiai to /mnt/sandbox/100/com.joker.coolmall/vendor/etc/hiai
+10-19 14:05:46.826 27972 27972 W C02c11/APPSPAWN: errno:2 bind mount /data/data/hiai to /mnt/sandbox/100/com.joker.coolmall/data/data/hiai
+10-19 14:05:46.826 27972 27972 W C02c11/APPSPAWN: errno:2 bind mount /data/service/el1/public/themes/100/a/app to /mnt/sandbox/100/com.joker.coolmall/data/themes/a/app
+10-19 14:05:46.826 27972 27972 W C02c11/APPSPAWN: errno:2 bind mount /data/service/el1/public/themes/100/b/app to /mnt/sandbox/100/com.joker.coolmall/data/themes/b/app
+10-19 14:05:46.826 27972 27972 W C02c11/APPSPAWN: errno:2 bind mount /data/service/el1/100/for-all-app/fonts to /mnt/sandbox/100/com.joker.coolmall/data/service/el1/public/for-all-app/fonts
+10-19 14:05:46.826 27972 27972 W C02c11/APPSPAWN: errno:2 bind mount /chip_prod/lib64/passthrough to /mnt/sandbox/100/com.joker.coolmall/chip_prod/lib64/passthrough
+10-19 14:05:46.826 27972 27972 W C02c11/APPSPAWN: errno:2 bind mount /data/app/el1/bundle/public/com.huawei.hmos.arkwebcorelegacy to /mnt/sandbox/100/com.joker.coolmall/data/storage/el1/bundle/arkwebcorelegacy
+10-19 14:05:46.826 27972 27972 W C02c11/APPSPAWN: check dir /data/app/el1/bundle/public/com.huawei.hmos.arkwebcorelegacy failed,strerror:No such file or directory
+10-19 14:05:46.826 27972 27972 W C02c11/APPSPAWN: check dir /data/app/el1/public/aot_compiler/ark_cache/com.joker.coolmall failed,strerror:No such file or directory
+10-19 14:05:46.834 27972 27972 W C02c11/APPSPAWN: errno:2 bind mount /data/preload/app to /mnt/sandbox/100/com.joker.coolmall/data/preload/app
+10-19 14:05:46.837 27972 27972 E C02c11/APPSPAWN: [sandbox_dec.c:180]open dec file fail.
+10-19 14:05:46.837 27972 27972 I C05a03/Selinux: Hap type for com.joker.coolmall is changing from u:r:appspawn:s0 to o:r:debug_hap:s0:x94,x334,x512,x868,x1024
+10-19 14:05:46.837 27972 27972 I C05a03/Selinux: Hap setcon finish for com.joker.coolmall
+10-19 14:05:46.838 27972 27972 I C05a05/SecCompEnhanceClient: [RegisterCheckCallback]Register secComp: sessionId=4057890203, seqNum=******969.
+10-19 14:05:46.839 27972 28226 W C057c1/IPCWorkThread: ThreadHandler: proto:0 policy:1 name:OS_IPC_0_28226 invoker:14067856
+10-19 14:05:46.839 27972 28227 W C057c1/IPCWorkThread: ThreadHandler: proto:0 policy:0 name:OS_IPC_1_28227 invoker:14068448
+10-19 14:05:46.839 27972 27972 I C02d0b/HICHECKER: hichecker param is empty.
+10-19 14:05:46.840 27972 27972 I C04500/webview: SelectWebcoreBeforeProcessRun: SelectWebcoreBeforeProcessRun for app com.joker.coolmall.
+10-19 14:05:46.840 27972 27972 I C04500/webview: CalculateActiveWebEngineVersion: CalculateActiveWebEngineVersion, enforce EVERGREEN
+10-19 14:05:46.845 27972 27972 I C01317/AppKit: [MTHRD3190]mainthread start, pid:27972
+10-19 14:05:46.846 27972 28228 I C02d06/XCollie: init default task finished.
+10-19 14:05:46.849 27972 27972 I C01317/AppKit: [MTHRD431]attach
+10-19 14:05:46.851 27972 28226 I C01317/AppKit: [MTHRD825]ScheduleLaunchAbility called, ability FixtureAbility, type is 1.
+10-19 14:05:46.851 27972 28231 W C057c1/IPCWorkThread: ThreadHandler: proto:0 policy:0 name:OS_IPC_2_28231 invoker:14069008
+10-19 14:05:46.852 27972 27972 I C03900/ACE_UIContent: [69]AceForwardCompatibility [com.joker.coolmall] force:1 newpipe:1
+10-19 14:05:46.853 27972 27972 I C01317/AppKit: [MTHRD256]NativeLibPath empty
+10-19 14:05:46.853 27972 27972 I C01317/AppKit: [MTHRD1814]SmartGC: process is start. enable warm startup SmartGC: 0
+10-19 14:05:46.859 27972 27972 I C03f00/ArkCompiler: [ecmascript] asmint: 1, aot: 0, jit: 1, baseline jit: 0, bundle name: com.joker.coolmall, arkTSMode: dynamic
+10-19 14:05:46.862 27972 27972 I C03f00/ArkCompiler: [ecmascript] multi-thread check enabled: 0
+10-19 14:05:46.862 27972 27972 I C03f00/ArkCompiler: [pgo] reset pgo profiler, pgo profiler is disabled
+10-19 14:05:46.863 27972 27972 I C03301/LIBUV: clean up handles in loop(4944)
+10-19 14:05:46.863 27972 27972 I C03301/LIBUV: loop:(4944) closed in 0s
+10-19 14:05:46.863 27972 27972 I C03301/LIBUV: close:4944, async_io_wfd:16
+10-19 14:05:46.863 27972 27972 I C03301/LIBUV: close:4944, backend_fd:10
+10-19 14:05:46.863 27972 27972 I C03301/LIBUV: init:4960
+10-19 14:05:46.863 27972 27972 I C03301/LIBUV: init:4960, backend_fd:10
+10-19 14:05:46.863 27972 27972 I C03301/LIBUV: open:4960, pipefd[0]:16
+10-19 14:05:46.863 27972 27972 I C03f00/ArkCompiler: [ecmascript] can not find aot file
+10-19 14:05:46.863 27972 28235 E C01707/CONCUR: [Interface] task 28235 apply qos failed, errno = 4
+10-19 14:05:46.869 27972 27972 I C03f00/ArkCompiler: StartServer, componentName = <private>
+10-19 14:05:46.869 27972 27972 W C01321/JsRuntime: [CSM161]not Connected
+10-19 14:05:46.869 27972 27972 I C03f00/ArkCompiler: [ecmascript] JSNApi::NotifyDebugMode, tid = 27972, debugApp = 1, isDebugMode = 0, instanceId = 0
+10-19 14:05:46.870 27972 28240 I C02c03/PARAM_WATCHER: Add watcher keyPrefix persist.hdc.jdwp remoteWatcherId 801 success
+10-19 14:05:46.871 27972 27972 I C03f00/ArkCompiler: [compiler] __jit_debug_register_code() is called.
+10-19 14:05:46.871 27972 27972 I C03f00/ArkCompiler: [compiler] success to register stub.an to debugger.
+10-19 14:05:46.871 27972 28234 I C01317/AppKit: [DRH393]File existed. dir: /data/storage/el2/base/cache/rawheap
+10-19 14:05:46.871 27972 28234 I C01317/AppKit: [DRH373]success to create /data/storage/el2/base/cache/rawheap
+10-19 14:05:46.872 27972 27972 W C01e00/ResourceManager: update userId, currentUserId_= 0, userId= 100
+10-19 14:05:46.872 27972 27972 E C01e00/ResourceManager: LoadThemesRes failed, userId = 100, bundleName = com.joker.coolmall
+10-19 14:05:46.872 27972 27972 W C01e00/ResourceManager: theme resources will clean, id 100
+10-19 14:05:46.872 27972 28232 W C01653/NativePreferences: LoadFromDisk: The settingXml /***/el1/***/i18*** load failed.
+10-19 14:05:46.877 27972 27972 E C01301/CompatiblePolicyDeviceType: [calculateResourceType:81]deviceType is empty.
+10-19 14:05:46.878 27972 27972 W C01301/Ability: [resource_config_helper.cpp183]invalid source:
+10-19 14:05:46.878 27972 27972 W C01301/Ability: [resource_config_helper.cpp183]invalid source:
+10-19 14:05:46.878 27972 27972 I C01317/AppKit: [application_cleaner.cpp94]ClearTempData
+10-19 14:05:46.891 27972 27972 I C01317/AppKit: [JAS193]LoadModule
+10-19 14:05:46.891 27972 27972 W C01317/AppKit: [JAS906]null stage
+10-19 14:05:46.891 27972 27972 W C01317/AppKit: [JAS236]Not found AbilityStage.js
+10-19 14:05:46.898 27972 27972 I C03f00/ArkCompiler: [ecmascript] can not find aot file
+10-19 14:05:46.899 27972 28238 I C03f00/ArkCompiler: [pgo] will save profiler to file /data/storage/ark-profile/rt_entry_test.ap
+10-19 14:05:46.899 27972 27972 I C03f00/ArkCompiler: [ecmascript] start to execute module buffer with secure memory: /data/storage/el1/bundle/entry_test/ets/fixture/FixtureAbility.abc
+10-19 14:05:46.899 27972 27972 E C03f00/ArkCompiler: [common] Can not open xpm proc file, do not check secure memory anymore.
+10-19 14:05:46.903 27972 27972 E C01707/CONCUR: [Interface] task 28238 apply qos failed, errno = 4
+10-19 14:05:46.906 27972 27972 E C01707/CONCUR: [Interface] task 28236 apply qos failed, errno = 4
+10-19 14:05:46.909 27972 27972 E C01707/CONCUR: [Interface] task 28237 apply qos failed, errno = 4
+10-19 14:05:46.912 27972 27972 E C01707/CONCUR: [Interface] task 28238 apply qos failed, errno = 4
+10-19 14:05:46.914 27972 27972 E C01707/CONCUR: [Interface] task 28236 apply qos failed, errno = 4
+10-19 14:05:46.919 27972 27972 E C01707/CONCUR: [Interface] task 28237 apply qos failed, errno = 4
+10-19 14:05:46.933 27972 27972 E C01700/RSS: ResSchedClient::ReportData type not subscribed.
+10-19 14:05:46.933 27972 27972 I C03f04/MMG: [NMM:1376]Module:arkui.StateManagement
+10-19 14:05:46.936 27972 27972 I C03f04/MMG: [NMM:1376]Module:arkui.node

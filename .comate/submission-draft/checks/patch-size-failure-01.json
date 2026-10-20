@@ -1,0 +1,26 @@
+{
+  "time": "2026-10-19T07:19:38.084183+00:00",
+  "status": "failed_and_superseded",
+  "project_files": 16970,
+  "project_bytes": 1291340382,
+  "failed_diff_bytes": 1294184961,
+  "command": [
+    "git",
+    "-c",
+    "core.autocrlf=false",
+    "-c",
+    "core.safecrlf=false",
+    "-c",
+    "core.filemode=false",
+    "apply",
+    "--check",
+    "--binary",
+    "final.diff"
+  ],
+  "exit_code": 128,
+  "stderr": "error: patch too large",
+  "workspace": ".comate/submission-check/20261019T071514434686Z",
+  "failed_diff_retained_at": ".comate/submission-check/20261019T071514434686Z/failed-uncompressed.diff",
+  "resolution": "Keep the same complete project file set and bytes; encode text/logs as Git compressed binary patch using attributes only in the temporary mirror Git admin directory. Retain separate readable source-review.diff.",
+  "failed_diff_sha256": "b7fef36b5313090df32fe9174ea707ffa276aa125937b88147113c3a153b28e0"
+}

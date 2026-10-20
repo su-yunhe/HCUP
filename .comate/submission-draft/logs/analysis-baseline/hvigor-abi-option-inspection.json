@@ -1,0 +1,19 @@
+{
+  "contexts": [
+    {
+      "path": "D:\\HarmonyDev\\DevEcoStudio-6.1.0\\tools\\hvigor\\hvigor-ohos-plugin\\src\\tasks\\process-libs.js",
+      "term": "abiFilters",
+      "text": "=s.getTargetData().getPathInfo(),a=cmake_util_js_1.CmakeUtil.checkAbiFilters(null===(e=s.getBuildOption().externalNativeOptions)||void 0===e?void 0:e.abiFilters,s.getTargetData().isHarmonyOS(),this.moduleModel,this.targetName);this.collectAllLibs=!!(null===(t=s.getBuildOption().nativeLib)||void 0===t?void 0:t.collectAllLibs),this.allHarLibs=this.getAllHarLibs(),this.libsWithPkg"
+    },
+    {
+      "path": "D:\\HarmonyDev\\DevEcoStudio-6.1.0\\tools\\hvigor\\hvigor-ohos-plugin\\src\\options\\build\\hap-ohos-config.d.ts",
+      "term": "abiFilters",
+      "text": "\nexport type ResOptions = {\n    [name: string]: [value: any];\n};\nexport type ExternalNativeOptions = {\n    path?: string;\n    arguments?: string;\n    abiFilters?: string[];\n    cppFlags?: string;\n    cFlags?: string;\n    targets?: string[];\n};\nexport type SourceOption = {\n    workers?: string[];\n};\nexport type NapiLibFilterOption = {\n    excludes?: string[];\n    pickFirsts?: st"
+    },
+    {
+      "path": "D:\\HarmonyDev\\DevEcoStudio-6.1.0\\tools\\hvigor\\hvigor-ohos-plugin\\src\\options\\build\\build-opt.d.ts",
+      "term": "abiFilters",
+      "text": "ing[];\n    excludePattern?: string[];\n}\nexport interface ExternalNativeOpt extends Option {\n    path?: string;\n    arguments?: string | string[];\n    abiFilters?: string[];\n    cppFlags?: string;\n    cFlags?: string;\n    targets?: string[];\n}\nexport interface TscConfig {\n    targetESVersion?: string;\n    maxFlowDepth?: number;\n}\nexport interface ExpandImportPath {\n    enable: b"
+    }
+  ]
+}

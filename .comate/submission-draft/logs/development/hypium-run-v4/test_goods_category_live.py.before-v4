@@ -1,0 +1,344 @@
+"""UI-driven catalogue checks against actual application NetLog responses.
+
+Not yet executed: only run after a frozen build has been installed and receipted.
+"""
+import time
+
+from hypium import BY
+
+from .observation import ObservedGoodsCase, rect
+
+
+class GoodsCategoryLiveTests(ObservedGoodsCase):
+    def test_01_home_entry_structure_and_layout(self):
+        pair = self.enter_home_category()
+        self.assertTrue(pair["request"]["data"].get("typeId"), "Root entry must resolve real leaf categories")
+        self.assertNotIn(800001, pair["request"]["data"]["typeId"], "Root ID must not be sent as an exact type filter")
+        controls = self.require_component(BY.key("gc.controls"), "Missing controls").getBounds()
+        header = self.require_component(BY.key("gc.header"), "Missing header").getBounds()
+        self.assertLessEqual(header.bottom, controls.top + 2)
+        bounds = [self.require_component(BY.key(key), key).getBounds() for key in ["gc.filter.trigger", "gc.sort.trigger", "gc.layout.toggle"]]
+        self.assertLess(bounds[0].left, bounds[1].left)
+        self.assertLess(bounds[1].left, bounds[2].left)
+        self.assertEqual(self.require_component(BY.key("gc.sort.title"), "Missing sort title").getText(), "排序")
+        self.require_component(BY.key("gc.grid"), "Default must be grid")
+        cards = self.assert_top_cards(pair, "grid-initial")
+        self.assertGreaterEqual(len(cards), 3)
+        self.assertEqual(rect(cards[0])[1], rect(cards[1])[1], "Two first cards must share grid row")
+        self.assertLess(rect(cards[0])[0], rect(cards[1])[0])
+        request_count = len(self.requests())
+        self.click("gc.layout.toggle")
+        self.require_component(BY.key("gc.list"), "Toggle did not produce list")
+        cards = self.assert_top_cards(pair, "list")
+        self.assertGreaterEqual(len(cards), 2)
+        self.assertEqual(rect(cards[0])[0], rect(cards[1])[0], "Single-column items must share x")
+        self.assertLess(rect(cards[0])[1], rect(cards[1])[1])
+        self.click("gc.layout.toggle")
+        self.require_component(BY.key("gc.grid"), "Second toggle did not restore grid")
+        self.assert_top_cards(pair, "grid-restored")
+        self.driver.wait(0.7)
+        self.assertEqual(len(self.requests()), request_count, "Layout toggle must not reload goods")
+
+    def test_02_category_tab_leaf_entry(self):
+        self.click("gc.entry.category.tab")
+        before = len(self.requests())
+        self.click("gc.entry.category.801001")
+        pair = self.wait_page({"page": 1, "typeId": [801001]}, after=before)
+        self.require_component(BY.key("gc.page"), "Leaf did not enter category page")
+        self.assertTrue(all(row["typeId"] == 801001 for row in pair["oracle"]["data"]["list"]))
+        self.assert_top_cards(pair, "tab-leaf")
+
+    def test_03_search_edit_empty_and_recover(self):
+        self.click("gc.entry.home.search")
+        self.require_component(BY.key("gs.page"), "Search page missing")
+        self.input("gs.search.input", "Xiaomi 15S Pro")
+        before = len(self.requests())
+        self.click("gs.search.submit")
+        pair = self.wait_page({"page": 1, "keyWord": "Xiaomi 15S Pro"}, after=before)
+        self.require_component(BY.key("gc.page"), "Search did not enter category page")
+        for key in ["featured", "recommend"]:
+            self.assertNotIn(key, pair["request"]["data"], "Ordinary search must not inherit placeholder false filters")
+        self.assert_top_cards(pair, "search-initial")
+        for value in ["", "   "]:
+            self.input("gc.search.input", value)
+            before = len(self.requests())
+            self.click("gc.search.submit")
+            self.driver.wait(0.6)
+            self.assertEqual(len(self.requests()), before, "Empty/space search must not submit")
+        self.input("gc.search.input", "cmlspec24nomatch20261019")
+        before = len(self.requests())
+        self.click("gc.search.submit")
+        pair = self.wait_page({"page": 1, "keyWord": "cmlspec24nomatch20261019"}, after=before)
+        self.assertEqual(pair["oracle"]["data"]["list"], [])
+        self.require_component(BY.key("gc.state.empty"), "Empty response needs visible empty state")
+        self.require_component(BY.key("gc.controls"), "Empty result removed controls")
+        self.snapshot("empty")
+        self.input("gc.search.input", "Xiaomi 17T")
+        before = len(self.requests())
+        self.click("gc.search.submit")
+        pair = self.wait_page({"page": 1, "keyWord": "Xiaomi 17T"}, after=before)
+        self.assert_top_cards(pair, "search-recovered")
+
+    def test_04_sort_five_options_and_real_numeric_order(self):
+        self.enter_all()
+        modes = [("priceAsc", "价格由低到高", "price", "asc"),
+                 ("soldDesc", "销量由高到低", "sold", "desc"),
+                 ("priceDesc", "价格由高到低", "price", "desc"),
+                 ("soldAsc", "销量由低到高", "sold", "asc"),
+                 ("default", "综合排序", None, None)]
+        for mode, title, key, direction in modes:
+            self.click("gc.sort.trigger")
+            self.require_component(BY.key("gc.sort.panel"), "Sort panel missing")
+            for option, text, _, _ in modes:
+                self.assertEqual(self.require_component(BY.key("gc.sort.option." + option), text).getText(), text)
+            before = len(self.requests())
+            self.click("gc.sort.option." + mode)
+            expected = {"page": 1} if key is None else {"page": 1, "order": key, "sort": direction}
+            pair = self.wait_page(expected, after=before)
+            self.assertEqual(self.require_component(BY.key("gc.sort.title"), "Current sort title").getText(), title)
+            self.assertIsNone(self.find_or_none(BY.key("gc.sort.panel"), timeout=0.3), "Sort menu must close after selection")
+            if key:
+                values = [row[key] for row in pair["oracle"]["data"]["list"]]
+                self.assertEqual(values, sorted(values, reverse=direction == "desc"), "Server response numeric order incorrect")
+            else:
+                self.assertNotIn("order", pair["request"]["data"])
+                self.assertNotIn("sort", pair["request"]["data"])
+            self.assert_top_cards(pair, "sort-" + mode)
+        before = len(self.requests())
+        self.click("gc.sort.trigger")
+        self.click("gc.sort.option.default")
+        self.driver.wait(0.5)
+        self.assertEqual(len(self.requests()), before, "Repeated current sort should not reload")
+
+    def test_05_price_draft_cancel_confirm_and_reset(self):
+        original = self.enter_all()
+        self.click("gc.filter.trigger")
+        self.require_component(BY.key("gc.filter.panel"), "Filter panel missing")
+        for key in ["gc.filter.min", "gc.filter.max", "gc.filter.separator", "gc.filter.reset", "gc.filter.confirm"]:
+            self.require_component(BY.key(key), key)
+        self.input("gc.filter.min", "50")
+        self.input("gc.filter.max", "200")
+        self.dismiss_keyboard()
+        self.snapshot("draft-price")
+        count = len(self.requests())
+        self.click("gc.filter.trigger")
+        self.driver.wait(0.5)
+        self.assertEqual(len(self.requests()), count, "Unconfirmed draft must not reload goods")
+        self.assert_top_cards(original, "after-cancel")
+        self.click("gc.filter.trigger")
+        self.assertEqual(self.require_component(BY.key("gc.filter.min"), "min").getText(), "")
+        self.assertEqual(self.require_component(BY.key("gc.filter.max"), "max").getText(), "")
+        self.input("gc.filter.min", "50")
+        self.input("gc.filter.max", "200")
+        self.dismiss_keyboard()
+        before = len(self.requests())
+        self.click("gc.filter.confirm")
+        pair = self.wait_page({"page": 1, "minPrice": "50", "maxPrice": "200"}, after=before)
+        self.assertIsNone(self.find_or_none(BY.key("gc.filter.panel"), timeout=0.3))
+        prices = [row["price"] for row in pair["oracle"]["data"]["list"]]
+        self.assertTrue(prices)
+        self.assertTrue(all(50 < value <= 200 for value in prices))
+        self.assert_top_cards(pair, "price-applied")
+        self.click("gc.filter.trigger")
+        self.assertEqual(self.require_component(BY.key("gc.filter.min"), "min").getText(), "50")
+        self.assertEqual(self.require_component(BY.key("gc.filter.max"), "max").getText(), "200")
+        count = len(self.requests())
+        self.click("gc.filter.reset")
+        self.assertEqual(self.require_component(BY.key("gc.filter.min"), "min").getText(), "")
+        self.assertEqual(self.require_component(BY.key("gc.filter.max"), "max").getText(), "")
+        self.assertEqual(len(self.requests()), count, "Reset draft must not submit")
+        self.click("gc.filter.confirm")
+        pair = self.wait_page({"page": 1}, after=count)
+        self.assertNotIn("minPrice", pair["request"]["data"])
+        self.assertNotIn("maxPrice", pair["request"]["data"])
+        self.assert_top_cards(pair, "reset-applied")
+
+    def test_06_pagination_and_refresh(self):
+        from .observation import page_pairs
+        self.enter_all()
+        for layout in ["grid", "list"]:
+            if layout == "list":
+                self.click("gc.layout.toggle")
+            container = "gc." + layout
+            # An explicit confirmation resets scroll/page without changing layout.
+            self.click("gc.filter.trigger")
+            before = len(self.requests())
+            self.click("gc.filter.confirm")
+            first = self.wait_page({"page": 1}, after=before)
+            rows = first["oracle"]["data"]["list"]
+            total = first["oracle"]["data"]["pagination"]["total"]
+            self.require_precondition(total > len(rows), "Real catalogue currently lacks multiple pages")
+            expected = [row["id"] for row in rows]
+            observed = []
+            self.require_component(BY.key("gc.goods." + str(expected[0])), "Page one did not render")
+            deadline = time.monotonic() + 120
+            reached_end = False
+            scan = 0
+            while time.monotonic() < deadline:
+                scan += 1
+                nodes = self.snapshot(layout + "-page-scan-" + str(scan))
+                for goods_id in self.visible_card_ids(nodes):
+                    if goods_id not in observed:
+                        observed.append(goods_id)
+                pairs = [pair for pair in page_pairs(self.events()) if not pair["ambiguous"] and self.response_success_fragment(pair["response"])]
+                relevant = []
+                for pair in pairs:
+                    request = pair["request"]
+                    if request in self.requests()[before:]:
+                        relevant.append(self.with_oracle(pair))
+                expected = [row["id"] for pair in relevant for row in pair["oracle"]["data"]["list"]]
+                if len(expected) >= total and len(observed) >= total:
+                    reached_end = True
+                    self.assertEqual([pair["request"]["data"]["page"] for pair in relevant], list(range(1, len(relevant) + 1)))
+                    break
+                self.driver.swipe("UP", distance=65, area=BY.key(container))
+                self.wait_quiet(0.2)
+            self.assertTrue(reached_end, f"{layout} could not expose every actual response item by scrolling")
+            self.assertEqual(observed, expected, "UI append order must equal the consecutive actual page responses")
+            count = len(self.requests())
+            for _ in range(3):
+                self.driver.swipe("UP", distance=65, area=BY.key(container))
+            self.wait_quiet()
+            self.assertEqual(len(self.requests()), count, "Known last page must not issue another goods page")
+            # Return through the existing data without causing a reload.
+            self.return_to_first(expected[0], container)
+            self.snapshot(layout + "-old-first-page-retained")
+            # Reload to establish an unambiguous top-of-list refresh precondition.
+            self.click("gc.filter.trigger")
+            before = len(self.requests())
+            self.click("gc.filter.confirm")
+            first = self.wait_page({"page": 1}, after=before)
+            self.assert_top_cards(first, layout + "-before-refresh")
+            before = len(self.requests())
+            self.driver.swipe("DOWN", distance=65, area=BY.key(container), swipe_time=0.8)
+            refreshed = self.wait_page({"page": 1}, after=before)
+            self.assert_top_cards(refreshed, layout + "-refreshed")
+
+    def test_07_back_reentry_and_cold_start(self):
+        self.enter_home_category()
+        self.click("gc.layout.toggle")
+        self.click("gc.filter.trigger")
+        self.input("gc.filter.min", "50")
+        self.driver.press_back()
+        self.require_component(BY.key("gc.page"), "Back from filter must keep page")
+        # Native IME may consume the first back; close the menu through its trigger.
+        if self.find_or_none(BY.key("gc.filter.panel"), timeout=0.3):
+            self.click("gc.filter.trigger")
+        self.click("gc.search.back")
+        self.require_component(BY.key("gc.entry.home.search"), "Back did not reach home")
+        self.enter_home_category()
+        self.require_component(BY.key("gc.grid"), "New category instance must default to grid")
+        self.driver.stop_app("com.joker.coolmall")
+        self.record("stop-app", reason="cold-start")
+        self.driver.start_app("com.joker.coolmall", "EntryAbility", wait_time=2)
+        self.pid = self.hdc("shell", "pidof", "com.joker.coolmall").strip().split()[0]
+        self.record("start-app", reason="cold-start", pid=self.pid)
+        self.enter_home_category()
+        self.require_component(BY.key("gc.grid"), "Cold process entry must use grid")
+
+    def test_08_multigroup_selection_price_and_reset(self):
+        self.enter_all()
+        self.click("gc.filter.trigger")
+        self.input("gc.filter.min", "50")
+        self.input("gc.filter.max", "200")
+        self.dismiss_keyboard()
+        before = len(self.requests())
+        self.filter_tag(801013, "wearable-tag")
+        self.filter_tag(801032, "kitchen-tag")
+        # Revisit both tags to prove selection is additive across groups.
+        self.assertTrue(self.filter_tag(801013, "wearable-selected", click=False).isSelected())
+        self.assertTrue(self.filter_tag(801032, "kitchen-selected", click=False).isSelected())
+        self.wait_quiet()
+        self.assertEqual(len(self.requests()), before, "Tag draft edits must not reload goods")
+        self.click("gc.filter.confirm")
+        pair = self.wait_page({"page": 1, "minPrice": "50", "maxPrice": "200"}, after=before)
+        self.assertEqual(set(pair["request"]["data"].get("typeId", [])), {801013, 801032})
+        rows = pair["oracle"]["data"]["list"]
+        self.assertTrue(rows, "Real multi-category/price fixture returned no data")
+        self.assertTrue(all(row["typeId"] in {801013, 801032} and 50 < row["price"] <= 200 for row in rows))
+        self.assert_top_cards(pair, "multigroup-price-result")
+        self.click("gc.filter.trigger")
+        self.assertTrue(self.filter_tag(801013, "reopen-tag-one", click=False).isSelected())
+        self.assertTrue(self.filter_tag(801032, "reopen-tag-two", click=False).isSelected())
+        self.click("gc.filter.reset")
+        self.assertFalse(self.filter_tag(801013, "reset-tag-one", click=False).isSelected())
+        self.assertFalse(self.filter_tag(801032, "reset-tag-two", click=False).isSelected())
+        before = len(self.requests())
+        self.click("gc.filter.confirm")
+        pair = self.wait_page({"page": 1}, after=before)
+        for key in ["typeId", "minPrice", "maxPrice"]:
+            self.assertNotIn(key, pair["request"]["data"])
+        self.assert_top_cards(pair, "multigroup-reset")
+
+    def test_09_price_validation_single_sides_and_equal(self):
+        self.enter_all()
+        for minimum, maximum in [("abc", ""), ("-1", ""), ("200", "50")]:
+            self.click("gc.filter.trigger")
+            self.input("gc.filter.min", minimum)
+            self.input("gc.filter.max", maximum)
+            self.dismiss_keyboard()
+            before = len(self.requests())
+            self.click("gc.filter.confirm")
+            self.wait_quiet()
+            self.require_component(BY.key("gc.filter.panel"), "Invalid price must retain filter panel")
+            self.require_component(BY.key("gc.filter.error"), "Invalid price needs visible validation")
+            self.assertEqual(len(self.requests()), before, "Invalid price must not query the service")
+            self.close_filter_mask()
+        for minimum, maximum, expected in [
+            ("139", "", {"minPrice": "139"}),
+            ("", "139", {"maxPrice": "139"}),
+            ("   ", "   ", {}),
+            ("139", "139", {"minPrice": "139", "maxPrice": "139"}),
+        ]:
+            self.click("gc.filter.trigger")
+            self.click("gc.filter.reset")
+            self.input("gc.filter.min", minimum)
+            self.input("gc.filter.max", maximum)
+            self.dismiss_keyboard()
+            before = len(self.requests())
+            self.click("gc.filter.confirm")
+            pair = self.wait_page({"page": 1, **expected}, after=before)
+            for key in ["minPrice", "maxPrice"]:
+                if key not in expected:
+                    self.assertNotIn(key, pair["request"]["data"])
+            rows = pair["oracle"]["data"]["list"]
+            if minimum == maximum == "139":
+                self.assertEqual(rows, [], "The observed service treats equal bounds as an empty (min,max] range")
+                self.require_component(BY.key("gc.state.empty"), "Equal bounds response must clear old data")
+            elif minimum.strip():
+                self.assertTrue(all(row["price"] > 139 for row in rows))
+            elif maximum.strip():
+                self.assertTrue(all(row["price"] <= 139 for row in rows))
+            self.snapshot("price-boundary-" + str(before))
+
+    def test_10_mask_back_cancel_and_repeated_confirm(self):
+        self.enter_all()
+        # No input is focused: the system back has no IME to consume it.
+        for close in ["mask", "back"]:
+            self.click("gc.filter.trigger")
+            self.filter_tag(801013, close + "-draft-tag")
+            before = len(self.requests())
+            if close == "mask":
+                self.close_filter_mask()
+            else:
+                nodes = self.snapshot("back-no-ime-precondition")
+                self.assertFalse(any(node.get("bundleName") == "com.huawei.hmos.inputmethod" for node in nodes), "Back test requires no visible IME")
+                self.record("system-back", precondition="No TextInput focused since entering page")
+                self.driver.press_back()
+            self.wait_quiet()
+            self.assertIsNone(self.find_or_none(BY.key("gc.filter.panel"), timeout=0.3), f"{close} must close panel")
+            self.require_component(BY.key("gc.page"), f"{close} must not leave goods page")
+            self.assertEqual(len(self.requests()), before)
+            self.click("gc.filter.trigger")
+            self.assertFalse(self.filter_tag(801013, close + "-draft-discarded", click=False).isSelected())
+            self.click("gc.filter.trigger")
+        self.click("gc.filter.trigger")
+        confirm = self.require_component(BY.key("gc.filter.confirm"), "Confirm missing").getBounds()
+        point = ((confirm.left + confirm.right) // 2, (confirm.top + confirm.bottom) // 2)
+        before = len(self.requests())
+        for _ in range(4):
+            self.record("rapid-confirm-coordinate", point=point)
+            self.driver.click(point)
+        self.wait_page({"page": 1}, after=before)
+        self.wait_quiet()
+        self.assertEqual(len(self.requests()) - before, 1, "Repeated confirm must commit one query")

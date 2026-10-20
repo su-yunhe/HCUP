@@ -1,0 +1,104 @@
+10-19 14:02:35.206 23126 23126 I C02c11/APPSPAWN: AppSpawnChild id 97 flags:0xc
+10-19 14:02:35.206 23126 23126 I C02c02/PARAM: ResetParamSecurityLabel Fd:18
+10-19 14:02:35.206 23126 23126 I C02d33/HitraceOption: FilterAppTrace com.joker.coolmall 23126
+10-19 14:02:35.206 23126 23126 W C02c11/APPSPAWN: errno:2 bind mount /system/app/ArkWebCoreLegacy to /mnt/sandbox/100/com.joker.coolmall/system/app/ArkWebCoreLegacy
+10-19 14:02:35.206 23126 23126 W C02c11/APPSPAWN: errno:2 bind mount /vendor/etc/hiai to /mnt/sandbox/100/com.joker.coolmall/vendor/etc/hiai
+10-19 14:02:35.206 23126 23126 W C02c11/APPSPAWN: errno:2 bind mount /data/data/hiai to /mnt/sandbox/100/com.joker.coolmall/data/data/hiai
+10-19 14:02:35.207 23126 23126 W C02c11/APPSPAWN: errno:2 bind mount /data/service/el1/public/themes/100/a/app to /mnt/sandbox/100/com.joker.coolmall/data/themes/a/app
+10-19 14:02:35.207 23126 23126 W C02c11/APPSPAWN: errno:2 bind mount /data/service/el1/public/themes/100/b/app to /mnt/sandbox/100/com.joker.coolmall/data/themes/b/app
+10-19 14:02:35.207 23126 23126 W C02c11/APPSPAWN: errno:2 bind mount /data/service/el1/100/for-all-app/fonts to /mnt/sandbox/100/com.joker.coolmall/data/service/el1/public/for-all-app/fonts
+10-19 14:02:35.207 23126 23126 W C02c11/APPSPAWN: errno:2 bind mount /chip_prod/lib64/passthrough to /mnt/sandbox/100/com.joker.coolmall/chip_prod/lib64/passthrough
+10-19 14:02:35.207 23126 23126 W C02c11/APPSPAWN: errno:2 bind mount /data/app/el1/bundle/public/com.huawei.hmos.arkwebcorelegacy to /mnt/sandbox/100/com.joker.coolmall/data/storage/el1/bundle/arkwebcorelegacy
+10-19 14:02:35.207 23126 23126 W C02c11/APPSPAWN: check dir /data/app/el1/bundle/public/com.huawei.hmos.arkwebcorelegacy failed,strerror:No such file or directory
+10-19 14:02:35.207 23126 23126 W C02c11/APPSPAWN: check dir /data/app/el1/public/aot_compiler/ark_cache/com.joker.coolmall failed,strerror:No such file or directory
+10-19 14:02:35.215 23126 23126 W C02c11/APPSPAWN: errno:2 bind mount /data/preload/app to /mnt/sandbox/100/com.joker.coolmall/data/preload/app
+10-19 14:02:35.218 23126 23126 E C02c11/APPSPAWN: [sandbox_dec.c:180]open dec file fail.
+10-19 14:02:35.218 23126 23126 I C05a03/Selinux: Hap type for com.joker.coolmall is changing from u:r:appspawn:s0 to o:r:debug_hap:s0:x94,x334,x512,x868,x1024
+10-19 14:02:35.218 23126 23126 I C05a03/Selinux: Hap setcon finish for com.joker.coolmall
+10-19 14:02:35.220 23126 23126 I C05a05/SecCompEnhanceClient: [RegisterCheckCallback]Register secComp: sessionId=2173230202, seqNum=******963.
+10-19 14:02:35.220 23126 24583 W C057c1/IPCWorkThread: ThreadHandler: proto:0 policy:1 name:OS_IPC_0_24583 invoker:14067856
+10-19 14:02:35.220 23126 24584 W C057c1/IPCWorkThread: ThreadHandler: proto:0 policy:0 name:OS_IPC_1_24584 invoker:14068448
+10-19 14:02:35.221 23126 23126 I C02d0b/HICHECKER: hichecker param is empty.
+10-19 14:02:35.221 23126 23126 I C04500/webview: SelectWebcoreBeforeProcessRun: SelectWebcoreBeforeProcessRun for app com.joker.coolmall.
+10-19 14:02:35.221 23126 23126 I C04500/webview: CalculateActiveWebEngineVersion: CalculateActiveWebEngineVersion, enforce EVERGREEN
+10-19 14:02:35.221 23126 23126 I C01317/AppKit: [MTHRD3190]mainthread start, pid:23126
+10-19 14:02:35.222 23126 24585 I C02d06/XCollie: init default task finished.
+10-19 14:02:35.224 23126 23126 I C01317/AppKit: [MTHRD431]attach
+10-19 14:02:35.229 23126 24584 I C01317/AppKit: [MTHRD825]ScheduleLaunchAbility called, ability FixtureAbility, type is 1.
+10-19 14:02:35.237 23126 23126 I C03900/ACE_UIContent: [69]AceForwardCompatibility [com.joker.coolmall] force:1 newpipe:1
+10-19 14:02:35.238 23126 23126 I C01317/AppKit: [MTHRD256]NativeLibPath empty
+10-19 14:02:35.239 23126 23126 I C01317/AppKit: [MTHRD1814]SmartGC: process is start. enable warm startup SmartGC: 0
+10-19 14:02:35.242 23126 23126 I C03f00/ArkCompiler: [ecmascript] asmint: 1, aot: 0, jit: 1, baseline jit: 0, bundle name: com.joker.coolmall, arkTSMode: dynamic
+10-19 14:02:35.242 23126 23126 I C03f00/ArkCompiler: [ecmascript] multi-thread check enabled: 0
+10-19 14:02:35.242 23126 23126 I C03f00/ArkCompiler: [pgo] reset pgo profiler, pgo profiler is disabled
+10-19 14:02:35.242 23126 23126 I C03301/LIBUV: clean up handles in loop(4944)
+10-19 14:02:35.242 23126 23126 I C03301/LIBUV: loop:(4944) closed in 0s
+10-19 14:02:35.242 23126 23126 I C03301/LIBUV: close:4944, async_io_wfd:16
+10-19 14:02:35.242 23126 23126 I C03301/LIBUV: close:4944, backend_fd:10
+10-19 14:02:35.242 23126 23126 I C03301/LIBUV: init:4064
+10-19 14:02:35.242 23126 23126 I C03301/LIBUV: init:4064, backend_fd:10
+10-19 14:02:35.242 23126 23126 I C03301/LIBUV: open:4064, pipefd[0]:16
+10-19 14:02:35.243 23126 23126 I C03f00/ArkCompiler: [ecmascript] can not find aot file
+10-19 14:02:35.251 23126 24596 E C01707/CONCUR: [Interface] task 24596 apply qos failed, errno = 4
+10-19 14:02:35.255 23126 23126 I C03f00/ArkCompiler: StartServer, componentName = <private>
+10-19 14:02:35.255 23126 23126 W C01321/JsRuntime: [CSM161]not Connected
+10-19 14:02:35.255 23126 23126 I C03f00/ArkCompiler: [ecmascript] JSNApi::NotifyDebugMode, tid = 23126, debugApp = 1, isDebugMode = 0, instanceId = 0
+10-19 14:02:35.256 23126 24601 I C02c03/PARAM_WATCHER: Add watcher keyPrefix persist.hdc.jdwp remoteWatcherId 744 success
+10-19 14:02:35.258 23126 23126 I C03f00/ArkCompiler: [compiler] __jit_debug_register_code() is called.
+10-19 14:02:35.258 23126 23126 I C03f00/ArkCompiler: [compiler] success to register stub.an to debugger.
+10-19 14:02:35.258 23126 24593 I C01317/AppKit: [DRH393]File existed. dir: /data/storage/el2/base/cache/rawheap
+10-19 14:02:35.258 23126 24593 I C01317/AppKit: [DRH373]success to create /data/storage/el2/base/cache/rawheap
+10-19 14:02:35.259 23126 23126 W C01e00/ResourceManager: update userId, currentUserId_= 0, userId= 100
+10-19 14:02:35.259 23126 23126 E C01e00/ResourceManager: LoadThemesRes failed, userId = 100, bundleName = com.joker.coolmall
+10-19 14:02:35.259 23126 23126 W C01e00/ResourceManager: theme resources will clean, id 100
+10-19 14:02:35.259 23126 24589 W C01653/NativePreferences: LoadFromDisk: The settingXml /***/el1/***/i18*** load failed.
+10-19 14:02:35.266 23126 23126 E C01301/CompatiblePolicyDeviceType: [calculateResourceType:81]deviceType is empty.
+10-19 14:02:35.268 23126 23126 W C01301/Ability: [resource_config_helper.cpp183]invalid source:
+10-19 14:02:35.268 23126 23126 W C01301/Ability: [resource_config_helper.cpp183]invalid source:
+10-19 14:02:35.268 23126 23126 I C01317/AppKit: [application_cleaner.cpp94]ClearTempData
+10-19 14:02:35.284 23126 23126 I C01317/AppKit: [JAS193]LoadModule
+10-19 14:02:35.284 23126 23126 W C01317/AppKit: [JAS906]null stage
+10-19 14:02:35.284 23126 23126 W C01317/AppKit: [JAS236]Not found AbilityStage.js
+10-19 14:02:35.285 23126 23126 I C03f00/ArkCompiler: [ecmascript] can not find aot file
+10-19 14:02:35.286 23126 23126 I C03f00/ArkCompiler: [ecmascript] start to execute module buffer with secure memory: /data/storage/el1/bundle/entry_test/ets/fixture/FixtureAbility.abc
+10-19 14:02:35.287 23126 23126 E C03f00/ArkCompiler: [common] Can not open xpm proc file, do not check secure memory anymore.
+10-19 14:02:35.287 23126 24599 I C03f00/ArkCompiler: [pgo] will save profiler to file /data/storage/ark-profile/rt_entry_test.ap
+10-19 14:02:35.292 23126 23126 E C01707/CONCUR: [Interface] task 24599 apply qos failed, errno = 4
+10-19 14:02:35.294 23126 23126 E C01707/CONCUR: [Interface] task 24597 apply qos failed, errno = 4
+10-19 14:02:35.297 23126 23126 E C01707/CONCUR: [Interface] task 24598 apply qos failed, errno = 4
+10-19 14:02:35.306 23126 23126 E C01707/CONCUR: [Interface] task 24599 apply qos failed, errno = 4
+10-19 14:02:35.308 23126 23126 E C01707/CONCUR: [Interface] task 24597 apply qos failed, errno = 4
+10-19 14:02:35.310 23126 23126 E C01707/CONCUR: [Interface] task 24598 apply qos failed, errno = 4
+10-19 14:02:35.317 23126 23126 E C01700/RSS: ResSchedClient::ReportData type not subscribed.
+10-19 14:02:35.318 23126 23126 I C03f04/MMG: [NMM:1376]Module:arkui.StateManagement
+10-19 14:02:35.320 23126 23126 I C03f04/MMG: [NMM:1376]Module:arkui.node
+10-19 14:02:35.379 23126 23126 I C03f04/MMG: [NMM:1376]Module:file.photoAccessHelper
+10-19 14:02:35.380 23126 23126 W C03f04/MMG: [NMM:1289] Name mismatch: file.photoAccessHelperNative != file.photoAccessHelper
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init UnifiedDataProperties 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init UnifiedData 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init Summary 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init UnifiedRecord 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init Text 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init PlainText 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init Hyperlink 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init HTML 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init File 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init Image 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init Video 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init Audio 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init Folder 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init SystemDefinedRecord 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init SDForm 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init SDAppItem 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init SDPixelMap 0
+10-19 14:02:35.392 23126 23126 I C01656/UDMF: UDMFUnifiedDataModule::Init init ApplicationDefinedRecord 0
+10-19 14:02:35.393 23126 23126 I C01656/UDMF: UDMFUniformTypModule::RegisterUDMFUnifiedDataModule module register data.uniformTypeDescriptor
+10-19 14:02:35.395 23126 23126 I C01656/UDMF: UDMFUniformTypModule::Init init TypeDescriptor 0
+10-19 14:02:35.403 23126 23126 I C01320/JsEnv: [JSENV299]timing: 116
+10-19 14:02:35.403 23126 23126 I C01320/JSENV: Callee constructor is OK string
+10-19 14:02:35.403 23126 23126 I C01320/JSENV: Ability::constructor callee is object [object Object]
+10-19 14:02:35.404 23126 23126 I C01332/UIAbility: [ui_ability_thread.cpp173]Lifecycle:Attach
+10-19 14:02:35.405 23126 23126 I C01317/AppKit: [MTHRD2834]called
+10-19 14:02:35.405 23126 23126 I C03f00/ArkCompiler: [gc] app is not inBackground
+10-19 14:02:35.408 23126 23126 E C01707/CONCUR: [Interface] task 24599 apply qos failed, errno = 4
+10-19 14:02:35.411 23126 23126 E C01707/CONCUR: [Interface] task 24597 apply qos failed, errno = 4

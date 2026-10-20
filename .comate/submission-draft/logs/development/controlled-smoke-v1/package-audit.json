@@ -1,0 +1,729 @@
+{
+  "utc": "2026-10-19T05:43:45.992600+00:00",
+  "packages": {
+    "main": {
+      "path": "D:\\HCUP\\cml-spec24\\entry\\build\\default\\outputs\\emulator\\entry-emulator-unsigned.hap",
+      "bytes": 15073528,
+      "sha256": "9f014ad306f52aaade8d6dc4ec5c73f92b4612a93eb1e75629723f5a58de3937",
+      "manifest": {
+        "app": {
+          "iconId": 167772163,
+          "debug": true,
+          "targetPatchAPIVersion": 0,
+          "minAPIVersion": 60001021,
+          "icon": "$media:layered_image",
+          "buildMode": "debug",
+          "label": "$string:app_name",
+          "bundleType": "app",
+          "versionName": "1.0.0",
+          "versionCode": 1000000,
+          "appEnvironments": [],
+          "compileSdkType": "HarmonyOS",
+          "labelId": 167772160,
+          "compileSdkVersion": "6.1.0.105",
+          "targetAPIVersion": 60001021,
+          "vendor": "example",
+          "bundleName": "com.joker.coolmall",
+          "apiReleaseType": "Release",
+          "targetMinorAPIVersion": 0
+        },
+        "module": {
+          "virtualMachine": "ark13.0.1.0",
+          "mainElement": "EntryAbility",
+          "installationFree": false,
+          "deliveryWithInstall": true,
+          "requestPermissions": [
+            {
+              "usedScene": {
+                "abilities": [
+                  "EntryAbility"
+                ],
+                "when": "inuse"
+              },
+              "name": "ohos.permission.INTERNET"
+            },
+            {
+              "name": "ohos.permission.GET_NETWORK_INFO"
+            },
+            {
+              "name": "ohos.permission.PRIVACY_WINDOW"
+            },
+            {
+              "usedScene": {},
+              "name": "ohos.permission.STORE_PERSISTENT_DATA"
+            }
+          ],
+          "description": "$string:module_desc",
+          "extensionAbilities": [
+            {
+              "exported": false,
+              "metadata": [
+                {
+                  "resourceId": 167772170,
+                  "resource": "$profile:backup_config",
+                  "name": "ohos.extension.backup"
+                }
+              ],
+              "srcEntry": "./ets/entrybackupability/EntryBackupAbility.ets",
+              "name": "EntryBackupAbility",
+              "type": "backup"
+            }
+          ],
+          "compileMode": "esmodule",
+          "type": "entry",
+          "dependencies": [],
+          "abilities": [
+            {
+              "exported": true,
+              "iconId": 167772163,
+              "orientation": "auto_rotation",
+              "startWindowIconId": 167772169,
+              "icon": "$media:layered_image",
+              "startWindowIcon": "$media:startIcon",
+              "startWindowBackgroundId": 167772167,
+              "description": "$string:EntryAbility_desc",
+              "label": "$string:EntryAbility_label",
+              "skills": [
+                {
+                  "entities": [
+                    "entity.system.home"
+                  ],
+                  "actions": [
+                    "ohos.want.action.home"
+                  ]
+                }
+              ],
+              "srcEntry": "./ets/entryability/EntryAbility.ets",
+              "descriptionId": 167772164,
+              "labelId": 167772165,
+              "startWindowBackground": "$color:start_window_background",
+              "name": "EntryAbility"
+            }
+          ],
+          "deviceTypes": [
+            "phone",
+            "tablet",
+            "2in1"
+          ],
+          "pages": "$profile:main_pages",
+          "descriptionId": 167772166,
+          "name": "entry",
+          "routerMap": "$profile:default-router-map",
+          "packageName": "entry"
+        }
+      },
+      "archive_entries": [
+        "module.json",
+        "resources.index",
+        "resources/base/media/alipay_msp_refresh_nav.webp",
+        "resources/base/media/background.png",
+        "resources/base/media/captcha_back.png",
+        "resources/base/media/captcha_reload.png",
+        "resources/base/media/captcha_slide.png",
+        "resources/base/media/foreground.png",
+        "resources/base/media/ibest_alpha.png",
+        "resources/base/media/ibest_default_avatar.svg",
+        "resources/base/media/ibest_delete.svg",
+        "resources/base/media/ibest_empty.svg",
+        "resources/base/media/ibest_empty_error.svg",
+        "resources/base/media/ibest_empty_network_error.svg",
+        "resources/base/media/ibest_empty_search_error.svg",
+        "resources/base/media/ibest_icon_star.svg",
+        "resources/base/media/ibest_icon_star_o.svg",
+        "resources/base/media/ibest_key_board.svg",
+        "resources/base/media/icon.png",
+        "resources/base/media/ic_add.svg",
+        "resources/base/media/ic_add_circle.svg",
+        "resources/base/media/ic_add_to_cart.svg",
+        "resources/base/media/ic_alipay.svg",
+        "resources/base/media/ic_book_writer.svg",
+        "resources/base/media/ic_camera_fill.svg",
+        "resources/base/media/ic_cart.svg",
+        "resources/base/media/ic_circle.svg",
+        "resources/base/media/ic_close.svg",
+        "resources/base/media/ic_coupon.svg",
+        "resources/base/media/ic_coupon_fill.svg",
+        "resources/base/media/ic_creative_fill.svg",
+        "resources/base/media/ic_cube.svg",
+        "resources/base/media/ic_customer_service.svg",
+        "resources/base/media/ic_delete.svg",
+        "resources/base/media/ic_delete_fill.svg",
+        "resources/base/media/ic_dev_productivity.svg",
+        "resources/base/media/ic_down.svg",
+        "resources/base/media/ic_down_triangle.svg",
+        "resources/base/media/ic_edit.svg",
+        "resources/base/media/ic_edit_fill.svg",
+        "resources/base/media/ic_emoji_good.svg",
+        "resources/base/media/ic_empty_cart.svg",
+        "resources/base/media/ic_empty_data.svg",
+        "resources/base/media/ic_empty_network.svg",
+        "resources/base/media/ic_empty_page.svg",
+        "resources/base/media/ic_eye.svg",
+        "resources/base/media/ic_eye_hide.svg",
+        "resources/base/media/ic_filter.svg",
+        "resources/base/media/ic_footprint_fill.svg",
+        "resources/base/media/ic_github.svg",
+        "resources/base/media/ic_home_screen.svg",
+        "resources/base/media/ic_image_fill.svg",
+        "resources/base/media/ic_left.svg",
+        "resources/base/media/ic_location_fill.svg",
+        "resources/base/media/ic_logistics.svg",
+        "resources/base/media/ic_logo.svg",
+        "resources/base/media/ic_menu.svg",
+        "resources/base/media/ic_menu_list.svg",
+        "resources/base/media/ic_message.svg",
+        "resources/base/media/ic_money.svg",
+        "resources/base/media/ic_more_vertical.svg",
+        "resources/base/media/ic_my_fill.svg",
+        "resources/base/media/ic_order_fill.svg",
+        "resources/base/media/ic_pay.svg",
+        "resources/base/media/ic_qq.svg",
+        "resources/base/media/ic_receipt.svg",
+        "resources/base/media/ic_reduce.svg",
+        "resources/base/media/ic_refund.svg",
+        "resources/base/media/ic_right.svg",
+        "resources/base/media/ic_search.svg",
+        "resources/base/media/ic_service_fill.svg",
+        "resources/base/media/ic_set_fill.svg",
+        "resources/base/media/ic_share_triangle.svg",
+        "resources/base/media/ic_shop.svg",
+        "resources/base/media/ic_star_fill.svg",
+        "resources/base/media/ic_success.svg",
+        "resources/base/media/ic_success_circle.svg",
+        "resources/base/media/ic_time.svg",
+        "resources/base/media/ic_tip_fill.svg",
+        "resources/base/media/ic_up.svg",
+        "resources/base/media/ic_up_triangle.svg",
+        "resources/base/media/ic_vip_fill.svg",
+        "resources/base/media/ic_wechat.svg",
+        "resources/base/media/layered_image.json",
+        "resources/base/media/nearx_bs.jpg",
+        "resources/base/media/nearx_dtx.jpg",
+        "resources/base/media/setting.jpeg",
+        "resources/base/media/startIcon.png",
+        "resources/base/media/title_bar_back_btn_black.png",
+        "resources/base/profile/backup_config.json",
+        "resources/base/profile/default-router-map.json",
+        "resources/base/profile/main_pages.json",
+        "resources/base/profile/route_map.json",
+        "resources/phone-ldpi/media/startIcon.png",
+        "resources/phone-mdpi/media/startIcon.png",
+        "resources/phone-sdpi/media/startIcon.png",
+        "resources/phone-xldpi/media/startIcon.png",
+        "resources/phone-xxldpi/media/startIcon.png",
+        "resources/phone-xxxldpi/media/startIcon.png",
+        "resources/rawfile/cart.json",
+        "resources/rawfile/category.json",
+        "resources/rawfile/home.json",
+        "resources/rawfile/ibest_font.woff",
+        "resources/rawfile/jshield-captcha/captcha-core.js",
+        "resources/rawfile/jshield-captcha/index.html",
+        "resources/rawfile/jshield-captcha/loading.gif",
+        "resources/rawfile/jshield-captcha/WebViewJavascriptBridge.js",
+        "resources/rawfile/me.json",
+        "resources/rawfile/otpTA.bin",
+        "ets/modules.abc",
+        "ets/sourceMaps.map",
+        "pack.info",
+        "pkgContextInfo.json"
+      ],
+      "native_libraries": [],
+      "fixture_token_hits": {
+        "FixtureAbility": [],
+        "ControlledGoodsDataSource": [],
+        "FixtureController": [],
+        "GoodsCategoryFixturePage": [],
+        "CML24Fixture": [],
+        "gcf.control.": [],
+        "gcf.pending.": [],
+        "fixture_pages": [],
+        "gcf_start": []
+      }
+    },
+    "test": {
+      "path": "D:\\HCUP\\cml-spec24\\entry\\build\\default\\outputs\\ohosTest\\entry-ohosTest-unsigned.hap",
+      "bytes": 9517645,
+      "sha256": "f9068559e1bef03949f6d77476d9a513d4da6790d0d308dd38657f8c012db001",
+      "manifest": {
+        "app": {
+          "iconId": 184549379,
+          "debug": true,
+          "targetPatchAPIVersion": 0,
+          "minAPIVersion": 60001021,
+          "icon": "$media:layered_image",
+          "buildMode": "debug",
+          "label": "$string:app_name",
+          "bundleType": "app",
+          "versionName": "1.0.0",
+          "versionCode": 1000000,
+          "appEnvironments": [],
+          "compileSdkType": "HarmonyOS",
+          "labelId": 184549376,
+          "compileSdkVersion": "6.1.0.105",
+          "targetAPIVersion": 60001021,
+          "vendor": "example",
+          "bundleName": "com.joker.coolmall",
+          "apiReleaseType": "Release",
+          "targetMinorAPIVersion": 0
+        },
+        "module": {
+          "virtualMachine": "ark13.0.1.0",
+          "mainElement": "FixtureAbility",
+          "installationFree": false,
+          "deliveryWithInstall": true,
+          "requestPermissions": [
+            {
+              "name": "ohos.permission.INTERNET"
+            },
+            {
+              "name": "ohos.permission.GET_NETWORK_INFO"
+            },
+            {
+              "name": "ohos.permission.PRIVACY_WINDOW"
+            },
+            {
+              "usedScene": {},
+              "name": "ohos.permission.STORE_PERSISTENT_DATA"
+            }
+          ],
+          "description": "$string:gcf_module_desc",
+          "compileMode": "esmodule",
+          "type": "feature",
+          "dependencies": [],
+          "abilities": [
+            {
+              "exported": true,
+              "iconId": 184549383,
+              "startWindowIconId": 184549383,
+              "icon": "$media:gcf_start",
+              "startWindowIcon": "$media:gcf_start",
+              "startWindowBackgroundId": 184549382,
+              "description": "$string:gcf_module_desc",
+              "label": "$string:gcf_label",
+              "srcEntry": "./ets/fixture/FixtureAbility.ets",
+              "descriptionId": 184549381,
+              "labelId": 184549380,
+              "startWindowBackground": "$color:gcf_background",
+              "name": "FixtureAbility"
+            }
+          ],
+          "deviceTypes": [
+            "phone",
+            "tablet",
+            "2in1"
+          ],
+          "pages": "$profile:fixture_pages",
+          "descriptionId": 184549381,
+          "name": "entry_test",
+          "routerMap": "$profile:default-router-map",
+          "packageName": "entry"
+        }
+      },
+      "archive_entries": [
+        "module.json",
+        "resources.index",
+        "resources/base/media/alipay_msp_refresh_nav.webp",
+        "resources/base/media/background.png",
+        "resources/base/media/captcha_back.png",
+        "resources/base/media/captcha_reload.png",
+        "resources/base/media/captcha_slide.png",
+        "resources/base/media/foreground.png",
+        "resources/base/media/gcf_start.svg",
+        "resources/base/media/ibest_alpha.png",
+        "resources/base/media/ibest_default_avatar.svg",
+        "resources/base/media/ibest_delete.svg",
+        "resources/base/media/ibest_empty.svg",
+        "resources/base/media/ibest_empty_error.svg",
+        "resources/base/media/ibest_empty_network_error.svg",
+        "resources/base/media/ibest_empty_search_error.svg",
+        "resources/base/media/ibest_icon_star.svg",
+        "resources/base/media/ibest_icon_star_o.svg",
+        "resources/base/media/ibest_key_board.svg",
+        "resources/base/media/icon.png",
+        "resources/base/media/ic_add.svg",
+        "resources/base/media/ic_add_circle.svg",
+        "resources/base/media/ic_add_to_cart.svg",
+        "resources/base/media/ic_alipay.svg",
+        "resources/base/media/ic_book_writer.svg",
+        "resources/base/media/ic_camera_fill.svg",
+        "resources/base/media/ic_cart.svg",
+        "resources/base/media/ic_circle.svg",
+        "resources/base/media/ic_close.svg",
+        "resources/base/media/ic_coupon.svg",
+        "resources/base/media/ic_coupon_fill.svg",
+        "resources/base/media/ic_creative_fill.svg",
+        "resources/base/media/ic_cube.svg",
+        "resources/base/media/ic_customer_service.svg",
+        "resources/base/media/ic_delete.svg",
+        "resources/base/media/ic_delete_fill.svg",
+        "resources/base/media/ic_dev_productivity.svg",
+        "resources/base/media/ic_down.svg",
+        "resources/base/media/ic_down_triangle.svg",
+        "resources/base/media/ic_edit.svg",
+        "resources/base/media/ic_edit_fill.svg",
+        "resources/base/media/ic_emoji_good.svg",
+        "resources/base/media/ic_empty_cart.svg",
+        "resources/base/media/ic_empty_data.svg",
+        "resources/base/media/ic_empty_network.svg",
+        "resources/base/media/ic_empty_page.svg",
+        "resources/base/media/ic_eye.svg",
+        "resources/base/media/ic_eye_hide.svg",
+        "resources/base/media/ic_filter.svg",
+        "resources/base/media/ic_footprint_fill.svg",
+        "resources/base/media/ic_github.svg",
+        "resources/base/media/ic_home_screen.svg",
+        "resources/base/media/ic_image_fill.svg",
+        "resources/base/media/ic_left.svg",
+        "resources/base/media/ic_location_fill.svg",
+        "resources/base/media/ic_logistics.svg",
+        "resources/base/media/ic_logo.svg",
+        "resources/base/media/ic_menu.svg",
+        "resources/base/media/ic_menu_list.svg",
+        "resources/base/media/ic_message.svg",
+        "resources/base/media/ic_money.svg",
+        "resources/base/media/ic_more_vertical.svg",
+        "resources/base/media/ic_my_fill.svg",
+        "resources/base/media/ic_order_fill.svg",
+        "resources/base/media/ic_pay.svg",
+        "resources/base/media/ic_qq.svg",
+        "resources/base/media/ic_receipt.svg",
+        "resources/base/media/ic_reduce.svg",
+        "resources/base/media/ic_refund.svg",
+        "resources/base/media/ic_right.svg",
+        "resources/base/media/ic_search.svg",
+        "resources/base/media/ic_service_fill.svg",
+        "resources/base/media/ic_set_fill.svg",
+        "resources/base/media/ic_share_triangle.svg",
+        "resources/base/media/ic_shop.svg",
+        "resources/base/media/ic_star_fill.svg",
+        "resources/base/media/ic_success.svg",
+        "resources/base/media/ic_success_circle.svg",
+        "resources/base/media/ic_time.svg",
+        "resources/base/media/ic_tip_fill.svg",
+        "resources/base/media/ic_up.svg",
+        "resources/base/media/ic_up_triangle.svg",
+        "resources/base/media/ic_vip_fill.svg",
+        "resources/base/media/ic_wechat.svg",
+        "resources/base/media/layered_image.json",
+        "resources/base/media/nearx_bs.jpg",
+        "resources/base/media/nearx_dtx.jpg",
+        "resources/base/media/setting.jpeg",
+        "resources/base/media/startIcon.png",
+        "resources/base/media/title_bar_back_btn_black.png",
+        "resources/base/profile/backup_config.json",
+        "resources/base/profile/default-router-map.json",
+        "resources/base/profile/fixture_pages.json",
+        "resources/base/profile/main_pages.json",
+        "resources/base/profile/route_map.json",
+        "resources/phone-ldpi/media/startIcon.png",
+        "resources/phone-mdpi/media/startIcon.png",
+        "resources/phone-sdpi/media/startIcon.png",
+        "resources/phone-xldpi/media/startIcon.png",
+        "resources/phone-xxldpi/media/startIcon.png",
+        "resources/phone-xxxldpi/media/startIcon.png",
+        "resources/rawfile/cart.json",
+        "resources/rawfile/category.json",
+        "resources/rawfile/home.json",
+        "resources/rawfile/ibest_font.woff",
+        "resources/rawfile/jshield-captcha/captcha-core.js",
+        "resources/rawfile/jshield-captcha/index.html",
+        "resources/rawfile/jshield-captcha/loading.gif",
+        "resources/rawfile/jshield-captcha/WebViewJavascriptBridge.js",
+        "resources/rawfile/me.json",
+        "resources/rawfile/mock/mock-config.json",
+        "resources/rawfile/otpTA.bin",
+        "ets/modules.abc",
+        "ets/sourceMaps.map",
+        "pack.info",
+        "pkgContextInfo.json"
+      ],
+      "native_libraries": [],
+      "fixture_token_hits": {
+        "FixtureAbility": [
+          "module.json",
+          "ets/modules.abc",
+          "ets/sourceMaps.map",
+          "pack.info"
+        ],
+        "ControlledGoodsDataSource": [
+          "ets/modules.abc",
+          "ets/sourceMaps.map"
+        ],
+        "FixtureController": [
+          "ets/modules.abc",
+          "ets/sourceMaps.map"
+        ],
+        "GoodsCategoryFixturePage": [
+          "resources/base/profile/fixture_pages.json",
+          "ets/modules.abc",
+          "ets/sourceMaps.map"
+        ],
+        "CML24Fixture": [
+          "ets/modules.abc"
+        ],
+        "gcf.control.": [
+          "ets/modules.abc"
+        ],
+        "gcf.pending.": [
+          "ets/modules.abc"
+        ],
+        "fixture_pages": [
+          "module.json",
+          "resources.index",
+          "resources/base/profile/fixture_pages.json"
+        ],
+        "gcf_start": [
+          "module.json",
+          "resources.index",
+          "resources/base/media/gcf_start.svg"
+        ]
+      }
+    },
+    "default": {
+      "path": "D:\\HCUP\\cml-spec24\\entry\\build\\default\\outputs\\default\\entry-default-unsigned.hap",
+      "bytes": 19922109,
+      "sha256": "d2556f8dcf4b1153f5caee687a83e770eb78f4517b4f7d95be114397f4d3e242",
+      "manifest": {
+        "app": {
+          "iconId": 167772163,
+          "debug": true,
+          "targetPatchAPIVersion": 0,
+          "minAPIVersion": 60001021,
+          "icon": "$media:layered_image",
+          "buildMode": "debug",
+          "label": "$string:app_name",
+          "bundleType": "app",
+          "versionName": "1.0.0",
+          "versionCode": 1000000,
+          "appEnvironments": [],
+          "compileSdkType": "HarmonyOS",
+          "labelId": 167772160,
+          "compileSdkVersion": "6.1.0.105",
+          "targetAPIVersion": 60001021,
+          "vendor": "example",
+          "bundleName": "com.joker.coolmall",
+          "apiReleaseType": "Release",
+          "targetMinorAPIVersion": 0
+        },
+        "module": {
+          "virtualMachine": "ark13.0.1.0",
+          "mainElement": "EntryAbility",
+          "installationFree": false,
+          "deliveryWithInstall": true,
+          "requestPermissions": [
+            {
+              "usedScene": {
+                "abilities": [
+                  "EntryAbility"
+                ],
+                "when": "inuse"
+              },
+              "name": "ohos.permission.INTERNET"
+            },
+            {
+              "name": "ohos.permission.GET_NETWORK_INFO"
+            },
+            {
+              "name": "ohos.permission.PRIVACY_WINDOW"
+            },
+            {
+              "usedScene": {},
+              "name": "ohos.permission.STORE_PERSISTENT_DATA"
+            }
+          ],
+          "description": "$string:module_desc",
+          "extensionAbilities": [
+            {
+              "exported": false,
+              "metadata": [
+                {
+                  "resourceId": 167772170,
+                  "resource": "$profile:backup_config",
+                  "name": "ohos.extension.backup"
+                }
+              ],
+              "srcEntry": "./ets/entrybackupability/EntryBackupAbility.ets",
+              "name": "EntryBackupAbility",
+              "type": "backup"
+            }
+          ],
+          "compileMode": "esmodule",
+          "type": "entry",
+          "dependencies": [],
+          "abilities": [
+            {
+              "exported": true,
+              "iconId": 167772163,
+              "orientation": "auto_rotation",
+              "startWindowIconId": 167772169,
+              "icon": "$media:layered_image",
+              "startWindowIcon": "$media:startIcon",
+              "startWindowBackgroundId": 167772167,
+              "description": "$string:EntryAbility_desc",
+              "label": "$string:EntryAbility_label",
+              "skills": [
+                {
+                  "entities": [
+                    "entity.system.home"
+                  ],
+                  "actions": [
+                    "ohos.want.action.home"
+                  ]
+                }
+              ],
+              "srcEntry": "./ets/entryability/EntryAbility.ets",
+              "descriptionId": 167772164,
+              "labelId": 167772165,
+              "startWindowBackground": "$color:start_window_background",
+              "name": "EntryAbility"
+            }
+          ],
+          "deviceTypes": [
+            "phone",
+            "tablet",
+            "2in1"
+          ],
+          "pages": "$profile:main_pages",
+          "descriptionId": 167772166,
+          "name": "entry",
+          "routerMap": "$profile:default-router-map",
+          "packageName": "entry"
+        }
+      },
+      "archive_entries": [
+        "module.json",
+        "resources.index",
+        "libs/arm64-v8a/libblueshield.so",
+        "libs/arm64-v8a/libutdid_native.so",
+        "resources/base/media/alipay_msp_refresh_nav.webp",
+        "resources/base/media/background.png",
+        "resources/base/media/captcha_back.png",
+        "resources/base/media/captcha_reload.png",
+        "resources/base/media/captcha_slide.png",
+        "resources/base/media/foreground.png",
+        "resources/base/media/ibest_alpha.png",
+        "resources/base/media/ibest_default_avatar.svg",
+        "resources/base/media/ibest_delete.svg",
+        "resources/base/media/ibest_empty.svg",
+        "resources/base/media/ibest_empty_error.svg",
+        "resources/base/media/ibest_empty_network_error.svg",
+        "resources/base/media/ibest_empty_search_error.svg",
+        "resources/base/media/ibest_icon_star.svg",
+        "resources/base/media/ibest_icon_star_o.svg",
+        "resources/base/media/ibest_key_board.svg",
+        "resources/base/media/icon.png",
+        "resources/base/media/ic_add.svg",
+        "resources/base/media/ic_add_circle.svg",
+        "resources/base/media/ic_add_to_cart.svg",
+        "resources/base/media/ic_alipay.svg",
+        "resources/base/media/ic_book_writer.svg",
+        "resources/base/media/ic_camera_fill.svg",
+        "resources/base/media/ic_cart.svg",
+        "resources/base/media/ic_circle.svg",
+        "resources/base/media/ic_close.svg",
+        "resources/base/media/ic_coupon.svg",
+        "resources/base/media/ic_coupon_fill.svg",
+        "resources/base/media/ic_creative_fill.svg",
+        "resources/base/media/ic_cube.svg",
+        "resources/base/media/ic_customer_service.svg",
+        "resources/base/media/ic_delete.svg",
+        "resources/base/media/ic_delete_fill.svg",
+        "resources/base/media/ic_dev_productivity.svg",
+        "resources/base/media/ic_down.svg",
+        "resources/base/media/ic_down_triangle.svg",
+        "resources/base/media/ic_edit.svg",
+        "resources/base/media/ic_edit_fill.svg",
+        "resources/base/media/ic_emoji_good.svg",
+        "resources/base/media/ic_empty_cart.svg",
+        "resources/base/media/ic_empty_data.svg",
+        "resources/base/media/ic_empty_network.svg",
+        "resources/base/media/ic_empty_page.svg",
+        "resources/base/media/ic_eye.svg",
+        "resources/base/media/ic_eye_hide.svg",
+        "resources/base/media/ic_filter.svg",
+        "resources/base/media/ic_footprint_fill.svg",
+        "resources/base/media/ic_github.svg",
+        "resources/base/media/ic_home_screen.svg",
+        "resources/base/media/ic_image_fill.svg",
+        "resources/base/media/ic_left.svg",
+        "resources/base/media/ic_location_fill.svg",
+        "resources/base/media/ic_logistics.svg",
+        "resources/base/media/ic_logo.svg",
+        "resources/base/media/ic_menu.svg",
+        "resources/base/media/ic_menu_list.svg",
+        "resources/base/media/ic_message.svg",
+        "resources/base/media/ic_money.svg",
+        "resources/base/media/ic_more_vertical.svg",
+        "resources/base/media/ic_my_fill.svg",
+        "resources/base/media/ic_order_fill.svg",
+        "resources/base/media/ic_pay.svg",
+        "resources/base/media/ic_qq.svg",
+        "resources/base/media/ic_receipt.svg",
+        "resources/base/media/ic_reduce.svg",
+        "resources/base/media/ic_refund.svg",
+        "resources/base/media/ic_right.svg",
+        "resources/base/media/ic_search.svg",
+        "resources/base/media/ic_service_fill.svg",
+        "resources/base/media/ic_set_fill.svg",
+        "resources/base/media/ic_share_triangle.svg",
+        "resources/base/media/ic_shop.svg",
+        "resources/base/media/ic_star_fill.svg",
+        "resources/base/media/ic_success.svg",
+        "resources/base/media/ic_success_circle.svg",
+        "resources/base/media/ic_time.svg",
+        "resources/base/media/ic_tip_fill.svg",
+        "resources/base/media/ic_up.svg",
+        "resources/base/media/ic_up_triangle.svg",
+        "resources/base/media/ic_vip_fill.svg",
+        "resources/base/media/ic_wechat.svg",
+        "resources/base/media/layered_image.json",
+        "resources/base/media/nearx_bs.jpg",
+        "resources/base/media/nearx_dtx.jpg",
+        "resources/base/media/setting.jpeg",
+        "resources/base/media/startIcon.png",
+        "resources/base/media/title_bar_back_btn_black.png",
+        "resources/base/profile/backup_config.json",
+        "resources/base/profile/default-router-map.json",
+        "resources/base/profile/main_pages.json",
+        "resources/base/profile/route_map.json",
+        "resources/phone-ldpi/media/startIcon.png",
+        "resources/phone-mdpi/media/startIcon.png",
+        "resources/phone-sdpi/media/startIcon.png",
+        "resources/phone-xldpi/media/startIcon.png",
+        "resources/phone-xxldpi/media/startIcon.png",
+        "resources/phone-xxxldpi/media/startIcon.png",
+        "resources/rawfile/cart.json",
+        "resources/rawfile/category.json",
+        "resources/rawfile/home.json",
+        "resources/rawfile/ibest_font.woff",
+        "resources/rawfile/jshield-captcha/captcha-core.js",
+        "resources/rawfile/jshield-captcha/index.html",
+        "resources/rawfile/jshield-captcha/loading.gif",
+        "resources/rawfile/jshield-captcha/WebViewJavascriptBridge.js",
+        "resources/rawfile/me.json",
+        "resources/rawfile/otpTA.bin",
+        "ets/modules.abc",
+        "ets/sourceMaps.map",
+        "pack.info",
+        "pkgContextInfo.json"
+      ],
+      "native_libraries": [
+        "libs/arm64-v8a/libblueshield.so",
+        "libs/arm64-v8a/libutdid_native.so"
+      ],
+      "fixture_token_hits": {
+        "FixtureAbility": [],
+        "ControlledGoodsDataSource": [],
+        "FixtureController": [],
+        "GoodsCategoryFixturePage": [],
+        "CML24Fixture": [],
+        "gcf.control.": [],
+        "gcf.pending.": [],
+        "fixture_pages": [],
+        "gcf_start": []
+      }
+    }
+  },
+  "source_count": 895,
+  "source_changed": []
+}

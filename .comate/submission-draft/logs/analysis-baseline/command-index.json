@@ -1,0 +1,1907 @@
+[
+  {
+    "record": "01-device-version.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:08.573639+00:00",
+      "end_utc": "2026-10-19T03:21:08.697192+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "param",
+        "get",
+        "const.product.software.version"
+      ],
+      "exit_code": 0,
+      "stdout": "01-device-version.stdout.log",
+      "stderr": "01-device-version.stderr.log"
+    }
+  },
+  {
+    "record": "02-uitest-help.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:08.779725+00:00",
+      "end_utc": "2026-10-19T03:21:08.897884+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout": "02-uitest-help.stdout.log",
+      "stderr": "02-uitest-help.stderr.log"
+    }
+  },
+  {
+    "record": "03-window-baseline.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:16.677278+00:00",
+      "end_utc": "2026-10-19T03:21:16.873641+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "hidumper",
+        "-s",
+        "WindowManagerService",
+        "-a",
+        "-a"
+      ],
+      "exit_code": 0,
+      "stdout": "03-window-baseline.stdout.log",
+      "stderr": "03-window-baseline.stderr.log"
+    }
+  },
+  {
+    "record": "04-install.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:16.956279+00:00",
+      "end_utc": "2026-10-19T03:21:17.032906+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "install",
+        "-r",
+        "D:/HCUP/cml-spec24/entry/build/default/outputs/default/entry-default-unsigned.hap"
+      ],
+      "exit_code": 0,
+      "stdout": "04-install.stdout.log",
+      "stderr": "04-install.stderr.log"
+    }
+  },
+  {
+    "record": "05-start.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:17.118986+00:00",
+      "end_utc": "2026-10-19T03:21:17.334162+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "aa",
+        "start",
+        "-a",
+        "EntryAbility",
+        "-b",
+        "com.joker.coolmall"
+      ],
+      "exit_code": 0,
+      "stdout": "05-start.stdout.log",
+      "stderr": "05-start.stderr.log"
+    }
+  },
+  {
+    "record": "06-layout-start.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:17.442407+00:00",
+      "end_utc": "2026-10-19T03:21:18.316053+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-start.json"
+      ],
+      "exit_code": 0,
+      "stdout": "06-layout-start.stdout.log",
+      "stderr": "06-layout-start.stderr.log"
+    }
+  },
+  {
+    "record": "07-layout-start-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:18.403700+00:00",
+      "end_utc": "2026-10-19T03:21:18.480519+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-start.json",
+        "D:/HCUP/cml-spec24/logs/analysis-baseline/06-layout-start.json"
+      ],
+      "exit_code": 0,
+      "stdout": "07-layout-start-pull.stdout.log",
+      "stderr": "07-layout-start-pull.stderr.log"
+    }
+  },
+  {
+    "record": "08-screen-start.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:18.572603+00:00",
+      "end_utc": "2026-10-19T03:21:18.903341+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-start.png"
+      ],
+      "exit_code": 0,
+      "stdout": "08-screen-start.stdout.log",
+      "stderr": "08-screen-start.stderr.log"
+    }
+  },
+  {
+    "record": "09-screen-start-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:19.000304+00:00",
+      "end_utc": "2026-10-19T03:21:19.151827+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-start.png",
+        "D:/HCUP/cml-spec24/logs/analysis-baseline/08-screen-start.png"
+      ],
+      "exit_code": 0,
+      "stdout": "09-screen-start-pull.stdout.log",
+      "stderr": "09-screen-start-pull.stderr.log"
+    }
+  },
+  {
+    "record": "10-install-native-path.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:28.808509+00:00",
+      "end_utc": "2026-10-19T03:21:29.138664+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "install",
+        "-r",
+        "D:\\HCUP\\cml-spec24\\entry\\build\\default\\outputs\\default\\entry-default-unsigned.hap"
+      ],
+      "exit_code": 0,
+      "stdout": "10-install-native-path.stdout.log",
+      "stderr": "10-install-native-path.stderr.log"
+    }
+  },
+  {
+    "record": "11-unlock.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:29.218824+00:00",
+      "end_utc": "2026-10-19T03:21:31.725029+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "swipe",
+        "650",
+        "2400",
+        "650",
+        "600",
+        "1000"
+      ],
+      "exit_code": 0,
+      "stdout": "11-unlock.stdout.log",
+      "stderr": "11-unlock.stderr.log"
+    }
+  },
+  {
+    "record": "12-start-installed.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:31.804179+00:00",
+      "end_utc": "2026-10-19T03:21:31.911297+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "aa",
+        "start",
+        "-a",
+        "EntryAbility",
+        "-b",
+        "com.joker.coolmall"
+      ],
+      "exit_code": 0,
+      "stdout": "12-start-installed.stdout.log",
+      "stderr": "12-start-installed.stderr.log"
+    }
+  },
+  {
+    "record": "13-layout-installed.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:31.991892+00:00",
+      "end_utc": "2026-10-19T03:21:32.672861+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-start2.json"
+      ],
+      "exit_code": 0,
+      "stdout": "13-layout-installed.stdout.log",
+      "stderr": "13-layout-installed.stderr.log"
+    }
+  },
+  {
+    "record": "14-layout-installed-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:32.756773+00:00",
+      "end_utc": "2026-10-19T03:21:32.845003+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-start2.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\13-layout-installed.json"
+      ],
+      "exit_code": 0,
+      "stdout": "14-layout-installed-pull.stdout.log",
+      "stderr": "14-layout-installed-pull.stderr.log"
+    }
+  },
+  {
+    "record": "15-screen-installed.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:32.915734+00:00",
+      "end_utc": "2026-10-19T03:21:33.152584+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-start2.png"
+      ],
+      "exit_code": 0,
+      "stdout": "15-screen-installed.stdout.log",
+      "stderr": "15-screen-installed.stderr.log"
+    }
+  },
+  {
+    "record": "16-screen-installed-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:33.225724+00:00",
+      "end_utc": "2026-10-19T03:21:33.343480+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-start2.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\15-screen-installed.png"
+      ],
+      "exit_code": 0,
+      "stdout": "16-screen-installed-pull.stdout.log",
+      "stderr": "16-screen-installed-pull.stderr.log"
+    }
+  },
+  {
+    "record": "17-device-abi.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:58.101677+00:00",
+      "end_utc": "2026-10-19T03:21:58.174941+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "param",
+        "get",
+        "const.product.cpu.abilist"
+      ],
+      "exit_code": 0,
+      "stdout": "17-device-abi.stdout.log",
+      "stderr": "17-device-abi.stderr.log"
+    }
+  },
+  {
+    "record": "18-install-help.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:58.253574+00:00",
+      "end_utc": "2026-10-19T03:21:58.319874+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "bm",
+        "help"
+      ],
+      "exit_code": 0,
+      "stdout": "18-install-help.stdout.log",
+      "stderr": "18-install-help.stderr.log"
+    }
+  },
+  {
+    "record": "19-bundle-status.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:21:58.389406+00:00",
+      "end_utc": "2026-10-19T03:21:58.472599+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "bm",
+        "dump",
+        "-n",
+        "com.joker.coolmall"
+      ],
+      "exit_code": 0,
+      "stdout": "19-bundle-status.stdout.log",
+      "stderr": "19-bundle-status.stderr.log"
+    }
+  },
+  {
+    "record": "20-bm-install-help.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:22:07.037875+00:00",
+      "end_utc": "2026-10-19T03:22:07.112615+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "bm",
+        "install",
+        "-h"
+      ],
+      "exit_code": 0,
+      "stdout": "20-bm-install-help.stdout.log",
+      "stderr": "20-bm-install-help.stderr.log"
+    }
+  },
+  {
+    "record": "21-device-machine.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:22:07.187440+00:00",
+      "end_utc": "2026-10-19T03:22:07.239140+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uname",
+        "-m"
+      ],
+      "exit_code": 0,
+      "stdout": "21-device-machine.stdout.log",
+      "stderr": "21-device-machine.stderr.log"
+    }
+  },
+  {
+    "record": "22-bm-dump-usage.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:22:07.314096+00:00",
+      "end_utc": "2026-10-19T03:22:07.405351+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "bm",
+        "dump",
+        "-h"
+      ],
+      "exit_code": 0,
+      "stdout": "22-bm-dump-usage.stdout.log",
+      "stderr": "22-bm-dump-usage.stderr.log"
+    }
+  },
+  {
+    "record": "23-hilog-help.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:22:43.515104+00:00",
+      "end_utc": "2026-10-19T03:22:43.585263+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "hilog",
+        "-h"
+      ],
+      "exit_code": 0,
+      "stdout": "23-hilog-help.stdout.log",
+      "stderr": "23-hilog-help.stderr.log"
+    }
+  },
+  {
+    "record": "24-install-system-log.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:22:43.664541+00:00",
+      "end_utc": "2026-10-19T03:22:43.728783+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "hilog",
+        "-x",
+        "-z",
+        "2000"
+      ],
+      "exit_code": 0,
+      "stdout": "24-install-system-log.stdout.log",
+      "stderr": "24-install-system-log.stderr.log"
+    }
+  },
+  {
+    "record": "25-install-repro.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:22:59.417255+00:00",
+      "end_utc": "2026-10-19T03:23:00.029186+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "install",
+        "-r",
+        "D:\\HCUP\\cml-spec24\\entry\\build\\default\\outputs\\default\\entry-default-unsigned.hap"
+      ],
+      "exit_code": 0,
+      "stdout": "25-install-repro.stdout.log",
+      "stderr": "25-install-repro.stderr.log"
+    }
+  },
+  {
+    "record": "26-system-errors.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:23:00.105150+00:00",
+      "end_utc": "2026-10-19T03:23:00.181721+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "hilog",
+        "-x",
+        "-L",
+        "E"
+      ],
+      "exit_code": 0,
+      "stdout": "26-system-errors.stdout.log",
+      "stderr": "26-system-errors.stderr.log"
+    }
+  },
+  {
+    "record": "27-system-coolmall.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:23:00.261720+00:00",
+      "end_utc": "2026-10-19T03:23:00.382891+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "hilog",
+        "-x",
+        "-e",
+        "coolmall"
+      ],
+      "exit_code": 0,
+      "stdout": "27-system-coolmall.stdout.log",
+      "stderr": "27-system-coolmall.stderr.log"
+    }
+  },
+  {
+    "record": "28-native-system-log.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:23:26.901633+00:00",
+      "end_utc": "2026-10-19T03:23:26.981053+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "hilog",
+        "-x",
+        "-e",
+        "native"
+      ],
+      "exit_code": 0,
+      "stdout": "28-native-system-log.stdout.log",
+      "stderr": "28-native-system-log.stderr.log"
+    }
+  },
+  {
+    "record": "d30-install-v3.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:10.456532+00:00",
+      "end_utc": "2026-10-19T03:32:10.971295+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "install",
+        "-r",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\abi-diagnostic-v3\\entry\\build\\default\\outputs\\default\\entry-default-unsigned.hap"
+      ],
+      "exit_code": 0,
+      "stdout": "d30-install-v3.stdout.log",
+      "stderr": "d30-install-v3.stderr.log"
+    }
+  },
+  {
+    "record": "d31-start-v3.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:11.057847+00:00",
+      "end_utc": "2026-10-19T03:32:11.228078+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "aa",
+        "start",
+        "-a",
+        "EntryAbility",
+        "-b",
+        "com.joker.coolmall"
+      ],
+      "exit_code": 0,
+      "stdout": "d31-start-v3.stdout.log",
+      "stderr": "d31-start-v3.stderr.log"
+    }
+  },
+  {
+    "record": "d32-app-first-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:12.360207+00:00",
+      "end_utc": "2026-10-19T03:32:12.466042+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d32-app-first.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d32-app-first.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d32-app-first-layout-pull.stdout.log",
+      "stderr": "d32-app-first-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d32-app-first-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:11.394893+00:00",
+      "end_utc": "2026-10-19T03:32:12.263204+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d32-app-first.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d32-app-first-layout.stdout.log",
+      "stderr": "d32-app-first-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d32-app-first-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:13.046984+00:00",
+      "end_utc": "2026-10-19T03:32:13.201289+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d32-app-first.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d32-app-first.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d32-app-first-screen-pull.stdout.log",
+      "stderr": "d32-app-first-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d32-app-first-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:12.564889+00:00",
+      "end_utc": "2026-10-19T03:32:12.951863+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d32-app-first.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d32-app-first-screen.stdout.log",
+      "stderr": "d32-app-first-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d33-app-ready-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:26.726795+00:00",
+      "end_utc": "2026-10-19T03:32:26.820132+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d33-app-ready.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d33-app-ready.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d33-app-ready-layout-pull.stdout.log",
+      "stderr": "d33-app-ready-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d33-app-ready-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:25.877508+00:00",
+      "end_utc": "2026-10-19T03:32:26.625529+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d33-app-ready.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d33-app-ready-layout.stdout.log",
+      "stderr": "d33-app-ready-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d33-app-ready-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:27.288624+00:00",
+      "end_utc": "2026-10-19T03:32:27.401382+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d33-app-ready.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d33-app-ready.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d33-app-ready-screen-pull.stdout.log",
+      "stderr": "d33-app-ready-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d33-app-ready-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:26.908559+00:00",
+      "end_utc": "2026-10-19T03:32:27.190661+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d33-app-ready.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d33-app-ready-screen.stdout.log",
+      "stderr": "d33-app-ready-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d34-app-log.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:27.506921+00:00",
+      "end_utc": "2026-10-19T03:32:27.626592+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "hilog",
+        "-x",
+        "-e",
+        "coolmall"
+      ],
+      "exit_code": 0,
+      "stdout": "d34-app-log.stdout.log",
+      "stderr": "d34-app-log.stderr.log"
+    }
+  },
+  {
+    "record": "d35-home-phone.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:34.763462+00:00",
+      "end_utc": "2026-10-19T03:32:35.020573+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "click",
+        "181",
+        "1299"
+      ],
+      "exit_code": 0,
+      "stdout": "d35-home-phone.stdout.log",
+      "stderr": "d35-home-phone.stderr.log"
+    }
+  },
+  {
+    "record": "d36-after-home-phone-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:36.031761+00:00",
+      "end_utc": "2026-10-19T03:32:36.128940+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d36-after-home-phone.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d36-after-home-phone.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d36-after-home-phone-layout-pull.stdout.log",
+      "stderr": "d36-after-home-phone-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d36-after-home-phone-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:35.214653+00:00",
+      "end_utc": "2026-10-19T03:32:35.946054+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d36-after-home-phone.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d36-after-home-phone-layout.stdout.log",
+      "stderr": "d36-after-home-phone-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d36-after-home-phone-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:36.545111+00:00",
+      "end_utc": "2026-10-19T03:32:36.672131+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d36-after-home-phone.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d36-after-home-phone.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d36-after-home-phone-screen-pull.stdout.log",
+      "stderr": "d36-after-home-phone-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d36-after-home-phone-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:32:36.225170+00:00",
+      "end_utc": "2026-10-19T03:32:36.460521+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d36-after-home-phone.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d36-after-home-phone-screen.stdout.log",
+      "stderr": "d36-after-home-phone-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d37-home-phone-repeat.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:02.892368+00:00",
+      "end_utc": "2026-10-19T03:33:03.134559+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "click",
+        "181",
+        "1299"
+      ],
+      "exit_code": 0,
+      "stdout": "d37-home-phone-repeat.stdout.log",
+      "stderr": "d37-home-phone-repeat.stderr.log"
+    }
+  },
+  {
+    "record": "d38-tab-category.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:03.294626+00:00",
+      "end_utc": "2026-10-19T03:33:03.567793+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "click",
+        "490",
+        "2733"
+      ],
+      "exit_code": 0,
+      "stdout": "d38-tab-category.stdout.log",
+      "stderr": "d38-tab-category.stderr.log"
+    }
+  },
+  {
+    "record": "d39-category-tab-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:06.547268+00:00",
+      "end_utc": "2026-10-19T03:33:06.683389+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d39-category-tab.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d39-category-tab.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d39-category-tab-layout-pull.stdout.log",
+      "stderr": "d39-category-tab-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d39-category-tab-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:05.733586+00:00",
+      "end_utc": "2026-10-19T03:33:06.463928+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d39-category-tab.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d39-category-tab-layout.stdout.log",
+      "stderr": "d39-category-tab-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d39-category-tab-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:07.122268+00:00",
+      "end_utc": "2026-10-19T03:33:07.224186+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d39-category-tab.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d39-category-tab.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d39-category-tab-screen-pull.stdout.log",
+      "stderr": "d39-category-tab-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d39-category-tab-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:06.762246+00:00",
+      "end_utc": "2026-10-19T03:33:07.032623+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d39-category-tab.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d39-category-tab-screen.stdout.log",
+      "stderr": "d39-category-tab-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d40-category-leaf.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:18.115505+00:00",
+      "end_utc": "2026-10-19T03:33:18.331086+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "click",
+        "460",
+        "710"
+      ],
+      "exit_code": 0,
+      "stdout": "d40-category-leaf.stdout.log",
+      "stderr": "d40-category-leaf.stderr.log"
+    }
+  },
+  {
+    "record": "d41-after-category-leaf-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:20.276586+00:00",
+      "end_utc": "2026-10-19T03:33:20.374825+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d41-after-category-leaf.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d41-after-category-leaf.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d41-after-category-leaf-layout-pull.stdout.log",
+      "stderr": "d41-after-category-leaf-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d41-after-category-leaf-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:19.474707+00:00",
+      "end_utc": "2026-10-19T03:33:20.194043+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d41-after-category-leaf.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d41-after-category-leaf-layout.stdout.log",
+      "stderr": "d41-after-category-leaf-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d41-after-category-leaf-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:20.740969+00:00",
+      "end_utc": "2026-10-19T03:33:20.835703+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d41-after-category-leaf.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d41-after-category-leaf.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d41-after-category-leaf-screen-pull.stdout.log",
+      "stderr": "d41-after-category-leaf-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d41-after-category-leaf-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:20.453550+00:00",
+      "end_utc": "2026-10-19T03:33:20.665229+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d41-after-category-leaf.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d41-after-category-leaf-screen.stdout.log",
+      "stderr": "d41-after-category-leaf-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d42-home-tab.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:20.984104+00:00",
+      "end_utc": "2026-10-19T03:33:21.201551+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "click",
+        "163",
+        "2733"
+      ],
+      "exit_code": 0,
+      "stdout": "d42-home-tab.stdout.log",
+      "stderr": "d42-home-tab.stderr.log"
+    }
+  },
+  {
+    "record": "d43-search-entry.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:21.390600+00:00",
+      "end_utc": "2026-10-19T03:33:21.652410+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "click",
+        "712",
+        "216"
+      ],
+      "exit_code": 0,
+      "stdout": "d43-search-entry.stdout.log",
+      "stderr": "d43-search-entry.stderr.log"
+    }
+  },
+  {
+    "record": "d44-search-page-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:22.985420+00:00",
+      "end_utc": "2026-10-19T03:33:23.195404+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d44-search-page.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d44-search-page.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d44-search-page-layout-pull.stdout.log",
+      "stderr": "d44-search-page-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d44-search-page-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:21.820135+00:00",
+      "end_utc": "2026-10-19T03:33:22.875796+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d44-search-page.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d44-search-page-layout.stdout.log",
+      "stderr": "d44-search-page-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d44-search-page-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:23.703824+00:00",
+      "end_utc": "2026-10-19T03:33:23.810000+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d44-search-page.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d44-search-page.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d44-search-page-screen-pull.stdout.log",
+      "stderr": "d44-search-page-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d44-search-page-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:23.326304+00:00",
+      "end_utc": "2026-10-19T03:33:23.612847+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d44-search-page.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d44-search-page-screen.stdout.log",
+      "stderr": "d44-search-page-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d45-pid.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:39.202108+00:00",
+      "end_utc": "2026-10-19T03:33:39.272094+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "pidof",
+        "com.joker.coolmall"
+      ],
+      "exit_code": 0,
+      "stdout": "d45-pid.stdout.log",
+      "stderr": "d45-pid.stderr.log"
+    }
+  },
+  {
+    "record": "d46-app-errors.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:39.348908+00:00",
+      "end_utc": "2026-10-19T03:33:39.408630+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "hilog",
+        "-x",
+        "-P",
+        "11926",
+        "-L",
+        "E"
+      ],
+      "exit_code": 0,
+      "stdout": "d46-app-errors.stdout.log",
+      "stderr": "d46-app-errors.stderr.log"
+    }
+  },
+  {
+    "record": "d47-app-log-all.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:39.487333+00:00",
+      "end_utc": "2026-10-19T03:33:39.587621+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "hilog",
+        "-x",
+        "-P",
+        "11926"
+      ],
+      "exit_code": 0,
+      "stdout": "d47-app-log-all.stdout.log",
+      "stderr": "d47-app-log-all.stderr.log"
+    }
+  },
+  {
+    "record": "d48-start-after-search.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:39.663842+00:00",
+      "end_utc": "2026-10-19T03:33:39.788182+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "aa",
+        "start",
+        "-a",
+        "EntryAbility",
+        "-b",
+        "com.joker.coolmall"
+      ],
+      "exit_code": 0,
+      "stdout": "d48-start-after-search.stdout.log",
+      "stderr": "d48-start-after-search.stderr.log"
+    }
+  },
+  {
+    "record": "d49-after-search-restart-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:41.768522+00:00",
+      "end_utc": "2026-10-19T03:33:41.871231+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d49-after-search-restart.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d49-after-search-restart.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d49-after-search-restart-layout-pull.stdout.log",
+      "stderr": "d49-after-search-restart-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d49-after-search-restart-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:40.944458+00:00",
+      "end_utc": "2026-10-19T03:33:41.638907+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d49-after-search-restart.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d49-after-search-restart-layout.stdout.log",
+      "stderr": "d49-after-search-restart-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d49-after-search-restart-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:42.267850+00:00",
+      "end_utc": "2026-10-19T03:33:42.382082+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d49-after-search-restart.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d49-after-search-restart.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d49-after-search-restart-screen-pull.stdout.log",
+      "stderr": "d49-after-search-restart-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d49-after-search-restart-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:41.951232+00:00",
+      "end_utc": "2026-10-19T03:33:42.154423+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d49-after-search-restart.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d49-after-search-restart-screen.stdout.log",
+      "stderr": "d49-after-search-restart-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d50-ime-agree.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:54.748029+00:00",
+      "end_utc": "2026-10-19T03:33:54.981736+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "click",
+        "963",
+        "2656"
+      ],
+      "exit_code": 0,
+      "stdout": "d50-ime-agree.stdout.log",
+      "stderr": "d50-ime-agree.stderr.log"
+    }
+  },
+  {
+    "record": "d51-search-input-ready-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:55.946103+00:00",
+      "end_utc": "2026-10-19T03:33:56.080539+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d51-search-input-ready.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d51-search-input-ready.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d51-search-input-ready-layout-pull.stdout.log",
+      "stderr": "d51-search-input-ready-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d51-search-input-ready-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:55.151099+00:00",
+      "end_utc": "2026-10-19T03:33:55.864783+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d51-search-input-ready.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d51-search-input-ready-layout.stdout.log",
+      "stderr": "d51-search-input-ready-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d51-search-input-ready-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:56.540594+00:00",
+      "end_utc": "2026-10-19T03:33:56.631548+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d51-search-input-ready.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d51-search-input-ready.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d51-search-input-ready-screen-pull.stdout.log",
+      "stderr": "d51-search-input-ready-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d51-search-input-ready-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:33:56.161713+00:00",
+      "end_utc": "2026-10-19T03:33:56.430386+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d51-search-input-ready.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d51-search-input-ready-screen.stdout.log",
+      "stderr": "d51-search-input-ready-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d52-ime-26.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:09.203544+00:00",
+      "end_utc": "2026-10-19T03:34:09.421435+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "click",
+        "301",
+        "1493"
+      ],
+      "exit_code": 0,
+      "stdout": "d52-ime-26.stdout.log",
+      "stderr": "d52-ime-26.stderr.log"
+    }
+  },
+  {
+    "record": "d53-ime-next.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:09.567977+00:00",
+      "end_utc": "2026-10-19T03:34:09.796013+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "click",
+        "654",
+        "2718"
+      ],
+      "exit_code": 0,
+      "stdout": "d53-ime-next.stdout.log",
+      "stderr": "d53-ime-next.stderr.log"
+    }
+  },
+  {
+    "record": "d54-ime-next-step-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:10.838187+00:00",
+      "end_utc": "2026-10-19T03:34:10.960312+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d54-ime-next-step.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d54-ime-next-step.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d54-ime-next-step-layout-pull.stdout.log",
+      "stderr": "d54-ime-next-step-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d54-ime-next-step-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:09.969440+00:00",
+      "end_utc": "2026-10-19T03:34:10.758949+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d54-ime-next-step.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d54-ime-next-step-layout.stdout.log",
+      "stderr": "d54-ime-next-step-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d54-ime-next-step-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:11.372519+00:00",
+      "end_utc": "2026-10-19T03:34:11.477148+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d54-ime-next-step.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d54-ime-next-step.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d54-ime-next-step-screen-pull.stdout.log",
+      "stderr": "d54-ime-next-step-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d54-ime-next-step-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:11.077502+00:00",
+      "end_utc": "2026-10-19T03:34:11.289868+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d54-ime-next-step.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d54-ime-next-step-screen.stdout.log",
+      "stderr": "d54-ime-next-step-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d55-search-input.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:22.307892+00:00",
+      "end_utc": "2026-10-19T03:34:23.335056+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "inputText",
+        "734",
+        "217",
+        "phone"
+      ],
+      "exit_code": 0,
+      "stdout": "d55-search-input.stdout.log",
+      "stderr": "d55-search-input.stderr.log"
+    }
+  },
+  {
+    "record": "d56-search-entered-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:24.396691+00:00",
+      "end_utc": "2026-10-19T03:34:24.499873+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d56-search-entered.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d56-search-entered.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d56-search-entered-layout-pull.stdout.log",
+      "stderr": "d56-search-entered-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d56-search-entered-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:23.529602+00:00",
+      "end_utc": "2026-10-19T03:34:24.311310+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d56-search-entered.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d56-search-entered-layout.stdout.log",
+      "stderr": "d56-search-entered-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d56-search-entered-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:24.878034+00:00",
+      "end_utc": "2026-10-19T03:34:25.028428+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d56-search-entered.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d56-search-entered.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d56-search-entered-screen-pull.stdout.log",
+      "stderr": "d56-search-entered-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d56-search-entered-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:24.583600+00:00",
+      "end_utc": "2026-10-19T03:34:24.795841+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d56-search-entered.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d56-search-entered-screen.stdout.log",
+      "stderr": "d56-search-entered-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d57-search-submit.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:25.218132+00:00",
+      "end_utc": "2026-10-19T03:34:25.454107+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "uiInput",
+        "click",
+        "1230",
+        "216"
+      ],
+      "exit_code": 0,
+      "stdout": "d57-search-submit.stdout.log",
+      "stderr": "d57-search-submit.stderr.log"
+    }
+  },
+  {
+    "record": "d58-goods-category-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:26.466568+00:00",
+      "end_utc": "2026-10-19T03:34:26.565998+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d58-goods-category.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d58-goods-category.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d58-goods-category-layout-pull.stdout.log",
+      "stderr": "d58-goods-category-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d58-goods-category-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:25.641187+00:00",
+      "end_utc": "2026-10-19T03:34:26.376096+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d58-goods-category.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d58-goods-category-layout.stdout.log",
+      "stderr": "d58-goods-category-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d58-goods-category-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:26.959908+00:00",
+      "end_utc": "2026-10-19T03:34:27.059516+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d58-goods-category.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d58-goods-category.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d58-goods-category-screen-pull.stdout.log",
+      "stderr": "d58-goods-category-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d58-goods-category-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:34:26.676668+00:00",
+      "end_utc": "2026-10-19T03:34:26.882938+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d58-goods-category.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d58-goods-category-screen.stdout.log",
+      "stderr": "d58-goods-category-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d59-goods-category-settled-layout-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:35:08.335414+00:00",
+      "end_utc": "2026-10-19T03:35:08.474534+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d59-goods-category-settled.json",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d59-goods-category-settled.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d59-goods-category-settled-layout-pull.stdout.log",
+      "stderr": "d59-goods-category-settled-layout-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d59-goods-category-settled-layout.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:35:07.537626+00:00",
+      "end_utc": "2026-10-19T03:35:08.254484+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cmlspec24-d59-goods-category-settled.json"
+      ],
+      "exit_code": 0,
+      "stdout": "d59-goods-category-settled-layout.stdout.log",
+      "stderr": "d59-goods-category-settled-layout.stderr.log"
+    }
+  },
+  {
+    "record": "d59-goods-category-settled-screen-pull.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:35:08.845943+00:00",
+      "end_utc": "2026-10-19T03:35:08.929980+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "file",
+        "recv",
+        "/data/local/tmp/cmlspec24-d59-goods-category-settled.png",
+        "D:\\HCUP\\cml-spec24\\logs\\analysis-baseline\\d59-goods-category-settled.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d59-goods-category-settled-screen-pull.stdout.log",
+      "stderr": "d59-goods-category-settled-screen-pull.stderr.log"
+    }
+  },
+  {
+    "record": "d59-goods-category-settled-screen.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:35:08.554130+00:00",
+      "end_utc": "2026-10-19T03:35:08.768701+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "uitest",
+        "screenCap",
+        "-p",
+        "/data/local/tmp/cmlspec24-d59-goods-category-settled.png"
+      ],
+      "exit_code": 0,
+      "stdout": "d59-goods-category-settled-screen.stdout.log",
+      "stderr": "d59-goods-category-settled-screen.stderr.log"
+    }
+  },
+  {
+    "record": "d60-netlog-v3.command.json",
+    "data": {
+      "start_utc": "2026-10-19T03:35:09.015356+00:00",
+      "end_utc": "2026-10-19T03:35:09.095599+00:00",
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:11241",
+        "shell",
+        "hilog",
+        "-x",
+        "-P",
+        "11926",
+        "-T",
+        "NetLog"
+      ],
+      "exit_code": 0,
+      "stdout": "d60-netlog-v3.stdout.log",
+      "stderr": "d60-netlog-v3.stderr.log"
+    }
+  },
+  {
+    "record": "emulator-stop.command.json",
+    "data": {
+      "utc": "2026-10-19T03:36:14.9990657Z",
+      "command": "Emulator.exe -stop CmlSpec24Baseline -instancePath D:/HCUP/cml-spec24/logs/analysis-baseline/emulator-instances",
+      "exitCode": 0,
+      "verifiedPid": 10808,
+      "verifiedCommandLine": "\"D:\\HarmonyDev\\DevEcoStudio-6.1.0\\tools\\emulator\\Emulator.exe\" -start CmlSpec24Baseline -instancePath D:/HCUP/cml-spec24/logs/analysis-baseline/emulator-instances -imageRoot D:/HarmonyDev/emulator/images -hdcPort 11241 -bootmode coldboot"
+    }
+  },
+  {
+    "record": "environment-check.command.json",
+    "data": {
+      "utc": "2026-10-19T03:22:29.7079054Z",
+      "command": "python -m harness.env_check --device 127.0.0.1:11241",
+      "exitCode": 0
+    }
+  },
+  {
+    "record": "hdc-tconn.command.json",
+    "data": {
+      "utc": "2026-10-19T03:21:06.5273029Z",
+      "command": "hdc tconn 127.0.0.1:11241",
+      "exitCode": 0
+    }
+  }
+]

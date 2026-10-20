@@ -1,0 +1,21 @@
+{
+  "scope": "device_controlled: original ArkUI Page/VM/repository/helper with test-only datasource; NOT real HTTP faults",
+  "device": "127.0.0.1:11241",
+  "started_utc": "2026-10-19T05:45:10.905238+00:00",
+  "ended_utc": "2026-10-19T05:46:06.220261+00:00",
+  "seconds": 55.312000000005355,
+  "inherits_common_HarnessTestCase": true,
+  "cases": [
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c01_delayed_first_failure_business_failure_and_retry",
+      "outcome": "fail",
+      "message": "Traceback (most recent call last):\n  File \"D:\\HCUP\\cml-spec24\\workflow\\verification\\test_controlled_ui_v1.py\", line 32, in test_c01_delayed_first_failure_business_failure_and_retry\n    retry = self.wait_request(page=1, after=first[\"id\"])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\HCUP\\cml-spec24\\workflow\\verification\\controlled_ui_support_v1.py\", line 147, in wait_request\n    self.fail(f\"No actual controlled request {kind} page={page} keyword={keyword} owner={owner} after={after}\")\nAssertionError: No actual controlled request goods page=1 keyword=None owner=None after=2\n",
+      "evidence_directory": "D:\\HCUP\\cml-spec24\\logs\\development\\device-controlled\\20261019T054517614034Z-test_c01_delayed_first_failure_business_failure_and_retry"
+    }
+  ],
+  "pass": 0,
+  "fail": 1,
+  "error": 0,
+  "not_run": 0,
+  "tests_run": 1
+}

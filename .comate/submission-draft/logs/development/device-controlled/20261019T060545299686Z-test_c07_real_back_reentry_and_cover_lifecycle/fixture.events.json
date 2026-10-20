@@ -1,0 +1,203 @@
+{
+  "events": [
+    {
+      "at": 1792389955110,
+      "seq": 3,
+      "event": "request",
+      "id": 1,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "categories",
+      "ids": []
+    },
+    {
+      "at": 1792389955110,
+      "seq": 4,
+      "event": "request",
+      "id": 2,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20,
+        "keyWord": "X"
+      },
+      "ids": []
+    },
+    {
+      "at": 1792389962799,
+      "seq": 5,
+      "event": "resolve",
+      "id": 1,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "categories",
+      "ids": [
+        900001,
+        910001,
+        910002,
+        900002,
+        920001
+      ],
+      "code": 1000
+    },
+    {
+      "at": 1792389966037,
+      "seq": 7,
+      "event": "request",
+      "id": 3,
+      "owner": 2,
+      "scenario": "manual",
+      "kind": "categories",
+      "ids": []
+    },
+    {
+      "at": 1792389966037,
+      "seq": 8,
+      "event": "request",
+      "id": 4,
+      "owner": 2,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20,
+        "keyWord": "X"
+      },
+      "ids": []
+    },
+    {
+      "at": 1792389974387,
+      "seq": 9,
+      "event": "resolve",
+      "id": 3,
+      "owner": 2,
+      "scenario": "manual",
+      "kind": "categories",
+      "ids": [
+        900001,
+        910001,
+        910002,
+        900002,
+        920001
+      ],
+      "code": 1000
+    }
+  ],
+  "records_by_seq": {
+    "3": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792389955109,
+        "responseIds": [],
+        "id": 1,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "categories"
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792389955109,\"responseIds\":[],\"id\":1,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"categories\"}"
+    },
+    "4": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792389955110,
+        "responseIds": [],
+        "id": 2,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20,
+          "keyWord": "X"
+        }
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792389955110,\"responseIds\":[],\"id\":2,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20,\"keyWord\":\"X\"}}"
+    },
+    "5": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792389955109,
+        "responseIds": [
+          900001,
+          910001,
+          910002,
+          900002,
+          920001
+        ],
+        "id": 1,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "categories",
+        "completedAt": 1792389962799,
+        "responseJson": "{\"data\":[{\"id\":900001,\"name\":\"夹具分组一\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910001,\"name\":\"运动户外\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910002,\"name\":\"数码\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":900002,\"name\":\"夹具分组二\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":920001,\"name\":\"家居\",\"parentId\":900002,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null}],\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792389955109,\"responseIds\":[900001,910001,910002,900002,920001],\"id\":1,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"categories\",\"completedAt\":1792389962799,\"responseJson\":\"{\\\"data\\\":[{\\\"id\\\":900001,\\\"name\\\":\\\"夹具分组一\\\",\\\"parentId\\\":null,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":910001,\\\"name\\\":\\\"运动户外\\\",\\\"parentId\\\":900001,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":910002,\\\"name\\\":\\\"数码\\\",\\\"parentId\\\":900001,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":900002,\\\"name\\\":\\\"夹具分组二\\\",\\\"parentId\\\":null,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":920001,\\\"name\\\":\\\"家居\\\",\\\"parentId\\\":900002,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null}],\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    },
+    "7": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792389966036,
+        "responseIds": [],
+        "id": 3,
+        "instanceId": 2,
+        "scenario": "manual",
+        "kind": "categories"
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792389966036,\"responseIds\":[],\"id\":3,\"instanceId\":2,\"scenario\":\"manual\",\"kind\":\"categories\"}"
+    },
+    "8": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792389966037,
+        "responseIds": [],
+        "id": 4,
+        "instanceId": 2,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20,
+          "keyWord": "X"
+        }
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792389966037,\"responseIds\":[],\"id\":4,\"instanceId\":2,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20,\"keyWord\":\"X\"}}"
+    },
+    "9": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792389966036,
+        "responseIds": [
+          900001,
+          910001,
+          910002,
+          900002,
+          920001
+        ],
+        "id": 3,
+        "instanceId": 2,
+        "scenario": "manual",
+        "kind": "categories",
+        "completedAt": 1792389974386,
+        "responseJson": "{\"data\":[{\"id\":900001,\"name\":\"夹具分组一\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910001,\"name\":\"运动户外\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910002,\"name\":\"数码\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":900002,\"name\":\"夹具分组二\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":920001,\"name\":\"家居\",\"parentId\":900002,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null}],\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792389966036,\"responseIds\":[900001,910001,910002,900002,920001],\"id\":3,\"instanceId\":2,\"scenario\":\"manual\",\"kind\":\"categories\",\"completedAt\":1792389974386,\"responseJson\":\"{\\\"data\\\":[{\\\"id\\\":900001,\\\"name\\\":\\\"夹具分组一\\\",\\\"parentId\\\":null,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":910001,\\\"name\\\":\\\"运动户外\\\",\\\"parentId\\\":900001,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":910002,\\\"name\\\":\\\"数码\\\",\\\"parentId\\\":900001,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":900002,\\\"name\\\":\\\"夹具分组二\\\",\\\"parentId\\\":null,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":920001,\\\"name\\\":\\\"家居\\\",\\\"parentId\\\":900002,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null}],\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    }
+  },
+  "parse_errors": []
+}

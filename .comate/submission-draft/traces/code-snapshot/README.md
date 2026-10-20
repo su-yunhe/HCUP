@@ -1,0 +1,1 @@
+完整可应用代码与过程快照：草稿内为 [final.diff](../../changes/final.diff)；3-package 将 traces 移至包根 traces/cml-spec24/ 后，位置为 ../../../tasks/cml-spec24/changes/final.diff。文件级 SHA-256 见 project-manifest.json，变更清单见 changed-files.json。为避免重复保存大补丁，本处以路径关联。

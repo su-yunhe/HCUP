@@ -1,0 +1,21 @@
+{
+  "command": [
+    "python",
+    "workflow/verification/test_controlled_ui_v1.py",
+    "--json",
+    "D:\\HCUP\\cml-spec24\\logs\\development\\controlled-run-v2\\result.json",
+    "--failfast",
+    "--method",
+    "test_c07_real_back_reentry_and_cover_lifecycle",
+    "--method",
+    "test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+    "--method",
+    "test_c09_explicit_false_true_flags_reset_keeps_external_scope"
+  ],
+  "started_utc": "2026-10-19T06:13:24.1452301Z",
+  "ended_utc": "2026-10-19T06:19:09.4494489Z",
+  "exit_code": 0,
+  "receipt": "D:\\HCUP\\cml-spec24\\logs\\development\\controlled-run-v2\\install-receipt.json",
+  "freeze": "workflow/verification-freeze-v4.json",
+  "scope": "device_controlled, not real HTTP"
+}

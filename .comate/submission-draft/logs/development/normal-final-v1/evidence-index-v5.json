@@ -1,0 +1,1158 @@
+{
+  "scope": "Actual App complete POST and unambiguous HTTP200/code1000 fragment, original completeness kept unchanged; independently saved immediate host POST oracles are not App responses",
+  "cases": [
+    {
+      "test": 1,
+      "path": "logs/development/hypium/20261019T062006128267Z-test_01_home_entry_structure_and_layout",
+      "pids": [
+        "10578"
+      ],
+      "pairs": 1,
+      "ambiguous": 0,
+      "original_response_complete": 0,
+      "oracles": 1,
+      "matched": [
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "10578",
+          "ordinal": 4,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-10578-4.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:20:10.175490+00:00",
+          "ended_utc": "2026-10-19T06:20:10.243730+00:00"
+        }
+      ]
+    },
+    {
+      "test": 2,
+      "path": "logs/development/hypium/20261019T062016052399Z-test_02_category_tab_leaf_entry",
+      "pids": [
+        "11022"
+      ],
+      "pairs": 1,
+      "ambiguous": 0,
+      "original_response_complete": 0,
+      "oracles": 1,
+      "matched": [
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001
+            ]
+          },
+          "pid": "11022",
+          "ordinal": 6,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-11022-6.metadata.json",
+          "request_sha256": "b9f2e23bb1b1642aadb6923d368c3c47c4ed71c5cecaafce687835fad49db998",
+          "response_sha256": "d9162a726e8212cc9e9856c3bc0de2e27d6be761551c579881593f04d992bd2a",
+          "started_utc": "2026-10-19T06:20:20.378873+00:00",
+          "ended_utc": "2026-10-19T06:20:20.437748+00:00"
+        }
+      ]
+    },
+    {
+      "test": 3,
+      "path": "logs/development/hypium/20261019T062023570908Z-test_03_search_edit_empty_and_recover",
+      "pids": [
+        "11324"
+      ],
+      "pairs": 3,
+      "ambiguous": 0,
+      "original_response_complete": 3,
+      "oracles": 3,
+      "matched": [
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "Xiaomi 17T"
+          },
+          "pid": "11324",
+          "ordinal": 10,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-11324-10.metadata.json",
+          "request_sha256": "98764700d026b7267e0a9bcc9cbc17b4fab06f28a4cb037178ab4e9feac3555a",
+          "response_sha256": "dc936ce40739fca9331ef4f4824b9e8e5117f2008be51b6bbf92a6ac7db21672",
+          "started_utc": "2026-10-19T06:20:48.114058+00:00",
+          "ended_utc": "2026-10-19T06:20:48.164087+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "Xiaomi 15S Pro"
+          },
+          "pid": "11324",
+          "ordinal": 5,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-11324-5.metadata.json",
+          "request_sha256": "8c06193d45fee5b505f18331a5ad4880bb3f1b942092e456aaaa6187c9119a49",
+          "response_sha256": "58d6c11c66350f79351ca2cd00aecc12bff3f6c93bb8299b7d8714dfe0238f84",
+          "started_utc": "2026-10-19T06:20:31.738175+00:00",
+          "ended_utc": "2026-10-19T06:20:31.767982+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "cmlspec24nomatch20261019"
+          },
+          "pid": "11324",
+          "ordinal": 8,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-11324-8.metadata.json",
+          "request_sha256": "286c4c9013112a02aab5c0efb4b73c62eb113c33d9d77438022164eebafa1df2",
+          "response_sha256": "f326bcf1bd0de5b25cd8b0c5198994626f674e9326a049fe8f86ad2de4bf8481",
+          "started_utc": "2026-10-19T06:20:43.458038+00:00",
+          "ended_utc": "2026-10-19T06:20:43.500913+00:00"
+        }
+      ]
+    },
+    {
+      "test": 4,
+      "path": "logs/development/hypium/20261019T062049793461Z-test_04_sort_five_options_and_real_numeric_order",
+      "pids": [
+        "11632"
+      ],
+      "pairs": 7,
+      "ambiguous": 0,
+      "original_response_complete": 0,
+      "oracles": 7,
+      "matched": [
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "order": "sold",
+            "sort": "desc"
+          },
+          "pid": "11632",
+          "ordinal": 10,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-11632-10.metadata.json",
+          "request_sha256": "23864a8cea3bd39ae265b49ea59b5d0168a30bc354ae47aedf853ec2db3834c1",
+          "response_sha256": "97fbc544cf373bba6f7a91f71688d7e6b14a2ccea8642aa84dc8b0093dd7ccdc",
+          "started_utc": "2026-10-19T06:20:58.994737+00:00",
+          "ended_utc": "2026-10-19T06:20:59.048706+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "order": "price",
+            "sort": "desc"
+          },
+          "pid": "11632",
+          "ordinal": 12,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-11632-12.metadata.json",
+          "request_sha256": "c9bb0df0062c5060532af3140692af4e9e7607f57697d749677de21e16c231d2",
+          "response_sha256": "aa65e42bcb2b897c7d14c34076d7c7c29e87f44172da78dec6a3036779ed83b5",
+          "started_utc": "2026-10-19T06:21:01.189742+00:00",
+          "ended_utc": "2026-10-19T06:21:01.240274+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "order": "sold",
+            "sort": "asc"
+          },
+          "pid": "11632",
+          "ordinal": 14,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-11632-14.metadata.json",
+          "request_sha256": "2e6954c1d7b43c919a4cc8fffc7ce6a7a1906198c75cd964ec4cd8fe95ad0b87",
+          "response_sha256": "529315b253346c58863a5eac4ddfbc3f25af93da29a023d40bf15598d747947b",
+          "started_utc": "2026-10-19T06:21:03.483183+00:00",
+          "ended_utc": "2026-10-19T06:21:03.528871+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "11632",
+          "ordinal": 16,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-11632-16.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:21:05.709868+00:00",
+          "ended_utc": "2026-10-19T06:21:05.762242+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "11632",
+          "ordinal": 4,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-11632-4.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:20:53.736042+00:00",
+          "ended_utc": "2026-10-19T06:20:53.797778+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "11632",
+          "ordinal": 6,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-11632-6.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:20:55.741969+00:00",
+          "ended_utc": "2026-10-19T06:20:55.812448+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "order": "price",
+            "sort": "asc"
+          },
+          "pid": "11632",
+          "ordinal": 8,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-11632-8.metadata.json",
+          "request_sha256": "7be3325710dccec2e0cbeba1a803d9f6d4e223485ca74d7ae326390c782536b2",
+          "response_sha256": "d6be4691e53d31c37c0da4c8f651ef8ba96ed598fb99883cdbf0170608ca9bb1",
+          "started_utc": "2026-10-19T06:20:56.754888+00:00",
+          "ended_utc": "2026-10-19T06:20:56.806207+00:00"
+        }
+      ]
+    },
+    {
+      "test": 5,
+      "path": "logs/development/hypium/20261019T062109112865Z-test_05_price_draft_cancel_confirm_and_reset",
+      "pids": [
+        "12083"
+      ],
+      "pairs": 4,
+      "ambiguous": 0,
+      "original_response_complete": 1,
+      "oracles": 4,
+      "matched": [
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "12083",
+          "ordinal": 10,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12083-10.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:21:32.854807+00:00",
+          "ended_utc": "2026-10-19T06:21:32.903845+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "12083",
+          "ordinal": 4,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12083-4.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:21:13.138872+00:00",
+          "ended_utc": "2026-10-19T06:21:13.211631+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "12083",
+          "ordinal": 6,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12083-6.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:21:15.122200+00:00",
+          "ended_utc": "2026-10-19T06:21:15.171174+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "minPrice": "50",
+            "maxPrice": "200"
+          },
+          "pid": "12083",
+          "ordinal": 8,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-12083-8.metadata.json",
+          "request_sha256": "b84f6fd9bc23cfcbd419371fa6cf5c77504e79b073d8b40830d1a35159f05a96",
+          "response_sha256": "3e8568bcdc99ed39fc398cacc92538ee7b9f52bfb0d9fdbc06c531d479b2304f",
+          "started_utc": "2026-10-19T06:21:30.525254+00:00",
+          "ended_utc": "2026-10-19T06:21:30.557110+00:00"
+        }
+      ]
+    },
+    {
+      "test": 6,
+      "path": "logs/development/hypium/20261019T062134445686Z-test_06_pagination_and_refresh",
+      "pids": [
+        "12670"
+      ],
+      "pairs": 12,
+      "ambiguous": 0,
+      "original_response_complete": 0,
+      "oracles": 12,
+      "matched": [
+        {
+          "request": {
+            "page": 3,
+            "size": 20
+          },
+          "pid": "12670",
+          "ordinal": 10,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-10.metadata.json",
+          "request_sha256": "cd0f2b1cd8c3ee413245eca6d7f918a4b00059a11f1251a9d701009f0df5279a",
+          "response_sha256": "86809d10ad00c46cac18f40aaea8f17c344d96e3512275fbbc4ea9d500e0c57b",
+          "started_utc": "2026-10-19T06:22:24.246103+00:00",
+          "ended_utc": "2026-10-19T06:22:24.298235+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "12670",
+          "ordinal": 12,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-12.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:23:53.233058+00:00",
+          "ended_utc": "2026-10-19T06:23:53.283057+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "12670",
+          "ordinal": 14,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-14.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:23:59.481106+00:00",
+          "ended_utc": "2026-10-19T06:23:59.538648+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "12670",
+          "ordinal": 18,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-18.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:24:02.026963+00:00",
+          "ended_utc": "2026-10-19T06:24:02.077797+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "12670",
+          "ordinal": 20,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-20.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:24:04.407394+00:00",
+          "ended_utc": "2026-10-19T06:24:04.459546+00:00"
+        },
+        {
+          "request": {
+            "page": 2,
+            "size": 20
+          },
+          "pid": "12670",
+          "ordinal": 22,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-22.metadata.json",
+          "request_sha256": "eb140c1dcbdde06241f0d6d81da8edb03d01714aaa0c9a211f6f456e82bfedc3",
+          "response_sha256": "a2e13dee1093a49eb0ee05e45616803a437d37d7f903afb8e27f845f7c49cdc3",
+          "started_utc": "2026-10-19T06:24:27.611071+00:00",
+          "ended_utc": "2026-10-19T06:24:27.667724+00:00"
+        },
+        {
+          "request": {
+            "page": 3,
+            "size": 20
+          },
+          "pid": "12670",
+          "ordinal": 24,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-24.metadata.json",
+          "request_sha256": "cd0f2b1cd8c3ee413245eca6d7f918a4b00059a11f1251a9d701009f0df5279a",
+          "response_sha256": "86809d10ad00c46cac18f40aaea8f17c344d96e3512275fbbc4ea9d500e0c57b",
+          "started_utc": "2026-10-19T06:24:49.242848+00:00",
+          "ended_utc": "2026-10-19T06:24:49.284410+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "12670",
+          "ordinal": 26,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-26.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:26:24.014105+00:00",
+          "ended_utc": "2026-10-19T06:26:24.055018+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "12670",
+          "ordinal": 28,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-28.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:26:30.548387+00:00",
+          "ended_utc": "2026-10-19T06:26:30.617466+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "12670",
+          "ordinal": 4,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-4.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:21:38.354913+00:00",
+          "ended_utc": "2026-10-19T06:21:38.417867+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "12670",
+          "ordinal": 6,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-6.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:21:40.420054+00:00",
+          "ended_utc": "2026-10-19T06:21:40.481203+00:00"
+        },
+        {
+          "request": {
+            "page": 2,
+            "size": 20
+          },
+          "pid": "12670",
+          "ordinal": 8,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-12670-8.metadata.json",
+          "request_sha256": "eb140c1dcbdde06241f0d6d81da8edb03d01714aaa0c9a211f6f456e82bfedc3",
+          "response_sha256": "a2e13dee1093a49eb0ee05e45616803a437d37d7f903afb8e27f845f7c49cdc3",
+          "started_utc": "2026-10-19T06:22:03.094209+00:00",
+          "ended_utc": "2026-10-19T06:22:03.165405+00:00"
+        }
+      ]
+    },
+    {
+      "test": 7,
+      "path": "logs/development/hypium/20261019T062632938775Z-test_07_back_reentry_and_cold_start",
+      "pids": [
+        "13149",
+        "18336"
+      ],
+      "pairs": 3,
+      "ambiguous": 0,
+      "original_response_complete": 1,
+      "oracles": 3,
+      "matched": [
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "13149",
+          "ordinal": 4,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-13149-4.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:26:36.902308+00:00",
+          "ended_utc": "2026-10-19T06:26:36.957182+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "13149",
+          "ordinal": 8,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-13149-8.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:26:42.525684+00:00",
+          "ended_utc": "2026-10-19T06:26:42.603290+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "18336",
+          "ordinal": 4,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-18336-4.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:26:47.091100+00:00",
+          "ended_utc": "2026-10-19T06:26:47.144223+00:00"
+        }
+      ]
+    },
+    {
+      "test": 8,
+      "path": "logs/development/hypium/20261019T062648192380Z-test_08_multigroup_selection_price_and_reset",
+      "pids": [
+        "18480"
+      ],
+      "pairs": 4,
+      "ambiguous": 0,
+      "original_response_complete": 2,
+      "oracles": 4,
+      "matched": [
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "18480",
+          "ordinal": 10,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-18480-10.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:28:08.713976+00:00",
+          "ended_utc": "2026-10-19T06:28:08.757862+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "18480",
+          "ordinal": 4,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-18480-4.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:26:52.219185+00:00",
+          "ended_utc": "2026-10-19T06:26:52.266834+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "18480",
+          "ordinal": 6,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-18480-6.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:26:53.942640+00:00",
+          "ended_utc": "2026-10-19T06:26:54.006067+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801013,
+              801032
+            ],
+            "minPrice": "50",
+            "maxPrice": "200"
+          },
+          "pid": "18480",
+          "ordinal": 8,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-18480-8.metadata.json",
+          "request_sha256": "4c626ac6d31c9dc4ff4d134d043d072c506416a14c07275566d2d5c5d27fb67b",
+          "response_sha256": "b4ffb5251f0e80c31d79ed9b595aea078c6596850e1a7c6e8240993b1b8d52c1",
+          "started_utc": "2026-10-19T06:27:35.872847+00:00",
+          "ended_utc": "2026-10-19T06:27:35.933664+00:00"
+        }
+      ]
+    },
+    {
+      "test": 9,
+      "path": "logs/development/hypium/20261019T062810506020Z-test_09_price_validation_single_sides_and_equal",
+      "pids": [
+        "18650"
+      ],
+      "pairs": 6,
+      "ambiguous": 0,
+      "original_response_complete": 2,
+      "oracles": 6,
+      "matched": [
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "maxPrice": "139"
+          },
+          "pid": "18650",
+          "ordinal": 10,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-18650-10.metadata.json",
+          "request_sha256": "378721b856bf24dca117de0db3ad561f31f5f19049154131ad165f4fdaaa3007",
+          "response_sha256": "3e8568bcdc99ed39fc398cacc92538ee7b9f52bfb0d9fdbc06c531d479b2304f",
+          "started_utc": "2026-10-19T06:28:49.207935+00:00",
+          "ended_utc": "2026-10-19T06:28:49.255884+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "18650",
+          "ordinal": 12,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-18650-12.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:28:56.649415+00:00",
+          "ended_utc": "2026-10-19T06:28:56.697507+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "minPrice": "139",
+            "maxPrice": "139"
+          },
+          "pid": "18650",
+          "ordinal": 14,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-18650-14.metadata.json",
+          "request_sha256": "1bc1ed8d6548fea508b4b121ce36e8eddea0a88b348d5b033fea3c27275652ff",
+          "response_sha256": "f326bcf1bd0de5b25cd8b0c5198994626f674e9326a049fe8f86ad2de4bf8481",
+          "started_utc": "2026-10-19T06:29:04.127190+00:00",
+          "ended_utc": "2026-10-19T06:29:04.153980+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "18650",
+          "ordinal": 4,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-18650-4.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:28:14.539624+00:00",
+          "ended_utc": "2026-10-19T06:28:14.601102+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "18650",
+          "ordinal": 6,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-18650-6.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:28:16.559463+00:00",
+          "ended_utc": "2026-10-19T06:28:16.632472+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "minPrice": "139"
+          },
+          "pid": "18650",
+          "ordinal": 8,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-18650-8.metadata.json",
+          "request_sha256": "8362b18a77d07b6d90a08819c83dc82f79b6644d3f62c245d1e131eacbed2286",
+          "response_sha256": "6f745444848c5481a42c981c0ed11bd8af611b86089013aaee2c7f44321d29a4",
+          "started_utc": "2026-10-19T06:28:42.891937+00:00",
+          "ended_utc": "2026-10-19T06:28:42.942591+00:00"
+        }
+      ]
+    },
+    {
+      "test": 10,
+      "path": "logs/development/hypium/20261019T062905651898Z-test_10_mask_back_cancel_and_repeated_confirm",
+      "pids": [
+        "20146"
+      ],
+      "pairs": 3,
+      "ambiguous": 0,
+      "original_response_complete": 1,
+      "oracles": 3,
+      "matched": [
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "20146",
+          "ordinal": 4,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-20146-4.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:29:09.775273+00:00",
+          "ended_utc": "2026-10-19T06:29:09.831421+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "20146",
+          "ordinal": 6,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-20146-6.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:29:11.739856+00:00",
+          "ended_utc": "2026-10-19T06:29:11.788209+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "20146",
+          "ordinal": 8,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-20146-8.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:29:23.818218+00:00",
+          "ended_utc": "2026-10-19T06:29:23.886597+00:00"
+        }
+      ]
+    },
+    {
+      "test": 11,
+      "path": "logs/development/hypium/20261019T062925632239Z-test_11_page_two_query_replacement_and_complete_query",
+      "pids": [
+        "21179"
+      ],
+      "pairs": 10,
+      "ambiguous": 0,
+      "original_response_complete": 2,
+      "oracles": 10,
+      "matched": [
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "order": "price",
+            "sort": "asc"
+          },
+          "pid": "21179",
+          "ordinal": 10,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-21179-10.metadata.json",
+          "request_sha256": "7be3325710dccec2e0cbeba1a803d9f6d4e223485ca74d7ae326390c782536b2",
+          "response_sha256": "d6be4691e53d31c37c0da4c8f651ef8ba96ed598fb99883cdbf0170608ca9bb1",
+          "started_utc": "2026-10-19T06:29:53.377172+00:00",
+          "ended_utc": "2026-10-19T06:29:53.432442+00:00"
+        },
+        {
+          "request": {
+            "page": 2,
+            "size": 20,
+            "order": "price",
+            "sort": "asc"
+          },
+          "pid": "21179",
+          "ordinal": 12,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-21179-12.metadata.json",
+          "request_sha256": "d2d754cf8af6b740b423b0f11cdef78f9f5916fd62a0db0bd05ccbb65d4de15e",
+          "response_sha256": "db3ef7533c66fce4a6e0a96228f5f27bec9c36931c6df9f698a0d8b39e1e947f",
+          "started_utc": "2026-10-19T06:30:14.864037+00:00",
+          "ended_utc": "2026-10-19T06:30:14.909352+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "minPrice": "0",
+            "maxPrice": "100000",
+            "order": "price",
+            "sort": "asc"
+          },
+          "pid": "21179",
+          "ordinal": 14,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-21179-14.metadata.json",
+          "request_sha256": "0db42bf1115596a2247ef2af24ed80e427db580a3266a101efc4296c0708a85e",
+          "response_sha256": "d6be4691e53d31c37c0da4c8f651ef8ba96ed598fb99883cdbf0170608ca9bb1",
+          "started_utc": "2026-10-19T06:30:22.481014+00:00",
+          "ended_utc": "2026-10-19T06:30:22.548775+00:00"
+        },
+        {
+          "request": {
+            "page": 2,
+            "size": 20,
+            "minPrice": "0",
+            "maxPrice": "100000",
+            "order": "price",
+            "sort": "asc"
+          },
+          "pid": "21179",
+          "ordinal": 16,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-21179-16.metadata.json",
+          "request_sha256": "27e9066eb3df24fa91bbfc30b0dbc21d6878c9348853cfd730a2771f53bfa5fb",
+          "response_sha256": "db3ef7533c66fce4a6e0a96228f5f27bec9c36931c6df9f698a0d8b39e1e947f",
+          "started_utc": "2026-10-19T06:30:44.289289+00:00",
+          "ended_utc": "2026-10-19T06:30:44.341332+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "米",
+            "minPrice": "0",
+            "maxPrice": "100000",
+            "order": "price",
+            "sort": "asc"
+          },
+          "pid": "21179",
+          "ordinal": 18,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-21179-18.metadata.json",
+          "request_sha256": "0d21bbf422aabb2b0f96706c904d5dbbf9c2b2a4aba4a2d00e17211b3ce2f2f8",
+          "response_sha256": "8189120c0789d51d6c45d609345d1b71645310e52f8ad5b99106edb14f8e3c87",
+          "started_utc": "2026-10-19T06:30:46.791543+00:00",
+          "ended_utc": "2026-10-19T06:30:46.847481+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "米",
+            "minPrice": "0",
+            "maxPrice": "100000",
+            "order": "price",
+            "sort": "asc"
+          },
+          "pid": "21179",
+          "ordinal": 20,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-21179-20.metadata.json",
+          "request_sha256": "0d21bbf422aabb2b0f96706c904d5dbbf9c2b2a4aba4a2d00e17211b3ce2f2f8",
+          "response_sha256": "8189120c0789d51d6c45d609345d1b71645310e52f8ad5b99106edb14f8e3c87",
+          "started_utc": "2026-10-19T06:30:54.740032+00:00",
+          "ended_utc": "2026-10-19T06:30:54.785009+00:00"
+        },
+        {
+          "request": {
+            "page": 2,
+            "size": 20,
+            "keyWord": "米",
+            "minPrice": "0",
+            "maxPrice": "100000",
+            "order": "price",
+            "sort": "asc"
+          },
+          "pid": "21179",
+          "ordinal": 22,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-21179-22.metadata.json",
+          "request_sha256": "2f50f71a7d35d7687f326e23567e49e698cc1ffcf82f8d14f31c2e37c50ac00b",
+          "response_sha256": "eea6e41e6fd0835681aab16bca851426c48483e2793238910fea59d254276030",
+          "started_utc": "2026-10-19T06:31:16.858906+00:00",
+          "ended_utc": "2026-10-19T06:31:16.900516+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "typeId": [
+              801001,
+              801002,
+              801003,
+              801004,
+              801005,
+              801006,
+              801007
+            ]
+          },
+          "pid": "21179",
+          "ordinal": 4,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-21179-4.metadata.json",
+          "request_sha256": "6138fa31a0ab96fa81e513d0a20bba2ce99eaea3db31dba7b90be8021c451d2e",
+          "response_sha256": "e8ce36e4782032f8b71c3bc762ebf6d9fa0bd50314c3ee382bd101f91c287c4a",
+          "started_utc": "2026-10-19T06:29:29.468890+00:00",
+          "ended_utc": "2026-10-19T06:29:29.688895+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20
+          },
+          "pid": "21179",
+          "ordinal": 6,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-21179-6.metadata.json",
+          "request_sha256": "4de8ad359b662e3e6de4dc924a4c35c08d95b9135c3d18c75ae77f1b8ea4a326",
+          "response_sha256": "cac8d84755b2ef9a80557716332474f30f4b7c9c8868288f5461804403dd5938",
+          "started_utc": "2026-10-19T06:29:31.544088+00:00",
+          "ended_utc": "2026-10-19T06:29:31.613141+00:00"
+        },
+        {
+          "request": {
+            "page": 2,
+            "size": 20
+          },
+          "pid": "21179",
+          "ordinal": 8,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-21179-8.metadata.json",
+          "request_sha256": "eb140c1dcbdde06241f0d6d81da8edb03d01714aaa0c9a211f6f456e82bfedc3",
+          "response_sha256": "a2e13dee1093a49eb0ee05e45616803a437d37d7f903afb8e27f845f7c49cdc3",
+          "started_utc": "2026-10-19T06:29:52.517991+00:00",
+          "ended_utc": "2026-10-19T06:29:52.581416+00:00"
+        }
+      ]
+    },
+    {
+      "test": 12,
+      "path": "logs/development/hypium/20261019T063117857615Z-test_12_reset_preserves_external_keyword_and_sort",
+      "pids": [
+        "23055"
+      ],
+      "pairs": 4,
+      "ambiguous": 0,
+      "original_response_complete": 1,
+      "oracles": 4,
+      "matched": [
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "米",
+            "typeId": [
+              801013,
+              801032
+            ],
+            "minPrice": "50",
+            "maxPrice": "200",
+            "order": "price",
+            "sort": "desc"
+          },
+          "pid": "23055",
+          "ordinal": 10,
+          "original_response_complete": true,
+          "independent_oracle": "oracle-23055-10.metadata.json",
+          "request_sha256": "9891ce8c98bc04d229a2862437c81789835ca298c59de914627ded61334a9580",
+          "response_sha256": "578f6ce0b8a1f9e9022ae5161d0aef3383bc77ffbd9baf370d7c4ad48c544218",
+          "started_utc": "2026-10-19T06:31:42.186125+00:00",
+          "ended_utc": "2026-10-19T06:31:42.228167+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "米",
+            "order": "price",
+            "sort": "desc"
+          },
+          "pid": "23055",
+          "ordinal": 12,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-23055-12.metadata.json",
+          "request_sha256": "99cc23b62d015e94594ab14873ed2c68e2d3ba3722c2427f7678a7665ac7eb33",
+          "response_sha256": "a0889777e4d6e628a6518a5d85659cd37d153e5aae30ebe2813cc6b0b23dc601",
+          "started_utc": "2026-10-19T06:31:43.223350+00:00",
+          "ended_utc": "2026-10-19T06:31:43.274392+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "米"
+          },
+          "pid": "23055",
+          "ordinal": 5,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-23055-5.metadata.json",
+          "request_sha256": "c5bd8cf05e02ee308792a73d7a371d208357b3d4a46a5b5f970881b4e99422c9",
+          "response_sha256": "7f2f40bef984d960f2e6662eca4fcdc18072e894383a8fd6d927c18c64a66035",
+          "started_utc": "2026-10-19T06:31:25.798362+00:00",
+          "ended_utc": "2026-10-19T06:31:25.868433+00:00"
+        },
+        {
+          "request": {
+            "page": 1,
+            "size": 20,
+            "keyWord": "米",
+            "order": "price",
+            "sort": "desc"
+          },
+          "pid": "23055",
+          "ordinal": 8,
+          "original_response_complete": false,
+          "independent_oracle": "oracle-23055-8.metadata.json",
+          "request_sha256": "99cc23b62d015e94594ab14873ed2c68e2d3ba3722c2427f7678a7665ac7eb33",
+          "response_sha256": "a0889777e4d6e628a6518a5d85659cd37d153e5aae30ebe2813cc6b0b23dc601",
+          "started_utc": "2026-10-19T06:31:27.902387+00:00",
+          "ended_utc": "2026-10-19T06:31:27.954323+00:00"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "pairs": 58,
+    "ambiguous": 0,
+    "original_response_complete": 13,
+    "oracles": 58,
+    "original_response_incomplete": 45
+  }
+}

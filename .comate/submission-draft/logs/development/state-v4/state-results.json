@@ -1,0 +1,359 @@
+{
+  "scope": "Supplemental host state behavior only; no ArkTS runtime, UI or real network claim",
+  "node": "v18.20.1",
+  "typescript": "4.9.5",
+  "typescript_path": "D:/HarmonyDev/DevEcoStudio-6.1.0/tools/hvigor/hvigor/node_modules/typescript/lib/typescript.js",
+  "freeze": "D:\\HCUP\\cml-spec24\\workflow\\verification-freeze-v4.json",
+  "freeze_sha256": "a93ebf579fbb5a9ec957f056b1b7bda3fb92f077c258abbdd67af94d207219d4",
+  "script_sha256": "543603b52676fdb397b750dbb408fc3259a0cf0840371b3e09caeabb6bfe81b8",
+  "source_before": {
+    "feature/goods/src/main/ets/model/GoodsCategoryState.ets": "36ce4e11c1e056bcf1580bd4931d6fb18fd205957b28c91309e8f2d68bebcf26",
+    "feature/goods/src/main/ets/viewmodel/GoodsCategoryViewModel.ets": "c37f976be4f6f53e1b9ffa75d88fbeeb0b6993b1e8d23aa646ad3d8866806dd5",
+    "core/data/src/main/ets/repository/GoodsRepository.ets": "2168bd710d9edbd543ce63f66ed17ccf264f43aaf9aca03dcae1121c4cf76d91",
+    "core/result/src/main/ets/RequestHelper.ets": "0c8d03afa4d276ff08986c1cd62a9d6ae21a76f603fd5d80655cb6a0e459f3fd",
+    "core/base/src/main/ets/viewmodel/BaseViewModel.ets": "9a75aae0cb628ff70c579f51081825268ce9f3a87d9a88984770607053793316",
+    "core/base/src/main/ets/state/BaseNetWorkListUiState.ets": "ab66d30d097065b086dd236e9afd0ca2ada3aaf247ddba432b6af4d35c5c38cc",
+    "core/model/src/main/ets/entity/Category.ets": "ab191f7a196b3e6d6f1063bfff3d1d74b4160200cd85edcd4b916e12cccd0249",
+    "core/model/src/main/ets/request/GoodsSearchRequest.ets": "5b06e330a75abd14e0a180d284ce4376023901801f95a1f0c3a8f403e5d9d629",
+    "core/model/src/main/ets/network/NetworkResponse.ets": "2ac6978554e80c0b852a0d437e0d118482947de148551c010e605573742ae09f"
+  },
+  "source_after": {
+    "feature/goods/src/main/ets/model/GoodsCategoryState.ets": "36ce4e11c1e056bcf1580bd4931d6fb18fd205957b28c91309e8f2d68bebcf26",
+    "feature/goods/src/main/ets/viewmodel/GoodsCategoryViewModel.ets": "c37f976be4f6f53e1b9ffa75d88fbeeb0b6993b1e8d23aa646ad3d8866806dd5",
+    "core/data/src/main/ets/repository/GoodsRepository.ets": "2168bd710d9edbd543ce63f66ed17ccf264f43aaf9aca03dcae1121c4cf76d91",
+    "core/result/src/main/ets/RequestHelper.ets": "0c8d03afa4d276ff08986c1cd62a9d6ae21a76f603fd5d80655cb6a0e459f3fd",
+    "core/base/src/main/ets/viewmodel/BaseViewModel.ets": "9a75aae0cb628ff70c579f51081825268ce9f3a87d9a88984770607053793316",
+    "core/base/src/main/ets/state/BaseNetWorkListUiState.ets": "ab66d30d097065b086dd236e9afd0ca2ada3aaf247ddba432b6af4d35c5c38cc",
+    "core/model/src/main/ets/entity/Category.ets": "ab191f7a196b3e6d6f1063bfff3d1d74b4160200cd85edcd4b916e12cccd0249",
+    "core/model/src/main/ets/request/GoodsSearchRequest.ets": "5b06e330a75abd14e0a180d284ce4376023901801f95a1f0c3a8f403e5d9d629",
+    "core/model/src/main/ets/network/NetworkResponse.ets": "2ac6978554e80c0b852a0d437e0d118482947de148551c010e605573742ae09f"
+  },
+  "changed": [],
+  "evidence_valid": true,
+  "transpile_diagnostics": [],
+  "results": [
+    {
+      "name": "root_waits_then_expands_and_preserves_explicit_false",
+      "requirement_ids": [
+        "A01",
+        "A54",
+        "A71",
+        "A76"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.628Z",
+      "ended_utc": "2026-10-19T05:57:12.630Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1"
+      ]
+    },
+    {
+      "name": "draft_cancel_reset_preserves_external_scope_and_sort",
+      "requirement_ids": [
+        "A30",
+        "A33",
+        "A37",
+        "A54",
+        "A72",
+        "A73",
+        "A74"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.630Z",
+      "ended_utc": "2026-10-19T05:57:12.634Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=3 version=3 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=3 version=3 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=3 version=3 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=4 version=4 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=4 version=4 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=4 version=4 epoch=1 kind=first page=1"
+      ]
+    },
+    {
+      "name": "amount_validation_single_sides_spaces_equal",
+      "requirement_ids": [
+        "A68",
+        "A69",
+        "A70"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.634Z",
+      "ended_utc": "2026-10-19T05:57:12.635Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=3 version=3 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=3 version=3 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=3 version=3 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=4 version=4 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=4 version=4 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=4 version=4 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=5 version=5 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=5 version=5 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=5 version=5 epoch=1 kind=first page=1"
+      ]
+    },
+    {
+      "name": "append_failure_retries_same_page_and_end_gates",
+      "requirement_ids": [
+        "A16",
+        "A17",
+        "A58",
+        "A61",
+        "A62"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.635Z",
+      "ended_utc": "2026-10-19T05:57:12.636Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=1 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=error id=2 version=1 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=finish id=2 version=1 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=start id=3 version=1 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=commit id=3 version=1 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=finish id=3 version=1 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=start id=4 version=1 epoch=1 kind=more page=3",
+        "[GoodsCategory] event=commit id=4 version=1 epoch=1 kind=more page=3",
+        "[GoodsCategory] event=finish id=4 version=1 epoch=1 kind=more page=3"
+      ]
+    },
+    {
+      "name": "full_last_metadata_missing_metadata_and_wrong_page",
+      "requirement_ids": [
+        "A58",
+        "A61",
+        "A62"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.636Z",
+      "ended_utc": "2026-10-19T05:57:12.636Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=2 epoch=1 kind=refresh page=1",
+        "[GoodsCategory] event=commit id=2 version=2 epoch=1 kind=refresh page=1",
+        "[GoodsCategory] event=finish id=2 version=2 epoch=1 kind=refresh page=1",
+        "[GoodsCategory] event=start id=3 version=2 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=error id=3 version=2 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=finish id=3 version=2 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=start id=4 version=2 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=commit id=4 version=2 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=finish id=4 version=2 epoch=1 kind=more page=2"
+      ]
+    },
+    {
+      "name": "old_success_and_finally_do_not_end_new_loading",
+      "requirement_ids": [
+        "A53",
+        "A57",
+        "A59"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.636Z",
+      "ended_utc": "2026-10-19T05:57:12.636Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=discard-success id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=2 version=2 epoch=1 kind=first page=1"
+      ]
+    },
+    {
+      "name": "latest_result_survives_old_success_or_old_error",
+      "requirement_ids": [
+        "A57",
+        "A59"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.636Z",
+      "ended_utc": "2026-10-19T05:57:12.636Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=discard-success id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=discard-error id=1 version=1 epoch=1 kind=first page=1"
+      ]
+    },
+    {
+      "name": "old_failure_while_new_pending_is_ignored",
+      "requirement_ids": [
+        "A57",
+        "A59"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.636Z",
+      "ended_utc": "2026-10-19T05:57:12.637Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=discard-error id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=2 version=2 epoch=1 kind=first page=1"
+      ]
+    },
+    {
+      "name": "refresh_invalidates_pending_append_and_recalculates_end",
+      "requirement_ids": [
+        "A18",
+        "A53",
+        "A54",
+        "A57",
+        "A59"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.637Z",
+      "ended_utc": "2026-10-19T05:57:12.637Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=1 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=start id=3 version=2 epoch=1 kind=refresh page=1",
+        "[GoodsCategory] event=discard-success id=2 version=1 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=commit id=3 version=2 epoch=1 kind=refresh page=1",
+        "[GoodsCategory] event=finish id=3 version=2 epoch=1 kind=refresh page=1"
+      ]
+    },
+    {
+      "name": "same_query_confirm_or_search_during_more_reloads_first",
+      "requirement_ids": [
+        "A05",
+        "A31",
+        "A32",
+        "A53",
+        "A57",
+        "A59"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.637Z",
+      "ended_utc": "2026-10-19T05:57:12.637Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=1 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=start id=3 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=3 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=3 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=discard-success id=2 version=1 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=1 epoch=1 kind=more page=2",
+        "[GoodsCategory] event=start id=3 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=3 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=3 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=discard-success id=2 version=1 epoch=1 kind=more page=2"
+      ]
+    },
+    {
+      "name": "first_business_failure_retry_refresh_failure_and_empty_recovery",
+      "requirement_ids": [
+        "A57",
+        "A60",
+        "A63"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.637Z",
+      "ended_utc": "2026-10-19T05:57:12.638Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=error id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=3 version=3 epoch=1 kind=refresh page=1",
+        "[GoodsCategory] event=error id=3 version=3 epoch=1 kind=refresh page=1",
+        "[GoodsCategory] event=finish id=3 version=3 epoch=1 kind=refresh page=1",
+        "[GoodsCategory] event=start id=4 version=4 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=4 version=4 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=4 version=4 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=5 version=5 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=5 version=5 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=5 version=5 epoch=1 kind=first page=1"
+      ]
+    },
+    {
+      "name": "classification_failure_independent_and_root_retry",
+      "requirement_ids": [
+        "A63",
+        "A71"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.638Z",
+      "ended_utc": "2026-10-19T05:57:12.638Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1"
+      ]
+    },
+    {
+      "name": "hidden_lifecycle_old_request_cannot_write_reentry",
+      "requirement_ids": [
+        "A64",
+        "A75"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.638Z",
+      "ended_utc": "2026-10-19T05:57:12.639Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=2 epoch=2 kind=first page=1",
+        "[GoodsCategory] event=discard-success id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=2 version=2 epoch=2 kind=first page=1",
+        "[GoodsCategory] event=finish id=2 version=2 epoch=2 kind=first page=1"
+      ]
+    },
+    {
+      "name": "layout_and_empty_search_are_local_and_same_sort_coalesces",
+      "requirement_ids": [
+        "A55",
+        "A56",
+        "A58",
+        "A65",
+        "A66",
+        "A67"
+      ],
+      "status": "pass",
+      "started_utc": "2026-10-19T05:57:12.639Z",
+      "ended_utc": "2026-10-19T05:57:12.639Z",
+      "logs": [
+        "[GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=start id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=commit id=2 version=2 epoch=1 kind=first page=1",
+        "[GoodsCategory] event=finish id=2 version=2 epoch=1 kind=first page=1"
+      ]
+    }
+  ]
+}

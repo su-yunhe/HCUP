@@ -1,0 +1,50 @@
+{
+  "status": "failed_and_superseded",
+  "checked_at": "2026-10-19T07:11:07.933373+00:00",
+  "initial_independent_observation": {
+    "source_mismatched_files": 5,
+    "copy_mismatched_files": 2,
+    "report": "checks/independent-review-v1.md F01"
+  },
+  "current_recheck_mismatches": [
+    {
+      "path": "logs/analysis-baseline/emulator-instances/CmlSpec24Baseline/Log/crash_server.log",
+      "recorded_sha256": "a4d29767c865071a45159a32a74cbfd596d6cc32acb83259adf79579eb09507c",
+      "current_source_sha256": "4e6f61fa62f5afafe510c230cb4c17138e0ed23a45ceb016bf4495ee9b71a4c4",
+      "copied_sha256": "a4d29767c865071a45159a32a74cbfd596d6cc32acb83259adf79579eb09507c"
+    },
+    {
+      "path": "logs/analysis-baseline/emulator-instances/CmlSpec24Baseline/Log/hilog_tmp_2026-10-19T123313/hilog.036.20261019-131903.gz",
+      "recorded_sha256": "d7f49de651eaae851d310c0cd02867c5ac0ceff09e9af0ccd04897c7167d0fdb",
+      "current_source_sha256": null,
+      "copied_sha256": "d7f49de651eaae851d310c0cd02867c5ac0ceff09e9af0ccd04897c7167d0fdb"
+    },
+    {
+      "path": "logs/analysis-baseline/emulator-instances/CmlSpec24Baseline/Log/hilog_tmp_2026-10-19T123313/hilog.037.20261019-132027.gz",
+      "recorded_sha256": "10130c6c7c5538bfe7cd212ddf4c528333dcb4ab3f6a7945c1c55a1e0455ff76",
+      "current_source_sha256": null,
+      "copied_sha256": "10130c6c7c5538bfe7cd212ddf4c528333dcb4ab3f6a7945c1c55a1e0455ff76"
+    },
+    {
+      "path": "logs/analysis-baseline/emulator-instances/CmlSpec24Baseline/Log/hilog_tmp_2026-10-19T123313/hilog.085.20261019-145518.gz",
+      "recorded_sha256": "b098942881d95a388cf03c8214248b1393259b8e43f5b953ecd149cd4ac4a137",
+      "current_source_sha256": "87de4908ac061732e71c37d5778e35c852239a856f3921d587c7ff54b3331262",
+      "copied_sha256": "f06c1ff66075f21b086c91e86bdf33dbd3859e9a9c6586a271e93ea6e96a11b4"
+    },
+    {
+      "path": "logs/analysis-baseline/emulator-instances/CmlSpec24Baseline/Log/kernel.log",
+      "recorded_sha256": "318c16b590609898474beaad828655f718c873b8e9f1bf02ede16c422a7eea6a",
+      "current_source_sha256": "8d843f688d8bd011e9e50adb0ae306b2217e1c81694df05c1cea480d4fe81639",
+      "copied_sha256": "f4b29d2279b389c7eed2b7aeb4ff6c0be40848d631a19ba36d62745d05e11428"
+    },
+    {
+      "path": "logs/analysis-baseline/emulator-instances/CmlSpec24Baseline/Log/memInfo.log",
+      "recorded_sha256": "75080fed97e664b586e0ceb5274470cb02b2734c843717ab81ad0c6ea6102ced",
+      "current_source_sha256": "cb459edd3dc0becaabc8c1ebd04c3fe0a23cc3d61f850822ce305d63926fc7aa",
+      "copied_sha256": "75080fed97e664b586e0ceb5274470cb02b2734c843717ab81ad0c6ea6102ced"
+    }
+  ],
+  "first_patch_failure": "RuntimeError: Source changed while copying logs/analysis-baseline/emulator-instances/CmlSpec24Baseline/Log/crash_server.log",
+  "resolution": "Exclude this precise mutable host runtime-cache directory; preserve captured task logs and rerun copying/patch validation",
+  "failed_copy_retained_at": ".comate/submission-check/log-copy-attempt-01"
+}

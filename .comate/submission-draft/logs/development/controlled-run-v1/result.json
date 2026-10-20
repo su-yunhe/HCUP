@@ -1,0 +1,80 @@
+{
+  "scope": "device_controlled: original ArkUI Page/VM/repository/helper with test-only datasource; NOT real HTTP faults",
+  "device": "127.0.0.1:11241",
+  "started_utc": "2026-10-19T05:56:09.277118+00:00",
+  "ended_utc": "2026-10-19T06:06:30.408918+00:00",
+  "seconds": 621.125,
+  "inherits_common_HarnessTestCase": true,
+  "selected_methods": [
+    "test_c01_delayed_first_failure_business_failure_and_retry",
+    "test_c02_list_more_pending_gate_failure_and_same_page_retry",
+    "test_c03_grid_refresh_failure_then_empty_replacement",
+    "test_c04_root_categories_fail_retry_and_resolve_real_leaf_ids",
+    "test_c05_old_success_error_and_finally_do_not_override_new_query",
+    "test_c06_more_inflight_same_query_confirm_and_search_replace_page1",
+    "test_c07_real_back_reentry_and_cover_lifecycle",
+    "test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+    "test_c09_explicit_false_true_flags_reset_keeps_external_scope"
+  ],
+  "cases": [
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c01_delayed_first_failure_business_failure_and_retry",
+      "outcome": "pass",
+      "message": "",
+      "evidence_directory": "D:\\HCUP\\cml-spec24\\logs\\development\\device-controlled\\20261019T055616088316Z-test_c01_delayed_first_failure_business_failure_and_retry"
+    },
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c02_list_more_pending_gate_failure_and_same_page_retry",
+      "outcome": "pass",
+      "message": "",
+      "evidence_directory": "D:\\HCUP\\cml-spec24\\logs\\development\\device-controlled\\20261019T055721889096Z-test_c02_list_more_pending_gate_failure_and_same_page_retry"
+    },
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c03_grid_refresh_failure_then_empty_replacement",
+      "outcome": "pass",
+      "message": "",
+      "evidence_directory": "D:\\HCUP\\cml-spec24\\logs\\development\\device-controlled\\20261019T055849304351Z-test_c03_grid_refresh_failure_then_empty_replacement"
+    },
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c04_root_categories_fail_retry_and_resolve_real_leaf_ids",
+      "outcome": "pass",
+      "message": "",
+      "evidence_directory": "D:\\HCUP\\cml-spec24\\logs\\development\\device-controlled\\20261019T060041742332Z-test_c04_root_categories_fail_retry_and_resolve_real_leaf_ids"
+    },
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c05_old_success_error_and_finally_do_not_override_new_query",
+      "outcome": "pass",
+      "message": "",
+      "evidence_directory": "D:\\HCUP\\cml-spec24\\logs\\development\\device-controlled\\20261019T060115206672Z-test_c05_old_success_error_and_finally_do_not_override_new_query"
+    },
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c06_more_inflight_same_query_confirm_and_search_replace_page1",
+      "outcome": "pass",
+      "message": "",
+      "evidence_directory": "D:\\HCUP\\cml-spec24\\logs\\development\\device-controlled\\20261019T060233769403Z-test_c06_more_inflight_same_query_confirm_and_search_replace_page1"
+    },
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c07_real_back_reentry_and_cover_lifecycle",
+      "outcome": "fail",
+      "message": "Traceback (most recent call last):\n  File \"D:\\HCUP\\cml-spec24\\workflow\\verification\\test_controlled_ui_v1.py\", line 180, in test_c07_real_back_reentry_and_cover_lifecycle\n    new = self.wait_request(page=1, keyword=\"Y\", owner=new_cat[\"owner\"])\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"D:\\HCUP\\cml-spec24\\workflow\\verification\\controlled_ui_support_v1.py\", line 168, in wait_request\n    self.fail(f\"No actual controlled request {kind} page={page} keyword={keyword} owner={owner} after={after}\")\nAssertionError: No actual controlled request goods page=1 keyword=Y owner=2 after=0\n",
+      "evidence_directory": "D:\\HCUP\\cml-spec24\\logs\\development\\device-controlled\\20261019T060545299686Z-test_c07_real_back_reentry_and_cover_lifecycle"
+    },
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c08_full_last_page_and_missing_metadata_stop_after_short_page",
+      "outcome": "not_run",
+      "message": "Selected but not reached after an earlier stop/setup failure",
+      "evidence_directory": ""
+    },
+    {
+      "name": "__main__.GoodsCategoryControlledTests.test_c09_explicit_false_true_flags_reset_keeps_external_scope",
+      "outcome": "not_run",
+      "message": "Selected but not reached after an earlier stop/setup failure",
+      "evidence_directory": ""
+    }
+  ],
+  "pass": 6,
+  "fail": 1,
+  "error": 0,
+  "not_run": 2,
+  "tests_run": 7
+}

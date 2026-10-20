@@ -1,0 +1,536 @@
+{
+  "events": [
+    {
+      "at": 1792389537610,
+      "seq": 3,
+      "event": "request",
+      "id": 1,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "categories",
+      "ids": []
+    },
+    {
+      "at": 1792389537611,
+      "seq": 4,
+      "event": "request",
+      "id": 2,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20
+      },
+      "ids": []
+    },
+    {
+      "at": 1792389545435,
+      "seq": 5,
+      "event": "resolve",
+      "id": 1,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "categories",
+      "ids": [
+        900001,
+        910001,
+        910002,
+        900002,
+        920001
+      ],
+      "code": 1000
+    },
+    {
+      "at": 1792389553087,
+      "seq": 6,
+      "event": "resolve",
+      "id": 2,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20
+      },
+      "ids": [
+        100001,
+        100002,
+        100003,
+        100004,
+        100005,
+        100006,
+        100007,
+        100008,
+        100009,
+        100010,
+        100011,
+        100012,
+        100013,
+        100014,
+        100015,
+        100016,
+        100017,
+        100018,
+        100019,
+        100020
+      ],
+      "code": 1000
+    },
+    {
+      "at": 1792389574678,
+      "seq": 7,
+      "event": "request",
+      "id": 3,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 2,
+        "size": 20
+      },
+      "ids": []
+    },
+    {
+      "at": 1792389583394,
+      "seq": 8,
+      "event": "resolve",
+      "id": 3,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 2,
+        "size": 20
+      },
+      "ids": [
+        100021,
+        100022,
+        100023,
+        100024,
+        100025,
+        100026,
+        100027,
+        100028,
+        100029,
+        100030,
+        100031,
+        100032,
+        100033,
+        100034,
+        100035,
+        100036,
+        100037,
+        100038,
+        100039,
+        100040
+      ],
+      "code": 1000
+    },
+    {
+      "at": 1792389614721,
+      "seq": 9,
+      "event": "request",
+      "id": 4,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20
+      },
+      "ids": []
+    },
+    {
+      "at": 1792389621482,
+      "seq": 10,
+      "event": "reject",
+      "id": 4,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20
+      },
+      "ids": [],
+      "error": "fixture transport failure 4"
+    },
+    {
+      "at": 1792389623183,
+      "seq": 11,
+      "event": "request",
+      "id": 5,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20
+      },
+      "ids": []
+    },
+    {
+      "at": 1792389630512,
+      "seq": 12,
+      "event": "resolve",
+      "id": 5,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20
+      },
+      "ids": [],
+      "code": 1000
+    },
+    {
+      "at": 1792389632680,
+      "seq": 13,
+      "event": "request",
+      "id": 6,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20
+      },
+      "ids": []
+    },
+    {
+      "at": 1792389640083,
+      "seq": 14,
+      "event": "resolve",
+      "id": 6,
+      "owner": 1,
+      "scenario": "manual",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20
+      },
+      "ids": [
+        100001,
+        100002,
+        100003,
+        100004,
+        100005,
+        100006,
+        100007,
+        100008,
+        100009,
+        100010,
+        100011,
+        100012,
+        100013,
+        100014,
+        100015,
+        100016,
+        100017,
+        100018,
+        100019,
+        100020
+      ],
+      "code": 1000
+    }
+  ],
+  "records_by_seq": {
+    "3": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792389537610,
+        "responseIds": [],
+        "id": 1,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "categories"
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792389537610,\"responseIds\":[],\"id\":1,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"categories\"}"
+    },
+    "4": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792389537611,
+        "responseIds": [],
+        "id": 2,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20
+        }
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792389537611,\"responseIds\":[],\"id\":2,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20}}"
+    },
+    "5": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792389537610,
+        "responseIds": [
+          900001,
+          910001,
+          910002,
+          900002,
+          920001
+        ],
+        "id": 1,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "categories",
+        "completedAt": 1792389545435,
+        "responseJson": "{\"data\":[{\"id\":900001,\"name\":\"夹具分组一\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910001,\"name\":\"运动户外\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910002,\"name\":\"数码\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":900002,\"name\":\"夹具分组二\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":920001,\"name\":\"家居\",\"parentId\":900002,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null}],\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792389537610,\"responseIds\":[900001,910001,910002,900002,920001],\"id\":1,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"categories\",\"completedAt\":1792389545435,\"responseJson\":\"{\\\"data\\\":[{\\\"id\\\":900001,\\\"name\\\":\\\"夹具分组一\\\",\\\"parentId\\\":null,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":910001,\\\"name\\\":\\\"运动户外\\\",\\\"parentId\\\":900001,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":910002,\\\"name\\\":\\\"数码\\\",\\\"parentId\\\":900001,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":900002,\\\"name\\\":\\\"夹具分组二\\\",\\\"parentId\\\":null,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":920001,\\\"name\\\":\\\"家居\\\",\\\"parentId\\\":900002,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null}],\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    },
+    "6": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792389537611,
+        "responseIds": [
+          100001,
+          100002,
+          100003,
+          100004,
+          100005,
+          100006,
+          100007,
+          100008,
+          100009,
+          100010,
+          100011,
+          100012,
+          100013,
+          100014,
+          100015,
+          100016,
+          100017,
+          100018,
+          100019,
+          100020
+        ],
+        "id": 2,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20
+        },
+        "completedAt": 1792389553087,
+        "responseJson": "{\"data\":{\"list\":[{\"id\":100001,\"typeId\":910001,\"title\":\"X 商品 01\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":13,\"sold\":993,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100002,\"typeId\":910002,\"title\":\"X 商品 02\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":16,\"sold\":986,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100003,\"typeId\":920001,\"title\":\"X 商品 03\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":19,\"sold\":979,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100004,\"typeId\":910001,\"title\":\"X 商品 04\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":22,\"sold\":972,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100005,\"typeId\":910002,\"title\":\"X 商品 05\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":25,\"sold\":965,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100006,\"typeId\":920001,\"title\":\"X 商品 06\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":28,\"sold\":958,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100007,\"typeId\":910001,\"title\":\"X 商品 07\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":31,\"sold\":951,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100008,\"typeId\":910002,\"title\":\"X 商品 08\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":34,\"sold\":944,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100009,\"typeId\":920001,\"title\":\"X 商品 09\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":37,\"sold\":937,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100010,\"typeId\":910001,\"title\":\"X 商品 10\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":40,\"sold\":930,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100011,\"typeId\":910002,\"title\":\"X 商品 11\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":43,\"sold\":923,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100012,\"typeId\":920001,\"title\":\"X 商品 12\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":46,\"sold\":916,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100013,\"typeId\":910001,\"title\":\"X 商品 13\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":49,\"sold\":909,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100014,\"typeId\":910002,\"title\":\"X 商品 14\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":52,\"sold\":902,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100015,\"typeId\":920001,\"title\":\"X 商品 15\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":55,\"sold\":895,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100016,\"typeId\":910001,\"title\":\"X 商品 16\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":58,\"sold\":888,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100017,\"typeId\":910002,\"title\":\"X 商品 17\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":61,\"sold\":881,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100018,\"typeId\":920001,\"title\":\"X 商品 18\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":64,\"sold\":874,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100019,\"typeId\":910001,\"title\":\"X 商品 19\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":67,\"sold\":867,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100020,\"typeId\":910002,\"title\":\"X 商品 20\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":70,\"sold\":860,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null}],\"pagination\":{\"total\":45,\"size\":20,\"page\":1}},\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792389537611,\"responseIds\":[100001,100002,100003,100004,100005,100006,100007,100008,100009,100010,100011,100012,100013,100014,100015,100016,100017,100018,100019,100020],\"id\":2,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20},\"completedAt\":1792389553087,\"responseJson\":\"{\\\"data\\\":{\\\"list\\\":[{\\\"id\\\":100001,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 01\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":13,\\\"sold\\\":993,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100002,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 02\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":16,\\\"sold\\\":986,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100003,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 03\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":19,\\\"sold\\\":979,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100004,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 04\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":22,\\\"sold\\\":972,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100005,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 05\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":25,\\\"sold\\\":965,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100006,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 06\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":28,\\\"sold\\\":958,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100007,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 07\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":31,\\\"sold\\\":951,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100008,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 08\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":34,\\\"sold\\\":944,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100009,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 09\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":37,\\\"sold\\\":937,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100010,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 10\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":40,\\\"sold\\\":930,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100011,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 11\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":43,\\\"sold\\\":923,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100012,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 12\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":46,\\\"sold\\\":916,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100013,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 13\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":49,\\\"sold\\\":909,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100014,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 14\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":52,\\\"sold\\\":902,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100015,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 15\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":55,\\\"sold\\\":895,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100016,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 16\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":58,\\\"sold\\\":888,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100017,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 17\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":61,\\\"sold\\\":881,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100018,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 18\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":64,\\\"sold\\\":874,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100019,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 19\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":67,\\\"sold\\\":867,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100020,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 20\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":70,\\\"sold\\\":860,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null}],\\\"pagination\\\":{\\\"total\\\":45,\\\"size\\\":20,\\\"page\\\":1}},\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    },
+    "7": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792389574678,
+        "responseIds": [],
+        "id": 3,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 2,
+          "size": 20
+        }
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792389574678,\"responseIds\":[],\"id\":3,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":2,\"size\":20}}"
+    },
+    "8": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792389574678,
+        "responseIds": [
+          100021,
+          100022,
+          100023,
+          100024,
+          100025,
+          100026,
+          100027,
+          100028,
+          100029,
+          100030,
+          100031,
+          100032,
+          100033,
+          100034,
+          100035,
+          100036,
+          100037,
+          100038,
+          100039,
+          100040
+        ],
+        "id": 3,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 2,
+          "size": 20
+        },
+        "completedAt": 1792389583394,
+        "responseJson": "{\"data\":{\"list\":[{\"id\":100021,\"typeId\":920001,\"title\":\"X 商品 21\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":73,\"sold\":853,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100022,\"typeId\":910001,\"title\":\"X 商品 22\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":76,\"sold\":846,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100023,\"typeId\":910002,\"title\":\"X 商品 23\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":79,\"sold\":839,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100024,\"typeId\":920001,\"title\":\"X 商品 24\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":82,\"sold\":832,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100025,\"typeId\":910001,\"title\":\"X 商品 25\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":85,\"sold\":825,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100026,\"typeId\":910002,\"title\":\"X 商品 26\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":88,\"sold\":818,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100027,\"typeId\":920001,\"title\":\"X 商品 27\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":91,\"sold\":811,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100028,\"typeId\":910001,\"title\":\"X 商品 28\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":94,\"sold\":804,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100029,\"typeId\":910002,\"title\":\"X 商品 29\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":97,\"sold\":797,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100030,\"typeId\":920001,\"title\":\"X 商品 30\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":100,\"sold\":790,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100031,\"typeId\":910001,\"title\":\"Y 商品 31\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":103,\"sold\":783,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100032,\"typeId\":910002,\"title\":\"Y 商品 32\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":106,\"sold\":776,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100033,\"typeId\":920001,\"title\":\"Y 商品 33\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":109,\"sold\":769,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100034,\"typeId\":910001,\"title\":\"Y 商品 34\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":112,\"sold\":762,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100035,\"typeId\":910002,\"title\":\"Y 商品 35\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":115,\"sold\":755,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100036,\"typeId\":920001,\"title\":\"Y 商品 36\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":118,\"sold\":748,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100037,\"typeId\":910001,\"title\":\"Y 商品 37\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":121,\"sold\":741,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100038,\"typeId\":910002,\"title\":\"Y 商品 38\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":124,\"sold\":734,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100039,\"typeId\":920001,\"title\":\"Y 商品 39\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":127,\"sold\":727,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100040,\"typeId\":910001,\"title\":\"Y 商品 40\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":130,\"sold\":720,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null}],\"pagination\":{\"total\":45,\"size\":20,\"page\":2}},\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792389574678,\"responseIds\":[100021,100022,100023,100024,100025,100026,100027,100028,100029,100030,100031,100032,100033,100034,100035,100036,100037,100038,100039,100040],\"id\":3,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":2,\"size\":20},\"completedAt\":1792389583394,\"responseJson\":\"{\\\"data\\\":{\\\"list\\\":[{\\\"id\\\":100021,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 21\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":73,\\\"sold\\\":853,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100022,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 22\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":76,\\\"sold\\\":846,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100023,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 23\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":79,\\\"sold\\\":839,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100024,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 24\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":82,\\\"sold\\\":832,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100025,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 25\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":85,\\\"sold\\\":825,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100026,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 26\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":88,\\\"sold\\\":818,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100027,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 27\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":91,\\\"sold\\\":811,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100028,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 28\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":94,\\\"sold\\\":804,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100029,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 29\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":97,\\\"sold\\\":797,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100030,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 30\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":100,\\\"sold\\\":790,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100031,\\\"typeId\\\":910001,\\\"title\\\":\\\"Y 商品 31\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":103,\\\"sold\\\":783,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100032,\\\"typeId\\\":910002,\\\"title\\\":\\\"Y 商品 32\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":106,\\\"sold\\\":776,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100033,\\\"typeId\\\":920001,\\\"title\\\":\\\"Y 商品 33\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":109,\\\"sold\\\":769,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100034,\\\"typeId\\\":910001,\\\"title\\\":\\\"Y 商品 34\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":112,\\\"sold\\\":762,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100035,\\\"typeId\\\":910002,\\\"title\\\":\\\"Y 商品 35\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":115,\\\"sold\\\":755,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100036,\\\"typeId\\\":920001,\\\"title\\\":\\\"Y 商品 36\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":118,\\\"sold\\\":748,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100037,\\\"typeId\\\":910001,\\\"title\\\":\\\"Y 商品 37\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":121,\\\"sold\\\":741,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100038,\\\"typeId\\\":910002,\\\"title\\\":\\\"Y 商品 38\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":124,\\\"sold\\\":734,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100039,\\\"typeId\\\":920001,\\\"title\\\":\\\"Y 商品 39\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":127,\\\"sold\\\":727,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100040,\\\"typeId\\\":910001,\\\"title\\\":\\\"Y 商品 40\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":130,\\\"sold\\\":720,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null}],\\\"pagination\\\":{\\\"total\\\":45,\\\"size\\\":20,\\\"page\\\":2}},\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    },
+    "9": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792389614721,
+        "responseIds": [],
+        "id": 4,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20
+        }
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792389614721,\"responseIds\":[],\"id\":4,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20}}"
+    },
+    "10": {
+      "event": "reject",
+      "complete": true,
+      "data": {
+        "state": "rejected",
+        "startedAt": 1792389614721,
+        "responseIds": [],
+        "id": 4,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20
+        },
+        "error": "fixture transport failure 4",
+        "completedAt": 1792389621482
+      },
+      "raw": "{\"state\":\"rejected\",\"startedAt\":1792389614721,\"responseIds\":[],\"id\":4,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20},\"error\":\"fixture transport failure 4\",\"completedAt\":1792389621482}"
+    },
+    "11": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792389623183,
+        "responseIds": [],
+        "id": 5,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20
+        }
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792389623183,\"responseIds\":[],\"id\":5,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20}}"
+    },
+    "12": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792389623183,
+        "responseIds": [],
+        "id": 5,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20
+        },
+        "completedAt": 1792389630512,
+        "responseJson": "{\"data\":{\"list\":[],\"pagination\":{\"total\":0,\"size\":20,\"page\":1}},\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792389623183,\"responseIds\":[],\"id\":5,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20},\"completedAt\":1792389630512,\"responseJson\":\"{\\\"data\\\":{\\\"list\\\":[],\\\"pagination\\\":{\\\"total\\\":0,\\\"size\\\":20,\\\"page\\\":1}},\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    },
+    "13": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792389632680,
+        "responseIds": [],
+        "id": 6,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20
+        }
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792389632680,\"responseIds\":[],\"id\":6,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20}}"
+    },
+    "14": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792389632680,
+        "responseIds": [
+          100001,
+          100002,
+          100003,
+          100004,
+          100005,
+          100006,
+          100007,
+          100008,
+          100009,
+          100010,
+          100011,
+          100012,
+          100013,
+          100014,
+          100015,
+          100016,
+          100017,
+          100018,
+          100019,
+          100020
+        ],
+        "id": 6,
+        "instanceId": 1,
+        "scenario": "manual",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20
+        },
+        "completedAt": 1792389640083,
+        "responseJson": "{\"data\":{\"list\":[{\"id\":100001,\"typeId\":910001,\"title\":\"X 商品 01\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":13,\"sold\":993,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100002,\"typeId\":910002,\"title\":\"X 商品 02\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":16,\"sold\":986,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100003,\"typeId\":920001,\"title\":\"X 商品 03\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":19,\"sold\":979,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100004,\"typeId\":910001,\"title\":\"X 商品 04\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":22,\"sold\":972,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100005,\"typeId\":910002,\"title\":\"X 商品 05\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":25,\"sold\":965,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100006,\"typeId\":920001,\"title\":\"X 商品 06\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":28,\"sold\":958,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100007,\"typeId\":910001,\"title\":\"X 商品 07\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":31,\"sold\":951,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100008,\"typeId\":910002,\"title\":\"X 商品 08\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":34,\"sold\":944,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100009,\"typeId\":920001,\"title\":\"X 商品 09\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":37,\"sold\":937,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100010,\"typeId\":910001,\"title\":\"X 商品 10\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":40,\"sold\":930,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100011,\"typeId\":910002,\"title\":\"X 商品 11\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":43,\"sold\":923,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100012,\"typeId\":920001,\"title\":\"X 商品 12\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":46,\"sold\":916,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100013,\"typeId\":910001,\"title\":\"X 商品 13\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":49,\"sold\":909,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100014,\"typeId\":910002,\"title\":\"X 商品 14\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":52,\"sold\":902,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100015,\"typeId\":920001,\"title\":\"X 商品 15\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":55,\"sold\":895,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100016,\"typeId\":910001,\"title\":\"X 商品 16\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":58,\"sold\":888,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100017,\"typeId\":910002,\"title\":\"X 商品 17\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":61,\"sold\":881,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100018,\"typeId\":920001,\"title\":\"X 商品 18\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":64,\"sold\":874,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100019,\"typeId\":910001,\"title\":\"X 商品 19\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":67,\"sold\":867,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100020,\"typeId\":910002,\"title\":\"X 商品 20\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":70,\"sold\":860,\"content\":null,\"contentPics\":null,\"recommend\":false,\"featured\":true,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null}],\"pagination\":{\"total\":45,\"size\":20,\"page\":1}},\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792389632680,\"responseIds\":[100001,100002,100003,100004,100005,100006,100007,100008,100009,100010,100011,100012,100013,100014,100015,100016,100017,100018,100019,100020],\"id\":6,\"instanceId\":1,\"scenario\":\"manual\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20},\"completedAt\":1792389640083,\"responseJson\":\"{\\\"data\\\":{\\\"list\\\":[{\\\"id\\\":100001,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 01\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":13,\\\"sold\\\":993,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100002,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 02\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":16,\\\"sold\\\":986,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100003,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 03\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":19,\\\"sold\\\":979,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100004,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 04\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":22,\\\"sold\\\":972,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100005,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 05\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":25,\\\"sold\\\":965,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100006,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 06\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":28,\\\"sold\\\":958,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100007,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 07\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":31,\\\"sold\\\":951,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100008,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 08\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":34,\\\"sold\\\":944,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100009,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 09\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":37,\\\"sold\\\":937,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100010,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 10\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":40,\\\"sold\\\":930,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100011,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 11\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":43,\\\"sold\\\":923,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100012,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 12\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":46,\\\"sold\\\":916,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100013,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 13\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":49,\\\"sold\\\":909,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100014,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 14\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":52,\\\"sold\\\":902,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100015,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 15\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":55,\\\"sold\\\":895,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100016,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 16\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":58,\\\"sold\\\":888,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100017,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 17\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":61,\\\"sold\\\":881,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100018,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 18\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":64,\\\"sold\\\":874,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100019,\\\"typeId\\\":910001,\\\"title\\\":\\\"X 商品 19\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":67,\\\"sold\\\":867,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100020,\\\"typeId\\\":910002,\\\"title\\\":\\\"X 商品 20\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":70,\\\"sold\\\":860,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":false,\\\"featured\\\":true,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null}],\\\"pagination\\\":{\\\"total\\\":45,\\\"size\\\":20,\\\"page\\\":1}},\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    }
+  },
+  "parse_errors": []
+}

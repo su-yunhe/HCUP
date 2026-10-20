@@ -1,0 +1,103 @@
+10-19 14:05:47.245 27972 27972 I A03d00/JSAPP: === 命名转换工具 ===
+10-19 14:05:47.250 27972 27972 I A03d00/JSAPP: === camelToSnake ===
+10-19 14:05:47.251 27972 27972 I A03d00/JSAPP:   ✓ 应该转换普通驼峰
+10-19 14:05:47.251 27972 27972 I A03d00/JSAPP:   ✓ 应该处理全大写
+10-19 14:05:47.251 27972 27972 I A03d00/JSAPP:   ✓ 应该处理混合情况
+10-19 14:05:47.251 27972 27972 I A03d00/JSAPP:   ✓ 应该处理空字符串
+10-19 14:05:47.253 27972 27972 I A03d00/JSAPP: === snakeToCamel ===
+10-19 14:05:47.253 27972 27972 I A03d00/JSAPP:   ✓ 应该转换蛇形命名
+10-19 14:05:47.253 27972 27972 I A03d00/JSAPP:   ✓ 应该处理空字符串
+10-19 14:05:47.253 27972 27972 I A03d00/JSAPP: === classToTable ===
+10-19 14:05:47.253 27972 27972 I A03d00/JSAPP:   ✓ 应该转换类名为表名
+10-19 14:05:47.253 27972 27972 I A03d00/JSAPP: === propertyToColumn ===
+10-19 14:05:47.253 27972 27972 I A03d00/JSAPP:   ✓ 应该转换属性名为字段名
+10-19 14:05:47.367 27972 27972 I A03d00/JSAPP: Succeeded in setting the window layout to full-screen mode.
+10-19 14:05:55.106 27972 27972 I A03d00/JSAPP: [CML24FixtureControl] seq=1 nav clear
+10-19 14:05:55.106 27972 27972 I A03d00/JSAPP: [CML24FixtureControl] seq=2 nav open instance=1 scenario=manual
+10-19 14:05:55.110 27972 27972 I A03d00/JSAPP: [CML24Fixture] {"at":1792389955110,"seq":3,"event":"request","id":1,"owner":1,"scenario":"manual","kind":"categories","ids":[]}
+10-19 14:05:55.110 27972 27972 I A03d00/JSAPP: [CML24FixtureRaw] seq=3 event=request part=1/1 {"state":"pending","startedAt":1792389955109,"responseIds":[],"id":1,"instanceId":1,"scenario":"manual","kind":"categories"}
+10-19 14:05:55.110 27972 27972 I A03d00/JSAPP: [GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1
+10-19 14:05:55.110 27972 27972 I A03d00/JSAPP: [CML24Fixture] {"at":1792389955110,"seq":4,"event":"request","id":2,"owner":1,"scenario":"manual","kind":"goods","request":{"page":1,"size":20,"keyWord":"X"},"ids":[]}
+10-19 14:05:55.110 27972 27972 I A03d00/JSAPP: [CML24FixtureRaw] seq=4 event=request part=1/1 {"state":"pending","startedAt":1792389955110,"responseIds":[],"id":2,"instanceId":1,"scenario":"manual","kind":"goods","request":{"page":1,"size":20,"keyWord":"X"}}
+10-19 14:06:02.799 27972 27972 I A03d00/JSAPP: [CML24Fixture] {"at":1792389962799,"seq":5,"event":"resolve","id":1,"owner":1,"scenario":"manual","kind":"categories","ids":[900001,910001,910002,900002,920001],"code":1000}
+10-19 14:06:02.799 27972 27972 I A03d00/JSAPP: [CML24FixtureRaw] seq=5 event=resolve part=1/2 {"state":"resolved","startedAt":1792389955109,"responseIds":[900001,910001,910002,900002,920001],"id":1,"instanceId":1,"scenario":"manual","kind":"categories","completedAt":1792389962799,"responseJson":"{\"data\":[{\"id\":900001,\"name\":\"夹具分组一\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910001,\"name\":\"运动户外\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910002,\"name\":\"数码\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTi
+10-19 14:06:02.799 27972 27972 I A03d00/JSAPP: [CML24FixtureRaw] seq=5 event=resolve part=2/2 me\":null},{\"id\":900002,\"name\":\"夹具分组二\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":920001,\"name\":\"家居\",\"parentId\":900002,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null}],\"code\":1000,\"message\":null}","responseCode":1000}
+10-19 14:06:06.023 27972 27972 I A03d00/JSAPP: [CML24FixtureControl] seq=6 nav open instance=2 scenario=manual
+10-19 14:06:06.037 27972 27972 I A03d00/JSAPP: [CML24Fixture] {"at":1792389966037,"seq":7,"event":"request","id":3,"owner":2,"scenario":"manual","kind":"categories","ids":[]}
+10-19 14:06:06.037 27972 27972 I A03d00/JSAPP: [CML24FixtureRaw] seq=7 event=request part=1/1 {"state":"pending","startedAt":1792389966036,"responseIds":[],"id":3,"instanceId":2,"scenario":"manual","kind":"categories"}
+10-19 14:06:06.037 27972 27972 I A03d00/JSAPP: [GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1
+10-19 14:06:06.037 27972 27972 I A03d00/JSAPP: [CML24Fixture] {"at":1792389966037,"seq":8,"event":"request","id":4,"owner":2,"scenario":"manual","kind":"goods","request":{"page":1,"size":20,"keyWord":"X"},"ids":[]}
+10-19 14:06:06.037 27972 27972 I A03d00/JSAPP: [CML24FixtureRaw] seq=8 event=request part=1/1 {"state":"pending","startedAt":1792389966037,"responseIds":[],"id":4,"instanceId":2,"scenario":"manual","kind":"goods","request":{"page":1,"size":20,"keyWord":"X"}}
+10-19 14:06:11.927 27972 27972 W C02805/ClientMsgHandler: [K:U:134989|163]The client receives a key, Fd:38
+10-19 14:06:11.927 27972 27972 I C02805/InputManagerImpl: [K:U:134989|576]id:134989 recv
+10-19 14:06:11.927 27972 27972 I C04213/InputKeyFlow: HandleInputEvent: eid:104,InputId:134989,wid:101
+10-19 14:06:11.927 27972 27972 I C02805/InputManagerImpl: [K:U:134989|601]Key event report keyCode:<private>, id:134989 recv
+10-19 14:06:11.928 27972 28263 I C04200/WMS: DispatchKeyEventCallback: In
+10-19 14:06:11.928 27972 28263 I C0420c/WMSEvent: HandleBackEvent: in
+10-19 14:06:11.928 27972 28263 I C03900/Ace: [(-1:100000:singleton)] [com.joker.coolmall][entry_test][100000]: OnBackPressed called
+10-19 14:06:11.928 27972 27972 I C03914/AceTextField: [(100000:100000:scope)] 14 receives back press event, 0
+10-19 14:06:11.928 27972 27972 I C03914/AceTextField: [(100000:100000:scope)] textfield 14 Will Close Soft keyboard.
+10-19 14:06:11.928 27972 27972 I C01c10/ImsaKit: line: 520, function: Close,start.
+10-19 14:06:11.928 27972 27972 I C03914/AceTextField: [(100000:100000:scope)] OnDetach
+10-19 14:06:11.929 27972 28227 I C03914/AceTextField: [(-1:100000:singleton)] FinishTextPreview
+10-19 14:06:11.929 27972 28227 I C03914/AceTextField: [(-1:100000:singleton)] SendKeyboardStatus status: 1
+10-19 14:06:11.929 27972 28227 I C03914/AceTextField: [(-1:100000:singleton)] SetKeyboardStatus status: 0
+10-19 14:06:11.929 27972 27972 I C03914/AceTextField: [(100000:100000:scope)] FinishTextPreview
+10-19 14:06:11.929 27972 27972 I C03914/AceTextField: [(100000:100000:scope)] SendKeyboardStatus status: 1
+10-19 14:06:11.929 27972 27972 I C03914/AceTextField: [(100000:100000:scope)] SetKeyboardStatus status: 0
+10-19 14:06:11.929 27972 27972 I C0391c/AceFocus: [(100000:100000:scope)] Lost focus to view root: Column
+10-19 14:06:11.929 27972 27972 I C0391c/AceFocus: [(100000:100000:scope)] TextInput/secure_fieldtrigger onBlurInternal by 4
+10-19 14:06:11.929 27972 27972 I C03914/AceTextField: [(100000:100000:scope)] TextField 14 OnBlur
+10-19 14:06:11.929 27972 27972 I C03914/AceTextField: [(100000:100000:scope)] Set needToRequestKeyboardInner_ to 0 : reason 1
+10-19 14:06:11.929 27972 27972 I C03914/AceTextField: [(100000:100000:scope)] nodeId:[14] TextField reportComponentChangeEvent 6
+10-19 14:06:11.929 27972 27972 I C0391c/AceFocus: [(100000:100000:scope)] FocusSwitch end, TextInput/secure_field onBlur, Column/secure_field onFocus, start: 3, end: 1, update: 0
+10-19 14:06:11.929 27972 27972 I C03933/AceKeyboard: [(100000:100000:scope)] current focus node: (Column/5). isDynamic: 0
+10-19 14:06:11.929 27972 27972 I C03933/AceKeyboard: [(100000:100000:scope)] FrameNode(Column/5) notNeedSoftKeyboard.
+10-19 14:06:11.929 27972 27972 I C03933/AceKeyboard: [(100000:100000:scope)] Ime Shown Or Attached, Need to close keyboard
+10-19 14:06:11.929 27972 27972 I C03933/AceKeyboard: [(100000:100000:scope)] PageChange CloseKeyboard FrameNode notNeedSoftKeyboard.
+10-19 14:06:11.929 27972 27972 I C03900/Ace: [(100000:100000:scope)] textfield consumed backpressed event
+10-19 14:06:11.930 27972 27972 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:06:11.930 27972 28263 E C01c10/ImsaKit: line: 1608, function: NotifyPanelStatusInfo,listener is nullptr!
+10-19 14:06:11.930 27972 28263 W C01c10/ImsaKit: line: 1875, function: FinishTextPreview,not bound or listener is nullptr!
+10-19 14:06:11.932 27972 27972 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:06:11.940 27972 27972 I C0420b/WMSKeyboard: transaction: 1, safeHeight: 0, occupied rect: x 0, y 0, w 0, h 0, callingWindowRect: [0 0 1308 2880]
+10-19 14:06:11.940 27972 27972 I C01406/OHOS::RS: BeginSyncTransaction syncId:6206227742909
+10-19 14:06:11.940 27972 27972 I C03959/AceLayout: [(-2:100000:singleton)] [com.joker.coolmall][entry_test][100000]: UpdateViewportConfig Viewport config: size: (1308, 2880) orientation: 0 density: 3.500000 position: (0, 0) transformHint: 0 displayId: 0, windowSizeChangeReason 34, is rsTransaction nullptr 1, updateAvoidAreas size: 5[(0,top [0 0 1308 136] )(1,top [615 50 78 78] )(2,empty)(3,empty)(4,bottom [425 2782 458 98] )], keyboardRect Rect (0.00, 0.00) - [0.00 x 0.00]
+10-19 14:06:11.940 27972 27972 I C04208/WMSLayout: UpdateViewportConfig: Id: 101, reason: 34, windowRect: [0 0 1308 2880], displayOrientation: 0, config[0, 0, 0, 3.500000]
+10-19 14:06:11.940 27972 27972 I C01406/OHOS::RS: CommitSyncTransaction syncId:6206227742909 syncCount: 0 parentPid: 1445
+10-19 14:06:11.940 27972 27972 I C01406/OHOS::RS: ResetSyncTransactionInfo syncId:6206227742909
+10-19 14:06:11.941 27972 27972 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:06:11.941 27972 27972 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:06:11.941 27972 27972 I C03914/AceTextField: [(100000:100000:scope)] input state now is not at previewing text
+10-19 14:06:11.941 27972 27972 I C03914/AceTextField: [(100000:100000:scope)] input state now is not at previewing text
+10-19 14:06:11.945 27972 27972 I C03933/AceKeyboard: [(100000:100000:scope)] origin positionY: 262.000000, height 168.000000
+10-19 14:06:11.945 27972 27972 I C03933/AceKeyboard: [(100000:100000:scope)] use origin arg from the window
+10-19 14:06:11.945 27972 27972 I C03933/AceKeyboard: [(100000:100000:scope)] keyboardHeight: 0.000000, positionY: 262.000000, textHeight: 168.000000, rootSize.Height() 2880.000000 adjust: 0.000000 final calculate keyboard offset is 0.000000
+10-19 14:06:11.946 27972 27972 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:06:11.946 27972 27972 I C04209/WMSImms: NotifyAvoidAreaChange: win 101 api 21 type 3 area empty
+10-19 14:06:11.947 27972 27972 I C04208/WMSLayout: UpdateViewportConfig: Id: 101, reason: 23, windowRect: [0 0 1308 2880], displayOrientation: 0, config[0, 0, 0, 3.500000]
+10-19 14:06:12.931 27972 28227 I C03f00/ArkEtsVm: [a92ab8b353e2c33] gc: App cold start finished
+10-19 14:06:14.281 27972 27972 I C02805/InputKeyFlow: [P:D:134990|247]ac: down: 134990
+10-19 14:06:14.281 27972 27972 I C02805/InputKeyFlow: [P:D:134990|649]recv
+10-19 14:06:14.281 27972 27972 I C04213/InputKeyFlow: HandleInputEvent: eid:22,InputId:134990,wid:101,ac:2
+10-19 14:06:14.282 27972 27972 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:134990, fId:10000, T:0, I=0, M=0
+10-19 14:06:14.282 27972 27972 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:134990, TTHNI:fId: 10000{ T: Button, D: 8 };
+10-19 14:06:14.282 27972 27972 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:134990, TTHRTI: T ClickRecognizer info: { T: Button };
+10-19 14:06:14.282 27972 27972 I C03945/AceStateStyle: [(100000:100000:scope)] Handle TouchDown event node: Button
+10-19 14:06:14.282 27972 27972 I C03919/AceInputTracking: [(100000:100000:scope)] Consumed id:134990, last id:-1
+10-19 14:06:14.282 27972 27972 I C04213/InputKeyFlow: ConsumePointerEventInner: InputId:134990,wid:101,pointId:10000,srcType:2,rect:[0,0,1308,2880],notify:1
+10-19 14:06:14.386 27972 27972 I C02805/InputKeyFlow: [P:U:134991|247]ac: up: 134991
+10-19 14:06:14.386 27972 27972 I C02805/InputKeyFlow: [P:U:134991|649]recv
+10-19 14:06:14.386 27972 27972 I C04213/InputKeyFlow: HandleInputEvent: eid:23,InputId:134991,wid:101,ac:4
+10-19 14:06:14.386 27972 27972 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:134991, fId:10000, T:1, I=0, M=0
+10-19 14:06:14.386 27972 27972 I C03934/AceUIEvent: [(100000:100000:scope)] TpFlush end by up event
+10-19 14:06:14.386 27972 27972 I C03945/AceStateStyle: [(100000:100000:scope)] Handle TouchUp or Cancel event node: Button
+10-19 14:06:14.386 27972 27972 I C0391e/AceGesture: [(100000:100000:scope)] Click try accept Button
+10-19 14:06:14.386 27972 27972 I C03951/InputKeyFlow: [(100000:100000:scope)] CLK RACC, T: Button
+10-19 14:06:14.387 27972 27972 I A03d00/JSAPP: [CML24Fixture] {"at":1792389974387,"seq":9,"event":"resolve","id":3,"owner":2,"scenario":"manual","kind":"categories","ids":[900001,910001,910002,900002,920001],"code":1000}
+10-19 14:06:14.387 27972 27972 I A03d00/JSAPP: [CML24FixtureRaw] seq=9 event=resolve part=1/2 {"state":"resolved","startedAt":1792389966036,"responseIds":[900001,910001,910002,900002,920001],"id":3,"instanceId":2,"scenario":"manual","kind":"categories","completedAt":1792389974386,"responseJson":"{\"data\":[{\"id\":900001,\"name\":\"夹具分组一\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910001,\"name\":\"运动户外\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910002,\"name\":\"数码\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTi
+10-19 14:06:14.387 27972 27972 I A03d00/JSAPP: [CML24FixtureRaw] seq=9 event=resolve part=2/2 me\":null},{\"id\":900002,\"name\":\"夹具分组二\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":920001,\"name\":\"家居\",\"parentId\":900002,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null}],\"code\":1000,\"message\":null}","responseCode":1000}
+10-19 14:06:14.387 27972 28265 I C03924/AceAccessibility: [(100000:100000:scope)] send accessibility componentType:Button event:1 accessibilityId:14
+10-19 14:06:14.387 27972 27972 I C03919/AceInputTracking: [(100000:100000:scope)] Consumed id:134991, last id:-1
+10-19 14:06:14.387 27972 27972 I C04213/InputKeyFlow: ConsumePointerEventInner: InputId:134991,wid:101,pointId:10000,srcType:2,rect:[0,0,1308,2880],notify:1
+10-19 14:06:15.887 27972 28227 I C03f00/ArkEtsVm: [a92ab3b3565e70f] gc: App cold start finished

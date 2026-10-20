@@ -1,0 +1,12 @@
+--- baseline/entry/build-profile.json5
++++ abi-diagnostic-v2/entry/build-profile.json5
+@@ -1,6 +1,9 @@
+ {
+   "apiType": "stageMode",
+   "buildOption": {
++    "externalNativeOptions": {
++      "abiFilters": ["x86_64"]
++    },
+     "resOptions": {
+       "copyCodeResource": {
+         "enable": false

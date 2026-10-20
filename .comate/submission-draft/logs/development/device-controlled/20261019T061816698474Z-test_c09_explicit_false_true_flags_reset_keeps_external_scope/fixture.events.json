@@ -1,0 +1,387 @@
+{
+  "events": [
+    {
+      "at": 1792390710282,
+      "seq": 3,
+      "event": "request",
+      "id": 1,
+      "owner": 1,
+      "scenario": "flags",
+      "kind": "categories",
+      "ids": []
+    },
+    {
+      "at": 1792390719195,
+      "seq": 4,
+      "event": "resolve",
+      "id": 1,
+      "owner": 1,
+      "scenario": "flags",
+      "kind": "categories",
+      "ids": [
+        900001,
+        910001,
+        910002,
+        900002,
+        920001
+      ],
+      "code": 1000
+    },
+    {
+      "at": 1792390719196,
+      "seq": 5,
+      "event": "request",
+      "id": 2,
+      "owner": 1,
+      "scenario": "flags",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20,
+        "typeId": [
+          920001
+        ],
+        "minPrice": "50",
+        "keyWord": "X",
+        "recommend": true,
+        "featured": false
+      },
+      "ids": []
+    },
+    {
+      "at": 1792390728067,
+      "seq": 6,
+      "event": "resolve",
+      "id": 2,
+      "owner": 1,
+      "scenario": "flags",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20,
+        "typeId": [
+          920001
+        ],
+        "minPrice": "50",
+        "keyWord": "X",
+        "recommend": true,
+        "featured": false
+      },
+      "ids": [
+        100015,
+        100021,
+        100027
+      ],
+      "code": 1000
+    },
+    {
+      "at": 1792390729648,
+      "seq": 7,
+      "event": "request",
+      "id": 3,
+      "owner": 1,
+      "scenario": "flags",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20,
+        "typeId": [
+          920001
+        ],
+        "minPrice": "50",
+        "keyWord": "X",
+        "order": "price",
+        "sort": "desc",
+        "recommend": true,
+        "featured": false
+      },
+      "ids": []
+    },
+    {
+      "at": 1792390738200,
+      "seq": 8,
+      "event": "resolve",
+      "id": 3,
+      "owner": 1,
+      "scenario": "flags",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20,
+        "typeId": [
+          920001
+        ],
+        "minPrice": "50",
+        "keyWord": "X",
+        "order": "price",
+        "sort": "desc",
+        "recommend": true,
+        "featured": false
+      },
+      "ids": [
+        100027,
+        100021,
+        100015
+      ],
+      "code": 1000
+    },
+    {
+      "at": 1792390739376,
+      "seq": 9,
+      "event": "request",
+      "id": 4,
+      "owner": 1,
+      "scenario": "flags",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20,
+        "keyWord": "X",
+        "order": "price",
+        "sort": "desc",
+        "recommend": true,
+        "featured": false
+      },
+      "ids": []
+    },
+    {
+      "at": 1792390747733,
+      "seq": 10,
+      "event": "resolve",
+      "id": 4,
+      "owner": 1,
+      "scenario": "flags",
+      "kind": "goods",
+      "request": {
+        "page": 1,
+        "size": 20,
+        "keyWord": "X",
+        "order": "price",
+        "sort": "desc",
+        "recommend": true,
+        "featured": false
+      },
+      "ids": [
+        100027,
+        100021,
+        100015,
+        100009,
+        100003
+      ],
+      "code": 1000
+    }
+  ],
+  "records_by_seq": {
+    "3": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792390710282,
+        "responseIds": [],
+        "id": 1,
+        "instanceId": 1,
+        "scenario": "flags",
+        "kind": "categories"
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792390710282,\"responseIds\":[],\"id\":1,\"instanceId\":1,\"scenario\":\"flags\",\"kind\":\"categories\"}"
+    },
+    "4": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792390710282,
+        "responseIds": [
+          900001,
+          910001,
+          910002,
+          900002,
+          920001
+        ],
+        "id": 1,
+        "instanceId": 1,
+        "scenario": "flags",
+        "kind": "categories",
+        "completedAt": 1792390719195,
+        "responseJson": "{\"data\":[{\"id\":900001,\"name\":\"夹具分组一\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910001,\"name\":\"运动户外\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910002,\"name\":\"数码\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":900002,\"name\":\"夹具分组二\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":920001,\"name\":\"家居\",\"parentId\":900002,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null}],\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792390710282,\"responseIds\":[900001,910001,910002,900002,920001],\"id\":1,\"instanceId\":1,\"scenario\":\"flags\",\"kind\":\"categories\",\"completedAt\":1792390719195,\"responseJson\":\"{\\\"data\\\":[{\\\"id\\\":900001,\\\"name\\\":\\\"夹具分组一\\\",\\\"parentId\\\":null,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":910001,\\\"name\\\":\\\"运动户外\\\",\\\"parentId\\\":900001,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":910002,\\\"name\\\":\\\"数码\\\",\\\"parentId\\\":900001,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":900002,\\\"name\\\":\\\"夹具分组二\\\",\\\"parentId\\\":null,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":920001,\\\"name\\\":\\\"家居\\\",\\\"parentId\\\":900002,\\\"sortNum\\\":0,\\\"pic\\\":null,\\\"status\\\":1,\\\"children\\\":[],\\\"createTime\\\":null,\\\"updateTime\\\":null}],\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    },
+    "5": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792390719196,
+        "responseIds": [],
+        "id": 2,
+        "instanceId": 1,
+        "scenario": "flags",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            920001
+          ],
+          "minPrice": "50",
+          "keyWord": "X",
+          "recommend": true,
+          "featured": false
+        }
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792390719196,\"responseIds\":[],\"id\":2,\"instanceId\":1,\"scenario\":\"flags\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20,\"typeId\":[920001],\"minPrice\":\"50\",\"keyWord\":\"X\",\"recommend\":true,\"featured\":false}}"
+    },
+    "6": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792390719196,
+        "responseIds": [
+          100015,
+          100021,
+          100027
+        ],
+        "id": 2,
+        "instanceId": 1,
+        "scenario": "flags",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            920001
+          ],
+          "minPrice": "50",
+          "keyWord": "X",
+          "recommend": true,
+          "featured": false
+        },
+        "completedAt": 1792390728067,
+        "responseJson": "{\"data\":{\"list\":[{\"id\":100015,\"typeId\":920001,\"title\":\"X 商品 15\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":55,\"sold\":895,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100021,\"typeId\":920001,\"title\":\"X 商品 21\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":73,\"sold\":853,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100027,\"typeId\":920001,\"title\":\"X 商品 27\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":91,\"sold\":811,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null}],\"pagination\":{\"total\":3,\"size\":20,\"page\":1}},\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792390719196,\"responseIds\":[100015,100021,100027],\"id\":2,\"instanceId\":1,\"scenario\":\"flags\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20,\"typeId\":[920001],\"minPrice\":\"50\",\"keyWord\":\"X\",\"recommend\":true,\"featured\":false},\"completedAt\":1792390728067,\"responseJson\":\"{\\\"data\\\":{\\\"list\\\":[{\\\"id\\\":100015,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 15\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":55,\\\"sold\\\":895,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100021,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 21\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":73,\\\"sold\\\":853,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100027,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 27\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":91,\\\"sold\\\":811,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null}],\\\"pagination\\\":{\\\"total\\\":3,\\\"size\\\":20,\\\"page\\\":1}},\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    },
+    "7": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792390729648,
+        "responseIds": [],
+        "id": 3,
+        "instanceId": 1,
+        "scenario": "flags",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            920001
+          ],
+          "minPrice": "50",
+          "keyWord": "X",
+          "order": "price",
+          "sort": "desc",
+          "recommend": true,
+          "featured": false
+        }
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792390729648,\"responseIds\":[],\"id\":3,\"instanceId\":1,\"scenario\":\"flags\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20,\"typeId\":[920001],\"minPrice\":\"50\",\"keyWord\":\"X\",\"order\":\"price\",\"sort\":\"desc\",\"recommend\":true,\"featured\":false}}"
+    },
+    "8": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792390729648,
+        "responseIds": [
+          100027,
+          100021,
+          100015
+        ],
+        "id": 3,
+        "instanceId": 1,
+        "scenario": "flags",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20,
+          "typeId": [
+            920001
+          ],
+          "minPrice": "50",
+          "keyWord": "X",
+          "order": "price",
+          "sort": "desc",
+          "recommend": true,
+          "featured": false
+        },
+        "completedAt": 1792390738200,
+        "responseJson": "{\"data\":{\"list\":[{\"id\":100027,\"typeId\":920001,\"title\":\"X 商品 27\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":91,\"sold\":811,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100021,\"typeId\":920001,\"title\":\"X 商品 21\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":73,\"sold\":853,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100015,\"typeId\":920001,\"title\":\"X 商品 15\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":55,\"sold\":895,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null}],\"pagination\":{\"total\":3,\"size\":20,\"page\":1}},\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792390729648,\"responseIds\":[100027,100021,100015],\"id\":3,\"instanceId\":1,\"scenario\":\"flags\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20,\"typeId\":[920001],\"minPrice\":\"50\",\"keyWord\":\"X\",\"order\":\"price\",\"sort\":\"desc\",\"recommend\":true,\"featured\":false},\"completedAt\":1792390738200,\"responseJson\":\"{\\\"data\\\":{\\\"list\\\":[{\\\"id\\\":100027,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 27\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":91,\\\"sold\\\":811,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100021,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 21\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":73,\\\"sold\\\":853,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100015,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 15\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":55,\\\"sold\\\":895,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null}],\\\"pagination\\\":{\\\"total\\\":3,\\\"size\\\":20,\\\"page\\\":1}},\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    },
+    "9": {
+      "event": "request",
+      "complete": true,
+      "data": {
+        "state": "pending",
+        "startedAt": 1792390739376,
+        "responseIds": [],
+        "id": 4,
+        "instanceId": 1,
+        "scenario": "flags",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20,
+          "keyWord": "X",
+          "order": "price",
+          "sort": "desc",
+          "recommend": true,
+          "featured": false
+        }
+      },
+      "raw": "{\"state\":\"pending\",\"startedAt\":1792390739376,\"responseIds\":[],\"id\":4,\"instanceId\":1,\"scenario\":\"flags\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20,\"keyWord\":\"X\",\"order\":\"price\",\"sort\":\"desc\",\"recommend\":true,\"featured\":false}}"
+    },
+    "10": {
+      "event": "resolve",
+      "complete": true,
+      "data": {
+        "state": "resolved",
+        "startedAt": 1792390739376,
+        "responseIds": [
+          100027,
+          100021,
+          100015,
+          100009,
+          100003
+        ],
+        "id": 4,
+        "instanceId": 1,
+        "scenario": "flags",
+        "kind": "goods",
+        "request": {
+          "page": 1,
+          "size": 20,
+          "keyWord": "X",
+          "order": "price",
+          "sort": "desc",
+          "recommend": true,
+          "featured": false
+        },
+        "completedAt": 1792390747733,
+        "responseJson": "{\"data\":{\"list\":[{\"id\":100027,\"typeId\":920001,\"title\":\"X 商品 27\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":91,\"sold\":811,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100021,\"typeId\":920001,\"title\":\"X 商品 21\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":73,\"sold\":853,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100015,\"typeId\":920001,\"title\":\"X 商品 15\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":55,\"sold\":895,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100009,\"typeId\":920001,\"title\":\"X 商品 09\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":37,\"sold\":937,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100003,\"typeId\":920001,\"title\":\"X 商品 03\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":19,\"sold\":979,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null}],\"pagination\":{\"total\":5,\"size\":20,\"page\":1}},\"code\":1000,\"message\":null}",
+        "responseCode": 1000
+      },
+      "raw": "{\"state\":\"resolved\",\"startedAt\":1792390739376,\"responseIds\":[100027,100021,100015,100009,100003],\"id\":4,\"instanceId\":1,\"scenario\":\"flags\",\"kind\":\"goods\",\"request\":{\"page\":1,\"size\":20,\"keyWord\":\"X\",\"order\":\"price\",\"sort\":\"desc\",\"recommend\":true,\"featured\":false},\"completedAt\":1792390747733,\"responseJson\":\"{\\\"data\\\":{\\\"list\\\":[{\\\"id\\\":100027,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 27\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":91,\\\"sold\\\":811,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100021,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 21\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":73,\\\"sold\\\":853,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100015,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 15\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":55,\\\"sold\\\":895,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100009,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 09\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":37,\\\"sold\\\":937,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null},{\\\"id\\\":100003,\\\"typeId\\\":920001,\\\"title\\\":\\\"X 商品 03\\\",\\\"subTitle\\\":null,\\\"mainPic\\\":\\\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\\\",\\\"pics\\\":null,\\\"price\\\":19,\\\"sold\\\":979,\\\"content\\\":null,\\\"contentPics\\\":null,\\\"recommend\\\":true,\\\"featured\\\":false,\\\"status\\\":0,\\\"sortNum\\\":0,\\\"specs\\\":null,\\\"createTime\\\":null,\\\"updateTime\\\":null}],\\\"pagination\\\":{\\\"total\\\":5,\\\"size\\\":20,\\\"page\\\":1}},\\\"code\\\":1000,\\\"message\\\":null}\",\"responseCode\":1000}"
+    }
+  },
+  "parse_errors": []
+}

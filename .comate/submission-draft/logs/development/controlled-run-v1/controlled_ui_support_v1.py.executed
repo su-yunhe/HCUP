@@ -1,0 +1,309 @@
+"""Device-controlled ArkUI evidence; never a real HTTP/fault oracle."""
+from __future__ import annotations
+
+import datetime as dt
+import hashlib
+import json
+import os
+import pathlib
+import re
+import shutil
+import subprocess
+import time
+
+from hypium import BY
+from harness.driver import HarnessTestCase
+from hypium_tests.observation import ObservedGoodsCase, ROOT, DEVICE, BUNDLE, CARD_ID, rect
+
+
+def fixture_log(raw, pid=None):
+    events, parts, errors = [], {}, []
+    for line in raw.splitlines():
+        prefix = re.match(r"^\S+\s+\S+\s+(\d+)\s+", line)
+        if pid and (prefix is None or prefix[1] != str(pid)):
+            continue
+        marker = "[CML24Fixture] "
+        if marker in line:
+            text = line.split(marker, 1)[1]
+            try:
+                event = json.loads(text)
+                if isinstance(event, dict):
+                    events.append(event)
+            except ValueError:
+                errors.append({"kind": "audit-event-json", "raw": line})
+        match = re.search(r"\[CML24FixtureRaw\] seq=(\d+) event=(\S+) part=(\d+)/(\d+) (.*)$", line)
+        if match:
+            seq, event, part, count, text = match.groups()
+            group = parts.setdefault(int(seq), {"event": event, "count": int(count), "parts": {}})
+            group["parts"][int(part)] = text
+    records = {}
+    for seq, group in parts.items():
+        complete = set(group["parts"]) == set(range(1, group["count"] + 1))
+        joined = "".join(group["parts"].get(i, "") for i in range(1, group["count"] + 1))
+        data = None
+        if complete:
+            try:
+                data = json.loads(joined)
+            except ValueError:
+                complete = False
+        records[seq] = {"event": group["event"], "complete": complete, "data": data, "raw": joined}
+    return {"events": events, "records_by_seq": records, "parse_errors": errors}
+
+
+class ControlledUiCase(ObservedGoodsCase):
+    """Reuse only device input/snapshot helpers; override real-network observation."""
+    @classmethod
+    def setUpClass(cls):
+        if cls.device_sn != DEVICE:
+            raise RuntimeError("Only the task's own isolated device is authorized")
+        receipt_path = os.environ.get("CMLSPEC24_FIXTURE_INSTALL_RECEIPT")
+        if not receipt_path:
+            raise RuntimeError("Install the fresh main+test HAPs and set CMLSPEC24_FIXTURE_INSTALL_RECEIPT")
+        receipt = json.loads(pathlib.Path(receipt_path).read_text(encoding="utf-8-sig"))
+        if receipt.get("device") != DEVICE or receipt.get("bundle_name") != BUNDLE:
+            raise RuntimeError("Wrong task device/bundle in fixture receipt")
+        if len(receipt.get("installations", [])) != 2:
+            raise RuntimeError("Receipt must record this round's two actual installs")
+        for installed in receipt["installations"]:
+            if installed.get("install_exit_code") != 0 or installed.get("install_semantic_success") is not True:
+                raise RuntimeError("Both main and test installs must succeed semantically")
+            if hashlib.sha256(pathlib.Path(installed["hap_path"]).read_bytes()).hexdigest() != installed["hap_sha256"]:
+                raise RuntimeError("A freshly installed HAP has changed")
+        freeze_path = pathlib.Path(receipt["freeze_path"])
+        if hashlib.sha256(freeze_path.read_bytes()).hexdigest() != receipt["freeze_sha256"]:
+            raise RuntimeError("Freeze record changed")
+        frozen = json.loads(freeze_path.read_text(encoding="utf-8-sig"))
+        for relative, expected in frozen["files_sha256"].items():
+            if hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() != expected:
+                raise RuntimeError("Frozen source differs: " + relative)
+        cls.fixture_receipt = receipt
+        HarnessTestCase.setUpClass.__func__(cls)
+
+    def setUp(self):
+        stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+        self.out = ROOT / "logs/development/device-controlled" / (stamp + "-" + self._testMethodName)
+        self.out.mkdir(parents=True)
+        self.command_index = 0
+        self.stream_process = self.stream_stdout = self.stream_stderr = None
+        self.pid = None
+        self.record("installation-receipt", receipt=self.fixture_receipt, scope="device_controlled, not real HTTP")
+        self.driver.stop_app(BUNDLE)
+        self.hdc("shell", "hilog", "-x", "-t", "app")
+        self.hdc("shell", "hilog", "-r", "-t", "app")
+        self.hdc("shell", "hilog", "-Q", "pidoff")
+        self.hdc("shell", "hilog", "-Q", "domainoff")
+        started = self.hdc("shell", "aa", "start", "-b", BUNDLE, "-m", self.fixture_receipt["module_name"], "-a", self.fixture_receipt["ability_name"])
+        self.assertIn("start ability successfully", started.lower(), "Fixture Ability native start failed")
+        self.pid = self.hdc("shell", "pidof", BUNDLE).strip().split()[0]
+        # The Host has no datasource requests until reset/open. Preserve startup
+        # logs, then capture this actual PID before the first scenario action.
+        self.hdc("shell", "hilog", "-x", "-P", self.pid)
+        command = [shutil.which("hdc") or "hdc", "-t", DEVICE, "shell", "hilog", "-P", self.pid]
+        self.stream_stdout = (self.out / "fixture.raw.log").open("wb")
+        self.stream_stderr = (self.out / "fixture.stderr.log").open("wb")
+        self.stream_process = subprocess.Popen(command, stdout=self.stream_stdout, stderr=self.stream_stderr)
+        self.record("fixture-log-start", command=command, local_pid=self.stream_process.pid, app_pid=self.pid)
+        self.driver.wait(0.2)
+        self.require_component(BY.key("gcf.controls"), "Test-only host did not render", timeout=25)
+
+    def tearDown(self):
+        try:
+            self.snapshot("final")
+            (self.out / "fixture.events.json").write_text(json.dumps(self.fixture_data(), ensure_ascii=False, indent=2), encoding="utf-8")
+            if self.pid:
+                self.hdc("shell", "hilog", "-x", "-P", self.pid, check=False)
+        finally:
+            if self.stream_process is not None:
+                self.stream_process.terminate()
+                try:
+                    code = self.stream_process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    self.stream_process.kill()
+                    code = self.stream_process.wait(timeout=5)
+                self.record("fixture-log-stop", local_pid=self.stream_process.pid, exit_code=code)
+            if self.stream_stdout:
+                self.stream_stdout.close()
+            if self.stream_stderr:
+                self.stream_stderr.close()
+            self.hdc("shell", "hilog", "-Q", "pidon", check=False)
+            self.hdc("shell", "hilog", "-Q", "domainon", check=False)
+
+    def fixture_data(self):
+        self.assertIsNotNone(self.stream_process)
+        self.assertIsNone(self.stream_process.poll(), "Live fixture capture exited unexpectedly")
+        return fixture_log((self.out / "fixture.raw.log").read_text(encoding="utf-8", errors="replace"), self.pid)
+
+    def events(self):
+        return self.fixture_data()["events"]
+
+    def requests(self, kind="goods"):
+        return [e for e in self.events() if e["event"] == "request" and e["kind"] == kind]
+
+    def click(self, key):
+        component = self.require_component(BY.key(key), "Missing " + key)
+        bound = component.getBounds()
+        if key in {"gc.state.retry", "gc.state.emptyRefresh"}:
+            nodes = self.snapshot("action-geometry-" + str(self.command_index))
+            attrs = next(n for n in nodes if (n.get("key") or n.get("id")) == key)
+            parent_key = "gc.state.error" if key == "gc.state.retry" else "gc.state.empty"
+            parent = next(n for n in nodes if (n.get("key") or n.get("id")) == parent_key)
+            self.assertEqual(attrs.get("bounds"), attrs.get("origBounds"), "State action is physically clipped")
+            left,top,right,bottom = rect(attrs)
+            pleft,ptop,pright,pbottom = rect(parent)
+            self.assertTrue(pleft <= left < right <= pright and ptop <= top < bottom <= pbottom, "State action overflows its actual parent content")
+            self.assertLessEqual(bottom, 2782, "State action intrudes into the known system bottom gesture region")
+        self.record("click", key=key, input_mode="driver.click(component)", component_bounds=[bound.left,bound.top,bound.right,bound.bottom], derived_center=[(bound.left+bound.right)//2,(bound.top+bound.bottom)//2])
+        self.driver.click(component)
+        self.driver.wait(0.15)
+
+    def wait_request(self, kind="goods", page=None, keyword=None, after=0, owner=None, timeout=15):
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            for event in self.requests(kind):
+                body = event.get("request") or {}
+                if event["id"] > after and (page is None or body.get("page") == page) and (keyword is None or body.get("keyWord") == keyword) and (owner is None or event["owner"] == owner):
+                    self.record("matched-controlled-request", event=event)
+                    return event
+            self.driver.wait(0.1)
+        self.fail(f"No actual controlled request {kind} page={page} keyword={keyword} owner={owner} after={after}")
+
+    def dismiss_host_ime(self):
+        label = "host-ime-" + str(self.command_index)
+        nodes = self.snapshot(label)
+        if any(n.get("bundleName") == "com.huawei.hmos.inputmethod" for n in nodes):
+            self.record("system-back", reason="Dismiss observed host IME; no filter-panel precondition")
+            self.driver.press_back()
+            self.driver.wait(0.2)
+            self.require_component(BY.key("gcf.controls"), "IME dismissal left test Host")
+            nodes = self.snapshot(label + "-dismissed")
+            self.assertFalse(any(n.get("bundleName") == "com.huawei.hmos.inputmethod" for n in nodes))
+
+    def start_scenario(self, scenario="manual", keyword=""):
+        self.input("gcf.control.scenario", scenario)
+        self.input("gcf.control.keyword", keyword)
+        self.dismiss_host_ime()
+        after = max((e["id"] for e in self.events()), default=0)
+        self.click("gcf.control.reset")
+        self.require_component(BY.key("gc.page"), "Original category Page missing")
+        return self.wait_request("categories", after=after)
+
+    def settle(self, request, result="normal", reject=False):
+        self.input("gcf.control.requestId", str(request["id"]))
+        if not reject:
+            self.input("gcf.control.result", result)
+        self.dismiss_host_ime()
+        self.record("controlled-datasource-settle", id=request["id"], result=result, reject=reject, scope="not real HTTP")
+        self.click("gcf.control.reject" if reject else "gcf.control.resolve")
+        kind = "reject" if reject else "resolve"
+        deadline = time.monotonic() + 10
+        while time.monotonic() < deadline:
+            data = self.fixture_data()
+            matches = [e for e in data["events"] if e["id"] == request["id"] and e["event"] == kind]
+            if matches:
+                self.assertEqual(len(matches), 1, "A pending datasource operation settled more than once")
+                raw = data["records_by_seq"].get(matches[0]["seq"])
+                if raw and raw["complete"]:
+                    self.assertEqual(raw["data"]["id"], request["id"])
+                    self.driver.wait(0.2)
+                    return raw["data"]
+            self.driver.wait(0.1)
+        self.fail("No complete actual datasource settle record for id=" + str(request["id"]))
+
+    def goods_swipe(self, direction, label):
+        region = self.find_or_none(BY.key("gc.grid"), timeout=0.2) or self.require_component(BY.key("gc.list"), "No actual goods scroller")
+        bound = region.getBounds()
+        x = (bound.left + bound.right) // 2
+        top, bottom = bound.top + 100, bound.bottom - 100
+        self.assertGreater(bottom - top, 200, "Host/IME leaves no useful goods viewport")
+        start, end = (bottom, top) if direction == "UP" else (top, bottom)
+        self.record("controlled-goods-swipe", direction=direction, viewport=[bound.left,bound.top,bound.right,bound.bottom], coordinates=[x,start,x,end], velocity=600)
+        self.hdc("shell", "uitest", "uiInput", "swipe", str(x), str(start), str(x), str(end), "600")
+        self.wait_quiet(0.3)
+        return self.snapshot(label)
+
+    def reach_more(self, after, page=2, keyword=None, owner=None):
+        for step in range(22):
+            self.goods_swipe("UP", "reach-more-" + str(after) + "-" + str(step))
+            candidates = [e for e in self.requests() if e["id"] > after]
+            if candidates:
+                event = self.wait_request(page=page, keyword=keyword, after=after, owner=owner)
+                self.assertTrue(all((e.get("request") or {}).get("page") == page for e in candidates), "UP unexpectedly started a replacement/refresh")
+                return event
+        self.fail("Could not trigger the next page through actual scroller gestures")
+
+    def assert_data_prefix(self, settled, label):
+        response = json.loads(settled["responseJson"])
+        self.assertEqual(response["code"], 1000)
+        rows = response["data"]["list"]
+        self.assertTrue(rows)
+        self.require_component(BY.key("gc.goods." + str(rows[0]["id"])), "Settled response first item did not render")
+        nodes = self.snapshot(label)
+        cards = [n for n in nodes if CARD_ID.fullmatch(n.get("key") or n.get("id", ""))]
+        cards.sort(key=lambda n:(rect(n)[1],rect(n)[0]))
+        ids = self.visible_card_ids(nodes)
+        self.assertEqual(ids, [r["id"] for r in rows[:len(ids)]])
+        by_id = {(n.get("key") or n.get("id")): n for n in nodes}
+        for card in cards:
+            if card.get("bounds") != card.get("origBounds"):
+                continue
+            item_id = int(CARD_ID.fullmatch(card.get("key") or card["id"])[1])
+            row = next(r for r in rows if r["id"] == item_id)
+            self.assertEqual(by_id["gc.name." + str(item_id)]["text"], row["title"])
+            self.assertIn("gc.price." + str(item_id), by_id)
+        return rows
+
+    def assert_visible(self, key, label):
+        self.require_component(BY.key(key), "Missing actual UI " + key)
+        nodes = self.snapshot(label)
+        self.assertTrue(any((n.get("key") or n.get("id")) == key for n in nodes), "UI node is not actually visible: " + key)
+        return nodes
+
+    def assert_absent(self, key):
+        self.assertIsNone(self.find_or_none(BY.key(key), timeout=0.3), "Unexpected UI node " + key)
+
+    def assert_pending(self, request):
+        pending = self.require_component(BY.key("gcf.status.pending"), "Missing actual pending board").getText()
+        ids = [int(n) for n in re.findall(r"\d+", pending)]
+        self.assertIn(request["id"], ids, "Requested operation is no longer actually pending")
+
+    def successful_start(self, scenario="manual", keyword="", layout="grid"):
+        category = self.start_scenario(scenario, keyword)
+        self.settle(category)
+        first = self.wait_request(page=1, owner=category["owner"])
+        settled = self.settle(first)
+        self.assert_data_prefix(settled, "initial-success")
+        if layout == "list":
+            before = len(self.requests())
+            self.click("gc.layout.toggle")
+            self.require_component(BY.key("gc.list"), "Actual list missing")
+            self.assertEqual(len(self.requests()), before)
+        return first, settled
+
+    def submit_keyword(self, keyword):
+        after = max((e["id"] for e in self.events()), default=0)
+        self.input("gc.search.input", keyword)
+        self.click("gc.search.submit")
+        self.dismiss_host_ime()
+        return self.wait_request(page=1, keyword=keyword, after=after)
+
+    def return_to_top(self, expected_ids):
+        count = len(self.requests())
+        for step in range(60):
+            nodes = self.snapshot("return-top-" + str(count) + "-" + str(step))
+            cards = [n for n in nodes if (n.get("key") or n.get("id")) == "gc.goods." + str(expected_ids[0])]
+            if cards and cards[0].get("bounds") == cards[0].get("origBounds"):
+                return
+            visible = self.visible_card_ids(nodes)
+            self.assertTrue(visible, "No retained cards while returning through successful data")
+            indexes = [expected_ids.index(goods_id) for goods_id in visible]
+            if min(indexes) <= 4:
+                region = self.find_or_none(BY.key("gc.grid"), timeout=0.2) or self.require_component(BY.key("gc.list"), "Scroller missing")
+                bound = region.getBounds()
+                x, y = (bound.left + bound.right) // 2, (bound.top + bound.bottom) // 2
+                self.record("return-top-short-down", coordinates=[x,y,x,y+100], velocity=1000)
+                self.hdc("shell", "uitest", "uiInput", "swipe", str(x), str(y), str(x), str(y+100), "1000")
+                self.wait_quiet(0.2)
+            else:
+                self.goods_swipe("DOWN", "return-long-" + str(step))
+            self.assertEqual(len(self.requests()), count, "Return-to-top overshot into a refresh; distinguish gesture precondition from production failure")
+        self.fail("No complete retained first card after bounded return gestures")

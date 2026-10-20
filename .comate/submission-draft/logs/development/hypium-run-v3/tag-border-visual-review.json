@@ -1,0 +1,26 @@
+{
+  "requirement": "A26",
+  "status": "pass",
+  "selected_semantics": "Hypium test08 passed; raw trees show false→true for gc.filter.tag.801032",
+  "visual_review": "Both original screenshots inspected. Full visible 厨房小电 border changes from light gray to blue; text also changes blue. Bounds equal origBounds before/after.",
+  "bounds": [
+    56,
+    1838,
+    343,
+    1957
+  ],
+  "images": [
+    {
+      "path": "logs/development/hypium/20261019T044804287946Z-test_08_multigroup_selection_price_and_reset/kitchen-tag-before.png",
+      "sha256": "8bd98db0a22a3e1c51eac24ad22e37a998df3739b6a882744973e136b047a282"
+    },
+    {
+      "path": "logs/development/hypium/20261019T044804287946Z-test_08_multigroup_selection_price_and_reset/kitchen-tag-after.png",
+      "sha256": "6ea4dacc8709c06e502dda1db006c1f38f2e4b9fa3b9ad923b9651d0ad039f46"
+    }
+  ],
+  "optional_pixel_histogram": {
+    "status": "not_run",
+    "reason": "PIL unavailable in configured common Python; no dependency changes made"
+  }
+}

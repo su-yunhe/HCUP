@@ -1,0 +1,2571 @@
+diff --git a/build-profile.json5 b/build-profile.json5
+index 50051264ec7f8d569f952d524cbc0fdd69a6643f..f6f36894df4591384e4817302b44427fd95a3c0b 100644
+--- a/build-profile.json5
++++ b/build-profile.json5
+@@ -34,6 +34,10 @@
+           "applyToProducts": [
+             "default"
+           ]
++        },
++        {
++          "name": "emulator",
++          "applyToProducts": ["default"]
+         }
+       ]
+     },
+diff --git a/core/ui/src/main/ets/component/appbar/SearchTopAppBar.ets b/core/ui/src/main/ets/component/appbar/SearchTopAppBar.ets
+index cca15abdee169cc08c6dee11d87876f614e36414..86875ee0af3e9e1e5541adbbe7bf883ddf503333 100644
+--- a/core/ui/src/main/ets/component/appbar/SearchTopAppBar.ets
++++ b/core/ui/src/main/ets/component/appbar/SearchTopAppBar.ets
+@@ -8,6 +8,8 @@ import { ArrowLeftIcon } from "../icon/ArrowLeftIcon";
+  */
+ @ComponentV2
+ export struct SearchTopAppBar {
++  @Param
++  idPrefix: string = "";
+   /**
+    * 搜索输入值
+    */
+@@ -85,10 +87,12 @@ export struct SearchTopAppBar {
+    */
+   @Builder
+   private buildLeft(): void {
++    Row() {
+     ArrowLeftIcon({
+       iconSize: 24,
+       onTap: (): void => this.onBackClick()
+     });
++    }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.back` : "");
+   }
+ 
+   /**
+@@ -97,6 +101,7 @@ export struct SearchTopAppBar {
+    */
+   @Builder
+   private buildTitle(): void {
++    Row() {
+     IBestSearch({
+       value: this.value,
+       placeholder: this.placeholder,
+@@ -115,6 +120,7 @@ export struct SearchTopAppBar {
+       onClear: (): void => this.onValueChange("")
+     })
+     .width(P100);
++    }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.input` : "").width(P100);
+   }
+ 
+   /**
+@@ -135,6 +141,7 @@ export struct SearchTopAppBar {
+   @Builder
+   private buildSearchButton(): void {
+     Text($r("app.string.search"))
++      .id(this.idPrefix.length > 0 ? `${this.idPrefix}.submit` : "")
+       .fontColor($r("app.color.text_primary"))
+       .fontSize($r("app.float.body_medium"))
+       .padding({ left: 10, right: 10 })
+diff --git a/core/ui/src/main/ets/component/goods/GoodsGridItem.ets b/core/ui/src/main/ets/component/goods/GoodsGridItem.ets
+index 239bee03d30fbdcb6211878a755159dde8d16836..19a881499c71ad1b7e0a7c93d6b396535c54c959 100644
+--- a/core/ui/src/main/ets/component/goods/GoodsGridItem.ets
++++ b/core/ui/src/main/ets/component/goods/GoodsGridItem.ets
+@@ -20,6 +20,8 @@ import { bp } from "state";
+  */
+ @ComponentV2
+ export struct GoodsGridItem {
++  @Param
++  idPrefix: string = "";
+   /**
+    * 商品数据
+    */
+@@ -37,12 +39,14 @@ export struct GoodsGridItem {
+    * @returns {void} 无返回值
+    */
+   build(): void {
++    Column() {
+     Card({
+       heightValue: bp({ sm: 230, md: 250, lg: 270 }),
+       paddingValue: $r("app.float.space_padding_small"),
+       onTap: (): void => this.onItemClick(this.goods.id)
+     }) {
+       ColumnSpaceBetween({ heightValue: P100 }) {
++        Stack() {
+         NetWorkImage({
+           model: this.goods.mainPic,
+           sizeValue: bp({ sm: 120, md: 140, lg: 160 }),
+@@ -50,9 +54,11 @@ export struct GoodsGridItem {
+           showBackground: false,
+           cornerRadius: $r("app.float.radius_small")
+         });
++        }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.image.${this.goods.id}` : "");
+ 
+         ColumnStart({ widthValue: P100 }) {
+           Text(this.goods.title)
++            .id(this.idPrefix.length > 0 ? `${this.idPrefix}.name.${this.goods.id}` : "")
+             .fontSize($r("app.float.body_large"))
+             .fontColor($r("app.color.text_primary"))
+             .maxLines(2)
+@@ -69,13 +75,17 @@ export struct GoodsGridItem {
+         }
+ 
+         RowSpaceBetweenCenter({ widthValue: P100 }) {
+-          IBestPrice({ value: this.goods.price });
++          Row() {
++            IBestPrice({ value: this.goods.price });
++          }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.price.${this.goods.id}` : "");
+ 
+           Text($r("app.string.goods_sold", this.goods.sold))
++            .id(this.idPrefix.length > 0 ? `${this.idPrefix}.sold.${this.goods.id}` : "")
+             .fontSize($r("app.float.body_medium"))
+             .fontColor($r("app.color.text_tertiary"));
+         };
+       }
+     }
++    }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.goods.${this.goods.id}` : "").width(P100);
+   }
+ }
+diff --git a/core/ui/src/main/ets/component/goods/GoodsListItem.ets b/core/ui/src/main/ets/component/goods/GoodsListItem.ets
+index 2304428cf85a8073fed106f9c329782392819096..948f5fee14ca8c8602523ef57e95fda12c157bc0 100644
+--- a/core/ui/src/main/ets/component/goods/GoodsListItem.ets
++++ b/core/ui/src/main/ets/component/goods/GoodsListItem.ets
+@@ -17,6 +17,8 @@ import { Card } from "../../../../../Index";
+  */
+ @ComponentV2
+ export struct GoodsListItem {
++  @Param
++  idPrefix: string = "";
+   /**
+    * 商品数据
+    */
+@@ -34,10 +36,12 @@ export struct GoodsListItem {
+    * @returns {void} 无返回值
+    */
+   build(): void {
++    Column() {
+     Card({
+       onTap: (): void => this.onItemClick(this.goods.id)
+     }) {
+       Row() {
++        Stack() {
+         NetWorkImage({
+           model: this.goods.mainPic,
+           sizeValue: 100,
+@@ -45,12 +49,14 @@ export struct GoodsListItem {
+           showBackground: true,
+           cornerRadius: $r("app.float.radius_small")
+         });
++        }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.image.${this.goods.id}` : "");
+ 
+         SpaceHorizontalSmall();
+ 
+         Column() {
+           ColumnStart() {
+             Text(this.goods.title)
++              .id(this.idPrefix.length > 0 ? `${this.idPrefix}.name.${this.goods.id}` : "")
+               .fontSize($r("app.float.body_large"))
+               .fontColor($r("app.color.text_primary"))
+               .maxLines(2)
+@@ -67,9 +73,12 @@ export struct GoodsListItem {
+           }
+ 
+           RowSpaceBetweenCenter({ widthValue: P100 }) {
+-            IBestPrice({ value: this.goods.price });
++            Row() {
++              IBestPrice({ value: this.goods.price });
++            }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.price.${this.goods.id}` : "");
+ 
+             Text($r("app.string.goods_sold", this.goods.sold))
++              .id(this.idPrefix.length > 0 ? `${this.idPrefix}.sold.${this.goods.id}` : "")
+               .fontSize($r("app.float.body_medium"))
+               .fontColor($r("app.color.text_tertiary"));
+           };
+@@ -86,5 +95,6 @@ export struct GoodsListItem {
+       .width(P100)
+       .padding($r("app.float.space_padding_small"));
+     }
++    }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.goods.${this.goods.id}` : "").width(P100);
+   }
+ }
+diff --git a/core/ui/src/main/ets/component/navdestination/AppNavDestination.ets b/core/ui/src/main/ets/component/navdestination/AppNavDestination.ets
+index 4af3d490cf33cb770661b7c0d6b12ddb381df6d2..f02977eaaa80f59f0292c3c4b4708cf9245c0e32 100644
+--- a/core/ui/src/main/ets/component/navdestination/AppNavDestination.ets
++++ b/core/ui/src/main/ets/component/navdestination/AppNavDestination.ets
+@@ -66,6 +66,11 @@ export struct AppNavDestination {
+   @Param
+   paddingValue: Padding | Length | LocalizedPadding | undefined = undefined;
+ 
++  @Param
++  onReady: (context: NavDestinationContext) => void = (): void => {};
++  @Param
++  onBackPressed: () => boolean = (): boolean => false;
++
+   /**
+    * 页面出现时的生命周期回调
+    * @returns {void} 无返回值
+@@ -128,6 +133,8 @@ export struct AppNavDestination {
+     .title(this.title, this.titleOptions)
+     .hideTitleBar(this.hideTitleBar)
+     .menus(this.menus, this.menuOptions)
++    .onReady((context: NavDestinationContext): void => this.onReady(context))
++    .onBackPressed((): boolean => this.onBackPressed())
+     .onShown((reason: VisibilityChangeReason) => {
+       this.viewModel.onShown(reason);
+     })
+diff --git a/entry/build-profile.json5 b/entry/build-profile.json5
+index 6bd6457a2fed846cc10698666fa1268219f1bee1..f5b3f942ca521a35e2380bd0a3eb41ace9cb7038 100644
+--- a/entry/build-profile.json5
++++ b/entry/build-profile.json5
+@@ -26,8 +26,23 @@
+     {
+       "name": "default"
+     },
++    {
++      "name": "emulator",
++      "config": {
++        "buildOption": {
++          "externalNativeOptions": { "abiFilters": ["x86_64"] },
++          "nativeLib": { "filter": { "excludes": ["**/arm64-v8a/**"] } }
++        }
++      }
++    },
+     {
+       "name": "ohosTest",
++      "config": {
++        "buildOption": {
++          "externalNativeOptions": { "abiFilters": ["x86_64"] },
++          "nativeLib": { "filter": { "excludes": ["**/arm64-v8a/**"] } }
++        }
++      }
+     }
+   ]
+ }
+diff --git a/entry/oh-package.json5 b/entry/oh-package.json5
+index 54b207e2d2bb27a64a0aacff53ef2290994a5e07..13906ca4825f2e6697f83fbe8ea04e1dd21d230e 100644
+--- a/entry/oh-package.json5
++++ b/entry/oh-package.json5
+@@ -23,5 +23,10 @@
+     "feedback": "file:../feature/feedback",
+     "common": "file:../feature/common",
+     "launch": "file:../feature/launch",
++  },
++  "devDependencies": {
++    "data": "file:../core/data",
++    "model": "file:../core/model",
++    "network": "file:../core/network"
+   }
+ }
+diff --git a/entry/src/ohosTest/ets/fixture/ControlledGoodsDataSource.ets b/entry/src/ohosTest/ets/fixture/ControlledGoodsDataSource.ets
+new file mode 100644
+index 0000000000000000000000000000000000000000..7eeac391d8c30c382f6d29330d93c843b6ef413f
+--- /dev/null
++++ b/entry/src/ohosTest/ets/fixture/ControlledGoodsDataSource.ets
+@@ -0,0 +1,122 @@
++import { GoodsNetworkDataSource } from "network";
++import { Category, Comment, Goods, GoodsCommentPageRequest, GoodsCommentSubmitRequest, GoodsIdRequest,
++  GoodsSearchKeyword, GoodsSearchRequest, GoodsSpec, NetworkPageData, NetworkPageMeta, NetworkResponse } from "model";
++import { FixtureRequestQueue } from "./FixtureProtocol";
++
++function fixtureResponse<T>(data: T | null, code: number = 1000, message: string | null = null): NetworkResponse<T> {
++  const response: NetworkResponse<T> = new NetworkResponse<T>();
++  response.code = code;
++  response.message = message;
++  response.data = data;
++  return response;
++}
++
++/** Test-source-set IO substitute. All completion requires an explicit queue action. */
++export class ControlledGoodsDataSource implements GoodsNetworkDataSource {
++  private queue: FixtureRequestQueue;
++  private instanceId: number;
++  private scenario: string;
++  private readonly image: string = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=";
++
++  constructor(queue: FixtureRequestQueue, instanceId: number, scenario: string) {
++    this.queue = queue;
++    this.instanceId = instanceId;
++    this.scenario = scenario;
++  }
++
++  getGoodsTypeList(): Promise<NetworkResponse<Category[]>> {
++    return this.queue.enqueue<Category[]>(this.instanceId, this.scenario, "categories", undefined,
++      (result: string): NetworkResponse<Category[]> => {
++        if (result === "business") { return fixtureResponse<Category[]>(null, 4100, "fixture categories unavailable"); }
++        const categories: Category[] = result === "empty" ? [] : [
++          this.makeCategory(900001, "夹具分组一"),
++          this.makeCategory(910001, "运动户外", 900001),
++          this.makeCategory(910002, "数码", 900001),
++          this.makeCategory(900002, "夹具分组二"),
++          this.makeCategory(920001, "家居", 900002)
++        ];
++        return fixtureResponse<Category[]>(categories);
++      }, (items: Category[] | null): number[] => (items ?? []).map((item: Category): number => item.id));
++  }
++
++  getGoodsPage(params: GoodsSearchRequest): Promise<NetworkResponse<NetworkPageData<Goods>>> {
++    const request: GoodsSearchRequest = new GoodsSearchRequest(params);
++    request.typeId = params.typeId?.slice();
++    return this.queue.enqueue<NetworkPageData<Goods>>(this.instanceId, this.scenario, "goods", request,
++      (result: string): NetworkResponse<NetworkPageData<Goods>> => this.goodsResponse(request, result),
++      (data: NetworkPageData<Goods> | null): number[] => (data?.list ?? []).map((item: Goods): number => item.id));
++  }
++
++  private goodsResponse(request: GoodsSearchRequest, result: string): NetworkResponse<NetworkPageData<Goods>> {
++    if (result === "business") {
++      return fixtureResponse<NetworkPageData<Goods>>(null, 4100, "fixture goods unavailable");
++    }
++    let goods: Goods[] = result === "empty" || this.scenario === "empty" ? [] : this.makeGoods();
++    const keyword: string = request.keyWord?.trim().toLowerCase() ?? "";
++    goods = goods.filter((item: Goods): boolean =>
++      (keyword.length === 0 || item.title.toLowerCase().includes(keyword)) &&
++      (request.typeId === undefined || request.typeId === null || request.typeId.length === 0 || request.typeId.includes(item.typeId)) &&
++      (request.minPrice === undefined || request.minPrice === null || item.price > Number(request.minPrice)) &&
++      (request.maxPrice === undefined || request.maxPrice === null || item.price <= Number(request.maxPrice)) &&
++      (request.featured === undefined || item.featured === request.featured) &&
++      (request.recommend === undefined || item.recommend === request.recommend));
++    if (request.order === "price" || request.order === "sold") {
++      const direction: number = request.sort === "desc" ? -1 : 1;
++      goods.sort((left: Goods, right: Goods): number => direction *
++        (request.order === "price" ? left.price - right.price : left.sold - right.sold));
++    }
++    const total: number = goods.length;
++    const list: Goods[] = goods.slice((request.page - 1) * request.size, request.page * request.size);
++    const pagination: NetworkPageMeta = new NetworkPageMeta();
++    pagination.page = result === "wrongPage" ? request.page + 1 : request.page;
++    pagination.size = request.size;
++    pagination.total = total;
++    const data: NetworkPageData<Goods> = new NetworkPageData<Goods>();
++    data.list = list;
++    data.pagination = result === "missingMeta" || this.scenario === "missingMeta" ? null : pagination;
++    return fixtureResponse<NetworkPageData<Goods>>(data);
++  }
++
++  private makeCategory(id: number, name: string, parentId: number | null = null): Category {
++    const category: Category = new Category();
++    category.id = id;
++    category.name = name;
++    category.parentId = parentId;
++    return category;
++  }
++
++  private makeGoods(): Goods[] {
++    const total: number = this.scenario === "fullEnd" ? 40 : 45;
++    const goods: Goods[] = [];
++    const types: number[] = [910001, 910002, 920001];
++    for (let index: number = 1; index <= total; index++) {
++      const item: Goods = new Goods();
++      item.id = 100000 + index;
++      item.typeId = types[(index - 1) % types.length];
++      item.title = `${index <= 30 ? "X" : "Y"} 商品 ${index.toString().padStart(2, "0")}`;
++      item.mainPic = this.image;
++      item.price = 10 + index * 3;
++      item.sold = 1000 - index * 7;
++      item.featured = index % 2 === 0;
++      item.recommend = index % 3 === 0;
++      goods.push(item);
++    }
++    return goods;
++  }
++
++  getGoodsSpecList(params: GoodsIdRequest): Promise<NetworkResponse<GoodsSpec[]>> {
++    return Promise.reject(new Error("fixture unsupported getGoodsSpecList"));
++  }
++  getSearchKeywordList(): Promise<NetworkResponse<GoodsSearchKeyword[]>> {
++    return Promise.reject(new Error("fixture unsupported getSearchKeywordList"));
++  }
++  getGoodsInfo(id: string): Promise<NetworkResponse<Goods>> {
++    return Promise.reject(new Error("fixture unsupported getGoodsInfo"));
++  }
++  submitGoodsComment(params: GoodsCommentSubmitRequest): Promise<NetworkResponse<boolean>> {
++    return Promise.reject(new Error("fixture unsupported submitGoodsComment"));
++  }
++  getGoodsCommentPage(params: GoodsCommentPageRequest): Promise<NetworkResponse<NetworkPageData<Comment>>> {
++    return Promise.reject(new Error("fixture unsupported getGoodsCommentPage"));
++  }
++}
+diff --git a/entry/src/ohosTest/ets/fixture/FixtureAbility.ets b/entry/src/ohosTest/ets/fixture/FixtureAbility.ets
+new file mode 100644
+index 0000000000000000000000000000000000000000..ecdb9034a0074805c40052968b6dd9aae4886267
+--- /dev/null
++++ b/entry/src/ohosTest/ets/fixture/FixtureAbility.ets
+@@ -0,0 +1,22 @@
++import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from "@kit.AbilityKit";
++import { window } from "@kit.ArkUI";
++import { IBestUIInitializer } from "ibestui";
++import { ContextUtil } from "util";
++
++/** Test source set only. No main EntryAbility or route graph is changed. */
++export default class FixtureAbility extends UIAbility {
++  onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
++    try {
++      ContextUtil.init(this.context);
++      this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
++    } catch (error) { console.error("[CML24FixtureControl] ability initialization failed"); }
++  }
++
++  onWindowStageCreate(stage: window.WindowStage): void {
++    try {
++      stage.loadContent("pages/GoodsCategoryFixturePage", (): void => {
++        IBestUIInitializer.initIBestUI(stage, this.context);
++      });
++    } catch (error) { console.error("[CML24FixtureControl] fixture page load failed"); }
++  }
++}
+diff --git a/entry/src/ohosTest/ets/fixture/FixtureController.ets b/entry/src/ohosTest/ets/fixture/FixtureController.ets
+new file mode 100644
+index 0000000000000000000000000000000000000000..54db8fa762c5ca87c8e75e71991c3e9c8e6e06bd
+--- /dev/null
++++ b/entry/src/ohosTest/ets/fixture/FixtureController.ets
+@@ -0,0 +1,92 @@
++import { GoodsRepository } from "data";
++import { GoodsCategoryParam } from "navigation";
++import GoodsCategoryViewModel from "goods/src/main/ets/viewmodel/GoodsCategoryViewModel";
++import { ControlledGoodsDataSource } from "./ControlledGoodsDataSource";
++import { FixtureRequestQueue } from "./FixtureProtocol";
++
++export class FixtureRouteParam implements GoodsCategoryParam {
++  instanceId: number;
++  keyword?: string;
++  typeId?: string;
++  featured?: boolean;
++  recommend?: boolean;
++  minPrice?: string;
++  constructor(instanceId: number, keyword: string, scenario: string) {
++    this.instanceId = instanceId;
++    this.keyword = keyword.trim().length > 0 ? keyword.trim() : undefined;
++    this.typeId = scenario === "root" ? "900001" : undefined;
++    if (scenario === "flags") {
++      this.keyword = this.keyword ?? "X";
++      this.typeId = "920001";
++      this.featured = false;
++      this.recommend = true;
++      this.minPrice = "50";
++    }
++  }
++}
++
++class FixtureSession {
++  vm: GoodsCategoryViewModel;
++  constructor(vm: GoodsCategoryViewModel) { this.vm = vm; }
++}
++
++/** Owns stable instances and actual Navigation actions; no direct VM state manipulation. */
++@ObservedV2
++export class FixtureController {
++  readonly stack: NavPathStack = new NavPathStack();
++  readonly queue: FixtureRequestQueue = new FixtureRequestQueue();
++  @Trace scenario: string = "manual";
++  @Trace keyword: string = "";
++  @Trace result: string = "normal";
++  @Trace requestId: string = "";
++  @Trace currentInstance: number = 0;
++  private sessions: Map<number, FixtureSession> = new Map();
++  private instanceSequence: number = 0;
++
++  reset(): void {
++    this.stack.clear(false);
++    this.queue.note("nav clear");
++    this.open();
++  }
++
++  open(): void {
++    const scenario: string = this.scenario.trim();
++    if (!["manual", "root", "empty", "fullEnd", "missingMeta", "flags"].includes(scenario)) {
++      this.queue.note(`invalid scenario ${scenario}`);
++      return;
++    }
++    const instanceId: number = ++this.instanceSequence;
++    const dataSource: ControlledGoodsDataSource = new ControlledGoodsDataSource(this.queue, instanceId, scenario);
++    this.sessions.set(instanceId, new FixtureSession(new GoodsCategoryViewModel(new GoodsRepository(dataSource))));
++    this.currentInstance = instanceId;
++    const param: FixtureRouteParam = new FixtureRouteParam(instanceId, this.keyword, scenario);
++    this.stack.pushPath({ name: `gcf.goods.${instanceId}`, param: param }, false);
++    this.queue.note(`nav open instance=${instanceId} scenario=${scenario}`);
++  }
++
++  vmFor(instanceId: number): GoodsCategoryViewModel {
++    const session: FixtureSession | undefined = this.sessions.get(instanceId);
++    if (session === undefined) { throw new Error(`missing fixture instance ${instanceId}`); }
++    return session.vm;
++  }
++
++  cover(): void {
++    this.stack.pushPath({ name: "gcf.cover" }, false);
++    this.queue.note("nav cover");
++  }
++
++  back(): void {
++    this.stack.pop(false);
++    this.queue.note("nav pop");
++  }
++
++  resolve(): void {
++    if (!["normal", "empty", "business", "missingMeta", "wrongPage"].includes(this.result.trim())) {
++      this.queue.note(`invalid result ${this.result}`);
++      return;
++    }
++    this.queue.resolve(Number(this.requestId.trim()), this.result.trim());
++  }
++
++  reject(): void { this.queue.reject(Number(this.requestId.trim())); }
++}
+diff --git a/entry/src/ohosTest/ets/fixture/FixtureProtocol.ets b/entry/src/ohosTest/ets/fixture/FixtureProtocol.ets
+new file mode 100644
+index 0000000000000000000000000000000000000000..e4586ae6d6fad425f847fcb46d586fc6775977c6
+--- /dev/null
++++ b/entry/src/ohosTest/ets/fixture/FixtureProtocol.ets
+@@ -0,0 +1,128 @@
++import { GoodsSearchRequest, NetworkResponse } from "model";
++
++export class FixtureRequestRecord {
++  id: number;
++  instanceId: number;
++  scenario: string;
++  kind: string;
++  request?: GoodsSearchRequest;
++  state: string = "pending";
++  startedAt: number = Date.now();
++  completedAt?: number;
++  responseJson?: string;
++  responseIds: number[] = [];
++  responseCode?: number;
++  error?: string;
++
++  constructor(id: number, instanceId: number, scenario: string, kind: string, request?: GoodsSearchRequest) {
++    this.id = id;
++    this.instanceId = instanceId;
++    this.scenario = scenario;
++    this.kind = kind;
++    if (request !== undefined) {
++      this.request = new GoodsSearchRequest(request);
++      this.request.typeId = request.typeId?.slice();
++    }
++  }
++}
++
++class FixtureAuditEvent {
++  seq: number;
++  event: string;
++  id: number;
++  owner: number;
++  scenario: string;
++  kind: string;
++  request?: GoodsSearchRequest;
++  ids: number[];
++  code?: number;
++  error?: string;
++  at: number = Date.now();
++  constructor(seq: number, event: string, record: FixtureRequestRecord) {
++    this.seq = seq; this.event = event; this.id = record.id; this.owner = record.instanceId;
++    this.scenario = record.scenario; this.kind = record.kind; this.request = record.request;
++    this.ids = record.responseIds.slice(); this.code = record.responseCode; this.error = record.error;
++  }
++}
++
++class FixturePendingOperation {
++  resolve: (result: string) => void;
++  reject: () => void;
++  constructor(resolve: (result: string) => void, reject: () => void) {
++    this.resolve = resolve;
++    this.reject = reject;
++  }
++}
++
++/** External IO control only: does not access a ViewModel or implement paging state. */
++@ObservedV2
++export class FixtureRequestQueue {
++  @Trace records: FixtureRequestRecord[] = [];
++  @Trace eventSeq: number = 0;
++  @Trace lastEvent: string = "idle";
++  private sequence: number = 0;
++  private operations: Map<number, FixturePendingOperation> = new Map();
++
++  get pending(): FixtureRequestRecord[] {
++    return this.records.filter((record: FixtureRequestRecord): boolean => record.state === "pending");
++  }
++
++  enqueue<T>(instanceId: number, scenario: string, kind: string, request: GoodsSearchRequest | undefined,
++    produce: (result: string) => NetworkResponse<T>, responseIds: (data: T | null) => number[]): Promise<NetworkResponse<T>> {
++    const record: FixtureRequestRecord = new FixtureRequestRecord(++this.sequence, instanceId, scenario, kind, request);
++    return new Promise<NetworkResponse<T>>((resolve, reject): void => {
++      this.operations.set(record.id, new FixturePendingOperation((result: string): void => {
++        const response: NetworkResponse<T> = produce(result);
++        record.state = "resolved";
++        record.completedAt = Date.now();
++        record.responseJson = JSON.stringify(response);
++        record.responseIds = responseIds(response.data);
++        record.responseCode = response.code;
++        this.operations.delete(record.id);
++        this.records = this.records.slice();
++        this.log("resolve", record);
++        resolve(response);
++      }, (): void => {
++        record.state = "rejected";
++        record.error = `fixture transport failure ${record.id}`;
++        record.completedAt = Date.now();
++        this.operations.delete(record.id);
++        this.records = this.records.slice();
++        this.log("reject", record);
++        reject(new Error(`fixture transport failure ${record.id}`));
++      }));
++      this.records = [...this.records, record];
++      this.log("request", record);
++    });
++  }
++
++  resolve(id: number, result: string): void {
++    const operation: FixturePendingOperation | undefined = this.operations.get(id);
++    if (operation === undefined) { this.note(`unknown pending request ${id}`); return; }
++    operation.resolve(result);
++  }
++
++  reject(id: number): void {
++    const operation: FixturePendingOperation | undefined = this.operations.get(id);
++    if (operation === undefined) { this.note(`unknown pending request ${id}`); return; }
++    operation.reject();
++  }
++
++  note(message: string): void {
++    this.eventSeq++;
++    this.lastEvent = message;
++    console.info(`[CML24FixtureControl] seq=${this.eventSeq} ${message}`);
++  }
++
++  private log(event: string, record: FixtureRequestRecord): void {
++    this.eventSeq++;
++    this.lastEvent = `${event} id=${record.id} instance=${record.instanceId} kind=${record.kind} page=${record.request?.page ?? 0}`;
++    console.info("[CML24Fixture] " + JSON.stringify(new FixtureAuditEvent(this.eventSeq, event, record)));
++    const text: string = JSON.stringify(record);
++    const count: number = Math.ceil(text.length / 650);
++    for (let index: number = 0; index < count; index++) {
++      console.info(`[CML24FixtureRaw] seq=${this.eventSeq} event=${event} part=${index + 1}/${count} ` +
++        text.substring(index * 650, (index + 1) * 650));
++    }
++  }
++}
+diff --git a/entry/src/ohosTest/ets/pages/GoodsCategoryFixturePage.ets b/entry/src/ohosTest/ets/pages/GoodsCategoryFixturePage.ets
+new file mode 100644
+index 0000000000000000000000000000000000000000..4474b849006f026765d213b6aeb343ee0421ecd9
+--- /dev/null
++++ b/entry/src/ohosTest/ets/pages/GoodsCategoryFixturePage.ets
+@@ -0,0 +1,105 @@
++import { GoodsCategoryPage } from "goods/src/main/ets/view/GoodsCategoryPage";
++import { getWindowSafeAreaState, WindowSafeAreaState } from "state";
++import { setNavPathStack } from "navigation";
++import { getHostCtx } from "util";
++import EntryViewModel from "../../../main/ets/viewmodel/EntryViewModel";
++import { FixtureController, FixtureRouteParam } from "../fixture/FixtureController";
++import { FixtureRequestRecord } from "../fixture/FixtureProtocol";
++
++@Entry
++@ComponentV2
++struct GoodsCategoryFixturePage {
++  @Local private controller: FixtureController = new FixtureController();
++  @Local private safeArea: WindowSafeAreaState = getWindowSafeAreaState();
++  private windowVm: EntryViewModel = new EntryViewModel();
++
++  aboutToAppear(): void {
++    const context = getHostCtx(this);
++    if (context !== undefined) { this.windowVm.aboutToAppear(context); }
++    setNavPathStack(this.controller.stack);
++  }
++
++  aboutToDisappear(): void { this.windowVm.aboutToDisappear(); }
++
++  @Builder
++  private Destination(name: string, param: Object): void {
++    if (name === "gcf.cover") {
++      NavDestination() {
++        Column({ space: 16 }) {
++          Text("夹具覆盖页").id("gcf.cover.page");
++          Button("返回原实例").id("gcf.cover.back").onClick((): void => this.controller.back());
++        }.width("100%").height("100%").justifyContent(FlexAlign.Center);
++      }.hideTitleBar(true)
++      .onShown((): void => this.controller.queue.note("cover shown"))
++      .onHidden((): void => this.controller.queue.note("cover hidden"));
++    } else {
++      GoodsCategoryPage({ vm: this.controller.vmFor((param as FixtureRouteParam).instanceId) });
++    }
++  }
++
++  build(): void {
++    Column() {
++      this.ControlPanel();
++      Navigation(this.controller.stack) {
++        Column({ space: 12 }) {
++          Text("请选择场景并打开原商品页").id("gcf.host.ready");
++          Button("打开实例").onClick((): void => this.controller.open());
++        }.width("100%").height("100%").justifyContent(FlexAlign.Center);
++      }.id("gcf.navigation").hideTitleBar(true).mode(NavigationMode.Stack)
++      .navDestination(this.Destination).layoutWeight(1).width("100%");
++    }.width("100%").height("100%").backgroundColor(Color.White);
++  }
++
++  @Builder
++  private ControlPanel(): void {
++    Column({ space: 4 }) {
++      Row({ space: 4 }) {
++        TextInput({ text: this.controller.scenario, placeholder: "manual/root/empty/fullEnd/missingMeta" })
++          .id("gcf.control.scenario").height(32).layoutWeight(2)
++          .onChange((value: string): void => { this.controller.scenario = value; });
++        TextInput({ text: this.controller.keyword, placeholder: "入口keyword" })
++          .id("gcf.control.keyword").height(32).layoutWeight(1)
++          .onChange((value: string): void => { this.controller.keyword = value; });
++        Button("重建").id("gcf.control.reset").fontSize(12).height(30)
++          .onClick((): void => this.controller.reset());
++      }.width("100%");
++      Row({ space: 4 }) {
++        TextInput({ text: this.controller.requestId, placeholder: "请求ID" })
++          .id("gcf.control.requestId").height(32).layoutWeight(1)
++          .onChange((value: string): void => { this.controller.requestId = value; });
++        TextInput({ text: this.controller.result, placeholder: "normal/empty/business/missingMeta" })
++          .id("gcf.control.result").height(32).layoutWeight(2)
++          .onChange((value: string): void => { this.controller.result = value; });
++        Button("释放").id("gcf.control.resolve").height(30).fontSize(12)
++          .onClick((): void => this.controller.resolve());
++        Button("拒绝").id("gcf.control.reject").height(30).fontSize(12)
++          .onClick((): void => this.controller.reject());
++      }.width("100%");
++      Row({ space: 6 }) {
++        Button("新实例").id("gcf.nav.open").height(28).fontSize(12)
++          .onClick((): void => this.controller.open());
++        Button("覆盖").id("gcf.nav.cover").height(28).fontSize(12)
++          .onClick((): void => this.controller.cover());
++        Button("弹栈").id("gcf.nav.back").height(28).fontSize(12)
++          .onClick((): void => this.controller.back());
++        Text(`${this.controller.scenario} instance=${this.controller.currentInstance}`)
++          .id("gcf.status.scenario").fontSize(10).layoutWeight(1);
++      }.width("100%");
++      Row({ space: 8 }) {
++        Text(`pending=${this.controller.queue.pending.map((record: FixtureRequestRecord): number => record.id).join(",")}`)
++          .id("gcf.status.pending").fontSize(10).layoutWeight(1);
++        Text(`${this.controller.queue.eventSeq}`).id("gcf.status.eventSeq").fontSize(10);
++      }.width("100%");
++      Text(this.controller.queue.lastEvent).id("gcf.status.lastEvent").fontSize(10).width("100%").maxLines(1);
++      Scroll() {
++        Column({ space: 2 }) {
++          ForEach(this.controller.queue.pending, (record: FixtureRequestRecord): void => {
++            Text(JSON.stringify(record)).id(`gcf.pending.${record.id}`).fontSize(10).width("100%");
++          }, (record: FixtureRequestRecord): string => `${record.id}`);
++        }.width("100%");
++      }.id("gcf.pending.scroll").height(48).width("100%");
++    }.id("gcf.controls").width("100%")
++    .padding({ top: this.safeArea.topInset, left: 6, right: 6, bottom: 4 })
++    .backgroundColor("#EEEEEE");
++  }
++}
+diff --git a/entry/src/ohosTest/module.json5 b/entry/src/ohosTest/module.json5
+index 55725a929993a8a18b3808d41ef037759440488b..d01db309a98e278f9e7094c3e7a83255432cd63e 100644
+--- a/entry/src/ohosTest/module.json5
++++ b/entry/src/ohosTest/module.json5
+@@ -2,12 +2,21 @@
+   "module": {
+     "name": "entry_test",
+     "type": "feature",
+-    "deviceTypes": [
+-      "phone",
+-      "tablet",
+-      "2in1"
+-    ],
++    "description": "$string:gcf_module_desc",
++    "mainElement": "FixtureAbility",
++    "deviceTypes": ["phone", "tablet", "2in1"],
+     "deliveryWithInstall": true,
+-    "installationFree": false
++    "installationFree": false,
++    "pages": "$profile:fixture_pages",
++    "abilities": [{
++      "name": "FixtureAbility",
++      "srcEntry": "./ets/fixture/FixtureAbility.ets",
++      "description": "$string:gcf_module_desc",
++      "label": "$string:gcf_label",
++      "icon": "$media:gcf_start",
++      "startWindowIcon": "$media:gcf_start",
++      "startWindowBackground": "$color:gcf_background",
++      "exported": true
++    }]
+   }
+ }
+diff --git a/entry/src/ohosTest/resources/base/element/color.json b/entry/src/ohosTest/resources/base/element/color.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..2255e5dc7d76f6fcefd89d1ddf6f0a4734b01d8a
+--- /dev/null
++++ b/entry/src/ohosTest/resources/base/element/color.json
+@@ -0,0 +1 @@
++{ "color": [{ "name": "gcf_background", "value": "#FFFFFF" }] }
+diff --git a/entry/src/ohosTest/resources/base/element/string.json b/entry/src/ohosTest/resources/base/element/string.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..57591e85bf211f368d595bc6b3d3f416b0bdf6cc
+--- /dev/null
++++ b/entry/src/ohosTest/resources/base/element/string.json
+@@ -0,0 +1,4 @@
++{ "string": [
++  { "name": "gcf_module_desc", "value": "商品分类独立设备夹具" },
++  { "name": "gcf_label", "value": "商品分类夹具" }
++] }
+diff --git a/entry/src/ohosTest/resources/base/media/gcf_start.svg b/entry/src/ohosTest/resources/base/media/gcf_start.svg
+new file mode 100644
+index 0000000000000000000000000000000000000000..485ea6cf746a4eaa5f029e88612b74088ef6a5df
+--- /dev/null
++++ b/entry/src/ohosTest/resources/base/media/gcf_start.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#3467eb"/><path d="M16 18h12v12H16zm20 0h12v12H36zM16 36h12v12H16zm20 0h12v12H36z" fill="white"/></svg>
+diff --git a/entry/src/ohosTest/resources/base/profile/fixture_pages.json b/entry/src/ohosTest/resources/base/profile/fixture_pages.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..4b24fe532693f19bfc4b500b5a04be6d978dc6df
+--- /dev/null
++++ b/entry/src/ohosTest/resources/base/profile/fixture_pages.json
+@@ -0,0 +1 @@
++{ "src": ["pages/GoodsCategoryFixturePage"] }
+diff --git a/feature/goods/src/main/ets/model/GoodsCategoryState.ets b/feature/goods/src/main/ets/model/GoodsCategoryState.ets
+new file mode 100644
+index 0000000000000000000000000000000000000000..0abd3eaf708987e7e7204738108c955c7e130da8
+--- /dev/null
++++ b/feature/goods/src/main/ets/model/GoodsCategoryState.ets
+@@ -0,0 +1,67 @@
++export enum GoodsCategorySort {
++  DEFAULT = "default", PRICE_ASC = "priceAsc", PRICE_DESC = "priceDesc", SOLD_ASC = "soldAsc", SOLD_DESC = "soldDesc"
++}
++
++export enum GoodsCategoryLoadPhase {
++  IDLE = "idle", FIRST = "first", REFRESH = "refresh", MORE = "more"
++}
++
++/** Immutable snapshots are copied before each request. */
++export class GoodsCategoryQuery {
++  keyword?: string;
++  typeIds: number[] = [];
++  minPrice?: string;
++  maxPrice?: string;
++  featured?: boolean;
++  recommend?: boolean;
++  sortMode: GoodsCategorySort = GoodsCategorySort.DEFAULT;
++
++  copy(): GoodsCategoryQuery {
++    const result: GoodsCategoryQuery = new GoodsCategoryQuery();
++    result.keyword = this.keyword;
++    result.typeIds = this.typeIds.slice();
++    result.minPrice = this.minPrice;
++    result.maxPrice = this.maxPrice;
++    result.featured = this.featured;
++    result.recommend = this.recommend;
++    result.sortMode = this.sortMode;
++    return result;
++  }
++
++  equals(other: GoodsCategoryQuery): boolean {
++    return this.keyword === other.keyword && this.minPrice === other.minPrice &&
++      this.maxPrice === other.maxPrice && this.featured === other.featured &&
++      this.recommend === other.recommend && this.sortMode === other.sortMode &&
++      this.typeIds.length === other.typeIds.length &&
++      this.typeIds.every((id: number): boolean => other.typeIds.includes(id));
++  }
++}
++
++export class GoodsCategoryTag {
++  id: number;
++  name: string;
++  constructor(id: number, name: string) { this.id = id; this.name = name; }
++}
++
++export class GoodsCategoryGroup {
++  id: number;
++  name: string;
++  tags: GoodsCategoryTag[];
++  constructor(id: number, name: string, tags: GoodsCategoryTag[]) {
++    this.id = id; this.name = name; this.tags = tags;
++  }
++}
++
++export class GoodsCategoryRequestStamp {
++  lifeEpoch: number;
++  queryVersion: number;
++  requestId: number;
++  page: number;
++  kind: GoodsCategoryLoadPhase;
++  query: GoodsCategoryQuery;
++  constructor(epoch: number, version: number, id: number, page: number,
++    kind: GoodsCategoryLoadPhase, query: GoodsCategoryQuery) {
++    this.lifeEpoch = epoch; this.queryVersion = version; this.requestId = id;
++    this.page = page; this.kind = kind; this.query = query.copy();
++  }
++}
+diff --git a/feature/goods/src/main/ets/view/GoodsCategoryPage.ets b/feature/goods/src/main/ets/view/GoodsCategoryPage.ets
+index 3cde7a26959117fc7c0e19c0925f9a6bb7bbd379..51de740314396feefde1806f7681d1b91cbb1428 100644
+--- a/feature/goods/src/main/ets/view/GoodsCategoryPage.ets
++++ b/feature/goods/src/main/ets/view/GoodsCategoryPage.ets
+@@ -1,4 +1,10 @@
+-import { AppNavDestination } from "ui";
++import { BaseNetWorkListUiState } from "base";
++import { Goods } from "model";
++import { GoodsNavigator, navigateBack } from "navigation";
++import { GoodsCategoryParam } from "navigation/src/main/ets/goods/GoodsParam";
++import { AppNavDestination, EmptyData, EmptyNetwork, GoodsGridItem, GoodsListItem,
++  SearchTopAppBar } from "ui";
++import { GoodsCategoryGroup, GoodsCategoryLoadPhase, GoodsCategorySort, GoodsCategoryTag } from "../model/GoodsCategoryState";
+ import GoodsCategoryViewModel from "../viewmodel/GoodsCategoryViewModel";
+ 
+ /**
+@@ -10,8 +16,21 @@ export struct GoodsCategoryPage {
+   /**
+    * 商品分类页面 ViewModel
+    */
+-  @Local
+-  private vm: GoodsCategoryViewModel = new GoodsCategoryViewModel();
++  @Param
++  vm: GoodsCategoryViewModel = new GoodsCategoryViewModel();
++  private gridScroller: Scroller = new Scroller();
++  private listScroller: Scroller = new Scroller();
++
++  @Monitor("vm.scrollRevision")
++  private onFirstPageCommitted(): void {
++    setTimeout((): void => {
++      try {
++        (this.vm.isGridMode ? this.gridScroller : this.listScroller).scrollTo({ xOffset: 0, yOffset: 0 });
++      } catch (error) {
++        console.info("[GoodsCategory] scroll container is not attached");
++      }
++    }, 0);
++  }
+ 
+   /**
+    * 构建商品分类页面
+@@ -19,19 +38,213 @@ export struct GoodsCategoryPage {
+    */
+   build() {
+     AppNavDestination({
+-      title: "商品分类",
+-      viewModel: this.vm
++      hideTitleBar: true,
++      viewModel: this.vm,
++      onReady: (context: NavDestinationContext): void => {
++        this.vm.initialize(context.pathInfo.param as GoodsCategoryParam | undefined);
++      },
++      onBackPressed: (): boolean => this.vm.closeMenus()
+     }) {
+-      this.GoodsCategoryContent();
++      Column() {
++        Row() {
++          SearchTopAppBar({
++            idPrefix: "gc.search",
++            value: this.vm.searchValue,
++            onValueChange: (value: string): void => this.vm.onSearchValueChange(value),
++            onSearch: (value: string): void => this.vm.submitSearch(value),
++            onBackClick: (): void => {
++              if (!this.vm.closeMenus()) { navigateBack(); }
++            }
++          });
++        }.id("gc.header").width("100%");
++        this.Controls();
++        Stack({ alignContent: Alignment.Top }) {
++          this.GoodsCategoryContent();
++          if (this.vm.filterVisible || this.vm.sortVisible) {
++            Column() {}
++              .id(this.vm.filterVisible ? "gc.filter.mask" : "gc.sort.mask")
++              .width("100%").height("100%")
++              .backgroundColor("#66000000")
++              .onClick((): void => { this.vm.closeMenus(); });
++            if (this.vm.filterVisible) { this.FilterPanel(); }
++            else { this.SortPanel(); }
++          }
++        }.width("100%").layoutWeight(1);
++      }.id("gc.page").width("100%").height("100%");
+     }
+   }
+ 
++  @Builder
++  private Controls(): void {
++    Row() {
++      Row({ space: 6 }) {
++        Text("筛选").fontColor(this.vm.hasAppliedFilter ? $r("app.color.primary") : $r("app.color.text_primary"));
++        Image($r("app.media.ic_down")).width(12).height(12);
++      }.id("gc.filter.trigger").height(48).layoutWeight(1).justifyContent(FlexAlign.Center)
++      .onClick((): void => this.vm.openFilter());
++      Row({ space: 6 }) {
++        Text(this.vm.sortTitle).id("gc.sort.title")
++          .fontColor(this.vm.sortTouched ? $r("app.color.primary") : $r("app.color.text_primary"));
++        Image($r("app.media.ic_down")).width(12).height(12);
++      }.id("gc.sort.trigger").height(48).layoutWeight(2).justifyContent(FlexAlign.Center)
++      .onClick((): void => this.vm.openSort());
++      Image(this.vm.isGridMode ? $r("app.media.ic_menu_list") : $r("app.media.ic_menu"))
++        .id("gc.layout.toggle").width(48).height(48).padding(13)
++        .accessibilityText(this.vm.isGridMode ? "切换为列表布局" : "切换为网格布局")
++        .onClick((): void => this.vm.toggleLayout());
++    }.id("gc.controls").width("100%").backgroundColor($r("app.color.bg_white"));
++  }
++
+   /**
+    * 商品分类页面内容视图
+    * @returns {void} 无返回值
+    */
+   @Builder
+   private GoodsCategoryContent() {
+-    Text("商品分类页面内容视图")
++    if (this.vm.uiState === BaseNetWorkListUiState.LOADING) {
++      Column({ space: 12 }) {
++        LoadingProgress().width(40).height(40);
++        Text("加载中");
++      }.id("gc.state.loading").width("100%").height("100%").justifyContent(FlexAlign.Center);
++    } else if (this.vm.uiState === BaseNetWorkListUiState.ERROR) {
++      Column() {
++        Column() {
++          EmptyNetwork({ description: this.vm.errorMessage });
++        }.width("100%").layoutWeight(1).clip(true);
++        Button("重试").id("gc.state.retry").height(40).margin({ top: 8, bottom: 16 })
++          .onClick((): void => this.vm.retryRequest());
++      }.id("gc.state.error").width("100%").height("100%").justifyContent(FlexAlign.Center);
++    } else if (this.vm.uiState === BaseNetWorkListUiState.EMPTY) {
++      Column() {
++        Column() {
++          EmptyData();
++        }.width("100%").layoutWeight(1).clip(true);
++        Button("刷新").id("gc.state.emptyRefresh").height(40).margin({ top: 8, bottom: 16 })
++          .onClick((): void => this.vm.onRefresh());
++      }.id("gc.state.empty").width("100%").height("100%").justifyContent(FlexAlign.Center);
++    } else {
++      Column() {
++        if (this.vm.phase === GoodsCategoryLoadPhase.REFRESH) {
++          Text("刷新中…").id("gc.state.refreshing").padding(6);
++        }
++        if (this.vm.refreshError.length > 0) {
++          Text("刷新失败，点击重试").fontColor($r("app.color.primary"))
++            .padding(8).onClick((): void => this.vm.onRefresh());
++        }
++        Refresh({ refreshing: this.vm.phase === GoodsCategoryLoadPhase.REFRESH }) {
++          if (this.vm.isGridMode) { this.GoodsGrid(); }
++          else { this.GoodsList(); }
++        }.id("gc.refresh").layoutWeight(1).width("100%")
++        .onRefreshing((): void => {
++          console.info("[GoodsCategory] native-refresh");
++          this.vm.onRefresh();
++        });
++        if (this.vm.phase === GoodsCategoryLoadPhase.MORE) {
++          Text("加载更多中…").id("gc.state.loadingMore").padding(8);
++        } else if (this.vm.moreError.length > 0) {
++          Text("加载失败，点击重试").id("gc.state.moreError").padding(8)
++            .fontColor($r("app.color.primary")).onClick((): void => this.vm.onLoadMore());
++        } else if (!this.vm.hasMore) {
++          Text("没有更多商品了").id("gc.state.end").padding(8).fontColor($r("app.color.text_tertiary"));
++        }
++      }.width("100%").height("100%");
++    }
++  }
++
++  @Builder
++  private GoodsGrid(): void {
++    Grid(this.gridScroller) {
++      ForEach(this.vm.listData, (goods: Goods): void => {
++        GridItem() {
++          GoodsGridItem({ goods: goods, idPrefix: "gc",
++            onItemClick: (id: number): void => GoodsNavigator.toDetail(id) });
++        }
++      }, (goods: Goods): string => `${goods.id}`);
++    }.id("gc.grid").columnsTemplate("1fr 1fr").columnsGap(8).rowsGap(8)
++    .padding(12).width("100%").height("100%")
++    .onReachEnd((): void => this.vm.onLoadMore());
++  }
++
++  @Builder
++  private GoodsList(): void {
++    List({ space: 8, scroller: this.listScroller }) {
++      ForEach(this.vm.listData, (goods: Goods): void => {
++        ListItem() {
++          GoodsListItem({ goods: goods, idPrefix: "gc",
++            onItemClick: (id: number): void => GoodsNavigator.toDetail(id) });
++        }
++      }, (goods: Goods): string => `${goods.id}`);
++    }.id("gc.list").padding(12).width("100%").height("100%")
++    .onReachEnd((): void => this.vm.onLoadMore());
++  }
++
++  @Builder
++  private FilterPanel(): void {
++    Column() {
++      Scroll() {
++        Column({ space: 16 }) {
++          Text("价格区间").width("100%").fontWeight(FontWeight.Medium);
++          Row({ space: 12 }) {
++            TextInput({ text: this.vm.draftMinPrice, placeholder: "最低价" })
++              .id("gc.filter.min").layoutWeight(1).type(InputType.Normal)
++              .onChange((value: string): void => { this.vm.draftMinPrice = value; this.vm.filterError = ""; });
++            Text("—").id("gc.filter.separator");
++            TextInput({ text: this.vm.draftMaxPrice, placeholder: "最高价" })
++              .id("gc.filter.max").layoutWeight(1).type(InputType.Normal)
++              .onChange((value: string): void => { this.vm.draftMaxPrice = value; this.vm.filterError = ""; });
++          }.width("100%");
++          if (this.vm.filterError.length > 0) {
++            Text(this.vm.filterError).id("gc.filter.error").fontColor(Color.Red).width("100%");
++          }
++          if (this.vm.categoriesLoading) {
++            Text("分类加载中…").id("gc.filter.categories.loading");
++          } else if (this.vm.categoriesError.length > 0) {
++            Column({ space: 8 }) {
++              Text(this.vm.categoriesError).id("gc.filter.categories.error");
++              Button("重试分类").id("gc.filter.categories.retry").onClick((): void => this.vm.retryCategories());
++            }
++          } else {
++            ForEach(this.vm.categoryGroups, (group: GoodsCategoryGroup): void => {
++              Column({ space: 10 }) {
++                Text(group.name).width("100%").fontWeight(FontWeight.Medium);
++                Flex({ wrap: FlexWrap.Wrap }) {
++                  ForEach(group.tags, (tag: GoodsCategoryTag): void => {
++                    Text(tag.name).id(`gc.filter.tag.${tag.id}`)
++                      .fontSize(14).padding({ left: 12, right: 12, top: 8, bottom: 8 })
++                      .margin({ right: 10, bottom: 10 }).borderRadius(6)
++                      .borderWidth(1)
++                      .borderColor(this.vm.draftTypeIds.includes(tag.id) ? $r("app.color.primary") : $r("app.color.border"))
++                      .fontColor(this.vm.draftTypeIds.includes(tag.id) ? $r("app.color.primary") : $r("app.color.text_primary"))
++                      .accessibilitySelected(this.vm.draftTypeIds.includes(tag.id))
++                      .onClick((): void => this.vm.toggleCategory(tag.id));
++                  }, (tag: GoodsCategoryTag): string => `${tag.id}`);
++                }.width("100%");
++              }.id(`gc.filter.group.${group.id}`).width("100%");
++            }, (group: GoodsCategoryGroup): string => `${group.id}`);
++          }
++        }.width("100%").padding(16);
++      }.id("gc.filter.scroll").width("100%").layoutWeight(1).align(Alignment.Top);
++      Row({ space: 16 }) {
++        Button("重置").id("gc.filter.reset").layoutWeight(1)
++          .backgroundColor($r("app.color.bg_grey")).fontColor($r("app.color.text_primary"))
++          .onClick((): void => this.vm.resetDraft());
++        Button("确认").id("gc.filter.confirm").layoutWeight(1)
++          .backgroundColor($r("app.color.primary")).onClick((): void => this.vm.confirmFilter());
++      }.width("100%").padding(12);
++    }.id("gc.filter.panel").width("100%").height("78%")
++    .backgroundColor($r("app.color.bg_white"));
++  }
++
++  @Builder
++  private SortPanel(): void {
++    Column() {
++      ForEach(this.vm.sortOptions, (mode: GoodsCategorySort): void => {
++        Text(this.vm.sortLabel(mode)).id(`gc.sort.option.${mode}`)
++          .width("100%").height(48).padding({ left: 24, right: 24 })
++          .fontColor(this.vm.query.sortMode === mode ? $r("app.color.primary") : $r("app.color.text_primary"))
++          .accessibilitySelected(this.vm.query.sortMode === mode)
++          .onClick((): void => this.vm.selectSort(mode));
++      }, (mode: GoodsCategorySort): string => mode);
++    }.id("gc.sort.panel").width("100%").backgroundColor($r("app.color.bg_white"));
+   }
+ }
+diff --git a/feature/goods/src/main/ets/view/GoodsSearchPage.ets b/feature/goods/src/main/ets/view/GoodsSearchPage.ets
+index 12be6fb4787eb5a1006920a2d7fa382173e0f8f4..d60d3e4c6ba63a64361b9543cac4145ec5cb3019 100644
+--- a/feature/goods/src/main/ets/view/GoodsSearchPage.ets
++++ b/feature/goods/src/main/ets/view/GoodsSearchPage.ets
+@@ -37,9 +37,11 @@ export struct GoodsSearchPage {
+       viewModel: this.vm,
+       hideTitleBar: true
+     }) {
++      Column() {
+       SearchTopAppBar({
+         value: this.vm.searchValue,
+         autoFocus: true,
++        idPrefix: "gs.search",
+         onValueChange: (value: string): void => this.vm.onSearchValueChange(value),
+         onSearch: (value: string): void => {
+           this.vm.onSearch(value);
+@@ -63,6 +65,7 @@ export struct GoodsSearchPage {
+         onCancel: (): void => this.vm.hideClearHistoryDialog(),
+         onClose: (): void => this.vm.hideClearHistoryDialog()
+       });
++      }.id("gs.page").width(P100).height(P100);
+     }
+   }
+ 
+diff --git a/feature/goods/src/main/ets/viewmodel/GoodsCategoryViewModel.ets b/feature/goods/src/main/ets/viewmodel/GoodsCategoryViewModel.ets
+index 34e4751eeee257412a4886bdeddbd4514769c9d3..af4e7fefb214899ba3727d3a4de4a48273359754 100644
+--- a/feature/goods/src/main/ets/viewmodel/GoodsCategoryViewModel.ets
++++ b/feature/goods/src/main/ets/viewmodel/GoodsCategoryViewModel.ets
+@@ -1,9 +1,412 @@
+-import { BaseViewModel } from "base";
++import { BaseNetWorkListUiState, BaseViewModel } from "base";
++import { GoodsRepository } from "data";
++import { Category, Goods, GoodsSearchRequest, NetworkPageData, NetworkPageMeta } from "model";
++import { GoodsCategoryParam } from "navigation/src/main/ets/goods/GoodsParam";
++import { RequestHelper } from "result";
++import {
++  GoodsCategoryGroup, GoodsCategoryLoadPhase, GoodsCategoryQuery, GoodsCategoryRequestStamp,
++  GoodsCategorySort, GoodsCategoryTag
++} from "../model/GoodsCategoryState";
+ 
+-/**
+- * @file 商品分类页面 ViewModel
+- * @author Joker.X
+- */
++/** Owns the query, draft and versioned requests of one destination instance. */
+ @ObservedV2
+ export default class GoodsCategoryViewModel extends BaseViewModel {
++  @Trace searchValue: string = "";
++  @Trace query: GoodsCategoryQuery = new GoodsCategoryQuery();
++  @Trace listData: Goods[] = [];
++  @Trace uiState: BaseNetWorkListUiState = BaseNetWorkListUiState.LOADING;
++  @Trace phase: GoodsCategoryLoadPhase = GoodsCategoryLoadPhase.IDLE;
++  @Trace hasMore: boolean = false;
++  @Trace isGridMode: boolean = true;
++  @Trace filterVisible: boolean = false;
++  @Trace sortVisible: boolean = false;
++  @Trace sortTouched: boolean = false;
++  @Trace draftTypeIds: number[] = [];
++  @Trace draftMinPrice: string = "";
++  @Trace draftMaxPrice: string = "";
++  @Trace filterError: string = "";
++  @Trace errorMessage: string = "";
++  @Trace moreError: string = "";
++  @Trace refreshError: string = "";
++  @Trace categoryGroups: GoodsCategoryGroup[] = [];
++  @Trace categoriesLoading: boolean = false;
++  @Trace categoriesError: string = "";
++  @Trace scrollRevision: number = 0;
++  committedPage: number = 0;
++  readonly pageSize: number = 20;
++  readonly sortOptions: GoodsCategorySort[] = [GoodsCategorySort.DEFAULT, GoodsCategorySort.PRICE_ASC,
++    GoodsCategorySort.PRICE_DESC, GoodsCategorySort.SOLD_ASC, GoodsCategorySort.SOLD_DESC];
++  private readonly repository: GoodsRepository;
++  private initialized: boolean = false;
++  private active: boolean = true;
++  private lifeEpoch: number = 1;
++  private queryVersion: number = 0;
++  private requestSequence: number = 0;
++  private currentRequestId: number = 0;
++  private categoryRequestId: number = 0;
++  private categoriesLoaded: boolean = false;
++  private reloadNeeded: boolean = false;
++  private entryTypeId?: number;
++  private waitingForEntry: boolean = false;
++  private categoryNodes: Map<number, Category> = new Map();
++
++  constructor(repository?: GoodsRepository) {
++    super();
++    this.repository = repository ?? new GoodsRepository();
++  }
++
++  get isLoading(): boolean { return this.phase !== GoodsCategoryLoadPhase.IDLE; }
++  get hasAppliedFilter(): boolean {
++    return this.query.typeIds.length > 0 || this.query.minPrice !== undefined || this.query.maxPrice !== undefined;
++  }
++  get sortTitle(): string { return this.sortTouched ? this.sortLabel(this.query.sortMode) : "排序"; }
++  sortLabel(mode: GoodsCategorySort): string {
++    switch (mode) {
++      case GoodsCategorySort.PRICE_ASC: return "价格由低到高";
++      case GoodsCategorySort.PRICE_DESC: return "价格由高到低";
++      case GoodsCategorySort.SOLD_ASC: return "销量由低到高";
++      case GoodsCategorySort.SOLD_DESC: return "销量由高到低";
++      default: return "综合排序";
++    }
++  }
++
++  initialize(params?: GoodsCategoryParam): void {
++    if (this.initialized) { return; }
++    this.initialized = true;
++    const initial: GoodsCategoryQuery = new GoodsCategoryQuery();
++    const keyword: string = params?.keyword?.trim() ?? "";
++    initial.keyword = keyword.length > 0 ? keyword : undefined;
++    initial.featured = params?.featured;
++    initial.recommend = params?.recommend;
++    const minimum: string = params?.minPrice?.trim() ?? "";
++    if (minimum.length > 0 && this.validAmount(minimum)) { initial.minPrice = minimum; }
++    const typeText: string = params?.typeId?.trim() ?? "";
++    const typeId: number = Number(typeText);
++    if (/^\d+$/.test(typeText) && Number.isSafeInteger(typeId) && typeId > 0) {
++      this.entryTypeId = typeId;
++      this.waitingForEntry = true;
++      initial.typeIds = [typeId];
++    }
++    this.query = initial;
++    this.searchValue = keyword;
++    void this.loadCategories();
++    if (!this.waitingForEntry) { this.reload(GoodsCategoryLoadPhase.FIRST); }
++  }
++
++  onSearchValueChange(value: string): void { this.searchValue = value; }
++  submitSearch(value: string = this.searchValue): void {
++    const trimmed: string = value.trim();
++    if (trimmed.length === 0) { return; }
++    this.searchValue = trimmed;
++    this.closeMenus();
++    const next: GoodsCategoryQuery = this.query.copy();
++    next.keyword = trimmed;
++    this.applyQuery(next);
++  }
++
++  openFilter(): void {
++    if (this.filterVisible) { this.closeMenus(); return; }
++    this.closeMenus();
++    this.draftTypeIds = this.query.typeIds.slice();
++    this.draftMinPrice = this.query.minPrice ?? "";
++    this.draftMaxPrice = this.query.maxPrice ?? "";
++    this.filterVisible = true;
++  }
++  openSort(): void {
++    const show: boolean = !this.sortVisible;
++    this.closeMenus();
++    this.sortVisible = show;
++  }
++  closeMenus(): boolean {
++    const consumed: boolean = this.filterVisible || this.sortVisible;
++    this.filterVisible = false;
++    this.sortVisible = false;
++    this.draftTypeIds = [];
++    this.draftMinPrice = "";
++    this.draftMaxPrice = "";
++    this.filterError = "";
++    return consumed;
++  }
++  toggleCategory(id: number): void {
++    this.draftTypeIds = this.draftTypeIds.includes(id) ?
++      this.draftTypeIds.filter((value: number): boolean => value !== id) : [...this.draftTypeIds, id];
++  }
++  resetDraft(): void {
++    this.draftTypeIds = [];
++    this.draftMinPrice = "";
++    this.draftMaxPrice = "";
++    this.filterError = "";
++  }
++  confirmFilter(): void {
++    if (!this.filterVisible) { return; }
++    if (this.waitingForEntry && this.entryTypeId !== undefined && this.draftTypeIds.includes(this.entryTypeId)) {
++      this.filterError = this.categoriesLoading ? "分类加载中，请稍后确认" : "请先重试加载分类";
++      return;
++    }
++    const minimum: string = this.draftMinPrice.trim();
++    const maximum: string = this.draftMaxPrice.trim();
++    if ((minimum.length > 0 && !this.validAmount(minimum)) || (maximum.length > 0 && !this.validAmount(maximum))) {
++      this.filterError = "请输入有效的非负金额";
++      return;
++    }
++    if (minimum.length > 0 && maximum.length > 0 && Number(minimum) > Number(maximum)) {
++      this.filterError = "最低价不能高于最高价";
++      return;
++    }
++    const next: GoodsCategoryQuery = this.query.copy();
++    next.typeIds = this.draftTypeIds.slice();
++    next.minPrice = minimum.length > 0 ? minimum : undefined;
++    next.maxPrice = maximum.length > 0 ? maximum : undefined;
++    // A confirmed editable filter supersedes the entrance, including an unresolved root.
++    this.entryTypeId = undefined;
++    this.waitingForEntry = false;
++    this.closeMenus();
++    this.applyQuery(next);
++  }
++  selectSort(mode: GoodsCategorySort): void {
++    this.closeMenus();
++    this.sortTouched = true;
++    if (mode === this.query.sortMode) {
++      if (this.uiState === BaseNetWorkListUiState.ERROR) { this.retryRequest(); }
++      return;
++    }
++    const next: GoodsCategoryQuery = this.query.copy();
++    next.sortMode = mode;
++    this.applyQuery(next);
++  }
++  toggleLayout(): void { this.isGridMode = !this.isGridMode; }
++  onRefresh(): void {
++    if (!this.active || this.waitingForEntry || this.phase === GoodsCategoryLoadPhase.FIRST ||
++      this.phase === GoodsCategoryLoadPhase.REFRESH) { return; }
++    this.reload(this.listData.length > 0 ? GoodsCategoryLoadPhase.REFRESH : GoodsCategoryLoadPhase.FIRST);
++  }
++  onLoadMore(): void {
++    if (!this.active || this.phase !== GoodsCategoryLoadPhase.IDLE || !this.hasMore || this.listData.length === 0) { return; }
++    this.startRequest(this.committedPage + 1, GoodsCategoryLoadPhase.MORE);
++  }
++  retryRequest(): void {
++    if (this.waitingForEntry) { void this.loadCategories(); }
++    else if (!this.isLoading) { this.reload(GoodsCategoryLoadPhase.FIRST); }
++  }
++  retryCategories(): void { void this.loadCategories(); }
++  private validAmount(value: string): boolean {
++    return /^(\d+(\.\d*)?|\.\d+)$/.test(value) && Number.isFinite(Number(value)) && Number(value) >= 0;
++  }
++  private applyQuery(next: GoodsCategoryQuery): void {
++    // Only merge duplicate first-page intent. A deliberate search/confirm during P2 must replace it.
++    if (next.equals(this.query) && (this.phase === GoodsCategoryLoadPhase.FIRST ||
++      this.phase === GoodsCategoryLoadPhase.REFRESH)) { return; }
++    this.query = next.copy();
++    this.reload(GoodsCategoryLoadPhase.FIRST);
++  }
++  private reload(kind: GoodsCategoryLoadPhase): void {
++    if (!this.active) { this.reloadNeeded = true; return; }
++    if (this.waitingForEntry) { return; }
++    this.queryVersion++;
++    if (kind === GoodsCategoryLoadPhase.FIRST) {
++      this.listData = [];
++      this.committedPage = 0;
++      this.hasMore = false;
++      this.uiState = BaseNetWorkListUiState.LOADING;
++    }
++    this.startRequest(1, kind);
++  }
++  private startRequest(page: number, kind: GoodsCategoryLoadPhase): void {
++    const stamp: GoodsCategoryRequestStamp = new GoodsCategoryRequestStamp(this.lifeEpoch,
++      this.queryVersion, ++this.requestSequence, page, kind, this.query);
++    this.currentRequestId = stamp.requestId;
++    this.phase = kind;
++    this.errorMessage = "";
++    this.moreError = "";
++    this.refreshError = "";
++    this.logRequest("start", stamp);
++    void this.executeRequest(stamp);
++  }
++  private makeRequest(stamp: GoodsCategoryRequestStamp): GoodsSearchRequest {
++    const request: GoodsSearchRequest = new GoodsSearchRequest();
++    request.page = stamp.page;
++    request.size = this.pageSize;
++    const query: GoodsCategoryQuery = stamp.query;
++    if (query.keyword !== undefined) { request.keyWord = query.keyword; }
++    if (query.typeIds.length > 0) { request.typeId = query.typeIds.slice(); }
++    if (query.minPrice !== undefined) { request.minPrice = query.minPrice; }
++    if (query.maxPrice !== undefined) { request.maxPrice = query.maxPrice; }
++    if (query.featured !== undefined) { request.featured = query.featured; }
++    if (query.recommend !== undefined) { request.recommend = query.recommend; }
++    switch (query.sortMode) {
++      case GoodsCategorySort.PRICE_ASC: request.order = "price"; request.sort = "asc"; break;
++      case GoodsCategorySort.PRICE_DESC: request.order = "price"; request.sort = "desc"; break;
++      case GoodsCategorySort.SOLD_ASC: request.order = "sold"; request.sort = "asc"; break;
++      case GoodsCategorySort.SOLD_DESC: request.order = "sold"; request.sort = "desc"; break;
++      default: break;
++    }
++    return request;
++  }
++  private isCurrent(stamp: GoodsCategoryRequestStamp): boolean {
++    return this.active && stamp.lifeEpoch === this.lifeEpoch && stamp.queryVersion === this.queryVersion &&
++      stamp.requestId === this.currentRequestId;
++  }
++  private async executeRequest(stamp: GoodsCategoryRequestStamp): Promise<void> {
++    try {
++      const data: NetworkPageData<Goods> = await RequestHelper.repository<NetworkPageData<Goods>>(
++        this.repository.getGoodsPage(this.makeRequest(stamp))).toast(false).execute();
++      if (!this.isCurrent(stamp)) { this.logRequest("discard-success", stamp); return; }
++      const metadata: NetworkPageMeta | null = data?.pagination ?? null;
++      if (metadata?.page !== undefined && metadata.page !== null && metadata.page !== stamp.page) {
++        throw new Error("返回页码不匹配，请重试");
++      }
++      if (stamp.kind === GoodsCategoryLoadPhase.MORE && stamp.page !== this.committedPage + 1) {
++        throw new Error("分页状态已改变，请重试");
++      }
++      const raw: Goods[] = data?.list ?? [];
++      const previous: Goods[] = stamp.page === 1 ? [] : this.listData;
++      const ids: Set<number> = new Set(previous.map((item: Goods): number => item.id));
++      const added: Goods[] = [];
++      raw.forEach((item: Goods): void => {
++        if (!ids.has(item.id)) { ids.add(item.id); added.push(item); }
++      });
++      this.listData = [...previous, ...added];
++      this.committedPage = stamp.page;
++      this.hasMore = raw.length > 0 && added.length > 0 && this.calculateHasMore(metadata, stamp.page, raw.length);
++      this.uiState = this.listData.length > 0 ? BaseNetWorkListUiState.SUCCESS : BaseNetWorkListUiState.EMPTY;
++      if (stamp.page === 1) { this.scrollRevision++; }
++      this.logRequest("commit", stamp);
++    } catch (error) {
++      if (!this.isCurrent(stamp)) { this.logRequest("discard-error", stamp); return; }
++      const message: string = error instanceof Error ? error.message : "网络异常，请重试";
++      if (stamp.kind === GoodsCategoryLoadPhase.MORE) { this.moreError = message; }
++      else if (stamp.kind === GoodsCategoryLoadPhase.REFRESH && this.listData.length > 0) { this.refreshError = message; }
++      else { this.errorMessage = message; this.uiState = BaseNetWorkListUiState.ERROR; }
++      this.logRequest("error", stamp);
++    } finally {
++      if (this.isCurrent(stamp)) {
++        this.phase = GoodsCategoryLoadPhase.IDLE;
++        this.currentRequestId = 0;
++        this.logRequest("finish", stamp);
++      }
++    }
++  }
++  private calculateHasMore(meta: NetworkPageMeta | null, page: number, rawSize: number): boolean {
++    if (meta !== null && meta.total !== null && meta.size !== null && meta.page !== null &&
++      Number.isFinite(meta.total) && meta.total >= 0 && Number.isFinite(meta.size) && meta.size > 0 &&
++      Number.isFinite(meta.page) && meta.page === page) { return meta.page * meta.size < meta.total; }
++    return rawSize >= this.pageSize;
++  }
++  private logRequest(event: string, stamp: GoodsCategoryRequestStamp): void {
++    console.info(`[GoodsCategory] event=${event} id=${stamp.requestId} version=${stamp.queryVersion} ` +
++      `epoch=${stamp.lifeEpoch} kind=${stamp.kind} page=${stamp.page}`);
++  }
++
++  private async loadCategories(): Promise<void> {
++    if (!this.active || this.categoriesLoading || this.categoriesLoaded) { return; }
++    const requestId: number = ++this.categoryRequestId;
++    const epoch: number = this.lifeEpoch;
++    this.categoriesLoading = true;
++    this.categoriesError = "";
++    try {
++      const categories: Category[] = await RequestHelper.repository<Category[]>(
++        this.repository.getGoodsTypeList()).toast(false).execute();
++      if (!this.active || requestId !== this.categoryRequestId || epoch !== this.lifeEpoch) { return; }
++      this.normalizeCategories(categories ?? []);
++      this.categoriesLoaded = true;
++      if (this.waitingForEntry && this.entryTypeId !== undefined) {
++        const leaves: Category[] = this.collectLeaves(this.entryTypeId, [], new Set<number>());
++        const next: GoodsCategoryQuery = this.query.copy();
++        next.typeIds = leaves.length > 0 ? leaves.map((item: Category): number => item.id) : [this.entryTypeId];
++        if (this.filterVisible && this.draftTypeIds.includes(this.entryTypeId)) {
++          const entrance: number = this.entryTypeId;
++          this.draftTypeIds = [...this.draftTypeIds.filter((id: number): boolean => id !== entrance), ...next.typeIds];
++          this.filterError = "";
++        }
++        this.query = next;
++        this.entryTypeId = undefined;
++        this.waitingForEntry = false;
++        this.reload(GoodsCategoryLoadPhase.FIRST);
++      }
++    } catch (error) {
++      if (!this.active || requestId !== this.categoryRequestId || epoch !== this.lifeEpoch) { return; }
++      this.categoriesError = "分类加载失败，请重试";
++      if (this.waitingForEntry) {
++        this.errorMessage = this.categoriesError;
++        this.uiState = BaseNetWorkListUiState.ERROR;
++      }
++    } finally {
++      if (this.active && requestId === this.categoryRequestId && epoch === this.lifeEpoch) { this.categoriesLoading = false; }
++    }
++  }
++  private addCategories(items: Category[], parentId: number | undefined, path: number[]): void {
++    items.forEach((item: Category): void => {
++      if (!Number.isSafeInteger(item.id) || item.id <= 0 || path.includes(item.id)) { return; }
++      if (!this.categoryNodes.has(item.id)) {
++        const node: Category = new Category(item);
++        node.parentId = item.parentId ?? parentId ?? null;
++        node.children = [];
++        this.categoryNodes.set(item.id, node);
++      }
++      this.addCategories(item.children ?? [], item.id, [...path, item.id]);
++    });
++  }
++  private childrenOf(id: number): Category[] {
++    const children: Category[] = [];
++    this.categoryNodes.forEach((item: Category): void => {
++      if (item.parentId === id && item.id !== id) { children.push(item); }
++    });
++    return children.sort((left: Category, right: Category): number => left.sortNum - right.sortNum);
++  }
++  private collectLeaves(id: number, path: number[], visited: Set<number>): Category[] {
++    if (path.includes(id)) { return []; }
++    const node: Category | undefined = this.categoryNodes.get(id);
++    if (node === undefined) { return []; }
++    visited.add(id);
++    const children: Category[] = this.childrenOf(id);
++    if (children.length === 0) { return [node]; }
++    let result: Category[] = [];
++    children.forEach((child: Category): void => {
++      result = [...result, ...this.collectLeaves(child.id, [...path, id], visited)];
++    });
++    return result;
++  }
++  private normalizeCategories(items: Category[]): void {
++    this.categoryNodes = new Map();
++    this.addCategories(items, undefined, []);
++    const ordered: Category[] = [];
++    this.categoryNodes.forEach((item: Category): void => { ordered.push(item); });
++    ordered.sort((left: Category, right: Category): number => left.sortNum - right.sortNum);
++    const roots: Category[] = ordered.filter((item: Category): boolean => item.parentId === null ||
++      item.parentId === undefined || item.parentId === item.id || !this.categoryNodes.has(item.parentId));
++    const visited: Set<number> = new Set();
++    const groups: GoodsCategoryGroup[] = [];
++    // The second pass includes malformed/orphan cycles without recursive loops or invented labels.
++    [...roots, ...ordered].forEach((root: Category): void => {
++      if (visited.has(root.id)) { return; }
++      const leaves: Category[] = this.collectLeaves(root.id, [], visited);
++      const ids: Set<number> = new Set();
++      const tags: GoodsCategoryTag[] = [];
++      (leaves.length > 0 ? leaves : [root]).forEach((leaf: Category): void => {
++        if (!ids.has(leaf.id)) { ids.add(leaf.id); tags.push(new GoodsCategoryTag(leaf.id, leaf.name)); }
++      });
++      groups.push(new GoodsCategoryGroup(root.id, root.name, tags));
++    });
++    this.categoryGroups = groups;
++  }
++  private deactivate(): void {
++    if (!this.active) { return; }
++    this.reloadNeeded = this.isLoading || this.waitingForEntry;
++    this.active = false;
++    this.lifeEpoch++;
++    this.currentRequestId = 0;
++    this.categoryRequestId++;
++    this.phase = GoodsCategoryLoadPhase.IDLE;
++    this.categoriesLoading = false;
++    this.closeMenus();
++  }
++  onHidden(reason: VisibilityChangeReason): void { this.deactivate(); }
++  aboutToDisappear(): void { this.deactivate(); }
++  aboutToBeDeleted(): void { this.deactivate(); }
++  onShown(reason: VisibilityChangeReason): void {
++    if (!this.initialized || this.active) { return; }
++    this.active = true;
++    if (!this.categoriesLoaded) { void this.loadCategories(); }
++    if (this.reloadNeeded) { this.reloadNeeded = false; this.reload(GoodsCategoryLoadPhase.FIRST); }
++  }
+ }
+diff --git a/feature/goods/src/main/ets/viewmodel/GoodsSearchViewModel.ets b/feature/goods/src/main/ets/viewmodel/GoodsSearchViewModel.ets
+index d3c5cfe1ff9261356bac7f15dd1832ff0bf7bf40..428f84d9c3b75bd748c015bc5ae3c53ff50a7211 100644
+--- a/feature/goods/src/main/ets/viewmodel/GoodsSearchViewModel.ets
++++ b/feature/goods/src/main/ets/viewmodel/GoodsSearchViewModel.ets
+@@ -83,8 +83,6 @@ export default class GoodsSearchViewModel extends BaseNetWorkViewModel<GoodsSear
+     await this.loadSearchHistory();
+ 
+     const params: GoodsCategoryParam = {
+-      featured: false,
+-      recommend: false,
+       keyword: trimmed
+     };
+     GoodsNavigator.toCategory(params);
+diff --git a/feature/main/src/main/ets/component/HomeCategorySection.ets b/feature/main/src/main/ets/component/HomeCategorySection.ets
+index a8f596dccbc1fedd31722343d74b8fe2f85463d3..13ed6780cb09b5320578d20d532d02d06b4a166b 100644
+--- a/feature/main/src/main/ets/component/HomeCategorySection.ets
++++ b/feature/main/src/main/ets/component/HomeCategorySection.ets
+@@ -73,6 +73,7 @@ export struct HomeCategorySection {
+       bottom: $r("app.float.space_vertical_small_x")
+     })
+     .alignItems(HorizontalAlign.Center)
++    .id(`gc.entry.home.category.${category.id}`)
+     .onClick((): void => this.onCategoryClick(category.id));
+   }
+ 
+diff --git a/feature/main/src/main/ets/component/HomeTopBar.ets b/feature/main/src/main/ets/component/HomeTopBar.ets
+index cb7d7e592afe8f87b3434d1b04db9eb6c3eeeeaf..4bfa601ccad1aa37f40a6fb67df919e0d03fc956 100644
+--- a/feature/main/src/main/ets/component/HomeTopBar.ets
++++ b/feature/main/src/main/ets/component/HomeTopBar.ets
+@@ -68,6 +68,7 @@ export struct HomeTopBar {
+     })
+     .backgroundColor($r("app.color.bg_white"))
+     .borderRadius($r("app.float.radius_medium"))
++    .id("gc.entry.home.search")
+     .onClick((): void => this.onSearchTap());
+   }
+ 
+diff --git a/feature/main/src/main/ets/view/CategoryPage.ets b/feature/main/src/main/ets/view/CategoryPage.ets
+index 6a16462d1c125dc7f57d10d02257e10643a119ee..627de10f5eafd8b1220d88b3bcb37ce3e6207af0 100644
+--- a/feature/main/src/main/ets/view/CategoryPage.ets
++++ b/feature/main/src/main/ets/view/CategoryPage.ets
+@@ -4,6 +4,7 @@ import { bp, getWindowSafeAreaState, WindowSafeAreaState } from "state";
+ import { IBestSideBar, IBestSideBarItem } from "ibestui";
+ import { AppNavDestination, BaseNetWorkView, NetWorkImage, TitleWithLine } from "ui";
+ import CategoryViewModel from "../viewmodel/CategoryViewModel";
++import { GoodsNavigator } from "navigation";
+ 
+ /**
+  * @file 分类页面视图
+@@ -189,7 +190,9 @@ export struct CategoryPage {
+       top: $r("app.float.space_vertical_small_x"),
+       bottom: $r("app.float.space_vertical_small_x")
+     })
+-    .alignItems(HorizontalAlign.Center);
++    .alignItems(HorizontalAlign.Center)
++    .id(`gc.entry.category.${category.id}`)
++    .onClick((): void => GoodsNavigator.toCategory({ typeId: String(category.id) }));
+   }
+ 
+   /**
+diff --git a/feature/main/src/main/ets/view/HomePage.ets b/feature/main/src/main/ets/view/HomePage.ets
+index 8fbd89cf18617b72a76b0934569ad94cf85177e1..38cbd19560340330c154734253936309415c9439 100644
+--- a/feature/main/src/main/ets/view/HomePage.ets
++++ b/feature/main/src/main/ets/view/HomePage.ets
+@@ -68,7 +68,8 @@ export struct HomePage {
+         }
+ 
+         ListItem() {
+-          HomeCategorySection({ categories: this.vm.pageData.category ?? [] });
++          HomeCategorySection({ categories: this.vm.pageData.category ?? [],
++            onCategoryClick: (id: number): void => GoodsNavigator.toCategory({ typeId: String(id) }) });
+         }
+ 
+         ListItem() {
+diff --git a/feature/main/src/main/ets/view/MainPage.ets b/feature/main/src/main/ets/view/MainPage.ets
+index e70cbc50959eb2a070a78765bdddd019d9ce43c9..3bbffc860c1ede24bb28891a0fcb39133998ecb0 100644
+--- a/feature/main/src/main/ets/view/MainPage.ets
++++ b/feature/main/src/main/ets/view/MainPage.ets
+@@ -112,6 +112,7 @@ export struct MainPage {
+       SpaceVerticalXSmall();
+ 
+       Text(this.vm.tabItems[index].title)
++        .id(index === 1 ? "gc.entry.category.tab" : "")
+         .fontSize(bp({
+           sm: $r("app.float.body_medium"),
+           md: $r("app.float.body_large"),
+diff --git a/hypium_tests/.gitignore b/hypium_tests/.gitignore
+new file mode 100644
+index 0000000000000000000000000000000000000000..9187ae3ad79f07cff917ab255e3d756ff70791f3
+--- /dev/null
++++ b/hypium_tests/.gitignore
+@@ -0,0 +1,3 @@
++# Generated Python bytecode is not part of the test sources.
++__pycache__/
++*.py[cod]
+diff --git a/hypium_tests/__init__.py b/hypium_tests/__init__.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..34898932872d11ea487eed378ac99acd2db63edd
+--- /dev/null
++++ b/hypium_tests/__init__.py
+@@ -0,0 +1 @@
++"""Independent, task-local cml-spec24 UI verification."""
+diff --git a/hypium_tests/observation.py b/hypium_tests/observation.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..232166e837e89b3ae5b45eebfe245ddf0d097379
+--- /dev/null
++++ b/hypium_tests/observation.py
+@@ -0,0 +1,406 @@
++"""Real UI/hdc/NetLog observations, with no application-state injection."""
++from __future__ import annotations
++
++import datetime as dt
++import hashlib
++import json
++import os
++import pathlib
++import re
++import shutil
++import subprocess
++import time
++import urllib.request
++
++from hypium import BY
++from harness.driver import HarnessTestCase
++
++ROOT = pathlib.Path(__file__).resolve().parents[1]
++DEVICE = "127.0.0.1:11241"
++BUNDLE = "com.joker.coolmall"
++GOODS_URL = "https://mall.dusksnow.top/app/goods/info/page"
++TAG_LINE = re.compile(r"^\S+\s+\S+\s+(\d+)\s+\d+\s+\w\s+\S*/NetLog: ?(.*)$")
++CARD_ID = re.compile(r"^gc\.goods\.(\d+)$")
++
++
++def read_events(raw: str, pid: str | None = None) -> list[dict]:
++    """Reassemble the existing interceptor's pretty JSON and 800-char chunks.
++
++    Unfinished JSON stays incomplete. Concurrent identical URLs are explicitly
++    ambiguous; no FIFO response claim is made for an out-of-order case.
++    """
++    events = []
++    event = None
++    for line in raw.splitlines():
++        match = TAG_LINE.match(line)
++        if not match or (pid and match[1] != pid):
++            continue
++        message = match[2]
++        if message.startswith("[Network] "):
++            event = {"kind": message[len("[Network] "):], "pid": match[1], "ordinal": len(events), "lines": []}
++            events.append(event)
++        elif event is not None:
++            event["lines"].append(message)
++    for event in events:
++        event["data"] = None
++        event["complete"] = False
++        data_lines = []
++        reading_data = False
++        for line in event["lines"]:
++            if not reading_data:
++                key, sep, value = line.partition("=")
++                if key in {"method", "url", "status", "params", "message"} and sep:
++                    event[key] = value
++                elif key == "data" and sep:
++                    reading_data = True
++                    data_lines.append(value)
++            else:
++                data_lines.append(line)
++        if reading_data:
++            text = "".join(data_lines)
++            try:
++                event["data"] = json.loads(text)
++                event["complete"] = True
++            except (ValueError, TypeError):
++                event["data_raw"] = text
++                # Undefined body is valid only for no-body requests.
++                if text == "undefined":
++                    event["complete"] = True
++        event.pop("lines")
++    return events
++
++
++def page_pairs(events: list[dict]) -> list[dict]:
++    pending = []
++    pairs = []
++    for event in events:
++        if event.get("url") != GOODS_URL:
++            continue
++        if event["kind"] == "Request":
++            pending.append(event)
++        elif event["kind"] in {"Response", "Response Error"}:
++            if len(pending) == 1:
++                pairs.append({"request": pending.pop(), "response": event, "ambiguous": False})
++            elif pending:
++                pairs.append({"requests": pending.copy(), "response": event, "ambiguous": True})
++                pending.clear()
++    return pairs
++
++
++def walk_visible(tree: dict, visible: bool = True):
++    attrs = tree.get("attributes", {})
++    visible = visible and attrs.get("visible", "true") != "false" and attrs.get("opacity", "1") not in {"0", "0.000000"}
++    if visible:
++        yield attrs
++    for child in tree.get("children", []):
++        yield from walk_visible(child, visible)
++
++
++def rect(attrs: dict) -> tuple[int, int, int, int]:
++    values = [int(x) for x in re.findall(r"-?\d+", attrs.get("bounds", ""))]
++    return tuple(values) if len(values) == 4 else (0, 0, 0, 0)
++
++
++def displayed(attrs: dict) -> bool:
++    left, top, right, bottom = rect(attrs)
++    return right > left and bottom > top and right > 0 and left < 1308 and bottom > 137 and top < 2880
++
++
++class ObservedGoodsCase(HarnessTestCase):
++    """A new app process and independent raw evidence directory per test."""
++
++    @classmethod
++    def setUpClass(cls):
++        if cls.device_sn != DEVICE:
++            raise RuntimeError(f"Only the task's isolated emulator {DEVICE} is authorized")
++        receipt_path = os.environ.get("CMLSPEC24_INSTALL_RECEIPT")
++        if not receipt_path:
++            raise RuntimeError("Set CMLSPEC24_INSTALL_RECEIPT after installing this run's freshly built HAP")
++        receipt = json.loads(pathlib.Path(receipt_path).read_text(encoding="utf-8-sig"))
++        hap = pathlib.Path(receipt["hap_path"])
++        if receipt.get("device") != DEVICE or receipt.get("install_exit_code") != 0:
++            raise RuntimeError("Installation receipt has wrong device or unsuccessful install")
++        if receipt.get("install_semantic_success") is not True:
++            raise RuntimeError("Installation receipt must confirm native hdc success text, not exit code alone")
++        if hashlib.sha256(hap.read_bytes()).hexdigest() != receipt["hap_sha256"]:
++            raise RuntimeError("Installed-HAP receipt no longer matches the current artifact")
++        cls.install_receipt = receipt
++        super().setUpClass()
++
++    def record(self, action: str, **values):
++        record = {"utc": dt.datetime.now(dt.timezone.utc).isoformat(), "action": action, **values}
++        with (self.out / "actions.jsonl").open("a", encoding="utf-8") as stream:
++            stream.write(json.dumps(record, ensure_ascii=False) + "\n")
++
++    def hdc(self, *args, check=True):
++        command = [shutil.which("hdc") or "hdc", "-t", DEVICE, *args]
++        started = dt.datetime.now(dt.timezone.utc).isoformat()
++        result = subprocess.run(command, capture_output=True, timeout=35)
++        self.command_index += 1
++        label = f"command-{self.command_index:03d}"
++        (self.out / (label + ".stdout.log")).write_bytes(result.stdout)
++        (self.out / (label + ".stderr.log")).write_bytes(result.stderr)
++        self.record("hdc", command=command, exit_code=result.returncode, started_utc=started, evidence=label)
++        if check:
++            self.assertEqual(result.returncode, 0, f"hdc failed: {command}; see {label}")
++        return result.stdout.decode("utf-8", errors="replace")
++
++    def setUp(self):
++        stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
++        self.out = ROOT / "logs/development/hypium" / (stamp + "-" + self._testMethodName)
++        self.out.mkdir(parents=True)
++        self.command_index = 0
++        self.stream_process = None
++        self.stream_stdout = None
++        self.stream_stderr = None
++        self.pid = None
++        self.oracle_cache = {}
++        self.record("installation-receipt", receipt=self.install_receipt)
++        self.driver.stop_app(BUNDLE)
++        self.record("stop-app", bundle=BUNDLE)
++        # Preserve the old app buffer before clearing this isolated device's app logs.
++        self.hdc("shell", "hilog", "-x", "-t", "app")
++        self.hdc("shell", "hilog", "-r", "-t", "app")
++        self.hdc("shell", "hilog", "-Q", "pidoff")
++        self.hdc("shell", "hilog", "-Q", "domainoff")
++        command = [shutil.which("hdc") or "hdc", "-t", DEVICE, "shell", "hilog", "-T", "NetLog"]
++        self.stream_stdout = (self.out / "netlog.raw.log").open("wb")
++        self.stream_stderr = (self.out / "netlog.stderr.log").open("wb")
++        self.stream_process = subprocess.Popen(command, stdout=self.stream_stdout, stderr=self.stream_stderr)
++        self.record("netlog-start", command=command, local_pid=self.stream_process.pid)
++        time.sleep(0.3)
++        self.driver.start_app(BUNDLE, "EntryAbility", wait_time=2)
++        self.record("start-app", bundle=BUNDLE, ability="EntryAbility")
++        self.pid = self.hdc("shell", "pidof", BUNDLE).strip().split()[0]
++        self.require_component(BY.key("gc.entry.home.search"), "Home search entry missing", timeout=25)
++
++    def tearDown(self):
++        try:
++            self.snapshot("final")
++            events = self.events()
++            (self.out / "netlog.events.json").write_text(json.dumps(events, ensure_ascii=False, indent=2), encoding="utf-8")
++            (self.out / "netlog.page-pairs.json").write_text(json.dumps(page_pairs(events), ensure_ascii=False, indent=2), encoding="utf-8")
++            (self.out / "oracle.index.json").write_text(json.dumps({key: value[1] for key, value in self.oracle_cache.items()}, ensure_ascii=False, indent=2), encoding="utf-8")
++            if self.pid:
++                self.hdc("shell", "hilog", "-x", "-P", self.pid, "-L", "E,F", check=False)
++        finally:
++            if self.stream_process is not None:
++                self.stream_process.terminate()
++                try:
++                    code = self.stream_process.wait(timeout=5)
++                except subprocess.TimeoutExpired:
++                    self.stream_process.kill()
++                    code = self.stream_process.wait(timeout=5)
++                self.record("netlog-stop", local_pid=self.stream_process.pid, exit_code=code)
++            if self.stream_stdout:
++                self.stream_stdout.close()
++            if self.stream_stderr:
++                self.stream_stderr.close()
++            self.hdc("shell", "hilog", "-Q", "pidon", check=False)
++            self.hdc("shell", "hilog", "-Q", "domainon", check=False)
++
++    def events(self):
++        if self.stream_process is not None and self.stream_process.poll() is not None:
++            self.fail("Live NetLog capture exited unexpectedly; absence of logs is not evidence of no request")
++        return read_events((self.out / "netlog.raw.log").read_text(encoding="utf-8", errors="replace"), self.pid)
++
++    def requests(self):
++        return [event for event in self.events() if event.get("url") == GOODS_URL and event["kind"] == "Request"]
++
++    @staticmethod
++    def response_success_fragment(response):
++        if response.get("status") != "200":
++            return False
++        if response.get("complete") and isinstance(response.get("data"), dict):
++            return response["data"].get("code") == 1000
++        raw = response.get("data_raw", "")
++        return re.match(r'^\{\s*"code"\s*:\s*1000\s*,', raw) is not None
++
++    def with_oracle(self, pair):
++        """Keep App evidence unchanged; add a separately recorded host replay oracle."""
++        self.assertFalse(pair["ambiguous"], "Concurrent same-URL calls cannot be paired without stronger evidence")
++        request, response = pair["request"], pair["response"]
++        self.assertTrue(request.get("complete"), "Actual App request must be complete")
++        self.assertEqual(request.get("method"), "POST")
++        self.assertTrue(self.response_success_fragment(response), "Actual App response must show HTTP200 and top-level code1000")
++        cache_key = request["pid"] + "-" + str(request["ordinal"])
++        if cache_key not in self.oracle_cache:
++            payload = json.dumps(request["data"], ensure_ascii=False, separators=(",", ":")).encode("utf-8")
++            started = dt.datetime.now(dt.timezone.utc).isoformat()
++            replay = urllib.request.Request(GOODS_URL, data=payload, headers={"Content-Type": "application/json", "Accept": "application/json"}, method="POST")
++            with urllib.request.urlopen(replay, timeout=20) as fetched:
++                raw = fetched.read()
++                status, headers = fetched.status, dict(fetched.headers.items())
++            oracle = json.loads(raw)
++            self.assertEqual(status, 200)
++            self.assertEqual(oracle.get("code"), 1000)
++            prefix = "oracle-" + cache_key
++            (self.out / (prefix + ".request-body.json")).write_bytes(payload)
++            (self.out / (prefix + ".response-body.json")).write_bytes(raw)
++            evidence = {"kind": "Independent read-only host replay; NOT the App original response", "url": GOODS_URL,
++                        "started_utc": started, "ended_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
++                        "request_sha256": hashlib.sha256(payload).hexdigest(), "response_sha256": hashlib.sha256(raw).hexdigest(),
++                        "status": status, "headers": headers, "request_file": prefix + ".request-body.json", "response_file": prefix + ".response-body.json",
++                        "actual_app_response_complete": response.get("complete"),
++                        "actual_app_response_top_code1000_fragment": True, "actual_request_pid": request["pid"], "actual_request_ordinal": request["ordinal"]}
++            (self.out / (prefix + ".metadata.json")).write_text(json.dumps(evidence, ensure_ascii=False, indent=2), encoding="utf-8")
++            self.oracle_cache[cache_key] = (oracle, evidence)
++            self.record("independent-service-oracle", **evidence)
++        pair["oracle"], pair["oracle_evidence"] = self.oracle_cache[cache_key]
++        return pair
++
++    def wait_page(self, expected: dict, after: int = 0, timeout=25):
++        deadline = time.monotonic() + timeout
++        while time.monotonic() < deadline:
++            pairs = page_pairs(self.events())
++            for pair in pairs:
++                if pair["ambiguous"]:
++                    continue
++                request, response = pair["request"], pair["response"]
++                all_requests = self.requests()
++                if request not in all_requests[after:]:
++                    continue
++                body = request.get("data")
++                if isinstance(body, dict) and all(body.get(k) == v for k, v in expected.items()) and self.response_success_fragment(response):
++                    self.assertEqual(request.get("method"), "POST")
++                    self.assertEqual(response.get("status"), "200", "App request did not return HTTP200")
++                    pair = self.with_oracle(pair)
++                    self.last_page = pair
++                    self.record("matched-real-page", request=body, app_response_complete=response.get("complete"), oracle_pagination=pair["oracle"]["data"].get("pagination"))
++                    return pair
++            self.driver.wait(0.2)
++        self.fail(f"No complete request plus unambiguous actual HTTP200/code1000 response fragment for {expected} after request {after}; see NetLog")
++
++    def click(self, key: str):
++        component = self.require_component(BY.key(key), f"Missing {key}")
++        self.record("click", key=key)
++        self.driver.click(component)
++        self.driver.wait(0.15)
++
++    def input(self, key: str, value: str):
++        component = self.require_component(BY.key(key), f"Missing input {key}")
++        if component.getType() not in {"TextInput", "Search"}:
++            bound = component.getBounds()
++            candidates = []
++            for child in self.driver.find_all_components(BY.type("TextInput")) or []:
++                child_bound = child.getBounds()
++                if child_bound.left >= bound.left and child_bound.right <= bound.right and child_bound.top >= bound.top and child_bound.bottom <= bound.bottom:
++                    candidates.append(child)
++            self.assertEqual(len(candidates), 1, f"{key} must contain one native TextInput")
++            component = candidates[0]
++        self.record("input", key=key, value=value)
++        self.driver.input_text(component, value)
++
++    def snapshot(self, label: str):
++        remote = "/data/local/tmp/cmlspec24-" + label + ".json"
++        self.hdc("shell", "uitest", "dumpLayout", "-p", remote)
++        self.hdc("file", "recv", remote, str(self.out / (label + ".json")))
++        image_remote = "/data/local/tmp/cmlspec24-" + label + ".png"
++        self.hdc("shell", "uitest", "screenCap", "-p", image_remote)
++        self.hdc("file", "recv", image_remote, str(self.out / (label + ".png")))
++        self.assertTrue((self.out / (label + ".png")).is_file(), "Screen capture did not create the local PNG")
++        return [attrs for attrs in walk_visible(json.loads((self.out / (label + ".json")).read_text(encoding="utf-8"))) if displayed(attrs)]
++
++    def assert_top_cards(self, pair: dict, label: str):
++        rows = pair["oracle"]["data"]["list"]
++        self.assertTrue(rows, "Nonempty precondition unavailable in real response")
++        self.require_component(BY.key("gc.goods." + str(rows[0]["id"])), "First real-response item missing in UI")
++        nodes = self.snapshot(label)
++        cards = [node for node in nodes if CARD_ID.fullmatch(node.get("key") or node.get("id", ""))]
++        cards.sort(key=lambda node: (rect(node)[1], rect(node)[0]))
++        actual = [int(CARD_ID.fullmatch(node.get("key") or node["id"])[1]) for node in cards]
++        self.assertTrue(actual, "No visible goods cards")
++        expected = [row["id"] for row in rows]
++        self.assertEqual(actual, expected[:len(actual)], "Visible UI order does not match the actual response prefix")
++        by_id = {(node.get("key") or node.get("id")): node for node in nodes}
++        complete_cards = []
++        for goods_id in actual:
++            card = by_id["gc.goods." + str(goods_id)]
++            if card.get("origBounds") and card["origBounds"] != card.get("bounds"):
++                continue  # A clipped image-only card is valid; inspect its metadata after scrolling.
++            complete_cards.append(card)
++            row = next(row for row in rows if row["id"] == goods_id)
++            self.assertIn("gc.image." + str(goods_id), by_id)
++            self.assertEqual(by_id["gc.name." + str(goods_id)].get("text"), row["title"])
++            self.assertIn("gc.price." + str(goods_id), by_id)
++        self.assertTrue(complete_cards, "No complete card available for image/name/price assertions")
++        return complete_cards
++
++    def filter_tag(self, category_id: int, label: str, click=True):
++        key = "gc.filter.tag." + str(category_id)
++        for direction in ["UP", "DOWN"]:
++            for _ in range(9):
++                component = self.find_or_none(BY.key(key), timeout=0.3)
++                region = self.require_component(BY.key("gc.filter.scroll"), "Missing filter scroll").getBounds()
++                if component is not None:
++                    bounds = component.getBounds()
++                    if bounds.top >= region.top and bounds.bottom <= region.bottom and bounds.bottom > bounds.top:
++                        self.snapshot(label + "-before")
++                        if click:
++                            self.click(key)
++                            self.snapshot(label + "-after")
++                            self.assertTrue(self.require_component(BY.key(key), key).isSelected(), "Selected tag needs selected semantics")
++                        return self.require_component(BY.key(key), key)
++                self.record("filter-scroll", direction=direction)
++                self.driver.swipe(direction, distance=65, area=BY.key("gc.filter.scroll"))
++        self.fail(f"Real tag {category_id} not reachable in filter scroll")
++
++    def wait_quiet(self, seconds=0.8):
++        self.driver.wait(seconds)
++        self.events()  # Assert the capture is alive even for zero-request checks.
++
++    def dismiss_keyboard(self):
++        label = "keyboard-check-" + str(self.command_index)
++        nodes = self.snapshot(label)
++        if any(node.get("bundleName") == "com.huawei.hmos.inputmethod" for node in nodes):
++            self.record("system-back", reason="Dismiss observed system IME, not filter menu")
++            self.driver.press_back()
++            self.driver.wait(0.3)
++            self.require_component(BY.key("gc.filter.panel"), "IME dismissal unexpectedly closed filter")
++            nodes = self.snapshot(label + "-dismissed")
++            self.assertFalse(any(node.get("bundleName") == "com.huawei.hmos.inputmethod" for node in nodes))
++
++    def close_filter_mask(self):
++        mask = self.require_component(BY.key("gc.filter.mask"), "Mask missing").getBounds()
++        panel = self.require_component(BY.key("gc.filter.panel"), "Panel missing").getBounds()
++        self.assertGreater(mask.bottom, panel.bottom + 2, "No exposed mask area below dropdown")
++        point = ((mask.left + mask.right) // 2, (panel.bottom + mask.bottom) // 2)
++        self.record("click-mask-outside-panel", point=point)
++        self.driver.click(point)
++
++    def return_to_first(self, goods_id: int, container: str):
++        before = len(self.requests())
++        for _ in range(24):
++            item = self.find_or_none(BY.key("gc.goods." + str(goods_id)), timeout=0.25)
++            region = self.require_component(BY.key(container), container).getBounds()
++            if item is not None:
++                bound = item.getBounds()
++                if bound.top >= region.top and bound.top < region.bottom and bound.bottom > bound.top:
++                    self.assertEqual(len(self.requests()), before, "Returning to old first-page data caused a new query")
++                    return
++            self.driver.swipe("DOWN", distance=70, area=BY.key(container))
++            self.driver.wait(0.1)
++        self.fail("First-page item was lost after appending later pages")
++
++    @staticmethod
++    def visible_card_ids(nodes):
++        cards = [node for node in nodes if CARD_ID.fullmatch(node.get("key") or node.get("id", ""))]
++        cards.sort(key=lambda node: (rect(node)[1], rect(node)[0]))
++        return [int(CARD_ID.fullmatch(node.get("key") or node["id"])[1]) for node in cards]
++
++    def enter_home_category(self):
++        before = len(self.requests())
++        self.click("gc.entry.home.category.800001")
++        self.require_component(BY.key("gc.page"), "Home category did not navigate to goods/category")
++        return self.wait_page({"page": 1}, after=before)
++
++    def enter_all(self):
++        self.enter_home_category()
++        self.click("gc.filter.trigger")
++        self.click("gc.filter.reset")
++        before = len(self.requests())
++        self.click("gc.filter.confirm")
++        pair = self.wait_page({"page": 1}, after=before)
++        for key in ["typeId", "minPrice", "maxPrice", "keyWord", "featured", "recommend", "order", "sort"]:
++            self.assertNotIn(key, pair["request"]["data"], f"Reset all should omit {key}")
++        return pair
+diff --git a/hypium_tests/pagination.py b/hypium_tests/pagination.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..2ef8be460fd9a70407f63ac3b53c7782b22a6620
+--- /dev/null
++++ b/hypium_tests/pagination.py
+@@ -0,0 +1,81 @@
++"""Shared real-device fixed-coordinate pagination assertions (no production substitutes)."""
++from hypium import BY
++from .observation import page_pairs, rect
++
++class FixedPaginationChecks:
++    def fixed_swipe(self, direction):
++        coords = ("350", "2500", "350", "700") if direction == "UP" else ("350", "700", "350", "2500")
++        self.record("fixed-long-swipe", direction=direction, coordinates=coords, velocity=600)
++        self.hdc("shell", "uitest", "uiInput", "swipe", *coords, "600")
++        self.wait_quiet(0.45)
++
++    def pagination_refresh(self, layout):
++        first = self.enter_all()
++        if layout == "list":
++            count = len(self.requests())
++            self.click("gc.layout.toggle")
++            self.assertEqual(len(self.requests()), count)
++        self.require_component(BY.key("gc.refresh"), "Native Refresh contract missing")
++        self.require_component(BY.key("gc." + layout), "Layout contract missing")
++        initial = self.snapshot(layout + "-initial-geometry")
++        initial_cards = [n for n in initial if (n.get("key") or n.get("id", "")).startswith("gc.goods.")]
++        top_y = min(rect(n)[1] for n in initial_cards)
++        start = len(self.requests()) - 1
++        total = first["oracle"]["data"]["pagination"]["total"]
++        self.assertGreater(total, 40, "Live catalogue needs at least three pages")
++        observed = []
++        expected = []
++        for step in range(1, 41):
++            nodes = self.snapshot(layout + "-scan-" + str(step))
++            for goods_id in self.visible_card_ids(nodes):
++                if goods_id not in observed:
++                    observed.append(goods_id)
++            relevant = []
++            for pair in page_pairs(self.events()):
++                if pair["request"] in self.requests()[start:]:
++                    self.assertFalse(pair["ambiguous"], "Pagination requests must not compete with refresh")
++                    relevant.append(self.with_oracle(pair))
++            pages = [pair["request"]["data"]["page"] for pair in relevant]
++            self.assertEqual(pages, list(range(1, len(pages) + 1)), "An UP gesture emitted a wrong page or refresh")
++            expected = [row["id"] for pair in relevant for row in pair["oracle"]["data"]["list"]]
++            self.record("pagination-progress", layout=layout, step=step, pages=pages, observed=observed, total=total)
++            if len(expected) == total and len(observed) == total:
++                self.assertEqual(observed, expected, "UI append must preserve every oracle ID and order")
++                self.require_component(BY.key("gc.state.end"), "Last-page marker missing")
++                break
++            self.fixed_swipe("UP")
++        else:
++            self.fail("Fixed gestures did not expose all pages/items; inspect captured scroll position")
++        count = len(self.requests())
++        for step in range(3):
++            self.fixed_swipe("UP")
++            self.snapshot(layout + "-end-extra-up-" + str(step))
++            self.assertEqual(len(self.requests()), count, "Last-page UP must issue neither page4 nor page1")
++        for step in range(40):
++            nodes = self.snapshot(layout + "-return-" + str(step))
++            first_card = next((n for n in nodes if (n.get("key") or n.get("id")) == "gc.goods." + str(expected[0])), None)
++            if first_card is not None and first_card.get("bounds") == first_card.get("origBounds"):
++                break
++            visible = self.visible_card_ids(nodes)
++            first_index = min(expected.index(goods_id) for goods_id in visible)
++            if first_index <= (4 if layout == "grid" else 3):
++                # A final 1800px swipe overshoots the retained top and legitimately
++                # becomes a pull. Use a short move below the refresh threshold.
++                distance = 100
++                self.record("return-top-short-down", first_visible_index=first_index, distance_px=distance, velocity=1000, initial_top=top_y)
++                self.hdc("shell", "uitest", "uiInput", "swipe", "350", "900", "350", str(900 + distance), "1000")
++                self.wait_quiet(0.25)
++            else:
++                self.fixed_swipe("DOWN")
++            self.assertEqual(len(self.requests()), count, "Returning through retained pages must not reload")
++        else:
++            self.fail("Could not return to complete first card")
++        for repeat in range(2):
++            before = len(self.requests())
++            self.fixed_swipe("DOWN")
++            refreshed = self.wait_page({"page": 1}, after=before)
++            self.assertEqual(len(self.requests()) - before, 1, "One top DOWN must issue one refresh")
++            self.assertEqual(refreshed["request"]["data"], first["request"]["data"], "Refresh must preserve the complete query")
++            self.assert_top_cards(refreshed, layout + "-refresh-" + str(repeat))
++            self.assertIsNone(self.find_or_none(BY.key("gc.state.refreshing"), timeout=0.3), "Refresh state must finish")
++
+diff --git a/hypium_tests/test_goods_category_live.py b/hypium_tests/test_goods_category_live.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..f02239b0ff79b8a0b08a57fd56edbf4c1f338828
+--- /dev/null
++++ b/hypium_tests/test_goods_category_live.py
+@@ -0,0 +1,371 @@
++"""UI-driven catalogue checks against actual application NetLog responses.
++
++Run only after a frozen build has been installed and receipted. App response fragments
++and separately recorded read-only service replay oracles retain distinct provenance.
++"""
++import time
++
++from hypium import BY
++
++from .observation import ObservedGoodsCase, rect
++from .pagination import FixedPaginationChecks
++
++
++class GoodsCategoryLiveTests(FixedPaginationChecks, ObservedGoodsCase):
++    def test_01_home_entry_structure_and_layout(self):
++        pair = self.enter_home_category()
++        self.assertTrue(pair["request"]["data"].get("typeId"), "Root entry must resolve real leaf categories")
++        self.assertNotIn(800001, pair["request"]["data"]["typeId"], "Root ID must not be sent as an exact type filter")
++        controls = self.require_component(BY.key("gc.controls"), "Missing controls").getBounds()
++        header = self.require_component(BY.key("gc.header"), "Missing header").getBounds()
++        self.assertLessEqual(header.bottom, controls.top + 2)
++        bounds = [self.require_component(BY.key(key), key).getBounds() for key in ["gc.filter.trigger", "gc.sort.trigger", "gc.layout.toggle"]]
++        self.assertLess(bounds[0].left, bounds[1].left)
++        self.assertLess(bounds[1].left, bounds[2].left)
++        self.assertEqual(self.require_component(BY.key("gc.sort.title"), "Missing sort title").getText(), "排序")
++        self.require_component(BY.key("gc.grid"), "Default must be grid")
++        cards = self.assert_top_cards(pair, "grid-initial")
++        self.assertGreaterEqual(len(cards), 3)
++        self.assertEqual(rect(cards[0])[1], rect(cards[1])[1], "Two first cards must share grid row")
++        self.assertLess(rect(cards[0])[0], rect(cards[1])[0])
++        request_count = len(self.requests())
++        self.click("gc.layout.toggle")
++        self.require_component(BY.key("gc.list"), "Toggle did not produce list")
++        cards = self.assert_top_cards(pair, "list")
++        self.assertGreaterEqual(len(cards), 2)
++        self.assertEqual(rect(cards[0])[0], rect(cards[1])[0], "Single-column items must share x")
++        self.assertLess(rect(cards[0])[1], rect(cards[1])[1])
++        self.click("gc.layout.toggle")
++        self.require_component(BY.key("gc.grid"), "Second toggle did not restore grid")
++        self.assert_top_cards(pair, "grid-restored")
++        self.driver.wait(0.7)
++        self.assertEqual(len(self.requests()), request_count, "Layout toggle must not reload goods")
++
++    def test_02_category_tab_leaf_entry(self):
++        self.click("gc.entry.category.tab")
++        before = len(self.requests())
++        self.click("gc.entry.category.801001")
++        pair = self.wait_page({"page": 1, "typeId": [801001]}, after=before)
++        self.require_component(BY.key("gc.page"), "Leaf did not enter category page")
++        self.assertTrue(all(row["typeId"] == 801001 for row in pair["oracle"]["data"]["list"]))
++        self.assert_top_cards(pair, "tab-leaf")
++
++    def test_03_search_edit_empty_and_recover(self):
++        self.click("gc.entry.home.search")
++        self.require_component(BY.key("gs.page"), "Search page missing")
++        self.input("gs.search.input", "Xiaomi 15S Pro")
++        before = len(self.requests())
++        self.click("gs.search.submit")
++        pair = self.wait_page({"page": 1, "keyWord": "Xiaomi 15S Pro"}, after=before)
++        self.require_component(BY.key("gc.page"), "Search did not enter category page")
++        for key in ["featured", "recommend"]:
++            self.assertNotIn(key, pair["request"]["data"], "Ordinary search must not inherit placeholder false filters")
++        self.assert_top_cards(pair, "search-initial")
++        for value in ["", "   "]:
++            self.input("gc.search.input", value)
++            before = len(self.requests())
++            self.click("gc.search.submit")
++            self.driver.wait(0.6)
++            self.assertEqual(len(self.requests()), before, "Empty/space search must not submit")
++        self.input("gc.search.input", "cmlspec24nomatch20261019")
++        before = len(self.requests())
++        self.click("gc.search.submit")
++        pair = self.wait_page({"page": 1, "keyWord": "cmlspec24nomatch20261019"}, after=before)
++        self.assertEqual(pair["oracle"]["data"]["list"], [])
++        self.require_component(BY.key("gc.state.empty"), "Empty response needs visible empty state")
++        self.require_component(BY.key("gc.controls"), "Empty result removed controls")
++        self.snapshot("empty")
++        self.input("gc.search.input", "Xiaomi 17T")
++        before = len(self.requests())
++        self.click("gc.search.submit")
++        pair = self.wait_page({"page": 1, "keyWord": "Xiaomi 17T"}, after=before)
++        self.assert_top_cards(pair, "search-recovered")
++
++    def test_04_sort_five_options_and_real_numeric_order(self):
++        self.enter_all()
++        modes = [("priceAsc", "价格由低到高", "price", "asc"),
++                 ("soldDesc", "销量由高到低", "sold", "desc"),
++                 ("priceDesc", "价格由高到低", "price", "desc"),
++                 ("soldAsc", "销量由低到高", "sold", "asc"),
++                 ("default", "综合排序", None, None)]
++        for mode, title, key, direction in modes:
++            self.click("gc.sort.trigger")
++            self.require_component(BY.key("gc.sort.panel"), "Sort panel missing")
++            for option, text, _, _ in modes:
++                self.assertEqual(self.require_component(BY.key("gc.sort.option." + option), text).getText(), text)
++            before = len(self.requests())
++            self.click("gc.sort.option." + mode)
++            expected = {"page": 1} if key is None else {"page": 1, "order": key, "sort": direction}
++            pair = self.wait_page(expected, after=before)
++            self.assertEqual(self.require_component(BY.key("gc.sort.title"), "Current sort title").getText(), title)
++            self.assertIsNone(self.find_or_none(BY.key("gc.sort.panel"), timeout=0.3), "Sort menu must close after selection")
++            if key:
++                values = [row[key] for row in pair["oracle"]["data"]["list"]]
++                self.assertEqual(values, sorted(values, reverse=direction == "desc"), "Server response numeric order incorrect")
++            else:
++                self.assertNotIn("order", pair["request"]["data"])
++                self.assertNotIn("sort", pair["request"]["data"])
++            self.assert_top_cards(pair, "sort-" + mode)
++        before = len(self.requests())
++        self.click("gc.sort.trigger")
++        self.click("gc.sort.option.default")
++        self.driver.wait(0.5)
++        self.assertEqual(len(self.requests()), before, "Repeated current sort should not reload")
++
++    def test_05_price_draft_cancel_confirm_and_reset(self):
++        original = self.enter_all()
++        self.click("gc.filter.trigger")
++        self.require_component(BY.key("gc.filter.panel"), "Filter panel missing")
++        for key in ["gc.filter.min", "gc.filter.max", "gc.filter.separator", "gc.filter.reset", "gc.filter.confirm"]:
++            self.require_component(BY.key(key), key)
++        self.input("gc.filter.min", "50")
++        self.input("gc.filter.max", "200")
++        self.dismiss_keyboard()
++        self.snapshot("draft-price")
++        count = len(self.requests())
++        self.click("gc.filter.trigger")
++        self.driver.wait(0.5)
++        self.assertEqual(len(self.requests()), count, "Unconfirmed draft must not reload goods")
++        self.assert_top_cards(original, "after-cancel")
++        self.click("gc.filter.trigger")
++        self.assertEqual(self.require_component(BY.key("gc.filter.min"), "min").getText(), "")
++        self.assertEqual(self.require_component(BY.key("gc.filter.max"), "max").getText(), "")
++        self.input("gc.filter.min", "50")
++        self.input("gc.filter.max", "200")
++        self.dismiss_keyboard()
++        before = len(self.requests())
++        self.click("gc.filter.confirm")
++        pair = self.wait_page({"page": 1, "minPrice": "50", "maxPrice": "200"}, after=before)
++        self.assertIsNone(self.find_or_none(BY.key("gc.filter.panel"), timeout=0.3))
++        prices = [row["price"] for row in pair["oracle"]["data"]["list"]]
++        self.assertTrue(prices)
++        self.assertTrue(all(50 < value <= 200 for value in prices))
++        self.assert_top_cards(pair, "price-applied")
++        self.click("gc.filter.trigger")
++        self.assertEqual(self.require_component(BY.key("gc.filter.min"), "min").getText(), "50")
++        self.assertEqual(self.require_component(BY.key("gc.filter.max"), "max").getText(), "200")
++        count = len(self.requests())
++        self.click("gc.filter.reset")
++        self.assertEqual(self.require_component(BY.key("gc.filter.min"), "min").getText(), "")
++        self.assertEqual(self.require_component(BY.key("gc.filter.max"), "max").getText(), "")
++        self.assertEqual(len(self.requests()), count, "Reset draft must not submit")
++        self.click("gc.filter.confirm")
++        pair = self.wait_page({"page": 1}, after=count)
++        self.assertNotIn("minPrice", pair["request"]["data"])
++        self.assertNotIn("maxPrice", pair["request"]["data"])
++        self.assert_top_cards(pair, "reset-applied")
++
++    def test_06_pagination_and_refresh(self):
++        self.pagination_refresh("grid")
++        self.click("gc.search.back")
++        self.require_component(BY.key("gc.entry.home.search"), "Return home before independent list query")
++        self.pagination_refresh("list")
++
++    def test_07_back_reentry_and_cold_start(self):
++        self.enter_home_category()
++        self.click("gc.layout.toggle")
++        self.click("gc.filter.trigger")
++        self.input("gc.filter.min", "50")
++        self.driver.press_back()
++        self.require_component(BY.key("gc.page"), "Back from filter must keep page")
++        # Native IME may consume the first back; close the menu through its trigger.
++        if self.find_or_none(BY.key("gc.filter.panel"), timeout=0.3):
++            self.click("gc.filter.trigger")
++        self.click("gc.search.back")
++        self.require_component(BY.key("gc.entry.home.search"), "Back did not reach home")
++        self.enter_home_category()
++        self.require_component(BY.key("gc.grid"), "New category instance must default to grid")
++        self.driver.stop_app("com.joker.coolmall")
++        self.record("stop-app", reason="cold-start")
++        self.driver.start_app("com.joker.coolmall", "EntryAbility", wait_time=2)
++        self.pid = self.hdc("shell", "pidof", "com.joker.coolmall").strip().split()[0]
++        self.record("start-app", reason="cold-start", pid=self.pid)
++        self.enter_home_category()
++        self.require_component(BY.key("gc.grid"), "Cold process entry must use grid")
++
++    def test_08_multigroup_selection_price_and_reset(self):
++        self.enter_all()
++        self.click("gc.filter.trigger")
++        self.input("gc.filter.min", "50")
++        self.input("gc.filter.max", "200")
++        self.dismiss_keyboard()
++        before = len(self.requests())
++        self.filter_tag(801013, "wearable-tag")
++        self.filter_tag(801032, "kitchen-tag")
++        # Revisit both tags to prove selection is additive across groups.
++        self.assertTrue(self.filter_tag(801013, "wearable-selected", click=False).isSelected())
++        self.assertTrue(self.filter_tag(801032, "kitchen-selected", click=False).isSelected())
++        self.wait_quiet()
++        self.assertEqual(len(self.requests()), before, "Tag draft edits must not reload goods")
++        self.click("gc.filter.confirm")
++        pair = self.wait_page({"page": 1, "minPrice": "50", "maxPrice": "200"}, after=before)
++        self.assertEqual(set(pair["request"]["data"].get("typeId", [])), {801013, 801032})
++        rows = pair["oracle"]["data"]["list"]
++        self.assertTrue(rows, "Real multi-category/price fixture returned no data")
++        self.assertTrue(all(row["typeId"] in {801013, 801032} and 50 < row["price"] <= 200 for row in rows))
++        self.assert_top_cards(pair, "multigroup-price-result")
++        self.click("gc.filter.trigger")
++        self.assertTrue(self.filter_tag(801013, "reopen-tag-one", click=False).isSelected())
++        self.assertTrue(self.filter_tag(801032, "reopen-tag-two", click=False).isSelected())
++        self.click("gc.filter.reset")
++        self.assertFalse(self.filter_tag(801013, "reset-tag-one", click=False).isSelected())
++        self.assertFalse(self.filter_tag(801032, "reset-tag-two", click=False).isSelected())
++        before = len(self.requests())
++        self.click("gc.filter.confirm")
++        pair = self.wait_page({"page": 1}, after=before)
++        for key in ["typeId", "minPrice", "maxPrice"]:
++            self.assertNotIn(key, pair["request"]["data"])
++        self.assert_top_cards(pair, "multigroup-reset")
++
++    def test_09_price_validation_single_sides_and_equal(self):
++        self.enter_all()
++        for minimum, maximum in [("abc", ""), ("-1", ""), ("200", "50")]:
++            self.click("gc.filter.trigger")
++            self.input("gc.filter.min", minimum)
++            self.input("gc.filter.max", maximum)
++            self.dismiss_keyboard()
++            before = len(self.requests())
++            self.click("gc.filter.confirm")
++            self.wait_quiet()
++            self.require_component(BY.key("gc.filter.panel"), "Invalid price must retain filter panel")
++            self.require_component(BY.key("gc.filter.error"), "Invalid price needs visible validation")
++            self.assertEqual(len(self.requests()), before, "Invalid price must not query the service")
++            self.close_filter_mask()
++        for minimum, maximum, expected in [
++            ("139", "", {"minPrice": "139"}),
++            ("", "139", {"maxPrice": "139"}),
++            ("   ", "   ", {}),
++            ("139", "139", {"minPrice": "139", "maxPrice": "139"}),
++        ]:
++            self.click("gc.filter.trigger")
++            self.click("gc.filter.reset")
++            self.input("gc.filter.min", minimum)
++            self.input("gc.filter.max", maximum)
++            self.dismiss_keyboard()
++            before = len(self.requests())
++            self.click("gc.filter.confirm")
++            pair = self.wait_page({"page": 1, **expected}, after=before)
++            for key in ["minPrice", "maxPrice"]:
++                if key not in expected:
++                    self.assertNotIn(key, pair["request"]["data"])
++            rows = pair["oracle"]["data"]["list"]
++            if minimum == maximum == "139":
++                self.assertEqual(rows, [], "The observed service treats equal bounds as an empty (min,max] range")
++                self.require_component(BY.key("gc.state.empty"), "Equal bounds response must clear old data")
++            elif minimum.strip():
++                self.assertTrue(all(row["price"] > 139 for row in rows))
++            elif maximum.strip():
++                self.assertTrue(all(row["price"] <= 139 for row in rows))
++            self.snapshot("price-boundary-" + str(before))
++
++    def test_10_mask_back_cancel_and_repeated_confirm(self):
++        self.enter_all()
++        # No input is focused: the system back has no IME to consume it.
++        for close in ["mask", "back"]:
++            self.click("gc.filter.trigger")
++            self.filter_tag(801013, close + "-draft-tag")
++            before = len(self.requests())
++            if close == "mask":
++                self.close_filter_mask()
++            else:
++                nodes = self.snapshot("back-no-ime-precondition")
++                self.assertFalse(any(node.get("bundleName") == "com.huawei.hmos.inputmethod" for node in nodes), "Back test requires no visible IME")
++                self.record("system-back", precondition="No TextInput focused since entering page")
++                self.driver.press_back()
++            self.wait_quiet()
++            self.assertIsNone(self.find_or_none(BY.key("gc.filter.panel"), timeout=0.3), f"{close} must close panel")
++            self.require_component(BY.key("gc.page"), f"{close} must not leave goods page")
++            self.assertEqual(len(self.requests()), before)
++            self.click("gc.filter.trigger")
++            self.assertFalse(self.filter_tag(801013, close + "-draft-discarded", click=False).isSelected())
++            self.click("gc.filter.trigger")
++        self.click("gc.filter.trigger")
++        confirm = self.require_component(BY.key("gc.filter.confirm"), "Confirm missing").getBounds()
++        point = ((confirm.left + confirm.right) // 2, (confirm.top + confirm.bottom) // 2)
++        before = len(self.requests())
++        for _ in range(4):
++            self.record("rapid-confirm-coordinate", point=point)
++            self.driver.click(point)
++        self.wait_page({"page": 1}, after=before)
++        self.wait_quiet()
++        self.assertEqual(len(self.requests()) - before, 1, "Repeated confirm must commit one query")
++
++    def reach_page_two(self, first, label):
++        """Observe actual automatic MORE and the complete retained query."""
++        self.assertGreater(first["oracle"]["data"]["pagination"]["total"], len(first["oracle"]["data"]["list"]), "Live query needs page2")
++        before = len(self.requests())
++        for step in range(15):
++            self.fixed_swipe("UP")
++            self.snapshot(label + "-up-" + str(step))
++            if len(self.requests()) > before:
++                second = self.wait_page({"page": 2}, after=before)
++                expected = {**first["request"]["data"], "page": 2}
++                self.assertEqual(second["request"]["data"], expected, "MORE must retain every active query field")
++                self.assertEqual(len(self.requests()) - before, 1, "One first-end gesture must not also refresh")
++                return second
++        self.fail("No automatic page2 after bounded fixed long gestures")
++
++    def test_11_page_two_query_replacement_and_complete_query(self):
++        first = self.enter_all()
++        self.reach_page_two(first, "before-sort")
++        self.click("gc.sort.trigger")
++        before = len(self.requests())
++        self.click("gc.sort.option.priceAsc")
++        sorted_first = self.wait_page({"page": 1, "order": "price", "sort": "asc"}, after=before)
++        self.assert_top_cards(sorted_first, "page2-to-sort-page1")
++        self.reach_page_two(sorted_first, "before-filter")
++        self.click("gc.filter.trigger")
++        self.input("gc.filter.min", "0")
++        self.input("gc.filter.max", "100000")
++        self.dismiss_keyboard()
++        before = len(self.requests())
++        self.click("gc.filter.confirm")
++        filtered_first = self.wait_page({"page": 1, "minPrice": "0", "maxPrice": "100000", "order": "price", "sort": "asc"}, after=before)
++        self.assert_top_cards(filtered_first, "page2-to-filter-page1")
++        self.reach_page_two(filtered_first, "before-search")
++        self.input("gc.search.input", "米")
++        before = len(self.requests())
++        self.click("gc.search.submit")
++        searched_first = self.wait_page({"page": 1, "keyWord": "米", "minPrice": "0", "maxPrice": "100000", "order": "price", "sort": "asc"}, after=before)
++        self.assert_top_cards(searched_first, "page2-to-search-page1")
++        nodes = self.snapshot("search-refresh-keyboard-precondition")
++        if any(n.get("bundleName") == "com.huawei.hmos.inputmethod" for n in nodes):
++            self.record("system-back", reason="Dismiss actual search IME before top refresh")
++            self.driver.press_back()
++            self.require_component(BY.key("gc.page"), "IME back left catalogue")
++        before = len(self.requests())
++        self.fixed_swipe("DOWN")
++        refreshed = self.wait_page({"page": 1}, after=before)
++        self.assertEqual(refreshed["request"]["data"], searched_first["request"]["data"], "Refresh lost active search/filter/sort fields")
++        self.assert_top_cards(refreshed, "complete-query-refreshed")
++        self.reach_page_two(refreshed, "complete-query-more")
++
++    def test_12_reset_preserves_external_keyword_and_sort(self):
++        self.click("gc.entry.home.search")
++        self.input("gs.search.input", "米")
++        before = len(self.requests())
++        self.click("gs.search.submit")
++        self.wait_page({"page": 1, "keyWord": "米"}, after=before)
++        self.click("gc.sort.trigger")
++        before = len(self.requests())
++        self.click("gc.sort.option.priceDesc")
++        self.wait_page({"page": 1, "keyWord": "米", "order": "price", "sort": "desc"}, after=before)
++        self.click("gc.filter.trigger")
++        self.input("gc.filter.min", "50")
++        self.input("gc.filter.max", "200")
++        self.dismiss_keyboard()
++        self.filter_tag(801013, "scoped-reset-tag-one")
++        self.filter_tag(801032, "scoped-reset-tag-two")
++        before = len(self.requests())
++        self.click("gc.filter.confirm")
++        applied = self.wait_page({"page": 1, "keyWord": "米", "minPrice": "50", "maxPrice": "200", "order": "price", "sort": "desc"}, after=before)
++        self.assertEqual(set(applied["request"]["data"]["typeId"]), {801013, 801032})
++        self.click("gc.filter.trigger")
++        before = len(self.requests())
++        self.click("gc.filter.reset")
++        self.assertEqual(len(self.requests()), before, "Reset draft must not submit")
++        self.click("gc.filter.confirm")
++        reset = self.wait_page({"page": 1, "keyWord": "米", "order": "price", "sort": "desc"}, after=before)
++        for key in ["typeId", "minPrice", "maxPrice"]:
++            self.assertNotIn(key, reset["request"]["data"])
++        self.assert_top_cards(reset, "scoped-reset-result")

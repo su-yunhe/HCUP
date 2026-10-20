@@ -1,0 +1,17 @@
+usage: bm install <options>
+options list:
+  -h, --help                                                     list available commands
+  -p, --bundle-path <file-path>                                  install a hap or hsp or app by a specified path
+  -p, --bundle-path <file-path> <file-path> ...                  install one bundle by some hap or hsp paths
+  -p, --bundle-path <bundle-direction>                           install one bundle by a direction,
+                                                                    under which are some hap or hsp
+                                                                    or one app files
+  -r -p <bundle-file-path>                                       replace an existing bundle
+  -r --bundle-path <bundle-file-path>                            replace an existing bundle
+  -s, --shared-bundle-dir-path <shared-bundle-dir-path>          install inter-application hsp files
+  -u, --user-id <user-id>                                        specify a user id,
+                                                                   only supports current user or userId is 0
+  -w, --waitting-time <waitting-time>                            specify waitting time for installation,
+                                                                    the minimum waitting time is 180s,
+                                                                    the maximum waitting time is 600s
+  -d, --downgrade                                                install allow downgrade

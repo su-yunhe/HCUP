@@ -1,0 +1,302 @@
+10-19 14:18:18.503  8139  8139 I A03d00/JSAPP: === 命名转换工具 ===
+10-19 14:18:18.503  8139  8139 I A03d00/JSAPP: === camelToSnake ===
+10-19 14:18:18.503  8139  8139 I A03d00/JSAPP:   ✓ 应该转换普通驼峰
+10-19 14:18:18.503  8139  8139 I A03d00/JSAPP:   ✓ 应该处理全大写
+10-19 14:18:18.503  8139  8139 I A03d00/JSAPP:   ✓ 应该处理混合情况
+10-19 14:18:18.503  8139  8139 I A03d00/JSAPP:   ✓ 应该处理空字符串
+10-19 14:18:18.503  8139  8139 I A03d00/JSAPP: === snakeToCamel ===
+10-19 14:18:18.504  8139  8139 I A03d00/JSAPP:   ✓ 应该转换蛇形命名
+10-19 14:18:18.504  8139  8139 I A03d00/JSAPP:   ✓ 应该处理空字符串
+10-19 14:18:18.504  8139  8139 I A03d00/JSAPP: === classToTable ===
+10-19 14:18:18.504  8139  8139 I A03d00/JSAPP:   ✓ 应该转换类名为表名
+10-19 14:18:18.504  8139  8139 I A03d00/JSAPP: === propertyToColumn ===
+10-19 14:18:18.504  8139  8139 I A03d00/JSAPP:   ✓ 应该转换属性名为字段名
+10-19 14:18:18.588  8139  8139 I A03d00/JSAPP: Succeeded in setting the window layout to full-screen mode.
+10-19 14:18:30.275  8139  8139 I A03d00/JSAPP: [CML24FixtureControl] seq=1 nav clear
+10-19 14:18:30.276  8139  8139 I A03d00/JSAPP: [CML24FixtureControl] seq=2 nav open instance=1 scenario=flags
+10-19 14:18:30.282  8139  8139 I A03d00/JSAPP: [CML24Fixture] {"at":1792390710282,"seq":3,"event":"request","id":1,"owner":1,"scenario":"flags","kind":"categories","ids":[]}
+10-19 14:18:30.282  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=3 event=request part=1/1 {"state":"pending","startedAt":1792390710282,"responseIds":[],"id":1,"instanceId":1,"scenario":"flags","kind":"categories"}
+10-19 14:18:39.195  8139  8139 I A03d00/JSAPP: [CML24Fixture] {"at":1792390719195,"seq":4,"event":"resolve","id":1,"owner":1,"scenario":"flags","kind":"categories","ids":[900001,910001,910002,900002,920001],"code":1000}
+10-19 14:18:39.195  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=4 event=resolve part=1/2 {"state":"resolved","startedAt":1792390710282,"responseIds":[900001,910001,910002,900002,920001],"id":1,"instanceId":1,"scenario":"flags","kind":"categories","completedAt":1792390719195,"responseJson":"{\"data\":[{\"id\":900001,\"name\":\"夹具分组一\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910001,\"name\":\"运动户外\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":910002,\"name\":\"数码\",\"parentId\":900001,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTim
+10-19 14:18:39.195  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=4 event=resolve part=2/2 e\":null},{\"id\":900002,\"name\":\"夹具分组二\",\"parentId\":null,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null},{\"id\":920001,\"name\":\"家居\",\"parentId\":900002,\"sortNum\":0,\"pic\":null,\"status\":1,\"children\":[],\"createTime\":null,\"updateTime\":null}],\"code\":1000,\"message\":null}","responseCode":1000}
+10-19 14:18:39.196  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=start id=1 version=1 epoch=1 kind=first page=1
+10-19 14:18:39.196  8139  8139 I A03d00/JSAPP: [CML24Fixture] {"at":1792390719196,"seq":5,"event":"request","id":2,"owner":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"typeId":[920001],"minPrice":"50","keyWord":"X","recommend":true,"featured":false},"ids":[]}
+10-19 14:18:39.196  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=5 event=request part=1/1 {"state":"pending","startedAt":1792390719196,"responseIds":[],"id":2,"instanceId":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"typeId":[920001],"minPrice":"50","keyWord":"X","recommend":true,"featured":false}}
+10-19 14:18:48.067  8139  8139 I A03d00/JSAPP: [CML24Fixture] {"at":1792390728067,"seq":6,"event":"resolve","id":2,"owner":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"typeId":[920001],"minPrice":"50","keyWord":"X","recommend":true,"featured":false},"ids":[100015,100021,100027],"code":1000}
+10-19 14:18:48.067  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=6 event=resolve part=1/3 {"state":"resolved","startedAt":1792390719196,"responseIds":[100015,100021,100027],"id":2,"instanceId":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"typeId":[920001],"minPrice":"50","keyWord":"X","recommend":true,"featured":false},"completedAt":1792390728067,"responseJson":"{\"data\":{\"list\":[{\"id\":100015,\"typeId\":920001,\"title\":\"X 商品 15\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":55,\"sold\":895,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,
+10-19 14:18:48.067  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=6 event=resolve part=2/3 \"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100021,\"typeId\":920001,\"title\":\"X 商品 21\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":73,\"sold\":853,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100027,\"typeId\":920001,\"title\":\"X 商品 27\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMC
+10-19 14:18:48.067  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=6 event=resolve part=3/3 AO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":91,\"sold\":811,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null}],\"pagination\":{\"total\":3,\"size\":20,\"page\":1}},\"code\":1000,\"message\":null}","responseCode":1000}
+10-19 14:18:48.067  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=commit id=1 version=1 epoch=1 kind=first page=1
+10-19 14:18:48.067  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=finish id=1 version=1 epoch=1 kind=first page=1
+10-19 14:18:49.648  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=start id=2 version=2 epoch=1 kind=first page=1
+10-19 14:18:49.648  8139  8139 I A03d00/JSAPP: [CML24Fixture] {"at":1792390729648,"seq":7,"event":"request","id":3,"owner":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"typeId":[920001],"minPrice":"50","keyWord":"X","order":"price","sort":"desc","recommend":true,"featured":false},"ids":[]}
+10-19 14:18:49.648  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=7 event=request part=1/1 {"state":"pending","startedAt":1792390729648,"responseIds":[],"id":3,"instanceId":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"typeId":[920001],"minPrice":"50","keyWord":"X","order":"price","sort":"desc","recommend":true,"featured":false}}
+10-19 14:18:58.200  8139  8139 I A03d00/JSAPP: [CML24Fixture] {"at":1792390738200,"seq":8,"event":"resolve","id":3,"owner":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"typeId":[920001],"minPrice":"50","keyWord":"X","order":"price","sort":"desc","recommend":true,"featured":false},"ids":[100027,100021,100015],"code":1000}
+10-19 14:18:58.200  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=8 event=resolve part=1/3 {"state":"resolved","startedAt":1792390729648,"responseIds":[100027,100021,100015],"id":3,"instanceId":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"typeId":[920001],"minPrice":"50","keyWord":"X","order":"price","sort":"desc","recommend":true,"featured":false},"completedAt":1792390738200,"responseJson":"{\"data\":{\"list\":[{\"id\":100027,\"typeId\":920001,\"title\":\"X 商品 27\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":91,\"sold\":811,\"content\":null,\"contentPics\":null,\"recommend\":true,\"
+10-19 14:18:58.200  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=8 event=resolve part=2/3 featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100021,\"typeId\":920001,\"title\":\"X 商品 21\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":73,\"sold\":853,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100015,\"typeId\":920001,\"title\":\"X 商品 15\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAA
+10-19 14:18:58.200  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=8 event=resolve part=3/3 C1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":55,\"sold\":895,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null}],\"pagination\":{\"total\":3,\"size\":20,\"page\":1}},\"code\":1000,\"message\":null}","responseCode":1000}
+10-19 14:18:58.201  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=commit id=2 version=2 epoch=1 kind=first page=1
+10-19 14:18:58.201  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=finish id=2 version=2 epoch=1 kind=first page=1
+10-19 14:18:59.376  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=start id=3 version=3 epoch=1 kind=first page=1
+10-19 14:18:59.376  8139  8139 I A03d00/JSAPP: [CML24Fixture] {"at":1792390739376,"seq":9,"event":"request","id":4,"owner":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"keyWord":"X","order":"price","sort":"desc","recommend":true,"featured":false},"ids":[]}
+10-19 14:18:59.376  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=9 event=request part=1/1 {"state":"pending","startedAt":1792390739376,"responseIds":[],"id":4,"instanceId":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"keyWord":"X","order":"price","sort":"desc","recommend":true,"featured":false}}
+10-19 14:18:59.718  8139  8139 I C01c10/ImsaKit: line: 1308, function: OnInputReady,InputMethodController start.
+10-19 14:18:59.718  8139  8139 I C01c10/ImsaKit: line: 406, function: AttachExec,bind imf successfully.
+10-19 14:18:59.718  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] gradientMode = 0 fluidLightMode = 0
+10-19 14:18:59.718  8139  8139 I C01c10/ImsaKit: line: 887, function: OnCursorUpdate,left: 105, top: 290, height: 56.
+10-19 14:18:59.718  8139  8139 I C01c10/ImsaKit: line: 922, function: OnSelectionChange,IMC size: 1, range: 1/1/1/1.
+10-19 14:18:59.719  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] UpdateCaretInfoToController, left 105.419998, top 290.000000, width 7.000000, height 56.000000, selectController_ Start 1, end 1
+10-19 14:18:59.719  8139  8770 I C03924/AceAccessibility: [(100000:100000:scope)] send accessibility componentType:TextInput event:1 accessibilityId:12
+10-19 14:18:59.719  8139  8139 I C03919/AceInputTracking: [(100000:100000:scope)] Consumed id:145707, last id:-1
+10-19 14:18:59.719  8139  8139 I C04213/InputKeyFlow: ConsumePointerEventInner: InputId:145707,wid:134,pointId:10000,srcType:2,rect:[0,0,1308,2880],notify:1
+10-19 14:18:59.724  8139  8728 I C03914/AceTextField: [(-1:100000:singleton)] SendKeyboardStatus status: 2
+10-19 14:18:59.724  8139  8728 I C03914/AceTextField: [(-1:100000:singleton)] SetKeyboardStatus status: 1
+10-19 14:18:59.726  8139  8139 I C03914/AceTextField: [(-1:100000:singleton)] NotifyPanelStatusInfo SetImeShow:1
+10-19 14:18:59.739  8139  8139 I C03912/AceTextInput: [(100000:100000:scope)] after move, handleRect.GetX():84.419998,handleRect.GetY():28.000000
+10-19 14:18:59.739  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] gradientMode = 0 fluidLightMode = 0
+10-19 14:18:59.740  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] Already call close/attach before attach, no need attach this time
+10-19 14:18:59.747  8139  8139 I C0420b/WMSKeyboard: transaction: 1, safeHeight: 1099, occupied rect: x 0, y 1781, w 1308, h 1099, callingWindowRect: [0 0 1308 2880]
+10-19 14:18:59.747  8139  8139 I C01406/OHOS::RS: BeginSyncTransaction syncId:6206227742958
+10-19 14:18:59.747  8139  8139 I C03959/AceLayout: [(-2:100000:singleton)] [com.joker.coolmall][entry_test][100000]: UpdateViewportConfig Viewport config: size: (1308, 2880) orientation: 0 density: 3.500000 position: (0, 0) transformHint: 0 displayId: 0, windowSizeChangeReason 34, is rsTransaction nullptr 1, updateAvoidAreas size: 5[(0,top [0 0 1308 136] )(1,top [615 50 78 78] )(2,empty)(3,empty)(4,bottom [425 2782 458 98] )], keyboardRect Rect (0.00, 1781.00) - [1308.00 x 1099.00]
+10-19 14:18:59.747  8139  8139 I C04208/WMSLayout: UpdateViewportConfig: Id: 134, reason: 34, windowRect: [0 0 1308 2880], displayOrientation: 0, config[0, 0, 0, 3.500000]
+10-19 14:18:59.747  8139  8139 I C01406/OHOS::RS: CommitSyncTransaction syncId:6206227742958 syncCount: 0 parentPid: 1445
+10-19 14:18:59.747  8139  8139 I C01406/OHOS::RS: ResetSyncTransactionInfo syncId:6206227742958
+10-19 14:18:59.747  8139  8139 I C04209/WMSImms: NotifyAvoidAreaChange: win 134 api 21 type 3 area bottom [0 1781 1308 1099] 
+10-19 14:18:59.747  8139  8139 I C04208/WMSLayout: UpdateViewportConfig: Id: 134, reason: 23, windowRect: [0 0 1308 2880], displayOrientation: 0, config[0, 0, 0, 3.500000]
+10-19 14:18:59.748  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:18:59.749  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:18:59.749  8139  8139 I C03933/AceKeyboard: [(100000:100000:scope)] origin positionY: 262.000000, height 168.000000
+10-19 14:18:59.749  8139  8139 I C03933/AceKeyboard: [(100000:100000:scope)] keyboardHeight: 1099.000000, positionY: 290.000000, textHeight: 140.000000, rootSize.Height() 2880.000000 adjust: 0.000000 final calculate keyboard offset is 0.000000
+10-19 14:18:59.750  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:19:00.238  8139  8728 I C03f00/ArkEtsVm: [a92abbb65239dfa] gc: App cold start finished
+10-19 14:19:00.803  8139  8139 I C02805/InputKeyFlow: [P:D:145708|247]ac: down: 145708
+10-19 14:19:00.803  8139  8139 I C02805/InputKeyFlow: [P:D:145708|649]recv
+10-19 14:19:00.803  8139  8139 I C04213/InputKeyFlow: HandleInputEvent: eid:40,InputId:145708,wid:134,ac:2
+10-19 14:19:00.803  8139  8139 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:145708, fId:10000, T:0, I=0, M=0
+10-19 14:19:00.804  8139  8139 I C03905/AceDrag: [(100000:100000:scope)] No need to collect drag gestures result, text is not selected.
+10-19 14:19:00.804  8139  8139 I C03905/AceDrag: [(100000:100000:scope)] No need to collect drag gestures result, text is not selected.
+10-19 14:19:00.804  8139  8139 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:145708, TTHNI:fId: 10000{ T: TextInput, D: 8 };
+10-19 14:19:00.804  8139  8139 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:145708, TTHRTI: T ClickRecognizer info: { T: TextInput };T LongPressRecognizer info: { T: TextInput };T PanRecognizer info: { T: TextInput };
+10-19 14:19:00.804  8139  8139 I C03919/AceInputTracking: [(100000:100000:scope)] Consumed id:145708, last id:-1
+10-19 14:19:00.804  8139  8139 I C04213/InputKeyFlow: ConsumePointerEventInner: InputId:145708,wid:134,pointId:10000,srcType:2,rect:[0,0,1308,2880],notify:1
+10-19 14:19:00.904  8139  8139 I C02805/InputKeyFlow: [P:U:145709|247]ac: up: 145709
+10-19 14:19:00.904  8139  8139 I C02805/InputKeyFlow: [P:U:145709|649]recv
+10-19 14:19:00.904  8139  8139 I C04213/InputKeyFlow: HandleInputEvent: eid:41,InputId:145709,wid:134,ac:4
+10-19 14:19:00.905  8139  8139 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:145709, fId:10000, T:1, I=0, M=0
+10-19 14:19:00.905  8139  8139 I C03934/AceUIEvent: [(100000:100000:scope)] TpFlush end by up event
+10-19 14:19:00.905  8139  8139 I C0391e/AceGesture: [(100000:100000:scope)] Click try accept TextInput
+10-19 14:19:00.905  8139  8139 I C03951/InputKeyFlow: [(100000:100000:scope)] CLK RACC, T: TextInput
+10-19 14:19:00.905  8139  8139 I C03912/AceTextInput: [(100000:100000:scope)] NeedAIAnalysis type is 0,return!
+10-19 14:19:00.905  8139  8139 I C03912/AceTextInput: [(100000:100000:scope)] after move, handleRect.GetX():84.419998,handleRect.GetY():28.000000
+10-19 14:19:00.905  8139  8139 I C03913/AceText: [(100000:100000:scope)] DataDetectorAdapter::StartAITask, prepare to post task
+10-19 14:19:00.905  8139  8139 I C03913/AceText: [(100000:100000:scope)] DataDetectorAdapter::StartAITask, post whole task, id: -1
+10-19 14:19:00.905  8139  8139 I C03954/AceClipBoard: [(100000:100000:scope)] Clipboard data mimeType text/plain available ? 1
+10-19 14:19:00.905  8139  8139 I C03913/AceText: [(100000:100000:scope)] HasData callback from clipboard, hasData:1, isAutoFill:0
+10-19 14:19:00.905  8139  8139 I C01c10/ImsaKit: line: 1660, function: IsInputTypeSupported,type: 0.
+10-19 14:19:00.905  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] Whether the device supports AI write: 1, nodeId: 13
+10-19 14:19:00.906  8139  8139 I C03953/AceSelectOverlay: [(100000:100000:scope)] Build selectoverlay with menu info: {"menuDisable":false,"menuIsShow":true,"singleHandleMenuIsShow":false,"showCopy":false,"showPaste":true,"showCopyAll":true,"showAutoFill":true,"showCut":false,"showTranslate":false,"showSearch":false,"showShare":false,"showCameraInput":true,"aiMenuOptionType":-1,"hasOnPrepareMenuCallback":0,"isAskCeliaEnabled":0}, requested by [TextInput,13]
+10-19 14:19:00.906  8139  8139 I C03953/AceSelectOverlay: [(100000:100000:scope)] Show SelectOverlay, first RectT (0.00, 0.00) - [0.00 x 0.00] isShow 0, second RectT (105.42, 290.00) - [7.00 x 56.00] isShow 1
+10-19 14:19:00.906  8139  8139 I C03953/AceSelectOverlay: [(100000:100000:scope)] CreateSelectOverlay default, id:566
+10-19 14:19:00.906  8139  8139 E C03900/Ace: [(100000:100000:scope)] Duplicate elmtId 590 error.
+10-19 14:19:00.907  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] DoProcessAutoFill
+10-19 14:19:00.907  8139  8139 I C03932/AceAutoFill: [(100000:100000:scope)] ProcessAutoFillAndKeyboard, autoFillReason:1
+10-19 14:19:00.907  8139  8139 E C03900/Ace: [(100000:100000:scope)] Failed to open libhint2type library /system/lib64/module/hms/core/atomicservicecomponent/libhint2type.z.so, reason: Error loading shared library /system/lib64/module/hms/core/atomicservicecomponent/libhint2type.z.so: No such file or directoryn
+10-19 14:19:00.907  8139  8139 E C03932/AceAutoFill: [(100000:100000:scope)] Load Hint2Type Failed !
+10-19 14:19:00.907  8139  8139 I C03932/AceAutoFill: [(100000:100000:scope)] don't need to auto fill.
+10-19 14:19:00.907  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] 13 requestKeyboard With Reason SingleClick, sourceType 2
+10-19 14:19:00.907  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] gradientMode = 0 fluidLightMode = 0
+10-19 14:19:00.907  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] node:13, RequestKeyboard set calling window id:134 inputType:-1, enterKeyType:6, needKeyboard:1, sourceType:2 placeholderLength:4
+10-19 14:19:00.907  8139  8139 I C01c10/ImsaKit: line: 361, function: AttachExec,isShowKeyboard 1.
+10-19 14:19:00.910  8139  8139 I C01c10/ImsaKit: line: 1308, function: OnInputReady,InputMethodController start.
+10-19 14:19:00.910  8139  8139 I C01c10/ImsaKit: line: 406, function: AttachExec,bind imf successfully.
+10-19 14:19:00.910  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] gradientMode = 0 fluidLightMode = 0
+10-19 14:19:00.910  8139  8139 I C01c10/ImsaKit: line: 887, function: OnCursorUpdate,left: 105, top: 290, height: 56.
+10-19 14:19:00.910  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] UpdateCaretInfoToController, left 105.419998, top 290.000000, width 7.000000, height 56.000000, selectController_ Start 1, end 1
+10-19 14:19:00.911  8139  8775 I C03924/AceAccessibility: [(100000:100000:scope)] send accessibility componentType:TextInput event:1 accessibilityId:12
+10-19 14:19:00.911  8139  8139 I C03919/AceInputTracking: [(100000:100000:scope)] Consumed id:145709, last id:-1
+10-19 14:19:00.911  8139  8139 I C04213/InputKeyFlow: ConsumePointerEventInner: InputId:145709,wid:134,pointId:10000,srcType:2,rect:[0,0,1308,2880],notify:1
+10-19 14:19:00.911  8139  8139 I C03913/AceText: [(100000:100000:scope)] Get AI entity menu from ai_engine
+10-19 14:19:00.911  8139  8139 I C03953/AceSelectOverlay: [(100000:100000:scope)] IsEnableSubWindowMenu showMode:0
+10-19 14:19:00.911  8139  8139 I C03953/AceSelectOverlay: [(100000:100000:scope)] MountNodeToRoot:root, id:0
+10-19 14:19:00.911  8139  8139 I C03953/AceSelectOverlay: [(100000:100000:scope)] MountNodeToRoot:root, id:0
+10-19 14:19:00.911  8139  8139 I C0421a/WMSLayoutPc: GetCrossAxisState: window id is 134, state is 0
+10-19 14:19:00.912  8139  8139 I C05a05/SecCompClientEnhanceImpl: [EnhanceClientSerialize]Client sessionInfo sent: pid=8139, sessionId=196587418, seqNum=******002.
+10-19 14:19:00.912  8139  8139 I C0421a/WMSLayoutPc: GetCrossAxisState: window id is 134, state is 0
+10-19 14:19:00.913  8139  8728 I C03914/AceTextField: [(-1:100000:singleton)] SendKeyboardStatus status: 2
+10-19 14:19:00.913  8139  8728 I C03914/AceTextField: [(-1:100000:singleton)] SetKeyboardStatus status: 1
+10-19 14:19:00.914  8139  8139 I C05a05/SecCompClientEnhanceImpl: [EnhanceClientDeserialize]Client sessionInfo updated: pid=8139, sessionId=196587418, seqNum=******002.
+10-19 14:19:00.914  8139  8139 I C03914/AceTextField: [(-1:100000:singleton)] NotifyPanelStatusInfo SetImeShow:1
+10-19 14:19:00.918  8139  8769 I C03924/AceAccessibility: [(100000:100000:scope)] send accessibility componentType:PasteButton event:33554432 accessibilityId:543
+10-19 14:19:00.918  8139  8139 W C01408/Text: generatePaintRegion: Call generatePaintRegion when paragraph is not formatted
+10-19 14:19:00.919  8139  8139 I C03911/AceMenu: [(100000:100000:scope)] the area of target node is changed, isMenuHide: 0
+10-19 14:19:00.919  8139  8139 I C03905/AceDrag: [(100000:100000:scope)] Play gather animation
+10-19 14:19:00.919  8139  8139 I C03905/AceDrag: [(100000:100000:scope)] Play gather animation
+10-19 14:19:01.215  8139  8728 I C03f00/ArkEtsVm: [a92abdb653ae553] gc: App cold start finished
+10-19 14:19:01.907  8139  8139 W C02805/ClientMsgHandler: [K:D:145710|163]The client receives a key, Fd:38
+10-19 14:19:01.907  8139  8139 I C02805/InputManagerImpl: [K:D:145710|576]id:145710 recv
+10-19 14:19:01.907  8139  8139 I C04213/InputKeyFlow: HandleInputEvent: eid:50,InputId:145710,wid:134
+10-19 14:19:01.907  8139  8139 I C02805/InputManagerImpl: [K:D:145710|601]Key event report keyCode:<private>, id:145710 recv
+10-19 14:19:01.908  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] OnKeyEventInteral Node process self: Node TextInput/13handle KeyEvent(secure_field, 0) return: 1
+10-19 14:19:01.908  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] Focus system handled the key event: code:secure_field/action:0
+10-19 14:19:01.908  8139  8728 I C0420c/WMSEvent: DispatchKeyEventCallback: id: 145710, consumed: 1,escTrigger: 0, escDown: 0
+10-19 14:19:01.958  8139  8139 W C02805/ClientMsgHandler: [K:U:145711|163]The client receives a key, Fd:38
+10-19 14:19:01.958  8139  8139 I C02805/InputManagerImpl: [K:U:145711|576]id:145711 recv
+10-19 14:19:01.958  8139  8139 I C04213/InputKeyFlow: HandleInputEvent: eid:51,InputId:145711,wid:134
+10-19 14:19:01.958  8139  8139 I C02805/InputManagerImpl: [K:U:145711|601]Key event report keyCode:<private>, id:145711 recv
+10-19 14:19:01.959  8139  8139 W C02805/ClientMsgHandler: [K:D:145712|163]The client receives a key, Fd:38
+10-19 14:19:01.959  8139  8139 I C02805/InputManagerImpl: [K:D:145712|576]id:145712 recv
+10-19 14:19:01.959  8139  8139 I C04213/InputKeyFlow: HandleInputEvent: eid:52,InputId:145712,wid:134
+10-19 14:19:01.959  8139  8139 I C02805/InputManagerImpl: [K:D:145712|601]Key event report keyCode:<private>, id:145712 recv
+10-19 14:19:01.960  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] OnKeyEventInteral Node process self: Node TextInput/13handle KeyEvent(secure_field, 1) return: 0
+10-19 14:19:01.960  8139  8728 I C0420c/WMSEvent: DispatchKeyEventCallback: id: 145711, consumed: 0,escTrigger: 0, escDown: 0
+10-19 14:19:01.960  8139  8139 I C03953/AceSelectOverlay: [(100000:100000:scope)] Close SelectOverlay, by id:13, reason 1
+10-19 14:19:01.960  8139  8139 I C03953/AceSelectOverlay: [(100000:100000:scope)] Remove node [SelectOverlay, 565] from [root, 0]
+10-19 14:19:01.960  8139  8139 I C05a05/SecCompClientEnhanceImpl: [EnhanceClientSerialize]Client sessionInfo sent: pid=8139, sessionId=196587418, seqNum=******003.
+10-19 14:19:01.961  8139  8139 I C05a05/SecCompClientEnhanceImpl: [EnhanceClientDeserialize]Client sessionInfo updated: pid=8139, sessionId=196587418, seqNum=******003.
+10-19 14:19:01.961  8139  8139 I C03953/AceSelectOverlay: [(100000:100000:scope)] Remove node [SelectOverlay, 593] from [root, 0]
+10-19 14:19:01.961  8139  8139 I C03953/AceSelectOverlay: [(100000:100000:scope)] SelectOverlay is closed with reason 1 - Holder NA
+10-19 14:19:01.961  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:19:01.961  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] OnKeyEventInteral Node process self: Node TextInput/13handle KeyEvent(secure_field, 0) return: 1
+10-19 14:19:01.961  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] Focus system handled the key event: code:secure_field/action:0
+10-19 14:19:01.961  8139  8728 I C0420c/WMSEvent: DispatchKeyEventCallback: id: 145712, consumed: 1,escTrigger: 0, escDown: 0
+10-19 14:19:01.994  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] gradientMode = 0 fluidLightMode = 0
+10-19 14:19:01.994  8139  8139 I C01c10/ImsaKit: line: 887, function: OnCursorUpdate,left: 77, top: 290, height: 56.
+10-19 14:19:01.995  8139  8139 I C01c10/ImsaKit: line: 922, function: OnSelectionChange,IMC size: 0, range: 1/1/0/0.
+10-19 14:19:01.995  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] UpdateCaretInfoToController, left 77.000000, top 290.000000, width 7.000000, height 56.000000, selectController_ Start 0, end 0
+10-19 14:19:01.995  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] On change previewText, len:0, index:<private>
+10-19 14:19:01.995  8139  8768 I C03924/AceAccessibility: [(100000:100000:scope)] send accessibility componentType:TextInput event:1073741826 accessibilityId:12
+10-19 14:19:01.995  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] addedLen=0, removedLen=1
+10-19 14:19:01.995  8139  8770 I C03924/AceAccessibility: [(100000:100000:scope)] send accessibility componentType:TextInput event:8192 accessibilityId:12
+10-19 14:19:01.995  8139  8139 I C03956/AceSecurityComponent: [(100000:100000:scope)] security component has not registered, regStatus 0.
+10-19 14:19:01.997  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:19:02.011  8139  8139 W C02805/ClientMsgHandler: [K:U:145713|163]The client receives a key, Fd:38
+10-19 14:19:02.011  8139  8139 I C02805/InputManagerImpl: [K:U:145713|576]id:145713 recv
+10-19 14:19:02.011  8139  8139 I C04213/InputKeyFlow: HandleInputEvent: eid:53,InputId:145713,wid:134
+10-19 14:19:02.012  8139  8139 I C01c10/ImsaKit: line: 1033, function: PrintKeyEventLog,KeyEventCountInPeriod: 16, startTime: 1792390721, endTime: 1792390742
+10-19 14:19:02.012  8139  8139 I C02805/InputManagerImpl: [K:U:145713|601]Key event report keyCode:<private>, id:145713 recv
+10-19 14:19:02.012  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] OnKeyEventInteral Node process self: Node TextInput/13handle KeyEvent(secure_field, 1) return: 0
+10-19 14:19:02.012  8139  8728 I C0420c/WMSEvent: DispatchKeyEventCallback: id: 145713, consumed: 0,escTrigger: 0, escDown: 0
+10-19 14:19:02.028  8139  8139 E C03900/Ace: [(100000:100000:scope)] Failed to open libhint2type library /system/lib64/module/hms/core/atomicservicecomponent/libhint2type.z.so, reason: Error loading shared library /system/lib64/module/hms/core/atomicservicecomponent/libhint2type.z.so: No such file or directoryn
+10-19 14:19:02.028  8139  8139 E C03932/AceAutoFill: [(100000:100000:scope)] Load Hint2Type Failed !
+10-19 14:19:02.029  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] gradientMode = 0 fluidLightMode = 0
+10-19 14:19:02.513  8139  8139 W C02805/ClientMsgHandler: [K:D:145714|163]The client receives a key, Fd:38
+10-19 14:19:02.513  8139  8139 I C02805/InputManagerImpl: [K:D:145714|576]id:145714 recv
+10-19 14:19:02.513  8139  8139 I C04213/InputKeyFlow: HandleInputEvent: eid:54,InputId:145714,wid:134
+10-19 14:19:02.514  8139  8139 I C02805/InputManagerImpl: [K:D:145714|601]Key event report keyCode:<private>, id:145714 recv
+10-19 14:19:02.516  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] AddInsertCommand len: 1 reason: 1
+10-19 14:19:02.517  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:19:02.517  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] AddInsertCommand MarkDirtyNode 13, reason: 1
+10-19 14:19:02.517  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] OnKeyEventInteral Node process self: Node TextInput/13handle KeyEvent(secure_field, 0) return: 1
+10-19 14:19:02.517  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] Focus system handled the key event: code:secure_field/action:0
+10-19 14:19:02.517  8139  8728 I C0420c/WMSEvent: DispatchKeyEventCallback: id: 145714, consumed: 1,escTrigger: 0, escDown: 0
+10-19 14:19:02.532  8139  8139 I C03912/AceTextInput: [(100000:100000:scope)] after move, handleRect.GetX():84.419998,handleRect.GetY():28.000000
+10-19 14:19:02.532  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] gradientMode = 0 fluidLightMode = 0
+10-19 14:19:02.532  8139  8139 I C01c10/ImsaKit: line: 887, function: OnCursorUpdate,left: 105, top: 290, height: 56.
+10-19 14:19:02.532  8139  8139 I C01c10/ImsaKit: line: 922, function: OnSelectionChange,IMC size: 1, range: 0/0/1/1.
+10-19 14:19:02.532  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] UpdateCaretInfoToController, left 105.419998, top 290.000000, width 7.000000, height 56.000000, selectController_ Start 1, end 1
+10-19 14:19:02.533  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] On change previewText, len:0, index:<private>
+10-19 14:19:02.533  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] addedLen=1, removedLen=0
+10-19 14:19:02.533  8139  8773 I C03924/AceAccessibility: [(100000:100000:scope)] send accessibility componentType:TextInput event:8192 accessibilityId:12
+10-19 14:19:02.534  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:19:02.564  8139  8139 W C02805/ClientMsgHandler: [K:U:145715|163]The client receives a key, Fd:38
+10-19 14:19:02.564  8139  8139 I C02805/InputManagerImpl: [K:U:145715|576]id:145715 recv
+10-19 14:19:02.564  8139  8139 I C04213/InputKeyFlow: HandleInputEvent: eid:55,InputId:145715,wid:134
+10-19 14:19:02.565  8139  8139 I C02805/InputManagerImpl: [K:U:145715|601]Key event report keyCode:<private>, id:145715 recv
+10-19 14:19:02.565  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] OnKeyEventInteral Node process self: Node TextInput/13handle KeyEvent(secure_field, 1) return: 0
+10-19 14:19:02.565  8139  8728 I C0420c/WMSEvent: DispatchKeyEventCallback: id: 145715, consumed: 0,escTrigger: 0, escDown: 0
+10-19 14:19:02.566  8139  8139 E C03900/Ace: [(100000:100000:scope)] Failed to open libhint2type library /system/lib64/module/hms/core/atomicservicecomponent/libhint2type.z.so, reason: Error loading shared library /system/lib64/module/hms/core/atomicservicecomponent/libhint2type.z.so: No such file or directoryn
+10-19 14:19:02.566  8139  8139 E C03932/AceAutoFill: [(100000:100000:scope)] Load Hint2Type Failed !
+10-19 14:19:02.566  8139  8139 I C03912/AceTextInput: [(100000:100000:scope)] after move, handleRect.GetX():84.419998,handleRect.GetY():28.000000
+10-19 14:19:02.567  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] gradientMode = 0 fluidLightMode = 0
+10-19 14:19:05.347  8139  8139 W C02805/ClientMsgHandler: [K:U:145717|163]The client receives a key, Fd:38
+10-19 14:19:05.347  8139  8139 I C02805/InputManagerImpl: [K:U:145717|576]id:145717 recv
+10-19 14:19:05.347  8139  8139 I C04213/InputKeyFlow: HandleInputEvent: eid:56,InputId:145717,wid:134
+10-19 14:19:05.347  8139  8139 I C02805/InputManagerImpl: [K:U:145717|601]Key event report keyCode:<private>, id:145717 recv
+10-19 14:19:05.348  8139  8728 I C04200/WMS: DispatchKeyEventCallback: In
+10-19 14:19:05.348  8139  8728 I C0420c/WMSEvent: HandleBackEvent: in
+10-19 14:19:05.348  8139  8728 I C03900/Ace: [(-1:100000:singleton)] [com.joker.coolmall][entry_test][100000]: OnBackPressed called
+10-19 14:19:05.348  8139  8139 I C03953/AceSelectOverlay: [(100000:100000:scope)] isDestroyed:0,isClosed:0
+10-19 14:19:05.348  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] 13 receives back press event, 0
+10-19 14:19:05.348  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] textfield 13 Will Close Soft keyboard.
+10-19 14:19:05.348  8139  8139 I C01c10/ImsaKit: line: 520, function: Close,start.
+10-19 14:19:05.348  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] OnDetach
+10-19 14:19:05.348  8139  8722 I C03914/AceTextField: [(-1:100000:singleton)] FinishTextPreview
+10-19 14:19:05.349  8139  8722 I C03914/AceTextField: [(-1:100000:singleton)] SendKeyboardStatus status: 1
+10-19 14:19:05.349  8139  8722 I C03914/AceTextField: [(-1:100000:singleton)] SetKeyboardStatus status: 0
+10-19 14:19:05.349  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] FinishTextPreview
+10-19 14:19:05.349  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] SendKeyboardStatus status: 1
+10-19 14:19:05.349  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] SetKeyboardStatus status: 0
+10-19 14:19:05.349  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] Lost focus to view root: Column
+10-19 14:19:05.349  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] TextInput/secure_fieldtrigger onBlurInternal by 4
+10-19 14:19:05.349  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] TextField 13 OnBlur
+10-19 14:19:05.349  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] Set needToRequestKeyboardInner_ to 0 : reason 1
+10-19 14:19:05.349  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] nodeId:[13] TextField reportComponentChangeEvent 1
+10-19 14:19:05.349  8139  8139 I C0391c/AceFocus: [(100000:100000:scope)] FocusSwitch end, TextInput/secure_field onBlur, Column/secure_field onFocus, start: 3, end: 1, update: 0
+10-19 14:19:05.349  8139  8139 I C03933/AceKeyboard: [(100000:100000:scope)] current focus node: (Column/5). isDynamic: 0
+10-19 14:19:05.349  8139  8139 I C03933/AceKeyboard: [(100000:100000:scope)] FrameNode(Column/5) notNeedSoftKeyboard.
+10-19 14:19:05.349  8139  8139 I C03933/AceKeyboard: [(100000:100000:scope)] Ime Shown Or Attached, Need to close keyboard
+10-19 14:19:05.349  8139  8139 I C03933/AceKeyboard: [(100000:100000:scope)] PageChange CloseKeyboard FrameNode notNeedSoftKeyboard.
+10-19 14:19:05.349  8139  8139 I C03900/Ace: [(100000:100000:scope)] textfield consumed backpressed event
+10-19 14:19:05.349  8139  8728 E C01c10/ImsaKit: line: 1608, function: NotifyPanelStatusInfo,listener is nullptr!
+10-19 14:19:05.349  8139  8728 W C01c10/ImsaKit: line: 1875, function: FinishTextPreview,not bound or listener is nullptr!
+10-19 14:19:05.350  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:19:05.350  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:19:05.368  8139  8139 I C0420b/WMSKeyboard: transaction: 1, safeHeight: 0, occupied rect: x 0, y 0, w 0, h 0, callingWindowRect: [0 0 1308 2880]
+10-19 14:19:05.368  8139  8139 I C01406/OHOS::RS: BeginSyncTransaction syncId:6206227742959
+10-19 14:19:05.368  8139  8139 I C03959/AceLayout: [(-2:100000:singleton)] [com.joker.coolmall][entry_test][100000]: UpdateViewportConfig Viewport config: size: (1308, 2880) orientation: 0 density: 3.500000 position: (0, 0) transformHint: 0 displayId: 0, windowSizeChangeReason 34, is rsTransaction nullptr 1, updateAvoidAreas size: 5[(0,top [0 0 1308 136] )(1,top [615 50 78 78] )(2,empty)(3,empty)(4,bottom [425 2782 458 98] )], keyboardRect Rect (0.00, 0.00) - [0.00 x 0.00]
+10-19 14:19:05.368  8139  8139 I C04208/WMSLayout: UpdateViewportConfig: Id: 134, reason: 34, windowRect: [0 0 1308 2880], displayOrientation: 0, config[0, 0, 0, 3.500000]
+10-19 14:19:05.368  8139  8139 I C01406/OHOS::RS: CommitSyncTransaction syncId:6206227742959 syncCount: 0 parentPid: 1445
+10-19 14:19:05.368  8139  8139 I C01406/OHOS::RS: ResetSyncTransactionInfo syncId:6206227742959
+10-19 14:19:05.369  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:19:05.369  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:19:05.369  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] input state now is not at previewing text
+10-19 14:19:05.369  8139  8139 I C03914/AceTextField: [(100000:100000:scope)] input state now is not at previewing text
+10-19 14:19:05.370  8139  8139 I C03933/AceKeyboard: [(100000:100000:scope)] origin positionY: 262.000000, height 168.000000
+10-19 14:19:05.370  8139  8139 I C03933/AceKeyboard: [(100000:100000:scope)] use origin arg from the window
+10-19 14:19:05.370  8139  8139 I C03933/AceKeyboard: [(100000:100000:scope)] keyboardHeight: 0.000000, positionY: 262.000000, textHeight: 168.000000, rootSize.Height() 2880.000000 adjust: 0.000000 final calculate keyboard offset is 0.000000
+10-19 14:19:05.370  8139  8139 W C0390d/AceOverlay: [(100000:100000:scope)] failed to get foldCreaseRegion
+10-19 14:19:05.370  8139  8139 I C04209/WMSImms: NotifyAvoidAreaChange: win 134 api 21 type 3 area empty
+10-19 14:19:05.371  8139  8139 I C04208/WMSLayout: UpdateViewportConfig: Id: 134, reason: 23, windowRect: [0 0 1308 2880], displayOrientation: 0, config[0, 0, 0, 3.500000]
+10-19 14:19:06.350  8139  8722 I C03f00/ArkEtsVm: [a92abfb65955238] gc: App cold start finished
+10-19 14:19:07.631  8139  8139 I C02805/InputKeyFlow: [P:D:145718|247]ac: down: 145718
+10-19 14:19:07.631  8139  8139 I C02805/InputKeyFlow: [P:D:145718|649]recv
+10-19 14:19:07.631  8139  8139 I C04213/InputKeyFlow: HandleInputEvent: eid:42,InputId:145718,wid:134,ac:2
+10-19 14:19:07.631  8139  8139 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:145718, fId:10000, T:0, I=0, M=0
+10-19 14:19:07.631  8139  8139 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:145718, TTHNI:fId: 10000{ T: Button, D: 8 };
+10-19 14:19:07.631  8139  8139 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:145718, TTHRTI: T ClickRecognizer info: { T: Button };
+10-19 14:19:07.631  8139  8139 I C03945/AceStateStyle: [(100000:100000:scope)] Handle TouchDown event node: Button
+10-19 14:19:07.632  8139  8139 I C03919/AceInputTracking: [(100000:100000:scope)] Consumed id:145718, last id:-1
+10-19 14:19:07.632  8139  8139 I C04213/InputKeyFlow: ConsumePointerEventInner: InputId:145718,wid:134,pointId:10000,srcType:2,rect:[0,0,1308,2880],notify:1
+10-19 14:19:07.732  8139  8139 I C02805/InputKeyFlow: [P:U:145719|247]ac: up: 145719
+10-19 14:19:07.732  8139  8139 I C02805/InputKeyFlow: [P:U:145719|649]recv
+10-19 14:19:07.732  8139  8139 I C04213/InputKeyFlow: HandleInputEvent: eid:43,InputId:145719,wid:134,ac:4
+10-19 14:19:07.732  8139  8139 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:145719, fId:10000, T:1, I=0, M=0
+10-19 14:19:07.732  8139  8139 I C03934/AceUIEvent: [(100000:100000:scope)] TpFlush end by up event
+10-19 14:19:07.732  8139  8139 I C03945/AceStateStyle: [(100000:100000:scope)] Handle TouchUp or Cancel event node: Button
+10-19 14:19:07.732  8139  8139 I C0391e/AceGesture: [(100000:100000:scope)] Click try accept Button
+10-19 14:19:07.732  8139  8139 I C03951/InputKeyFlow: [(100000:100000:scope)] CLK RACC, T: Button
+10-19 14:19:07.733  8139  8139 I A03d00/JSAPP: [CML24Fixture] {"at":1792390747733,"seq":10,"event":"resolve","id":4,"owner":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"keyWord":"X","order":"price","sort":"desc","recommend":true,"featured":false},"ids":[100027,100021,100015,100009,100003],"code":1000}
+10-19 14:19:07.733  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=10 event=resolve part=1/4 {"state":"resolved","startedAt":1792390739376,"responseIds":[100027,100021,100015,100009,100003],"id":4,"instanceId":1,"scenario":"flags","kind":"goods","request":{"page":1,"size":20,"keyWord":"X","order":"price","sort":"desc","recommend":true,"featured":false},"completedAt":1792390747733,"responseJson":"{\"data\":{\"list\":[{\"id\":100027,\"typeId\":920001,\"title\":\"X 商品 27\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":91,\"sold\":811,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"s
+10-19 14:19:07.733  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=10 event=resolve part=2/4 tatus\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100021,\"typeId\":920001,\"title\":\"X 商品 21\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":73,\"sold\":853,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100015,\"typeId\":920001,\"title\":\"X 商品 15\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42m
+10-19 14:19:07.733  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=10 event=resolve part=3/4 P8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":55,\"sold\":895,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100009,\"typeId\":920001,\"title\":\"X 商品 09\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":37,\"sold\":937,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null},{\"id\":100
+10-19 14:19:07.733  8139  8139 I A03d00/JSAPP: [CML24FixtureRaw] seq=10 event=resolve part=4/4 003,\"typeId\":920001,\"title\":\"X 商品 03\",\"subTitle\":null,\"mainPic\":\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=\",\"pics\":null,\"price\":19,\"sold\":979,\"content\":null,\"contentPics\":null,\"recommend\":true,\"featured\":false,\"status\":0,\"sortNum\":0,\"specs\":null,\"createTime\":null,\"updateTime\":null}],\"pagination\":{\"total\":5,\"size\":20,\"page\":1}},\"code\":1000,\"message\":null}","responseCode":1000}
+10-19 14:19:07.733  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=commit id=3 version=3 epoch=1 kind=first page=1
+10-19 14:19:07.733  8139  8139 I A03d00/JSAPP: [GoodsCategory] event=finish id=3 version=3 epoch=1 kind=first page=1
+10-19 14:19:07.734  8139  8769 I C03924/AceAccessibility: [(100000:100000:scope)] send accessibility componentType:Button event:1 accessibilityId:14
+10-19 14:19:07.734  8139  8139 I C03919/AceInputTracking: [(100000:100000:scope)] Consumed id:145719, last id:-1
+10-19 14:19:07.734  8139  8139 I C04213/InputKeyFlow: ConsumePointerEventInner: InputId:145719,wid:134,pointId:10000,srcType:2,rect:[0,0,1308,2880],notify:1
+10-19 14:19:07.760  8139  8729 E C02b60/Cr3FormatAgent: Cr3 required header size: 94, input size: 68
+10-19 14:19:07.760  8139  8729 E C02b60/Cr3FormatAgent: Cr3 required header size: 94, input size: 68
+10-19 14:19:07.760  8139  8729 I C02b61/ImageSource: CreatePixelMap success, id:1792390747760054,dSize:(0,0),srcSize: (1,1),dHdr:1,sHdr:1,memType: 2,cost 222 us
+10-19 14:19:07.760  8139  8729 E C02b61/PixelMap: set ashmem name failed
+10-19 14:19:07.768  8139  8781 E C02b60/Cr3FormatAgent: Cr3 required header size: 94, input size: 68
+10-19 14:19:07.769  8139  8139 E C02b61/PixelMap: set ashmem name failed
+10-19 14:19:07.769  8139  8139 E C02b61/PixelMap: set ashmem name failed
+10-19 14:19:07.769  8139  8139 E C02b61/PixelMap: set ashmem name failed
+10-19 14:19:07.769  8139  8139 E C02b61/PixelMap: set ashmem name failed
+10-19 14:19:07.769  8139  8781 E C02b60/Cr3FormatAgent: Cr3 required header size: 94, input size: 68
+10-19 14:19:07.769  8139  8139 I C03928/AceGrid: [(100000:100000:scope)] ScrollTo:0.000000
+10-19 14:19:07.769  8139  8781 I C02b61/ImageSource: CreatePixelMap success, id:1792390747768739,dSize:(0,0),srcSize: (1,1),dHdr:1,sHdr:1,memType: 2,cost 332 us
+10-19 14:19:07.769  8139  8781 E C02b61/PixelMap: set ashmem name failed
+10-19 14:19:07.770  8139  8139 E C02b61/PixelMap: set ashmem name failed
+10-19 14:19:09.235  8139  8722 I C03f00/ArkEtsVm: [a92abfb65bb2f52] gc: App cold start finished
