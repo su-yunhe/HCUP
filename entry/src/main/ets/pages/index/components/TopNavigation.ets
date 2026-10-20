@@ -76,6 +76,7 @@ export struct TopNavigation {
       .justifyContent(FlexAlign.Center)
       .backgroundColor(this.colors.SURFACE_PRIMARY)
       .borderRadius(DesignTokens.BorderRadius.LG)
+      .id('home_settings_entry')
       .onClick(() => this.onSettingsClick())
     }
     .width('100%')
