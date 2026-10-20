@@ -1,0 +1,18 @@
+class TestNetworkAndLifecycle(GoodsDetailCase):
+    """网络状态机、返回后重进、重启应用。"""
+
+    def test_14_single_detail_request_and_no_request_from_viewer(self) -> None:
+        """A2/A33：进入详情页只发 1 次 page/goodsDetail；查看器开、滑、关不发业务请求，也不请求评价分页接口。"""
+        self.launch_home()
+        self.clear_log()
+        self.driver.click(self.require_text(GOODS_TWO_PICS[0], "首页找不到商品"))
+        self.require_text("发货与服务", "详情页未加载")
+        self.scroll_find(BY.text("商品评价"), "找不到'商品评价'")
+        self.driver.wait(1)
+        self.assertEqual(self.detail_request_count(), 1, "进入详情页应恰好发出 1 次 page/goodsDetail 请求")
+        for _ in range(3):
+            self.open_viewer(BY.key("goods_comment_thumb_0"))
+            self.swipe_viewer("LEFT")
+            self.close_viewer()
+            self.assert_viewer_closed()
+        se

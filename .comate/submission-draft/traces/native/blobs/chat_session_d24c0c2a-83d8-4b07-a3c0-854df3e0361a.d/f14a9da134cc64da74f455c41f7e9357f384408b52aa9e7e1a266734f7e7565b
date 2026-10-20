@@ -1,0 +1,78 @@
+import { ColumnStart, P100, SpaceVerticalMedium } from "designsystem";
+import { Comment } from "model";
+import { Card, TitleWithLine } from "ui";
+import { GoodsCommentItem } from "./GoodsCommentItem";
+
+/**
+ * @file 商品评价卡片组件
+ * @author Joker.X
+ */
+@ComponentV2
+export struct GoodsCommentCard {
+  /**
+   * 评价列表
+   */
+  @Param
+  comments: Comment[] = [];
+  /**
+   * 评价图片点击回调
+   */
+  @Param
+  onImageClick: (pics: string[]) => void = (pics: string[]): void => {
+  };
+
+  /**
+   * 构建商品评价卡片
+   * @returns {void} 无返回值
+   */
+  build(): void {
+    ColumnStart({
+      widthValue: P100,
+      paddingValue: {
+        left: $r("app.float.space_horizontal_medium"),
+        right: $r("app.float.space_horizontal_medium"),
+        top: $r("app.float.space_vertical_medium")
+      }
+    }) {
+      Card({
+        widthValue: P100,
+        paddingValue: $r("app.float.space_padding_medium")
+      }) {
+        Column() {
+          Row() {
+            TitleWithLine({ text: $r("app.string.goods_reviews") });
+          }
+          .id("goods_comment_title");
+
+          ForEach(this.comments, (comment: Comment, index: number): void => {
+            SpaceVerticalMedium();
+            if (index > 0) {
+              this.Divider();
+              SpaceVerticalMedium();
+            }
+            GoodsCommentItem({
+              comment: comment,
+              index: index,
+              onImageClick: (pics: string[]): void => this.onImageClick(pics)
+            });
+          }, (comment: Comment, index: number): string => `${comment.id}-${index}`);
+        }
+        .id("goods_comment_card")
+        .width(P100)
+        .alignItems(HorizontalAlign.Start);
+      }
+    }
+  }
+
+  /**
+   * 评价之间的分割线
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private Divider(): void {
+    Column()
+      .width(P100)
+      .height($r("app.float.space_divider"))
+      .backgroundColor($r("app.color.border"));
+  }
+}

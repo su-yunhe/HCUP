@@ -1,0 +1,13 @@
+import json
+import re
+import time
+import urllib.request
+
+from hypium import BY  # type: ignore[import-not-found]
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "com.joker.coolmall"
+API_DETAIL = "https://mall.dusksnow.top/app/page/goodsDetail?goodsId={}"
+HOST = "mall.dusksnow.top"

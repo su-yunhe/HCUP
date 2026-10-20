@@ -1,0 +1,20 @@
+  /**
+   * 商品 ID
+   */
+  private readonly goodsId: number = this.routeParam.goodsId ?? 0;
+  /**
+   * 评价图片查看器是否显示
+   */
+  @Trace
+  imageViewerVisible: boolean = false;
+  /**
+   * 评价图片查看器展示的图片列表
+   */
+  @Trace
+  imageViewerPics: string[] = [];
+
+  /**
+   * 请求商品详情页面数据
+   * @returns {Promise<NetworkResponse<GoodsDetail>>} 商品详情
+   */
+  protected requestRepository(): Promis

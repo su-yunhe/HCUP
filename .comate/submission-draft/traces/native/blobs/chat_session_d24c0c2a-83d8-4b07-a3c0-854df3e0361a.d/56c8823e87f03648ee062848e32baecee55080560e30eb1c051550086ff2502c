@@ -1,0 +1,13 @@
+import json
+import re
+import subprocess
+import time
+
+from hypium import BY  # type: ignore[import-not-found]
+
+from harness.driver import HarnessTestCase
+
+BUNDLE = "com.joker.coolmall"
+ABILITY = "EntryAbility"
+API_DETAIL = "https://mall.dusksnow.top/app/page/goodsDetail?goodsId={}"
+HOST = "mall.dusksnow.top"

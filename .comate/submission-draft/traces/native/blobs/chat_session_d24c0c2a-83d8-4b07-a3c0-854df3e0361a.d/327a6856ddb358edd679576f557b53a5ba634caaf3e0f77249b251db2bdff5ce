@@ -1,0 +1,171 @@
+import { ColumnStart, P100 } from "designsystem";
+import { Comment, Goods } from "model";
+import { BreakpointState, getBreakpointState, getWindowSafeAreaState, WindowSafeAreaState } from "state";
+import { AppNavDestination, BaseNetWorkView } from "ui";
+import { CommentImageViewer } from "../component/CommentImageViewer";
+import { GoodsBanner } from "../component/GoodsBanner";
+import { GoodsCommentCard } from "../component/GoodsCommentCard";
+import { GoodsDetailBottomBar } from "../component/GoodsDetailBottomBar";
+import { GoodsDetailImage, GoodsDetailImageDataSource } from "../component/GoodsDetailImage";
+import { GoodsDetailTitle } from "../component/GoodsDetailTitle";
+import { GoodsInfoCard } from "../component/GoodsInfoCard";
+import { GoodsShippingServiceCard } from "../component/GoodsShippingServiceCard";
+import GoodsDetailViewModel from "../viewmodel/GoodsDetailViewModel";
+
+/**
+ * @file 商品详情页面视图
+ * @author Joker.X
+ */
+@ComponentV2
+export struct GoodsDetailPage {
+  /**
+   * 商品详情页面 ViewModel
+   */
+  @Local
+  private vm: GoodsDetailViewModel = new GoodsDetailViewModel();
+  /**
+   * 当前窗口安全区状态
+   */
+  @Param
+  private windowSafeAreaState: WindowSafeAreaState = getWindowSafeAreaState();
+  /**
+   * 屏幕断点状态
+   */
+  @Local
+  private breakpointState: BreakpointState = getBreakpointState();
+
+  /**
+   * 构建商品详情页面
+   * @returns {void} 无返回值
+   */
+  build() {
+    AppNavDestination({
+      hideTitleBar: true,
+      viewModel: this.vm,
+      paddingValue: {
+        left: this.windowSafeAreaState.leftInset,
+        right: this.windowSafeAreaState.rightInset,
+      }
+    }) {
+      BaseNetWorkView({
+        uiState: this.vm.uiState,
+        onRetry: (): void => this.vm.retryRequest(),
+        content: (): void => this.GoodsDetailContent()
+      });
+    }
+  }
+
+  /**
+   * 商品详情页面内容视图
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private GoodsDetailContent() {
+    ColumnStart({ fillMaxSize: true }) {
+      this.GoodsDetailList();
+      GoodsDetailBottomBar();
+    }
+  }
+
+  /**
+   * 商品详情滚动列表
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private GoodsDetailList(): void {
+    List() {
+      ListItem() {
+        GoodsBanner({
+          bannerList: this.vm.data?.goodsInfo?.pics ?? [],
+          autoPlay: false,
+          loop: false,
+          imageFit: ImageFit.Cover
+        });
+      }
+
+      ListItem() {
+        GoodsInfoCard({
+          goodsInfo: this.vm.data?.goodsInfo ?? new Goods(),
+          coupons: this.vm.data?.coupon ?? []
+        });
+      }
+
+      ListItem() {
+        GoodsShippingServiceCard();
+      }
+
+      if (this.getComments().length > 0) {
+        ListItem() {
+          GoodsCommentCard({
+            comments: this.getComments(),
+            onImageClick: (pics: string[]): void => this.vm.openImageViewer(pics)
+          });
+        }
+      }
+
+      if (this.getContentPics().length > 0) {
+        ListItem() {
+          GoodsDetailTitle();
+        }
+      }
+
+      LazyForEach(this.detailImageSource, (url: string, index: number): void => {
+        ListItem() {
+          GoodsDetailImage({ url: url, index: index });
+        }
+      }, (url: string, index: number): string => `${url}-${index}`);
+    }
+    .id("goods_detail_list")
+    .layoutWeight(1)
+    .width(P100)
+    .height(P100)
+    .bindContentCover(this.vm.imageViewerVisible, this.ImageViewer(), {
+      modalTransition: ModalTransition.ALPHA,
+      onDisappear: (): void => this.vm.closeImageViewer()
+    });
+  }
+
+  /**
+   * 评价图片全屏查看器
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private ImageViewer(): void {
+    CommentImageViewer({
+      pics: this.vm.imageViewerPics,
+      topInset: this.windowSafeAreaState.topInset,
+      bottomInset: this.windowSafeAreaState.bottomInset,
+      onClose: (): void => this.vm.closeImageViewer()
+    });
+  }
+
+  /**
+   * 商品数据变化时刷新详情图片数据源
+   * @returns {void} 无返回值
+   */
+  @Monitor("vm.data")
+  private onDetailDataChange(): void {
+    this.detailImageSource.setData(this.getContentPics());
+  }
+
+  /**
+   * 获取评价列表
+   * @returns {Comment[]} 评价列表，无数据时为空数组
+   */
+  private getComments(): Comment[] {
+    const comments: Comment[] | null | undefined = this.vm.data?.comment;
+    return Array.isArray(comments) ? comments : [];
+  }
+
+  /**
+   * 获取商品详情图片
+   * @returns {string[]} 详情图片地址列表，无数据时为空数组
+   */
+  private getContentPics(): string[] {
+    const pics: string[] | null | undefined = this.vm.data?.goodsInfo?.contentPics;
+    if (!Array.isArray(pics)) {
+      return [];
+    }
+    return pics.filter((pic: string): boolean => !!pic && pic.trim().length > 0);
+  }
+}

@@ -1,0 +1,6 @@
+  @Trace
+  imageViewerPics: string[] = [];
+  /**
+   * 商品详情图片懒加载数据源
+   */
+  readonly detailImageSource: GoodsDetailImageDataSource = new GoodsDetailImageDataSource();

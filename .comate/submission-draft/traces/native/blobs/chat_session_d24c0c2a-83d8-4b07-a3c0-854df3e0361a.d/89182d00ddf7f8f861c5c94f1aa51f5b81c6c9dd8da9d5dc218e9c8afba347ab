@@ -1,0 +1,13 @@
+      Row() {
+        Button($r("app.string.modal_close"))
+          .id("comment_image_viewer_close")
+          .accessibilityText($r("app.string.modal_close"))
+          .fontSize($r("app.float.body_medium"))
+          .fontColor($r("app.color.text_white"))
+          .backgroundColor($r("app.color.mask"))
+          .onClick((): void => {
+            this.onClose();
+          });
+      }
+      .width(P100)
+      .justifyContent(FlexAlign.End);

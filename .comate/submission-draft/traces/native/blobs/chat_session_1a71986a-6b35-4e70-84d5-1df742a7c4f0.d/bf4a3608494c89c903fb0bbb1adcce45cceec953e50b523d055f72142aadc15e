@@ -1,0 +1,220 @@
+Command executed successfully.
+Exit code: 0
+Output:
+      top: $r("app.float.space_vertical_medium"),
+      bottom: $r("app.float.space_vertical_medium")
+    })
+    .onClick((): void => {
+      const tab: string = `${item.tabIndex}`;
+      OrderNavigator.toList(tab);
+    });
+  }
+
+  /**
+   * 构建足迹区域
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private buildFootprintSection(): void {
+    Card() {
+      CardTitleCell({
+        leftIcon: $r("app.media.ic_footprint_fill"),
+        leftIconColor: $r("app.color.main_footprint_icon"),
+        title: $r("app.string.my_footprint"),
+        value: $r("app.string.view_all"),
+        hasBorder: false,
+        onTap: (): void => UserNavigator.toFootprint()
+      });
+
+      List({ space: 8 }) {
+        ForEach(this.vm.recentFootprints, (item: Footprint): void => {
+          ListItem() {
+            this.buildFootprintItem(item);
+          }
+        }, (item: Footprint): string => `${item.goodsId}`);
+      }
+      .listDirection(Axis.Horizontal)
+      .width(P100)
+      .scrollBar(BarState.Off)
+      .padding({
+        left: $r("app.float.space_horizontal_medium"),
+        right: $r("app.float.space_horizontal_medium"),
+        bottom: $r("app.float.space_vertical_medium")
+      });
+    }
+  }
+
+  /**
+   * 构建单个足迹项
+   * @param {Footprint} footprint - 足迹数据
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private buildFootprintItem(footprint: Footprint): void {
+    Column() {
+      NetWorkImage({
+        model: footprint.goodsMainPic,
+        sizeValue: 100,
+        showBackground: true,
+        backgroundColorValue: $r("app.color.bg_content"),
+        cornerRadius: $r("app.float.radius_small")
+      });
+    }
+    .onClick((): void => GoodsNavigator.toDetail(footprint.goodsId));
+  }
+
+  /**
+   * 构建功能菜单区域
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private buildMenuSection(): void {
+    ColumnStart({ widthValue: P100 }) {
+      this.buildMenuGroup(this.vm.primaryMenus);
+
+      SpaceVerticalSmall();
+
+      this.buildMenuGroup(this.vm.secondaryMenus);
+    }
+  }
+
+  /**
+   * 构建菜单分组
+   * @param {MeMenuItem[]} menus - 菜单列表
+   * @returns {void} 无返回值
+NavigationParam.ets
+NavigationResult.ets
+NavigationService.ets
+RouteBuild.ets
+RouteGraph.ets
+RouteInterceptor.ts
+auth
+common
+cs
+feedback
+goods
+launch
+main
+market
+order
+user
+     1	import { hilog } from "@kit.PerformanceAnalysisKit";
+     2	import { getUserState } from "state";
+     3	import { Any } from "model";
+     4	import { requiresLogin, getLoginRoute } from "./RouteInterceptor";
+     5	
+     6	/**
+     7	 * @file 全局导航服务：集中存放 NavPathStack，提供统一跳转 API，方便 ViewModel 直接调用
+     8	 * @author Joker.X
+     9	 */
+    10	
+    11	/**
+    12	 * Provider / Consumer 共享的键名
+    13	 */
+    14	export const NAV_PATH_STACK_KEY: string = "navStack";
+    15	
+    16	/**
+    17	 * 全局导航栈实例
+    18	 */
+    19	let globalNavStack: NavPathStack | undefined;
+    20	
+    21	const DOMAIN: number = 0;
+    22	
+    23	/**
+    24	 * 设置全局导航栈实例（在 NavigationHost aboutToAppear 中调用）
+    25	 * @param {NavPathStack} stack - 导航栈实例
+    26	 * @returns {void} 无返回值
+    27	 */
+    28	export function setNavPathStack(stack: NavPathStack): void {
+    29	  globalNavStack = stack;
+    30	}
+    31	
+    32	/**
+    33	 * 获取当前导航栈实例
+    34	 * @returns {NavPathStack | undefined} 导航栈实例；未初始化时返回 undefined
+    35	 */
+    36	export function getNavPathStack(): NavPathStack | undefined {
+    37	  if (!globalNavStack) {
+    38	    const msg: string = "[NavigationService] nav stack is not initialized, call setNavPathStack first.";
+    39	    hilog.error(DOMAIN, "NavSvc", msg);
+    40	    return undefined;
+    41	  }
+    42	  return globalNavStack;
+    43	}
+    44	
+    45	/**
+    46	 * 路由跳转（入栈）
+    47	 * @param {string} name - 路由名称
+    48	 * @param {Any} [params] - 跳转参数
+    49	 * @returns {void} 无返回值
+    50	 */
+    51	export function navigateTo(name: string, params?: Any): void {
+    52	  if (requiresLogin(name)) {
+    53	    const userState = getUserState();
+    54	    if (!userState.isLoggedIn()) {
+    55	      hilog.info(DOMAIN, "NavSvc", `[NavigationService] Intercepting route to ${name}, redirecting to Login`);
+    56	      name = getLoginRoute();
+    57	    }
+    58	  }
+    59	
+    60	  const stack: NavPathStack | undefined = getNavPathStack();
+    61	  if (!stack) {
+    62	    return;
+    63	  }
+    64	  try {
+    65	    if (params !== undefined) {
+    66	      stack.pushPath({
+    67	        name: name,
+    68	        param: params
+    69	      });
+    70	      return;
+    71	    }
+    72	    stack.pushPath({
+    73	      name: name
+    74	    });
+    75	  } catch (err) {
+    76	    hilog.error(DOMAIN, "NavSvc", "[NavigationService] navigateTo failed: %{public}s", JSON.stringify(err));
+    77	  }
+    78	}
+    79	
+    80	/**
+    81	 * 返回上一页
+    82	 * @returns {void} 无返回值
+    83	 */
+    84	export function navigateBack(): void {
+    85	  const stack: NavPathStack | undefined = getNavPathStack();
+    86	  if (!stack) {
+    87	    return;
+    88	  }
+    89	  try {
+    90	    stack.pop();
+    91	  } catch (err) {
+    92	    hilog.error(DOMAIN, "NavSvc", "[NavigationService] navigateBack failed: %{public}s", JSON.stringify(err));
+    93	  }
+    94	}
+    95	
+    96	/**
+    97	 * 携带结果返回上一页（触发上一跳中的 onPop 回调）
+    98	 * @param {Any} [result={}] - 返回结果
+    99	 * @param {boolean} [animated=true] - 是否需要动画
+   100	 * @returns {void} 无返回值
+   101	 */
+   102	export function navigateBackWithResult(result: Any | object = {}, animated?: boolean): void {
+   103	  const stack: NavPathStack | undefined = getNavPathStack();
+   104	  if (!stack) {
+   105	    return;
+   106	  }
+   107	  try {
+   108	    stack.pop(result, animated);
+   109	  } catch (err) {
+   110	    hilog.error(DOMAIN, "NavSvc", "[NavigationService] navigateBackWithResult failed: %{public}s", JSON.stringify(err));
+   111	  }
+   112	}
+   113	
+   114	/**
+   115	 * 返回到指定路由
+   116	 * @param {string} name - 目标路由名称
+   117	 * @param {boolean} inclusive - 是否移除目标自身（默认 false）
+   118	 * @returns {void} 无返回值
+   119	 */
+   120	export function popTo(name: string, inclusive: boolean = false): void {

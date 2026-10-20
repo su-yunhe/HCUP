@@ -1,0 +1,63 @@
+<file>
+     1→# cm-spec26 基线理解结论
+     2→
+     3→标注约定：【Spec】需求原文；【代码】读代码得到，附 `文件:行号`；【运行】在基线 HAP + 模拟器上实测；【推断】推测；【未验证】尚未确认。
+     4→本阶段没有修改任何业务代码。
+     5→
+     6→## 1. 基线快照标识
+     7→
+     8→| 项 | 值 | 来源 |
+     9→| --- | --- | --- |
+    10→| 题包 `base_commit` | `b2f0caacd0a9461648d06073abcbdcda79420f57`（"Harmony Cup sanitized baseline snapshot"） | `spec/metadata.json:2` |
+    11→| 已有标签 `base/cm-spec26` | 指向 `b2f0caa` | `git rev-parse base/cm-spec26`【运行】 |
+    12→| 当前 HEAD（分支 `dev`） | `156af4dffb73d1665b87efa46976da5e504d2052` | `git rev-parse HEAD`【运行】 |
+    13→| 本阶段新打标签 `baseline-cm-spec26` | 指向 `156af4d`（2026-10-19 打） | `git tag baseline-cm-spec26 HEAD`【运行】 |
+    14→
+    15→`156af4d` 相对 `b2f0caa` 只改了依赖：22 个 `oh-package-lock.json5`，另外 `core/ibestui/oh-package.json5:9` 把 `@ibestservices/ibest-ui-v2` 从 `^1.0.8` 固定为 `1.1.3`。没有业务代码改动【运行，`git show --stat 156af4d`】。
+    16→这些依赖改动最终会出现在"base_commit → 提交版本"的差异里，是否保留留给 `2-submit.md` 阶段决定【推断】。
+    17→
+    18→本阶段结束时 `git status` 只有未跟踪的 `spec/`、`logs/`，没有已跟踪文件被修改【运行】。
+    19→
+    20→## 2. 构建基线状态
+    21→
+    22→环境【运行】：macOS Sequoia；DevEco Studio（`/Applications/DevEco-Studio.app`）；hvigor 6.23.7；node v18.20.1；DevEco 自带 JBR openjdk 21.0.8；
+    23→SDK HarmonyOS 6.1.0（API 23，6.1.0.105）。工程 `modelVersion` 6.0.1（`hvigor/hvigor-config.json5:2`），`targetSdkVersion`/`compatibleSdkVersion` 6.0.1(21)（`build-profile.json5`）。
+    24→
+    25→构建命令（工程根目录）：
+    26→
+    27→```bash
+    28→D=/Applications/DevEco-Studio.app/Contents
+    29→export JAVA_HOME=$D/jbr/Contents/Home DEVECO_SDK_HOME=$D/sdk
+    30→export PATH="$JAVA_HOME/bin:$D/tools/hvigor/bin:$D/tools/node/bin:$D/tools/ohpm/bin:$D/sdk/default/openharmony/toolchains:$PATH"
+    31→hvigorw clean --no-daemon > logs/baseline-clean.log 2>&1
+    32→hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon > logs/baseline-build.log 2>&1
+    33→```
+    34→
+    35→结果【运行】：
+    36→
+    37→- 第一次 clean build 失败：`:entry:default@PackageHap` 报 `00308018 Unknown Error ... Unable to locate a Java Runtime`。原因是环境没有设置 `JAVA_HOME`，与代码无关。设置为 DevEco 自带 JBR 后成功。
+    38→  `1-do.md` 里的构建命令需要同样设置 `JAVA_HOME`，否则会在打包阶段失败。
+    39→- 成功：`BUILD SUCCESSFUL in 16 s 651 ms`（`logs/baseline-build.log:1593`），产物 `entry/build/default/outputs/default/entry-default-unsigned.hap`（8,364,908 字节）。
+    40→- 没有签名配置（`> hvigor WARN: No signingConfig found for product default`），但未签名 HAP 能装到本机模拟器（见第 7 节）。
+    41→- 构建后 `git status` 无新增已跟踪改动：`**/BuildProfile.ets` 已在 `.gitignore` 中。
+    42→
+    43→基线告警清单（clean build，用于后续对比）【运行，从 `logs/baseline-build.log` 统计】：
+    44→
+    45→| 来源 | 数量 | 内容 |
+    46→| --- | --- | --- |
+    47→| `oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.1.3/...` | 157 + 3（Index.d.ets） | 147 条 `arkts-strict-typing-required`、10 条 `arkts-no-implicit-return-types`、2 条 `arkts-no-type-query`、1 条 `arkts-no-typing-with-this` |
+    48→| `core/designsystem` | 40 | `'@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.`（Row.ets、Column.ets、Scroll.ets 等） |
+    49→| `core/util` | 27 | `Function may throw exceptions. Special handling is required.` |
+    50→| `entry` | 4 | 同上，`entry/src/main/ets/adapter/WindowAdapter.ets:112/113/157/226` |
+    51→| `feature/main` | 1 | 同上，`feature/main/src/main/ets/viewmodel/MainViewModel.ets:38` |
+    52→| `oh_modules/.ohpm/@jjr+lottie_component_v2@1.0.1/...` | 2 | 第三方库 |
+    53→| 无文件位置 | 4 | `'delete' conflict, first declared`；`For details about ArkTS syntax errors, see FAQs`；`Property 'sourceMapsPath' not found in '@ibestservices/ibest-ui-v2'`；`No signingConfig found` |
+    54→| **`feature/goods`** | **0** | 本题要改的模块，基线没有任何告警，开发后在这里出现的告警都是新引入的 |
+    55→
+    56→合计 234 条带文件位置的 `ArkTS:WARN`，另有 4 条不带文件位置。对比方法：`grep -A1 "ArkTS:WARN File" <新日志> | grep -E "feature/goods|core/(ui|model)"`，结果应为空。
+    57→## 3. Spec 描述的入口在哪
+    58→
+    59→运行实证【运行，2026-10-19】：冷启动后首页"限时精选"第一个商品是 `Xiaomi 17T Pro`（bounds `[42,1834][462,2425]`）；点击后进入商品详情页，hilog `NetLog` 记录到且只记录到 1 次 `GET https://mall.dusksnow.top/app/page/goodsDetail`，`status=200`；按 Back 回到首页。
+    60→
+</file>
+<metadata>The file has 210 lines in total.</metadata>

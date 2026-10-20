@@ -1,0 +1,42 @@
+import { P100 } from "designsystem";
+
+/**
+ * 无法得知图片尺寸时的占位宽高比
+ */
+const DEFAULT_ASPECT_RATIO: number = 1;
+
+/**
+ * @file 商品详情图片组件
+ * @author Joker.X
+ */
+@ComponentV2
+export struct GoodsDetailImage {
+  /**
+   * 图片地址
+   */
+  @Param
+  url: string = "";
+  /**
+   * 图片序号（用于生成稳定 id）
+   */
+  @Param
+  index: number = 0;
+  /**
+   * 图片加载完成后的真实宽高比
+   */
+  @Local
+  private loadedRatio: number = 0;
+
+  /**
+   * 构建商品详情图片
+   * @returns {void} 无返回值
+   */
+  build(): void {
+    Stack() {
+      Column()
+        .width(P100)
+        .height(P100)
+        .backgroundColor($r("app.color.bg_content"));
+
+      Image(this.url)
+        .id(`goods_detail_image_${this.index}`)

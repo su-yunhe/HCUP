@@ -1,0 +1,73 @@
+      ListItem() {
+        GoodsShippingServiceCard();
+      }
+
+      if (this.getComments().length > 0) {
+        ListItem() {
+          GoodsCommentCard({
+            comments: this.getComments(),
+            onImageClick: (pics: string[]): void => this.vm.openImageViewer(pics)
+          });
+        }
+      }
+
+      if (this.getContentPics().length > 0) {
+        ListItem() {
+          GoodsDetailTitle();
+        }
+      }
+
+      LazyForEach(this.detailImageSource, (url: string, index: number): void => {
+        ListItem() {
+          GoodsDetailImage({ url: url, index: index });
+        }
+      }, (url: string, index: number): string => `${url}-${index}`);
+    }
+    .id("goods_detail_list")
+    .layoutWeight(1)
+    .width(P100)
+    .height(P100)
+    .bindContentCover(this.vm.imageViewerVisible, this.ImageViewer(), {
+      modalTransition: ModalTransition.ALPHA,
+      onDisappear: (): void => this.vm.closeImageViewer()
+    });
+  }
+
+  /**
+   * 评价图片全屏查看器
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private ImageViewer(): void {
+    CommentImageViewer({
+      pics: this.vm.imageViewerPics,
+      topInset: this.windowSafeAreaState.topInset,
+      bottomInset: this.windowSafeAreaState.bottomInset,
+      onClose: (): void => this.vm.closeImageViewer()
+    });
+  }
+
+  /**
+   * 商品数据变化时刷新详情图片数据源
+   * @returns {void} 无返回值
+   */
+  @Monitor("vm.data")
+  private onDetailDataChange(): void {
+    this.detailImageSource.setData(this.getContentPics());
+  }
+
+  /**
+   * 获取评价列表
+   * @returns {Comment[]} 评价列表，无数据时为空数组
+   */
+  private getComments(): Comment[] {
+    const comments: Comment[] | null | undefined = this.vm.data?.comment;
+    return Array.isArray(comments) ? comments : [];
+  }
+
+  /**
+   * 获取商品详情图片
+   * @returns {string[]} 详情图片地址列表，无数据时为空数组
+   */
+  private getContentPics(): string[] {
+    const pics: string[] | null | undefined = this.vm

@@ -2,8 +2,12 @@ import { ColumnStart, P100 } from "designsystem";
 import { Goods } from "model";
 import { BreakpointState, getBreakpointState, getWindowSafeAreaState, WindowSafeAreaState } from "state";
 import { AppNavDestination, BaseNetWorkView } from "ui";
+import { CommentImageViewer } from "../component/CommentImageViewer";
 import { GoodsBanner } from "../component/GoodsBanner";
+import { GoodsCommentCard } from "../component/GoodsCommentCard";
 import { GoodsDetailBottomBar } from "../component/GoodsDetailBottomBar";
+import { GoodsDetailImage } from "../component/GoodsDetailImage";
+import { GoodsDetailTitle } from "../component/GoodsDetailTitle";
 import { GoodsInfoCard } from "../component/GoodsInfoCard";
 import { GoodsShippingServiceCard } from "../component/GoodsShippingServiceCard";
 import GoodsDetailViewModel from "../viewmodel/GoodsDetailViewModel";
@@ -89,8 +93,53 @@ export struct GoodsDetailPage {
       ListItem() {
         GoodsShippingServiceCard();
       }
+
+      if (this.vm.getComments().length > 0) {
+        ListItem() {
+          GoodsCommentCard({
+            comments: this.vm.getComments(),
+            onImageClick: (pics: string[]): void => this.vm.openImageViewer(pics)
+          });
+        }
+      }
+
+      if (this.vm.getContentPics().length > 0) {
+        ListItem() {
+          GoodsDetailTitle();
+        }
+      }
+
+      LazyForEach(this.vm.detailImageSource, (url: string, index: number): void => {
+        ListItem() {
+          GoodsDetailImage({ url: url, index: index });
+        }
+      }, (url: string, index: number): string => `${url}-${index}`);
     }
+    .id("goods_detail_list")
     .layoutWeight(1)
+    .width(P100)
+    .height(P100)
+    .bindContentCover(this.vm.imageViewerVisible, this.ImageViewer(), {
+      modalTransition: ModalTransition.ALPHA,
+      onDisappear: (): void => this.vm.closeImageViewer()
+    });
+  }
+
+  /**
+   * 评价图片全屏查看器
+   * 根节点必须是系统容器：直接以自定义组件作为模态根节点时，组件创建后会立即触发 aboutToDisappear，内部状态不再刷新
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private ImageViewer(): void {
+    Column() {
+      CommentImageViewer({
+        pics: this.vm.imageViewerPics,
+        topInset: this.windowSafeAreaState.topInset,
+        bottomInset: this.windowSafeAreaState.bottomInset,
+        onClose: (): void => this.vm.closeImageViewer()
+      });
+    }
     .width(P100)
     .height(P100);
   }

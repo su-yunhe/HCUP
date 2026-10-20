@@ -1,0 +1,83 @@
+<file>
+   527→
+   528→- 来源：边界穷举（请求失败）；基线已有错误态
+   529→- 证据等级：REASONABLE_DERIVATION（沿用基线 `BaseNetWorkView` 行为）
+   530→- 原子行为：`page/goodsDetail` 失败时显示基线的"网络异常"＋"重试"（`core/ui/src/main/ets/component/empty/EmptyNetwork`），新增区块不显示真实内容；点"重试"重新请求，成功后各区块正常显示。
+   531→- 可观察结果：断网进入详情页时出现"网络异常"；恢复网络后点"重试"，"商品评价"出现。
+   532→- 八维度：入口 C1；前置数据为断网或服务不可用；用户动作为点击"重试"、连点"重试"；UI 结果 ERROR → LOADING → SUCCESS；数据结果不适用；网络结果为每次"重试"发 1 次请求（基线 `retryRequest` 没有防重入，`BaseNetWorkViewModel.ets:86-89`，连点会发多次，属于基线行为，只记录）；返回结果为 Back 正常退出；边界条件：ERROR 状态下内容层透明度为 0 但节点仍在树里，新增组件拿到 `data=null` 时不能崩溃。
+   533→- 稳定选择器：基线无 id；"重试"按文字定位。
+   534→
+   535→#### A35 返回后重进、重启应用后重进
+   536→
+   537→- 来源：边界穷举（返回后重进／重启应用后重进）
+   538→- 证据等级：REASONABLE_DERIVATION
+   539→- 原子行为：从详情页返回首页再进入同一商品、或强制停止后冷启动再进入，评价和详情图重新从接口加载并正常显示；查看器不会残留打开状态。
+   540→- 可观察结果：重进后"商品评价"、"+1"、"商品详情"都在；没有 `1/2`。
+   541→- 八维度：入口 C1；前置数据为 C3；用户动作为 Back→重进、`aa force-stop`→冷启动→重进；UI 结果为初始状态（滚动在顶部、查看器关闭）；数据结果为无本地持久化，不适用；网络结果为每次进入发 1 次请求；返回结果见上；边界条件：先后进入不同商品时，评价不串（ViewModel 每次随页面新建，`GoodsDetailPage.ets:21`【代码】）。
+   542→- 稳定选择器：同 A3、A12、A16。
+   543→
+   544→## 4. 边界条件穷举
+   545→
+   546→| 边界 | 是否适用 | 期望行为 | 对应条目 |
+   547→| --- | --- | --- | --- |
+   548→| 空输入 | 不适用 | 本题没有输入框（评价只读，不提交） | — |
+   549→| 纯空格 | 部分适用 | 没有输入；数据层面昵称为纯空格按空处理显示"匿名用户"，正文原样显示 | A9、A7 |
+   550→| 取消 | 适用 | 查看器的"取消"就是关闭按钮或 Back，只关查看器 | A26、A30 |
+   551→| 关闭 | 适用 | 关闭后回到详情页、位置不变、不发请求 | A26、A27、A33 |
+   552→| 重复点击 | 适用 | 重复点缩略图不叠加查看器；重复点关闭不穿透 | A31、A26 |
+   553→| 快速连点 | 适用 | 同上；快速连续滑动页码与图片一致 | A31、A25 |
+   554→| 无数据 | 适用 | 无评价时不显示评价卡（U1）；无图评价不显示缩略图；无 contentPics 时不显示"商品详情"；data 为 null（加载中或失败）不崩溃 | A10、A15、A21、A2 |
+   555→| 最后一页 | 适用 | 查看器最后一张再左滑停住（U6）；详情长图滚到底不出现加载更多 | A25、A20 |
+   556→| 部分操作 | 适用 | 查看器滑到第 2 张后直接关闭，再开从第 1 张开始；只滚到一半就打开查看器，位置同样保持 | A32、A27 |
+   557→| 请求失败 | 适用 | 沿用基线"网络异常/重试"；图片加载失败保留背景占位 | A34、A19、A11 |
+   558→| 返回后重进 | 适用 | 重进重新请求、状态初始化 | A35 |
+   559→| 重启应用后重进 | 适用 | 同上，无持久化 | A35 |
+   560→| 横竖屏/断点 | 部分适用 | Spec 未要求；页面已有断点状态 `breakpointState`（`GoodsDetailPage.ets:30-31`）但未使用，只需保证 sm 断点（官方 1308×2880 竖屏）正确 | — |
+   561→
+   562→## 5. 网络状态机
+   563→
+   564→本题唯一的业务请求是基线已有的 `GET page/goodsDetail`。评价和详情图都从它的响应读取，新增 UI 不引入任何新请求。
+   565→
+   566→```mermaid
+   567→stateDiagram-v2
+   568→    [*] --> LOADING: aboutToAppear → executeRequest()
+   569→    LOADING --> SUCCESS: code 成功 → vm.data = 响应
+   570→    LOADING --> ERROR: 业务失败 / 网络异常
+   571→    ERROR --> LOADING: 点击"重试" → retryRequest()
+   572→    state SUCCESS {
+   573→        [*] --> ViewerClosed
+   574→        ViewerClosed --> ViewerOpen: 点击缩略图或"+N"（不发请求）
+   575→        ViewerOpen --> ViewerOpen: 左右滑动，更新页码（不发请求）
+   576→        ViewerOpen --> ViewerClosed: 关闭按钮 / Back（不发请求）
+   577→    }
+   578→    SUCCESS --> [*]: Back 离开详情页
+   579→```
+   580→
+   581→| 用户动作 | 是否发请求 | loading 绑定 | 请求结束后的状态 |
+   582→| --- | --- | --- | --- |
+   583→| 进入详情页 | 是，1 次 `page/goodsDetail` | `onRequestStart` 置 LOADING（`BaseNetWorkViewModel.ets:60-62`），由 `BaseNetWorkView` 显示"加载中..." | 成功为 SUCCESS 并渲染评价与详情图；失败为 ERROR |
+   584→| 点击"重试" | 是，1 次 | 同上 | 同上 |
+   585→| 滚动详情 List | 否 | 无 | 不变 |
+   586→| 点击缩略图 / "+N" | 否 | 无（不得改动 uiState） | 不变，只是查看器打开 |
+   587→| 查看器左右滑动 | 否 | 无 | 不变 |
+   588→| 关闭查看器 / Back | 否 | 无 | 不变，滚动位置保持 |
+   589→| 离开后重进 | 是，新页面 1 次 | 新 VM 从 LOADING 开始 | 同首次进入 |
+   590→
+   591→约束：不允许"先用本地数据渲染、稍后补请求"，也不允许为评价单独请求 `goods/comment/page`（基线已有该接口，`core/network/src/main/ets/datasource/goods/GoodsNetworkDataSourceImpl.ets:91-94`，但 Spec 没有要求，正式评测的受控数据也未必走它）。
+   592→图片 URL 的加载属于 Image 组件的资源请求，不属于业务 API。
+   593→
+   594→## 6. UNCONFIRMED_ASSUMPTION 汇总（待你判断）
+   595→
+   596→| 编号 | 问题 | 可选方案 | 推荐与理由 |
+   597→| --- | --- | --- | --- |
+   598→| U1 | 商品没有评价时是否显示"商品评价"区域（A10） | a. 整块不渲染；b. 显示标题加"暂无评价"之类空态 | 推荐 a。Spec 只描述"有评价数据"的页面，没有给空态文案，自造文案没法和测试对上；场景三对 contentPics 也是"有才显示"，保持一致；公共数据 51 个商品都有 5 条评价，官方用例大概率不覆盖空评价。 |
+   599→| U2 | 星级用什么组件呈现（A6） | a. ArkUI 内置 `Rating`（indicator 只读，5 星）；b. 基线依赖里的 `IBestRate`（`readOnly`）；c. 额外加"5星"之类文字 | 推荐 a。UI 树类型 `Rating` 是测试可以直接定位的标准面；`IBestRate` 内部是自绘图标，类型和 key 都由库生成，不好断言；c 属于 Spec 外的自造文案。实现时先在模拟器 dump 确认 `Rating` 节点是否带评分值。 |
+   600→| U3 | 单图评价打开查看器是否显示页码（A29） | a. 显示 `1/1`；b. 不显示页码 | 推荐 a。按 Spec 字面，页码是"若有多张图片"时的行为，b 更贴字面；但隐藏用例断言"出现某页码"的可能性远大于断言"不出现页码"，a 对两类用例的风险更低。 |
+   601→| U4 | 全屏查看器的承载方式（A22～A27） | a. 在详情页上用 `bindContentCover`（全屏模态）承载自绘 Swiper、页码、关闭按钮；b. 复用 ibest-ui-v2 的 `IBestImagePreview.show()`；c. 新建 NavDestination 路由页 | 推荐 a。Spec 写的是"弹出"且要"点击关闭按钮"；b 自带滑动和页码，但没有关闭按钮（只能点图或点遮罩关闭，`core/ibestui/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/f/i.d.ets` 的选项里只有 `closeOnClickOverlay`/`closeOnClickImage`），页码格式也未验证；c 要改路由表和返回栈，和"弹出"不符。a 在实现时还要确认两点【未验证】：模态内容能被 `uitest dumpLayout` 看到；Back 键默认只关闭模态。 |
+   602→| U5 | 关闭按钮的形式与文案（A26） | a. `Button` 内放可见文字"关闭"，并设 `accessibilityText("关闭")`；b. `Button` 内只放"×"图标，加 `accessibilityText("关闭")`；c. 非 Button 的 Image 图标 | 推荐 a。Spec 没有文案，测试只能靠类型、文字或描述定位；a 同时满足 `BY.type("Button")`、`BY.text("关闭")`、描述"关闭"三种写法。注意 U8：底层详情页有一个隐藏的"重试"Button。 |
+   603→| U6 | 查看器是否循环、重开是否保留上次页码（A25、A32） | a. 不循环，每次打开从第 1 张开始；b. 循环滑动；c. 记住上次位置 | 推荐 a。点击的是"第一张图片的缩略预览"，从第 1 张开始最自然；循环会让最后一张左滑变回 `1/2`，不符合"当前/总数"的直观预期。 |
+   604→| U7 | "自适应内容模式"对应哪种 ImageFit（A18） | a. `ImageFit.Auto` 加宽度 100%；b. `ImageFit.Contain` 加按 URL `w/h` 参数算 aspectRatio；c. `ImageFit.Cover` | 推荐 a，必要时叠加 b 的占位比例。"自适应"字面对应 `ImageFit.Auto`；c 会裁切长图，不符合"自适应"。dump 里看不到 objectFit【运行】，这条主要靠代码评审。 |
+   605→| U8 | 基线 `BaseNetWorkView` 用透明度切换三种状态，"加载中..."、"网络异常"、"重试"Button 在成功态也一直留在 UI 树里且 `visible=true`【运行】 | a. 本题不改基线组件，只在新组件上避开歧义；b. 改成条件渲染 | 推荐 a。这是基线既有行为，改它会波及所有使用该组件的页面，超出 Spec 的实现边界；本题的关闭按钮靠文字和 id 区分，不能指望"页面上第一个 Button"就是关闭按钮。同一结构还疑似让"重试"点不动（notes 第 8 节第 3 条，首页实测，详情页未复现），A34 的"重试"路径可能因此失败。需要你确认是否接受这个残余风险。 |
+   606→| U9 | 是否附加 Spec 没提到的元素：评价头像、评价时间、"查看全部"跳转 | a. 都不加；b. 加头像或时间；c. 加"查看全部"跳 `GoodsCommentPage` | 推荐 a。基线资源里有 `view_all`/`view_images`（`feature/goods/src/main/resources/base/element/string.json:68-69, 136-137`），但 Spec 没有要求；头像也是 Image，会排在缩略图前面，测试按"条目内的 Image"找缩略图时可能误点头像；`GoodsCommentPage` 还是占位页（`feature/goods/src/main/ets/view/GoodsCommentPage.ets:34-36`），跳过去只会看到"商品评论页面内容视图"。 |
+</file>
+<metadata>The file has 630 lines in total.</metadata>

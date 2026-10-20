@@ -1,0 +1,213 @@
+# cm-spec26 基线理解结论
+
+标注约定：【Spec】需求原文；【代码】读代码得到，附 `文件:行号`；【运行】在基线 HAP + 模拟器上实测；【推断】推测；【未验证】尚未确认。
+本阶段没有修改任何业务代码。
+
+## 1. 基线快照标识
+
+| 项 | 值 | 来源 |
+| --- | --- | --- |
+| 题包 `base_commit` | `b2f0caacd0a9461648d06073abcbdcda79420f57`（"Harmony Cup sanitized baseline snapshot"） | `spec/metadata.json:2` |
+| 已有标签 `base/cm-spec26` | 指向 `b2f0caa` | `git rev-parse base/cm-spec26`【运行】 |
+| 当前 HEAD（分支 `dev`） | `156af4dffb73d1665b87efa46976da5e504d2052` | `git rev-parse HEAD`【运行】 |
+| 本阶段新打标签 `baseline-cm-spec26` | 指向 `156af4d`（2026-10-19 打） | `git tag baseline-cm-spec26 HEAD`【运行】 |
+
+`156af4d` 相对 `b2f0caa` 只改了依赖：22 个 `oh-package-lock.json5`，另外 `core/ibestui/oh-package.json5:9` 把 `@ibestservices/ibest-ui-v2` 从 `^1.0.8` 固定为 `1.1.3`。没有业务代码改动【运行，`git show --stat 156af4d`】。
+这些依赖改动最终会出现在"base_commit → 提交版本"的差异里，是否保留留给 `2-submit.md` 阶段决定【推断】。
+
+本阶段结束时 `git status` 只有未跟踪的 `spec/`、`logs/`，没有已跟踪文件被修改【运行】。
+
+## 2. 构建基线状态
+
+环境【运行】：macOS Sequoia；DevEco Studio（`/Applications/DevEco-Studio.app`）；hvigor 6.23.7；node v18.20.1；DevEco 自带 JBR openjdk 21.0.8；
+SDK HarmonyOS 6.1.0（API 23，6.1.0.105）。工程 `modelVersion` 6.0.1（`hvigor/hvigor-config.json5:2`），`targetSdkVersion`/`compatibleSdkVersion` 6.0.1(21)（`build-profile.json5`）。
+
+构建命令（工程根目录）：
+
+```bash
+D=/Applications/DevEco-Studio.app/Contents
+export JAVA_HOME=$D/jbr/Contents/Home DEVECO_SDK_HOME=$D/sdk
+export PATH="$JAVA_HOME/bin:$D/tools/hvigor/bin:$D/tools/node/bin:$D/tools/ohpm/bin:$D/sdk/default/openharmony/toolchains:$PATH"
+hvigorw clean --no-daemon > logs/baseline-clean.log 2>&1
+hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon > logs/baseline-build.log 2>&1
+```
+
+结果【运行】：
+
+- 第一次 clean build 失败：`:entry:default@PackageHap` 报 `00308018 Unknown Error ... Unable to locate a Java Runtime`。原因是环境没有设置 `JAVA_HOME`，与代码无关。设置为 DevEco 自带 JBR 后成功。
+  `1-do.md` 里的构建命令需要同样设置 `JAVA_HOME`，否则会在打包阶段失败。
+- 成功：`BUILD SUCCESSFUL in 16 s 651 ms`（`logs/baseline-build.log:1593`），产物 `entry/build/default/outputs/default/entry-default-unsigned.hap`（8,364,908 字节）。
+- 没有签名配置（`> hvigor WARN: No signingConfig found for product default`），但未签名 HAP 能装到本机模拟器（见第 7 节）。
+- 构建后 `git status` 无新增已跟踪改动：`**/BuildProfile.ets` 已在 `.gitignore` 中。
+
+基线告警清单（clean build，用于后续对比）【运行，从 `logs/baseline-build.log` 统计】：
+
+| 来源 | 数量 | 内容 |
+| --- | --- | --- |
+| `oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.1.3/...` | 157 + 3（Index.d.ets） | 147 条 `arkts-strict-typing-required`、10 条 `arkts-no-implicit-return-types`、2 条 `arkts-no-type-query`、1 条 `arkts-no-typing-with-this` |
+| `core/designsystem` | 40 | `'@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.`（Row.ets、Column.ets、Scroll.ets 等） |
+| `core/util` | 27 | `Function may throw exceptions. Special handling is required.` |
+| `entry` | 4 | 同上，`entry/src/main/ets/adapter/WindowAdapter.ets:112/113/157/226` |
+| `feature/main` | 1 | 同上，`feature/main/src/main/ets/viewmodel/MainViewModel.ets:38` |
+| `oh_modules/.ohpm/@jjr+lottie_component_v2@1.0.1/...` | 2 | 第三方库 |
+| 无文件位置 | 4 | `'delete' conflict, first declared`；`For details about ArkTS syntax errors, see FAQs`；`Property 'sourceMapsPath' not found in '@ibestservices/ibest-ui-v2'`；`No signingConfig found` |
+| **`feature/goods`** | **0** | 本题要改的模块，基线没有任何告警，开发后在这里出现的告警都是新引入的 |
+
+合计 234 条带文件位置的 `ArkTS:WARN`，另有 4 条不带文件位置。对比方法：`grep -A1 "ArkTS:WARN File" <新日志> | grep -E "feature/goods|core/(ui|model)"`，结果应为空。
+
+## 3. Spec 描述的入口在哪
+
+运行实证【运行，2026-10-19】：冷启动后首页"限时精选"第一个商品是 `Xiaomi 17T Pro`（bounds `[42,1834][462,2425]`）；点击后进入商品详情页，hilog `NetLog` 记录到且只记录到 1 次 `GET https://mall.dusksnow.top/app/page/goodsDetail`，`status=200`；按 Back 回到首页。
+
+| 环节 | 位置 | 说明 |
+| --- | --- | --- |
+| 首页入口①限时精选 | `feature/main/src/main/ets/view/HomePage.ets:72-79`（`onGoodsClick` → `GoodsNavigator.toDetail(id)` 在 `:75-77`） | 横向 List，实测已点通【运行】 |
+| 首页入口②推荐商品 | `feature/main/src/main/ets/view/HomePage.ets:89-94` | `GoodsListItem.onItemClick`（`core/ui/src/main/ets/component/goods/GoodsListItem.ets:38`） |
+| 首页入口③全部商品 | `feature/main/src/main/ets/view/HomePage.ets:112-117` | `GoodsGridItem.onItemClick`（`core/ui/src/main/ets/component/goods/GoodsGridItem.ets:43`） |
+| "我的"足迹入口 | `feature/main/src/main/ets/view/MePage.ets:439` | 只有 `recentFootprints.length > 0` 才渲染（`MePage.ets:105-107`），而 `MeViewModel.ets:38` 只声明为 `[]`、没有任何赋值【代码】，所以基线里实际不可达 |
+| 跳转封装 | `core/navigation/src/main/ets/goods/GoodsNavigator.ets:16-19` | 参数 `GoodsIdParam { goodsId }`（`core/navigation/src/main/ets/NavigationParam.ets:9`） |
+| 跳转实现 | `core/navigation/src/main/ets/NavigationService.ets:51-78` | `NavPathStack.pushPath`；`goods/detail` 不在登录拦截列表（`RouteInterceptor.ts:16-37`） |
+| 路由名 | `core/navigation/src/main/ets/goods/GoodsRoutes.ts:9` | `"goods/detail"` |
+| 路由注册 | `feature/goods/src/main/ets/navigation/GoodsGraph.ets:17`；`entry/src/main/ets/entryability/EntryAbility.ets:106` | `RouteBuild.register(GoodsRoutes.Detail, wrapBuilder(GoodsDetailNav))` |
+| 导航宿主 | `entry/src/main/ets/navigation/NavigationHost.ets:36-43` | `Navigation(...).mode(NavigationMode.Stack).navDestination(PagesMap)` |
+| 页面 Builder | `feature/goods/src/main/ets/navigation/GoodsDetailNav.ets:8-11` | 直接构建 `GoodsDetailPage()` |
+| 目标页面 | `feature/goods/src/main/ets/view/GoodsDetailPage.ets:16-97` | Spec 要求接入的 `GoodsDetailPage` |
+| 页面参数读取 | `feature/goods/src/main/ets/viewmodel/GoodsDetailViewModel.ets:24-28` → `NavigationService.ets:192-204` | `getParamByName(name)[0]` 取的是栈里第一个同名路由的参数【代码】，详情页套详情页时第二层会拿到第一层的 goodsId（基线问题，本题只记录） |
+
+返回：详情页 `hideTitleBar: true`（`GoodsDetailPage.ets:39`），没有返回按钮，只能靠系统 Back 或手势【运行】。
+
+## 4. 相关现状
+
+### 4.1 页面组件
+
+`GoodsDetailPage`（`feature/goods/src/main/ets/view/GoodsDetailPage.ets`）【代码】：
+
+- `build()`（`:37-52`）：`AppNavDestination` → `BaseNetWorkView({ uiState, onRetry, content })`。
+- `GoodsDetailContent()`（`:58-64`）：`ColumnStart` 里依次是 `GoodsDetailList()` 和 `GoodsDetailBottomBar()`。
+- `GoodsDetailList()`（`:70-96`）：`List` 里 3 个 `ListItem`，依次为 `GoodsBanner`（`:73-80`，`pics`，`aspectRatio(1)`）、`GoodsInfoCard`（`:82-87`）、`GoodsShippingServiceCard`（`:89-91`）。
+  List 没有 `scroller`、没有 `.id()`，`layoutWeight(1)`。**新的评价卡片、详情标题、详情图片要按顺序加在 `:91` 之后。**
+- `breakpointState`（`:30-31`）已声明但没有使用。
+
+实测详情页布局【运行，1308×2880】：List `[0,137][1308,2758]`；轮播 ListItem `[0,137][1308,1308]`；信息卡 `[0,1308][1308,2132]`；服务卡 `[0,2132][1308,2610]`；底栏"操作栏" `[42,2786][210,2852]`。
+基线内容总高 2473px，一屏装得下，List 滑不动；新增的"商品评价"会从 y≈2610 开始，在首屏底部边缘，需要滚动才能看全。
+
+已有子组件【代码】：
+
+- `feature/goods/src/main/ets/component/GoodsBanner.ets`：Swiper + `ForEach` 图片，圆点指示器。
+- `feature/goods/src/main/ets/component/GoodsInfoCard.ets`：`Card` 包价格、优惠券、标题、副标题、规格行。
+- `feature/goods/src/main/ets/component/GoodsShippingServiceCard.ets`：外层 `ColumnStart` 左右 `space_horizontal_medium`、上 `space_vertical_medium` 内边距（`:16-23`），`IBestCellGroup` + 标题 `TitleWithLine("发货与服务")`（`:58-61`）。新卡片可以照这个外边距和标题样式写，保持视觉一致。
+- `feature/goods/src/main/ets/component/GoodsDetailBottomBar.ets`：占位，只有文字"操作栏"（`:24`）。
+
+### 4.2 状态模型
+
+- 状态管理全用 V2：`@ComponentV2` + `@Local`/`@Param`，ViewModel 用 `@ObservedV2` + `@Trace`【代码】。
+- `GoodsDetailViewModel extends BaseNetWorkViewModel<GoodsDetail>`（`feature/goods/src/main/ets/viewmodel/GoodsDetailViewModel.ets:12`），`requestRepository()` 返回 `pageRepository.getGoodsDetail(goodsId)`（`:34-36`）。
+- `BaseNetWorkViewModel`（`core/base/src/main/ets/viewmodel/BaseNetWorkViewModel.ets`）：`@Trace uiState`（`:17-18`）、`@Trace data: T | null`（`:22-23`）；`aboutToAppear` 发请求（`:39-41`）；成功时直接 `this.data = data`（`:69-72`）。
+  所以 `vm.data` 是 axios 解析出来的原始 JSON，不是 `GoodsDetail`/`Comment` 实例，模型里的默认值（例如 `starCount = 5`）不会生效【代码推断】。
+- VM 生命周期由 `AppNavDestination` 转发（`core/ui/src/main/ets/component/navdestination/AppNavDestination.ets:73-136`）；`onShown`/`onHidden` 在 `BaseViewModel` 里是空实现（`core/base/src/main/ets/viewmodel/BaseViewModel.ets:55-64`），页面重新显示不会刷新数据。
+- `BaseNetWorkView`（`core/ui/src/main/ets/component/network/BaseNetWorkView.ets:62-91`）把加载、错误、内容三层叠在一个 Stack 里，只用 `opacity` 切换，三层节点一直存在。content 在 LOADING 时就会 build，此时 `vm.data` 为 null。
+
+### 4.3 数据模型
+
+- `GoodsDetail`（`core/model/src/main/ets/entity/GoodsDetail.ets:9-31`）：`goodsInfo: Goods`、`coupon: Coupon[]`、`comment: Comment[]`（`:21`）。
+- `Comment`（`core/model/src/main/ets/entity/Comment.ets:5-67`）：`id`、`userId`、`goodsId`、`orderId`、`content`（`:25`）、`starCount`（`:29`，默认 5）、`pics?: string[] | null`（`:33`）、`nickName?`（`:37`）、`avatarUrl?`（`:41`）、`createTime?`、`updateTime?`。
+- `Goods.contentPics?: string[] | null`（`core/model/src/main/ets/entity/Goods.ets:47`）；`content`（`:43`）注释为"详情富文本（已弃用）"。
+- 本题需要的字段全都已有，不需要改模型【代码】。
+
+接口真实数据【运行，2026-10-19 用 curl 请求公共服务 `page/goodsDetail` 与 `goods/info/page`，共 51 个商品】：
+
+- 每个商品都有 5 条评价，每条图片数 0～3 张；`pics` 无图时是 `[]`，不是 null。
+- 评价字段齐全：`id/createTime/updateTime/userId/goodsId/orderId/content/starCount/pics/nickName/avatarUrl`；nickName、avatarUrl、content 都不为空；content 长度 5～240 字。
+- starCount 只出现 4 和 5（830016 第 2 条、830048 第 5 条为 4 星）。
+- 有两图评价的商品很多；830001 "Xiaomi 17T Pro"（首页限时精选第一个）前两条都是 2 张图，第 3～5 条各 1 张。
+- 全部无图的商品：830016 "REDMI Note 17 Pro"、830047、830048；部分无图：830018。
+- 同一商品内昵称重复：830001、830003、830004、830012、830013、830014、1。
+- contentPics 每个商品 9～100 张（830026 最多），URL 带尺寸参数，例如 `...jpg?w=1080&h=1800`。
+- 公共服务里没有"无评价"或"无 contentPics"的商品。
+
+### 4.4 网络服务
+
+- `NetworkClient`（`core/network/src/main/ets/NetworkClient.ets:10-53`）：axios 单例，`BASE_URL = 'https://mall.dusksnow.top/app/'`（`:16`），超时 10000ms（`:21`）。基线没有服务地址配置页。
+- 详情接口：`PageNetworkDataSourceImpl.getGoodsDetail` → `GET page/goodsDetail`，`params: { goodsId }`（`core/network/src/main/ets/datasource/page/PageNetworkDataSourceImpl.ets:26-30`）；仓库层 `core/data/src/main/ets/repository/PageRepository.ets:35-36`。
+- 另有分页评价接口 `POST goods/comment/page`（`core/network/src/main/ets/datasource/goods/GoodsNetworkDataSourceImpl.ets:91-94`，仓库 `GoodsRepository.ets:90-91`），本题用不到。
+- 结果处理：`RequestHelper`（`core/result/src/main/ets/RequestHelper.ets`）把 `NetworkResponse` 拆成 data，业务失败或异常时 reject；`BaseNetWorkViewModel` 默认不 toast（`showErrorToast = false`）。
+- 拦截器：`core/network/src/main/ets/interceptors/AppInterceptors.ets:19-33` 注入 token；`LogInterceptor.ets` 用 hilog（domain 0，tag `NetLog`）打印请求和响应，可以用来自测"是否发请求"【运行，已验证能看到 url 和 status】。
+
+### 4.5 本地存储
+
+本题不涉及。基线 `datastore` 模块只在请求拦截器里读取 token（`AppInterceptors.ets:21-22`），评价和详情图不缓存、不落盘【代码】。
+
+## 5. 可复用的既有实现
+
+| 需求 | 可复用 | 位置 | 备注 |
+| --- | --- | --- | --- |
+| 评价与详情图数据 | `vm.data.comment`、`vm.data.goodsInfo.contentPics` | 4.3 | 不新增请求，不改模型 |
+| 卡片容器 | `Card` | `core/ui/src/main/ets/component/card/Card.ets:8-64`（导出 `core/ui/Index.ets:24`） | `GoodsInfoCard` 已在用 |
+| 区块标题 | `TitleWithLine` | `core/ui/src/main/ets/component/title/TitleWithLine.ets:8-47`（导出 `core/ui/Index.ets:28`） | "发货与服务"用的同款，可用于"商品评价"；"商品详情分隔标题"可另做分隔线样式 |
+| 带加载背景的网络图 | `NetWorkImage`（`showBackground` + `backgroundColorValue` 默认 `bg_content`） | `core/ui/src/main/ets/component/image/NetWorkImage.ets:8-64`（导出 `core/ui/Index.ets:30`） | 对应 Spec"保留加载背景"；没传 `sizeValue` 时外层不设宽高，长图要另外处理高度 |
+| 外边距/间距 | `ColumnStart`、`RowSpaceBetweenCenter`、`SpaceVertical*`、`P100` 等 | `core/designsystem/Index.ets:6-20` | 与 `GoodsShippingServiceCard.ets:16-23` 保持一致 |
+| 文案资源 | `goods_reviews`="商品评价"、`goods_detail`="商品详情"、`anonymous_user`="匿名用户" | `feature/goods/src/main/resources/base/element/string.json:72-73, 4-5, 128-129`（en 同位置） | 基线已备好，和 Spec 文案逐字一致，直接用 `$r("app.string.xxx")`；另有 `view_all`、`view_images` 当前无人使用 |
+| 星级 | ArkUI 内置 `Rating`；或 ibest-ui-v2 `IBestRate`（`readOnly`、`value`、`count`、`iconSize`） | `core/ibestui/oh_modules/@ibestservices/ibest-ui-v2/Index.d.ets:50`；`.../src/main/ets/s/r1/e.d.ets` | 基线都没用过；已决策用 ArkUI `Rating`，不用 `IBestRate`（acceptance U2） |
+| 全屏预览 | ibest-ui-v2 `IBestImagePreview.show(list, { startIndex, showIndex, indexPosition, loop, closeOnClickOverlay, closeOnClickImage, ... })` | `.../ibest-ui-v2/Index.d.ets:6,14`；`.../src/main/ets/f/i.d.ets` | 没有关闭按钮选项；页码格式未验证；已决策不用，改用 `bindContentCover` 自绘查看器（acceptance U4） |
+| 图片轮播 | `GoodsBanner` 的 Swiper 写法 | `feature/goods/src/main/ets/component/GoodsBanner.ets:36-53` | 查看器的 Swiper 可参考（关掉圆点、用文字页码） |
+| 弹层/模态 | 基线没有使用过 `bindContentCover`、`bindSheet`、`CustomDialog`、`openCustomDialog`、`LazyForEach`【代码，全仓 grep 无结果】 | — | 查看器需要新写；ibest-ui-v2 另导出 `IBestPopup`（`Index.d.ets:22`） |
+| 路由 | 不需要新路由 | — | 查看器做成详情页内的弹层就不碰路由表（acceptance U4） |
+
+## 6. 缺失项（Spec 要求而基线完全没有）
+
+1. 详情页的评价卡片与评价条目组件：昵称、星级、正文、右侧缩略图、"+N"标记（`feature/goods/src/main/ets/component/` 下没有相关文件【代码】）。
+2. "商品详情"分隔标题组件和详情图片组件；详情页目前完全不渲染 `contentPics`【代码，全仓只在模型里出现】。
+3. 评价图片全屏查看器：多图滑动、"当前/总数"页码、关闭按钮。
+4. `GoodsDetailPage` 接入以上组件（Spec"实现边界"）。
+5. 所有新组件的稳定 `.id()`（基线全工程 0 处 `.id()`）。
+
+不缺的：数据模型字段、接口、文案资源、路由入口都已经具备。
+
+## 7. 前置环境需求
+
+| 项 | 是否需要 | 本地能否满足 | 说明 |
+| --- | --- | --- | --- |
+| 登录账号 | 否 | — | 详情路由不拦截登录，`page/goodsDetail` 未登录也返回 200【运行】 |
+| 服务端 | 是 | 能 | 公共服务 `https://mall.dusksnow.top/app/` 在线，数据满足全部场景（4.3）；正式评测按官方答疑使用"官方受控的服务、数据或测试适配条件"，经基线已有数据源接入，代码里不能改 BASE_URL |
+| WebDAV | 否 | — | — |
+| 测试数据 | 是 | 部分能 | 两图评价、三图评价、无图评价、4 星评价都有；无评价、无 contentPics、昵称为空的商品公共服务里没有，只能靠代码审查或另起模拟服务覆盖（模拟服务只能用于本地自测，不能写进提交代码） |
+| 设备 | 是 | 能 | 本机模拟器 `127.0.0.1:5555`：arm64-v8a，`emulator 6.1.0.115(SP11DEVC00E115R4P11)`，API 23，1308×2880；`harness.env_check` 输出"✓ 环境与官方评测规格一致"【运行】 |
+| 签名 | 否（本地） | 能 | 未签名 HAP 安装成功：`install bundle successfully`（`logs/baseline-install.log`），bundleName `com.joker.coolmall`（`AppScope/app.json5:3`） |
+| x86 支付 SDK 问题 | 否 | — | 官方答疑里的 x86 安装问题针对商城搜索题，本机是 ARM64 模拟器，安装正常 |
+| 构建环境变量 | 是 | 能 | 必须设置 `JAVA_HOME`（见第 2 节） |
+
+模拟器网络不稳定【运行】：一次冷启动时首页显示"网络异常"，此时在模拟器里 `ping mall.dusksnow.top` 报 `Try again`（DNS 解析失败），几秒后恢复，主机侧 curl 一直正常（0.11s）。
+自测脚本要给首次加载留出重试或等待，并且在报告里把"环境网络失败"和"功能失败"分开记录。
+
+为抓网络日志，本阶段在模拟器上执行过 `hilog -Q pidoff; hilog -Q domainoff`（关闭日志流控），结束时已用 `hilog -Q pidon; hilog -Q domainon` 恢复。
+
+## 8. 测试可观测性风险
+
+1. **没有任何稳定 id**：全工程 0 处 `.id()`【代码】。新组件都要补，建议命名见 `spec/acceptance.md` 第 7 节。
+   ibest-ui 组件自带的 key 是运行时生成的（同一个服务卡两次运行分别是 `ibest_cell_785`、`ibest_cell_1484`【运行】），不能作为选择器。
+2. **隐藏状态层一直在 UI 树里**：`BaseNetWorkView`/`BaseNetWorkListView` 用透明度切换状态，成功态下详情页 dump 里仍有 `加载中...`、`网络异常`、`Button` 和 `重试`，且 `visible=true`【运行，详情页与首页都看到】。
+   dump 里只有它们的父 Column（bounds `[0,137][1308,2880]`）带 `opacity=0.000000`，子节点自己的 opacity 都是 1【运行】。
+   影响：`BY.type("Button")` 的第一个结果可能是这个隐藏的"重试"，而不是查看器的关闭按钮；断言"页面不出现'网络异常'"会误判。属于基线行为，本阶段不修。
+3. **疑似"重试"点不动**【运行，未完全证实】：首页一次加载失败后，两次点击"重试"按钮中心（按钮 bounds `[196,1717][1112,1871]`），hilog 都没有出现新请求（第二次已关闭日志流控），只有冷启动才恢复。
+   推测原因是透明的内容层叠在 Stack 最上面拦截了点击。详情页 `BaseNetWorkView` 的结构相同（内容层在 `BaseNetWorkView.ets:84-90`，位于最后），推测同样受影响，未在详情页复现。只记录，不在本阶段修。
+4. **同名文本歧义**：
+   - 同一商品可能有多条评价同名（4.3），按昵称只能定位到第一条。
+   - 多条两图评价会出现多个"+1"（830001 前两条）。
+   - "商品评价"目前在详情页上不存在，新增后唯一；`feature/order/src/main/resources/base/element/string.json:29` 也有"商品评价"，但属于订单模块页面，不会同屏出现。
+   - "商品详情"目前在详情页上不存在（标题栏隐藏），新增后唯一。
+   - 页码"1/2"：轮播用圆点指示器，没有文字页码【运行】，不会冲突。
+5. **Image 不可区分**：dump 节点属性包括 `type/text/key/id/bounds/clickable/visible/opacity/backgroundColor/backgroundImage/description/hitTestBehavior/zIndex` 等，没有图片 URL，也没有 objectFit【运行】。
+   `backgroundColor` 可读，所以"保留加载背景"可以通过占位节点的背景色（非 `#00000000`）间接断言。
+   详情页已有轮播 Image、优惠券图标、规格图标、箭头图标，按 `BY.type("Image")` 找缩略图会命中别的 Image；"按服务端顺序"只能靠 id 序号和纵坐标间接验证。
+6. **屏幕外节点**：基线详情内容一屏装得下，所以 dump 能看到全部 ListItem；加入评价和长图后，屏幕外 ListItem 是否出现在 dump 里【未验证】，自测要先滚动再查找。
+7. **顶部状态栏**：状态栏窗口占 `[0,0][1308,136]`【运行】，查看器的关闭按钮和页码要避开这个区域，否则可能点不到或被遮挡。
+8. **模态/弹层可见性**：如果查看器用 `bindContentCover` 或 `IBestImagePreview`（openCustomDialog），其内容能否被 `uitest dumpLayout`/Hypium 找到【未验证】，实现第一步就应在模拟器上确认。
+9. **共用 bundleName**：`com.joker.coolmall` 可能被同一上游项目的其他题覆盖安装，每次自测前都要重装本题 HAP（`1-do.md` 已要求）。
+10. **网络波动**：见第 7 节，模拟器 DNS 偶发失败会让首页或详情页落到"网络异常"，而且因为第 3 点很难靠"重试"恢复，自测用例应以冷启动作为恢复手段。
+
+## 9. 本阶段产生的文件
+
+- `spec/acceptance.md`、`spec/baseline-notes.md`（本阶段产出）。
+- `logs/baseline-clean.log`、`logs/baseline-build.log`、`logs/baseline-install.log`（基线构建与安装原始日志，供 `1-do.md` 对比告警）。
+- git 标签 `baseline-cm-spec26`。
+- 探查用的临时截图、布局 dump、接口 JSON 都放在 `/tmp`，结束时已删除；没有改动任何已跟踪文件。

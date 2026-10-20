@@ -1,0 +1,93 @@
+<file>
+  1125→    def swipe(self, direction: str, distance: int = 60, area: Union[ISelector, IUiComponent] = None, side: str = None,
+  1126→              start_point: tuple = None, swipe_time: float = 0.3, speed: int = None):
+  1127→        """
+  1128→        @func    在屏幕上或者指定区域area中执行朝向指定方向direction的滑动操作。该接口用于执行不太精准的滑动操作。
+  1129→        @param   direction: 滑动方向，目前支持:
+  1130→                            "LEFT" 左滑
+  1131→                            "RIGHT" 右滑
+  1132→                            "UP" 上滑
+  1133→                            "DOWN" 下滑
+  1134→        @param   distance: 相对滑动区域总长度的滑动距离，范围为1-100, 表示滑动长度为滑动区域总长度的1%到100%， 默认为60
+  1135→        @param   area: 通过控件指定的滑动区域
+  1136→        @param   side: 滑动位置， 指定滑动区域内部(屏幕内部)执行操作的大概位置，支持:
+  1137→                        UiParam.LEFT 靠左区域
+  1138→                        UiParam.RIGHT 靠右区域
+  1139→                        UiParam.TOP 靠上区域
+  1140→                        UiParam.BOTTOM 靠下区域
+  1141→        @param   start_point: 滑动起始点, 默认为None, 表示在区域中间位置执行滑动操作, 可以传入滑动起始点坐标，支持使用(0.5, 0.5)
+  1142→                              这样的比例相对坐标。当同时传入side和start_point的时候,
+  1143→        @param   swipe_time: 滑动时间（s)， 默认0.3s
+  1144→        @example    # 在屏幕上向上滑动, 距离40
+  1145→                    driver.swipe(UiParam.UP, distance=40)
+  1146→                    # 在屏幕上向右滑动, 滑动事件为0.1秒
+  1147→                    driver.swipe(UiParam.RIGHT, swipe_time=0.1)
+  1148→                    # 在屏幕起始点为比例坐标为(0.8, 0.8)的位置向上滑动，距离30
+  1149→                    driver.swipe(UiParam.UP, 30, start_point=(0.8, 0.8))
+  1150→                    # 在屏幕左边区域向下滑动， 距离30
+  1151→                    driver.swipe(UiParam.DOWN, 30, side=UiParam.LEFT)
+  1152→                    # 在屏幕右侧区域向上滑动，距离30
+  1153→                    driver.swipe(UiParam.UP, side=UiParam.RIGHT)
+  1154→                    # 在类型为Scroll的控件中向向滑动
+  1155→                    driver.swipe(UiParam.UP, area=BY.type("Scroll"))
+  1156→        """
+  1157→        driver = self.driver
+  1158→        start, end = self._generate_swipe_position(direction, distance, side, start_point, area)
+  1159→        self._event_manager.notify_event(EventManager.EVENT_UI_ACTION_START,
+  1160→                                         {"operate_type": "swipe", "start_point": (start[0], start[1]), "end_point": (end[0], end[1])})
+  1161→        if speed is not None:
+  1162→            if speed <= 0 or speed > 40000:
+  1163→                raise ValueError("speed must in the range (0,40000], get %s" % speed)
+  1164→            else:
+  1165→                start_x, start_y = start
+  1166→                end_x, end_y = end
+  1167→                distance_pixels = (end_x - start_x) ** 2 + (end_y - start_y) ** 2
+  1168→                distance_pixels = int(math.sqrt(distance_pixels))
+  1169→                swipe_time = distance_pixels / speed
+  1170→        end_x, end_y = end
+  1171→        end_x = max(0, end_x)
+  1172→        end_y = max(0, end_y)
+  1173→        end = (end_x, end_y)
+  1174→        _slide(driver, *start, *end, swipe_time)
+  1175→
+  1176→    def find_component(self, target: ISelector, scroll_target: ISelector = None) -> IUiComponent:
+  1177→        """
+  1178→        @func 根据BY指定的条件查找控件, 返回满足条件的第一个控件对象
+  1179→        @param target: 使用ISelector对象描述的查找条件
+  1180→        @param scroll_target: 滑动scroll_target控件, 搜索target
+  1181→        @return 返回控件对象IUiComponent, 如果没有找到满足条件的控件，则返回None
+  1182→        @example # 查找类型为button的第一个控件对象
+  1183→                 component = driver.find_component(BY.type(“button”))
+  1184→                 # 获取控件对象的文本
+  1185→                 text = component.getText()
+  1186→                 # 在类型为Scroll的控件上滚动查找文本为"拒绝"的控件
+  1187→                 component = driver.find_component(BY.text("拒绝"), scroll_target=BY.type("Scroll"))
+  1188→        """
+  1189→        driver = self.driver
+  1190→        if scroll_target is None:
+  1191→            return driver.findComponent(target)
+  1192→        if isinstance(scroll_target, ISelector):
+  1193→            scroll_target = driver.findComponent(scroll_target)
+  1194→            if scroll_target is None:
+  1195→                return None
+  1196→        self._event_manager.notify_event(EventManager.EVENT_UI_ACTION_START)
+  1197→        return scroll_target.scrollSearch(target)
+  1198→
+  1199→    def find_all_components(self, target: ISelector, index: int = None) \
+  1200→            -> Union[IUiComponent, List[IUiComponent]]:
+  1201→        """
+  1202→        @func 根据BY指定的条件查找控件, 返回满足条件的所有控件对象列表, 或者列表中第index个控件对象
+  1203→        @param target: 使用ISelector对象描述的查找条件
+  1204→        @param index 默认为None, 表示返回所有控件列表，当传入整数时, 返回列表中第index个对象
+  1205→        @return 返回控件对象IUiComponent或者控件对象列表, 例如[component1, component2], 每个
+  1206→                如果没有找到满足条件的控件，则返回None
+  1207→        @example # 查找所有类型为"button"的控件
+  1208→                 components = driver.find_all_components(BY.type(“button”))
+  1209→                 # 查找满足条件的第3个控件(index从0开始)
+  1210→                 component = driver.find_all_components(BY.type(“button”), 2)
+  1211→                 # 点击控件
+  1212→                 driver.touch(component)
+  1213→        """
+  1214→        driver = self.driver
+</file>
+<metadata>The file has 2607 lines in total.</metadata>

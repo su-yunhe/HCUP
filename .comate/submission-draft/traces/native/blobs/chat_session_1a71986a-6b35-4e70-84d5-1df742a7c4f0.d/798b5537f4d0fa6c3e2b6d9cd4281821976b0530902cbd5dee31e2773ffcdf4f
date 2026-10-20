@@ -1,0 +1,50 @@
+## 4. 边界条件穷举
+
+| 边界 | 是否适用 | 期望行为 | 对应条目 |
+| --- | --- | --- | --- |
+| 空输入 | 不适用 | 本题没有输入框（评价只读，不提交） | — |
+| 纯空格 | 部分适用 | 没有输入；数据层面昵称为纯空格按空处理显示"匿名用户"，正文原样显示 | A9、A7 |
+| 取消 | 适用 | 查看器的"取消"就是关闭按钮或 Back，只关查看器 | A26、A30 |
+| 关闭 | 适用 | 关闭后回到详情页、位置不变、不发请求 | A26、A27、A33 |
+| 重复点击 | 适用 | 重复点缩略图不叠加查看器；重复点关闭不穿透 | A31、A26 |
+| 快速连点 | 适用 | 同上；快速连续滑动页码与图片一致 | A31、A25 |
+| 无数据 | 适用 | 无评价时不显示评价卡（U1）；无图评价不显示缩略图；无 contentPics 时不显示"商品详情"；data 为 null（加载中或失败）不崩溃 | A10、A15、A21、A2 |
+| 最后一页 | 适用 | 查看器最后一张再左滑停住（U6）；详情长图滚到底不出现加载更多 | A25、A20 |
+| 部分操作 | 适用 | 查看器滑到第 2 张后直接关闭，再开从第 1 张开始；只滚到一半就打开查看器，位置同样保持 | A32、A27 |
+| 请求失败 | 适用 | 沿用基线"网络异常/重试"；图片加载失败保留背景占位 | A34、A19、A11 |
+| 返回后重进 | 适用 | 重进重新请求、状态初始化 | A35 |
+| 重启应用后重进 | 适用 | 同上，无持久化 | A35 |
+| 横竖屏/断点 | 部分适用 | Spec 未要求；页面已有断点状态 `breakpointState`（`GoodsDetailPage.ets:30-31`）但未使用，只需保证 sm 断点（官方 1308×2880 竖屏）正确 | — |
+
+## 5. 网络状态机
+
+本题唯一的业务请求是基线已有的 `GET page/goodsDetail`。评价和详情图都从它的响应读取，新增 UI 不引入任何新请求。
+
+```mermaid
+stateDiagram-v2
+    [*] --> LOADING: aboutToAppear → executeRequest()
+    LOADING --> SUCCESS: code 成功 → vm.data = 响应
+    LOADING --> ERROR: 业务失败 / 网络异常
+    ERROR --> LOADING: 点击"重试" → retryRequest()
+    state SUCCESS {
+        [*] --> ViewerClosed
+        ViewerClosed --> ViewerOpen: 点击缩略图或"+N"（不发请求）
+        ViewerOpen --> ViewerOpen: 左右滑动，更新页码（不发请求）
+        ViewerOpen --> ViewerClosed: 关闭按钮 / Back（不发请求）
+    }
+    SUCCESS --> [*]: Back 离开详情页
+```
+
+| 用户动作 | 是否发请求 | loading 绑定 | 请求结束后的状态 |
+| --- | --- | --- | --- |
+| 进入详情页 | 是，1 次 `page/goodsDetail` | `onRequestStart` 置 LOADING（`BaseNetWorkViewModel.ets:60-62`），由 `BaseNetWorkView` 显示"加载中..." | 成功为 SUCCESS 并渲染评价与详情图；失败为 ERROR |
+| 点击"重试" | 是，1 次 | 同上 | 同上 |
+| 滚动详情 List | 否 | 无 | 不变 |
+| 点击缩略图 / "+N" | 否 | 无（不得改动 uiState） | 不变，只是查看器打开 |
+| 查看器左右滑动 | 否 | 无 | 不变 |
+| 关闭查看器 / Back | 否 | 无 | 不变，滚动位置保持 |
+| 离开后重进 | 是，新页面 1 次 | 新 VM 从 LOADING 开始 | 同首次进入 |
+
+约束：不允许"先用本地数据渲染、稍后补请求"，也不允许为评价单独请求 `goods/comment/page`（基线已有该接口，`core/network/src/main/ets/datasource/goods/GoodsNetworkDataSourceImpl.ets:91-94`，但 Spec 没有要求，正式评测的受控数据也未必走它）。
+图片 URL 的加载属于 Image 组件的资源请求，不属于业务 API。
+<!-- APPEND_MARK -->

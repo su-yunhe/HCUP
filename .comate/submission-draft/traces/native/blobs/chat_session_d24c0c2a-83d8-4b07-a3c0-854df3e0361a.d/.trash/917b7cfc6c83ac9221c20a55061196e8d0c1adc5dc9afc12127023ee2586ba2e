@@ -1,0 +1,47 @@
+import { P100, RowEndCenter } from "designsystem";
+
+/**
+ * @file 评价图片全屏查看器组件
+ * @author Joker.X
+ */
+@ComponentV2
+export struct CommentImageViewer {
+  /**
+   * 当前评价的完整图片列表
+   */
+  @Param
+  pics: string[] = [];
+  /**
+   * 顶部安全区高度（vp）
+   */
+  @Param
+  topInset: number = 0;
+  /**
+   * 底部安全区高度（vp）
+   */
+  @Param
+  bottomInset: number = 0;
+  /**
+   * 关闭回调
+   */
+  @Param
+  onClose: () => void = (): void => {
+  };
+  /**
+   * 当前显示的图片下标
+   */
+  @Local
+  private currentIndex: number = 0;
+
+  /**
+   * 构建全屏图片查看器
+   * @returns {void} 无返回值
+   */
+  build(): void {
+    Stack({ alignContent: Alignment.Top }) {
+      Swiper() {
+        ForEach(this.pics, (pic: string, index: number): void => {
+          Image(pic)
+            .id(`comment_image_viewer_image_${index}`)
+            .width(P100)
+   

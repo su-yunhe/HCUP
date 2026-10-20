@@ -1,0 +1,73 @@
+class TestCommentSection(GoodsDetailCase):
+    """场景一、二：商品评价区域、星级、缩略图与 +N 标记。"""
+
+    def test_01_comment_section_after_service(self) -> None:
+        """A1/A3/A4：从首页入口进入，'商品评价'位于发货与服务之后，可滚动到达。"""
+        self.open_detail()
+        service = self.require_text("服务", "服务行不存在")
+        title = self.scroll_find(BY.text("商品评价"), "滚动后找不到'商品评价'")
+        self.assertEqual(len(self.driver.find_all_components(BY.text("商品评价")) or []), 1, "'商品评价'不唯一")
+        self.assertGreater(rect(title)[1], rect(service)[1], "'商品评价'不在服务信息之后")
+        _, ltop, _, lbottom = self.list_rect()
+        self.assertTrue(ltop <= rect(title)[1] < lbottom, "'商品评价'不在详情 List 可视区内")
+
+    def test_02_nickname_rating_content_match_api(self) -> None:
+        """A2/A5/A6/A7/A8：每条评价显示昵称、星级和正文，与接口顺序、内容一致。"""
+        data = fetch_detail(GOODS_TWO_PICS[1])
+        self.open_detail()
+        self.scroll_find(BY.text("商品评价"), "找不到'商品评价'")
+        comments = (data or {}).get("comment") or []
+        count = len(comments) if comments else 5
+        for i in range(count):
+            content = self.bring_into_view(BY.key(f"goods_comment_content_{i}"), f"第 {i} 条评价正文不存在")
+            nickname = self.require_component(BY.key(f"goods_comment_nickname_{i}"), f"第 {i} 条昵称不存在", 3)
+            rating = self.require_component(BY.key(f"goods_comment_rating_{i}"), f"第 {i} 条星级不存在", 3)
+            self.assertEqual(rating.getType(), "Rating")
+            self.assertLess(rect(nickname)[1], rect(content)[1], "昵称应在正文上方")
+            if comments:
+                c = comments[i]
+                self.assertEqual(nickname.getText(), c["nickName"], f"第 {i} 条昵称与接口不一致")
+                self.assertEqual(content.getText(), c["content"], f"第 {i} 条正文与接口不一致")
+                self.assertAlmostEqual(float(rating.getText()), float(c["starCount"]), msg=f"第 {i} 条星级不一致")
+        self.assertIsNone(self.driver.find_component(BY.key(f"goods_comment_item_{count}")), "评价条数多于接口返回")
+
+    def test_03_thumbnail_and_plus_one(self) -> None:
+        """A11/A12/A14：两图评价右侧显示缩略图和'+1'，单图评价只有缩略图。"""
+        self.open_detail()
+        plus = self.bring_into_view(BY.text("+1"), "找不到'+1'数量标记")
+        thumb = self.require_component(BY.key("goods_comment_thumb_0"), "第 0 条评价没有缩略图", 3)
+        content = self.require_component(BY.key("goods_comment_content_0"), "第 0 条正文不存在", 3)
+        tl, tt, tr, tb = rect(thumb)
+        pl, pt, pr, pb = rect(plus)
+        self.assertTrue(tl <= pl and pr <= tr and tt <= pt and pb <= tb, "'+1'不在第一条两图评价的缩略图上")
+        self.assertGreaterEqual(tl, rect(content)[2], "缩略图不在评价条目右侧")
+        self.assertTrue(thumb.isClickable(), "缩略图不可点击")
+        self.bring_into_view(BY.key("goods_comment_thumb_2"), "单图评价没有缩略图")
+        self.assertIsNone(self.driver.find_component(BY.key("goods_comment_thumb_count_2")), "单图评价不应显示数量标记")
+        self.assertIsNone(self.driver.find_component(BY.text("+0")), "出现了'+0'")
+
+    def test_04_three_pics_show_plus_two(self) -> None:
+        """A13：三张图片的评价显示'+2'。"""
+        self.open_detail(GOODS_THREE_PICS)
+        plus = self.bring_into_view(BY.key("goods_comment_thumb_count_0"), "三图评价没有数量标记")
+        self.assertEqual(plus.getText(), "+2")
+
+    def test_05_no_pic_comments_have_no_thumbnail(self) -> None:
+        """A15：评价全部无图的商品不显示缩略图和数量标记，星级 4 星正确显示。"""
+        data = fetch_detail(GOODS_NO_PICS[1])
+        self.launch_home()
+        card = self.driver.find_component(BY.text(GOODS_NO_PICS[0]), scroll_target=BY.type("List"))
+        self.require_precondition(card is not None, f"首页找不到 {GOODS_NO_PICS[0]}")
+        self.driver.click(card)
+        self.require_text("发货与服务", "详情页未加载")
+        self.scroll_find(BY.text("商品评价"), "找不到'商品评价'")
+        for i in range(5):
+            self.bring_into_view(BY.key(f"goods_comment_content_{i}"), f"第 {i} 条评价不存在")
+            self.assertIsNone(self.driver.find_component(BY.key(f"goods_comment_thumb_{i}")), f"第 {i} 条无图评价出现缩略图")
+        if data:
+            self.bring_into_view(BY.key("goods_comment_rating_1"), "第 1 条星级不存在")
+            rating = self.require_component(BY.key("goods_comment_rating_1"), "第 1 条星级不存在", 3)
+            self.assertAlmostEqual(float(rating.getText()), float(data["comment"][1]["starCount"]))
+
+
+# __TESTS_PLACEHOLDER__

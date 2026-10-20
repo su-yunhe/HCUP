@@ -1,0 +1,7 @@
+    def detail_request_count(self) -> int:
+        log = self.driver.shell("hilog -x -T NetLog", timeout=30)
+        return len([ln for ln in log.splitlines() if "Request" in ln and "goodsDetail" in ln])
+
+    def comment_page_request_count(self) -> int:
+        log = self.driver.shell("hilog -x -T NetLog", timeout=30)
+        return len([ln for ln in log.splitlines() if "comment/page" in ln])

@@ -1,0 +1,4 @@
+- 证据等级：SPEC_EXPLICIT（必须有可点击的关闭按钮）；按钮形式和文案为 UNCONFIRMED_ASSUMPTION，已决策（U5）
+- 原子行为（已决策）：查看器内放一个 `Button`，按钮里是可见文字"关闭"，并设 `accessibilityText("关闭")` 和 `.id("comment_image_viewer_close")`；点击后关闭查看器。
+- 可观察结果：`BY.text("关闭")`、`BY.key("comment_image_viewer_close")` 都能定位到它；点击后查看器根节点、页码 Text、Swiper 都从 UI 树消失，"商品评价"等详情页元素重新可见。
+  不能依赖 `BY.type("Button")` 的第一个结果，详情页底层有一个隐藏的"重试"Button（U8）。

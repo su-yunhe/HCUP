@@ -1,0 +1,63 @@
+"""cm-spec26 自测：商品详情新增买家评价与详情长图（含评价图片全屏查看器）。
+
+入口沿用应用正常流程：冷启动 → 首页商品卡片 → 商品详情页。
+评价与详情图数据来自公共服务 page/goodsDetail，测试会在主机侧请求同一接口做逐字对照，
+主机取不到数据时只做结构断言，不把环境问题算作功能通过。
+"""
+from __future__ import annotations
+
+import json
+import re
+import time
+import urllib.request
+
+from hypium import BY  # type: ignore[import-not-found]
+
+from harness.app import restart_app
+from harness.driver import HarnessTestCase
+
+BUNDLE = "com.joker.coolmall"
+API_DETAIL = "https://mall.dusksnow.top/app/page/goodsDetail?goodsId={}"
+HOST = "mall.dusksnow.top"
+
+# 首页限时精选第一个商品：前两条评价各 2 张图，第 3～5 条各 1 张
+GOODS_TWO_PICS = ("Xiaomi 17T Pro", 830001)
+# 首页限时精选第二个商品：前两条评价各 3 张图
+GOODS_THREE_PICS = ("Xiaomi 15S Pro", 1)
+# 首页推荐商品：5 条评价全部无图，第 2 条为 4 星
+GOODS_NO_PICS = ("REDMI Note 17 Pro", 830016)
+
+LIST_KEY = "goods_detail_list"
+VIEWER_KEY = "comment_image_viewer"
+INDICATOR_KEY = "comment_image_viewer_indicator"
+CLOSE_KEY = "comment_image_viewer_close"
+
+
+def fetch_detail(goods_id: int) -> dict | None:
+    """主机侧请求与应用相同的详情接口；失败返回 None。"""
+    try:
+        with urllib.request.urlopen(API_DETAIL.format(goods_id), timeout=10) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+        return body.get("data")
+    except Exception:  # noqa: BLE001 - 环境网络问题统一视为无数据
+        return None
+
+
+def rect(component) -> tuple[int, int, int, int]:
+    b = component.getBounds()
+    return b.left, b.top, b.right, b.bottom
+
+
+class GoodsDetailCase(HarnessTestCase):
+    """导航、滚动、查看器操作等公共步骤。"""
+
+    def setUp(self) -> None:
+        self.driver.shell("hilog -Q pidoff; hilog -Q domainoff")
+
+    def tearDown(self) -> None:
+        self.driver.shell("hilog -Q pidon; hilog -Q domainon")
+
+    # ---------- 环境与导航 ----------
+
+    def wait_network(self, timeout: float = 90) -> None:
+        """模拟器 DNS 偶发失败（baseline

@@ -1,0 +1,12 @@
+  private ImageViewer(): void {
+    Column() {
+      CommentImageViewer({
+        pics: this.vm.imageViewerPics,
+        topInset: this.windowSafeAreaState.topInset,
+        bottomInset: this.windowSafeAreaState.bottomInset,
+        onClose: (): void => this.vm.closeImageViewer()
+      });
+    }
+    .width(P100)
+    .height(P100);
+  }

@@ -1,0 +1,16 @@
+    Row() {
+      ColumnStart({ widthValue: P100 }) {
+        this.Nickname();
+        SpaceVerticalXSmall();
+        this.StarRating();
+        if (this.comment.content) {
+          SpaceVerticalXSmall();
+          Text(this.comment.content)
+            .id(`goods_comment_content_${this.index}`)
+            .fontSize($r("app.float.body_medium"))
+            .fontColor($r("app.color.text_secondary"))
+            .maxLines(3)
+            .textOverflow({ overflow: TextOverflow.Ellipsis });
+        }
+      }
+      .layoutWeight(1);

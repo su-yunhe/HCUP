@@ -1,0 +1,181 @@
+Command executed successfully.
+Exit code: 0
+Output:
+b2f0caacd0a9461648d06073abcbdcda79420f57
+b2f0caacd0a9461648d06073abcbdcda79420f57 Harmony Cup sanitized baseline snapshot
+feature/goods/.gitignore
+feature/goods/BuildProfile.ets
+feature/goods/Index.ets
+feature/goods/build-profile.json5
+feature/goods/consumer-rules.txt
+feature/goods/hvigorfile.ts
+feature/goods/obfuscation-rules.txt
+feature/goods/oh-package-lock.json5
+feature/goods/oh-package.json5
+feature/goods/src/main/ets/component/GoodsBanner.ets
+feature/goods/src/main/ets/component/GoodsDetailBottomBar.ets
+feature/goods/src/main/ets/component/GoodsInfoCard.ets
+feature/goods/src/main/ets/component/GoodsShippingServiceCard.ets
+feature/goods/src/main/ets/navigation/GoodsCategoryNav.ets
+feature/goods/src/main/ets/navigation/GoodsCommentNav.ets
+feature/goods/src/main/ets/navigation/GoodsDetailNav.ets
+feature/goods/src/main/ets/navigation/GoodsGraph.ets
+feature/goods/src/main/ets/navigation/GoodsSearchNav.ets
+feature/goods/src/main/ets/view/GoodsCategoryPage.ets
+feature/goods/src/main/ets/view/GoodsCommentPage.ets
+feature/goods/src/main/ets/view/GoodsDetailPage.ets
+feature/goods/src/main/ets/view/GoodsSearchPage.ets
+feature/goods/src/main/ets/viewmodel/GoodsCategoryViewModel.ets
+feature/goods/src/main/ets/viewmodel/GoodsCommentViewModel.ets
+feature/goods/src/main/ets/viewmodel/GoodsDetailViewModel.ets
+feature/goods/src/main/ets/viewmodel/GoodsSearchViewModel.ets
+feature/goods/src/main/module.json5
+feature/goods/src/main/resources/base/element/float.json
+feature/goods/src/main/resources/base/element/string.json
+feature/goods/src/main/resources/base/media/ic_cart.svg
+feature/goods/src/main/resources/base/media/ic_cube.svg
+feature/goods/src/main/resources/base/media/ic_customer_service.svg
+feature/goods/src/main/resources/base/media/ic_delete.svg
+feature/goods/src/main/resources/base/media/ic_down_triangle.svg
+feature/goods/src/main/resources/base/media/ic_filter.svg
+feature/goods/src/main/resources/base/media/ic_share_triangle.svg
+feature/goods/src/main/resources/base/media/ic_up_triangle.svg
+feature/goods/src/main/resources/en/element/string.json
+feature/goods/src/ohosTest/ets/test/Ability.test.ets
+feature/goods/src/ohosTest/ets/test/List.test.ets
+feature/goods/src/ohosTest/module.json5
+feature/goods/src/test/List.test.ets
+feature/goods/src/test/LocalUnit.test.ets
+{
+  "app": {
+    "signingConfigs": [],
+    "products": [
+      {
+        "name": "default",
+        "targetSdkVersion": "6.0.1(21)",
+        "compatibleSdkVersion": "6.0.1(21)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "base",
+      "srcPath": "./core/base"
+    },
+    {
+      "name": "data",
+      "srcPath": "./core/data"
+    },
+    {
+      "name": "database",
+      "srcPath": "./core/database"
+    },
+    {
+      "name": "datastore",
+      "srcPath": "./core/datastore"
+    },
+    {
+      "name": "designsystem",
+      "srcPath": "./core/designsystem"
+    },
+    {
+      "name": "model",
+      "srcPath": "./core/model"
+    },
+    {
+      "name": "network",
+      "srcPath": "./core/network"
+    },
+    {
+      "name": "result",
+      "srcPath": "./core/result"
+    },
+    {
+      "name": "state",
+      "srcPath": "./core/state"
+    },
+    {
+      "name": "ui",
+      "srcPath": "./core/ui"
+    },
+    {
+      "name": "util",
+      "srcPath": "./core/util"
+    },
+    {
+      "name": "navigation",
+      "srcPath": "./core/navigation"
+    },
+    {
+      "name": "auth",
+      "srcPath": "./feature/auth"
+    },
+    {
+      "name": "main",
+      "srcPath": "./feature/main"
+    },
+    {
+      "name": "user",
+      "srcPath": "./feature/user"
+    },
+    {
+      "name": "order",
+      "srcPath": "./feature/order"
+    },
+    {
+      "name": "goods",
+      "srcPath": "./feature/goods"
+    },
+    {
+      "name": "market",
+      "srcPath": "./feature/market"
+    },
+    {
+      "name": "cs",
+      "srcPath": "./feature/cs"
+    },
+    {
+      "name": "feedback",
+      "srcPath": "./feature/feedback"
+    },
+    {
+      "name": "common",
+      "srcPath": "./feature/common"
+    },
+    {
+      "name": "launch",
+      "srcPath": "./feature/launch"
+    },
+    {
+      "name": "ibestui",
+      "srcPath": "./core/ibestui"
+    }
+  ]
+}

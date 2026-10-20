@@ -1,0 +1,17 @@
+"""cm-spec26 自测：商品详情新增买家评价与详情长图（含评价图片全屏查看器）。
+
+入口沿用应用正常流程：冷启动 → 首页商品卡片 → 商品详情页。
+评价与详情图数据来自公共服务 page/goodsDetail，测试会在主机侧请求同一接口做逐字对照，
+主机取不到数据时只做结构断言，不把环境问题算作功能通过。
+"""
+from __future__ import annotations
+
+import json
+import re
+import time
+import urllib.request
+
+from hypium import BY  # type: ignore[import-not-found]
+
+from harness.app import restart_app
+from harness.driver import Ha

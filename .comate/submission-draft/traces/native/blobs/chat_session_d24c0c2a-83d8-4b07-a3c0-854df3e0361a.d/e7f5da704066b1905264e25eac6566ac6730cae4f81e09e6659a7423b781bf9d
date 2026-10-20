@@ -1,0 +1,44 @@
+  /**
+   * 商品 ID
+   */
+  private readonly goodsId: number = this.routeParam.goodsId ?? 0;
+  /**
+   * 评价图片查看器是否显示
+   */
+  @Trace
+  imageViewerVisible: boolean = false;
+  /**
+   * 评价图片查看器展示的图片列表
+   */
+  @Trace
+  imageViewerPics: string[] = [];
+
+  /**
+   * 请求商品详情页面数据
+   * @returns {Promise<NetworkResponse<GoodsDetail>>} 商品详情
+   */
+  protected requestRepository(): Promise<NetworkResponse<GoodsDetail>> {
+    return this.pageRepository.getGoodsDetail(this.goodsId);
+  }
+
+  /**
+   * 打开评价图片查看器，已打开时忽略重复点击
+   * @param {string[]} pics - 该条评价的完整图片列表
+   * @returns {void} 无返回值
+   */
+  openImageViewer(pics: string[]): void {
+    if (this.imageViewerVisible || pics.length === 0) {
+      return;
+    }
+    this.imageViewerPics = pics;
+    this.imageViewerVisible = true;
+  }
+
+  /**
+   * 关闭评价图片查看器
+   * @returns {void} 无返回值
+   */
+  closeImageViewer(): void {
+    this.imageViewerVisible = false;
+  }
+}

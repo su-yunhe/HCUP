@@ -1,0 +1,36 @@
+## 6. UNCONFIRMED_ASSUMPTION 汇总（待你判断）
+
+| 编号 | 问题 | 可选方案 | 推荐与理由 |
+| --- | --- | --- | --- |
+| U1 | 商品没有评价时是否显示"商品评价"区域（A10） | a. 整块不渲染；b. 显示标题加"暂无评价"之类空态 | 推荐 a。Spec 只描述"有评价数据"的页面，没有给空态文案，自造文案没法和测试对上；场景三对 contentPics 也是"有才显示"，保持一致；公共数据 51 个商品都有 5 条评价，官方用例大概率不覆盖空评价。 |
+| U2 | 星级用什么组件呈现（A6） | a. ArkUI 内置 `Rating`（indicator 只读，5 星）；b. 基线依赖里的 `IBestRate`（`readOnly`）；c. 额外加"5星"之类文字 | 推荐 a。UI 树类型 `Rating` 是测试可以直接定位的标准面；`IBestRate` 内部是自绘图标，类型和 key 都由库生成，不好断言；c 属于 Spec 外的自造文案。实现时先在模拟器 dump 确认 `Rating` 节点是否带评分值。 |
+| U3 | 单图评价打开查看器是否显示页码（A29） | a. 显示 `1/1`；b. 不显示页码 | 推荐 a。按 Spec 字面，页码是"若有多张图片"时的行为，b 更贴字面；但隐藏用例断言"出现某页码"的可能性远大于断言"不出现页码"，a 对两类用例的风险更低。 |
+| U4 | 全屏查看器的承载方式（A22～A27） | a. 在详情页上用 `bindContentCover`（全屏模态）承载自绘 Swiper、页码、关闭按钮；b. 复用 ibest-ui-v2 的 `IBestImagePreview.show()`；c. 新建 NavDestination 路由页 | 推荐 a。Spec 写的是"弹出"且要"点击关闭按钮"；b 自带滑动和页码，但没有关闭按钮（只能点图或点遮罩关闭，`core/ibestui/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/f/i.d.ets` 的选项里只有 `closeOnClickOverlay`/`closeOnClickImage`），页码格式也未验证；c 要改路由表和返回栈，和"弹出"不符。a 在实现时还要确认两点【未验证】：模态内容能被 `uitest dumpLayout` 看到；Back 键默认只关闭模态。 |
+| U5 | 关闭按钮的形式与文案（A26） | a. `Button` 内放可见文字"关闭"，并设 `accessibilityText("关闭")`；b. `Button` 内只放"×"图标，加 `accessibilityText("关闭")`；c. 非 Button 的 Image 图标 | 推荐 a。Spec 没有文案，测试只能靠类型、文字或描述定位；a 同时满足 `BY.type("Button")`、`BY.text("关闭")`、描述"关闭"三种写法。注意 U8：底层详情页有一个隐藏的"重试"Button。 |
+| U6 | 查看器是否循环、重开是否保留上次页码（A25、A32） | a. 不循环，每次打开从第 1 张开始；b. 循环滑动；c. 记住上次位置 | 推荐 a。点击的是"第一张图片的缩略预览"，从第 1 张开始最自然；循环会让最后一张左滑变回 `1/2`，不符合"当前/总数"的直观预期。 |
+| U7 | "自适应内容模式"对应哪种 ImageFit（A18） | a. `ImageFit.Auto` 加宽度 100%；b. `ImageFit.Contain` 加按 URL `w/h` 参数算 aspectRatio；c. `ImageFit.Cover` | 推荐 a，必要时叠加 b 的占位比例。"自适应"字面对应 `ImageFit.Auto`；c 会裁切长图，不符合"自适应"。dump 里看不到 objectFit【推断】，这条主要靠代码评审。 |
+| U8 | 基线 `BaseNetWorkView` 用透明度切换三种状态，"加载中..."、"网络异常"、"重试"Button 在成功态也一直留在 UI 树里且 `visible=true`【运行】 | a. 本题不改基线组件，只在新组件上避开歧义；b. 改成条件渲染 | 推荐 a。这是基线既有行为，改它会波及所有使用该组件的页面，超出 Spec 的实现边界；本题的关闭按钮靠文字和 id 区分，不能指望"页面上第一个 Button"就是关闭按钮。需要你确认是否接受这个残余风险。 |
+| U9 | 是否附加 Spec 没提到的元素：评价头像、评价时间、"查看全部"跳转 | a. 都不加；b. 加头像或时间；c. 加"查看全部"跳 `GoodsCommentPage` | 推荐 a。基线资源里有 `view_all`/`view_images`（`feature/goods/src/main/resources/base/element/string.json:68-69, 136-137`），但 Spec 没有要求；头像也是 Image，会排在缩略图前面，测试按"条目内的 Image"找缩略图时可能误点头像；`GoodsCommentPage` 还是占位页（`feature/goods/src/main/ets/view/GoodsCommentPage.ets:34-36`），跳过去只会看到"商品评论页面内容视图"。 |
+
+## 7. 稳定选择器汇总（全部需在实现时补 `.id()`）
+
+| id | 组件 | 条目 |
+| --- | --- | --- |
+| `goods_detail_list` | 详情页 List（`GoodsDetailPage.ets:72`） | A1、A4、A20、A27 |
+| `goods_comment_card` | 评价卡片容器 | A3、A10 |
+| `goods_comment_title` | "商品评价"标题 | A3、A27 |
+| `goods_comment_item_{i}` | 第 i 条评价条目 | A5、A8 |
+| `goods_comment_nickname_{i}` | 昵称 Text | A5、A9 |
+| `goods_comment_rating_{i}` | 星级组件 | A6 |
+| `goods_comment_content_{i}` | 正文 Text | A7 |
+| `goods_comment_thumb_{i}` | 缩略图可点击容器（含 Image 与标记） | A11、A14、A15、A22、A28 |
+| `goods_comment_thumb_count_{i}` | "+N"标记 Text | A12、A13、A14 |
+| `goods_detail_title` | "商品详情"分隔标题 | A16、A21 |
+| `goods_detail_image_{i}` | 第 i 张详情图 | A17～A20 |
+| `comment_image_viewer` | 查看器根节点 | A22、A31 |
+| `comment_image_viewer_swiper` | 查看器 Swiper | A23、A25 |
+| `comment_image_viewer_image_{i}` | 查看器第 i 张图 | A23 |
+| `comment_image_viewer_indicator` | 页码 Text（`1/2`） | A24、A25、A29、A32 |
+| `comment_image_viewer_close` | 关闭按钮 | A26 |
+
+已知选择器歧义：同名昵称（A5）、多个"+1"（A12）、隐藏的"加载中..."/"网络异常"/"重试"（U8）、ibest-ui 自动生成的 `ibest_cell_<数字>` key 每次运行都会变（实测 `ibest_cell_785`、`ibest_cell_1484`【运行】），不能用作选择器。

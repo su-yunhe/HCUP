@@ -1,0 +1,11 @@
+#!/bin/zsh
+# 临时探查脚本：截图 + dump 布局（不在工程内）
+D=/Applications/DevEco-Studio.app/Contents
+export PATH="$D/sdk/default/openharmony/toolchains:$PATH"
+SN=127.0.0.1:5555
+tag=$1
+hdc -t $SN shell snapshot_display -f /data/local/tmp/cm26_$tag.jpeg >/dev/null
+hdc -t $SN file recv /data/local/tmp/cm26_$tag.jpeg /tmp/cm26_$tag.jpeg >/dev/null
+hdc -t $SN shell uitest dumpLayout -p /data/local/tmp/cm26_$tag.json >/dev/null
+hdc -t $SN file recv /data/local/tmp/cm26_$tag.json /tmp/cm26_$tag.json >/dev/null
+ls -la /tmp/cm26_$tag.jpeg /tmp/cm26_$tag.json

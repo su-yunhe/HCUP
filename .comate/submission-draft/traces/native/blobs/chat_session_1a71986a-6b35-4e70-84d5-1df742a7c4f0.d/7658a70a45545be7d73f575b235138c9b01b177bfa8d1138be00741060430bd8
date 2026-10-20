@@ -1,0 +1,1 @@
+  - 边界条件：已决策用 `bindContentCover`（U4），详情页的 NavDestination 不切换，List 节点不销毁，位置自然保持。不允许打开查看器时把 `uiState` 改成 LOADING，那会让内容层透明度变 0（`BaseNetWorkView.ets:89`）。

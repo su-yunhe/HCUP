@@ -1,0 +1,411 @@
+Command executed successfully.
+Exit code: 0
+Output:
+=== component/GoodsBanner.ets
+     1	import { P100 } from "designsystem";
+     2	
+     3	/**
+     4	 * @file 商品详情轮播图组件
+     5	 * @author Joker.X
+     6	 */
+     7	@ComponentV2
+     8	export struct GoodsBanner {
+     9	  /**
+    10	   * 轮播图数据
+    11	   */
+    12	  @Param
+    13	  bannerList: string[] = [];
+    14	  /**
+    15	   * 是否自动轮播
+    16	   */
+    17	  @Param
+    18	  autoPlay: boolean = false;
+    19	  /**
+    20	   * 是否循环轮播
+    21	   */
+    22	  @Param
+    23	  loop: boolean = false;
+    24	  /**
+    25	   * 图片缩放模式
+    26	   */
+    27	  @Param
+    28	  imageFit: ImageFit = ImageFit.Cover;
+    29	
+    30	  /**
+    31	   * 构建轮播图视图
+    32	   * @returns {void} 无返回值
+    33	   */
+    34	  build(): void {
+    35	    if (this.bannerList && this.bannerList.length > 0) {
+    36	      Swiper() {
+    37	        ForEach(this.bannerList, (item: string, index: number): void => {
+    38	          Image(item)
+    39	            .width(P100)
+    40	            .height(P100)
+    41	            .objectFit(this.imageFit);
+    42	        }, (item: string, index: number): string => `${item}-${index}`);
+    43	      }
+    44	      .displayCount(1)
+    45	      .displayMode(SwiperDisplayMode.STRETCH)
+    46	      .indicator(Indicator.dot()
+    47	        .color($r("app.color.bg_purple_light"))
+    48	        .selectedColor($r("app.color.primary")))
+    49	      .autoPlay(this.autoPlay)
+    50	      .loop(this.loop)
+    51	      .width(P100)
+    52	      .height(P100)
+    53	      .aspectRatio(1);
+    54	    }
+    55	  }
+    56	}
+=== component/GoodsDetailBottomBar.ets
+     1	import { P100, RowSpaceBetweenCenter } from "designsystem";
+     2	
+     3	/**
+     4	 * @file 商品详情底部操作栏组件
+     5	 * @author Joker.X
+     6	 */
+     7	@ComponentV2
+     8	export struct GoodsDetailBottomBar {
+     9	  /**
+    10	   * 构建商品详情底部操作栏
+    11	   * @returns {void} 无返回值
+    12	   */
+    13	  build(): void {
+    14	    RowSpaceBetweenCenter({
+    15	      widthValue: P100,
+    16	      paddingValue: {
+    17	        left: $r("app.float.space_horizontal_medium"),
+    18	        right: $r("app.float.space_horizontal_medium"),
+    19	        top: $r("app.float.space_vertical_small"),
+    20	        bottom: $r("app.float.space_vertical_small")
+    21	      },
+    22	      bgColor: $r("app.color.bg_white")
+    23	    }) {
+    24	      Text("操作栏")
+    25	    }
+    26	  }
+    27	}
+=== component/GoodsInfoCard.ets
+     1	import { IBestPrice } from "ibestui";
+     2	import {
+     3	  ColumnStart,
+     4	  P100,
+     5	  RowSpaceBetweenCenter,
+     6	  SpaceHorizontalXSmall,
+     7	  SpaceVerticalMedium,
+     8	  SpaceVerticalSmall,
+     9	  SpaceVerticalXSmall
+    10	} from "designsystem";
+    11	import { Coupon, Goods, GoodsSpec } from "model";
+    12	import { ArrowRightIcon, Card, CommonIcon } from "ui";
+    13	
+    14	/**
+    15	 * @file 商品信息卡片组件
+    16	 * @author Joker.X
+    17	 */
+    18	@ComponentV2
+    19	export struct GoodsInfoCard {
+    20	  /**
+    21	   * 商品信息
+    22	   */
+    23	  @Param
+    24	  goodsInfo: Goods = new Goods();
+    25	  /**
+    26	   * 优惠券列表
+    27	   */
+    28	  @Param
+    29	  coupons: Coupon[] = [];
+    30	  /**
+    31	   * 已选规格
+    32	   */
+    33	  @Param
+    34	  selectedSpec: GoodsSpec | undefined = undefined;
+    35	  /**
+    36	   * 规格选择点击回调
+    37	   */
+    38	  @Param
+    39	  onSpecClick: () => void = (): void => {
+    40	  };
+    41	  /**
+    42	   * 优惠券点击回调
+    43	   */
+    44	  @Param
+    45	  onCouponClick: () => void = (): void => {
+    46	  };
+    47	
+    48	  /**
+    49	   * 构建商品信息卡片视图
+    50	   * @returns {void} 无返回值
+    51	   */
+    52	  build(): void {
+    53	    ColumnStart({
+    54	      widthValue: P100,
+    55	      paddingValue: {
+    56	        left: $r("app.float.space_horizontal_medium"),
+    57	        right: $r("app.float.space_horizontal_medium"),
+    58	        top: $r("app.float.space_vertical_medium")
+    59	      }
+    60	    }) {
+    61	      Card({
+    62	        widthValue: P100,
+    63	        paddingValue: $r("app.float.space_padding_medium")
+    64	      }) {
+    65	        ColumnStart({ widthValue: P100 }) {
+    66	          RowSpaceBetweenCenter({ widthValue: P100 }) {
+    67	            IBestPrice({
+    68	              value: this.goodsInfo.price,
+    69	              integerFontSize: 20
+    70	            });
+    71	
+    72	            Text($r("app.string.sold_count", this.goodsInfo.sold))
+    73	              .fontSize($r("app.float.body_medium"))
+    74	              .fontColor($r("app.color.text_white"))
+    75	              .padding({
+    76	                left: $r("app.float.space_padding_small"),
+    77	                right: $r("app.float.space_padding_small"),
+    78	                top: $r("app.float.space_padding_small_x"),
+    79	                bottom: $r("app.float.space_padding_small_x")
+    80	              })
+    81	              .backgroundColor($r("app.color.primary"))
+    82	              .borderRadius(100);
+    83	          }
+    84	
+    85	          this.CouponList();
+    86	
+    87	          Text(this.goodsInfo.title)
+    88	            .fontSize($r("app.float.headline_large"))
+    89	            .fontColor($r("app.color.text_primary"))
+    90	            .fontWeight(FontWeight.Bold)
+    91	            .maxLines(2)
+    92	            .textOverflow({ overflow: TextOverflow.Ellipsis });
+    93	
+    94	          if (this.goodsInfo.subTitle) {
+    95	            SpaceVerticalXSmall();
+    96	            Text(this.goodsInfo.subTitle ?? "")
+    97	              .fontSize($r("app.float.body_medium"))
+    98	              .fontColor($r("app.color.text_subtitle"))
+    99	              .maxLines(2)
+   100	              .textOverflow({ overflow: TextOverflow.Ellipsis });
+   101	          }
+   102	
+   103	          SpaceVerticalMedium();
+   104	
+   105	          this.SpecSelection();
+   106	        }
+   107	      }
+   108	    }
+   109	  }
+   110	
+   111	  /**
+   112	   * 优惠券标签列表
+   113	   * @returns {void} 无返回值
+   114	   */
+   115	  @Builder
+   116	  private CouponList(): void {
+   117	    if (this.coupons.length > 0) {
+   118	      SpaceVerticalSmall();
+   119	      Flex({ wrap: FlexWrap.Wrap }) {
+   120	        ForEach(this.coupons, (coupon: Coupon, index: number): void => {
+   121	          this.CouponTag(coupon);
+   122	        }, (coupon: Coupon, index: number): string => `${coupon.id}-${index}`);
+   123	      }
+   124	      .width(P100);
+   125	    }
+   126	  }
+   127	
+   128	  /**
+   129	   * 优惠券标签
+   130	   * @param {Coupon} coupon - 优惠券信息
+   131	   * @returns {void} 无返回值
+   132	   */
+   133	  @Builder
+   134	  private CouponTag(coupon: Coupon): void {
+   135	    Row() {
+   136	      CommonIcon({
+   137	        icon: $r("app.media.ic_coupon"),
+   138	        iconSize: 14,
+   139	        tintColor: $r("app.color.danger")
+   140	      });
+   141	
+   142	      SpaceHorizontalXSmall();
+   143	
+   144	      Text($r(
+   145	        "app.string.coupon_text",
+   146	        coupon.condition?.fullAmount ?? 0,
+   147	        coupon.amount ?? 0
+   148	      ))
+   149	        .fontSize($r("app.float.body_medium"))
+   150	        .fontColor($r("app.color.danger"));
+   151	    }
+   152	    .padding({
+   153	      left: $r("app.float.space_padding_small"),
+   154	      right: $r("app.float.space_padding_small"),
+   155	      top: $r("app.float.space_padding_small_x"),
+   156	      bottom: $r("app.float.space_padding_small_x")
+   157	    })
+   158	    .margin({
+   159	      right: $r("app.float.space_horizontal_small"),
+   160	      bottom: $r("app.float.space_vertical_small")
+   161	    })
+   162	    .border({
+   163	      width: 1,
+   164	      color: $r("app.color.danger"),
+   165	      radius: $r("app.float.radius_small_x")
+   166	    })
+   167	    .onClick((): void => {
+   168	      this.onCouponClick();
+   169	    });
+   170	  }
+   171	
+   172	  /**
+   173	   * 规格选择区域
+   174	   * @returns {void} 无返回值
+   175	   */
+   176	  @Builder
+   177	  private SpecSelection(): void {
+   178	    Row() {
+   179	      Row() {
+   180	        CommonIcon({
+   181	          icon: $r("app.media.ic_cube"),
+   182	          iconSize: 16,
+   183	          tintColor: $r("app.color.text_subtitle")
+   184	        });
+   185	
+   186	        SpaceHorizontalXSmall();
+   187	
+   188	        Text(this.selectedSpec
+   189	          ? $r("app.string.selected_spec", this.selectedSpec.name)
+   190	          : $r("app.string.select_spec"))
+   191	          .fontSize($r("app.float.body_medium"))
+   192	          .fontColor($r("app.color.text_secondary"));
+   193	      }
+   194	      .alignItems(VerticalAlign.Center);
+   195	
+   196	      ArrowRightIcon({ iconSize: 16 });
+   197	    }
+   198	    .width(P100)
+   199	    .justifyContent(FlexAlign.SpaceBetween)
+   200	    .alignItems(VerticalAlign.Center)
+   201	    .padding($r("app.float.space_padding_medium"))
+   202	    .border({
+   203	      width: 1,
+   204	      color: $r("app.color.text_quaternary"),
+   205	      radius: $r("app.float.radius_small")
+   206	    })
+   207	    .onClick((): void => {
+   208	      this.onSpecClick();
+   209	    });
+   210	  }
+   211	}
+=== component/GoodsShippingServiceCard.ets
+     1	import { IBestCell, IBestCellGroup } from "ibestui";
+     2	import { ColumnStart, P100 } from "designsystem";
+     3	import { TitleWithLine } from "ui";
+     4	
+     5	/**
+     6	 * @file 发货与服务卡片组件
+     7	 * @author Joker.X
+     8	 */
+     9	@ComponentV2
+    10	export struct GoodsShippingServiceCard {
+    11	  /**
+    12	   * 构建发货与服务卡片
+    13	   * @returns {void} 无返回值
+    14	   */
+    15	  build(): void {
+    16	    ColumnStart({
+    17	      widthValue: P100,
+    18	      paddingValue: {
+    19	        left: $r("app.float.space_horizontal_medium"),
+    20	        right: $r("app.float.space_horizontal_medium"),
+    21	        top: $r("app.float.space_vertical_medium")
+    22	      }
+    23	    }) {
+    24	      IBestCellGroup({
+    25	        inset: true,
+    26	        radius: $r("app.float.radius_medium"),
+    27	        outerMargin: 0
+    28	      }) {
+    29	        IBestCell({
+    30	          isLink: false,
+    31	          clickable: false,
+    32	          titleBuilder: (): void => this.buildTitle()
+    33	        });
+    34	
+    35	        IBestCell({
+    36	          title: $r("app.string.shipping"),
+    37	          value: $r("app.string.shipping_location"),
+    38	          isLink: false,
+    39	          clickable: false
+    40	        });
+    41	
+    42	        IBestCell({
+    43	          title: $r("app.string.service"),
+    44	          value: $r("app.string.service_details"),
+    45	          leftContentWidth: 80,
+    46	          isLink: false,
+    47	          clickable: false,
+    48	          hasBorder: false
+    49	        });
+    50	      }
+    51	    }
+    52	  }
+    53	
+    54	  /**
+    55	   * 构建标题区域
+    56	   * @returns {void} 无返回值
+    57	   */
+    58	  @Builder
+    59	  private buildTitle(): void {
+    60	    TitleWithLine({ text: $r("app.string.shipping_and_service") });
+    61	  }
+    62	}
+=== view/GoodsCommentPage.ets
+     1	import { AppNavDestination } from "ui";
+     2	import GoodsCommentViewModel from "../viewmodel/GoodsCommentViewModel";
+     3	
+     4	/**
+     5	 * @file 商品评论页面视图
+     6	 * @author Joker.X
+     7	 */
+     8	@ComponentV2
+     9	export struct GoodsCommentPage {
+    10	  /**
+    11	   * 商品评论页面 ViewModel
+    12	   */
+    13	  @Local
+    14	  private vm: GoodsCommentViewModel = new GoodsCommentViewModel();
+    15	
+    16	  /**
+    17	   * 构建商品评论页面
+    18	   * @returns {void} 无返回值
+    19	   */
+    20	  build() {
+    21	    AppNavDestination({
+    22	      title: "商品评论",
+    23	      viewModel: this.vm
+    24	    }) {
+    25	      this.GoodsCommentContent();
+    26	    }
+    27	  }
+    28	
+    29	  /**
+    30	   * 商品评论页面内容视图
+    31	   * @returns {void} 无返回值
+    32	   */
+    33	  @Builder
+    34	  private GoodsCommentContent() {
+    35	    Text("商品评论页面内容视图")
+    36	  }
+    37	}
+=== viewmodel/GoodsCommentViewModel.ets
+     1	import { BaseViewModel } from "base";
+     2	
+     3	/**
+     4	 * @file 商品评论页面 ViewModel
+     5	 * @author Joker.X
+     6	 */
+     7	@ObservedV2
+     8	export default class GoodsCommentViewModel extends BaseViewModel {
+     9	}

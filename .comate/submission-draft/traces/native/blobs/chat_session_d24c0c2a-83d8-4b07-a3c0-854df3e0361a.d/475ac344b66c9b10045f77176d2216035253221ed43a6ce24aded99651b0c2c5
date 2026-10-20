@@ -1,0 +1,14 @@
+    def restart_app(self) -> None:
+        """强制停止后冷启动（harness.app.restart_app 在本机解析不到主 Ability，这里显式指定）。"""
+        self.driver.shell(f"aa force-stop {BUNDLE}")
+        self.driver.wait(0.5)
+        self.driver.shell(f"aa start -a {ABILITY} -b {BUNDLE}")
+        self.driver.wait(2)
+
+    def launch_home(self, wait_text: str = "Xiaomi 17T Pro") -> None:
+        for _ in range(3):
+            self.wait_network()
+            self.restart_app()
+            if self.find_or_none(BY.text(wait_text), timeout=15) is not None:
+                return
+        self.skipTest("首页数据加载失败（网络异常），环境失败，非功能失败")

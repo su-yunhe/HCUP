@@ -1,0 +1,45 @@
+import { P100, SpaceHorizontalMedium } from "designsystem";
+
+/**
+ * @file 商品详情分隔标题组件
+ */
+@ComponentV2
+export struct GoodsDetailTitle {
+  /**
+   * 构建商品详情分隔标题
+   * @returns {void} 无返回值
+   */
+  build(): void {
+    Row() {
+      this.SideLine();
+      SpaceHorizontalMedium();
+      Text($r("app.string.goods_detail"))
+        .id("goods_detail_title")
+        .fontSize($r("app.float.headline_medium"))
+        .fontColor($r("app.color.text_subtitle"));
+      SpaceHorizontalMedium();
+      this.SideLine();
+    }
+    .width(P100)
+    .justifyContent(FlexAlign.Center)
+    .alignItems(VerticalAlign.Center)
+    .padding({
+      left: $r("app.float.space_horizontal_large"),
+      right: $r("app.float.space_horizontal_large"),
+      top: $r("app.float.space_vertical_large"),
+      bottom: $r("app.float.space_vertical_medium")
+    });
+  }
+
+  /**
+   * 标题两侧分隔线
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private SideLine(): void {
+    Column()
+      .layoutWeight(1)
+      .height($r("app.float.space_divider"))
+      .backgroundColor($r("app.color.text_quaternary"));
+  }
+}

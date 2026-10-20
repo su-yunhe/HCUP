@@ -1,0 +1,9 @@
+## 3. Spec 描述的入口在哪
+
+运行实证【运行，2026-10-19】：冷启动后首页"限时精选"第一个商品是 `Xiaomi 17T Pro`（bounds `[42,1834][462,2425]`）；点击后进入商品详情页，hilog `NetLog` 记录到且只记录到 1 次 `GET https://mall.dusksnow.top/app/page/goodsDetail`，`status=200`；按 Back 回到首页。
+
+| 环节 | 位置 | 说明 |
+| --- | --- | --- |
+| 首页入口①限时精选 | `feature/main/src/main/ets/view/HomePage.ets:72-79`（`onGoodsClick` → `GoodsNavigator.toDetail(id)` 在 `:75-77`） | 横向 List，实测已点通【运行】 |
+| 首页入口②推荐商品 | `feature/main/src/main/ets/view/HomePage.ets:89-94` | `GoodsListItem.onItemClick`（`core/ui/src/main/ets/component/goods/GoodsListItem.ets:38`） |
+| 首页入口③全部商品 | `feature/main/src/main/ets/view/HomePage.ets:112-117` | `GoodsGridItem.onItemClick`（`core/ui/src/main/ets/component/goods/GoodsGridItem.ets:43

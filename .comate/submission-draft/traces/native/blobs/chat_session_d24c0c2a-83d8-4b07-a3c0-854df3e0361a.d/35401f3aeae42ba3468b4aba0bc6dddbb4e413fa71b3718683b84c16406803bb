@@ -1,0 +1,61 @@
+class TestNetworkAndLifecycle(GoodsDetailCase):
+    """网络状态机、返回后重进、重启应用。"""
+
+    def test_14_single_detail_request_and_no_request_from_viewer(self) -> None:
+        """A2/A33：进入详情页只发 1 次 page/goodsDetail；查看器开、滑、关不发业务请求，也不请求评价分页接口。"""
+        self.launch_home()
+        self.clear_log()
+        self.driver.click(self.require_text(GOODS_TWO_PICS[0], "首页找不到商品"))
+        self.require_text("发货与服务", "详情页未加载")
+        self.scroll_find(BY.text("商品评价"), "找不到'商品评价'")
+        self.driver.wait(1)
+        self.assertEqual(self.detail_request_count(), 1, "进入详情页应恰好发出 1 次 page/goodsDetail 请求")
+        for _ in range(3):
+            self.open_viewer(BY.key("goods_comment_thumb_0"))
+            self.swipe_viewer("LEFT")
+            self.close_viewer()
+            self.assert_viewer_closed()
+        self.driver.wait(1)
+        self.assertEqual(self.detail_request_count(), 1, "查看器操作触发了新的详情请求")
+        self.assertEqual(self.comment_page_request_count(), 0, "不应请求 goods/comment/page")
+
+    def test_15_back_and_reenter(self) -> None:
+        """A35：返回首页再进入，评价和详情重新加载，查看器不残留。"""
+        self.open_detail()
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.close_viewer()
+        self.driver.press_back()
+        self.require_text("搜索商品", "返回后不在首页")
+        self.clear_log()
+        self.driver.click(self.require_text(GOODS_TWO_PICS[0], "首页找不到商品"))
+        self.require_text("发货与服务", "重进详情页未加载")
+        self.assertIsNone(self.driver.find_component(BY.key(VIEWER_KEY)), "重进后查看器残留")
+        self.bring_into_view(BY.text("+1"), "重进后找不到'+1'")
+        self.scroll_find(BY.text("商品详情"), "重进后找不到'商品详情'")
+        self.assertEqual(self.detail_request_count(), 1, "重进详情页应重新请求 1 次")
+
+    def test_16_restart_app_and_reenter(self) -> None:
+        """A35：强制停止后冷启动再进入，功能正常。"""
+        self.open_detail()
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.open_detail()
+        self.assertIsNone(self.driver.find_component(BY.key(VIEWER_KEY)), "重启后查看器残留")
+        self.bring_into_view(BY.text("+1"), "重启后找不到'+1'")
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.assertEqual(self.indicator_text(), "1/2")
+        self.close_viewer()
+        self.assert_viewer_closed()
+
+    def test_17_app_alive_after_fast_scroll(self) -> None:
+        """A20 边界：快速连续上滑浏览详情长图后应用不崩溃，返回顶部轮播仍在。"""
+        self.open_detail()
+        for _ in range(8):
+            self.driver.swipe("UP", distance=80, area=BY.key(LIST_KEY), swipe_time=0.15)
+        self.driver.wait(1)
+        self.require_component(BY.key(LIST_KEY), "快速滑动后详情页消失（可能崩溃）", 5)
+        lst = self.require_component(BY.key(LIST_KEY), "详情 List 不存在", 3)
+        lst.scrollToTop()
+        self.driver.wait(1.5)
+        self.require_text(GOODS_TWO_PICS[0], "回到顶部后商品信息不可见")
+        pid = self.driver.shell(f"pidof {BUNDLE}").strip()
+        self.assertTrue(pid, "应用进程不存在（崩溃）")

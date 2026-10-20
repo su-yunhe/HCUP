@@ -1,0 +1,14 @@
+        self.assertGreater(fb - ft, 0, "详情图高度为 0")
+        for i in (1, 2):
+            img = self.bring_into_view(BY.key(f"goods_detail_image_{i}"), f"第 {i} 张详情图不存在")
+            l, t, r, b = rect(img)
+            self.assertEqual((l, r), (lleft, lright), f"第 {i} 张详情图不是全宽")
+            self.assertGreater(b - t, 0)
+            pics = (data or {}).get("goodsInfo", {}).get("contentPics") or []
+            m = re.search(r"[?&]w=(\d+)&h=(\d+)", pics[i]) if len(pics) > i else None
+            if m:
+                expect = (r - l) * int(m.group(2)) / int(m.group(1))
+                self.assertAlmostEqual(b - t, expect, delta=expect * 0.05, msg=f"第 {i} 张详情图高度与比例不符")
+            prev = self.driver.find_component(BY.key(f"goods_detail_image_{i - 1}"))
+            if prev is not None:
+                self.assertLessEqual(rect(prev)[3], t + 1, f"第 {i - 1} 张详情图不在第 {i} 张之上")

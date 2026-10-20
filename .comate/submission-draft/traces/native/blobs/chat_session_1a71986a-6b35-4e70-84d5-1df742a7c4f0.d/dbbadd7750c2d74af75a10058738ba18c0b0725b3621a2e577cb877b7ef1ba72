@@ -1,0 +1,3 @@
+- 证据等级：SPEC_EXPLICIT（必须显示）；呈现形式为 UNCONFIRMED_ASSUMPTION，已决策（U2）
+- 原子行为：按 `comment.starCount` 渲染 ArkUI `Rating({ rating, indicator: true })`，`.stars(5)`，只读；不用 `IBestRate`，不加"5星"之类文字。
+- 可观察结果：每个条目内有一个类型为 `Rating` 的节点。dump 是否带评分值【未验证】，实现第一步在模拟器上 dump 确认；如果不带，自测只能断言节点存在、4 星与 5 星条目各有一个 Rating。

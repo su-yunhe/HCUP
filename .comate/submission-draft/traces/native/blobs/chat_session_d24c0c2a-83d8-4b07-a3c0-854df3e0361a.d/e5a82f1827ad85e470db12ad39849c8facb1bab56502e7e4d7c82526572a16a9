@@ -1,0 +1,8 @@
+def fetch_detail(goods_id: int) -> dict | None:
+    """主机侧请求与应用相同的详情接口；失败返回 None。"""
+    try:
+        with urllib.request.urlopen(API_DETAIL.format(goods_id), timeout=10) as resp:
+            body = json.loads(resp.read().decode("utf-8"))
+        return body.get("data")
+    except Exception:  # noqa: BLE001 - 环境网络问题统一视为无数据
+        return None

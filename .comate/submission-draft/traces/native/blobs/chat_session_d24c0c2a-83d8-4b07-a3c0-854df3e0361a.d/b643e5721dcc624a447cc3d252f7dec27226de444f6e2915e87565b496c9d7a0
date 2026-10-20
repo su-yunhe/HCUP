@@ -1,0 +1,170 @@
+import { ColumnStart, P100, SpaceHorizontalMedium, SpaceVerticalXSmall } from "designsystem";
+import { Comment } from "model";
+import { NetWorkImage } from "ui";
+
+/**
+ * 评价缩略图尺寸（vp）
+ */
+const THUMB_SIZE: number = 72;
+/**
+ * 最大星级
+ */
+const MAX_STAR: number = 5;
+
+/**
+ * @file 商品评价条目组件
+ */
+@ComponentV2
+export struct GoodsCommentItem {
+  /**
+   * 评价数据
+   */
+  @Param
+  comment: Comment = new Comment();
+  /**
+   * 条目序号（用于生成稳定 id）
+   */
+  @Param
+  index: number = 0;
+  /**
+   * 评价图片点击回调
+   */
+  @Param
+  onImageClick: (pics: string[]) => void = (pics: string[]): void => {
+  };
+
+  /**
+   * 构建评价条目
+   * @returns {void} 无返回值
+   */
+  build(): void {
+    Row() {
+      Column() {
+        this.Nickname();
+        SpaceVerticalXSmall();
+        this.StarRating();
+        if (this.comment.content) {
+          SpaceVerticalXSmall();
+          Text(this.comment.content)
+            .id(`goods_comment_content_${this.index}`)
+            .fontSize($r("app.float.body_medium"))
+            .fontColor($r("app.color.text_secondary"))
+            .maxLines(3)
+            .textOverflow({ overflow: TextOverflow.Ellipsis });
+        }
+      }
+      .layoutWeight(1)
+      .alignItems(HorizontalAlign.Start);
+
+      if (this.getPics().length > 0) {
+        SpaceHorizontalMedium();
+        this.Thumbnail();
+      }
+    }
+    .id(`goods_comment_item_${this.index}`)
+    .width(P100)
+    .alignItems(VerticalAlign.Top);
+  }
+
+  /**
+   * 买家昵称
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private Nickname(): void {
+    Text(this.getNickName())
+      .id(`goods_comment_nickname_${this.index}`)
+      .fontSize($r("app.float.body_large"))
+      .fontColor($r("app.color.text_primary"))
+      .maxLines(1)
+      .textOverflow({ overflow: TextOverflow.Ellipsis });
+  }
+
+  /**
+   * 星级（只读）
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private StarRating(): void {
+    Rating({ rating: this.getStarCount(), indicator: true })
+      .id(`goods_comment_rating_${this.index}`)
+      .stars(MAX_STAR)
+      .stepSize(1)
+      .height(16)
+      .width(16 * MAX_STAR);
+  }
+
+  /**
+   * 第一张图片缩略图及剩余数量标记
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private Thumbnail(): void {
+    Stack({ alignContent: Alignment.BottomEnd }) {
+      NetWorkImage({
+        model: this.getPics()[0],
+        sizeValue: THUMB_SIZE,
+        imageFit: ImageFit.Cover,
+        showBackground: true,
+        cornerRadius: $r("app.float.radius_small")
+      });
+
+      if (this.getPics().length > 1) {
+        Text(`+${this.getPics().length - 1}`)
+          .id(`goods_comment_thumb_count_${this.index}`)
+          .fontSize($r("app.float.body_medium"))
+          .fontColor($r("app.color.text_white"))
+          .backgroundColor($r("app.color.mask"))
+          .padding({
+            left: $r("app.float.space_padding_small"),
+            right: $r("app.float.space_padding_small"),
+            top: $r("app.float.space_padding_small_x"),
+            bottom: $r("app.float.space_padding_small_x")
+          })
+          .borderRadius({
+            topLeft: $r("app.float.radius_small"),
+            bottomRight: $r("app.float.radius_small")
+          });
+      }
+    }
+    .id(`goods_comment_thumb_${this.index}`)
+    .width(THUMB_SIZE)
+    .height(THUMB_SIZE)
+    .onClick((): void => {
+      this.onImageClick(this.getPics());
+    });
+  }
+
+  /**
+   * 获取有效评价图片（过滤空地址）
+   * @returns {string[]} 图片地址列表
+   */
+  private getPics(): string[] {
+    const pics: string[] | null | undefined = this.comment.pics;
+    if (!pics || pics.length === 0) {
+      return [];
+    }
+    return pics.filter((pic: string): boolean => !!pic && pic.trim().length > 0);
+  }
+
+  /**
+   * 获取展示昵称，为空时显示匿名用户
+   * @returns {string | Resource} 昵称
+   */
+  private getNickName(): string | Resource {
+    const nickName: string = this.comment.nickName?.trim() ?? "";
+    return nickName.length > 0 ? (this.comment.nickName as string) : $r("app.string.anonymous_user");
+  }
+
+  /**
+   * 获取星级，限制在 0～5 之间
+   * @returns {number} 星级
+   */
+  private getStarCount(): number {
+    const starCount: number = Number(this.comment.starCount ?? MAX_STAR);
+    if (isNaN(starCount)) {
+      return MAX_STAR;
+    }
+    return Math.min(Math.max(starCount, 0), MAX_STAR);
+  }
+}

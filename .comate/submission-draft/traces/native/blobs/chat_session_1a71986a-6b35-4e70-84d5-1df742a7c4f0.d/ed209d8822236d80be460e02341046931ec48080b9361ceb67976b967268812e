@@ -1,0 +1,2 @@
+5. **Image 不可区分**：dump 节点属性包括 `type/text/key/id/bounds/clickable/visible/opacity/backgroundColor/backgroundImage/description/hitTestBehavior/zIndex` 等，没有图片 URL，也没有 objectFit【运行】。
+   `backgroundColor` 可读，所以"保留加载背景"可以通过占位节点的背景色（非 `#00000000`）间接断言。

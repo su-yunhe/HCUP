@@ -1,0 +1,23 @@
+"""临时探查：列出布局 dump 中的可见文本/类型/id/bounds。"""
+import json
+import sys
+
+path = sys.argv[1]
+flt = sys.argv[2] if len(sys.argv) > 2 else ""
+root = json.load(open(path, encoding="utf-8"))
+
+
+def walk(n, depth=0):
+    a = n.get("attributes", {})
+    t = a.get("type", "")
+    txt = a.get("text", "")
+    key = a.get("key", "") or a.get("id", "")
+    b = a.get("bounds", "")
+    line = f"{'  ' * min(depth, 30)}{t} key={key!r} text={txt!r} bounds={b} click={a.get('clickable')} vis={a.get('visible')}"
+    if (txt or key or t in ("Image", "List", "ListItem", "Swiper", "Scroll", "Button")) and (not flt or flt in line):
+        print(line)
+    for c in n.get("children", []):
+        walk(c, depth + 1)
+
+
+walk(root)

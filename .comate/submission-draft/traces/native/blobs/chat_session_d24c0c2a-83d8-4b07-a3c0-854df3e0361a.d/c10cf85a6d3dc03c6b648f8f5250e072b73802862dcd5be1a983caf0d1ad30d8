@@ -1,0 +1,101 @@
+class TestImageViewer(GoodsDetailCase):
+    """场景四：评价图片全屏查看器。"""
+
+    def test_09_open_swipe_close_keeps_scroll(self) -> None:
+        """A22/A24/A25/A26/A27/A28：点'+1'打开查看器显示'1/2'，左右滑切换页码，关闭后滚动位置不变。"""
+        self.open_detail()
+        plus = self.bring_into_view(BY.text("+1"), "找不到'+1'")
+        before_title = rect(self.require_text("商品评价", "找不到'商品评价'", 3))
+        before_thumb = rect(self.require_component(BY.key("goods_comment_thumb_0"), "找不到缩略图", 3))
+        self.driver.click(plus)
+        self.require_text("1/2", "打开查看器后没有'1/2'页码", timeout=8)
+        viewer = self.require_component(BY.key(VIEWER_KEY), "查看器根节点不存在", 3)
+        vl, vt, vr, vb = rect(viewer)
+        ll, lt, lr, lb = self.list_rect() if self.driver.find_component(BY.key(LIST_KEY)) else (0, 137, 1308, 2758)
+        self.assertTrue(vl <= ll and vr >= lr and vt <= lt and vb >= lb, "查看器没有覆盖详情页内容区")
+        close = self.require_component(BY.key(CLOSE_KEY), "关闭按钮不存在", 3)
+        self.assertEqual(close.getType(), "Button")
+        self.assertGreaterEqual(rect(close)[1], 136, "关闭按钮被状态栏遮挡")
+        self.swipe_viewer("LEFT")
+        self.assertEqual(self.indicator_text(), "2/2", "左滑后页码未变为'2/2'")
+        self.swipe_viewer("LEFT")
+        self.assertEqual(self.indicator_text(), "2/2", "最后一张继续左滑不应循环")
+        self.swipe_viewer("RIGHT")
+        self.assertEqual(self.indicator_text(), "1/2", "右滑后页码未回到'1/2'")
+        self.close_viewer()
+        self.assert_viewer_closed()
+        after_title = rect(self.require_text("商品评价", "关闭后'商品评价'不可见", 5))
+        after_thumb = rect(self.require_component(BY.key("goods_comment_thumb_0"), "关闭后缩略图不可见", 3))
+        self.assertEqual(after_title, before_title, "关闭查看器后滚动位置改变")
+        self.assertEqual(after_thumb, before_thumb, "关闭查看器后缩略图位置改变")
+        self.assertIsNotNone(self.driver.find_component(BY.text("+1")), "关闭后'+1'消失")
+
+    def test_10_viewer_shows_full_list_of_clicked_comment(self) -> None:
+        """A23/A29/A32：页码总数等于所点评价的图片数；单图显示'1/1'；重开从第 1 张开始。"""
+        self.open_detail(GOODS_THREE_PICS)
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.assertEqual(self.indicator_text(), "1/3")
+        self.swipe_viewer("LEFT")
+        self.assertEqual(self.indicator_text(), "2/3")
+        self.close_viewer()
+        self.assert_viewer_closed()
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.assertEqual(self.indicator_text(), "1/3", "重新打开没有从第 1 张开始")
+        self.close_viewer()
+        single = self.find_single_pic_comment(GOODS_THREE_PICS[1])
+        self.require_precondition(single is not None, "该商品没有单图评价")
+        self.open_viewer(BY.key(f"goods_comment_thumb_{single}"))
+        self.assertEqual(self.indicator_text(), "1/1")
+        self.swipe_viewer("LEFT")
+        self.assertEqual(self.indicator_text(), "1/1", "单图左滑后页码变化")
+        self.close_viewer()
+        self.assert_viewer_closed()
+
+    def find_single_pic_comment(self, goods_id: int) -> int | None:
+        data = fetch_detail(goods_id)
+        for i, c in enumerate((data or {}).get("comment") or []):
+            if len(c.get("pics") or []) == 1:
+                return i
+        return None
+
+    def test_11_back_key_closes_viewer_only(self) -> None:
+        """A30：查看器打开时按返回键只关闭查看器；再按一次才回到首页。"""
+        self.open_detail()
+        self.bring_into_view(BY.text("+1"), "找不到'+1'")
+        before = rect(self.require_text("商品评价", "找不到'商品评价'", 3))
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        self.assert_viewer_closed()
+        self.assertEqual(rect(self.require_text("商品评价", "返回键把详情页也关掉了", 5)), before)
+        self.driver.press_back()
+        self.require_text("搜索商品", "第二次返回没有回到首页")
+
+    def test_12_double_tap_thumb_opens_single_viewer(self) -> None:
+        """A31：快速双击缩略图只打开一个查看器，一次关闭即完全退出。"""
+        self.open_detail()
+        thumb = self.bring_into_view(BY.key("goods_comment_thumb_0"), "找不到缩略图")
+        l, t, r, b = rect(thumb)
+        x, y = (l + r) // 2, (t + b) // 2
+        self.driver.shell(f"uitest uiInput click {x} {y}; uitest uiInput click {x} {y}")
+        self.require_text("1/2", "双击后查看器未打开", timeout=8)
+        self.assertEqual(len(self.driver.find_all_components(BY.key(VIEWER_KEY)) or []), 1, "出现了多个查看器")
+        self.close_viewer()
+        self.assert_viewer_closed()
+        self.require_text("商品评价", "关闭后不在详情页")
+
+    def test_13_double_tap_close_no_passthrough(self) -> None:
+        """A26 边界：快速连点关闭按钮，只关闭查看器，不退出详情页。"""
+        self.open_detail()
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        close = self.require_component(BY.key(CLOSE_KEY), "关闭按钮不存在", 3)
+        l, t, r, b = rect(close)
+        x, y = (l + r) // 2, (t + b) // 2
+        self.driver.shell(f"uitest uiInput click {x} {y}; uitest uiInput click {x} {y}")
+        self.driver.wait(1.5)
+        self.assert_viewer_closed()
+        self.require_text("商品评价", "连点关闭后离开了详情页", timeout=5)
+        self.assertIsNone(self.driver.find_component(BY.text("搜索商品")), "连点关闭穿透回到了首页")
+
+
+# __TESTS_PLACEHOLDER__

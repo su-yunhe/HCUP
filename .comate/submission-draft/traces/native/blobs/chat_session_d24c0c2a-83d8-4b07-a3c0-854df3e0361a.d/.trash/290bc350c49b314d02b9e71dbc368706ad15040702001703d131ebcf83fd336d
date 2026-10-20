@@ -1,0 +1,7 @@
+class TestCommentSection(GoodsDetailCase):
+    """场景一、二：商品评价区域、星级、缩略图与 +N 标记。"""
+
+    def test_01_comment_section_after_service(self) -> None:
+        """A1/A3/A4：从首页入口进入，'商品评价'位于发货与服务之后，可滚动到达。"""
+        self.open_detail()
+        service = self.

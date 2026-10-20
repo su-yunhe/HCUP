@@ -1,0 +1,10 @@
+---
+name: emulator network flakiness
+description: Local HarmonyOS emulator 127.0.0.1:5555 intermittently fails DNS for mall.dusksnow.top; self-tests must wait/retry and classify as env failure
+type: project
+---
+
+The local emulator (127.0.0.1:5555) intermittently fails DNS for the mall backend `mall.dusksnow.top` ("ping: Try again"), so the app shows "网络异常" on cold start while the host's curl works. Recovery is to wait (sometimes ~20s) until in-emulator ping resolves, then cold-restart the app; the in-app "重试" button is unreliable (baseline issue).
+
+**Why:** Observed repeatedly on 2026-10-19 in cm-spec26; it caused false failures before the tests waited for network.
+**How to apply:** In Harmony Cup mall-app (com.joker.coolmall) self-tests, ping-wait before restarting the app, and report network failures as environment skips, not functional passes or failures. Also, `harness.app.restart_app` cannot resolve the main ability for this bundle; use `aa start -a EntryAbility -b com.joker.coolmall`.

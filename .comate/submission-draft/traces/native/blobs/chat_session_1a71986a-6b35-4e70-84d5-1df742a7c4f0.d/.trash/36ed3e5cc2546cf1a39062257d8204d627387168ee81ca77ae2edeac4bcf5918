@@ -1,0 +1,29 @@
+## 5. 可复用的既有实现
+
+| 需求 | 可复用 | 位置 | 备注 |
+| --- | --- | --- | --- |
+| 评价与详情图数据 | `vm.data.comment`、`vm.data.goodsInfo.contentPics` | 4.3 | 不新增请求，不改模型 |
+| 卡片容器 | `Card` | `core/ui/src/main/ets/component/card/Card.ets:8-64`（导出 `core/ui/Index.ets:24`） | `GoodsInfoCard` 已在用 |
+| 区块标题 | `TitleWithLine` | `core/ui/src/main/ets/component/title/TitleWithLine.ets:8-47`（导出 `core/ui/Index.ets:28`） | "发货与服务"用的同款，可用于"商品评价"；"商品详情分隔标题"可另做分隔线样式 |
+| 带加载背景的网络图 | `NetWorkImage`（`showBackground` + `backgroundColorValue` 默认 `bg_content`） | `core/ui/src/main/ets/component/image/NetWorkImage.ets:8-64`（导出 `core/ui/Index.ets:30`） | 对应 Spec"保留加载背景"；没传 `sizeValue` 时外层不设宽高，长图要另外处理高度 |
+| 外边距/间距 | `ColumnStart`、`RowSpaceBetweenCenter`、`SpaceVertical*`、`P100` 等 | `core/designsystem/Index.ets:6-20` | 与 `GoodsShippingServiceCard.ets:16-23` 保持一致 |
+| 文案资源 | `goods_reviews`="商品评价"、`goods_detail`="商品详情"、`anonymous_user`="匿名用户" | `feature/goods/src/main/resources/base/element/string.json:72-73, 4-5, 128-129`（en 同位置） | 基线已备好，和 Spec 文案逐字一致，直接用 `$r("app.string.xxx")`；另有 `view_all`、`view_images` 当前无人使用 |
+| 星级 | ArkUI 内置 `Rating`；或 ibest-ui-v2 `IBestRate`（`readOnly`、`value`、`count`、`iconSize`） | `core/ibestui/oh_modules/@ibestservices/ibest-ui-v2/Index.d.ets:50`；`.../src/main/ets/s/r1/e.d.ets` | 基线都没用过；选型见 acceptance U2 |
+| 全屏预览 | ibest-ui-v2 `IBestImagePreview.show(list, { startIndex, showIndex, indexPosition, loop, closeOnClickOverlay, closeOnClickImage, ... })` | `.../ibest-ui-v2/Index.d.ets:6,14`；`.../src/main/ets/f/i.d.ets` | 没有关闭按钮选项；页码格式未验证；选型见 acceptance U4 |
+| 图片轮播 | `GoodsBanner` 的 Swiper 写法 | `feature/goods/src/main/ets/component/GoodsBanner.ets:36-53` | 查看器的 Swiper 可参考（关掉圆点、用文字页码） |
+| 弹层/模态 | 基线没有使用过 `bindContentCover`、`bindSheet`、`CustomDialog`、`openCustomDialog`、`LazyForEach`【代码，全仓 grep 无结果】 | — | 查看器需要新写；ibest-ui-v2 另导出 `IBestPopup`（`Index.d.ets:22`） |
+| 路由 | 不需要新路由 | — | 查看器做成详情页内的弹层就不碰路由表（acceptance U4） |
+
+## 6. 缺失项（Spec 要求而基线完全没有）
+
+1. 详情页的评价卡片与评价条目组件：昵称、星级、正文、右侧缩略图、"+N"标记（`feature/goods/src/main/ets/component/` 下没有相关文件【代码】）。
+2. "商品详情"分隔标题组件和详情图片组件；详情页目前完全不渲染 `contentPics`【代码，全仓只在模型里出现】。
+3. 评价图片全屏查看器：多图滑动、"当前/总数"页码、关闭按钮。
+4. `GoodsDetailPage` 接入以上组件（Spec"实现边界"）。
+5. 所有新组件的稳定 `.id()`（基线全工程 0 处 `.id()`）。
+
+不缺的：数据模型字段、接口、文案资源、路由入口都已经具备。
+
+## 7. 前置环境需求
+
+| 项 | 是否需要 | 本地能否满足 | 说明 |

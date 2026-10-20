@@ -1,0 +1,1 @@
+  - 边界条件：查看器做成新的 NavDestination 时，返回会触发 `onShown`，但基线 VM 不在 onShown 里刷新（`BaseViewModel.ets:55-56` 空实现），所以位置也能保持；做成弹层同样满足。不允许打开查看器时把 `uiState` 改成 LOADING，那会让内容层透明度变 0（`BaseNetWorkView.ets:89`）。

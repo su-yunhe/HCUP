@@ -1,0 +1,53 @@
+Command executed successfully.
+Exit code: 0
+Output:
+ok
+
+======================================================================
+FAIL: test_14_single_detail_request_and_no_request_from_viewer (hypium_tests.test_goods_detail_comments.TestNetworkAndLifecycle.test_14_single_detail_request_and_no_request_from_viewer)
+A2/A33：进入详情页只发 1 次 page/goodsDetail；查看器开、滑、关不发业务请求，也不请求评价分页接口。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cm-spec26/hypium_tests/test_goods_detail_comments.py", line 412, in test_14_single_detail_request_and_no_request_from_viewer
+    self.assertEqual(self.detail_request_count(), 1, "进入详情页应恰好发出 1 次 page/goodsDetail 请求")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : 进入详情页应恰好发出 1 次 page/goodsDetail 请求
+
+======================================================================
+FAIL: test_15_back_and_reenter (hypium_tests.test_goods_detail_comments.TestNetworkAndLifecycle.test_15_back_and_reenter)
+A35：返回首页再进入，评价和详情重新加载，查看器不残留。
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/bress/Documents/code/harmonycup-work/cm-spec26/hypium_tests/test_goods_detail_comments.py", line 435, in test_15_back_and_reenter
+    self.assertEqual(self.detail_request_count(), 1, "重进详情页应重新请求 1 次")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : 重进详情页应重新请求 1 次
+
+----------------------------------------------------------------------
+Ran 17 tests in 774.199s
+
+FAILED (failures=2)
+
+项目: /Users/bress/Documents/code/harmonycup-work/cm-spec26
+设备: 127.0.0.1:5555
+
+测试用例: 17  通过: 15  失败: 2  跳过(未验证): 0
+  ✓ test_01_comment_section_after_service (hypium_tests.test_goods_detail_comments.TestCommentSection.test_01_comment_section_after_service)
+  ✓ test_02_nickname_rating_content_match_api (hypium_tests.test_goods_detail_comments.TestCommentSection.test_02_nickname_rating_content_match_api)
+  ✓ test_03_thumbnail_and_plus_one (hypium_tests.test_goods_detail_comments.TestCommentSection.test_03_thumbnail_and_plus_one)
+  ✓ test_04_three_pics_show_plus_two (hypium_tests.test_goods_detail_comments.TestCommentSection.test_04_three_pics_show_plus_two)
+  ✓ test_05_no_pic_comments_have_no_thumbnail (hypium_tests.test_goods_detail_comments.TestCommentSection.test_05_no_pic_comments_have_no_thumbnail)
+  ✓ test_06_detail_title_after_comments (hypium_tests.test_goods_detail_comments.TestDetailImages.test_06_detail_title_after_comments)
+  ✓ test_07_detail_images_in_server_order (hypium_tests.test_goods_detail_comments.TestDetailImages.test_07_detail_images_in_server_order)
+  ✓ test_08_scroll_to_last_detail_image (hypium_tests.test_goods_detail_comments.TestDetailImages.test_08_scroll_to_last_detail_image)
+  ✓ test_09_open_swipe_close_keeps_scroll (hypium_tests.test_goods_detail_comments.TestImageViewer.test_09_open_swipe_close_keeps_scroll)
+  ✓ test_10_viewer_shows_full_list_of_clicked_comment (hypium_tests.test_goods_detail_comments.TestImageViewer.test_10_viewer_shows_full_list_of_clicked_comment)
+  ✓ test_11_back_key_closes_viewer_only (hypium_tests.test_goods_detail_comments.TestImageViewer.test_11_back_key_closes_viewer_only)
+  ✓ test_12_double_tap_thumb_opens_single_viewer (hypium_tests.test_goods_detail_comments.TestImageViewer.test_12_double_tap_thumb_opens_single_viewer)
+  ✓ test_13_double_tap_close_no_passthrough (hypium_tests.test_goods_detail_comments.TestImageViewer.test_13_double_tap_close_no_passthrough)
+  ✗ test_14_single_detail_request_and_no_request_from_viewer (hypium_tests.test_goods_detail_comments.TestNetworkAndLifecycle.test_14_single_detail_request_and_no_request_from_viewer) — AssertionError: 0 != 1 : 进入详情页应恰好发出 1 次 page/goodsDetail 请求
+  ✗ test_15_back_and_reenter (hypium_tests.test_goods_detail_comments.TestNetworkAndLifecycle.test_15_back_and_reenter) — AssertionError: 0 != 1 : 重进详情页应重新请求 1 次
+  ✓ test_16_restart_app_and_reenter (hypium_tests.test_goods_detail_comments.TestNetworkAndLifecycle.test_16_restart_app_and_reenter)
+  ✓ test_17_app_alive_after_fast_scroll (hypium_tests.test_goods_detail_comments.TestNetworkAndLifecycle.test_17_app_alive_after_fast_scroll)
+
+报告已保存: /Users/bress/Documents/code/harmonycup-work/cm-spec26/logs/selftest.json

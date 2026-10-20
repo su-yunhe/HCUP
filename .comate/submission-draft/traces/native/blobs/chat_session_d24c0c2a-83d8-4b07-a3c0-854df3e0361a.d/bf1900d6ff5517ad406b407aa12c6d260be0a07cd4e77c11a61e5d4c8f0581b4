@@ -1,0 +1,7 @@
+    def launch_home(self, wait_text: str = "Xiaomi 17T Pro") -> None:
+        for _ in range(3):
+            self.wait_network()
+            restart_app(self.driver, BUNDLE, wait_time=2)
+            if self.find_or_none(BY.text(wait_text), timeout=15) is not None:
+                return
+        self.skipTest("首页数据加载失败（网络异常），环境失败，非功能失败")

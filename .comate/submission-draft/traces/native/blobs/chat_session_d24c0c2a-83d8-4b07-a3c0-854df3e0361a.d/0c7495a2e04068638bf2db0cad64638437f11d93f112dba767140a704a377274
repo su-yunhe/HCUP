@@ -1,0 +1,461 @@
+"""cm-spec26 自测：商品详情新增买家评价与详情长图（含评价图片全屏查看器）。
+
+入口沿用应用正常流程：冷启动 → 首页商品卡片 → 商品详情页。
+评价与详情图数据来自公共服务 page/goodsDetail，测试会在主机侧请求同一接口做逐字对照，
+主机取不到数据时只做结构断言，不把环境问题算作功能通过。
+"""
+from __future__ import annotations
+
+import json
+import re
+import subprocess
+import time
+
+from hypium import BY  # type: ignore[import-not-found]
+
+from harness.driver import HarnessTestCase
+
+BUNDLE = "com.joker.coolmall"
+ABILITY = "EntryAbility"
+API_DETAIL = "https://mall.dusksnow.top/app/page/goodsDetail?goodsId={}"
+HOST = "mall.dusksnow.top"
+
+# 首页限时精选第一个商品：前两条评价各 2 张图，第 3～5 条各 1 张
+GOODS_TWO_PICS = ("Xiaomi 17T Pro", 830001)
+# 首页限时精选第二个商品：前两条评价各 3 张图
+GOODS_THREE_PICS = ("Xiaomi 15S Pro", 1)
+# 首页推荐商品：5 条评价全部无图，第 2 条为 4 星
+GOODS_NO_PICS = ("REDMI Note 17 Pro", 830016)
+
+LIST_KEY = "goods_detail_list"
+VIEWER_KEY = "comment_image_viewer"
+INDICATOR_KEY = "comment_image_viewer_indicator"
+CLOSE_KEY = "comment_image_viewer_close"
+
+
+def fetch_detail(goods_id: int) -> dict | None:
+    """主机侧用 curl 请求与应用相同的详情接口（venv 的 Python 缺少 CA 证书）；失败返回 None。"""
+    try:
+        out = subprocess.run(["curl", "-s", "-m", "10", API_DETAIL.format(goods_id)],
+                             capture_output=True, text=True, timeout=15).stdout
+        return json.loads(out).get("data")
+    except Exception:  # noqa: BLE001 - 环境网络问题统一视为无数据
+        return None
+
+
+def rect(component) -> tuple[int, int, int, int]:
+    b = component.getBounds()
+    return b.left, b.top, b.right, b.bottom
+
+
+class GoodsDetailCase(HarnessTestCase):
+    """导航、滚动、查看器操作等公共步骤。"""
+
+    def setUp(self) -> None:
+        self.driver.shell("hilog -Q pidoff; hilog -Q domainoff")
+
+    def tearDown(self) -> None:
+        self.driver.shell("hilog -Q pidon; hilog -Q domainon")
+
+    # ---------- 环境与导航 ----------
+
+    def wait_network(self, timeout: float = 90) -> None:
+        """模拟器 DNS 偶发失败（baseline-notes 第 7 节），等到能解析服务地址再启动应用。"""
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            if "bytes from" in self.driver.shell(f"ping -c 1 -W 3 {HOST}"):
+                return
+            time.sleep(3)
+        self.skipTest("环境网络不可用：模拟器无法解析服务地址（环境失败，非功能失败）")
+
+    def restart_app(self) -> None:
+        """强制停止后冷启动（harness.app.restart_app 在本机解析不到主 Ability，这里显式指定）。"""
+        self.driver.shell(f"aa force-stop {BUNDLE}")
+        self.driver.wait(0.5)
+        self.driver.shell(f"aa start -a {ABILITY} -b {BUNDLE}")
+        self.driver.wait(2)
+
+    def launch_home(self, wait_text: str = "Xiaomi 17T Pro") -> None:
+        for _ in range(3):
+            self.wait_network()
+            self.restart_app()
+            if self.find_or_none(BY.text(wait_text), timeout=15) is not None:
+                return
+        self.skipTest("首页数据加载失败（网络异常），环境失败，非功能失败")
+
+    def open_detail(self, goods: tuple[str, int] = GOODS_TWO_PICS) -> None:
+        title = goods[0]
+        self.launch_home()
+        card = self.driver.find_component(BY.text(title))
+        if card is None:
+            card = self.driver.find_component(BY.text(title), scroll_target=BY.type("List"))
+        self.assertIsNotNone(card, f"首页找不到商品入口 {title}")
+        self.driver.click(card)
+        self.require_component(BY.key(LIST_KEY), "未进入商品详情页")
+        self.require_text("发货与服务", "详情页基础内容未加载")
+        self.require_text(title, "详情页商品标题未显示")
+
+    def list_rect(self) -> tuple[int, int, int, int]:
+        return rect(self.require_component(BY.key(LIST_KEY), "详情 List 不存在"))
+
+    def scroll_find(self, by, message: str):
+        """在详情 List 中滚动查找；先直接找，找不到再 scrollSearch，最后手动上滑兜底。"""
+        found = self.driver.find_component(by)
+        if found is not None:
+            return found
+        found = self.driver.find_component(by, scroll_target=BY.key(LIST_KEY))
+        if found is not None:
+            return found
+        for _ in range(8):
+            self.swipe_list_up(40)
+            found = self.driver.find_component(by)
+            if found is not None:
+                return found
+        self.fail(message)
+
+    def swipe_list_up(self, distance: int = 40) -> None:
+        self.driver.swipe("UP", distance=distance, area=BY.key(LIST_KEY), swipe_time=0.6)
+        self.driver.wait(0.8)
+
+    def bring_into_view(self, by, message: str):
+        """滚动到目标完整处于 List 可视区内（不被底部操作栏和状态栏遮挡）。"""
+        comp = self.scroll_find(by, message)
+        _, ltop, _, lbottom = self.list_rect()
+        for _ in range(5):
+            _, top, _, bottom = rect(comp)
+            if top >= ltop and bottom <= lbottom - 10:
+                return comp
+            self.swipe_list_up(15)
+            comp = self.require_component(by, message, timeout=3)
+        return comp
+
+    # ---------- 查看器 ----------
+
+    def open_viewer(self, by, message: str = "未找到评价缩略图"):
+        target = self.bring_into_view(by, message)
+        self.driver.click(target)
+        return self.require_component(BY.key(INDICATOR_KEY), "点击缩略图后未弹出全屏查看器", timeout=8)
+
+    def indicator_text(self) -> str:
+        comp = self.require_component(BY.key(INDICATOR_KEY), "查看器页码不存在", timeout=5)
+        return comp.getText()
+
+    def swipe_viewer(self, direction: str) -> None:
+        self.driver.swipe(direction, distance=70, area=BY.key("comment_image_viewer_swiper"), swipe_time=0.4)
+        self.driver.wait(1.2)
+
+    def close_viewer(self) -> None:
+        self.driver.click(self.require_component(BY.text("关闭"), "查看器没有'关闭'按钮", timeout=5))
+        self.driver.wait(1.2)
+
+    def assert_viewer_closed(self) -> None:
+        self.assertIsNone(self.find_or_none(BY.key(VIEWER_KEY), timeout=2), "查看器未退出")
+        self.assertIsNone(self.driver.find_component(BY.key(INDICATOR_KEY)), "页码仍残留在页面上")
+
+    # ---------- 网络日志 ----------
+
+    def clear_log(self) -> None:
+        self.driver.shell("hilog -r")
+
+    def detail_request_count(self) -> int:
+        log = self.driver.shell("hilog -x -T NetLog", timeout=30)
+        return len([ln for ln in log.splitlines() if "Request" in ln and "goodsDetail" in ln])
+
+    def comment_page_request_count(self) -> int:
+        log = self.driver.shell("hilog -x -T NetLog", timeout=30)
+        return len([ln for ln in log.splitlines() if "comment/page" in ln])
+
+
+class TestCommentSection(GoodsDetailCase):
+    """场景一、二：商品评价区域、星级、缩略图与 +N 标记。"""
+
+    def test_01_comment_section_after_service(self) -> None:
+        """A1/A3/A4：从首页入口进入，'商品评价'位于发货与服务之后，可滚动到达。"""
+        self.open_detail()
+        service = self.require_text("服务", "服务行不存在")
+        title = self.scroll_find(BY.text("商品评价"), "滚动后找不到'商品评价'")
+        self.assertEqual(len(self.driver.find_all_components(BY.text("商品评价")) or []), 1, "'商品评价'不唯一")
+        self.assertGreater(rect(title)[1], rect(service)[1], "'商品评价'不在服务信息之后")
+        _, ltop, _, lbottom = self.list_rect()
+        self.assertTrue(ltop <= rect(title)[1] < lbottom, "'商品评价'不在详情 List 可视区内")
+
+    def test_02_nickname_rating_content_match_api(self) -> None:
+        """A2/A5/A6/A7/A8：每条评价显示昵称、星级和正文，与接口顺序、内容一致。"""
+        data = fetch_detail(GOODS_TWO_PICS[1])
+        self.open_detail()
+        self.scroll_find(BY.text("商品评价"), "找不到'商品评价'")
+        comments = (data or {}).get("comment") or []
+        count = len(comments) if comments else 5
+        for i in range(count):
+            content = self.bring_into_view(BY.key(f"goods_comment_content_{i}"), f"第 {i} 条评价正文不存在")
+            nickname = self.require_component(BY.key(f"goods_comment_nickname_{i}"), f"第 {i} 条昵称不存在", 3)
+            rating = self.require_component(BY.key(f"goods_comment_rating_{i}"), f"第 {i} 条星级不存在", 3)
+            self.assertEqual(rating.getType(), "Rating")
+            self.assertLess(rect(nickname)[1], rect(content)[1], "昵称应在正文上方")
+            if comments:
+                c = comments[i]
+                self.assertEqual(nickname.getText(), c["nickName"], f"第 {i} 条昵称与接口不一致")
+                self.assertEqual(content.getText(), c["content"], f"第 {i} 条正文与接口不一致")
+                self.assertAlmostEqual(float(rating.getText()), float(c["starCount"]), msg=f"第 {i} 条星级不一致")
+        self.assertIsNone(self.driver.find_component(BY.key(f"goods_comment_item_{count}")), "评价条数多于接口返回")
+
+    def test_03_thumbnail_and_plus_one(self) -> None:
+        """A11/A12/A14：两图评价右侧显示缩略图和'+1'，单图评价只有缩略图。"""
+        self.open_detail()
+        plus = self.bring_into_view(BY.text("+1"), "找不到'+1'数量标记")
+        thumb = self.require_component(BY.key("goods_comment_thumb_0"), "第 0 条评价没有缩略图", 3)
+        content = self.require_component(BY.key("goods_comment_content_0"), "第 0 条正文不存在", 3)
+        tl, tt, tr, tb = rect(thumb)
+        pl, pt, pr, pb = rect(plus)
+        self.assertTrue(tl <= pl and pr <= tr and tt <= pt and pb <= tb, "'+1'不在第一条两图评价的缩略图上")
+        self.assertGreaterEqual(tl, rect(content)[2], "缩略图不在评价条目右侧")
+        self.assertTrue(thumb.isClickable(), "缩略图不可点击")
+        self.bring_into_view(BY.key("goods_comment_thumb_2"), "单图评价没有缩略图")
+        self.assertIsNone(self.driver.find_component(BY.key("goods_comment_thumb_count_2")), "单图评价不应显示数量标记")
+        self.assertIsNone(self.driver.find_component(BY.text("+0")), "出现了'+0'")
+
+    def test_04_three_pics_show_plus_two(self) -> None:
+        """A13：三张图片的评价显示'+2'。"""
+        self.open_detail(GOODS_THREE_PICS)
+        plus = self.bring_into_view(BY.key("goods_comment_thumb_count_0"), "三图评价没有数量标记")
+        self.assertEqual(plus.getText(), "+2")
+
+    def test_05_no_pic_comments_have_no_thumbnail(self) -> None:
+        """A15：评价全部无图的商品不显示缩略图和数量标记，星级 4 星正确显示。"""
+        data = fetch_detail(GOODS_NO_PICS[1])
+        self.launch_home()
+        card = self.driver.find_component(BY.text(GOODS_NO_PICS[0]), scroll_target=BY.type("List"))
+        self.require_precondition(card is not None, f"首页找不到 {GOODS_NO_PICS[0]}")
+        self.driver.click(card)
+        self.require_text("发货与服务", "详情页未加载")
+        self.scroll_find(BY.text("商品评价"), "找不到'商品评价'")
+        for i in range(5):
+            self.bring_into_view(BY.key(f"goods_comment_content_{i}"), f"第 {i} 条评价不存在")
+            self.assertIsNone(self.driver.find_component(BY.key(f"goods_comment_thumb_{i}")), f"第 {i} 条无图评价出现缩略图")
+        if data:
+            self.bring_into_view(BY.key("goods_comment_rating_1"), "第 1 条星级不存在")
+            rating = self.require_component(BY.key("goods_comment_rating_1"), "第 1 条星级不存在", 3)
+            self.assertAlmostEqual(float(rating.getText()), float(data["comment"][1]["starCount"]))
+
+
+class TestDetailImages(GoodsDetailCase):
+    """场景三：'商品详情'分隔标题与详情长图。"""
+
+    def test_06_detail_title_after_comments(self) -> None:
+        """A16：'商品详情'标题位于评价区域之后，且唯一。"""
+        self.open_detail()
+        self.bring_into_view(BY.key("goods_comment_item_4"), "最后一条评价不存在")
+        last = rect(self.require_component(BY.key("goods_comment_item_4"), "最后一条评价不存在", 3))
+        title = self.scroll_find(BY.text("商品详情"), "滚动后找不到'商品详情'")
+        self.assertGreater(rect(title)[1], last[3] - 1, "'商品详情'不在评价区域之后")
+        self.assertEqual(len(self.driver.find_all_components(BY.text("商品详情")) or []), 1, "'商品详情'不唯一")
+
+    def test_07_detail_images_in_server_order(self) -> None:
+        """A17/A18/A19：标题下方按顺序渲染全宽详情图，占位高度按图片比例且非 0。"""
+        data = fetch_detail(GOODS_TWO_PICS[1])
+        self.open_detail()
+        title = self.bring_into_view(BY.text("商品详情"), "找不到'商品详情'")
+        title_bottom = rect(title)[3]
+        lleft, _, lright, _ = self.list_rect()
+        first = self.require_component(BY.key("goods_detail_image_0"), "标题下方没有详情图片")
+        self.assertEqual(first.getType(), "Image")
+        fl, ft, fr, fb = rect(first)
+        self.assertGreaterEqual(ft, title_bottom, "第一张详情图不在标题下方")
+        self.assertEqual((fl, fr), (lleft, lright), "详情图不是全宽")
+        self.assertGreater(fb - ft, 0, "详情图高度为 0")
+        for i in (1, 2):
+            img = self.bring_into_view(BY.key(f"goods_detail_image_{i}"), f"第 {i} 张详情图不存在")
+            l, t, r, b = rect(img)
+            self.assertEqual((l, r), (lleft, lright), f"第 {i} 张详情图不是全宽")
+            self.assertGreater(b - t, 0)
+            pics = (data or {}).get("goodsInfo", {}).get("contentPics") or []
+            m = re.search(r"[?&]w=(\d+)&h=(\d+)", pics[i]) if len(pics) > i else None
+            if m:
+                expect = (r - l) * int(m.group(2)) / int(m.group(1))
+                self.assertAlmostEqual(b - t, expect, delta=expect * 0.05, msg=f"第 {i} 张详情图高度与比例不符")
+            prev = self.driver.find_component(BY.key(f"goods_detail_image_{i - 1}"))
+            if prev is not None:
+                self.assertLessEqual(rect(prev)[3], t + 1, f"第 {i - 1} 张详情图不在第 {i} 张之上")
+
+    def test_08_scroll_to_last_detail_image(self) -> None:
+        """A20：可以一直滚动到最后一张详情图，最后一张不被底部操作栏遮挡。"""
+        data = fetch_detail(GOODS_TWO_PICS[1])
+        pics = (data or {}).get("goodsInfo", {}).get("contentPics") or []
+        self.require_precondition(len(pics) > 0, "主机取不到 contentPics，无法确定最后一张序号")
+        self.open_detail()
+        lst = self.require_component(BY.key(LIST_KEY), "详情 List 不存在")
+        last_key = f"goods_detail_image_{len(pics) - 1}"
+        for _ in range(6):
+            lst.scrollToBottom()
+            self.driver.wait(1.5)
+            if self.driver.find_component(BY.key(last_key)) is not None:
+                break
+        last = self.require_component(BY.key(last_key), "滚到底部后看不到最后一张详情图", 5)
+        _, _, _, lbottom = self.list_rect()
+        bar = self.require_text("操作栏", "底部操作栏不存在", 3)
+        self.assertLessEqual(rect(last)[3], rect(bar)[1], "最后一张详情图被底部操作栏遮挡")
+        self.assertLessEqual(rect(last)[3], lbottom)
+        self.assertIsNone(self.driver.find_component(BY.key(f"goods_detail_image_{len(pics)}")), "详情图多于接口返回")
+
+
+class TestImageViewer(GoodsDetailCase):
+    """场景四：评价图片全屏查看器。"""
+
+    def test_09_open_swipe_close_keeps_scroll(self) -> None:
+        """A22/A24/A25/A26/A27/A28：点'+1'打开查看器显示'1/2'，左右滑切换页码，关闭后滚动位置不变。"""
+        self.open_detail()
+        plus = self.bring_into_view(BY.text("+1"), "找不到'+1'")
+        before_title = rect(self.require_text("商品评价", "找不到'商品评价'", 3))
+        before_thumb = rect(self.require_component(BY.key("goods_comment_thumb_0"), "找不到缩略图", 3))
+        self.driver.click(plus)
+        self.require_text("1/2", "打开查看器后没有'1/2'页码", timeout=8)
+        viewer = self.require_component(BY.key(VIEWER_KEY), "查看器根节点不存在", 3)
+        vl, vt, vr, vb = rect(viewer)
+        ll, lt, lr, lb = self.list_rect() if self.driver.find_component(BY.key(LIST_KEY)) else (0, 137, 1308, 2758)
+        self.assertTrue(vl <= ll and vr >= lr and vt <= lt and vb >= lb, "查看器没有覆盖详情页内容区")
+        close = self.require_component(BY.key(CLOSE_KEY), "关闭按钮不存在", 3)
+        self.assertEqual(close.getType(), "Button")
+        self.assertGreaterEqual(rect(close)[1], 136, "关闭按钮被状态栏遮挡")
+        self.swipe_viewer("LEFT")
+        self.assertEqual(self.indicator_text(), "2/2", "左滑后页码未变为'2/2'")
+        self.swipe_viewer("LEFT")
+        self.assertEqual(self.indicator_text(), "2/2", "最后一张继续左滑不应循环")
+        self.swipe_viewer("RIGHT")
+        self.assertEqual(self.indicator_text(), "1/2", "右滑后页码未回到'1/2'")
+        self.close_viewer()
+        self.assert_viewer_closed()
+        after_title = rect(self.require_text("商品评价", "关闭后'商品评价'不可见", 5))
+        after_thumb = rect(self.require_component(BY.key("goods_comment_thumb_0"), "关闭后缩略图不可见", 3))
+        self.assertEqual(after_title, before_title, "关闭查看器后滚动位置改变")
+        self.assertEqual(after_thumb, before_thumb, "关闭查看器后缩略图位置改变")
+        self.assertIsNotNone(self.driver.find_component(BY.text("+1")), "关闭后'+1'消失")
+
+    def test_10_viewer_shows_full_list_of_clicked_comment(self) -> None:
+        """A23/A29/A32：页码总数等于所点评价的图片数；单图显示'1/1'；重开从第 1 张开始。"""
+        self.open_detail(GOODS_THREE_PICS)
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.assertEqual(self.indicator_text(), "1/3")
+        self.swipe_viewer("LEFT")
+        self.assertEqual(self.indicator_text(), "2/3")
+        self.close_viewer()
+        self.assert_viewer_closed()
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.assertEqual(self.indicator_text(), "1/3", "重新打开没有从第 1 张开始")
+        self.close_viewer()
+        single = self.find_single_pic_comment(GOODS_THREE_PICS[1])
+        self.require_precondition(single is not None, "该商品没有单图评价")
+        self.open_viewer(BY.key(f"goods_comment_thumb_{single}"))
+        self.assertEqual(self.indicator_text(), "1/1")
+        self.swipe_viewer("LEFT")
+        self.assertEqual(self.indicator_text(), "1/1", "单图左滑后页码变化")
+        self.close_viewer()
+        self.assert_viewer_closed()
+
+    def find_single_pic_comment(self, goods_id: int) -> int | None:
+        data = fetch_detail(goods_id)
+        for i, c in enumerate((data or {}).get("comment") or []):
+            if len(c.get("pics") or []) == 1:
+                return i
+        return None
+
+    def test_11_back_key_closes_viewer_only(self) -> None:
+        """A30：查看器打开时按返回键只关闭查看器；再按一次才回到首页。"""
+        self.open_detail()
+        self.bring_into_view(BY.text("+1"), "找不到'+1'")
+        before = rect(self.require_text("商品评价", "找不到'商品评价'", 3))
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.driver.press_back()
+        self.driver.wait(1.5)
+        self.assert_viewer_closed()
+        self.assertEqual(rect(self.require_text("商品评价", "返回键把详情页也关掉了", 5)), before)
+        self.driver.press_back()
+        self.require_text("搜索商品", "第二次返回没有回到首页")
+
+    def test_12_double_tap_thumb_opens_single_viewer(self) -> None:
+        """A31：快速双击缩略图只打开一个查看器，一次关闭即完全退出。"""
+        self.open_detail()
+        thumb = self.bring_into_view(BY.key("goods_comment_thumb_0"), "找不到缩略图")
+        l, t, r, b = rect(thumb)
+        x, y = (l + r) // 2, (t + b) // 2
+        self.driver.shell(f"uitest uiInput click {x} {y}; uitest uiInput click {x} {y}")
+        self.require_text("1/2", "双击后查看器未打开", timeout=8)
+        self.assertEqual(len(self.driver.find_all_components(BY.key(VIEWER_KEY)) or []), 1, "出现了多个查看器")
+        self.close_viewer()
+        self.assert_viewer_closed()
+        self.require_text("商品评价", "关闭后不在详情页")
+
+    def test_13_double_tap_close_no_passthrough(self) -> None:
+        """A26 边界：快速连点关闭按钮，只关闭查看器，不退出详情页。"""
+        self.open_detail()
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        close = self.require_component(BY.key(CLOSE_KEY), "关闭按钮不存在", 3)
+        l, t, r, b = rect(close)
+        x, y = (l + r) // 2, (t + b) // 2
+        self.driver.shell(f"uitest uiInput click {x} {y}; uitest uiInput click {x} {y}")
+        self.driver.wait(1.5)
+        self.assert_viewer_closed()
+        self.require_text("商品评价", "连点关闭后离开了详情页", timeout=5)
+        self.assertIsNone(self.driver.find_component(BY.text("搜索商品")), "连点关闭穿透回到了首页")
+
+
+class TestNetworkAndLifecycle(GoodsDetailCase):
+    """网络状态机、返回后重进、重启应用。"""
+
+    def test_14_single_detail_request_and_no_request_from_viewer(self) -> None:
+        """A2/A33：进入详情页只发 1 次 page/goodsDetail；查看器开、滑、关不发业务请求，也不请求评价分页接口。"""
+        self.launch_home()
+        self.clear_log()
+        self.driver.click(self.require_text(GOODS_TWO_PICS[0], "首页找不到商品"))
+        self.require_text("发货与服务", "详情页未加载")
+        self.scroll_find(BY.text("商品评价"), "找不到'商品评价'")
+        self.driver.wait(1)
+        self.assertEqual(self.detail_request_count(), 1, "进入详情页应恰好发出 1 次 page/goodsDetail 请求")
+        for _ in range(3):
+            self.open_viewer(BY.key("goods_comment_thumb_0"))
+            self.swipe_viewer("LEFT")
+            self.close_viewer()
+            self.assert_viewer_closed()
+        self.driver.wait(1)
+        self.assertEqual(self.detail_request_count(), 1, "查看器操作触发了新的详情请求")
+        self.assertEqual(self.comment_page_request_count(), 0, "不应请求 goods/comment/page")
+
+    def test_15_back_and_reenter(self) -> None:
+        """A35：返回首页再进入，评价和详情重新加载，查看器不残留。"""
+        self.open_detail()
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.close_viewer()
+        self.driver.press_back()
+        self.require_text("搜索商品", "返回后不在首页")
+        self.clear_log()
+        self.driver.click(self.require_text(GOODS_TWO_PICS[0], "首页找不到商品"))
+        self.require_text("发货与服务", "重进详情页未加载")
+        self.assertIsNone(self.driver.find_component(BY.key(VIEWER_KEY)), "重进后查看器残留")
+        self.bring_into_view(BY.text("+1"), "重进后找不到'+1'")
+        self.scroll_find(BY.text("商品详情"), "重进后找不到'商品详情'")
+        self.assertEqual(self.detail_request_count(), 1, "重进详情页应重新请求 1 次")
+
+    def test_16_restart_app_and_reenter(self) -> None:
+        """A35：强制停止后冷启动再进入，功能正常。"""
+        self.open_detail()
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.open_detail()
+        self.assertIsNone(self.driver.find_component(BY.key(VIEWER_KEY)), "重启后查看器残留")
+        self.bring_into_view(BY.text("+1"), "重启后找不到'+1'")
+        self.open_viewer(BY.key("goods_comment_thumb_0"))
+        self.assertEqual(self.indicator_text(), "1/2")
+        self.close_viewer()
+        self.assert_viewer_closed()
+
+    def test_17_app_alive_after_fast_scroll(self) -> None:
+        """A20 边界：快速连续上滑浏览详情长图后应用不崩溃，返回顶部轮播仍在。"""
+        self.open_detail()
+        for _ in range(8):
+            self.driver.swipe("UP", distance=80, area=BY.key(LIST_KEY), swipe_time=0.15)
+        self.driver.wait(1)
+        self.require_component(BY.key(LIST_KEY), "快速滑动后详情页消失（可能崩溃）", 5)
+        lst = self.require_component(BY.key(LIST_KEY), "详情 List 不存在", 3)
+        lst.scrollToTop()
+        self.driver.wait(1.5)
+        self.require_text(GOODS_TWO_PICS[0], "回到顶部后商品信息不可见")
+        pid = self.driver.shell(f"pidof {BUNDLE}").strip()
+        self.assertTrue(pid, "应用进程不存在（崩溃）")

@@ -1,0 +1,104 @@
+import { BaseNetWorkViewModel } from "base";
+import { GoodsRepository, PageRepository } from "data";
+import { Comment, GoodsDetail, NetworkResponse } from "model";
+import { getRouteParams, GoodsIdParam } from "navigation";
+import { GoodsRoutes } from "navigation/src/main/ets/goods/GoodsRoutes";
+import { GoodsDetailImageDataSource } from "../model/GoodsDetailImageDataSource";
+
+/**
+ * @file 商品详情页面 ViewModel
+ * @author Joker.X
+ */
+@ObservedV2
+export default class GoodsDetailViewModel extends BaseNetWorkViewModel<GoodsDetail> {
+  /**
+   * 页面仓库
+   */
+  private readonly pageRepository: PageRepository = new PageRepository();
+  /**
+   * 商品仓库
+   */
+  private readonly goodsRepository: GoodsRepository = new GoodsRepository();
+  /**
+   * 路由参数
+   */
+  private readonly routeParam: GoodsIdParam = getRouteParams<GoodsIdParam>(GoodsRoutes.Detail);
+  /**
+   * 商品 ID
+   */
+  private readonly goodsId: number = this.routeParam.goodsId ?? 0;
+  /**
+   * 评价图片查看器是否显示
+   */
+  @Trace
+  imageViewerVisible: boolean = false;
+  /**
+   * 评价图片查看器展示的图片列表
+   */
+  @Trace
+  imageViewerPics: string[] = [];
+  /**
+   * 商品详情图片懒加载数据源
+   */
+  readonly detailImageSource: GoodsDetailImageDataSource = new GoodsDetailImageDataSource();
+
+  /**
+   * 请求商品详情页面数据
+   * @returns {Promise<NetworkResponse<GoodsDetail>>} 商品详情
+   */
+  protected requestRepository(): Promise<NetworkResponse<GoodsDetail>> {
+    return this.pageRepository.getGoodsDetail(this.goodsId);
+  }
+
+  /**
+   * 请求成功后同步刷新详情图片数据源
+   * @param {GoodsDetail} data - 商品详情
+   * @returns {void} 无返回值
+   */
+  protected onRequestSuccess(data: GoodsDetail): void {
+    super.onRequestSuccess(data);
+    this.detailImageSource.setData(this.getContentPics());
+  }
+
+  /**
+   * 获取评价列表
+   * @returns {Comment[]} 评价列表，无数据时为空数组
+   */
+  getComments(): Comment[] {
+    const comments: Comment[] | null | undefined = this.data?.comment;
+    return Array.isArray(comments) ? comments : [];
+  }
+
+  /**
+   * 获取商品详情图片（过滤空地址，保持服务端顺序）
+   * @returns {string[]} 详情图片地址列表，无数据时为空数组
+   */
+  getContentPics(): string[] {
+    const pics: string[] | null | undefined = this.data?.goodsInfo?.contentPics;
+    if (!Array.isArray(pics)) {
+      return [];
+    }
+    return pics.filter((pic: string): boolean => !!pic && pic.trim().length > 0);
+  }
+
+  /**
+   * 打开评价图片查看器，已打开时忽略重复点击
+   * @param {string[]} pics - 该条评价的完整图片列表
+   * @returns {void} 无返回值
+   */
+  openImageViewer(pics: string[]): void {
+    if (this.imageViewerVisible || pics.length === 0) {
+      return;
+    }
+    this.imageViewerPics = pics;
+    this.imageViewerVisible = true;
+  }
+
+  /**
+   * 关闭评价图片查看器
+   * @returns {void} 无返回值
+   */
+  closeImageViewer(): void {
+    this.imageViewerVisible = false;
+  }
+}

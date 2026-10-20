@@ -1,0 +1,408 @@
+Command executed successfully.
+Exit code: 0
+Output:
+import { P100 } from "designsystem";
+
+/**
+ * @file 网络图片组件（仅设置背景色与圆角）
+ * @author Joker.X
+ */
+@ComponentV2
+export struct NetWorkImage {
+  /**
+   * 图片资源（URL / Resource / PixelMap）
+   */
+  @Param
+  model: string | Resource | PixelMap | null = null;
+  /**
+   * 图片大小（宽高相等）
+   */
+  @Param
+  sizeValue: Length | undefined = undefined;
+  /**
+   * 图片缩放模式
+   */
+  @Param
+  imageFit: ImageFit = ImageFit.Cover;
+  /**
+   * 是否显示背景色
+   */
+  @Param
+  showBackground: boolean = false;
+  /**
+   * 背景颜色
+   */
+  @Param
+  backgroundColorValue: ResourceColor = $r("app.color.bg_content");
+  /**
+   * 圆角大小
+   */
+  @Param
+  cornerRadius: Length | undefined = undefined;
+
+  /**
+   * 构建网络图片组件
+   * @returns {void} 无返回值
+   */
+  build(): void {
+    Stack() {
+      if (this.showBackground) {
+        Column()
+          .width(P100)
+          .height(P100)
+          .backgroundColor(this.backgroundColorValue)
+          .borderRadius(this.cornerRadius ?? 0);
+      }
+
+      if (this.model) {
+        Image(this.model)
+          .objectFit(this.imageFit)
+          .borderRadius(this.cornerRadius ?? 0);
+      }
+    }
+    .width(this.sizeValue)
+    .height(this.sizeValue)
+    .borderRadius(this.cornerRadius ?? 0);
+  }
+}
+import { SpaceHorizontalSmall } from "designsystem";
+
+/**
+ * @file 带有垂直装饰线的标题组件
+ * @author Joker.X
+ */
+@ComponentV2
+export struct TitleWithLine {
+  /**
+   * 标题文本
+   */
+  @Param
+  text: string | Resource = "";
+  /**
+   * 文本颜色
+   */
+  @Param
+  textColor: ResourceColor = $r("app.color.text_primary");
+  /**
+   * 装饰线颜色
+   */
+  @Param
+  lineColor: ResourceColor = $r("app.color.primary");
+
+  /**
+   * 构建标题组件
+   * @returns {void} 无返回值
+   */
+  build(): void {
+    Row() {
+      Column()
+        .width($r("app.float.space_padding_small_x"))
+        .height(20)
+        .backgroundColor(this.lineColor)
+        .borderRadius($r("app.float.radius_small_x"));
+
+      SpaceHorizontalSmall();
+
+      Text(this.text)
+        .fontSize($r("app.float.headline_large"))
+        .fontColor(this.textColor)
+        .maxLines(1)
+        .textOverflow({ overflow: TextOverflow.Ellipsis });
+    }
+    .alignItems(VerticalAlign.Center);
+  }
+}
+import { P100 } from "designsystem";
+
+/**
+ * @file 通用卡片容器组件
+ * @author Joker.X
+ */
+@ComponentV2
+export struct Card {
+  /**
+   * 宽度
+   */
+  @Param
+  widthValue: Length | undefined = P100;
+  /**
+   * 高度
+   */
+  @Param
+  heightValue: Length | undefined = undefined;
+  /**
+   * 背景色
+   */
+  @Param
+  bgColor: ResourceColor = $r("app.color.bg_white");
+  /**
+   * 圆角大小
+   */
+  @Param
+  radiusValue: Length = $r("app.float.radius_medium");
+  /**
+   * 内边距
+   */
+  @Param
+  paddingValue: Padding | Length | LocalizedPadding | undefined = undefined;
+  /**
+   * 点击回调
+   */
+  @Param
+  onTap: () => void = () => {
+  };
+  /**
+   * 卡片内容
+   */
+  @Require
+  @BuilderParam
+  content: CustomBuilder;
+
+  /**
+   * 构建卡片视图
+   * @returns {void} 无返回值
+   */
+  build(): void {
+    Column() {
+      if (this.content) {
+        this.content();
+      }
+    }
+    .width(this.widthValue)
+    .height(this.heightValue)
+    .padding(this.paddingValue)
+    .backgroundColor(this.bgColor)
+    .borderRadius(this.radiusValue)
+    .onClick((): void => this.onTap());
+  }
+}
+/**
+ * @file designsystem 模块统一导出
+ * @author Joker.X
+ */
+
+export * from "./src/main/ets/constants/LayoutPercent";
+
+export * from "./src/main/ets/attribute/ColumnAttribute";
+
+export * from "./src/main/ets/attribute/RowAttribute";
+
+export * from "./src/main/ets/attribute/CommonAttribute";
+
+export * from "./src/main/ets/component/Column";
+
+export * from "./src/main/ets/component/Row";
+
+export * from "./src/main/ets/component/Spacer";
+
+export * from "./src/main/ets/component/Scroll";
+/**
+ * @file state 模块统一导出
+ * @author Joker.X
+ */
+
+export { AppNavDestination } from "./src/main/ets/component/navdestination/AppNavDestination";
+
+export { BaseNetWorkView } from "./src/main/ets/component/network/BaseNetWorkView";
+
+export { BaseNetWorkListView } from "./src/main/ets/component/network/BaseNetWorkListView";
+
+export { RefreshLayout } from "./src/main/ets/component/refresh/RefreshLayout";
+
+export { Empty } from "./src/main/ets/component/empty/Empty";
+
+export { EmptyCart } from "./src/main/ets/component/empty/EmptyCart";
+
+export { EmptyData } from "./src/main/ets/component/empty/EmptyData";
+
+export { EmptyError } from "./src/main/ets/component/empty/EmptyError";
+
+export { EmptyNetwork } from "./src/main/ets/component/empty/EmptyNetwork";
+
+export { Card } from "./src/main/ets/component/card/Card";
+
+export { CardTitleCell } from "./src/main/ets/component/card/CardTitleCell";
+
+export { TitleWithLine } from "./src/main/ets/component/title/TitleWithLine";
+
+export { NetWorkImage } from "./src/main/ets/component/image/NetWorkImage";
+
+export { Avatar } from "./src/main/ets/component/image/Avatar";
+
+export { SmallAvatar } from "./src/main/ets/component/image/SmallAvatar";
+
+export { MediumAvatar } from "./src/main/ets/component/image/MediumAvatar";
+
+export { CommonIcon } from "./src/main/ets/component/icon/CommonIcon";
+
+export { LogoIcon } from "./src/main/ets/component/icon/LogoIcon";
+
+export { ArrowLeftIcon } from "./src/main/ets/component/icon/ArrowLeftIcon";
+
+export { ArrowRightIcon } from "./src/main/ets/component/icon/ArrowRightIcon";
+
+export { GoodsListItem } from "./src/main/ets/component/goods/GoodsListItem";
+
+export { GoodsGridItem } from "./src/main/ets/component/goods/GoodsGridItem";
+
+export { AddressCard } from "./src/main/ets/component/address/AddressCard";
+
+export { AddressActionButton } from "./src/main/ets/component/address/AddressActionButton";
+
+export { AppBottomButton } from "./src/main/ets/component/bottombar/AppBottomButton";
+import { BaseNetWorkViewModel } from "base";
+import { GoodsRepository, PageRepository } from "data";
+import { GoodsDetail, NetworkResponse } from "model";
+import { getRouteParams, GoodsIdParam } from "navigation";
+import { GoodsRoutes } from "navigation/src/main/ets/goods/GoodsRoutes";
+
+/**
+ * @file 商品详情页面 ViewModel
+ * @author Joker.X
+ */
+@ObservedV2
+export default class GoodsDetailViewModel extends BaseNetWorkViewModel<GoodsDetail> {
+  /**
+   * 页面仓库
+   */
+  private readonly pageRepository: PageRepository = new PageRepository();
+  /**
+   * 商品仓库
+   */
+  private readonly goodsRepository: GoodsRepository = new GoodsRepository();
+  /**
+   * 路由参数
+   */
+  private readonly routeParam: GoodsIdParam = getRouteParams<GoodsIdParam>(GoodsRoutes.Detail);
+  /**
+   * 商品 ID
+   */
+  private readonly goodsId: number = this.routeParam.goodsId ?? 0;
+
+  /**
+   * 请求商品详情页面数据
+   * @returns {Promise<NetworkResponse<GoodsDetail>>} 商品详情
+   */
+  protected requestRepository(): Promise<NetworkResponse<GoodsDetail>> {
+    return this.pageRepository.getGoodsDetail(this.goodsId);
+  }
+}
+/**
+ * @file 商品评价
+ * @author Joker.X
+ */
+export class Comment {
+  /**
+   * ID
+   */
+  id: number = 0;
+  /**
+   * 用户ID
+   */
+  userId: number = 0;
+  /**
+   * 商品ID
+   */
+  goodsId: number = 0;
+  /**
+   * 订单ID
+   */
+  orderId: number = 0;
+  /**
+   * 内容
+   */
+  content: string = "";
+  /**
+   * 星数
+   */
+  starCount: number = 5;
+  /**
+   * 图片
+   */
+  pics?: string[] | null = null;
+  /**
+   * 用户昵称
+   */
+  nickName?: string | null = null;
+  /**
+   * 用户头像
+   */
+  avatarUrl?: string | null = null;
+  /**
+   * 创建时间
+   */
+  createTime?: string | null = null;
+  /**
+   * 更新时间
+   */
+  updateTime?: string | null = null;
+
+  constructor(init?: Partial<Comment>) {
+    if (!init) {
+      return;
+    }
+    this.id = init.id ?? this.id;
+    this.userId = init.userId ?? this.userId;
+    this.goodsId = init.goodsId ?? this.goodsId;
+    this.orderId = init.orderId ?? this.orderId;
+    this.content = init.content ?? this.content;
+    this.starCount = init.starCount ?? this.starCount;
+    this.pics = init.pics ?? this.pics;
+    this.nickName = init.nickName ?? this.nickName;
+    this.avatarUrl = init.avatarUrl ?? this.avatarUrl;
+    this.createTime = init.createTime ?? this.createTime;
+    this.updateTime = init.updateTime ?? this.updateTime;
+  }
+}
+import { P100, RowSpaceBetweenCenter } from "designsystem";
+
+/**
+ * @file 商品详情底部操作栏组件
+ * @author Joker.X
+ */
+@ComponentV2
+export struct GoodsDetailBottomBar {
+  /**
+   * 构建商品详情底部操作栏
+   * @returns {void} 无返回值
+   */
+  build(): void {
+    RowSpaceBetweenCenter({
+      widthValue: P100,
+      paddingValue: {
+        left: $r("app.float.space_horizontal_medium"),
+        right: $r("app.float.space_horizontal_medium"),
+        top: $r("app.float.space_vertical_small"),
+        bottom: $r("app.float.space_vertical_small")
+      },
+      bgColor: $r("app.color.bg_white")
+    }) {
+      Text("操作栏")
+    }
+  }
+}
+{
+  "name": "goods",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "Index.ets",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "navigation": "file:../../core/navigation",
+    "state": "file:../../core/state",
+    "model": "file:../../core/model",
+    "data": "file:../../core/data",
+    "result": "file:../../core/result",
+    "base": "file:../../core/base",
+    "designsystem": "file:../../core/designsystem",
+    "ui": "file:../../core/ui",
+    "ibestui": "file:../../core/ibestui"
+  }
+}
+/**
+ * @file goods 模块统一导出
+ * @author Joker.X
+ */
+
+export { GoodsGraph } from "./src/main/ets/navigation/GoodsGraph";

@@ -1,0 +1,115 @@
+<file>
+    60→        SpaceHorizontalMedium();
+    61→        this.Thumbnail();
+    62→      }
+    63→    }
+    64→    .id(`goods_comment_item_${this.index}`)
+    65→    .width(P100)
+    66→    .alignItems(VerticalAlign.Top);
+    67→  }
+    68→
+    69→  /**
+    70→   * 买家昵称
+    71→   * @returns {void} 无返回值
+    72→   */
+    73→  @Builder
+    74→  private Nickname(): void {
+    75→    Text(this.getNickName())
+    76→      .id(`goods_comment_nickname_${this.index}`)
+    77→      .fontSize($r("app.float.body_large"))
+    78→      .fontColor($r("app.color.text_primary"))
+    79→      .maxLines(1)
+    80→      .textOverflow({ overflow: TextOverflow.Ellipsis });
+    81→  }
+    82→
+    83→  /**
+    84→   * 星级（只读）
+    85→   * @returns {void} 无返回值
+    86→   */
+    87→  @Builder
+    88→  private StarRating(): void {
+    89→    Rating({ rating: this.getStarCount(), indicator: true })
+    90→      .id(`goods_comment_rating_${this.index}`)
+    91→      .stars(MAX_STAR)
+    92→      .stepSize(1)
+    93→      .height(16)
+    94→      .width(16 * MAX_STAR);
+    95→  }
+    96→
+    97→  /**
+    98→   * 第一张图片缩略图及剩余数量标记
+    99→   * @returns {void} 无返回值
+   100→   */
+   101→  @Builder
+   102→  private Thumbnail(): void {
+   103→    Stack({ alignContent: Alignment.BottomEnd }) {
+   104→      NetWorkImage({
+   105→        model: this.getPics()[0],
+   106→        sizeValue: THUMB_SIZE,
+   107→        imageFit: ImageFit.Cover,
+   108→        showBackground: true,
+   109→        cornerRadius: $r("app.float.radius_small")
+   110→      });
+   111→
+   112→      if (this.getPics().length > 1) {
+   113→        Text(`+${this.getPics().length - 1}`)
+   114→          .id(`goods_comment_thumb_count_${this.index}`)
+   115→          .fontSize($r("app.float.body_medium"))
+   116→          .fontColor($r("app.color.text_white"))
+   117→          .backgroundColor($r("app.color.mask"))
+   118→          .padding({
+   119→            left: $r("app.float.space_padding_small"),
+   120→            right: $r("app.float.space_padding_small"),
+   121→            top: $r("app.float.space_padding_small_x"),
+   122→            bottom: $r("app.float.space_padding_small_x")
+   123→          })
+   124→          .borderRadius({
+   125→            topLeft: $r("app.float.radius_small"),
+   126→            bottomRight: $r("app.float.radius_small")
+   127→          });
+   128→      }
+   129→    }
+   130→    .id(`goods_comment_thumb_${this.index}`)
+   131→    .width(THUMB_SIZE)
+   132→    .height(THUMB_SIZE)
+   133→    .onClick((): void => {
+   134→      this.onImageClick(this.getPics());
+   135→    });
+   136→  }
+   137→
+   138→  /**
+   139→   * 获取有效评价图片（过滤空地址）
+   140→   * @returns {string[]} 图片地址列表
+   141→   */
+   142→  private getPics(): string[] {
+   143→    const pics: string[] | null | undefined = this.comment.pics;
+   144→    if (!pics || pics.length === 0) {
+   145→      return [];
+   146→    }
+   147→    return pics.filter((pic: string): boolean => !!pic && pic.trim().length > 0);
+   148→  }
+   149→
+   150→  /**
+   151→   * 获取展示昵称，为空时显示匿名用户
+   152→   * @returns {string | Resource} 昵称
+   153→   */
+   154→  private getNickName(): string | Resource {
+   155→    const nickName: string = this.comment.nickName?.trim() ?? "";
+   156→    return nickName.length > 0 ? (this.comment.nickName as string) : $r("app.string.anonymous_user");
+   157→  }
+   158→
+   159→  /**
+   160→   * 获取星级，限制在 0～5 之间
+   161→   * @returns {number} 星级
+   162→   */
+   163→  private getStarCount(): number {
+   164→    const starCount: number = Number(this.comment.starCount ?? MAX_STAR);
+   165→    if (isNaN(starCount)) {
+   166→      return MAX_STAR;
+   167→    }
+   168→    return Math.min(Math.max(starCount, 0), MAX_STAR);
+   169→  }
+   170→}
+   171→
+</file>
+<metadata>The file has 171 lines in total.</metadata>

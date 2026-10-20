@@ -1,0 +1,8 @@
+def fetch_detail(goods_id: int) -> dict | None:
+    """主机侧用 curl 请求与应用相同的详情接口（venv 的 Python 缺少 CA 证书）；失败返回 None。"""
+    try:
+        out = subprocess.run(["curl", "-s", "-m", "10", API_DETAIL.format(goods_id)],
+                             capture_output=True, text=True, timeout=15).stdout
+        return json.loads(out).get("data")
+    except Exception:  # noqa: BLE001 - 环境网络问题统一视为无数据
+        return None

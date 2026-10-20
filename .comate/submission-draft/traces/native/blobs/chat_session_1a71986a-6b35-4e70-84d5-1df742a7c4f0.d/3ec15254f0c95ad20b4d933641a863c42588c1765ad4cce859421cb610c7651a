@@ -1,0 +1,28 @@
+## 8. 测试可观测性风险
+
+1. **没有任何稳定 id**：全工程 0 处 `.id()`【代码】。新组件都要补，建议命名见 `spec/acceptance.md` 第 7 节。
+   ibest-ui 组件自带的 key 是运行时生成的（同一个服务卡两次运行分别是 `ibest_cell_785`、`ibest_cell_1484`【运行】），不能作为选择器。
+2. **隐藏状态层一直在 UI 树里**：`BaseNetWorkView`/`BaseNetWorkListView` 用透明度切换状态，成功态下详情页 dump 里仍有 `加载中...`、`网络异常`、`Button` 和 `重试`，且 `visible=true`【运行，详情页与首页都看到】。
+   影响：`BY.type("Button")` 的第一个结果可能是这个隐藏的"重试"，而不是查看器的关闭按钮；断言"页面不出现'网络异常'"会误判。属于基线行为，本阶段不修。
+3. **疑似"重试"点不动**【运行，未完全证实】：首页一次加载失败后，两次点击"重试"按钮中心（按钮 bounds `[196,1717][1112,1871]`），hilog 都没有出现新请求（第二次已关闭日志流控），只有冷启动才恢复。
+   推测原因是透明的内容层叠在 Stack 最上面拦截了点击。详情页 `BaseNetWorkView` 的结构相同（内容层在 `BaseNetWorkView.ets:84-90`，位于最后），推测同样受影响，未在详情页复现。只记录，不在本阶段修。
+4. **同名文本歧义**：
+   - 同一商品可能有多条评价同名（4.3），按昵称只能定位到第一条。
+   - 多条两图评价会出现多个"+1"（830001 前两条）。
+   - "商品评价"目前在详情页上不存在，新增后唯一；`feature/order/src/main/resources/base/element/string.json:29` 也有"商品评价"，但属于订单模块页面，不会同屏出现。
+   - "商品详情"目前在详情页上不存在（标题栏隐藏），新增后唯一。
+   - 页码"1/2"：轮播用圆点指示器，没有文字页码【运行】，不会冲突。
+5. **Image 不可区分**：dump 里没有图片 URL，也没有 objectFit【运行，dump 只有 type/bounds/clickable 等】。
+   详情页已有轮播 Image、优惠券图标、规格图标、箭头图标，按 `BY.type("Image")` 找缩略图会命中别的 Image；"按服务端顺序"只能靠 id 序号和纵坐标间接验证。
+6. **屏幕外节点**：基线详情内容一屏装得下，所以 dump 能看到全部 ListItem；加入评价和长图后，屏幕外 ListItem 是否出现在 dump 里【未验证】，自测要先滚动再查找。
+7. **顶部状态栏**：状态栏窗口占 `[0,0][1308,136]`【运行】，查看器的关闭按钮和页码要避开这个区域，否则可能点不到或被遮挡。
+8. **模态/弹层可见性**：如果查看器用 `bindContentCover` 或 `IBestImagePreview`（openCustomDialog），其内容能否被 `uitest dumpLayout`/Hypium 找到【未验证】，实现第一步就应在模拟器上确认。
+9. **共用 bundleName**：`com.joker.coolmall` 可能被同一上游项目的其他题覆盖安装，每次自测前都要重装本题 HAP（`1-do.md` 已要求）。
+10. **网络波动**：见第 7 节，模拟器 DNS 偶发失败会让首页或详情页落到"网络异常"，而且因为第 3 点很难靠"重试"恢复，自测用例应以冷启动作为恢复手段。
+
+## 9. 本阶段产生的文件
+
+- `spec/acceptance.md`、`spec/baseline-notes.md`（本阶段产出）。
+- `logs/baseline-clean.log`、`logs/baseline-build.log`、`logs/baseline-install.log`（基线构建与安装原始日志，供 `1-do.md` 对比告警）。
+- git 标签 `baseline-cm-spec26`。
+- 探查用的临时截图、布局 dump、接口 JSON 都放在 `/tmp`，结束时已删除；没有改动任何已跟踪文件。

@@ -1,0 +1,24 @@
+#### A8 展示接口返回的全部评价并保持服务端顺序
+
+- 来源：场景一描述"每条评价包含……"
+- 证据等级：REASONABLE_DERIVATION
+- 原子行为：`ForEach` 遍历 `comment` 数组，不排序、不过滤、不截断。
+- 可观察结果：条目数等于响应 `comment.length`（公共数据每个商品都是 5 条【运行】），第 i 个条目的昵称/正文与 `comment[i]` 一致。
+- 八维度：
+  - 入口：C1。
+  - 前置数据：comment 多条。
+  - 用户动作：滚动浏览全部条目。
+  - UI 结果：条目从上到下的顺序与数组顺序一致。
+  - 数据结果：不适用，不去重（同名昵称是不同评价）。
+  - 网络结果：不做分页加载，不请求 `goods/comment/page`。
+  - 返回结果：不适用。
+  - 边界条件：ForEach 的 key 要用 `id + index`，不能只用昵称（会重复）；评价条数更多时（比如官方数据 10 条）同样全部显示【推断】。
+- 稳定选择器：`goods_comment_item_{i}`。
+
+#### A9 昵称缺失时的兜底
+
+- 来源：基线资源已有 `anonymous_user`="匿名用户"（`feature/goods/src/main/resources/base/element/string.json:128-129`）【代码】
+- 证据等级：REASONABLE_DERIVATION（Spec 未写，属于防崩溃和可读性兜底）
+- 原子行为：nickName 为 null、undefined 或空串时显示"匿名用户"。
+- 可观察结果：Text "匿名用户"。
+- 八维度：入口 C1；前置数据为 nickName 为空的评价（公共数据中没有【运行】，只能靠单测或模拟数据覆盖）；用户动作为滚动；UI 结果为"匿名用户"；数据结果不适用；网络结果同 A2；返回结果不适用；边界条件：纯空

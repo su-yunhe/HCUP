@@ -1,0 +1,17 @@
+    def request_count(self, path: str) -> int:
+        """统计 LogInterceptor 打印的请求数。日志按行拆分：'[Network] Request' 之后的 'url=' 行才是请求，
+        '[Network] Response' 之后的 'url=' 行是响应，不计数。"""
+        log = self.driver.shell("hilog -x -T NetLog", timeout=30)
+        count, in_request = 0, False
+        for ln in log.splitlines():
+            if "[Network] " in ln:
+                in_request = "[Network] Request" in ln
+            elif in_request and "url=" in ln and path in ln:
+                count += 1
+        return count
+
+    def detail_request_count(self) -> int:
+        return self.request_count("page/goodsDetail")
+
+    def comment_page_request_count(self) -> int:
+        return self.request_count("comment/page")

@@ -1,0 +1,24 @@
+### 4.2 状态模型
+
+- 状态管理全用 V2：`@ComponentV2` + `@Local`/`@Param`，ViewModel 用 `@ObservedV2` + `@Trace`【代码】。
+- `GoodsDetailViewModel extends BaseNetWorkViewModel<GoodsDetail>`（`feature/goods/src/main/ets/viewmodel/GoodsDetailViewModel.ets:12`），`requestRepository()` 返回 `pageRepository.getGoodsDetail(goodsId)`（`:34-36`）。
+- `BaseNetWorkViewModel`（`core/base/src/main/ets/viewmodel/BaseNetWorkViewModel.ets`）：`@Trace uiState`（`:17-18`）、`@Trace data: T | null`（`:22-23`）；`aboutToAppear` 发请求（`:39-41`）；成功时直接 `this.data = data`（`:69-72`）。
+  所以 `vm.data` 是 axios 解析出来的原始 JSON，不是 `GoodsDetail`/`Comment` 实例，模型里的默认值（例如 `starCount = 5`）不会生效【代码推断】。
+- VM 生命周期由 `AppNavDestination` 转发（`core/ui/src/main/ets/component/navdestination/AppNavDestination.ets:73-136`）；`onShown`/`onHidden` 在 `BaseViewModel` 里是空实现（`core/base/src/main/ets/viewmodel/BaseViewModel.ets:55-64`），页面重新显示不会刷新数据。
+- `BaseNetWorkView`（`core/ui/src/main/ets/component/network/BaseNetWorkView.ets:62-91`）把加载、错误、内容三层叠在一个 Stack 里，只用 `opacity` 切换，三层节点一直存在。content 在 LOADING 时就会 build，此时 `vm.data` 为 null。
+
+### 4.3 数据模型
+
+- `GoodsDetail`（`core/model/src/main/ets/entity/GoodsDetail.ets:9-31`）：`goodsInfo: Goods`、`coupon: Coupon[]`、`comment: Comment[]`（`:21`）。
+- `Comment`（`core/model/src/main/ets/entity/Comment.ets:5-67`）：`id`、`userId`、`goodsId`、`orderId`、`content`（`:25`）、`starCount`（`:29`，默认 5）、`pics?: string[] | null`（`:33`）、`nickName?`（`:37`）、`avatarUrl?`（`:41`）、`createTime?`、`updateTime?`。
+- `Goods.contentPics?: string[] | null`（`core/model/src/main/ets/entity/Goods.ets:47`）；`content`（`:43`）注释为"详情富文本（已弃用）"。
+- 本题需要的字段全都已有，不需要改模型【代码】。
+
+接口真实数据【运行，2026-10-19 用 curl 请求公共服务 `page/goodsDetail` 与 `goods/info/page`，共 51 个商品】：
+
+- 每个商品都有 5 条评价，每条图片数 0～3 张；`pics` 无图时是 `[]`，不是 null。
+- 评价字段齐全：`id/createTime/updateTime/userId/goodsId/orderId/content/starCount/pics/nickName/avatarUrl`；nickName、avatarUrl、content 都不为空；content 长度 5～240 字。
+- starCount 只出现 4 和 5（830016 第 2 条、830048 第 5 条为 4 星）。
+- 有两图评价的商品很多；830001 "Xiaomi 17T Pro"（首页限时精选第一个）前两条都是 2 张图，第 3～5 条各 1 张。
+- 全部无图的商品：830016 "REDMI Note 17 Pro"、830047、830048；部分无图：830018。
+- 同一商品内昵称重复：830001、830003、830004、830012、830013、830014

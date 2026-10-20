@@ -1,0 +1,106 @@
+import { P100, RowEndCenter } from "designsystem";
+
+/**
+ * @file 评价图片全屏查看器组件
+ * @author Joker.X
+ */
+@ComponentV2
+export struct CommentImageViewer {
+  /**
+   * 当前评价的完整图片列表
+   */
+  @Param
+  pics: string[] = [];
+  /**
+   * 顶部安全区高度（vp）
+   */
+  @Param
+  topInset: number = 0;
+  /**
+   * 底部安全区高度（vp）
+   */
+  @Param
+  bottomInset: number = 0;
+  /**
+   * 关闭回调
+   */
+  @Param
+  onClose: () => void = (): void => {
+  };
+  /**
+   * 当前显示的图片下标
+   */
+  @Local
+  private currentIndex: number = 0;
+
+  /**
+   * 构建全屏图片查看器
+   * @returns {void} 无返回值
+   */
+  build(): void {
+    Stack({ alignContent: Alignment.Top }) {
+      Swiper() {
+        ForEach(this.pics, (pic: string, index: number): void => {
+          Image(pic)
+            .id(`comment_image_viewer_image_${index}`)
+            .width(P100)
+            .height(P100)
+            .objectFit(ImageFit.Contain);
+        }, (pic: string, index: number): string => `${pic}-${index}`);
+      }
+      .id("comment_image_viewer_swiper")
+      .index(this.currentIndex)
+      .loop(false)
+      .autoPlay(false)
+      .indicator(false)
+      .width(P100)
+      .height(P100)
+      .margin({ bottom: this.bottomInset })
+      .onAnimationStart((index: number, targetIndex: number): void => {
+        this.currentIndex = targetIndex;
+      })
+      .onChange((index: number): void => {
+        this.currentIndex = index;
+      });
+
+      this.TopBar();
+    }
+    .id("comment_image_viewer")
+    .width(P100)
+    .height(P100)
+    .backgroundColor(Color.Black);
+  }
+
+  /**
+   * 顶部页码与关闭按钮
+   * @returns {void} 无返回值
+   */
+  @Builder
+  private TopBar(): void {
+    Stack() {
+      Text(`${this.currentIndex + 1}/${this.pics.length}`)
+        .id("comment_image_viewer_indicator")
+        .fontSize($r("app.float.body_large"))
+        .fontColor($r("app.color.text_white"));
+
+      RowEndCenter({ widthValue: P100 }) {
+        Button($r("app.string.modal_close"))
+          .id("comment_image_viewer_close")
+          .accessibilityText($r("app.string.modal_close"))
+          .fontSize($r("app.float.body_medium"))
+          .fontColor($r("app.color.text_white"))
+          .backgroundColor($r("app.color.mask"))
+          .onClick((): void => {
+            this.onClose();
+          });
+      }
+    }
+    .width(P100)
+    .padding({
+      left: $r("app.float.space_horizontal_medium"),
+      right: $r("app.float.space_horizontal_medium"),
+      top: this.topInset + 8,
+      bottom: $r("app.float.space_vertical_small")
+    });
+  }
+}

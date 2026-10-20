@@ -1,0 +1,7 @@
+  /**
+   * 请求商品详情页面数据
+   * @returns {Promise<NetworkResponse<GoodsDetail>>} 商品详情
+   */
+  protected requestRepository(): Promise<NetworkResponse<GoodsDetail>> {
+    return this.pageRepository.getGoodsDetail(this.goodsId);
+  }

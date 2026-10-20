@@ -1,0 +1,61 @@
+class TestDetailImages(GoodsDetailCase):
+    """场景三：'商品详情'分隔标题与详情长图。"""
+
+    def test_06_detail_title_after_comments(self) -> None:
+        """A16：'商品详情'标题位于评价区域之后，且唯一。"""
+        self.open_detail()
+        self.bring_into_view(BY.key("goods_comment_item_4"), "最后一条评价不存在")
+        last = rect(self.require_component(BY.key("goods_comment_item_4"), "最后一条评价不存在", 3))
+        title = self.scroll_find(BY.text("商品详情"), "滚动后找不到'商品详情'")
+        self.assertGreater(rect(title)[1], last[3] - 1, "'商品详情'不在评价区域之后")
+        self.assertEqual(len(self.driver.find_all_components(BY.text("商品详情")) or []), 1, "'商品详情'不唯一")
+
+    def test_07_detail_images_in_server_order(self) -> None:
+        """A17/A18/A19：标题下方按顺序渲染全宽详情图，占位高度按图片比例且非 0。"""
+        data = fetch_detail(GOODS_TWO_PICS[1])
+        self.open_detail()
+        title = self.bring_into_view(BY.text("商品详情"), "找不到'商品详情'")
+        title_bottom = rect(title)[3]
+        lleft, _, lright, _ = self.list_rect()
+        first = self.require_component(BY.key("goods_detail_image_0"), "标题下方没有详情图片")
+        self.assertEqual(first.getType(), "Image")
+        fl, ft, fr, fb = rect(first)
+        self.assertGreaterEqual(ft, title_bottom, "第一张详情图不在标题下方")
+        self.assertEqual((fl, fr), (lleft, lright), "详情图不是全宽")
+        self.assertGreater(fb - ft, 0, "详情图高度为 0")
+        prev_top = ft
+        for i in (1, 2):
+            img = self.bring_into_view(BY.key(f"goods_detail_image_{i}"), f"第 {i} 张详情图不存在")
+            l, t, r, b = rect(img)
+            self.assertEqual((l, r), (lleft, lright), f"第 {i} 张详情图不是全宽")
+            self.assertGreater(b - t, 0)
+            pics = (data or {}).get("goodsInfo", {}).get("contentPics") or []
+            m = re.search(r"[?&]w=(\d+)&h=(\d+)", pics[i]) if len(pics) > i else None
+            if m:
+                expect = (r - l) * int(m.group(2)) / int(m.group(1))
+                self.assertAlmostEqual(b - t, expect, delta=expect * 0.05, msg=f"第 {i} 张详情图高度与比例不符")
+            self.assertGreater(t, prev_top - 1 if i > 1 else -1)
+            prev_top = t
+
+    def test_08_scroll_to_last_detail_image(self) -> None:
+        """A20：可以一直滚动到最后一张详情图，最后一张不被底部操作栏遮挡。"""
+        data = fetch_detail(GOODS_TWO_PICS[1])
+        pics = (data or {}).get("goodsInfo", {}).get("contentPics") or []
+        self.require_precondition(len(pics) > 0, "主机取不到 contentPics，无法确定最后一张序号")
+        self.open_detail()
+        lst = self.require_component(BY.key(LIST_KEY), "详情 List 不存在")
+        last_key = f"goods_detail_image_{len(pics) - 1}"
+        for _ in range(6):
+            lst.scrollToBottom()
+            self.driver.wait(1.5)
+            if self.driver.find_component(BY.key(last_key)) is not None:
+                break
+        last = self.require_component(BY.key(last_key), "滚到底部后看不到最后一张详情图", 5)
+        _, _, _, lbottom = self.list_rect()
+        bar = self.require_text("操作栏", "底部操作栏不存在", 3)
+        self.assertLessEqual(rect(last)[3], rect(bar)[1], "最后一张详情图被底部操作栏遮挡")
+        self.assertLessEqual(rect(last)[3], lbottom)
+        self.assertIsNone(self.driver.find_component(BY.key(f"goods_detail_image_{len(pics)}")), "详情图多于接口返回")
+
+
+# __TESTS_PLACEHOLDER__

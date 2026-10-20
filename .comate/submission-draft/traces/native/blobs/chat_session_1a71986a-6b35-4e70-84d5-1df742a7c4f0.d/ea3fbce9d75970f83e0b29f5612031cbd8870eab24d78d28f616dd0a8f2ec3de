@@ -1,0 +1,43 @@
+## 3. Spec 描述的入口在哪
+
+运行实证【运行，2026-10-19】：冷启动后首页"限时精选"第一个商品是 `Xiaomi 17T Pro`（bounds `[42,1834][462,2425]`）；点击后进入商品详情页，hilog `NetLog` 记录到且只记录到 1 次 `GET https://mall.dusksnow.top/app/page/goodsDetail`，`status=200`；按 Back 回到首页。
+
+| 环节 | 位置 | 说明 |
+| --- | --- | --- |
+| 首页入口①限时精选 | `feature/main/src/main/ets/view/HomePage.ets:72-79`（`onGoodsClick` → `GoodsNavigator.toDetail(id)` 在 `:75-77`） | 横向 List，实测已点通【运行】 |
+| 首页入口②推荐商品 | `feature/main/src/main/ets/view/HomePage.ets:89-94` | `GoodsListItem.onItemClick`（`core/ui/src/main/ets/component/goods/GoodsListItem.ets:38`） |
+| 首页入口③全部商品 | `feature/main/src/main/ets/view/HomePage.ets:112-117` | `GoodsGridItem.onItemClick`（`core/ui/src/main/ets/component/goods/GoodsGridItem.ets:43`） |
+| "我的"足迹入口 | `feature/main/src/main/ets/view/MePage.ets:439` | 只有 `recentFootprints.length > 0` 才渲染（`MePage.ets:105-107`），而 `MeViewModel.ets:38` 只声明为 `[]`、没有任何赋值【代码】，所以基线里实际不可达 |
+| 跳转封装 | `core/navigation/src/main/ets/goods/GoodsNavigator.ets:16-19` | 参数 `GoodsIdParam { goodsId }`（`core/navigation/src/main/ets/NavigationParam.ets:9`） |
+| 跳转实现 | `core/navigation/src/main/ets/NavigationService.ets:51-78` | `NavPathStack.pushPath`；`goods/detail` 不在登录拦截列表（`RouteInterceptor.ts:16-37`） |
+| 路由名 | `core/navigation/src/main/ets/goods/GoodsRoutes.ts:9` | `"goods/detail"` |
+| 路由注册 | `feature/goods/src/main/ets/navigation/GoodsGraph.ets:17`；`entry/src/main/ets/entryability/EntryAbility.ets:106` | `RouteBuild.register(GoodsRoutes.Detail, wrapBuilder(GoodsDetailNav))` |
+| 导航宿主 | `entry/src/main/ets/navigation/NavigationHost.ets:36-43` | `Navigation(...).mode(NavigationMode.Stack).navDestination(PagesMap)` |
+| 页面 Builder | `feature/goods/src/main/ets/navigation/GoodsDetailNav.ets:8-11` | 直接构建 `GoodsDetailPage()` |
+| 目标页面 | `feature/goods/src/main/ets/view/GoodsDetailPage.ets:16-97` | Spec 要求接入的 `GoodsDetailPage` |
+| 页面参数读取 | `feature/goods/src/main/ets/viewmodel/GoodsDetailViewModel.ets:24-28` → `NavigationService.ets:192-204` | `getParamByName(name)[0]` 取的是栈里第一个同名路由的参数【代码】，详情页套详情页时第二层会拿到第一层的 goodsId（基线问题，本题只记录） |
+
+返回：详情页 `hideTitleBar: true`（`GoodsDetailPage.ets:39`），没有返回按钮，只能靠系统 Back 或手势【运行】。
+
+## 4. 相关现状
+
+### 4.1 页面组件
+
+`GoodsDetailPage`（`feature/goods/src/main/ets/view/GoodsDetailPage.ets`）【代码】：
+
+- `build()`（`:37-52`）：`AppNavDestination` → `BaseNetWorkView({ uiState, onRetry, content })`。
+- `GoodsDetailContent()`（`:58-64`）：`ColumnStart` 里依次是 `GoodsDetailList()` 和 `GoodsDetailBottomBar()`。
+- `GoodsDetailList()`（`:70-96`）：`List` 里 3 个 `ListItem`，依次为 `GoodsBanner`（`:73-80`，`pics`，`aspectRatio(1)`）、`GoodsInfoCard`（`:82-87`）、`GoodsShippingServiceCard`（`:89-91`）。
+  List 没有 `scroller`、没有 `.id()`，`layoutWeight(1)`。**新的评价卡片、详情标题、详情图片要按顺序加在 `:91` 之后。**
+- `breakpointState`（`:30-31`）已声明但没有使用。
+
+实测详情页布局【运行，1308×2880】：List `[0,137][1308,2758]`；轮播 ListItem `[0,137][1308,1308]`；信息卡 `[0,1308][1308,2132]`；服务卡 `[0,2132][1308,2610]`；底栏"操作栏" `[42,2786][210,2852]`。
+基线内容总高 2473px，一屏装得下，List 滑不动；新增的"商品评价"会从 y≈2610 开始，在首屏底部边缘，需要滚动才能看全。
+
+已有子组件【代码】：
+
+- `feature/goods/src/main/ets/component/GoodsBanner.ets`：Swiper + `ForEach` 图片，圆点指示器。
+- `feature/goods/src/main/ets/component/GoodsInfoCard.ets`：`Card` 包价格、优惠券、标题、副标题、规格行。
+- `feature/goods/src/main/ets/component/GoodsShippingServiceCard.ets`：外层 `ColumnStart` 左右 `space_horizontal_medium`、上 `space_vertical_medium` 内边距（`:16-23`），`IBestCellGroup` + 标题 `TitleWithLine("发货与服务")`（`:58-61`）。新卡片可以照这个外边距和标题样式写，保持视觉一致。
+- `feature/goods/src/main/ets/component/GoodsDetailBottomBar.ets`：占位，只有文字"操作栏"（`:24`）。
+<!-- APPEND_MARK -->

@@ -1,0 +1,172 @@
+Command executed successfully.
+Exit code: 0
+Output:
+     1	import { AuthRoutes } from "./auth/AuthRoutes";
+     2	import { UserRoutes } from "./user/UserRoutes";
+     3	import { OrderRoutes } from "./order/OrderRoutes";
+     4	import { CsRoutes } from "./cs/CsRoutes";
+     5	import { MarketRoutes } from "./market/MarketRoutes";
+     6	import { FeedbackRoutes } from "./feedback/FeedbackRoutes";
+     7	
+     8	/**
+     9	 * @file 路由拦截配置（登录校验）
+    10	 * @author Joker.X
+    11	 */
+    12	
+    13	/**
+    14	 * 受保护路由名称列表
+    15	 */
+    16	const PROTECTED_ROUTES = [
+    17	  // 用户模块
+    18	  UserRoutes.Profile,
+    19	  UserRoutes.AddressList,
+    20	  UserRoutes.AddressDetail,
+    21	  UserRoutes.Footprint,
+    22	  // 订单模块
+    23	  OrderRoutes.List,
+    24	  OrderRoutes.Confirm,
+    25	  OrderRoutes.Detail,
+    26	  OrderRoutes.Pay,
+    27	  OrderRoutes.Refund,
+    28	  OrderRoutes.Comment,
+    29	  OrderRoutes.Logistics,
+    30	  // 客服模块
+    31	  CsRoutes.Chat,
+    32	  // 营销模块
+    33	  MarketRoutes.Coupon,
+    34	  // 反馈模块
+    35	  FeedbackRoutes.List,
+    36	  FeedbackRoutes.Submit
+    37	] as const;
+    38	
+    39	/**
+    40	 * 受保护路由名称的联合类型
+    41	 */
+    42	export type ProtectedRouteName = typeof PROTECTED_ROUTES[number];
+    43	
+    44	/**
+    45	 * 需要登录的路由集合
+    46	 */
+    47	const loginRequiredRouteNames: Set<ProtectedRouteName> = new Set<ProtectedRouteName>(PROTECTED_ROUTES);
+    48	
+    49	/**
+    50	 * 判断路由是否需要登录
+    51	 * @param {string} routeName - 路由名称
+    52	 * @returns {boolean} true表示需要登录
+    53	 */
+    54	export function requiresLogin(routeName: string): boolean {
+    55	  return loginRequiredRouteNames.has(routeName as ProtectedRouteName);
+    56	}
+    57	
+    58	/**
+    59	 * 获取登录页路由名称
+    60	 * @returns {ProtectedRouteName} 登录页路由
+    61	 */
+    62	export function getLoginRoute(): ProtectedRouteName {
+    63	  return AuthRoutes.Login as ProtectedRouteName;
+    64	}
+    65	
+    66	/**
+    67	 * 获取所有需要登录的路由名称
+    68	 * @returns {ProtectedRouteName[]} 需要登录的路由列表
+    69	 */
+    70	export function getLoginRequiredRoutes(): ProtectedRouteName[] {
+    71	  return Array.from(loginRequiredRouteNames);
+    72	}
+    73	
+    74	/**
+    75	 * 新增需要登录的路由名称
+    76	 * @param {ProtectedRouteName} routeName - 路由名称
+    77	 * @returns {void} 无返回值
+    78	 */
+    79	export function addLoginRequiredRoute(routeName: ProtectedRouteName): void {
+    80	  loginRequiredRouteNames.add(routeName);
+    81	}
+    82	
+    83	/**
+    84	 * 移除需要登录的路由名称
+    85	 * @param {ProtectedRouteName} routeName - 路由名称
+    86	 * @returns {void} 无返回值
+    87	 */
+    88	export function removeLoginRequiredRoute(routeName: ProtectedRouteName): void {
+    89	  loginRequiredRouteNames.delete(routeName);
+    90	}
+     1	import axios, { AxiosInstance, AxiosResponse, AxiosError } from '@ohos/axios';
+     2	
+     3	import { setupInterceptors } from './interceptors/AppInterceptors';
+     4	
+     5	/**
+     6	 * 网络客户端
+     7	 * 管理 Axios 实例和拦截器配置。
+     8	 * @author Joker.X
+     9	 */
+    10	export class NetworkClient {
+    11	  // 单例实例
+    12	  private static instance: NetworkClient;
+    13	  // Axios 实例
+    14	  private axiosInstance: AxiosInstance;
+    15	  // 基础 URL
+    16	  private readonly BASE_URL = 'https://mall.dusksnow.top/app/';
+    17	
+    18	  private constructor() {
+    19	    this.axiosInstance = axios.create({
+    20	      baseURL: this.BASE_URL,
+    21	      timeout: 10000,
+    22	      headers: {
+    23	        'Content-Type': 'application/json'
+    24	      }
+    25	    });
+    26	    // 初始化拦截器
+    27	    setupInterceptors(this.axiosInstance);
+    28	  }
+    29	
+    30	  /**
+    31	   * 获取 NetworkClient 单例
+    32	   */
+    33	  public static getInstance(): NetworkClient {
+    34	    if (!NetworkClient.instance) {
+    35	      NetworkClient.instance = new NetworkClient();
+    36	    }
+    37	    return NetworkClient.instance;
+    38	  }
+    39	
+    40	  /**
+    41	   * 获取 Axios 实例
+    42	   */
+    43	  public getAxios(): AxiosInstance {
+    44	    return this.axiosInstance;
+    45	  }
+    46	
+    47	  /**
+    48	   * 静态访问属性，方便直接通过 NetworkClient.http 调用
+    49	   */
+    50	  public static get http(): AxiosInstance {
+    51	    return NetworkClient.getInstance().getAxios();
+    52	  }
+    53	}
+    54	
+    55	export { AxiosResponse, AxiosError };
+core/network/src/main/ets/NetworkClient.ets
+
+core/network/src/main/ets:
+NetworkClient.ets
+datasource
+interceptors
+
+core/network/src/main/ets/datasource:
+address
+auth
+banner
+common
+coupon
+cs
+feedback
+goods
+order
+page
+usercontributor
+userinfo
+
+core/network/src/main/ets/interceptors:
+AppInterceptors.ets
+LogInterceptor.ets

@@ -1,0 +1,15 @@
+class TestCommentSection(GoodsDetailCase):
+    """场景一、二：商品评价区域、星级、缩略图与 +N 标记。"""
+
+    def test_01_comment_section_after_service(self) -> None:
+        """A1/A3/A4：从首页入口进入，'商品评价'位于发货与服务之后，可滚动到达。"""
+        self.open_detail()
+        service = self.require_text("服务", "服务行不存在")
+        title = self.scroll_find(BY.text("商品评价"), "滚动后找不到'商品评价'")
+        self.assertEqual(len(self.driver.find_all_components(BY.text("商品评价")) or []), 1, "'商品评价'不唯一")
+        self.assertGreater(rect(title)[1], rect(service)[1], "'商品评价'不在服务信息之后")
+        _, ltop, _, lbottom = self.list_rect()
+        self.assertTrue(ltop <= rect(title)[1] < lbottom, "'商品评价'不在详情 List 可视区内")
+
+    def test_02_nickname_rating_content_match_api(self) -> None:
+        """A2/A5/A6/A7

@@ -1,0 +1,10 @@
+class TestDetailImages(GoodsDetailCase):
+    """场景三：'商品详情'分隔标题与详情长图。"""
+
+    def test_06_detail_title_after_comments(self) -> None:
+        """A16：'商品详情'标题位于评价区域之后，且唯一。"""
+        self.open_detail()
+        self.bring_into_view(BY.key("goods_comment_item_4"), "最后一条评价不存在")
+        last = rect(self.require_component(BY.key("goods_comment_item_4"), "最后一条评价不存在", 3))
+        title = self.scroll_find(BY.text("商品详情"), "滚动后找不到'商品详情'")
+        self.assertGreater(r

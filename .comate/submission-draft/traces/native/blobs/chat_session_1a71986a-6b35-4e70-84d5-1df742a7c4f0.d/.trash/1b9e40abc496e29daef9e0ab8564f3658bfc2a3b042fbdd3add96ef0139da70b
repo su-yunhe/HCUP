@@ -1,0 +1,15 @@
+# cm-spec26 基线理解结论
+
+标注约定：【Spec】需求原文；【代码】读代码得到，附 `文件:行号`；【运行】在基线 HAP + 模拟器上实测；【推断】推测；【未验证】尚未确认。
+本阶段没有修改任何业务代码。
+
+## 1. 基线快照标识
+
+| 项 | 值 | 来源 |
+| --- | --- | --- |
+| 题包 `base_commit` | `b2f0caacd0a9461648d06073abcbdcda79420f57`（"Harmony Cup sanitized baseline snapshot"） | `spec/metadata.json:2` |
+| 已有标签 `base/cm-spec26` | 指向 `b2f0caa` | `git rev-parse base/cm-spec26`【运行】 |
+| 当前 HEAD（分支 `dev`） | `156af4dffb73d1665b87efa46976da5e504d2052` | `git rev-parse HEAD`【运行】 |
+| 本阶段新打标签 `baseline-cm-spec26` | 指向 `156af4d`（2026-10-19 打） | `git tag baseline-cm-spec26 HEAD`【运行】 |
+
+`156af4d` 相对 `b2f0caa` 只改了依赖：22 个 `oh-package-lock.json5`，另外 `core/ibestui/oh-package.json5:9` 把 `@ibestservices/ibest-ui-v2` 从 `^1.0.8` 固定为 
