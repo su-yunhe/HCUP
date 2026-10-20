@@ -13,7 +13,7 @@ import { UserGraph } from 'user';
 import { OrderGraph } from 'order';
 import { MarketGraph } from 'market';
 import { IBestORMInit } from 'database';
-import { ContextUtil, PermissionUtils } from 'util';
+import { ContextUtil } from 'util';
 
 const DOMAIN = 0x0000;
 
@@ -51,10 +51,6 @@ export default class EntryAbility extends UIAbility {
     await this.initIBestORM();
     windowStage.loadContent('view/EntryPage', (_) => {
       this.initIBestUI(windowStage);
-      const permissionCli = new PermissionUtils();
-      permissionCli.requestAudioPermission((granted: boolean) => {
-        hilog.info(DOMAIN, 'testTag', 'requestAudioPermission: %{public}d', granted);
-      })
     });
   }
 

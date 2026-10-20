@@ -1,132 +1,121 @@
-import { AppNavDestination } from "ui";
-import { NotificationBasicOptions, NotificationLongTextOptions,
-  NotificationMultiLineOptions,
-  NotificationPictureOptions,
-  NotificationTemplateOptions,
-  NotificationUtil } from "util";
-import MainViewModel from "../viewmodel/MainViewModel";
+import { AppNavDestination } from 'ui';
+import MainViewModel from '../viewmodel/MainViewModel';
+import { HomePage } from './HomePage';
+import { CategoryPage } from './CategoryPage';
+import { CartPage } from './CartPage';
+import { MePage } from './MePage';
+import { TabLottieIcon } from '../component/TabLottieIcon';
 
-/**
- * @file 主页面视图
- * @author Joker.X
- */
+interface MainSnapshot { selectedIndex: number; selectionEpoch: number; instanceId: string; }
+
 @ComponentV2
 export struct MainPage {
-  /**
-   * 主页面 ViewModel
-   */
-  @Local
-  private vm: MainViewModel = new MainViewModel();
+  @Local private vm: MainViewModel = new MainViewModel();
+  private pager: SwiperController = new SwiperController();
+  private homeScroller: Scroller = new Scroller();
+  private pagerBusy: boolean = false;
+  private requestInFlight: boolean = false;
+  private pendingTab: number = -1;
+  private instanceId: string = `main-${Date.now()}`;
 
-  /**
-   * 构建主页面
-   * @returns {void} 无返回值
-   */
-  build() {
-    AppNavDestination({
-      title: "主页面",
-      viewModel: this.vm
-    }) {
-      this.MainContent();
-    }
+  private diagnostic(): string {
+    const state: MainSnapshot = { selectedIndex: this.vm.selectedIndex,
+      selectionEpoch: this.vm.selectionEpoch, instanceId: this.instanceId };
+    return JSON.stringify(state);
   }
 
-  /**
-   * 主页面内容视图
-   * @returns {void} 无返回值
-   */
+  private requestTab(index: number): void {
+    if (this.pagerBusy || this.requestInFlight) {
+      this.pendingTab = index;
+      return;
+    }
+    if (index === this.vm.selectedIndex) {
+      if (index === 0) {
+        this.homeScroller.scrollTo({ xOffset: 0, yOffset: 0,
+          animation: { duration: 260, curve: Curve.EaseOut } });
+      }
+      return;
+    }
+    this.requestInFlight = true;
+    this.pager.changeIndex(index, false);
+  }
+
+  private drainPending(): void {
+    if (this.pagerBusy || this.requestInFlight || this.pendingTab < 0) {
+      return;
+    }
+    const next: number = this.pendingTab;
+    this.pendingTab = -1;
+    this.requestTab(next);
+  }
+
   @Builder
-  private MainContent() {
-    Text("主页面内容视图")
-    Column() {
-      Button("申请发送通知权限，未授权则拉起一次二次授权申请").onClick(async()=>{
-        NotificationUtil.Permission.requestPermission((grant) => {
-          if (!grant) {
-            NotificationUtil.Permission.openSettings();
-          }
+  private Tab(index: number, key: string, label: string) {
+    Column({ space: 3 }) {
+      TabLottieIcon({ tabKey: key, selected: this.vm.selectedIndex === index,
+        selectionEpoch: this.vm.selectionEpoch, instanceId: this.instanceId })
+      Text(label)
+        .id(`main_tab_${key}_text`)
+        .fontSize(12)
+        .fontWeight(this.vm.selectedIndex === index ? FontWeight.Medium : FontWeight.Regular)
+        .fontColor(this.vm.selectedIndex === index ? '#000000' : '#808080')
+    }
+    .id(`main_tab_${key}`)
+    .layoutWeight(1)
+    .height(60)
+    .justifyContent(FlexAlign.Center)
+    .accessibilityText(`${label}${this.vm.selectedIndex === index ? '，已选中' : ''}`)
+    .accessibilityDescription(`{"selected":${this.vm.selectedIndex === index}}`)
+    .onClick(() => this.requestTab(index))
+  }
+
+  build() {
+    AppNavDestination({ viewModel: this.vm, hideTitleBar: true, pageBackgroundColor: '#F6F7F8' }) {
+      Column() {
+        Swiper(this.pager) {
+          HomePage({ embedded: true, scroller: this.homeScroller })
+          CategoryPage({ embedded: true })
+          CartPage({ embedded: true })
+          MePage({ embedded: true })
+        }
+        .id('main_content_pager')
+        .width('100%')
+        .layoutWeight(1)
+        .index(this.vm.selectedIndex)
+        .loop(false)
+        .indicator(false)
+        .autoPlay(false)
+        .cachedCount(3)
+        .vertical(false)
+        .duration(260)
+        .accessibilityDescription(this.diagnostic())
+        .onChange((index: number) => {
+          this.vm.commitSelection(index);
+          this.requestInFlight = false;
+          this.drainPending();
         })
-      })
-      Button("预设默认配置").onClick(async()=>{
-        const smallIcon = await NotificationUtil.Tools.createCompressedIcon($r("app.media.notify_test_1"));
-        const largeIcon = await NotificationUtil.Tools.createCompressedIcon($r("app.media.notify_test_3"));
-        const picture = await NotificationUtil.Tools.createCompressedImage($r("app.media.notify_test_3"));
-        const wantAgent = await NotificationUtil.Tools.getSelfWantAgent();
-        NotificationUtil.PresetConfig((config) => {
-          config.wantAgent = wantAgent
-          config.removeRedirectWantAgent = wantAgent
-          config.smallIcon = smallIcon
-          config.largeIcon = largeIcon
-          config.showStatusBarIcon = true
-          config.autoDismissOnTap = true
-          config.supplementaryContent = "默认配置"
-          config.lockscreenDisplayImage = picture
+        .onAnimationStart(() => { this.pagerBusy = true; })
+        .onAnimationEnd(() => {
+          this.pagerBusy = false;
+          this.requestInFlight = false;
+          this.drainPending();
         })
-      })
-      Button("发送文本消息").onClick(async()=>{
-        const options: NotificationBasicOptions = {
-          mainTitle: "通知标题",
-          mainContent: "通知内容"
+        Row() {
+          this.Tab(0, 'home', '首页');
+          this.Tab(1, 'category', '分类');
+          this.Tab(2, 'cart', '购物车');
+          this.Tab(3, 'me', '我的');
         }
-        const id = await NotificationUtil.Sender.sendText(options);
-        console.log("Notification sendText", id);
-      })
-      Button("发送长文本消息").onClick(async()=>{
-        const options: NotificationLongTextOptions = {
-          mainTitle: "通知标题",
-          mainContent: "通知内容",
-          summaryText: "摘要，对长文本内容的总结",
-          detailedLongContent: "展开后显示的全部内容",
-          expandedDisplayTitle: "通知展开的标题"
-        }
-        const id = await NotificationUtil.Sender.sendLongText(options);
-        console.log("Notification sendLongText", id);
-      })
-      Button("发送多行文本消息").onClick(async()=>{
-        const options: NotificationMultiLineOptions = {
-          mainTitle: "通知标题",
-          mainContent: "通知内容",
-          summaryText: "摘要，对长文本内容的总结",
-          expandedDisplayTitle: "通知展开的标题",
-          multiLineContentList: ["111","222","333"]
-        }
-        const id = await NotificationUtil.Sender.sendMultiLine(options);
-        console.log("Notification sendMultiLine", id);
-      })
-      Button("发送图片消息").onClick(async()=>{
-        const pixelMap = await NotificationUtil.Tools.createCompressedImage($r("app.media.notify_test_3"))
-        const options: NotificationPictureOptions = {
-          mainTitle: "通知标题",
-          mainContent: "通知内容",
-          summaryText: "摘要，对长文本内容的总结",
-          expandedDisplayTitle: "通知展开的标题",
-          attachedImage: pixelMap
-        }
-        const id = await NotificationUtil.Sender.sendPicture(options);
-        console.log("Notification sendPicture", id, pixelMap.getPixelBytesNumber());
-      })
-      Button("下载模板消息").onClick(async()=>{
-        if(await NotificationUtil.Tools.isSupportTemplate()) {
-          const options: NotificationTemplateOptions = {
-            mainTitle: "通知标题",
-            mainContent: "通知内容",
-            downloadFileName: "学习资料.mp4",
-            downloadProgress: 85
-          }
-          const id = await NotificationUtil.Sender.sendTemplate(options);
-          console.log("Notification sendTemplate", id);
-        } else {
-          console.log("Notification isSupportTemplate false");
-        }
-      })
-      Button("清楚通知").onClick(()=>{
-        NotificationUtil.Manager.cancelAll();
-      })
-      Button("设置角标").onClick(()=>{
-        NotificationUtil.Manager.setBadgeNumber(3);
-      })
-      Button("清楚角标").onClick(()=>{
-        NotificationUtil.Manager.clearBadgeNumber();
-      })
+        .id('main_tab_bar')
+        .width('100%')
+        .height(64)
+        .backgroundColor('#FFFFFF')
+        .border({ width: { top: 0.5 }, color: '#ECEDEF' })
+      }
+      .id('main_root')
+      .width('100%')
+      .height('100%')
+      .accessibilityDescription(this.diagnostic())
     }
   }
 }
