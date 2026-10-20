@@ -1,0 +1,44 @@
+{
+  "comparison": "Relative file path plus diagnostic message; line/column and task-root prefix removed. This compares observed diagnostics, not clean-build warning elimination.",
+  "baseline": {
+    "file_diagnostics": 234,
+    "unique_file_message_pairs": 165,
+    "up_to_date_actions": 0,
+    "from_cache_actions": 0,
+    "clean_actions": 24,
+    "compile_tasks_finished": [
+      "> hvigor \u001b[32mFinished :entry:default@CompileArkTS... after 24 s 867 ms \u001b[39m"
+    ]
+  },
+  "implementation_build_04": {
+    "file_diagnostics": 194,
+    "unique_file_message_pairs": 162,
+    "up_to_date_actions": 130,
+    "from_cache_actions": 0,
+    "clean_actions": 0,
+    "compile_tasks_finished": [
+      "> hvigor \u001b[32mFinished :entry:default@CompileArkTS... after 8 s 745 ms \u001b[39m"
+    ]
+  },
+  "new_observed_diagnostics": [],
+  "baseline_diagnostics_not_observed": [
+    {
+      "path": "core/designsystem/src/main/ets/component/Column.ets",
+      "message": "'@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.",
+      "occurrences": 16
+    },
+    {
+      "path": "core/designsystem/src/main/ets/component/Row.ets",
+      "message": "'@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.",
+      "occurrences": 18
+    },
+    {
+      "path": "core/designsystem/src/main/ets/component/Scroll.ets",
+      "message": "'@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.",
+      "occurrences": 6
+    }
+  ],
+  "new_observed_count": 0,
+  "not_observed_count": 40,
+  "limitation": "Baseline is a clean preparation build; final build reused incremental tasks. Diagnostics absent from the final log are not claimed fixed."
+}

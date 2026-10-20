@@ -1,0 +1,471 @@
+[2026-10-19 20:41:17,103] [52732] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-19 20:41:17,105] [52732] [EnvPool] [INFO] [Report path: D:\HCUP\cml-spec17\logs\do-01\reports\2026-10-19-20-41-17]
+[2026-10-19 20:41:17,105] [52732] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-19 20:41:17,105] [52732] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-19 20:41:17,105] [52732] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-19 20:41:17,108] [52732] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-19 20:41:17,108] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:41:17,108] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:41:17,874] [46256] [Hdc] [INFO] [127.0.0.1:11235		TCP	Offline	localhost
+127.0.0.1:11237		TCP	Connected	localhost
+127.0.0.1:11239		TCP	Connected	localhost
+127.0.0.1:11241		TCP	Connected	localhost
+127.0.0.1:11243		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-19 20:41:18,114] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:41:18,114] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:41:21,120] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:41:21,120] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:41:21,120] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:41:21,120] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:41:21,120] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:41:21,433] [52732] [Device] [INFO] [6.0.2.3]
+[2026-10-19 20:41:21,643] [52732] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-19 20:41:21,643] [52732] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-19 20:41:21,699] [52732] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 1380]
+[2026-10-19 20:41:21,699] [52732] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-19 20:41:21,781] [52732] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-19 20:41:21,781] [52732] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-19 20:41:21,844] [52732] [Device] [INFO] [Device agent is up to date!]
+[2026-10-19 20:41:21,903] [52732] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-19 20:41:24,217] [52732] [DeviceUIProxy] [INFO] [tcp forward port: 9905 for 127.0.0.1:11243]
+[2026-10-19 20:41:24,398] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:41:26,899] [52732] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-19 20:41:26,899] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:41:27,699] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.799s</div>]
+[2026-10-19 20:41:30,896] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:41:31,903] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 1.007s</div>]
+[2026-10-19 20:41:31,903] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'), 保留备注)</div>]
+[2026-10-19 20:41:34,274] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'), 保留备注) cost: 2.371s</div>]
+[2026-10-19 20:41:34,644] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_address'))</div>]
+[2026-10-19 20:41:36,316] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_address')) cost: 1.671s</div>]
+[2026-10-19 20:41:39,286] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_address'))</div>]
+[2026-10-19 20:41:40,287] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_address')) cost: 1.0s</div>]
+[2026-10-19 20:41:40,498] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('收货地址'))</div>]
+[2026-10-19 20:41:40,597] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('收货地址')) cost: 0.099s</div>]
+test_original_address_back_preserves_current_draft (hypium_tests.test_address_recovery.AddressCancel.test_original_address_back_preserves_current_draft) ... ok
+[2026-10-19 20:41:42,939] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:41:42,939] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:41:42,939] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:41:42,939] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:41:42,939] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:41:42,939] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:41:42,939] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:41:42,970] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:41:45,201] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_address'))</div>]
+[2026-10-19 20:41:46,291] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_address')) cost: 1.09s</div>]
+[2026-10-19 20:41:46,478] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_list_page'))</div>]
+[2026-10-19 20:41:46,588] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_list_page')) cost: 0.11s</div>]
+[2026-10-19 20:41:46,588] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_add_new'))</div>]
+[2026-10-19 20:41:46,696] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_add_new')) cost: 0.108s</div>]
+[2026-10-19 20:41:49,881] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_add_new'))</div>]
+[2026-10-19 20:41:49,960] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_add_new')) cost: 0.078s</div>]
+[2026-10-19 20:41:50,147] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('address_contact_input'), 本地新增丙)</div>]
+[2026-10-19 20:41:52,460] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('address_contact_input'), 本地新增丙) cost: 2.313s</div>]
+[2026-10-19 20:41:52,749] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('address_phone_input'), 13800000003)</div>]
+[2026-10-19 20:41:56,375] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('address_phone_input'), 13800000003) cost: 3.624s</div>]
+[2026-10-19 20:41:56,738] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('address_detail_input'), 本地测试丙路1201号)</div>]
+[2026-10-19 20:42:00,378] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('address_detail_input'), 本地测试丙路1201号) cost: 3.64s</div>]
+[2026-10-19 20:42:00,662] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_region_select'))</div>]
+[2026-10-19 20:42:02,287] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_region_select')) cost: 1.625s</div>]
+[2026-10-19 20:42:02,873] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('北京市'))</div>]
+[2026-10-19 20:42:03,763] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('北京市')) cost: 0.89s</div>]
+[2026-10-19 20:42:03,763] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:11243, BY.text('北京市'))</div>]
+[2026-10-19 20:42:03,856] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:11243, BY.text('北京市')) cost: 0.092s</div>]
+[2026-10-19 20:42:04,949] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('北京市'))</div>]
+[2026-10-19 20:42:05,951] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('北京市')) cost: 1.001s</div>]
+[2026-10-19 20:42:05,951] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:11243, BY.text('北京市'))</div>]
+[2026-10-19 20:42:06,031] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:11243, BY.text('北京市')) cost: 0.08s</div>]
+[2026-10-19 20:42:07,154] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('东城区'))</div>]
+[2026-10-19 20:42:08,035] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('东城区')) cost: 0.881s</div>]
+[2026-10-19 20:42:08,036] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:11243, BY.text('东城区'))</div>]
+[2026-10-19 20:42:08,127] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:11243, BY.text('东城区')) cost: 0.091s</div>]
+[2026-10-19 20:42:09,794] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_save'))</div>]
+[2026-10-19 20:42:09,862] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_save')) cost: 0.067s</div>]
+[2026-10-19 20:42:10,045] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_select_1201'))</div>]
+[2026-10-19 20:42:10,191] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_select_1201')) cost: 0.146s</div>]
+[2026-10-19 20:42:10,191] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5)</div>]
+[2026-10-19 20:42:10,692] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5) cost: 0.501s</div>]
+[2026-10-19 20:42:10,692] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_select_1201'))</div>]
+[2026-10-19 20:42:10,740] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_select_1201')) cost: 0.048s</div>]
+[2026-10-19 20:42:10,771] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_select_1201'))</div>]
+[2026-10-19 20:42:10,865] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_select_1201')) cost: 0.094s</div>]
+[2026-10-19 20:42:11,770] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:42:12,722] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.953s</div>]
+[2026-10-19 20:42:13,263] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:42:13,345] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.082s</div>]
+test_original_add_refresh_select_and_submit (hypium_tests.test_address_recovery.NewAddressRecovery.test_original_add_refresh_select_and_submit) ... ok
+[2026-10-19 20:42:14,469] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:42:14,471] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:42:14,471] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:14,471] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:14,471] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:14,471] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:14,471] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:42:14,500] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:42:16,951] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_address'))</div>]
+[2026-10-19 20:42:17,789] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_address')) cost: 0.838s</div>]
+[2026-10-19 20:42:17,976] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_list_page'))</div>]
+[2026-10-19 20:42:18,080] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_list_page')) cost: 0.103s</div>]
+test_original_address_back_preserves_current_draft (hypium_tests.test_address_recovery.NoAddressCancel.test_original_address_back_preserves_current_draft) ... ok
+[2026-10-19 20:42:19,918] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:42:19,918] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:42:19,918] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:19,918] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:19,918] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:19,918] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:19,918] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:42:19,950] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:42:21,905] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:42:22,886] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.981s</div>]
+[2026-10-19 20:42:23,070] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('请选择收货地址'))</div>]
+[2026-10-19 20:42:24,107] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('请选择收货地址')) cost: 1.036s</div>]
+[2026-10-19 20:42:25,486] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_address'))</div>]
+[2026-10-19 20:42:25,554] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_address')) cost: 0.068s</div>]
+[2026-10-19 20:42:25,737] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_select_907'))</div>]
+[2026-10-19 20:42:25,861] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_select_907')) cost: 0.123s</div>]
+[2026-10-19 20:42:29,064] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_select_907'))</div>]
+[2026-10-19 20:42:29,183] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('address_select_907')) cost: 0.118s</div>]
+[2026-10-19 20:42:29,619] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:42:29,707] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.089s</div>]
+[2026-10-19 20:42:30,669] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:42:31,621] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.952s</div>]
+test_missing_address_then_original_selection_and_retry (hypium_tests.test_address_recovery.NoAddressRecovery.test_missing_address_then_original_selection_and_retry) ... ok
+[2026-10-19 20:42:32,605] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:42:32,605] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:42:32,606] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:32,606] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:32,606] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:32,606] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:42:32,606] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:42:32,634] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:42:33,072] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart'))</div>]
+[2026-10-19 20:42:35,006] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart')) cost: 1.934s</div>]
+[2026-10-19 20:42:35,191] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_37'))</div>]
+[2026-10-19 20:42:35,453] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_37')) cost: 0.262s</div>]
+[2026-10-19 20:42:35,995] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_205'))</div>]
+[2026-10-19 20:42:36,766] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_205')) cost: 0.771s</div>]
+[2026-10-19 20:42:36,951] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407'))</div>]
+[2026-10-19 20:42:37,076] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407')) cost: 0.125s</div>]
+[2026-10-19 20:42:40,570] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407'))</div>]
+[2026-10-19 20:42:41,100] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407')) cost: 0.53s</div>]
+[2026-10-19 20:42:41,287] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_settle'))</div>]
+[2026-10-19 20:42:42,098] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_settle')) cost: 0.811s</div>]
+[2026-10-19 20:42:43,478] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:42:43,965] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.487s</div>]
+test_original_cart_selection_cleanup_and_restart (hypium_tests.test_cart_cleanup.CartCleanup.test_original_cart_selection_cleanup_and_restart) ... FAIL
+[2026-10-19 20:43:00,571] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:43:00,571] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:43:00,571] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:00,571] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:00,571] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:00,571] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:00,571] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:43:00,601] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:43:00,910] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart'))</div>]
+[2026-10-19 20:43:02,933] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart')) cost: 2.023s</div>]
+[2026-10-19 20:43:03,117] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_11'))</div>]
+[2026-10-19 20:43:03,362] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_11')) cost: 0.244s</div>]
+[2026-10-19 20:43:03,856] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_91'))</div>]
+[2026-10-19 20:43:04,702] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_91')) cost: 0.845s</div>]
+[2026-10-19 20:43:04,916] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_205'))</div>]
+[2026-10-19 20:43:04,979] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_205')) cost: 0.063s</div>]
+[2026-10-19 20:43:05,163] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407'))</div>]
+[2026-10-19 20:43:05,288] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407')) cost: 0.125s</div>]
+[2026-10-19 20:43:08,482] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407'))</div>]
+[2026-10-19 20:43:09,080] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407')) cost: 0.598s</div>]
+[2026-10-19 20:43:09,279] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_settle'))</div>]
+[2026-10-19 20:43:10,053] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_settle')) cost: 0.773s</div>]
+[2026-10-19 20:43:11,017] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_stale_cart_seed'))</div>]
+[2026-10-19 20:43:11,894] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_stale_cart_seed')) cost: 0.876s</div>]
+[2026-10-19 20:43:12,260] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:43:12,349] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.089s</div>]
+test_same_count_different_current_and_purchased_sets (hypium_tests.test_cart_cleanup.StaleSetCleanup.test_same_count_different_current_and_purchased_sets) ... FAIL
+setUpClass (hypium_tests.test_fault_boundaries.DelayedCache) ... skipped 'This test requires the separately identified fault sandbox'
+setUpClass (hypium_tests.test_fault_boundaries.DelayedCleanup) ... skipped 'This test requires the separately identified fault sandbox'
+setUpClass (hypium_tests.test_fault_boundaries.FailedCleanup) ... skipped 'This test requires the separately identified fault sandbox'
+[2026-10-19 20:43:28,915] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:43:28,915] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:43:28,917] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:28,917] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:28,917] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:28,917] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:28,917] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:43:28,935] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:43:30,963] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:43:31,962] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.999s</div>]
+[2026-10-19 20:43:33,463] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:43:33,533] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.07s</div>]
+[2026-10-19 20:43:33,911] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:43:33,966] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.056s</div>]
+test_business_failure_does_not_clean_and_can_retry (hypium_tests.test_order_create.FailureRetry.test_business_failure_does_not_clean_and_can_retry) ... ok
+[2026-10-19 20:43:35,234] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:43:35,234] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:43:35,234] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:35,235] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:35,235] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:35,235] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:43:35,235] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:43:35,263] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:43:37,518] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:43:38,470] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.952s</div>]
+[2026-10-19 20:43:50,012] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:43:50,081] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.069s</div>]
+[2026-10-19 20:43:51,162] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:43:51,975] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.813s</div>]
+test_actual_socket_timeout_does_not_clean_or_navigate (hypium_tests.test_order_create.InvalidResponses.test_actual_socket_timeout_does_not_clean_or_navigate) ... ok
+[2026-10-19 20:43:55,316] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:43:56,034] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.717s</div>]
+[2026-10-19 20:43:57,579] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:43:57,654] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.075s</div>]
+[2026-10-19 20:43:58,718] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:43:59,571] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.853s</div>]
+test_http_failure_releases_submission (hypium_tests.test_order_create.InvalidResponses.test_http_failure_releases_submission) ... ok
+[2026-10-19 20:44:02,846] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:44:03,580] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.733s</div>]
+[2026-10-19 20:44:05,115] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:44:05,190] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.076s</div>]
+[2026-10-19 20:44:06,175] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:44:07,127] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.951s</div>]
+test_negative_real_price_is_rejected_by_adopted_policy (hypium_tests.test_order_create.InvalidResponses.test_negative_real_price_is_rejected_by_adopted_policy) ... ok
+[2026-10-19 20:44:10,284] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:44:11,042] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.757s</div>]
+[2026-10-19 20:44:12,562] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:44:12,628] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.066s</div>]
+[2026-10-19 20:44:13,670] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:44:14,499] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.829s</div>]
+test_success_missing_id_is_not_an_order (hypium_tests.test_order_create.InvalidResponses.test_success_missing_id_is_not_an_order) ... ok
+[2026-10-19 20:44:17,795] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:44:18,528] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.733s</div>]
+[2026-10-19 20:44:20,008] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:44:20,075] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.067s</div>]
+[2026-10-19 20:44:20,428] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:44:20,488] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.06s</div>]
+test_success_missing_real_price_is_not_zero_price (hypium_tests.test_order_create.InvalidResponses.test_success_missing_real_price_is_not_zero_price) ... ok
+[2026-10-19 20:44:23,785] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:44:24,638] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.853s</div>]
+[2026-10-19 20:44:26,185] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:44:26,262] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.077s</div>]
+[2026-10-19 20:44:27,240] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:44:28,116] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.877s</div>]
+test_success_null_data_is_not_an_order (hypium_tests.test_order_create.InvalidResponses.test_success_null_data_is_not_an_order) ... ok
+[2026-10-19 20:44:29,154] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:44:29,154] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:44:29,154] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:44:29,154] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:44:29,154] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:44:29,154] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:44:29,155] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:44:29,178] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:44:31,405] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:44:32,275] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.869s</div>]
+[2026-10-19 20:44:33,210] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:44:34,174] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.965s</div>]
+[2026-10-19 20:44:34,835] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:44:34,926] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.091s</div>]
+[2026-10-19 20:44:35,352] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:44:36,747] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 1.394s</div>]
+test_completed_draft_active_submit_reuses_receipt (hypium_tests.test_order_create.OrderSuccess.test_completed_draft_active_submit_reuses_receipt) ... ok
+[2026-10-19 20:44:40,156] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_1701'))</div>]
+[2026-10-19 20:44:41,005] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_1701')) cost: 0.85s</div>]
+[2026-10-19 20:44:41,036] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_2903'))</div>]
+[2026-10-19 20:44:41,098] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_2903')) cost: 0.062s</div>]
+[2026-10-19 20:44:42,163] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:44:42,283] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.119s</div>]
+[2026-10-19 20:44:45,437] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:44:46,441] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 1.003s</div>]
+[2026-10-19 20:44:46,441] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'), 请轻放，周末送达)</div>]
+[2026-10-19 20:44:48,623] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'), 请轻放，周末送达) cost: 2.182s</div>]
+[2026-10-19 20:44:48,942] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_coupon'))</div>]
+[2026-10-19 20:44:50,542] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_coupon')) cost: 1.599s</div>]
+[2026-10-19 20:44:50,729] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:44:51,810] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 1.08s</div>]
+[2026-10-19 20:44:51,997] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:44:52,059] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.062s</div>]
+test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters) ... FAIL
+[2026-10-19 20:45:08,483] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:45:08,483] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:45:08,483] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:08,483] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:08,483] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:08,483] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:08,483] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:45:08,503] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:45:10,841] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:45:12,012] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 1.171s</div>]
+[2026-10-19 20:45:15,229] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:45:16,222] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.993s</div>]
+[2026-10-19 20:45:16,222] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.clear_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:45:16,358] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.clear_text(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.135s</div>]
+[2026-10-19 20:45:16,358] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:45:16,425] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.067s</div>]
+[2026-10-19 20:45:17,266] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:45:18,308] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 1.041s</div>]
+test_empty_remark_without_coupon_is_accepted (hypium_tests.test_order_create.RemarkValues.test_empty_remark_without_coupon_is_accepted) ... ok
+[2026-10-19 20:45:21,631] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:45:22,550] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.919s</div>]
+[2026-10-19 20:45:25,711] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:45:26,727] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 1.015s</div>]
+[2026-10-19 20:45:26,727] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.clear_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:45:26,858] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.clear_text(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.131s</div>]
+[2026-10-19 20:45:26,858] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'),    )</div>]
+[2026-10-19 20:45:28,565] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'),    ) cost: 1.706s</div>]
+[2026-10-19 20:45:28,951] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:45:30,585] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 1.635s</div>]
+[2026-10-19 20:45:30,954] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:45:31,016] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.062s</div>]
+test_three_spaces_are_preserved_by_adopted_policy (hypium_tests.test_order_create.RemarkValues.test_three_spaces_are_preserved_by_adopted_policy) ... ok
+[2026-10-19 20:45:32,314] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:45:32,314] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:45:32,314] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:32,314] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:32,315] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:32,315] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:32,315] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:45:32,345] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:45:34,820] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:45:35,443] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.623s</div>]
+[2026-10-19 20:45:39,173] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:45:39,239] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.066s</div>]
+test_inflight_repeated_clicks_create_once (hypium_tests.test_order_create.SlowSubmission.test_inflight_repeated_clicks_create_once) ... ok
+[2026-10-19 20:45:40,474] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:45:40,474] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:45:40,474] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:40,475] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:40,475] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:40,475] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:40,475] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:45:40,518] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:45:42,725] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:45:43,762] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 1.037s</div>]
+[2026-10-19 20:45:44,670] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:45:45,661] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.991s</div>]
+test_zero_real_payment_is_valid (hypium_tests.test_order_create.ZeroPayment.test_zero_real_payment_is_valid) ... ok
+[2026-10-19 20:45:46,792] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:45:46,792] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:45:46,792] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:46,792] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:46,792] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:46,792] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:46,792] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:45:46,813] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:45:47,129] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('重新加载'))</div>]
+[2026-10-19 20:45:50,152] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('重新加载')) cost: 3.022s</div>]
+[2026-10-19 20:45:51,196] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:45:51,262] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.066s</div>]
+[2026-10-19 20:45:52,236] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:45:53,170] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.933s</div>]
+test_failed_get_retries_without_consuming_cached_goods_again (hypium_tests.test_readiness.ConfirmRetry.test_failed_get_retries_without_consuming_cached_goods_again) ... ok
+[2026-10-19 20:45:54,235] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:45:54,235] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:45:54,235] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:54,235] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:54,235] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:54,235] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:45:54,235] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:45:54,266] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:45:54,656] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:45:57,292] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 2.637s</div>]
+[2026-10-19 20:45:57,294] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5)</div>]
+[2026-10-19 20:45:57,794] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5) cost: 0.501s</div>]
+[2026-10-19 20:45:59,552] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:45:59,626] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.073s</div>]
+[2026-10-19 20:46:00,571] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:46:01,552] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.981s</div>]
+test_delayed_get_never_creates_an_incomplete_order (hypium_tests.test_readiness.DelayedConfirm.test_delayed_get_never_creates_an_incomplete_order) ... ok
+[2026-10-19 20:46:02,466] [52732] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:46:02,466] [52732] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:46:02,466] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:46:02,466] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:46:02,466] [52732] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:46:02,466] [52732] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:46:02,466] [52732] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:46:02,485] [52732] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:46:04,831] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:46:05,624] [52732] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.793s</div>]
+test_empty_cache_does_not_invent_an_order (hypium_tests.test_readiness.EmptyCache.test_empty_cache_does_not_invent_an_order) ... ok
+
+======================================================================
+FAIL: test_original_cart_selection_cleanup_and_restart (hypium_tests.test_cart_cleanup.CartCleanup.test_original_cart_selection_cleanup_and_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\cml-spec17\hypium_tests\test_cart_cleanup.py", line 17, in test_original_cart_selection_cleanup_and_restart
+    self.wait_pay()
+  File "D:\HCUP\cml-spec17\hypium_tests\do_support.py", line 167, in wait_pay
+    actual = self.wait_state(lambda s: bool(s['routeNames']) and s['routeNames'][-1] == 'order/pay')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\cml-spec17\hypium_tests\do_support.py", line 146, in wait_state
+    self.fail(f'Actual state not reached; last={last}; incomplete={incomplete}')
+AssertionError: Actual state not reached; last={'reason': 'poll', 'scenario': 'with-address', 'entry': 'cart', 'addressListMode': 'seeded', 'routeNames': ['order/confirm'], 'payParamsJson': '[]', 'faultBoundaryInstalled': False, 'order': {'selectedAddress': {'id': 701, 'userId': 0, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True, 'createTime': None, 'updateTime': None}, 'remark': '', 'couponModalVisible': False, 'selectedCoupon': None, 'data': {'defaultAddress': {'id': 701, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True}, 'userCoupon': [{'id': 503, 'title': '本地调查券503', 'amount': 300, 'status': 1, 'type': 0, 'condition': {'fullAmount': 1000}}]}, 'cachedCarts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'cartList': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'selectedGoodsList': [{'goodsId': 1701, 'goodsInfo': {'id': 1701, 'typeId': 0, 'title': '本地商品甲1701', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 1}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 3}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 2}], 'isFromCart': True, 'originalPrice': 5600, 'totalPrice': 5600, 'uiState': 'success'}, 'carts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}, {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'count': 4, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}, {'goodsId': 4109, 'goodsName': '本地未选丙4109', 'goodsMainPic': '', 'spec': [{'id': 4193, 'goodsId': 4109, 'name': '本地规格4193', 'price': 600, 'stock': 100, 'count': 1, 'images': []}]}], 'cacheCarts': None, 'cacheSelectedGoods': None, 'confirmCount': 0, 'addressPageCount': 0, 'addressAddCount': 0, 'createCount': 0, 'rejectCount': 0, 'requests': []}; incomplete=[]
+
+======================================================================
+FAIL: test_same_count_different_current_and_purchased_sets (hypium_tests.test_cart_cleanup.StaleSetCleanup.test_same_count_different_current_and_purchased_sets)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\cml-spec17\hypium_tests\test_cart_cleanup.py", line 64, in test_same_count_different_current_and_purchased_sets
+    self.wait_pay()
+  File "D:\HCUP\cml-spec17\hypium_tests\do_support.py", line 167, in wait_pay
+    actual = self.wait_state(lambda s: bool(s['routeNames']) and s['routeNames'][-1] == 'order/pay')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\cml-spec17\hypium_tests\do_support.py", line 146, in wait_state
+    self.fail(f'Actual state not reached; last={last}; incomplete={incomplete}')
+AssertionError: Actual state not reached; last={'reason': 'poll', 'scenario': 'with-address', 'entry': 'cart', 'addressListMode': 'seeded', 'routeNames': ['order/confirm'], 'payParamsJson': '[]', 'faultBoundaryInstalled': False, 'order': {'selectedAddress': {'id': 701, 'userId': 0, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True, 'createTime': None, 'updateTime': None}, 'remark': '', 'couponModalVisible': False, 'selectedCoupon': None, 'data': {'defaultAddress': {'id': 701, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True}, 'userCoupon': [{'id': 503, 'title': '本地调查券503', 'amount': 300, 'status': 1, 'type': 0, 'condition': {'fullAmount': 1000}}]}, 'cachedCarts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'count': 4, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'cartList': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'count': 4, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'selectedGoodsList': [{'goodsId': 1701, 'goodsInfo': {'id': 1701, 'typeId': 0, 'title': '本地商品甲1701', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 2}, {'goodsId': 1701, 'goodsInfo': {'id': 1701, 'typeId': 0, 'title': '本地商品甲1701', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 4}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 3}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 2}], 'isFromCart': True, 'originalPrice': 9400, 'totalPrice': 9400, 'uiState': 'success'}, 'carts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}, {'goodsId': 4109, 'goodsName': '本地未选丙4109', 'goodsMainPic': '', 'spec': [{'id': 4193, 'goodsId': 4109, 'name': '本地规格4193', 'price': 600, 'stock': 100, 'count': 1, 'images': []}]}], 'cacheCarts': None, 'cacheSelectedGoods': None, 'confirmCount': 0, 'addressPageCount': 0, 'addressAddCount': 0, 'createCount': 0, 'rejectCount': 0, 'requests': []}; incomplete=[]
+
+======================================================================
+FAIL: test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\cml-spec17\hypium_tests\test_order_create.py", line 23, in test_original_submit_actual_http_and_response_parameters
+    after = self.wait_pay()
+            ^^^^^^^^^^^^^^^
+  File "D:\HCUP\cml-spec17\hypium_tests\do_support.py", line 167, in wait_pay
+    actual = self.wait_state(lambda s: bool(s['routeNames']) and s['routeNames'][-1] == 'order/pay')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\cml-spec17\hypium_tests\do_support.py", line 146, in wait_state
+    self.fail(f'Actual state not reached; last={last}; incomplete={incomplete}')
+AssertionError: Actual state not reached; last={'reason': 'poll', 'scenario': 'with-address', 'entry': 'confirm', 'addressListMode': 'seeded', 'routeNames': ['order/confirm'], 'payParamsJson': '[]', 'faultBoundaryInstalled': False, 'order': {'selectedAddress': {'id': 701, 'userId': 0, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True, 'createTime': None, 'updateTime': None}, 'remark': '请轻放，周末送达', 'couponModalVisible': False, 'selectedCoupon': None, 'data': {'defaultAddress': {'id': 701, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True}, 'userCoupon': [{'id': 503, 'title': '本地调查券503', 'amount': 300, 'status': 1, 'type': 0, 'condition': {'fullAmount': 1000}}]}, 'cachedCarts': None, 'cartList': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'selectedGoodsList': [{'goodsId': 1701, 'goodsInfo': {'id': 1701, 'typeId': 0, 'title': '本地商品甲1701', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 1}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 3}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 2}], 'isFromCart': False, 'originalPrice': 5600, 'totalPrice': 5600, 'uiState': 'success'}, 'carts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}, {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'count': 4, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}, {'goodsId': 4109, 'goodsName': '本地未选丙4109', 'goodsMainPic': '', 'spec': [{'id': 4193, 'goodsId': 4109, 'name': '本地规格4193', 'price': 600, 'stock': 100, 'count': 1, 'images': []}]}], 'cacheCarts': None, 'cacheSelectedGoods': None, 'confirmCount': 0, 'addressPageCount': 0, 'addressAddCount': 0, 'createCount': 0, 'rejectCount': 0, 'requests': []}; incomplete=[{'snapshotId': 'snapshot-24', 'kind': 'STATE'}]
+
+----------------------------------------------------------------------
+Ran 22 tests in 290.411s
+
+FAILED (failures=3, skipped=3)
+
+项目: D:\HCUP\cml-spec17
+设备: 127.0.0.1:11243
+
+测试用例: 28  通过: 19  失败: 3  跳过(未验证): 6
+  ✓ test_original_address_back_preserves_current_draft (hypium_tests.test_address_recovery.AddressCancel.test_original_address_back_preserves_current_draft)
+  ✓ test_original_add_refresh_select_and_submit (hypium_tests.test_address_recovery.NewAddressRecovery.test_original_add_refresh_select_and_submit)
+  ✓ test_original_address_back_preserves_current_draft (hypium_tests.test_address_recovery.NoAddressCancel.test_original_address_back_preserves_current_draft)
+  ✓ test_missing_address_then_original_selection_and_retry (hypium_tests.test_address_recovery.NoAddressRecovery.test_missing_address_then_original_selection_and_retry)
+  ✗ test_original_cart_selection_cleanup_and_restart (hypium_tests.test_cart_cleanup.CartCleanup.test_original_cart_selection_cleanup_and_restart) — AssertionError: Actual state not reached; last={'reason': 'poll', 'scenario': 'with-address', 'entry': 'cart', 'addressListMode': 'seeded', 'routeNames': ['order/confirm'], 'payParamsJson': '[]', 'faultBoundaryInstalled': False, 'order': {'selectedAddress': {'id': 701, 'userId': 0, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True, 'createTime': None, 'updateTime': None}, 'remark': '', 'couponModalVisible': False, 'selectedCoupon': None, 'data': {'defaultAddress': {'id': 701, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True}, 'userCoupon': [{'id': 503, 'title': '本地调查券503', 'amount': 300, 'status': 1, 'type': 0, 'condition': {'fullAmount': 1000}}]}, 'cachedCarts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'cartList': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'selectedGoodsList': [{'goodsId': 1701, 'goodsInfo': {'id': 1701, 'typeId': 0, 'title': '本地商品甲1701', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 1}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 3}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 2}], 'isFromCart': True, 'originalPrice': 5600, 'totalPrice': 5600, 'uiState': 'success'}, 'carts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}, {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'count': 4, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}, {'goodsId': 4109, 'goodsName': '本地未选丙4109', 'goodsMainPic': '', 'spec': [{'id': 4193, 'goodsId': 4109, 'name': '本地规格4193', 'price': 600, 'stock': 100, 'count': 1, 'images': []}]}], 'cacheCarts': None, 'cacheSelectedGoods': None, 'confirmCount': 0, 'addressPageCount': 0, 'addressAddCount': 0, 'createCount': 0, 'rejectCount': 0, 'requests': []}; incomplete=[]
+  ✗ test_same_count_different_current_and_purchased_sets (hypium_tests.test_cart_cleanup.StaleSetCleanup.test_same_count_different_current_and_purchased_sets) — AssertionError: Actual state not reached; last={'reason': 'poll', 'scenario': 'with-address', 'entry': 'cart', 'addressListMode': 'seeded', 'routeNames': ['order/confirm'], 'payParamsJson': '[]', 'faultBoundaryInstalled': False, 'order': {'selectedAddress': {'id': 701, 'userId': 0, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True, 'createTime': None, 'updateTime': None}, 'remark': '', 'couponModalVisible': False, 'selectedCoupon': None, 'data': {'defaultAddress': {'id': 701, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True}, 'userCoupon': [{'id': 503, 'title': '本地调查券503', 'amount': 300, 'status': 1, 'type': 0, 'condition': {'fullAmount': 1000}}]}, 'cachedCarts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'count': 4, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'cartList': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'count': 4, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'selectedGoodsList': [{'goodsId': 1701, 'goodsInfo': {'id': 1701, 'typeId': 0, 'title': '本地商品甲1701', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 2}, {'goodsId': 1701, 'goodsInfo': {'id': 1701, 'typeId': 0, 'title': '本地商品甲1701', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 4}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 3}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 2}], 'isFromCart': True, 'originalPrice': 9400, 'totalPrice': 9400, 'uiState': 'success'}, 'carts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}, {'goodsId': 4109, 'goodsName': '本地未选丙4109', 'goodsMainPic': '', 'spec': [{'id': 4193, 'goodsId': 4109, 'name': '本地规格4193', 'price': 600, 'stock': 100, 'count': 1, 'images': []}]}], 'cacheCarts': None, 'cacheSelectedGoods': None, 'confirmCount': 0, 'addressPageCount': 0, 'addressAddCount': 0, 'createCount': 0, 'rejectCount': 0, 'requests': []}; incomplete=[]
+  - test_delayed_cache_prevents_incomplete_http_order (hypium_tests.test_fault_boundaries.DelayedCache.test_delayed_cache_prevents_incomplete_http_order) — 未执行（所属类 setUpClass 出错或被跳过）
+  - test_payment_precedes_delayed_real_database_deletion (hypium_tests.test_fault_boundaries.DelayedCleanup.test_payment_precedes_delayed_real_database_deletion) — 未执行（所属类 setUpClass 出错或被跳过）
+  - test_one_database_failure_does_not_stop_other_goods_or_recreate (hypium_tests.test_fault_boundaries.FailedCleanup.test_one_database_failure_does_not_stop_other_goods_or_recreate) — 未执行（所属类 setUpClass 出错或被跳过）
+  ✓ test_business_failure_does_not_clean_and_can_retry (hypium_tests.test_order_create.FailureRetry.test_business_failure_does_not_clean_and_can_retry)
+  ✓ test_actual_socket_timeout_does_not_clean_or_navigate (hypium_tests.test_order_create.InvalidResponses.test_actual_socket_timeout_does_not_clean_or_navigate)
+  ✓ test_http_failure_releases_submission (hypium_tests.test_order_create.InvalidResponses.test_http_failure_releases_submission)
+  ✓ test_negative_real_price_is_rejected_by_adopted_policy (hypium_tests.test_order_create.InvalidResponses.test_negative_real_price_is_rejected_by_adopted_policy)
+  ✓ test_success_missing_id_is_not_an_order (hypium_tests.test_order_create.InvalidResponses.test_success_missing_id_is_not_an_order)
+  ✓ test_success_missing_real_price_is_not_zero_price (hypium_tests.test_order_create.InvalidResponses.test_success_missing_real_price_is_not_zero_price)
+  ✓ test_success_null_data_is_not_an_order (hypium_tests.test_order_create.InvalidResponses.test_success_null_data_is_not_an_order)
+  ✓ test_completed_draft_active_submit_reuses_receipt (hypium_tests.test_order_create.OrderSuccess.test_completed_draft_active_submit_reuses_receipt)
+  ✗ test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters) — AssertionError: Actual state not reached; last={'reason': 'poll', 'scenario': 'with-address', 'entry': 'confirm', 'addressListMode': 'seeded', 'routeNames': ['order/confirm'], 'payParamsJson': '[]', 'faultBoundaryInstalled': False, 'order': {'selectedAddress': {'id': 701, 'userId': 0, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True, 'createTime': None, 'updateTime': None}, 'remark': '请轻放，周末送达', 'couponModalVisible': False, 'selectedCoupon': None, 'data': {'defaultAddress': {'id': 701, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True}, 'userCoupon': [{'id': 503, 'title': '本地调查券503', 'amount': 300, 'status': 1, 'type': 0, 'condition': {'fullAmount': 1000}}]}, 'cachedCarts': None, 'cartList': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'selectedGoodsList': [{'goodsId': 1701, 'goodsInfo': {'id': 1701, 'typeId': 0, 'title': '本地商品甲1701', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 1}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 3}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 2}], 'isFromCart': False, 'originalPrice': 5600, 'totalPrice': 5600, 'uiState': 'success'}, 'carts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}, {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'count': 4, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}, {'goodsId': 4109, 'goodsName': '本地未选丙4109', 'goodsMainPic': '', 'spec': [{'id': 4193, 'goodsId': 4109, 'name': '本地规格4193', 'price': 600, 'stock': 100, 'count': 1, 'images': []}]}], 'cacheCarts': None, 'cacheSelectedGoods': None, 'confirmCount': 0, 'addressPageCount': 0, 'addressAddCount': 0, 'createCount': 0, 'rejectCount': 0, 'requests': []}; incomplete=[{'snapshotId': 'snapshot-24', 'kind': 'STATE'}]
+  ✓ test_empty_remark_without_coupon_is_accepted (hypium_tests.test_order_create.RemarkValues.test_empty_remark_without_coupon_is_accepted)
+  ✓ test_three_spaces_are_preserved_by_adopted_policy (hypium_tests.test_order_create.RemarkValues.test_three_spaces_are_preserved_by_adopted_policy)
+  ✓ test_inflight_repeated_clicks_create_once (hypium_tests.test_order_create.SlowSubmission.test_inflight_repeated_clicks_create_once)
+  ✓ test_zero_real_payment_is_valid (hypium_tests.test_order_create.ZeroPayment.test_zero_real_payment_is_valid)
+  ✓ test_failed_get_retries_without_consuming_cached_goods_again (hypium_tests.test_readiness.ConfirmRetry.test_failed_get_retries_without_consuming_cached_goods_again)
+  ✓ test_delayed_get_never_creates_an_incomplete_order (hypium_tests.test_readiness.DelayedConfirm.test_delayed_get_never_creates_an_incomplete_order)
+  ✓ test_empty_cache_does_not_invent_an_order (hypium_tests.test_readiness.EmptyCache.test_empty_cache_does_not_invent_an_order)
+  - setUpClass (hypium_tests.test_fault_boundaries.DelayedCache) — This test requires the separately identified fault sandbox
+  - setUpClass (hypium_tests.test_fault_boundaries.DelayedCleanup) — This test requires the separately identified fault sandbox
+  - setUpClass (hypium_tests.test_fault_boundaries.FailedCleanup) — This test requires the separately identified fault sandbox
+
+注意: 有 6 个用例被跳过，这些行为没有被验证，不能视为通过。
+
+报告已保存: D:\HCUP\cml-spec17\logs\do-01\selftest-20261019-204113.json

@@ -1,0 +1,128 @@
+{
+  "started_at_utc": "2026-10-19T14:48:32.092421+00:00",
+  "script_sha256": "64d455f6a7a69ceb7929f4509bbec4cffade47b622a70040418b2b8f70a6f8b3",
+  "python": "3.12.3 (tags/v3.12.3:f6650f9, Apr  9 2024, 14:05:25) [MSC v.1938 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "symbolic-ref",
+        "--quiet",
+        "--short",
+        "HEAD"
+      ],
+      "cwd": "D:\\HCUP\\cml-spec17",
+      "started_at_utc": "2026-10-19T14:48:39.726340+00:00",
+      "completed_at_utc": "2026-10-19T14:48:39.758835+00:00",
+      "exit_code": 0,
+      "stdout": "verification/replay-command-20261019T144832092421Z-01.stdout",
+      "stdout_sha256": "39ce05574054de48a0187e6732d2f6f738c9f84487613dd240a5ca1328c577d3",
+      "stderr": "verification/replay-command-20261019T144832092421Z-01.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "clone",
+        "--no-local",
+        "--single-branch",
+        "--no-tags",
+        "--no-checkout",
+        "--branch",
+        "cml-spec17",
+        "D:\\HCUP\\cml-spec17",
+        "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\verification\\replay-20261019T144832092421Z"
+      ],
+      "cwd": "D:\\HCUP\\cml-spec17",
+      "started_at_utc": "2026-10-19T14:48:39.765408+00:00",
+      "completed_at_utc": "2026-10-19T14:48:40.487323+00:00",
+      "exit_code": 0,
+      "stdout": "verification/replay-command-20261019T144832092421Z-02.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": "verification/replay-command-20261019T144832092421Z-02.stderr",
+      "stderr_sha256": "774f166a88f1122c67762b7552daf9524549a8dea2582f718c177b470c1d0373"
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "checkout",
+        "--detach",
+        "d6a6ba7480fbd0a30075462e46bb4344a430ba61"
+      ],
+      "cwd": "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\verification\\replay-20261019T144832092421Z",
+      "started_at_utc": "2026-10-19T14:48:40.494039+00:00",
+      "completed_at_utc": "2026-10-19T14:48:40.811648+00:00",
+      "exit_code": 0,
+      "stdout": "verification/replay-command-20261019T144832092421Z-03.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": "verification/replay-command-20261019T144832092421Z-03.stderr",
+      "stderr_sha256": "0666b9ecd50cc8ca307e74fde5ec7ab953d94c344764ee9c4599e8a67457b183"
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "apply",
+        "--check",
+        "--binary",
+        "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\changes\\final.diff"
+      ],
+      "cwd": "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\verification\\replay-20261019T144832092421Z",
+      "started_at_utc": "2026-10-19T14:48:40.817648+00:00",
+      "completed_at_utc": "2026-10-19T14:48:45.402519+00:00",
+      "exit_code": 0,
+      "stdout": "verification/replay-command-20261019T144832092421Z-04.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": "verification/replay-command-20261019T144832092421Z-04.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "apply",
+        "--binary",
+        "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\changes\\final.diff"
+      ],
+      "cwd": "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\verification\\replay-20261019T144832092421Z",
+      "started_at_utc": "2026-10-19T14:48:45.403519+00:00",
+      "completed_at_utc": "2026-10-19T14:48:58.296147+00:00",
+      "exit_code": 0,
+      "stdout": "verification/replay-command-20261019T144832092421Z-05.stdout",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": "verification/replay-command-20261019T144832092421Z-05.stderr",
+      "stderr_sha256": "213fd461f51e0b436bbd1922a0df35bde661be0d100c2f463e609692b8b4483a"
+    }
+  ],
+  "scratch": ".comate/submission-draft/verification/replay-20261019T144832092421Z",
+  "build_rerun": false,
+  "device_access": false,
+  "result": "pass",
+  "manifest_sha256_before": "44216686e72676049da957ef9c23714fc7afdac2ed6de4a089102a6a7684e725",
+  "patch_sha256_before": "8181ed11c11eeb25579b0adbd6b3d4044fc9071e122d93f0cd7d1a3adad3d96b",
+  "patch_bytes": 610313769,
+  "base_commit": "d6a6ba7480fbd0a30075462e46bb4344a430ba61",
+  "manifest_file_count": 10317,
+  "pre_replay_workspace_mismatches": [],
+  "source_branch": "cml-spec17",
+  "missing": [],
+  "extra": [],
+  "mismatches": [],
+  "post_replay_workspace_mismatches": [],
+  "manifest_sha256_after": "44216686e72676049da957ef9c23714fc7afdac2ed6de4a089102a6a7684e725",
+  "patch_sha256_after": "8181ed11c11eeb25579b0adbd6b3d4044fc9071e122d93f0cd7d1a3adad3d96b",
+  "stable_inputs": true,
+  "actual_file_count": 10317,
+  "actual_inventory_sha256": "381b9a7401e66cc1a0f94120179752077680d375050826f97e4afa33ef921f90",
+  "actual_aggregate_sha256": "4846f374ff780d4acffdbb8c8394054df709fabd62bc88abbba41dd76a7ae7e6",
+  "declared_aggregate_sha256": "4846f374ff780d4acffdbb8c8394054df709fabd62bc88abbba41dd76a7ae7e6",
+  "aggregate_match": true,
+  "production_mismatches": [],
+  "excluded_namespaces_in_replay": [],
+  "completed_at_utc": "2026-10-19T14:49:41.436180+00:00"
+}

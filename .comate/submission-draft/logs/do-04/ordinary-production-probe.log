@@ -1,0 +1,37 @@
+[2026-10-19 21:44:48,525] [46144] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-19 21:44:48,527] [46144] [EnvPool] [INFO] [Report path: D:\HCUP\cml-spec17\traces\do-04-ordinary\guard-probe\reports\2026-10-19-21-44-48]
+[2026-10-19 21:44:48,527] [46144] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-19 21:44:48,527] [46144] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-19 21:44:48,527] [46144] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-19 21:44:48,530] [46144] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-19 21:44:48,530] [46144] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 21:44:48,530] [46144] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 21:44:49,216] [50060] [Hdc] [INFO] [127.0.0.1:11235		TCP	Offline	localhost
+127.0.0.1:11237		TCP	Connected	localhost
+127.0.0.1:11239		TCP	Connected	localhost
+127.0.0.1:11241		TCP	Connected	localhost
+127.0.0.1:11243		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-19 21:44:49,540] [46144] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:44:49,540] [46144] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:44:49,540] [46144] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:44:52,542] [46144] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:44:52,542] [46144] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:44:52,542] [46144] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:44:52,542] [46144] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:44:52,542] [46144] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 21:44:52,948] [46144] [Device] [INFO] [6.0.2.3]
+[2026-10-19 21:44:53,208] [46144] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-19 21:44:53,208] [46144] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-19 21:44:53,318] [46144] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 10313]
+[2026-10-19 21:44:53,318] [46144] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-19 21:44:53,380] [46144] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-19 21:44:53,380] [46144] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-19 21:44:53,441] [46144] [Device] [INFO] [Device agent is up to date!]
+[2026-10-19 21:44:53,513] [46144] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-19 21:44:55,648] [46144] [DeviceUIProxy] [INFO] [tcp forward port: 9955 for 127.0.0.1:11243]
+[2026-10-19 21:44:55,824] [46144] [Device] [INFO] [hypium base version: 6.1.0.210]
+{"hap_sha256": "5b835ea1f7b436e6b03234b86d88b48b5812a223d1052e08cb54b08dd6d4e8d3", "bundle": "com.joker.coolmall", "device": "127.0.0.1:11243", "cold_start": "pass", "checkout_guard": "pass", "authenticated_backend": "blocked:no_credentials", "explicit_test_want": false, "production_db_seeded_by_probe": false}

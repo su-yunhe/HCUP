@@ -1,0 +1,894 @@
+{
+  "checked_at_utc": "2026-10-19T15:09:34.917277+00:00",
+  "script_sha256": "8c19c698dc0c6abe856a35eb704edb0261b5b0ea05baf0fa6475e8dd68d70017",
+  "checks": {
+    "required_materials": true,
+    "all_24_official_trace_fields": true,
+    "build_has_no_machine_private_absolute_path": true,
+    "build_named_dependencies_delivered": true,
+    "build_scope_and_portability_disclosed": true,
+    "fragment_paths_and_scope": true,
+    "user_empty_fields_not_guessed": true,
+    "all_existing_unrun_and_blocked_boundaries_disclosed": true,
+    "bounded_completion_and_no_official_score": true,
+    "all_native_ids_links_and_token_snapshots_current": true,
+    "binary_inventory_and_same_source_verified": true,
+    "all_process_categories_delivered": true,
+    "workflow_closure_uses_real_immutable_bounded_evidence": true,
+    "noise_overview_and_recursive_output_excluded": true,
+    "package_layout_complete_and_safe": true,
+    "all_authored_markdown_package_links_exist": true,
+    "no_private_key_files_declared": true,
+    "no_configured_sensitive_pattern_candidates": true,
+    "content_inputs_unchanged_during_audit": true
+  },
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "apply",
+        "--numstat",
+        "-z",
+        "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\changes\\final.diff"
+      ],
+      "exit_code": 0,
+      "stdout": "verification/content-command-01.stdout",
+      "stdout_sha256": "f5021e2ec422ca8f311e1b32a9b0abd5451c81c8eef5388d47b5f2126b7a842c",
+      "stderr": "verification/content-command-01.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "ls-tree",
+        "-rz",
+        "d6a6ba7480fbd0a30075462e46bb4344a430ba61"
+      ],
+      "exit_code": 0,
+      "stdout": "verification/content-command-02.stdout",
+      "stdout_sha256": "1054f515fc56b8111ad8f03243e282b6f2336aae9c7d8a66a51cacc162bd0b5e",
+      "stderr": "verification/content-command-02.stderr",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "input_sha256_before": {
+    "build.md": "8e45710e7b6ae343e261e99dda9593e58ebc525b845d78d4839ae619414d728c",
+    "trace-index.md": "0feea9349c29ef8dd7433577a14c9a7599168ca86881d856eb67bdbd351403f2",
+    "sources.fragment.md": "b6edb810eebbad6971c109139106a82029ce1122250eabd257c89056ff09037e",
+    "solution.fragment.md": "d2506065e587938220769329d64a537c459bc7886a9c3806f0f7c23bb7a3e6ca",
+    "submission.json.fragment": "2465f16b7408868afed52a2d261cfccf289bbcfb7dfbc454b5dca2125791571b",
+    "human-changes.md": "33175fc7889f2c354a2b2dab1877e406a6c1cb1ff184c88f7d2e2766a3b6487f",
+    "missing-fields.md": "e49c2ec4a8c113b0f2516785ebafcfbcb8773892641c75f1be4c6870f9001ec5",
+    "auto-filled-facts.md": "5481a938d6e68f4356231fe9ee2fd5fc13e16706e7a32f1ae5c0435fbc2c42dc",
+    "evidence-facts.json": "33286e487fa966d092ccda60fc85b8c46dffbbd4ab851e799f035c4cab44f56c",
+    "package-layout.json": "e0c489fc564811991a7af272347c44f712d1b84c8ce7095d69121c828130e2ac",
+    "changes/project-files.json": "d3580336dc3d5a2518a063dc962ef5ceee08e5f7a4d9ed18e32d6ee994e6a51a",
+    "changes/final.diff": "d4acf9d0e689ca5e128758ce7b8d5b7644fbff26782a80007584e869cab1003f",
+    "changes/binary-files.json": "fadb2d0b08826088f037fc2ec158394b5aa3306dca0f7d6f4b534f4298facb4c",
+    "changes/excluded-files.json": "f27ea480d7c85069f007a4d33de1a90f8515ca6551206de145fd932a3e6fab2b",
+    "changes/ignore-boundary-audit.json": "58a846fc21c3a57d830224f6936812c1690a12e388ae265efa4358c8231686b6",
+    "README.md": "67907e357d3e398c769d11354c9f0280def038e30e87aa0b3efe2a112c73034b",
+    "handoff.md": "67907e357d3e398c769d11354c9f0280def038e30e87aa0b3efe2a112c73034b"
+  },
+  "trace_fields": [
+    {
+      "field": "题目 ID",
+      "present": true
+    },
+    {
+      "field": "AI 在本题实际参与的研发环节、用途及对应原始会话／事件范围（每道作答的赛题均须填写）",
+      "present": true
+    },
+    {
+      "field": "基线构建准备：脚本配置版本、执行时间及输出记录路径（见 tools/prepare_baseline.py）",
+      "present": true
+    },
+    {
+      "field": "Agent 名称及版本",
+      "present": true
+    },
+    {
+      "field": "模型名称、版本及运行参数",
+      "present": true
+    },
+    {
+      "field": "本题实际使用的 Skill、系统提示、工具及编排配置版本和保存位置",
+      "present": true
+    },
+    {
+      "field": "运行期间配置变更及原因（无则填“无”）",
+      "present": true
+    },
+    {
+      "field": "主会话 ID",
+      "present": true
+    },
+    {
+      "field": "关联会话及子会话 ID",
+      "present": true
+    },
+    {
+      "field": "解题过程中产生的全部相关原始日志、DB 或原生轨迹文件路径及读取方式",
+      "present": true
+    },
+    {
+      "field": "失败、重试、未采用的候选方案及选择过程的记录位置",
+      "present": true
+    },
+    {
+      "field": "实际提示、工具调用及返回结果、检索与代码修改、构建和自测记录位置",
+      "present": true
+    },
+    {
+      "field": "导出时间、方法与读取方式",
+      "present": true
+    },
+    {
+      "field": "成果冻结时间（北京时间，与 `solution.md` 一致）",
+      "present": true
+    },
+    {
+      "field": "官方工程基线标识（本次题包 metadata.base_commit 发布提交号）、最终提交版本标识",
+      "present": true
+    },
+    {
+      "field": "基线至提交版本的完整差异位置（建议 changes/final.diff，含新增、修改、删除；二进制变更另列文件及摘要）",
+      "present": true
+    },
+    {
+      "field": "与提交源码的对应关系",
+      "present": true
+    },
+    {
+      "field": "人工操作及相关记录位置",
+      "present": true
+    },
+    {
+      "field": "人工修改索引位置（可使用 `human-changes.md`；无则注明“无人工直接修改代码”）",
+      "present": true
+    },
+    {
+      "field": "人工修改的操作人、目的、文件、代码差异、修改前后版本及对应原始记录位置",
+      "present": true
+    },
+    {
+      "field": "公开资料检索与代码复用记录位置，以及 `sources.md` 中的对应来源条目",
+      "present": true
+    },
+    {
+      "field": "本题工作目录，以及赛题来源保护措施在本题运行中的配置位置（见 `solution.md`）",
+      "present": true
+    },
+    {
+      "field": "脱敏范围（无则填“无”）",
+      "present": true
+    },
+    {
+      "field": "记录缺失及原因（无则填“无”）",
+      "present": true
+    }
+  ],
+  "build_private_path_matches": [],
+  "build_delivered_dependencies": {
+    "workflow/do-entry/README.md": true,
+    "workflow/do-entry/prepare.py": true,
+    "workflow/do-entry/build.ps1": true,
+    "workflow/do-entry/run.ps1": true,
+    "workflow/do-entry/production_probe.py": true,
+    "test-harness/requirements.txt": true,
+    "AppScope/app.json5": true,
+    "entry/src/main/module.json5": true,
+    "oh-package.json5": true,
+    "oh-package-lock.json5": true,
+    "build-profile.json5": true
+  },
+  "fragment": {
+    "task_id": "cml-spec17",
+    "status": "submitted",
+    "project_path": "tasks/cml-spec17/project",
+    "build_instructions": "tasks/cml-spec17/build.md",
+    "trace_index": "tasks/cml-spec17/trace-index.md"
+  },
+  "missing_user_fields": [
+    {
+      "field": "version",
+      "placeholder_line": true
+    },
+    {
+      "field": "contact",
+      "placeholder_line": true
+    },
+    {
+      "field": "freeze_time",
+      "placeholder_line": true
+    },
+    {
+      "field": "members[].name",
+      "placeholder_line": true
+    },
+    {
+      "field": "members[].work",
+      "placeholder_line": true
+    },
+    {
+      "field": "source_guard",
+      "placeholder_line": true
+    },
+    {
+      "field": "human_edits",
+      "placeholder_line": true
+    },
+    {
+      "field": "known_issues",
+      "placeholder_line": true
+    },
+    {
+      "field": "extra_sources",
+      "placeholder_line": true
+    },
+    {
+      "field": "md_export_dir",
+      "placeholder_line": true
+    }
+  ],
+  "known_boundaries": [
+    {
+      "id": "D09/B23-missing-entire-row",
+      "disclosed": true
+    },
+    {
+      "id": "D09/B21-cross-goods-same-spec-id",
+      "disclosed": true
+    },
+    {
+      "id": "B11/address-pagination",
+      "disclosed": true
+    },
+    {
+      "id": "U01/max200-leading-trailing",
+      "disclosed": true
+    },
+    {
+      "id": "U02/no-coupon-list-and-cancel",
+      "disclosed": true
+    },
+    {
+      "id": "U04/U06/B19-destroy-kill",
+      "disclosed": true
+    },
+    {
+      "id": "U08/non-finite-id",
+      "disclosed": true
+    },
+    {
+      "id": "U10/concurrent-same-spec-quantity",
+      "disclosed": true
+    },
+    {
+      "id": "address-add-failure-cancel",
+      "disclosed": true
+    },
+    {
+      "id": "authenticated-live-backend",
+      "disclosed": true
+    }
+  ],
+  "token_table": [
+    {
+      "id": "01a15320-35c3-7341-a387-a8c8cec04015",
+      "actual": [
+        33360984,
+        94671,
+        33455655
+      ],
+      "expected": [
+        33360984,
+        94671,
+        33455655
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15321-8755-7262-9963-0de20e8bba3d",
+      "actual": [
+        2913762,
+        26847,
+        2940609
+      ],
+      "expected": [
+        2913762,
+        26847,
+        2940609
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15321-b0ef-7cc1-b352-1be9214d9d08",
+      "actual": [
+        31090906,
+        79794,
+        31170700
+      ],
+      "expected": [
+        31090906,
+        79794,
+        31170700
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15324-7c59-7bd1-86f3-cc3cd488aac8",
+      "actual": [
+        6870532,
+        35298,
+        6905830
+      ],
+      "expected": [
+        6870532,
+        35298,
+        6905830
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a1532a-90c7-7262-9d00-3fa0dd39ac01",
+      "actual": [
+        8744801,
+        50074,
+        8794875
+      ],
+      "expected": [
+        8744801,
+        50074,
+        8794875
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15412-7c11-7292-b4ef-1b7d894060a9",
+      "actual": [
+        50459180,
+        81402,
+        50540582
+      ],
+      "expected": [
+        50459180,
+        81402,
+        50540582
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15414-3ee9-7f93-b561-64c0efe6502d",
+      "actual": [
+        654917,
+        7685,
+        662602
+      ],
+      "expected": [
+        654917,
+        7685,
+        662602
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15414-6cf3-7941-855f-f4b6b2ae6cab",
+      "actual": [
+        40380215,
+        167372,
+        40547587
+      ],
+      "expected": [
+        40380215,
+        167372,
+        40547587
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15417-9451-71d0-bd98-d23cbdacc756",
+      "actual": [
+        3382607,
+        22846,
+        3405453
+      ],
+      "expected": [
+        3382607,
+        22846,
+        3405453
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15417-cde7-7a01-8e01-53189017033e",
+      "actual": [
+        7220426,
+        32471,
+        7252897
+      ],
+      "expected": [
+        7220426,
+        32471,
+        7252897
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15490-1423-7570-9c1c-98d9a6af515d",
+      "actual": [
+        10973455,
+        48605,
+        11022060
+      ],
+      "expected": [
+        10973455,
+        48605,
+        11022060
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15491-211c-7342-ac1b-abef22024170",
+      "actual": [
+        1039178,
+        13945,
+        1053123
+      ],
+      "expected": [
+        1039178,
+        13945,
+        1053123
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15491-7ced-7c42-be28-a86c6c4f2a61",
+      "actual": [
+        2141733,
+        17649,
+        2159382
+      ],
+      "expected": [
+        2141733,
+        17649,
+        2159382
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15496-a1fa-7a32-a5d4-2c960d574a34",
+      "actual": [
+        2463127,
+        19986,
+        2483113
+      ],
+      "expected": [
+        2463127,
+        19986,
+        2483113
+      ],
+      "match": true,
+      "native_link_present": true
+    },
+    {
+      "id": "01a15497-0104-7da3-884f-b85648cacc52",
+      "actual": [
+        9665972,
+        45804,
+        9711776
+      ],
+      "expected": [
+        9665972,
+        45804,
+        9711776
+      ],
+      "match": true,
+      "native_link_present": true
+    }
+  ],
+  "binary_inventory": {
+    "expected_count": 396,
+    "declared_count": 396,
+    "missing": [],
+    "extra": [],
+    "duplicates": [],
+    "mismatches": [],
+    "same_source_mismatches": []
+  },
+  "zero_byte_failure_screenshot": {
+    "path": "traces/local-entry-02/27-roundtrip-remark-visible.png",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "baseline_same_content_paths": [
+      "core/base/consumer-rules.txt",
+      "core/data/consumer-rules.txt",
+      "core/database/consumer-rules.txt",
+      "core/datastore/consumer-rules.txt",
+      "core/designsystem/consumer-rules.txt",
+      "core/ibestui/consumer-rules.txt",
+      "core/model/consumer-rules.txt",
+      "core/navigation/consumer-rules.txt",
+      "core/network/consumer-rules.txt",
+      "core/result/consumer-rules.txt",
+      "core/state/consumer-rules.txt",
+      "core/ui/consumer-rules.txt",
+      "core/util/consumer-rules.txt",
+      "feature/auth/consumer-rules.txt",
+      "feature/common/consumer-rules.txt",
+      "feature/cs/consumer-rules.txt",
+      "feature/feedback/consumer-rules.txt",
+      "feature/goods/consumer-rules.txt",
+      "feature/launch/consumer-rules.txt",
+      "feature/main/consumer-rules.txt",
+      "feature/market/consumer-rules.txt",
+      "feature/order/consumer-rules.txt",
+      "feature/user/consumer-rules.txt"
+    ],
+    "origin": "Same bytes as bundled baseline resource",
+    "git_binary_patch": false,
+    "zero_bytes": true,
+    "invalid_as_screenshot": true,
+    "retained_failure": true
+  },
+  "project_categories": {
+    "spec/": 6,
+    "spec-harness/": 7,
+    "inputs/": 2,
+    "hypium_tests/": 7,
+    "test-harness/": 10,
+    "workflow/": 185,
+    "traces/": 8910,
+    "logs/": 301,
+    "system-config/": 42,
+    ".comate/": 0
+  },
+  "immutable_pre_close_checks": [
+    {
+      "source_path": ".comate/submission-draft/changes/history/pre-close/changes--validation.json",
+      "hash_matches": true,
+      "actual_result": "pass"
+    },
+    {
+      "source_path": ".comate/submission-draft/changes/history/pre-close/verification--independent-replay.json",
+      "hash_matches": true,
+      "actual_result": "pass"
+    },
+    {
+      "source_path": ".comate/submission-draft/changes/history/pre-close/verification--content-audit.json",
+      "hash_matches": true,
+      "actual_result": "pass"
+    }
+  ],
+  "unexpected_noise_paths": [],
+  "ignore_audit_keys": [
+    "method",
+    "pruned_directories",
+    "nonpruned_file_count",
+    "ignored_nonpruned_files",
+    "prior_attempt"
+  ],
+  "layout_mapped_material_count": 459,
+  "layout_unsafe_destinations": [],
+  "layout_duplicate_destinations": [],
+  "unmapped_material_files": [],
+  "authored_markdown_links": [
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T15-46-22-01a15320-35c3-7341-a387-a8c8cec04015.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T15-46-22-01a15320-35c3-7341-a387-a8c8cec04015.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T15-47-48-01a15321-8755-7262-9963-0de20e8bba3d.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T15-47-48-01a15321-8755-7262-9963-0de20e8bba3d.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T15-47-59-01a15321-b0ef-7cc1-b352-1be9214d9d08.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T15-47-59-01a15321-b0ef-7cc1-b352-1be9214d9d08.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T15-51-02-01a15324-7c59-7bd1-86f3-cc3cd488aac8.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T15-51-02-01a15324-7c59-7bd1-86f3-cc3cd488aac8.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T15-57-41-01a1532a-90c7-7262-9d00-3fa0dd39ac01.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T15-57-41-01a1532a-90c7-7262-9d00-3fa0dd39ac01.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T20-11-00-01a15412-7c11-7292-b4ef-1b7d894060a9.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T20-11-00-01a15412-7c11-7292-b4ef-1b7d894060a9.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T20-12-55-01a15414-3ee9-7f93-b561-64c0efe6502d.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T20-12-55-01a15414-3ee9-7f93-b561-64c0efe6502d.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T20-13-07-01a15414-6cf3-7941-855f-f4b6b2ae6cab.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T20-13-07-01a15414-6cf3-7941-855f-f4b6b2ae6cab.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T20-16-34-01a15417-9451-71d0-bd98-d23cbdacc756.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T20-16-34-01a15417-9451-71d0-bd98-d23cbdacc756.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T20-16-48-01a15417-cde7-7a01-8e01-53189017033e.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T20-16-48-01a15417-cde7-7a01-8e01-53189017033e.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T22-28-13-01a15490-1423-7570-9c1c-98d9a6af515d.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T22-28-13-01a15490-1423-7570-9c1c-98d9a6af515d.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T22-29-19-01a15491-211c-7342-ac1b-abef22024170.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T22-29-19-01a15491-211c-7342-ac1b-abef22024170.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T22-29-43-01a15491-7ced-7c42-be28-a86c6c4f2a61.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T22-29-43-01a15491-7ced-7c42-be28-a86c6c4f2a61.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T22-35-20-01a15496-a1fa-7a32-a5d4-2c960d574a34.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T22-35-20-01a15496-a1fa-7a32-a5d4-2c960d574a34.jsonl",
+      "exists": true
+    },
+    {
+      "source": "trace-index.md",
+      "target": "../../traces/cml-spec17/native/rollout-2026-10-19T22-35-44-01a15497-0104-7da3-884f-b85648cacc52.jsonl",
+      "package_target": "traces/cml-spec17/native/rollout-2026-10-19T22-35-44-01a15497-0104-7da3-884f-b85648cacc52.jsonl",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "missing-fields.md",
+      "package_target": "tasks/cml-spec17/missing-fields.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "auto-filled-facts.md",
+      "package_target": "tasks/cml-spec17/auto-filled-facts.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "build.md",
+      "package_target": "tasks/cml-spec17/build.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "trace-index.md",
+      "package_target": "tasks/cml-spec17/trace-index.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "solution.fragment.md",
+      "package_target": "tasks/cml-spec17/solution.fragment.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "sources.fragment.md",
+      "package_target": "tasks/cml-spec17/sources.fragment.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "submission.json.fragment",
+      "package_target": "tasks/cml-spec17/submission.json.fragment",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "human-changes.md",
+      "package_target": "tasks/cml-spec17/human-changes.md",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "changes/final.diff",
+      "package_target": "tasks/cml-spec17/changes/final.diff",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "changes/project-files.json",
+      "package_target": "tasks/cml-spec17/changes/project-files.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "changes/binary-files.csv",
+      "package_target": "tasks/cml-spec17/changes/binary-files.csv",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "changes/excluded-files.json",
+      "package_target": "tasks/cml-spec17/changes/excluded-files.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "changes/validation.json",
+      "package_target": "tasks/cml-spec17/changes/validation.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "verification/independent-replay.json",
+      "package_target": "tasks/cml-spec17/verification/independent-replay.json",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "verification/final-audit.json",
+      "package_target": "tasks/cml-spec17/verification/final-audit.json",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "missing-fields.md",
+      "package_target": "tasks/cml-spec17/missing-fields.md",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "auto-filled-facts.md",
+      "package_target": "tasks/cml-spec17/auto-filled-facts.md",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "build.md",
+      "package_target": "tasks/cml-spec17/build.md",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "trace-index.md",
+      "package_target": "tasks/cml-spec17/trace-index.md",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "solution.fragment.md",
+      "package_target": "tasks/cml-spec17/solution.fragment.md",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "sources.fragment.md",
+      "package_target": "tasks/cml-spec17/sources.fragment.md",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "submission.json.fragment",
+      "package_target": "tasks/cml-spec17/submission.json.fragment",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "human-changes.md",
+      "package_target": "tasks/cml-spec17/human-changes.md",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "changes/final.diff",
+      "package_target": "tasks/cml-spec17/changes/final.diff",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "changes/project-files.json",
+      "package_target": "tasks/cml-spec17/changes/project-files.json",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "changes/binary-files.csv",
+      "package_target": "tasks/cml-spec17/changes/binary-files.csv",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "changes/excluded-files.json",
+      "package_target": "tasks/cml-spec17/changes/excluded-files.json",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "changes/validation.json",
+      "package_target": "tasks/cml-spec17/changes/validation.json",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "verification/independent-replay.json",
+      "package_target": "tasks/cml-spec17/verification/independent-replay.json",
+      "exists": true
+    },
+    {
+      "source": "handoff.md",
+      "target": "verification/final-audit.json",
+      "package_target": "tasks/cml-spec17/verification/final-audit.json",
+      "exists": true
+    }
+  ],
+  "sensitive_filename_candidates": [],
+  "sensitive_content_scan": {
+    "method": "Pattern scan only; candidate metadata records no matched credential value",
+    "patterns": [
+      "private_key_header",
+      "openai_token_shape",
+      "aws_access_key_shape",
+      "jwt_shape"
+    ],
+    "files_scanned": 9922,
+    "candidates": [],
+    "limit": "Zero detections is limited to the declared patterns, not proof that arbitrary secrets cannot exist."
+  },
+  "input_sha256_after": {
+    "build.md": "8e45710e7b6ae343e261e99dda9593e58ebc525b845d78d4839ae619414d728c",
+    "trace-index.md": "0feea9349c29ef8dd7433577a14c9a7599168ca86881d856eb67bdbd351403f2",
+    "sources.fragment.md": "b6edb810eebbad6971c109139106a82029ce1122250eabd257c89056ff09037e",
+    "solution.fragment.md": "d2506065e587938220769329d64a537c459bc7886a9c3806f0f7c23bb7a3e6ca",
+    "submission.json.fragment": "2465f16b7408868afed52a2d261cfccf289bbcfb7dfbc454b5dca2125791571b",
+    "human-changes.md": "33175fc7889f2c354a2b2dab1877e406a6c1cb1ff184c88f7d2e2766a3b6487f",
+    "missing-fields.md": "e49c2ec4a8c113b0f2516785ebafcfbcb8773892641c75f1be4c6870f9001ec5",
+    "auto-filled-facts.md": "5481a938d6e68f4356231fe9ee2fd5fc13e16706e7a32f1ae5c0435fbc2c42dc",
+    "evidence-facts.json": "33286e487fa966d092ccda60fc85b8c46dffbbd4ab851e799f035c4cab44f56c",
+    "package-layout.json": "e0c489fc564811991a7af272347c44f712d1b84c8ce7095d69121c828130e2ac",
+    "changes/project-files.json": "d3580336dc3d5a2518a063dc962ef5ceee08e5f7a4d9ed18e32d6ee994e6a51a",
+    "changes/final.diff": "d4acf9d0e689ca5e128758ce7b8d5b7644fbff26782a80007584e869cab1003f",
+    "changes/binary-files.json": "fadb2d0b08826088f037fc2ec158394b5aa3306dca0f7d6f4b534f4298facb4c",
+    "changes/excluded-files.json": "f27ea480d7c85069f007a4d33de1a90f8515ca6551206de145fd932a3e6fab2b",
+    "changes/ignore-boundary-audit.json": "58a846fc21c3a57d830224f6936812c1690a12e388ae265efa4358c8231686b6",
+    "README.md": "67907e357d3e398c769d11354c9f0280def038e30e87aa0b3efe2a112c73034b",
+    "handoff.md": "67907e357d3e398c769d11354c9f0280def038e30e87aa0b3efe2a112c73034b"
+  },
+  "result": "pass",
+  "failed_checks": []
+}

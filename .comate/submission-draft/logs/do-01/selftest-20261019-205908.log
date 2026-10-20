@@ -1,0 +1,119 @@
+[2026-10-19 20:59:11,557] [51828] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-19 20:59:11,560] [51828] [EnvPool] [INFO] [Report path: D:\HCUP\cml-spec17\logs\do-01\reports\2026-10-19-20-59-11]
+[2026-10-19 20:59:11,560] [51828] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-19 20:59:11,561] [51828] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-19 20:59:11,561] [51828] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-19 20:59:11,563] [51828] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-19 20:59:11,563] [51828] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:59:11,563] [51828] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:59:12,295] [52916] [Hdc] [INFO] [127.0.0.1:11235		TCP	Offline	localhost
+127.0.0.1:11237		TCP	Connected	localhost
+127.0.0.1:11239		TCP	Connected	localhost
+127.0.0.1:11241		TCP	Connected	localhost
+127.0.0.1:11243		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-19 20:59:12,565] [51828] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:59:12,565] [51828] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:59:12,565] [51828] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:59:15,576] [51828] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:59:15,576] [51828] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:59:15,576] [51828] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:59:15,576] [51828] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:59:15,576] [51828] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:59:15,839] [51828] [Device] [INFO] [6.0.2.3]
+[2026-10-19 20:59:16,172] [51828] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-19 20:59:16,172] [51828] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-19 20:59:16,296] [51828] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 27534]
+[2026-10-19 20:59:16,296] [51828] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-19 20:59:16,428] [51828] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-19 20:59:16,428] [51828] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-19 20:59:16,521] [51828] [Device] [INFO] [Device agent is up to date!]
+[2026-10-19 20:59:16,664] [51828] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-19 20:59:18,854] [51828] [DeviceUIProxy] [INFO] [tcp forward port: 9967 for 127.0.0.1:11243]
+[2026-10-19 20:59:19,014] [51828] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:59:19,431] [51828] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-19 20:59:19,432] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:19,489] [51828] [Device] [WARNING] [Fail to connect AAMS, try again[1]]
+[2026-10-19 20:59:19,786] [51828] [Device] [ERROR] [[OpenHarmony] Exception on request to device] [ErrorNo=00000]
+[2026-10-19 20:59:20,467] [51828] [Device] [INFO] [Uitest version is 6.0.2.3]
+[2026-10-19 20:59:20,467] [51828] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-19 20:59:20,467] [51828] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-19 20:59:20,607] [51828] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-19 20:59:20,607] [51828] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-19 20:59:20,698] [51828] [Device] [INFO] [Device agent is up to date!]
+[2026-10-19 20:59:20,698] [51828] [DeviceUIProxy] [INFO] [Before reconnect ui proxy, try to stop it first.]
+[2026-10-19 20:59:23,225] [51828] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]
+[2026-10-19 20:59:25,492] [51828] [DeviceUIProxy] [INFO] [tcp forward port: 9918 for 127.0.0.1:11243]
+[2026-10-19 20:59:25,606] [51828] [Device] [INFO] [Agent restart, try to recover object]
+[2026-10-19 20:59:27,327] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 7.895s</div>]
+[2026-10-19 20:59:27,451] [51828] [Device] [INFO] [6.0.2.3]
+[2026-10-19 20:59:27,971] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_1701'))</div>]
+[2026-10-19 20:59:28,038] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_1701')) cost: 0.067s</div>]
+[2026-10-19 20:59:28,038] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_2903'))</div>]
+[2026-10-19 20:59:28,118] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_2903')) cost: 0.08s</div>]
+[2026-10-19 20:59:29,358] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:59:29,474] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.115s</div>]
+[2026-10-19 20:59:29,474] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5)</div>]
+[2026-10-19 20:59:29,974] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5) cost: 0.501s</div>]
+[2026-10-19 20:59:29,974] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:59:30,064] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.089s</div>]
+[2026-10-19 20:59:30,064] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5)</div>]
+[2026-10-19 20:59:30,564] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5) cost: 0.501s</div>]
+[2026-10-19 20:59:33,693] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:59:34,697] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 1.003s</div>]
+[2026-10-19 20:59:34,698] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'), 请轻放，周末送达)</div>]
+[2026-10-19 20:59:36,936] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'), 请轻放，周末送达) cost: 2.238s</div>]
+[2026-10-19 20:59:37,267] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_coupon'))</div>]
+[2026-10-19 20:59:38,922] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_coupon')) cost: 1.654s</div>]
+[2026-10-19 20:59:41,163] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:59:41,234] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 0.072s</div>]
+[2026-10-19 20:59:41,636] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:59:41,700] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 0.065s</div>]
+[2026-10-19 20:59:42,302] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:42,585] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.283s</div>]
+[2026-10-19 20:59:44,011] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:44,087] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.076s</div>]
+[2026-10-19 20:59:45,425] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:45,502] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.077s</div>]
+[2026-10-19 20:59:46,982] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:47,060] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.078s</div>]
+[2026-10-19 20:59:48,416] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:48,491] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.074s</div>]
+[2026-10-19 20:59:49,925] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:49,994] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.068s</div>]
+[2026-10-19 20:59:51,282] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:51,349] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.067s</div>]
+[2026-10-19 20:59:52,605] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:52,678] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.074s</div>]
+[2026-10-19 20:59:53,987] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:54,066] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.079s</div>]
+[2026-10-19 20:59:55,272] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:55,346] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.074s</div>]
+[2026-10-19 20:59:56,654] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:59:56,718] [51828] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.064s</div>]
+test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters) ... FAIL
+
+======================================================================
+FAIL: test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP/cml-spec17\hypium_tests\test_order_create.py", line 31, in test_original_submit_actual_http_and_response_parameters
+    self.wait_state(lambda s: s.get('order') is not None and s['order']['selectedCoupon'] is not None and
+  File "D:\HCUP/cml-spec17\hypium_tests\do_support.py", line 156, in wait_state
+    self.fail(f'Actual state not reached; last={last}; incomplete={incomplete}')
+AssertionError: Actual state not reached; last={'reason': 'poll', 'scenario': 'with-address', 'entry': 'confirm', 'addressListMode': 'seeded', 'routeNames': ['order/confirm'], 'payParamsJson': '[]', 'faultBoundaryInstalled': False, 'order': {'selectedAddress': {'id': 701, 'userId': 0, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True, 'createTime': None, 'updateTime': None}, 'remark': '请轻放，周末送达', 'couponModalVisible': False, 'selectedCoupon': None, 'data': {'defaultAddress': {'id': 701, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True}, 'userCoupon': [{'id': 503, 'title': '本地调查券503', 'amount': 300, 'status': 1, 'type': 0, 'condition': {'fullAmount': 1000}}]}, 'cachedCarts': None, 'cartList': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'selectedGoodsList': [{'goodsId': 1701, 'goodsInfo': {'id': 1701, 'typeId': 0, 'title': '本地商品甲1701', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 1}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 3}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 2}], 'isFromCart': False, 'originalPrice': 5600, 'totalPrice': 5600, 'uiState': 'success'}, 'carts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}, {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'count': 4, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}, {'goodsId': 4109, 'goodsName': '本地未选丙4109', 'goodsMainPic': '', 'spec': [{'id': 4193, 'goodsId': 4109, 'name': '本地规格4193', 'price': 600, 'stock': 100, 'count': 1, 'images': []}]}], 'cacheCarts': None, 'cacheSelectedGoods': None, 'confirmCount': 0, 'addressPageCount': 0, 'addressAddCount': 0, 'createCount': 0, 'rejectCount': 0, 'requests': []}; incomplete=[]
+
+----------------------------------------------------------------------
+Ran 1 test in 47.209s
+
+FAILED (failures=1)
+
+项目: D:/HCUP/cml-spec17
+设备: 127.0.0.1:11243
+
+测试用例: 1  通过: 0  失败: 1  跳过(未验证): 0
+  ✗ test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters) — AssertionError: Actual state not reached; last={'reason': 'poll', 'scenario': 'with-address', 'entry': 'confirm', 'addressListMode': 'seeded', 'routeNames': ['order/confirm'], 'payParamsJson': '[]', 'faultBoundaryInstalled': False, 'order': {'selectedAddress': {'id': 701, 'userId': 0, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True, 'createTime': None, 'updateTime': None}, 'remark': '请轻放，周末送达', 'couponModalVisible': False, 'selectedCoupon': None, 'data': {'defaultAddress': {'id': 701, 'contact': '本地默认甲', 'phone': '13800000001', 'province': '北京市', 'city': '北京市', 'district': '东城区', 'address': '本地测试路701号', 'isDefault': True}, 'userCoupon': [{'id': 503, 'title': '本地调查券503', 'amount': 300, 'status': 1, 'type': 0, 'condition': {'fullAmount': 1000}}]}, 'cachedCarts': None, 'cartList': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}], 'selectedGoodsList': [{'goodsId': 1701, 'goodsInfo': {'id': 1701, 'typeId': 0, 'title': '本地商品甲1701', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 1}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 3}, {'goodsId': 2903, 'goodsInfo': {'id': 2903, 'typeId': 0, 'title': '本地商品乙2903', 'subTitle': None, 'mainPic': '', 'pics': None, 'price': 0, 'sold': 0, 'content': None, 'contentPics': None, 'recommend': False, 'featured': False, 'status': 0, 'sortNum': 0, 'specs': None, 'createTime': None, 'updateTime': None}, 'spec': {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'sortNum': 0, 'images': [], 'createTime': None, 'updateTime': None}, 'count': 2}], 'isFromCart': False, 'originalPrice': 5600, 'totalPrice': 5600, 'uiState': 'success'}, 'carts': [{'goodsId': 1701, 'goodsName': '本地商品甲1701', 'goodsMainPic': '', 'spec': [{'id': 11, 'goodsId': 1701, 'name': '本地规格11', 'price': 1250, 'stock': 100, 'count': 2, 'images': []}, {'id': 37, 'goodsId': 1701, 'name': '本地规格37', 'price': 2300, 'stock': 100, 'count': 1, 'images': []}, {'id': 91, 'goodsId': 1701, 'name': '本地规格91', 'price': 900, 'stock': 100, 'count': 4, 'images': []}]}, {'goodsId': 2903, 'goodsName': '本地商品乙2903', 'goodsMainPic': '', 'spec': [{'id': 205, 'goodsId': 2903, 'name': '本地规格205', 'price': 800, 'stock': 100, 'count': 3, 'images': []}, {'id': 407, 'goodsId': 2903, 'name': '本地规格407', 'price': 450, 'stock': 100, 'count': 2, 'images': []}]}, {'goodsId': 4109, 'goodsName': '本地未选丙4109', 'goodsMainPic': '', 'spec': [{'id': 4193, 'goodsId': 4109, 'name': '本地规格4193', 'price': 600, 'stock': 100, 'count': 1, 'images': []}]}], 'cacheCarts': None, 'cacheSelectedGoods': None, 'confirmCount': 0, 'addressPageCount': 0, 'addressAddCount': 0, 'createCount': 0, 'rejectCount': 0, 'requests': []}; incomplete=[]

@@ -1,0 +1,1093 @@
+diff --git a/core/data/src/main/ets/repository/CartRepository.ets b/core/data/src/main/ets/repository/CartRepository.ets
+index 4128ca13d3167a80a8bf7dbd3e4afa63ea60948f..10d8c6b69ff450699ee7afc511571a7f98c5857b 100644
+--- a/core/data/src/main/ets/repository/CartRepository.ets
++++ b/core/data/src/main/ets/repository/CartRepository.ets
+@@ -6,6 +6,25 @@ import { CartLocalDataSource, CartLocalDataSourceImpl } from "database";
+  * @author Joker.X
+  */
+ export class CartRepository {
++  private static readonly changeListeners: Set<() => void> = new Set();
++
++  /** Subscribe to completed local deletions, including deletions from another repository instance. */
++  static subscribeChanges(listener: () => void): () => void {
++    CartRepository.changeListeners.add(listener);
++    return (): void => {
++      CartRepository.changeListeners.delete(listener);
++    };
++  }
++
++  private static publishChanges(): void {
++    for (const listener of Array.from(CartRepository.changeListeners)) {
++      try {
++        listener();
++      } catch (error) {
++        console.error(`[CartRepository] change listener failed: ${String(error)}`);
++      }
++    }
++  }
+   /**
+    * 本地数据源实例
+    */
+@@ -53,8 +72,9 @@ export class CartRepository {
+    * @param {number} goodsId 商品ID
+    * @returns {Promise<void>} Promise<void>
+    */
+-  removeFromCart(goodsId: number): Promise<void> {
+-    return this.dataSource.removeFromCart(goodsId);
++  async removeFromCart(goodsId: number): Promise<void> {
++    await this.dataSource.removeFromCart(goodsId);
++    CartRepository.publishChanges();
+   }
+ 
+   /**
+@@ -63,8 +83,9 @@ export class CartRepository {
+    * @param {number} specId 规格ID
+    * @returns {Promise<void>} Promise<void>
+    */
+-  removeSpecFromCart(goodsId: number, specId: number): Promise<void> {
+-    return this.dataSource.removeSpecFromCart(goodsId, specId);
++  async removeSpecFromCart(goodsId: number, specId: number): Promise<void> {
++    await this.dataSource.removeSpecFromCart(goodsId, specId);
++    CartRepository.publishChanges();
+   }
+ 
+   /**
+diff --git a/core/model/src/main/ets/request/CreateOrderRequest.ets b/core/model/src/main/ets/request/CreateOrderRequest.ets
+index 73fdc7faf551da4689f837169fce5277f97e7300..cbde815616f9a53f66487950a15e04c585a406c2 100644
+--- a/core/model/src/main/ets/request/CreateOrderRequest.ets
++++ b/core/model/src/main/ets/request/CreateOrderRequest.ets
+@@ -1,19 +1,32 @@
+ import { SelectedGoods } from "../entity/SelectedGoods";
+ 
++/** Explicit data-only initializers allow typed literals with ArkTS's nominal class rules. */
++export interface CreateOrderInit {
++  remark?: string;
++  addressId: number;
++  goodsList: SelectedGoods[];
++  couponId?: number | null;
++  title?: string;
++}
++
++export interface CreateOrderRequestInit {
++  data: CreateOrderInit;
++}
++
+ /**
+  * @file 创建订单请求模型
+  * @author Joker.X
+  */
+-export class CreateOrderRequest {
++export class CreateOrderRequest implements CreateOrderRequestInit {
+   /**
+    * 创建订单所需参数
+    */
+   data: CreateOrder;
+ 
+   /**
+-   * @param {CreateOrderRequest} init - 初始化数据
++   * @param {CreateOrderRequestInit} init - 初始化数据
+    */
+-  constructor(init: CreateOrderRequest) {
++  constructor(init: CreateOrderRequestInit) {
+     this.data = new CreateOrder(init.data);
+   }
+ }
+@@ -21,7 +34,7 @@ export class CreateOrderRequest {
+ /**
+  * 创建订单所需参数
+  */
+-export class CreateOrder {
++export class CreateOrder implements CreateOrderInit {
+   /**
+    * 备注信息
+    */
+@@ -44,9 +57,9 @@ export class CreateOrder {
+   title?: string;
+ 
+   /**
+-   * @param {CreateOrder} init - 初始化数据
++   * @param {CreateOrderInit} init - 初始化数据
+    */
+-  constructor(init: CreateOrder) {
++  constructor(init: CreateOrderInit) {
+     this.addressId = init.addressId;
+     this.goodsList = init.goodsList.map((g) => new SelectedGoods(g));
+     if (init.remark !== undefined) {
+diff --git a/core/ui/src/main/ets/component/goods/OrderGoodsCard.ets b/core/ui/src/main/ets/component/goods/OrderGoodsCard.ets
+index 17679452cbde5c236c388f24dad7f4fedaf542cc..d00f276bdd246471827e22fb7db86a1f8e12e2e9 100644
+--- a/core/ui/src/main/ets/component/goods/OrderGoodsCard.ets
++++ b/core/ui/src/main/ets/component/goods/OrderGoodsCard.ets
+@@ -15,6 +15,9 @@ export struct OrderGoodsCard {
+    */
+   @Param
+   data: Cart = new Cart();
++  /** Optional stable IDs for the existing goods and specification rows. */
++  @Param
++  idPrefix: string = "";
+   /**
+    * 正在删除的规格ID集合
+    */
+@@ -76,7 +79,7 @@ export struct OrderGoodsCard {
+           onCellClick: (): void => {
+             this.onGoodsClick(this.data.goodsId);
+           }
+-        });
++        }).id(this.idPrefix ? `${this.idPrefix}_goods_${this.data.goodsId}` : "");
+       }
+ 
+       SpaceVerticalMedium();
+@@ -105,7 +108,7 @@ export struct OrderGoodsCard {
+                 this.itemActionSlotBuilder(item);
+               }
+             } : undefined
+-          });
++          }).id(this.idPrefix ? `${this.idPrefix}_spec_${this.data.goodsId}_${item.id}` : "");
+         }
+       }, (item: CartGoodsSpec): string => `${item.id}`);
+     }
+diff --git a/entry/oh-package-lock.json5 b/entry/oh-package-lock.json5
+index a2ac8177250a9b5c54ed3d9c58e83679a5f661a5..2729398ae5872a6c55621bc18725d3c0a5d3a1e2 100644
+--- a/entry/oh-package-lock.json5
++++ b/entry/oh-package-lock.json5
+@@ -310,6 +310,7 @@
+         "model": "file:../../core/model",
+         "data": "file:../../core/data",
+         "result": "file:../../core/result",
++        "util": "file:../../core/util",
+         "base": "file:../../core/base",
+         "designsystem": "file:../../core/designsystem",
+         "ui": "file:../../core/ui",
+diff --git a/feature/main/src/main/ets/component/CartBottomBar.ets b/feature/main/src/main/ets/component/CartBottomBar.ets
+index e987ecd7b19eea77ba56311cd17653ca20f5c2e7..91512c487218f888be50beceac601826d6eeb86e 100644
+--- a/feature/main/src/main/ets/component/CartBottomBar.ets
++++ b/feature/main/src/main/ets/component/CartBottomBar.ets
+@@ -130,7 +130,7 @@ export struct CartBottomBar {
+               btnWidth: 90,
+               btnHeight: 34,
+               onBtnClick: (): void => this.onSettleClick()
+-            });
++            }).id("cart_settle");
+           }
+         }
+       }
+diff --git a/feature/main/src/main/ets/view/CartPage.ets b/feature/main/src/main/ets/view/CartPage.ets
+index 9a2919515aaf45f35668d84dc3c886cb6f2567f2..243e090746248e3eddc64b700ddaa2b0942db6f4 100644
+--- a/feature/main/src/main/ets/view/CartPage.ets
++++ b/feature/main/src/main/ets/view/CartPage.ets
+@@ -1,4 +1,4 @@
+-import { ColumnStart, P100, SpaceVerticalMedium } from "designsystem";
++import { P100, SpaceVerticalMedium } from "designsystem";
+ import { Cart, CartGoodsSpec } from "model";
+ import { GoodsNavigator } from "navigation";
+ import { AppNavDestination, EmptyCart, OrderGoodsCard } from "ui";
+@@ -64,7 +64,7 @@ export struct CartPage {
+         right: this.windowSafeAreaState.rightInset
+       },
+     }) {
+-      ColumnStart({ fillMaxSize: true }) {
++      Column() {
+         this.CartContent();
+         if (!this.vm.isEmpty) {
+           CartBottomBar({
+@@ -86,6 +86,10 @@ export struct CartPage {
+           });
+         }
+       }
++      .id("cart_page")
++      .width(P100)
++      .height(P100)
++      .alignItems(HorizontalAlign.Start)
+     }
+   }
+ 
+@@ -107,6 +111,7 @@ export struct CartPage {
+           ListItem() {
+             OrderGoodsCard({
+               data: cart,
++              idPrefix: "cart",
+               onGoodsClick: (goodsId: number): void => {
+                 GoodsNavigator.toDetail(goodsId);
+               },
+@@ -148,6 +153,6 @@ export struct CartPage {
+       onChange: (): void => {
+         this.vm.toggleSpecSelected(goodsId, spec.id);
+       }
+-    });
++    }).id(`cart_select_${goodsId}_${spec.id}`);
+   }
+ }
+diff --git a/feature/main/src/main/ets/view/MainPage.ets b/feature/main/src/main/ets/view/MainPage.ets
+index e70cbc50959eb2a070a78765bdddd019d9ce43c9..4104b6a708d350d711d93a7d42f133f95ff38b87 100644
+--- a/feature/main/src/main/ets/view/MainPage.ets
++++ b/feature/main/src/main/ets/view/MainPage.ets
+@@ -112,6 +112,7 @@ export struct MainPage {
+       SpaceVerticalXSmall();
+ 
+       Text(this.vm.tabItems[index].title)
++        .id(index === 2 ? "main_tab_cart" : `main_tab_${index}`)
+         .fontSize(bp({
+           sm: $r("app.float.body_medium"),
+           md: $r("app.float.body_large"),
+diff --git a/feature/main/src/main/ets/viewmodel/CartViewModel.ets b/feature/main/src/main/ets/viewmodel/CartViewModel.ets
+index 78f6f2a27acbd8d60262363a151093ef43f044cc..f634d1fca575f22802c7e3d7ba854d02caed7f4b 100644
+--- a/feature/main/src/main/ets/viewmodel/CartViewModel.ets
++++ b/feature/main/src/main/ets/viewmodel/CartViewModel.ets
+@@ -18,6 +18,34 @@ export default class CartViewModel extends BaseViewModel {
+    * 订单缓存本地存储仓库
+    */
+   private readonly orderCacheStoreRepository: OrderCacheStoreRepository = new OrderCacheStoreRepository();
++  private unsubscribeChanges: (() => void) | null = null;
++  private cartLoadTask: Promise<void> | null = null;
++  private refreshPending: boolean = false;
++  private disposed: boolean = false;
++
++  aboutToAppear(): void {
++    if (this.disposed) {
++      return;
++    }
++    if (!this.unsubscribeChanges) {
++      this.unsubscribeChanges = CartRepository.subscribeChanges((): void => {
++        this.loadCartData();
++      });
++    }
++    this.loadCartData();
++  }
++
++  onShown(reason: VisibilityChangeReason): void {
++    this.loadCartData();
++  }
++
++  aboutToBeDeleted(): void {
++    this.disposed = true;
++    if (this.unsubscribeChanges) {
++      this.unsubscribeChanges();
++      this.unsubscribeChanges = null;
++    }
++  }
+   /**
+    * 购物车列表
+    */
+@@ -95,12 +123,48 @@ export default class CartViewModel extends BaseViewModel {
+    * 加载购物车数据
+    * @returns {Promise<void>} Promise<void>
+    */
+-  async loadCartData(): Promise<void> {
++  loadCartData(): Promise<void> {
++    if (this.disposed) {
++      return Promise.resolve();
++    }
++    this.refreshPending = true;
++    if (!this.cartLoadTask) {
++      this.cartLoadTask = this.refreshCartData();
++    }
++    return this.cartLoadTask;
++  }
++
++  private async refreshCartData(): Promise<void> {
+     this.isLoading = true;
+     try {
+-      this.cartList = await this.cartRepository.getAllCarts();
++      do {
++        this.refreshPending = false;
++        try {
++          const carts = await this.cartRepository.getAllCarts();
++          if (this.disposed) {
++            return;
++          }
++          this.cartList = carts;
++          const remainingKeys = new Set<string>();
++          for (const cart of carts) {
++            for (const spec of cart.spec) {
++              const key = `${cart.goodsId}_${spec.id}`;
++              if (this.selectedSpecIds.has(key)) {
++                remainingKeys.add(key);
++              }
++            }
++          }
++          this.selectedSpecIds = remainingKeys;
++        } catch (error) {
++          console.error(`[Cart] refresh failed: ${String(error)}`);
++        }
++        // A deletion during this read requests one more read; the final notification is never dropped.
++      } while (this.refreshPending && !this.disposed);
+     } finally {
+-      this.isLoading = false;
++      this.cartLoadTask = null;
++      if (!this.disposed) {
++        this.isLoading = false;
++      }
+     }
+   }
+ 
+diff --git a/feature/order/oh-package.json5 b/feature/order/oh-package.json5
+index a1add20e9ff9ac67b1b2c630d43ab15f77cec1e0..578e6bbdffc89c1512bc8fc98cd3bb63979135b4 100644
+--- a/feature/order/oh-package.json5
++++ b/feature/order/oh-package.json5
+@@ -11,6 +11,7 @@
+     "model": "file:../../core/model",
+     "data": "file:../../core/data",
+     "result": "file:../../core/result",
++    "util": "file:../../core/util",
+     "base": "file:../../core/base",
+     "designsystem": "file:../../core/designsystem",
+     "ui": "file:../../core/ui",
+diff --git a/feature/order/src/main/ets/view/OrderConfirmPage.ets b/feature/order/src/main/ets/view/OrderConfirmPage.ets
+index 6e2bde8fe74e554772befc62d8096469bd730918..99c8ed50e24a4ee9e3ba9d4f92ed4008abb8aab6 100644
+--- a/feature/order/src/main/ets/view/OrderConfirmPage.ets
++++ b/feature/order/src/main/ets/view/OrderConfirmPage.ets
+@@ -1,17 +1,16 @@
+ import { BaseNetWorkUiState } from "base";
+ import {
+-  ColumnStart,
+   P100,
+   RowSpaceBetweenCenter,
+   RowStartCenter,
+   SpaceHorizontalSmall,
+   SpaceVerticalMedium
+ } from "designsystem";
+-import { Cart } from "model";
++import { Cart, Coupon } from "model";
+ import { GoodsNavigator } from "navigation";
+ import { getWindowSafeAreaState, WindowSafeAreaState } from "state";
+ import {
+-  AddressCard, AppNavDestination, BaseNetWorkView, Card, OrderGoodsCard, TitleWithLine
++  AddressCard, AppNavDestination, BaseNetWorkView, BottomModal, Card, OrderGoodsCard, TitleWithLine
+ } from "ui";
+ import { IBestButton, IBestCell, IBestCellGroup, IBestField, IBestPrice } from "ibestui";
+ import OrderConfirmViewModel from "../viewmodel/OrderConfirmViewModel";
+@@ -48,6 +47,12 @@ export struct OrderConfirmPage {
+       }
+     }) {
+       this.PageContent();
++      BottomModal({
++        visible: this.vm.couponModalVisible,
++        title: $r("app.string.coupon"),
++        onDismiss: (): void => this.vm.hideCouponModal(),
++        content: (): void => this.CouponContent()
++      });
+     }
+   }
+ 
+@@ -70,16 +75,18 @@ export struct OrderConfirmPage {
+    */
+   @Builder
+   private OrderConfirmContent() {
+-    ColumnStart({ fillMaxSize: true }) {
++    Column() {
+       // 可滚动内容区域
+       Scroll() {
+         Column() {
+           // 地址选择卡片
+-          AddressCard({
+-            address: this.vm.data?.defaultAddress,
+-            addressSelected: true,
+-            onTap: (): void => this.vm.navigateToAddressSelection()
+-          });
++          ForEach([JSON.stringify(this.vm.selectedAddress)], (addressKey: string): void => {
++            AddressCard({
++              address: this.vm.selectedAddress,
++              addressSelected: true,
++              onTap: (): void => this.vm.navigateToAddressSelection()
++            }).id("order_confirm_address");
++          }, (addressKey: string): string => addressKey);
+ 
+           SpaceVerticalMedium();
+ 
+@@ -87,6 +94,7 @@ export struct OrderConfirmPage {
+           ForEach(this.vm.cartList, (cart: Cart) => {
+             OrderGoodsCard({
+               data: cart,
++              idPrefix: "order_confirm",
+               enableQuantityStepper: false,
+               onGoodsClick: (goodsId: number): void => {
+                 GoodsNavigator.toDetail(goodsId);
+@@ -95,6 +103,11 @@ export struct OrderConfirmPage {
+             SpaceVerticalMedium();
+           }, (cart: Cart): string => `${cart.goodsId}`);
+ 
++          if (this.vm.isEmpty) {
++            Text($r("app.string.order_goods_empty"))
++              .fontColor($r("app.color.text_subtitle"));
++          }
++
+           // 价格明细卡片
+           this.PriceDetailCard();
+ 
+@@ -120,6 +133,10 @@ export struct OrderConfirmPage {
+         this.BottomBar();
+       }
+     }
++    .id("order_confirm_page")
++    .width(P100)
++    .height(P100)
++    .alignItems(HorizontalAlign.Start)
+   }
+ 
+   /**
+@@ -158,7 +175,7 @@ export struct OrderConfirmPage {
+           onCellClick: (): void => {
+             this.vm.showCouponModal();
+           }
+-        });
++        }).id("order_confirm_coupon");
+ 
+         // 优惠券折扣（仅当有折扣时显示）
+         if (this.vm.discountAmount > 0) {
+@@ -181,6 +198,33 @@ export struct OrderConfirmPage {
+     }
+   }
+ 
++  @Builder
++  private CouponContent() {
++    Scroll() {
++      Column() {
++        IBestCell({
++          title: $r("app.string.order_coupon_none"),
++          onCellClick: (): void => this.vm.selectCoupon(null)
++        }).id("order_coupon_none");
++        ForEach(this.vm.data?.userCoupon ?? [], (coupon: Coupon): void => {
++          IBestCell({
++            title: coupon.title,
++            label: coupon.description,
++            onCellClick: (): void => this.vm.selectCoupon(coupon)
++          }).id(`order_coupon_item_${coupon.id}`);
++        }, (coupon: Coupon): string => `${coupon.id}`);
++        if (!this.vm.data?.userCoupon || this.vm.data.userCoupon.length === 0) {
++          Text($r("app.string.order_coupon_empty"))
++            .fontColor($r("app.color.text_subtitle"))
++            .padding($r("app.float.space_padding_medium"));
++        }
++      }
++      .width(P100)
++    }
++    .constraintSize({ maxHeight: 360 })
++    .width(P100)
++  }
++
+   /**
+    * 价格明细标题
+    * @returns {void} 无返回值
+@@ -251,7 +295,7 @@ export struct OrderConfirmPage {
+           showWordLimit: true,
+           hasBorder: false,
+           autosize: true
+-        });
++        }).id("order_confirm_remark_input");
+       }
+     }
+   }
+@@ -298,7 +342,7 @@ export struct OrderConfirmPage {
+             integerFontSize: 20,
+             decimalFontSize: 14,
+             symbolFontSize: 14
+-          });
++          }).id("order_confirm_total");
+         }
+ 
+         // 右侧：提交订单按钮
+@@ -306,10 +350,13 @@ export struct OrderConfirmPage {
+           text: $r("app.string.submit_order"),
+           type: "primary",
+           round: true,
++          loading: this.vm.submitting,
++          loadingText: $r("app.string.submit_order"),
++          disabled: !this.vm.canSubmit,
+           btnWidth: 100,
+           btnHeight: 36,
+           onBtnClick: (): void => this.vm.onSubmitOrderClick()
+-        });
++        }).id("order_confirm_submit");
+       }
+ 
+       // 底部安全区
+diff --git a/feature/order/src/main/ets/view/OrderPayPage.ets b/feature/order/src/main/ets/view/OrderPayPage.ets
+index 3c2367f890dc97d8b9f0cbcf6fdd2c678861a1ff..59efbcbf93d89a21f94bbd83e0615889f9f7cda4 100644
+--- a/feature/order/src/main/ets/view/OrderPayPage.ets
++++ b/feature/order/src/main/ets/view/OrderPayPage.ets
+@@ -33,5 +33,6 @@ export struct OrderPayPage {
+   @Builder
+   private OrderPayContent() {
+     Text("订单支付页面内容视图")
++      .id("order_pay_page")
+   }
+ }
+diff --git a/feature/order/src/main/ets/viewmodel/OrderConfirmViewModel.ets b/feature/order/src/main/ets/viewmodel/OrderConfirmViewModel.ets
+index 638f2d248bb90337637dc6d1470f114828e111c8..a049b508996031db0a4ff6f7f3ee8155f81a0d92 100644
+--- a/feature/order/src/main/ets/viewmodel/OrderConfirmViewModel.ets
++++ b/feature/order/src/main/ets/viewmodel/OrderConfirmViewModel.ets
+@@ -1,7 +1,29 @@
+-import { BaseNetWorkViewModel } from "base";
+-import { CartRepository, OrderCacheStoreRepository, PageRepository } from "data";
+-import { Cart, CartGoodsSpec, ConfirmOrder, Coupon, NetworkResponse, SelectedGoods } from "model";
+-import { UserNavigator, UserSelectAddressResult } from "navigation";
++import { BaseNetWorkUiState, BaseNetWorkViewModel } from "base";
++import { CartRepository, OrderCacheStoreRepository, OrderRepository, PageRepository } from "data";
++import {
++  Address, Cart, CartGoodsSpec, ConfirmOrder, Coupon, CreateOrderRequest, Goods, GoodsSpec, NetworkResponse,
++  Order, SelectedGoods
++} from "model";
++import { OrderNavigator, UserNavigator, UserSelectAddressResult } from "navigation";
++import { RequestHelper } from "result";
++import { ToastUtils } from "util";
++
++enum PreparationState {
++  IDLE,
++  LOADING,
++  SUCCESS,
++  ERROR
++}
++
++class CreatedOrderReceipt {
++  id: number;
++  realPrice: number;
++
++  constructor(id: number, realPrice: number) {
++    this.id = id;
++    this.realPrice = realPrice;
++  }
++}
+ 
+ /**
+  * @file 订单确认页面 ViewModel
+@@ -21,6 +43,21 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
+    * 购物车仓库
+    */
+   private readonly cartRepository: CartRepository = new CartRepository();
++  private readonly orderRepository: OrderRepository = new OrderRepository();
++  private initialized: boolean = false;
++  private cacheState: PreparationState = PreparationState.IDLE;
++  private pageState: PreparationState = PreparationState.IDLE;
++  private addressChosen: boolean = false;
++  private visible: boolean = false;
++  private disposed: boolean = false;
++  private pendingAutoPay: boolean = false;
++  private payNavigationInProgress: boolean = false;
++  private receipt: CreatedOrderReceipt | null = null;
++  /** UI and requests share the same current address. */
++  @Trace
++  selectedAddress: Address | null = null;
++  @Trace
++  submitting: boolean = false;
+   /**
+    * 从购物车来的商品项（仅购物车页面会存储）
+    */
+@@ -80,35 +117,133 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
+    * @returns {void} 无返回值
+    */
+   aboutToAppear(): void {
+-    // 先加载缓存数据
++    if (this.initialized || this.disposed) {
++      return;
++    }
++    this.initialized = true;
+     this.loadOrderCache();
+-    // 再执行网络请求
+     super.aboutToAppear();
+   }
+ 
+-  /**
+-   * 从缓存加载订单数据
+-   * @returns {Promise<void>} Promise<void>
+-   */
+-  async loadOrderCache(): Promise<void> {
+-    // 1. 读取购物车缓存（仅购物车页面会存储）
+-    this.cachedCarts = await this.orderCacheStoreRepository.loadCarts();
++  onShown(reason: VisibilityChangeReason): void {
++    if (this.disposed) {
++      return;
++    }
++    this.visible = true;
++    this.payNavigationInProgress = false;
++    if (this.pendingAutoPay) {
++      this.navigateToCreatedOrder();
++    }
++  }
+ 
+-    // 2. 读取已选商品列表
+-    this.selectedGoodsList = await this.orderCacheStoreRepository.loadSelectedGoodsList() ?? [];
++  onHidden(reason: VisibilityChangeReason): void {
++    this.visible = false;
++  }
+ 
+-    // 3. 购物车列表：优先从 cachedCarts 获取，没有则从 selectedGoodsList 转换
+-    if (this.cachedCarts && this.cachedCarts.length > 0) {
+-      this.cartList = this.cachedCarts;
++  aboutToBeDeleted(): void {
++    this.disposed = true;
++    this.visible = false;
++    this.pendingAutoPay = false;
++  }
++
++  protected onRequestStart(): void {
++    if (!this.disposed) {
++      this.pageState = PreparationState.LOADING;
++      this.refreshReadyState();
++    }
++  }
++
++  protected onRequestSuccess(data: ConfirmOrder): void {
++    if (this.disposed) {
++      return;
++    }
++    if (!data) {
++      this.onRequestError();
++      return;
++    }
++    this.data = data;
++    if (!this.addressChosen) {
++      const address = data.defaultAddress;
++      this.selectedAddress = address && this.isPositiveNumber(address.id) ? new Address(address) : null;
++    }
++    this.pageState = PreparationState.SUCCESS;
++    this.refreshReadyState();
++  }
++
++  protected onRequestError(): void {
++    if (!this.disposed) {
++      this.pageState = PreparationState.ERROR;
++      this.refreshReadyState();
++    }
++  }
++
++  retryRequest(): void {
++    if (this.disposed) {
++      return;
++    }
++    if (this.cacheState === PreparationState.ERROR) {
++      this.loadOrderCache();
++    }
++    if (this.pageState === PreparationState.ERROR) {
++      this.executeRequest();
++    }
++  }
++
++  private refreshReadyState(): void {
++    if (this.disposed) {
++      return;
++    }
++    if (this.cacheState === PreparationState.ERROR || this.pageState === PreparationState.ERROR) {
++      this.uiState = BaseNetWorkUiState.ERROR;
++    } else if (this.cacheState === PreparationState.SUCCESS && this.pageState === PreparationState.SUCCESS) {
++      this.uiState = BaseNetWorkUiState.SUCCESS;
+     } else {
+-      this.cartList = this.convertSelectedGoodsToCartList(this.selectedGoodsList);
++      this.uiState = BaseNetWorkUiState.LOADING;
+     }
++  }
+ 
+-    // 4. 清除缓存，避免重复使用
+-    await this.orderCacheStoreRepository.clearAll();
++  get canSubmit(): boolean {
++    return !this.disposed && !this.submitting && this.uiState === BaseNetWorkUiState.SUCCESS &&
++      this.hasValidGoods();
++  }
+ 
+-    // 5. 计算商品原价
+-    this.calculateOriginalPrice();
++  /**
++   * 从缓存加载订单数据
++   * @returns {Promise<void>} Promise<void>
++   */
++  async loadOrderCache(): Promise<void> {
++    if (this.disposed || this.cacheState === PreparationState.LOADING ||
++      this.cacheState === PreparationState.SUCCESS) {
++      return;
++    }
++    this.cacheState = PreparationState.LOADING;
++    this.refreshReadyState();
++    try {
++      // Publish both reads together; failed reads leave the cache available for retry.
++      const carts = await this.orderCacheStoreRepository.loadCarts();
++      const goods = await this.orderCacheStoreRepository.loadSelectedGoodsList() ?? [];
++      if (this.disposed) {
++        return;
++      }
++      this.cachedCarts = carts;
++      this.selectedGoodsList = goods;
++      this.cartList = carts && carts.length > 0 ? carts : this.convertSelectedGoodsToCartList(goods);
++      this.calculateOriginalPrice();
++      this.cacheState = PreparationState.SUCCESS;
++      this.refreshReadyState();
++      // Once published, this draft must not be replaced by a partially cleared cache.
++      try {
++        await this.orderCacheStoreRepository.clearAll();
++      } catch (error) {
++        console.error(`[OrderConfirm] clear consumed cache failed: ${String(error)}`);
++      }
++    } catch (error) {
++      console.error(`[OrderConfirm] read order cache failed: ${String(error)}`);
++      if (!this.disposed) {
++        this.cacheState = PreparationState.ERROR;
++        this.refreshReadyState();
++      }
++    }
+   }
+ 
+   /**
+@@ -195,7 +330,9 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
+    * @returns {void} 无返回值
+    */
+   showCouponModal(): void {
+-    this.couponModalVisible = true;
++    if (!this.disposed && !this.submitting && !this.receipt) {
++      this.couponModalVisible = true;
++    }
+   }
+ 
+   /**
+@@ -212,6 +349,9 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
+    * @returns {void} 无返回值
+    */
+   selectCoupon(coupon: Coupon | null): void {
++    if (this.disposed || this.submitting || this.receipt) {
++      return;
++    }
+     this.selectedCoupon = coupon;
+     this.hideCouponModal();
+     this.calculatePrices();
+@@ -255,11 +395,19 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
+    * @returns {void} 无返回值
+    */
+   navigateToAddressSelection(): void {
++    if (this.disposed || this.submitting || this.receipt) {
++      return;
++    }
+     UserNavigator.toAddressList(true)
+       .then((result?: UserSelectAddressResult): void => {
+-        if (result?.address) {
+-          console.log(JSON.stringify(result.address))
++        if (!this.disposed && !this.submitting && !this.receipt && result?.address &&
++          this.isPositiveNumber(result.address.id)) {
++          this.selectedAddress = new Address(result.address);
++          this.addressChosen = true;
+         }
++      })
++      .catch((error: Error): void => {
++        console.error(`[OrderConfirm] address selection failed: ${String(error)}`);
+       });
+   }
+ 
+@@ -268,40 +416,153 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
+    * @returns {void} 无返回值
+    */
+   onSubmitOrderClick(): void {
+-    // TODO: 实现提交订单逻辑
++    if (this.disposed || this.submitting) {
++      return;
++    }
++    if (this.receipt) {
++      this.navigateToCreatedOrder();
++      return;
++    }
++    if (!this.canSubmit) {
++      return;
++    }
++    if (!this.selectedAddress || !this.isPositiveNumber(this.selectedAddress.id)) {
++      ToastUtils.showBottom($r("app.string.select_address"));
++      return;
++    }
++    // Synchronous guard: even a second click before the first await cannot create another order.
++    this.submitting = true;
++    this.submitOrder();
++  }
++
++  private isPositiveNumber(value: number): boolean {
++    return typeof value === "number" && Number.isFinite(value) && value > 0;
++  }
++
++  private hasValidGoods(): boolean {
++    return this.selectedGoodsList.length > 0 && this.selectedGoodsList.every((goods: SelectedGoods): boolean =>
++      this.isPositiveNumber(goods.goodsId) && !!goods.spec && this.isPositiveNumber(goods.spec.id) &&
++        Number.isInteger(goods.count) && goods.count > 0);
++  }
++
++  private copySpec(source: GoodsSpec): GoodsSpec {
++    const spec = new GoodsSpec(source);
++    spec.images = source.images ? [...source.images] : source.images;
++    return spec;
++  }
++
++  private copyPurchasedGoods(): SelectedGoods[] {
++    return this.selectedGoodsList.map((source: SelectedGoods): SelectedGoods => {
++      const goods = new SelectedGoods(source);
++      goods.spec = source.spec ? this.copySpec(source.spec) : null;
++      if (source.goodsInfo) {
++        const info = new Goods(source.goodsInfo);
++        info.pics = source.goodsInfo.pics ? [...source.goodsInfo.pics] : source.goodsInfo.pics;
++        info.contentPics = source.goodsInfo.contentPics ? [...source.goodsInfo.contentPics] : source.goodsInfo.contentPics;
++        info.specs = source.goodsInfo.specs ? source.goodsInfo.specs.map((spec: GoodsSpec): GoodsSpec =>
++          this.copySpec(spec)) : source.goodsInfo.specs;
++        goods.goodsInfo = info;
++      }
++      return goods;
++    });
++  }
++
++  private async submitOrder(): Promise<void> {
++    try {
++      const request = new CreateOrderRequest({
++        data: {
++          addressId: this.selectedAddress!.id,
++          goodsList: this.copyPurchasedGoods(),
++          remark: this.remark,
++          couponId: this.selectedCoupon?.id ?? null
++        }
++      });
++      const fromCart = this.isFromCart;
++      const order = await RequestHelper.repository<Order>(this.orderRepository.createOrder(request)).execute();
++      // Validate the raw payload before any Order constructor can supply missing fields with zero.
++      if (!order || !this.isPositiveNumber(order.id) || typeof order.realPrice !== "number" ||
++        !Number.isFinite(order.realPrice) || order.realPrice < 0) {
++        throw new Error("Invalid created order response");
++      }
++      this.receipt = new CreatedOrderReceipt(order.id, order.realPrice);
++      if (fromCart) {
++        this.deleteCartItems(request.data.goodsList).catch((error: Error): void => {
++          console.error(`[OrderConfirm] cart cleanup failed: ${String(error)}`);
++        });
++      }
++      if (!this.disposed) {
++        this.pendingAutoPay = true;
++        this.navigateToCreatedOrder();
++      }
++    } catch (error) {
++      // A receipt is terminal even when a later UI operation fails.
++      console.error(`[OrderConfirm] submit failed: ${String(error)}`);
++      if (!this.disposed && !this.receipt) {
++        ToastUtils.showError($r("app.string.order_submit_failed"));
++      }
++    } finally {
++      if (!this.disposed) {
++        this.submitting = false;
++      }
++    }
++  }
++
++  private navigateToCreatedOrder(): void {
++    if (this.disposed || !this.visible || !this.receipt || this.payNavigationInProgress) {
++      return;
++    }
++    this.pendingAutoPay = false;
++    this.payNavigationInProgress = true;
++    try {
++      OrderNavigator.toPay(this.receipt.id, this.receipt.realPrice);
++    } catch (error) {
++      this.payNavigationInProgress = false;
++      console.error(`[OrderConfirm] payment navigation failed: ${String(error)}`);
++    }
+   }
+ 
+   /**
+    * 删除购物车中已下单的商品
+    * @returns {Promise<void>} Promise<void>
+    */
+-  async deleteCartItems(): Promise<void> {
+-    if (!this.cachedCarts || this.cachedCarts.length === 0) {
++  async deleteCartItems(purchasedGoods?: SelectedGoods[]): Promise<void> {
++    if (!purchasedGoods && !this.isFromCart) {
+       return;
+     }
+-
+-    for (const cart of this.cachedCarts) {
+-      const goodsId = cart.goodsId;
+-
+-      // 获取该商品所有的规格ID
+-      const specIds = new Set(cart.spec.map((s: CartGoodsSpec): number => s.id));
+-
+-      // 判断是否需要删除整个商品
+-      const fullCart = await this.cartRepository.getCartByGoodsId(goodsId);
+-
+-      if (fullCart) {
+-        // 所有规格是否都在订单中
+-        const allSpecIds = new Set(fullCart.spec.map((s: CartGoodsSpec): number => s.id));
+-
+-        if (specIds.size === allSpecIds.size) {
+-          // 删除整个商品
++    const purchases = new Map<number, Set<number>>();
++    for (const goods of purchasedGoods ?? this.copyPurchasedGoods()) {
++      if (goods.spec) {
++        let specIds = purchases.get(goods.goodsId);
++        if (!specIds) {
++          specIds = new Set<number>();
++          purchases.set(goods.goodsId, specIds);
++        }
++        specIds.add(goods.spec.id);
++      }
++    }
++    for (const entry of purchases) {
++      const goodsId = entry[0];
++      const purchasedIds = entry[1];
++      try {
++        const fullCart = await this.cartRepository.getCartByGoodsId(goodsId);
++        if (!fullCart || fullCart.spec.length === 0) {
++          continue;
++        }
++        if (fullCart.spec.every((spec: CartGoodsSpec): boolean => purchasedIds.has(spec.id))) {
+           await this.cartRepository.removeFromCart(goodsId);
+         } else {
+-          // 逐个删除规格
+-          for (const specId of specIds) {
+-            await this.cartRepository.removeSpecFromCart(goodsId, specId);
++          for (const spec of fullCart.spec) {
++            if (purchasedIds.has(spec.id)) {
++              try {
++                await this.cartRepository.removeSpecFromCart(goodsId, spec.id);
++              } catch (error) {
++                console.error(`[OrderConfirm] cleanup ${goodsId}/${spec.id} failed: ${String(error)}`);
++              }
++            }
+           }
+         }
++      } catch (error) {
++        console.error(`[OrderConfirm] cleanup goods ${goodsId} failed: ${String(error)}`);
+       }
+     }
+   }
+diff --git a/feature/order/src/main/resources/base/element/string.json b/feature/order/src/main/resources/base/element/string.json
+index 7016212512eb29bb4c7fa963a92f08c593f7fe41..af78624333719f7f28703fed326d3c4e95480434 100644
+--- a/feature/order/src/main/resources/base/element/string.json
++++ b/feature/order/src/main/resources/base/element/string.json
+@@ -443,6 +443,22 @@
+     {
+       "name": "select_address",
+       "value": "请选择收货地址"
++    },
++    {
++      "name": "order_coupon_none",
++      "value": "不使用优惠券"
++    },
++    {
++      "name": "order_coupon_empty",
++      "value": "暂无可用优惠券"
++    },
++    {
++      "name": "order_goods_empty",
++      "value": "暂无待下单商品，请返回选择商品"
++    },
++    {
++      "name": "order_submit_failed",
++      "value": "订单提交失败，请重试"
+     }
+   ]
+ }
+diff --git a/feature/order/src/main/resources/en/element/string.json b/feature/order/src/main/resources/en/element/string.json
+index 4ec80f8a0bc95587134f4e5601da3e4b4f05fd0c..e18903883a1f60cbd896158f99489659e3fb0ea2 100644
+--- a/feature/order/src/main/resources/en/element/string.json
++++ b/feature/order/src/main/resources/en/element/string.json
+@@ -443,6 +443,22 @@
+     {
+       "name": "select_address",
+       "value": "Please select a shipping address"
++    },
++    {
++      "name": "order_coupon_none",
++      "value": "Do not use a coupon"
++    },
++    {
++      "name": "order_coupon_empty",
++      "value": "No coupons available"
++    },
++    {
++      "name": "order_goods_empty",
++      "value": "No items to order. Go back to select goods."
++    },
++    {
++      "name": "order_submit_failed",
++      "value": "Unable to submit the order. Please try again."
+     }
+   ]
+ }
+diff --git a/feature/user/src/main/ets/view/AddressDetailPage.ets b/feature/user/src/main/ets/view/AddressDetailPage.ets
+index 15840a29330b2381f9657571c62152856934c486..c004bba6b930b4b9b102434cb3ece5ca9728d3d4 100644
+--- a/feature/user/src/main/ets/view/AddressDetailPage.ets
++++ b/feature/user/src/main/ets/view/AddressDetailPage.ets
+@@ -65,7 +65,7 @@ export struct AddressDetailPage {
+             text: $r("app.string.save_address"),
+             loading: this.vm.isSaving,
+             onTap: (): void => this.vm.onSaveTap()
+-          });
++          }).id("address_save");
+         }
+       }
+     }
+@@ -114,7 +114,7 @@ export struct AddressDetailPage {
+           onChange: (value: IBestFieldValueType): void => {
+             this.vm.updateContactName(`${value ?? ""}`);
+           }
+-        });
++        }).id("address_contact_input");
+ 
+         IBestField({
+           formId: this.formId,
+@@ -127,7 +127,7 @@ export struct AddressDetailPage {
+           onChange: (value: IBestFieldValueType): void => {
+             this.vm.updatePhone(`${value ?? ""}`);
+           }
+-        });
++        }).id("address_phone_input");
+ 
+         IBestField({
+           formId: this.formId,
+@@ -141,7 +141,7 @@ export struct AddressDetailPage {
+           onFieldClick: (): void => {
+             this.vm.onRegionFieldClick();
+           }
+-        });
++        }).id("address_region_select");
+ 
+         IBestField({
+           formId: this.formId,
+@@ -156,7 +156,7 @@ export struct AddressDetailPage {
+           onChange: (value: IBestFieldValueType): void => {
+             this.vm.updateDetailAddress(`${value ?? ""}`);
+           }
+-        });
++        }).id("address_detail_input");
+       }
+     }
+ 
+diff --git a/feature/user/src/main/ets/view/AddressListPage.ets b/feature/user/src/main/ets/view/AddressListPage.ets
+index 447b750a831468b4f65f8439c4472cc12527ff0d..676f950270dc463b8ea92218d1d08d4c7b6bef77 100644
+--- a/feature/user/src/main/ets/view/AddressListPage.ets
++++ b/feature/user/src/main/ets/view/AddressListPage.ets
+@@ -1,6 +1,6 @@
+ import { IBestDialog } from "ibestui";
+ import { BaseNetWorkListUiState } from "base";
+-import { ColumnBase, ColumnStart, P100 } from "designsystem";
++import { ColumnBase, P100 } from "designsystem";
+ import { Address } from "model";
+ import { getWindowSafeAreaState, WindowSafeAreaState } from "state";
+ import {
+@@ -48,7 +48,7 @@ export struct AddressListPage {
+         right: this.windowSafeAreaState.rightInset,
+       }
+     }) {
+-      ColumnStart({ fillMaxSize: true }) {
++      Column() {
+         BaseNetWorkListView({
+           uiState: this.vm.uiState,
+           onRetry: (): void => this.vm.retryRequest(),
+@@ -59,9 +59,13 @@ export struct AddressListPage {
+           AppBottomButton({
+             text: $r("app.string.address_add_new"),
+             onTap: (): void => this.vm.onAddAddress()
+-          });
++          }).id("address_add_new");
+         }
+       }
++      .id("address_list_page")
++      .width(P100)
++      .height(P100)
++      .alignItems(HorizontalAlign.Start)
+ 
+       IBestDialog({
+         visible: this.vm.isDeleteDialogVisible,
+@@ -114,7 +118,7 @@ export struct AddressListPage {
+       address: item,
+       onTap: (): void => this.vm.onAddressClick(item),
+       actionSlot: (): void => this.AddressActionSlot(item)
+-    });
++    }).id(`address_select_${item.id}`);
+   }
+ 
+   /**

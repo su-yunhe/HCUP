@@ -1,0 +1,183 @@
+[2026-10-19 20:47:43,348] [42984] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-19 20:47:43,351] [42984] [EnvPool] [INFO] [Report path: D:\HCUP\cml-spec17\logs\do-01\reports\2026-10-19-20-47-43]
+[2026-10-19 20:47:43,351] [42984] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-19 20:47:43,351] [42984] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-19 20:47:43,352] [42984] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-19 20:47:43,354] [42984] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-19 20:47:43,354] [42984] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:47:43,354] [42984] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:47:44,076] [48036] [Hdc] [INFO] [127.0.0.1:11235		TCP	Offline	localhost
+127.0.0.1:11237		TCP	Connected	localhost
+127.0.0.1:11239		TCP	Connected	localhost
+127.0.0.1:11241		TCP	Connected	localhost
+127.0.0.1:11243		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-19 20:47:44,358] [42984] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:47:44,358] [42984] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:47:44,358] [42984] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:47:44,358] [42984] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:47:44,358] [42984] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:47:44,750] [42984] [Device] [INFO] [6.0.2.3]
+[2026-10-19 20:47:45,076] [42984] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-19 20:47:45,076] [42984] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-19 20:47:45,192] [42984] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: None]
+[2026-10-19 20:47:45,193] [42984] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-19 20:47:45,265] [42984] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-19 20:47:45,265] [42984] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-19 20:47:45,351] [42984] [Device] [INFO] [Device agent is up to date!]
+[2026-10-19 20:47:47,725] [42984] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]
+[2026-10-19 20:47:49,981] [42984] [DeviceUIProxy] [INFO] [tcp forward port: 9981 for 127.0.0.1:11243]
+[2026-10-19 20:47:50,697] [42984] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:47:51,133] [42984] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-19 20:47:51,133] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:47:53,823] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 2.69s</div>]
+[2026-10-19 20:47:54,372] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_1701'))</div>]
+[2026-10-19 20:47:54,437] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_1701')) cost: 0.065s</div>]
+[2026-10-19 20:47:54,437] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_2903'))</div>]
+[2026-10-19 20:47:54,514] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_2903')) cost: 0.077s</div>]
+[2026-10-19 20:47:55,756] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:47:55,871] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.115s</div>]
+[2026-10-19 20:47:59,064] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 20:48:00,061] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.997s</div>]
+[2026-10-19 20:48:00,061] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'), 请轻放，周末送达)</div>]
+[2026-10-19 20:48:02,249] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'), 请轻放，周末送达) cost: 2.189s</div>]
+[2026-10-19 20:48:02,605] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_coupon'))</div>]
+[2026-10-19 20:48:04,193] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_coupon')) cost: 1.587s</div>]
+[2026-10-19 20:48:04,376] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:48:05,440] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 1.064s</div>]
+[2026-10-19 20:48:06,126] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:48:06,229] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 0.102s</div>]
+[2026-10-19 20:48:09,474] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:48:10,519] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 1.045s</div>]
+[2026-10-19 20:48:13,746] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:48:14,791] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 1.044s</div>]
+[2026-10-19 20:48:18,323] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:48:19,335] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 1.012s</div>]
+[2026-10-19 20:48:22,621] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:48:23,814] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 1.193s</div>]
+[2026-10-19 20:48:27,030] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:48:28,059] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 1.028s</div>]
+[2026-10-19 20:48:31,212] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:48:32,161] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 0.949s</div>]
+[2026-10-19 20:48:35,112] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:48:36,158] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 1.047s</div>]
+[2026-10-19 20:48:39,098] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:48:40,151] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 1.054s</div>]
+[2026-10-19 20:48:43,195] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:48:44,173] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 0.978s</div>]
+[2026-10-19 20:48:47,125] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 20:48:48,151] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 1.026s</div>]
+test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters) ... FAIL
+[2026-10-19 20:48:49,369] [42984] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:48:49,369] [42984] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:48:49,370] [42984] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:48:49,370] [42984] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:48:49,370] [42984] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:48:49,370] [42984] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:48:49,370] [42984] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:48:49,396] [42984] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:48:49,829] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart'))</div>]
+[2026-10-19 20:48:51,941] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart')) cost: 2.112s</div>]
+[2026-10-19 20:48:52,131] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_37'))</div>]
+[2026-10-19 20:48:52,655] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_37')) cost: 0.524s</div>]
+[2026-10-19 20:48:53,121] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_205'))</div>]
+[2026-10-19 20:48:53,949] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_205')) cost: 0.827s</div>]
+[2026-10-19 20:48:54,135] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407'))</div>]
+[2026-10-19 20:48:54,244] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407')) cost: 0.109s</div>]
+[2026-10-19 20:48:57,455] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407'))</div>]
+[2026-10-19 20:48:58,043] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407')) cost: 0.588s</div>]
+[2026-10-19 20:48:58,232] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_settle'))</div>]
+[2026-10-19 20:48:59,016] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_settle')) cost: 0.785s</div>]
+[2026-10-19 20:48:59,202] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:48:59,280] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.078s</div>]
+[2026-10-19 20:49:00,109] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:49:00,888] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.779s</div>]
+[2026-10-19 20:49:01,198] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:49:01,290] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.092s</div>]
+[2026-10-19 20:49:02,004] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:49:02,993] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.989s</div>]
+[2026-10-19 20:49:02,993] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:49:03,070] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.077s</div>]
+[2026-10-19 20:49:04,418] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart'))</div>]
+[2026-10-19 20:49:04,497] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart')) cost: 0.079s</div>]
+[2026-10-19 20:49:04,710] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_spec_1701_11'))</div>]
+[2026-10-19 20:49:06,011] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_spec_1701_11')) cost: 1.301s</div>]
+[2026-10-19 20:49:06,011] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_spec_1701_91'))</div>]
+[2026-10-19 20:49:06,094] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_spec_1701_91')) cost: 0.083s</div>]
+[2026-10-19 20:49:06,094] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_goods_2903'))</div>]
+[2026-10-19 20:49:06,210] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_goods_2903')) cost: 0.116s</div>]
+[2026-10-19 20:49:06,210] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5)</div>]
+[2026-10-19 20:49:06,711] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5) cost: 0.501s</div>]
+[2026-10-19 20:49:07,224] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:49:09,062] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 1.838s</div>]
+[2026-10-19 20:49:09,612] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart'))</div>]
+[2026-10-19 20:49:09,665] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart')) cost: 0.054s</div>]
+[2026-10-19 20:49:09,856] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_spec_1701_11'))</div>]
+[2026-10-19 20:49:10,038] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_spec_1701_11')) cost: 0.181s</div>]
+[2026-10-19 20:49:10,038] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_spec_1701_91'))</div>]
+[2026-10-19 20:49:10,362] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_spec_1701_91')) cost: 0.324s</div>]
+test_original_cart_selection_cleanup_and_restart (hypium_tests.test_cart_cleanup.CartCleanup.test_original_cart_selection_cleanup_and_restart) ... ok
+[2026-10-19 20:49:11,430] [42984] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 20:49:11,430] [42984] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 20:49:11,430] [42984] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:49:11,430] [42984] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:49:11,430] [42984] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:49:11,430] [42984] [EnvPool] [INFO] [Do matches, device:[state:Allocated, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 20:49:11,431] [42984] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 20:49:11,454] [42984] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 20:49:11,892] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart'))</div>]
+[2026-10-19 20:49:13,790] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('main_tab_cart')) cost: 1.898s</div>]
+[2026-10-19 20:49:14,009] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_11'))</div>]
+[2026-10-19 20:49:14,193] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_11')) cost: 0.183s</div>]
+[2026-10-19 20:49:14,685] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_91'))</div>]
+[2026-10-19 20:49:15,514] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_1701_91')) cost: 0.829s</div>]
+[2026-10-19 20:49:15,701] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_205'))</div>]
+[2026-10-19 20:49:15,777] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_205')) cost: 0.076s</div>]
+[2026-10-19 20:49:15,978] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407'))</div>]
+[2026-10-19 20:49:16,073] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407')) cost: 0.095s</div>]
+[2026-10-19 20:49:20,422] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407'))</div>]
+[2026-10-19 20:49:21,007] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_select_2903_407')) cost: 0.585s</div>]
+[2026-10-19 20:49:21,193] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_settle'))</div>]
+[2026-10-19 20:49:21,993] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('cart_settle')) cost: 0.8s</div>]
+[2026-10-19 20:49:22,195] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:49:22,271] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.076s</div>]
+[2026-10-19 20:49:22,802] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_stale_cart_seed'))</div>]
+[2026-10-19 20:49:23,889] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_stale_cart_seed')) cost: 1.088s</div>]
+[2026-10-19 20:49:24,072] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:49:24,166] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.094s</div>]
+[2026-10-19 20:49:24,721] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 20:49:24,802] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.081s</div>]
+[2026-10-19 20:49:25,598] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 20:49:25,684] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.086s</div>]
+[2026-10-19 20:49:26,267] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 20:49:26,775] [42984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.508s</div>]
+test_same_count_different_current_and_purchased_sets (hypium_tests.test_cart_cleanup.StaleSetCleanup.test_same_count_different_current_and_purchased_sets) ... ok
+
+======================================================================
+FAIL: test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP/cml-spec17\hypium_tests\test_order_create.py", line 22, in test_original_submit_actual_http_and_response_parameters
+    self.click_key('order_coupon_item_503')
+  File "D:\HCUP/cml-spec17\hypium_tests\do_support.py", line 111, in click_key
+    target = self.visible_key(key)
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP/cml-spec17\hypium_tests\do_support.py", line 108, in visible_key
+    self.fail(f'Missing original UI id {key} after bounded original-container scrolling')
+AssertionError: Missing original UI id order_coupon_item_503 after bounded original-container scrolling
+
+----------------------------------------------------------------------
+Ran 3 tests in 104.666s
+
+FAILED (failures=1)
+
+项目: D:/HCUP/cml-spec17
+设备: 127.0.0.1:11243
+
+测试用例: 3  通过: 2  失败: 1  跳过(未验证): 0
+  ✗ test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters) — AssertionError: Missing original UI id order_coupon_item_503 after bounded original-container scrolling
+  ✓ test_original_cart_selection_cleanup_and_restart (hypium_tests.test_cart_cleanup.CartCleanup.test_original_cart_selection_cleanup_and_restart)
+  ✓ test_same_count_different_current_and_purchased_sets (hypium_tests.test_cart_cleanup.StaleSetCleanup.test_same_count_different_current_and_purchased_sets)

@@ -1,0 +1,15 @@
+{
+  "id": "MAT-SCOPE-02",
+  "observed_at_utc": "2026-10-19T14:58:12.241016+00:00",
+  "affected_requirements": [
+    "SUB-14",
+    "SUB-20"
+  ],
+  "source_facts_sha256": "dcd8078e64bf06ec9e77eddd8fcfe1207e02a258fefc4f640dfe583199662296",
+  "expected": "Excluded unrelated search hits are represented by counts without unrelated UUID metadata. Only the known cross-task initialization overview retains its exclusion ID.",
+  "actual": "Pre-refresh evidence-facts excluded_search_hits had 44 entries and 42 UUIDs outside the 15 task sessions plus known overview. No unrelated body was exported or read by verification.",
+  "reproduction": "Extract UUID-shaped tokens from excluded_search_hits JSON only; subtract native_sessions session IDs and the documented overview ID; count the remainder without printing tokens.",
+  "actual_count": 42,
+  "evidence_strength": "Direct derived metadata count from the preserved facts hash; raw unrelated identifiers are intentionally omitted.",
+  "recommended_route": "Regenerate derived facts/export-manifest with count-only exclusions, rerender human indices, rerun evidence audit. Do not alter original task JSONL bodies."
+}

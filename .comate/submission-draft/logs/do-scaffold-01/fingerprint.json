@@ -1,0 +1,101 @@
+{
+  "files": [
+    {
+      "path": "hypium_tests/__init__.py",
+      "sha256": "e1239099e340f4451652893e08e550f165f904b95ebab0e72142e10144f1d49e"
+    },
+    {
+      "path": "hypium_tests/do_support.py",
+      "sha256": "bea23138b55cb375729c1d6558d17bb5459d9f0b7ffec34757bb5db5297fe07a"
+    },
+    {
+      "path": "hypium_tests/test_address_recovery.py",
+      "sha256": "1b5f2ec34d26fe0be87090a0d6a491701913f26c7629bd412d2d5bc65a97a8db"
+    },
+    {
+      "path": "hypium_tests/test_cart_cleanup.py",
+      "sha256": "dba0250ad1455f3410c9f3cf891a7b9234cb3ae769f0eb0183d3ecc842ead696"
+    },
+    {
+      "path": "hypium_tests/test_fault_boundaries.py",
+      "sha256": "db4723571a18ca3b6cb7af00997e98be462c1c6c4f1bc02a15c40e08cc6665b9"
+    },
+    {
+      "path": "hypium_tests/test_order_create.py",
+      "sha256": "f94501f54f675e5dfec7c646465a25bab375ab65c9b066e4b0cbec5d12047a86"
+    },
+    {
+      "path": "hypium_tests/test_readiness.py",
+      "sha256": "9355f222bcdf5468c22e2eb131a79e377c93b755958a140ed47212ba3009c263"
+    },
+    {
+      "path": "workflow/do-entry/build.ps1",
+      "sha256": "d929ca455b0cc99a463089cf3e5ec284eb8f56781c46ff1dbb96157f31a9557a"
+    },
+    {
+      "path": "workflow/do-entry/evidence.py",
+      "sha256": "436f92d32aed76c9a5ec1fca6362f989f6d20983f5d5758ff3aefc0ccb540743"
+    },
+    {
+      "path": "workflow/do-entry/prepare.py",
+      "sha256": "6c13daed5811e84ba0331c7e31ee9d6da577d3e73f15b68d866bdf115ac51af3"
+    },
+    {
+      "path": "workflow/do-entry/README.md",
+      "sha256": "2ec3037183428b4b493b91485b819da5190b19ac312d7e7c77e0b1b5252a049b"
+    },
+    {
+      "path": "workflow/do-entry/run.ps1",
+      "sha256": "621d04c3fab36c759603a87a08bea0d465b4b582d288ede76484fe8b642ff68f"
+    },
+    {
+      "path": "workflow/do-entry/scaffold_check.py",
+      "sha256": "8ff97830e70dfdb4618b582f0bb4ebf8eba08117dce0c7b3d95e491331e84dc7"
+    },
+    {
+      "path": "workflow/do-entry/server.py",
+      "sha256": "1d696f02edd825355ed39fa9ac5502154d21e9f946c81b2acfe6a56b985ad817"
+    },
+    {
+      "path": "workflow/do-entry/templates/DoFixture.ets",
+      "sha256": "7722aff31de8993fc11da26f3e313a030ec05650363dfa41b5565f556f50a6c7"
+    },
+    {
+      "path": "workflow/do-entry/templates/DoPage.ets",
+      "sha256": "98dde9f9383992f6f71a39867646917034c6f6e6410d54a586046de92a1bbe5a"
+    },
+    {
+      "path": "workflow/do-entry/templates/DoProbe.ets",
+      "sha256": "6c32f1f318dfbf183f3b2121639bf65ffb01a0132acc6f015cd7ea1913e7a0f0"
+    }
+  ],
+  "declared_test_methods": [
+    "test_address_recovery.py::NoAddressRecovery::test_missing_address_then_original_selection_and_retry",
+    "test_address_recovery.py::AddressCancel::test_original_address_back_preserves_current_draft",
+    "test_address_recovery.py::NoAddressCancel::test_original_address_back_preserves_current_draft",
+    "test_address_recovery.py::NewAddressRecovery::test_original_add_refresh_select_and_submit",
+    "test_cart_cleanup.py::CartCleanup::test_original_cart_selection_cleanup_and_restart",
+    "test_cart_cleanup.py::StaleSetCleanup::test_same_count_different_current_and_purchased_sets",
+    "test_fault_boundaries.py::DelayedCleanup::test_payment_precedes_delayed_real_database_deletion",
+    "test_fault_boundaries.py::FailedCleanup::test_one_database_failure_does_not_stop_other_goods_or_recreate",
+    "test_fault_boundaries.py::DelayedCache::test_delayed_cache_prevents_incomplete_http_order",
+    "test_order_create.py::OrderSuccess::test_original_submit_actual_http_and_response_parameters",
+    "test_order_create.py::OrderSuccess::test_completed_draft_active_submit_reuses_receipt",
+    "test_order_create.py::ZeroPayment::test_zero_real_payment_is_valid",
+    "test_order_create.py::SlowSubmission::test_inflight_repeated_clicks_create_once",
+    "test_order_create.py::FailureRetry::test_business_failure_does_not_clean_and_can_retry",
+    "test_order_create.py::InvalidResponses::test_success_null_data_is_not_an_order",
+    "test_order_create.py::InvalidResponses::test_success_missing_id_is_not_an_order",
+    "test_order_create.py::InvalidResponses::test_success_missing_real_price_is_not_zero_price",
+    "test_order_create.py::InvalidResponses::test_negative_real_price_is_rejected_by_adopted_policy",
+    "test_order_create.py::InvalidResponses::test_http_failure_releases_submission",
+    "test_order_create.py::InvalidResponses::test_actual_socket_timeout_does_not_clean_or_navigate",
+    "test_order_create.py::RemarkValues::test_empty_remark_without_coupon_is_accepted",
+    "test_order_create.py::RemarkValues::test_three_spaces_are_preserved_by_adopted_policy",
+    "test_readiness.py::DelayedConfirm::test_delayed_get_never_creates_an_incomplete_order",
+    "test_readiness.py::ConfirmRetry::test_failed_get_retries_without_consuming_cached_goods_again",
+    "test_readiness.py::EmptyCache::test_empty_cache_does_not_invent_an_order"
+  ],
+  "count": 25,
+  "scope": "SCAFFOLD_NOT_DEVICE_VERIFIED"
+}

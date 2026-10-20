@@ -1,0 +1,232 @@
+{
+  "task_id": "cml-spec17",
+  "stage": "2-submit",
+  "checked_at_utc": "2026-10-19T15:02:13.764699+00:00",
+  "result": "pass",
+  "scope": "Independent local draft-material verification only; official acceptance, hidden tests and live authenticated transactions are not verified.",
+  "script_sha256": "f67ca0d0f4b27c3b0a6fc52b8b3f0d38e5612b091a1a78f3aa7fd887d2134b08",
+  "base_commit": "d6a6ba7480fbd0a30075462e46bb4344a430ba61",
+  "git_tree_oid": "c3e9130db4875be9a17661dea70d00453e418db5",
+  "project_file_count": 10314,
+  "project_aggregate_sha256": "4774520e361bd2f6380e6878d4e6490563cb98d3e4b5ef272fff2f25fea5befb",
+  "project_manifest_sha256": "ccab2f9ca529924ff8fcd20f5706ef095ee0a7188b1b95668be24512b593b6a5",
+  "patch_bytes": 610305986,
+  "patch_sha256": "b5a1e4d97b5562045c2c2aa518641c7ef3b7d975464ff3de2ff073c7a8bbe832",
+  "current_project_mismatches": [],
+  "stale_evidence": [],
+  "production_aggregate_sha256": "2278a77074b39f8d97067beb853d7880bb91d3586dbf228992ffba2d9ccb03b5",
+  "native_sessions": 15,
+  "copied_logs": 301,
+  "binary_changes": 396,
+  "build_or_device_rerun": false,
+  "screenshot_needed_for_material_stage": false,
+  "source_mappings": "package-layout.json; evidence-facts paths are original draft-relative coordinates",
+  "requirements": [
+    {
+      "id": "SUB-01",
+      "status": "pass",
+      "finding": "844 production files unchanged; 1-do evidence retained; no business build/device rerun",
+      "evidence": "evidence-audit-final.json:production_before/production_after/do_stage"
+    },
+    {
+      "id": "SUB-02",
+      "status": "pass",
+      "finding": "Official templates and approved requirements independently read within authorized scope",
+      "evidence": "content-audit.json:trace_fields; workflow/verification/submit-results-01.md"
+    },
+    {
+      "id": "SUB-03",
+      "status": "pass",
+      "finding": "All ten empty user fields remain explicit placeholders",
+      "evidence": "content-audit.json:missing_user_fields"
+    },
+    {
+      "id": "SUB-04",
+      "status": "pass",
+      "finding": "Automatic facts have native/file evidence; unavailable official baseline log disclosed",
+      "evidence": "evidence-audit-final.json; content-audit.json:token_table"
+    },
+    {
+      "id": "SUB-05",
+      "status": "pass",
+      "finding": "Eight required material categories exist and are readable",
+      "evidence": "content-audit.json:checks.required_materials"
+    },
+    {
+      "id": "SUB-06",
+      "status": "pass",
+      "finding": "Complete binary patch replays to the entire declared project, not just production code",
+      "evidence": "independent-replay.json"
+    },
+    {
+      "id": "SUB-07",
+      "status": "pass",
+      "finding": "Independent task-branch clone, baseline checkout, check/apply and full file hash comparison all succeeded",
+      "evidence": "independent-replay.json:commands/missing/extra/mismatches"
+    },
+    {
+      "id": "SUB-08",
+      "status": "pass",
+      "finding": "Every changed binary has path, size, SHA and independently verified baseline same-content claims",
+      "evidence": "content-audit.json:binary_inventory/zero_byte_failure_screenshot"
+    },
+    {
+      "id": "SUB-09",
+      "status": "pass",
+      "finding": "Generated caches excluded in export; failure evidence retained; production tree not cleaned",
+      "evidence": "content-audit.json:unexpected_noise_paths; changes/excluded-files.json"
+    },
+    {
+      "id": "SUB-10",
+      "status": "pass",
+      "finding": "Production build/install/start use variables and delivered files; controlled historical script migration limits disclosed",
+      "evidence": "content-audit.json:checks.build_scope_and_portability_disclosed"
+    },
+    {
+      "id": "SUB-11",
+      "status": "pass",
+      "finding": "All 24 official trace-index fields filled with facts or explicit missing/not-applicable states",
+      "evidence": "content-audit.json:trace_fields"
+    },
+    {
+      "id": "SUB-12",
+      "status": "pass",
+      "finding": "Sources and solution fragments retain bounded local results, adopted policies and all known unrun/blocked boundaries",
+      "evidence": "content-audit.json:known_boundaries; solution.fragment.md; sources.fragment.md"
+    },
+    {
+      "id": "SUB-13",
+      "status": "pass",
+      "finding": "Single-task JSON parses and all three paths are legal package-relative paths",
+      "evidence": "content-audit.json:fragment"
+    },
+    {
+      "id": "SUB-14",
+      "status": "pass",
+      "finding": "All 15 registered task sessions exported; full JSONL/Markdown equivalence and excluded overview verified",
+      "evidence": "evidence-audit-final.json:native"
+    },
+    {
+      "id": "SUB-15",
+      "status": "pass",
+      "finding": "Native and independent filtered sidebar ID relationships verified; missing child sidebar rows not fabricated",
+      "evidence": "evidence-audit-final.json:native.sessions"
+    },
+    {
+      "id": "SUB-16",
+      "status": "pass",
+      "finding": "Original compile and UI failures, retries, repair and regression retained",
+      "evidence": "evidence-audit-final.json:raw_selftests; round-01-content-audit.json"
+    },
+    {
+      "id": "SUB-17",
+      "status": "pass",
+      "finding": "Four actual local/common taskbook hashes verified; absent spec/history disclosed",
+      "evidence": "evidence-audit-final.json:harness; evidence-facts.json:harness"
+    },
+    {
+      "id": "SUB-18",
+      "status": "pass",
+      "finding": "301 original logs and copies have equal size and SHA",
+      "evidence": "evidence-audit-final.json:logs"
+    },
+    {
+      "id": "SUB-19",
+      "status": "pass",
+      "finding": "Unprovided human edit declarations remain placeholders, not a claim of no human edits",
+      "evidence": "human-changes.md; missing-fields.md"
+    },
+    {
+      "id": "SUB-20",
+      "status": "pass",
+      "finding": "Complete-line snapshot boundaries, no native content rewrite, unavailable fields and source coordinates disclosed",
+      "evidence": "evidence-audit-final.json:native; trace-index.md; missing-fields.md"
+    },
+    {
+      "id": "SUB-21",
+      "status": "pass",
+      "finding": "Project tree/manifest/patch are one verified frozen version; user official freeze time remains a placeholder",
+      "evidence": "independent-replay.json; changes/project-files.json"
+    },
+    {
+      "id": "SUB-22",
+      "status": "pass",
+      "finding": "Explicit project/material boundary, complete package layout and package-relative Markdown references verified",
+      "evidence": "content-audit.json:checks.package_layout_complete_and_safe/authored_markdown_links"
+    },
+    {
+      "id": "SUB-23",
+      "status": "pass",
+      "finding": "Separate user-missing and automatically filled fact lists provided",
+      "evidence": "missing-fields.md; auto-filled-facts.md"
+    },
+    {
+      "id": "SUB-24",
+      "status": "pass",
+      "finding": "No official score, hidden-test or real payment claim; no upload, mail or team ZIP in this stage",
+      "evidence": "solution.fragment.md; README.md"
+    }
+  ],
+  "evidence_reports": [
+    {
+      "path": "verification/evidence-audit-final.json",
+      "sha256": "9921964d5fc6229993f622b89ab20c5abf148ab74f13f7aa58afeb0044a599a2"
+    },
+    {
+      "path": "verification/content-audit.json",
+      "sha256": "7ec85dd268df432f79c2f1b48270c21074337ae21eb82d4e0801993a5a75270f"
+    },
+    {
+      "path": "verification/independent-replay.json",
+      "sha256": "b29f7847f3ce5abd5358303ba218a39c4f1b77a12878e0c0f81106fb8259253c"
+    }
+  ],
+  "prior_failure_retention": [
+    "verification/round-01-content-audit.json",
+    "verification/round-01-content-audit.log",
+    "verification/round-01-independent-replay.json",
+    "verification/round-01-independent-replay.log",
+    "verification/metadata-scope-failure-01.json",
+    "verification/round-02-layout-failure-content-audit.json",
+    "verification/round-02-layout-failure-content-audit.log"
+  ],
+  "initial_material_failure": {
+    "id": "MAT-CACHE-01",
+    "affected_requirements": [
+      "SUB-09"
+    ],
+    "expected": "Generated __pycache__/.pyc do not enter the selected project",
+    "actual_round_01": [
+      "test-harness/harness/__pycache__/__init__.cpython-312.pyc",
+      "test-harness/harness/__pycache__/device.cpython-312.pyc",
+      "test-harness/harness/__pycache__/env_check.cpython-312.pyc"
+    ],
+    "resolution": "Explicit export-only exclusion, source originals retained, corrected project replayed"
+  },
+  "derived_search_index_failure": {
+    "id": "MAT-SCOPE-02",
+    "affected_requirements": [
+      "SUB-14",
+      "SUB-20"
+    ],
+    "evidence": "verification/metadata-scope-failure-01.json",
+    "resolution": "Unrelated hit UUID metadata replaced by counts in regenerated derived index; original task native bodies unchanged",
+    "final_unrelated_uuid_metadata_count": 0
+  },
+  "material_mapping_failure": {
+    "id": "MAT-LAYOUT-03",
+    "affected_requirements": [
+      "SUB-22"
+    ],
+    "evidence": "verification/round-02-layout-failure-content-audit.json",
+    "actual": "A broad replay-* exclusion omitted 20 regular stdout/stderr command evidence files",
+    "resolution": "Exclude replay scratch directories and descendants only; retain regular command evidence files"
+  },
+  "remaining_information": [
+    "User version/contact/freeze_time/member names/work/source_guard/human_edits/known_issues/extra_sources/md_export_dir remain unprovided",
+    "Specified official baseline report path is absent; local preparation logs are separately provided",
+    "Comate is not used; unexposed child sidebar IDs and unreported native fields are disclosed",
+    "This technical snapshot excludes later messages and final responses; 3-package must refresh/freeze records"
+  ],
+  "self_reference_policy": "This report and the later material-files index are not hashed by this report itself. It hashes prior actual audit inputs and frozen project/patch. Material index is produced afterward."
+}

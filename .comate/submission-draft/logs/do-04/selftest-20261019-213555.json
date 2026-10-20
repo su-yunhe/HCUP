@@ -1,0 +1,152 @@
+{
+  "project": "D:\\HCUP\\cml-spec17",
+  "device_sn": "127.0.0.1:11243",
+  "env_warnings": [],
+  "cases": [
+    {
+      "name": "test_original_address_back_preserves_current_draft (hypium_tests.test_address_recovery.AddressCancel.test_original_address_back_preserves_current_draft)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_nondefault_replaces_default_preserves_draft_and_submits (hypium_tests.test_address_recovery.AddressReplacement.test_nondefault_replaces_default_preserves_draft_and_submits)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_original_add_refresh_select_and_submit (hypium_tests.test_address_recovery.NewAddressRecovery.test_original_add_refresh_select_and_submit)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_original_address_back_preserves_current_draft (hypium_tests.test_address_recovery.NoAddressCancel.test_original_address_back_preserves_current_draft)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_missing_address_then_original_selection_and_retry (hypium_tests.test_address_recovery.NoAddressRecovery.test_missing_address_then_original_selection_and_retry)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_original_cart_selection_cleanup_and_restart (hypium_tests.test_cart_cleanup.CartCleanup.test_original_cart_selection_cleanup_and_restart)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_same_count_different_current_and_purchased_sets (hypium_tests.test_cart_cleanup.StaleSetCleanup.test_same_count_different_current_and_purchased_sets)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_delayed_cache_prevents_incomplete_http_order (hypium_tests.test_fault_boundaries.DelayedCache.test_delayed_cache_prevents_incomplete_http_order)",
+      "outcome": "skip",
+      "message": "未执行（所属类 setUpClass 出错或被跳过）"
+    },
+    {
+      "name": "test_payment_precedes_delayed_real_database_deletion (hypium_tests.test_fault_boundaries.DelayedCleanup.test_payment_precedes_delayed_real_database_deletion)",
+      "outcome": "skip",
+      "message": "未执行（所属类 setUpClass 出错或被跳过）"
+    },
+    {
+      "name": "test_one_database_failure_does_not_stop_other_goods_or_recreate (hypium_tests.test_fault_boundaries.FailedCleanup.test_one_database_failure_does_not_stop_other_goods_or_recreate)",
+      "outcome": "skip",
+      "message": "未执行（所属类 setUpClass 出错或被跳过）"
+    },
+    {
+      "name": "test_business_failure_does_not_clean_and_can_retry (hypium_tests.test_order_create.FailureRetry.test_business_failure_does_not_clean_and_can_retry)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_actual_socket_timeout_does_not_clean_or_navigate (hypium_tests.test_order_create.InvalidResponses.test_actual_socket_timeout_does_not_clean_or_navigate)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_http_failure_releases_submission (hypium_tests.test_order_create.InvalidResponses.test_http_failure_releases_submission)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_negative_real_price_is_rejected_by_adopted_policy (hypium_tests.test_order_create.InvalidResponses.test_negative_real_price_is_rejected_by_adopted_policy)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_success_missing_id_is_not_an_order (hypium_tests.test_order_create.InvalidResponses.test_success_missing_id_is_not_an_order)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_success_missing_real_price_is_not_zero_price (hypium_tests.test_order_create.InvalidResponses.test_success_missing_real_price_is_not_zero_price)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_success_null_data_is_not_an_order (hypium_tests.test_order_create.InvalidResponses.test_success_null_data_is_not_an_order)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_completed_draft_active_submit_reuses_receipt (hypium_tests.test_order_create.OrderSuccess.test_completed_draft_active_submit_reuses_receipt)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_empty_remark_without_coupon_is_accepted (hypium_tests.test_order_create.RemarkValues.test_empty_remark_without_coupon_is_accepted)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_three_spaces_are_preserved_by_adopted_policy (hypium_tests.test_order_create.RemarkValues.test_three_spaces_are_preserved_by_adopted_policy)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_inflight_repeated_clicks_create_once (hypium_tests.test_order_create.SlowSubmission.test_inflight_repeated_clicks_create_once)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_zero_real_payment_is_valid (hypium_tests.test_order_create.ZeroPayment.test_zero_real_payment_is_valid)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_failed_get_retries_without_consuming_cached_goods_again (hypium_tests.test_readiness.ConfirmRetry.test_failed_get_retries_without_consuming_cached_goods_again)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_delayed_get_never_creates_an_incomplete_order (hypium_tests.test_readiness.DelayedConfirm.test_delayed_get_never_creates_an_incomplete_order)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_empty_cache_does_not_invent_an_order (hypium_tests.test_readiness.EmptyCache.test_empty_cache_does_not_invent_an_order)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "setUpClass (hypium_tests.test_fault_boundaries.DelayedCache)",
+      "outcome": "skip",
+      "message": "This test requires the separately identified fault sandbox"
+    },
+    {
+      "name": "setUpClass (hypium_tests.test_fault_boundaries.DelayedCleanup)",
+      "outcome": "skip",
+      "message": "This test requires the separately identified fault sandbox"
+    },
+    {
+      "name": "setUpClass (hypium_tests.test_fault_boundaries.FailedCleanup)",
+      "outcome": "skip",
+      "message": "This test requires the separately identified fault sandbox"
+    }
+  ]
+}

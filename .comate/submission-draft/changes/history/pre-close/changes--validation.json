@@ -1,0 +1,80 @@
+{
+  "verified_at_utc": "2026-10-19T14:54:28.240497+00:00",
+  "base_commit": "d6a6ba7480fbd0a30075462e46bb4344a430ba61",
+  "git_tree_oid": "c3e9130db4875be9a17661dea70d00453e418db5",
+  "patch_sha256": "b5a1e4d97b5562045c2c2aa518641c7ef3b7d975464ff3de2ff073c7a8bbe832",
+  "patch_bytes": 610305986,
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "clone",
+        "--no-local",
+        "--single-branch",
+        "--no-tags",
+        "--no-checkout",
+        "--branch",
+        "cml-spec17",
+        "D:\\HCUP\\cml-spec17",
+        "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\.work\\replay-20261019T145326Z"
+      ],
+      "cwd": "D:\\HCUP\\cml-spec17",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "Cloning into 'D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\.work\\replay-20261019T145326Z'...\n"
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "checkout",
+        "--detach",
+        "d6a6ba7480fbd0a30075462e46bb4344a430ba61"
+      ],
+      "cwd": "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\.work\\replay-20261019T145326Z",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "HEAD is now at d6a6ba7 Competition baseline snapshot; local signing removed\n"
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "apply",
+        "--check",
+        "--binary",
+        "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\changes\\final.diff"
+      ],
+      "cwd": "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\.work\\replay-20261019T145326Z",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "apply",
+        "--binary",
+        "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\changes\\final.diff"
+      ],
+      "cwd": "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\.work\\replay-20261019T145326Z",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "D:/HCUP/cml-spec17/.comate/submission-draft/changes/final.diff:24: trailing whitespace.\n/node_modules\r\nD:/HCUP/cml-spec17/.comate/submission-draft/changes/final.diff:25: trailing whitespace.\n/oh_modules\r\nD:/HCUP/cml-spec17/.comate/submission-draft/changes/final.diff:26: trailing whitespace.\n/local.properties\r\nD:/HCUP/cml-spec17/.comate/submission-draft/changes/final.diff:27: trailing whitespace.\n/.idea\r\nD:/HCUP/cml-spec17/.comate/submission-draft/changes/final.diff:28: trailing whitespace.\n**/build\r\nwarning: squelched 1132971 whitespace errors\nwarning: 1132976 lines add whitespace errors.\n"
+    }
+  ],
+  "checked_files": 10314,
+  "mismatches": [],
+  "extra": [],
+  "missing": [],
+  "current_extra": [],
+  "current_missing": [],
+  "production_drift_from_1do": [],
+  "result": "pass",
+  "replay_directory": "D:\\HCUP\\cml-spec17\\.comate\\submission-draft\\.work\\replay-20261019T145326Z",
+  "replay_is_scratch_not_deliverable": true
+}

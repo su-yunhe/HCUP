@@ -1,0 +1,80 @@
+[2026-10-19 21:01:33,913] [23116] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-19 21:01:33,915] [23116] [EnvPool] [INFO] [Report path: D:\HCUP\cml-spec17\logs\do-01\reports\2026-10-19-21-01-33]
+[2026-10-19 21:01:33,915] [23116] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-19 21:01:33,915] [23116] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-19 21:01:33,916] [23116] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-19 21:01:33,918] [23116] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-19 21:01:33,918] [23116] [EnvPool] [INFO] [Get device by selector]
+[2026-10-19 21:01:33,918] [23116] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-19 21:01:34,665] [29472] [Hdc] [INFO] [127.0.0.1:11235		TCP	Offline	localhost
+127.0.0.1:11237		TCP	Connected	localhost
+127.0.0.1:11239		TCP	Connected	localhost
+127.0.0.1:11241		TCP	Connected	localhost
+127.0.0.1:11243		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-19 21:01:34,922] [23116] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:01:34,922] [23116] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:01:37,934] [23116] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:01:37,934] [23116] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:01:37,934] [23116] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:01:37,934] [23116] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11243, label:phone], selection option:[device sn:['127.0.0.1:11243'], label:phone]]
+[2026-10-19 21:01:37,934] [23116] [EnvPool] [INFO] [Device 127.0.0.1:11243: extend value: {}]
+[2026-10-19 21:01:38,228] [23116] [Device] [INFO] [6.0.2.3]
+[2026-10-19 21:01:38,431] [23116] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-19 21:01:38,431] [23116] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-19 21:01:38,504] [23116] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 31696]
+[2026-10-19 21:01:38,504] [23116] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-19 21:01:38,656] [23116] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-19 21:01:38,656] [23116] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-19 21:01:38,723] [23116] [Device] [INFO] [Device agent is up to date!]
+[2026-10-19 21:01:38,899] [23116] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-19 21:01:41,084] [23116] [DeviceUIProxy] [INFO] [tcp forward port: 9937 for 127.0.0.1:11243]
+[2026-10-19 21:01:41,256] [23116] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-19 21:01:41,639] [23116] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-19 21:01:41,639] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 21:01:44,283] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 2.644s</div>]
+[2026-10-19 21:01:44,842] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_1701'))</div>]
+[2026-10-19 21:01:44,925] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_1701')) cost: 0.083s</div>]
+[2026-10-19 21:01:44,925] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_2903'))</div>]
+[2026-10-19 21:01:45,004] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_goods_2903')) cost: 0.079s</div>]
+[2026-10-19 21:01:46,003] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 21:01:46,114] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.11s</div>]
+[2026-10-19 21:01:46,114] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5)</div>]
+[2026-10-19 21:01:46,615] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5) cost: 0.501s</div>]
+[2026-10-19 21:01:46,615] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 21:01:46,703] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 0.089s</div>]
+[2026-10-19 21:01:46,703] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5)</div>]
+[2026-10-19 21:01:47,204] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11243, 0.5) cost: 0.501s</div>]
+[2026-10-19 21:01:50,374] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input'))</div>]
+[2026-10-19 21:01:51,385] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_remark_input')) cost: 1.011s</div>]
+[2026-10-19 21:01:51,385] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'), 请轻放，周末送达)</div>]
+[2026-10-19 21:01:53,536] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:11243, BY.key('order_confirm_remark_input'), 请轻放，周末送达) cost: 2.151s</div>]
+[2026-10-19 21:01:53,932] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_coupon'))</div>]
+[2026-10-19 21:01:55,599] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_coupon')) cost: 1.667s</div>]
+[2026-10-19 21:01:57,850] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 21:01:57,929] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 0.079s</div>]
+[2026-10-19 21:01:58,330] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503'))</div>]
+[2026-10-19 21:01:58,394] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_coupon_item_503')) cost: 0.064s</div>]
+[2026-10-19 21:02:00,364] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 21:02:00,428] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.064s</div>]
+[2026-10-19 21:02:00,970] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit'))</div>]
+[2026-10-19 21:02:01,035] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('order_confirm_submit')) cost: 0.065s</div>]
+[2026-10-19 21:02:01,776] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump'))</div>]
+[2026-10-19 21:02:01,857] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.key('do_probe_dump')) cost: 0.08s</div>]
+[2026-10-19 21:02:02,378] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付'))</div>]
+[2026-10-19 21:02:02,938] [23116] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11243, BY.text('订单支付')) cost: 0.56s</div>]
+test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 29.954s
+
+OK
+
+项目: D:/HCUP/cml-spec17
+设备: 127.0.0.1:11243
+
+测试用例: 1  通过: 1  失败: 0  跳过(未验证): 0
+  ✓ test_original_submit_actual_http_and_response_parameters (hypium_tests.test_order_create.OrderSuccess.test_original_submit_actual_http_and_response_parameters)

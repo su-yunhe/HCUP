@@ -1,0 +1,1851 @@
+{
+  "task_id": "cml-spec17",
+  "draft_source_base": ".comate/submission-draft/",
+  "project_manifest": "changes/project-files.json",
+  "project_destination": "tasks/cml-spec17/project/",
+  "excluded_material_scratch": [
+    ".work/",
+    "**/__pycache__/",
+    "verification/replay-*/",
+    "**/.git/"
+  ],
+  "paths_in_evidence_facts_and_export_manifest": "draft-relative source coordinates; resolve with mappings",
+  "mappings": [
+    {
+      "source": "README.md",
+      "package_destination": "tasks/cml-spec17/README.md"
+    },
+    {
+      "source": "auto-filled-facts.md",
+      "package_destination": "tasks/cml-spec17/auto-filled-facts.md"
+    },
+    {
+      "source": "build.md",
+      "package_destination": "tasks/cml-spec17/build.md"
+    },
+    {
+      "source": "changes/binary-files.csv",
+      "package_destination": "tasks/cml-spec17/changes/binary-files.csv"
+    },
+    {
+      "source": "changes/binary-files.json",
+      "package_destination": "tasks/cml-spec17/changes/binary-files.json"
+    },
+    {
+      "source": "changes/excluded-files.json",
+      "package_destination": "tasks/cml-spec17/changes/excluded-files.json"
+    },
+    {
+      "source": "changes/final.diff",
+      "package_destination": "tasks/cml-spec17/changes/final.diff"
+    },
+    {
+      "source": "changes/history/pre-close/changes--validation.json",
+      "package_destination": "tasks/cml-spec17/changes/history/pre-close/changes--validation.json"
+    },
+    {
+      "source": "changes/history/pre-close/verification--content-audit.json",
+      "package_destination": "tasks/cml-spec17/changes/history/pre-close/verification--content-audit.json"
+    },
+    {
+      "source": "changes/history/pre-close/verification--independent-replay.json",
+      "package_destination": "tasks/cml-spec17/changes/history/pre-close/verification--independent-replay.json"
+    },
+    {
+      "source": "changes/ignore-boundary-audit.json",
+      "package_destination": "tasks/cml-spec17/changes/ignore-boundary-audit.json"
+    },
+    {
+      "source": "changes/name-status.txt",
+      "package_destination": "tasks/cml-spec17/changes/name-status.txt"
+    },
+    {
+      "source": "changes/project-files.json",
+      "package_destination": "tasks/cml-spec17/changes/project-files.json"
+    },
+    {
+      "source": "changes/replay-commands-20261019T144445Z.json",
+      "package_destination": "tasks/cml-spec17/changes/replay-commands-20261019T144445Z.json"
+    },
+    {
+      "source": "changes/replay-commands-20261019T144735Z.json",
+      "package_destination": "tasks/cml-spec17/changes/replay-commands-20261019T144735Z.json"
+    },
+    {
+      "source": "changes/replay-commands-20261019T145326Z.json",
+      "package_destination": "tasks/cml-spec17/changes/replay-commands-20261019T145326Z.json"
+    },
+    {
+      "source": "changes/replay-commands-20261019T150432Z.json",
+      "package_destination": "tasks/cml-spec17/changes/replay-commands-20261019T150432Z.json"
+    },
+    {
+      "source": "changes/validation-20261019T144445Z.json",
+      "package_destination": "tasks/cml-spec17/changes/validation-20261019T144445Z.json"
+    },
+    {
+      "source": "changes/validation-20261019T144735Z.json",
+      "package_destination": "tasks/cml-spec17/changes/validation-20261019T144735Z.json"
+    },
+    {
+      "source": "changes/validation-20261019T145326Z.json",
+      "package_destination": "tasks/cml-spec17/changes/validation-20261019T145326Z.json"
+    },
+    {
+      "source": "changes/validation-20261019T150432Z.json",
+      "package_destination": "tasks/cml-spec17/changes/validation-20261019T150432Z.json"
+    },
+    {
+      "source": "changes/validation.json",
+      "package_destination": "tasks/cml-spec17/changes/validation.json"
+    },
+    {
+      "source": "evidence-facts.json",
+      "package_destination": "tasks/cml-spec17/evidence-facts.json"
+    },
+    {
+      "source": "handoff.md",
+      "package_destination": "tasks/cml-spec17/handoff.md"
+    },
+    {
+      "source": "human-changes.md",
+      "package_destination": "tasks/cml-spec17/human-changes.md"
+    },
+    {
+      "source": "logs/baseline-build-exit-code.txt",
+      "package_destination": "tasks/cml-spec17/logs/baseline-build-exit-code.txt"
+    },
+    {
+      "source": "logs/baseline-build.log",
+      "package_destination": "tasks/cml-spec17/logs/baseline-build.log"
+    },
+    {
+      "source": "logs/do-01-fault/build-20261019-203959-command.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01-fault/build-20261019-203959-command.txt"
+    },
+    {
+      "source": "logs/do-01-fault/build-20261019-203959-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01-fault/build-20261019-203959-exit.txt"
+    },
+    {
+      "source": "logs/do-01-fault/build-20261019-203959.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01-fault/build-20261019-203959.log"
+    },
+    {
+      "source": "logs/do-01-fault/ohpm-20261019-203959-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01-fault/ohpm-20261019-203959-exit.txt"
+    },
+    {
+      "source": "logs/do-01-fault/ohpm-20261019-203959.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01-fault/ohpm-20261019-203959.log"
+    },
+    {
+      "source": "logs/do-01/build-20261019-203532-command.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/build-20261019-203532-command.txt"
+    },
+    {
+      "source": "logs/do-01/build-20261019-203532-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/build-20261019-203532-exit.txt"
+    },
+    {
+      "source": "logs/do-01/build-20261019-203532.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/build-20261019-203532.log"
+    },
+    {
+      "source": "logs/do-01/bundle-20261019-203628.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/bundle-20261019-203628.txt"
+    },
+    {
+      "source": "logs/do-01/bundle-20261019-204113.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/bundle-20261019-204113.txt"
+    },
+    {
+      "source": "logs/do-01/bundle-20261019-204740.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/bundle-20261019-204740.txt"
+    },
+    {
+      "source": "logs/do-01/bundle-20261019-205012.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/bundle-20261019-205012.txt"
+    },
+    {
+      "source": "logs/do-01/bundle-20261019-205631.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/bundle-20261019-205631.txt"
+    },
+    {
+      "source": "logs/do-01/bundle-20261019-205908.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/bundle-20261019-205908.txt"
+    },
+    {
+      "source": "logs/do-01/bundle-20261019-210130.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/bundle-20261019-210130.txt"
+    },
+    {
+      "source": "logs/do-01/forward-list-20261019-203628.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/forward-list-20261019-203628.log"
+    },
+    {
+      "source": "logs/do-01/forward-list-20261019-204113.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/forward-list-20261019-204113.log"
+    },
+    {
+      "source": "logs/do-01/forward-list-20261019-204740.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/forward-list-20261019-204740.log"
+    },
+    {
+      "source": "logs/do-01/forward-list-20261019-205012.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/forward-list-20261019-205012.log"
+    },
+    {
+      "source": "logs/do-01/forward-list-20261019-205631.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/forward-list-20261019-205631.log"
+    },
+    {
+      "source": "logs/do-01/forward-list-20261019-205908.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/forward-list-20261019-205908.log"
+    },
+    {
+      "source": "logs/do-01/forward-list-20261019-210130.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/forward-list-20261019-210130.log"
+    },
+    {
+      "source": "logs/do-01/http-20261019-203628.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-01/http-20261019-203628.jsonl"
+    },
+    {
+      "source": "logs/do-01/http-20261019-204113.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-01/http-20261019-204113.jsonl"
+    },
+    {
+      "source": "logs/do-01/http-20261019-204740.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-01/http-20261019-204740.jsonl"
+    },
+    {
+      "source": "logs/do-01/http-20261019-205012.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-01/http-20261019-205012.jsonl"
+    },
+    {
+      "source": "logs/do-01/http-20261019-205631.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-01/http-20261019-205631.jsonl"
+    },
+    {
+      "source": "logs/do-01/http-20261019-205908.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-01/http-20261019-205908.jsonl"
+    },
+    {
+      "source": "logs/do-01/http-20261019-210130.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-01/http-20261019-210130.jsonl"
+    },
+    {
+      "source": "logs/do-01/install-20261019-203628-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-203628-exit.txt"
+    },
+    {
+      "source": "logs/do-01/install-20261019-203628.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-203628.log"
+    },
+    {
+      "source": "logs/do-01/install-20261019-204113-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-204113-exit.txt"
+    },
+    {
+      "source": "logs/do-01/install-20261019-204113.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-204113.log"
+    },
+    {
+      "source": "logs/do-01/install-20261019-204740-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-204740-exit.txt"
+    },
+    {
+      "source": "logs/do-01/install-20261019-204740.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-204740.log"
+    },
+    {
+      "source": "logs/do-01/install-20261019-205012-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-205012-exit.txt"
+    },
+    {
+      "source": "logs/do-01/install-20261019-205012.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-205012.log"
+    },
+    {
+      "source": "logs/do-01/install-20261019-205631-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-205631-exit.txt"
+    },
+    {
+      "source": "logs/do-01/install-20261019-205631.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-205631.log"
+    },
+    {
+      "source": "logs/do-01/install-20261019-205908-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-205908-exit.txt"
+    },
+    {
+      "source": "logs/do-01/install-20261019-205908.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-205908.log"
+    },
+    {
+      "source": "logs/do-01/install-20261019-210130-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-210130-exit.txt"
+    },
+    {
+      "source": "logs/do-01/install-20261019-210130.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/install-20261019-210130.log"
+    },
+    {
+      "source": "logs/do-01/ohpm-20261019-203532-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/ohpm-20261019-203532-exit.txt"
+    },
+    {
+      "source": "logs/do-01/ohpm-20261019-203532.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/ohpm-20261019-203532.log"
+    },
+    {
+      "source": "logs/do-01/reports/2026-10-19-20-36-32/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/reports/2026-10-19-20-36-32/task_log.log"
+    },
+    {
+      "source": "logs/do-01/reports/2026-10-19-20-41-17/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/reports/2026-10-19-20-41-17/task_log.log"
+    },
+    {
+      "source": "logs/do-01/reports/2026-10-19-20-47-43/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/reports/2026-10-19-20-47-43/task_log.log"
+    },
+    {
+      "source": "logs/do-01/reports/2026-10-19-20-50-16/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/reports/2026-10-19-20-50-16/task_log.log"
+    },
+    {
+      "source": "logs/do-01/reports/2026-10-19-20-56-34/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/reports/2026-10-19-20-56-34/task_log.log"
+    },
+    {
+      "source": "logs/do-01/reports/2026-10-19-20-59-11/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/reports/2026-10-19-20-59-11/task_log.log"
+    },
+    {
+      "source": "logs/do-01/reports/2026-10-19-21-01-33/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/reports/2026-10-19-21-01-33/task_log.log"
+    },
+    {
+      "source": "logs/do-01/rport-20261019-203628.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/rport-20261019-203628.log"
+    },
+    {
+      "source": "logs/do-01/rport-20261019-204113.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/rport-20261019-204113.log"
+    },
+    {
+      "source": "logs/do-01/rport-20261019-204740.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/rport-20261019-204740.log"
+    },
+    {
+      "source": "logs/do-01/rport-20261019-205012.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/rport-20261019-205012.log"
+    },
+    {
+      "source": "logs/do-01/rport-20261019-205631.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/rport-20261019-205631.log"
+    },
+    {
+      "source": "logs/do-01/rport-20261019-205908.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/rport-20261019-205908.log"
+    },
+    {
+      "source": "logs/do-01/rport-20261019-210130.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/rport-20261019-210130.log"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-203628-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-203628-exit.txt"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-203628.json",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-203628.json"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-203628.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-203628.log"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-204113-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-204113-exit.txt"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-204113.json",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-204113.json"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-204113.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-204113.log"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-204740-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-204740-exit.txt"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-204740.json",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-204740.json"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-204740.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-204740.log"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-205012-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-205012-exit.txt"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-205012.json",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-205012.json"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-205012.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-205012.log"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-205631-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-205631-exit.txt"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-205631.json",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-205631.json"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-205631.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-205631.log"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-205908-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-205908-exit.txt"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-205908.json",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-205908.json"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-205908.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-205908.log"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-210130-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-210130-exit.txt"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-210130.json",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-210130.json"
+    },
+    {
+      "source": "logs/do-01/selftest-20261019-210130.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/selftest-20261019-210130.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-203628-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-203628-error.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-203628-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-203628-pid.txt"
+    },
+    {
+      "source": "logs/do-01/server-20261019-203628.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-203628.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-204113-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-204113-error.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-204113-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-204113-pid.txt"
+    },
+    {
+      "source": "logs/do-01/server-20261019-204113.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-204113.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-204740-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-204740-error.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-204740-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-204740-pid.txt"
+    },
+    {
+      "source": "logs/do-01/server-20261019-204740.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-204740.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-205012-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-205012-error.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-205012-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-205012-pid.txt"
+    },
+    {
+      "source": "logs/do-01/server-20261019-205012.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-205012.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-205631-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-205631-error.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-205631-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-205631-pid.txt"
+    },
+    {
+      "source": "logs/do-01/server-20261019-205631.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-205631.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-205908-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-205908-error.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-205908-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-205908-pid.txt"
+    },
+    {
+      "source": "logs/do-01/server-20261019-205908.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-205908.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-210130-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-210130-error.log"
+    },
+    {
+      "source": "logs/do-01/server-20261019-210130-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-210130-pid.txt"
+    },
+    {
+      "source": "logs/do-01/server-20261019-210130.log",
+      "package_destination": "tasks/cml-spec17/logs/do-01/server-20261019-210130.log"
+    },
+    {
+      "source": "logs/do-01/test-tools-first-run.zip",
+      "package_destination": "tasks/cml-spec17/logs/do-01/test-tools-first-run.zip"
+    },
+    {
+      "source": "logs/do-01/test-tools-second-run.zip",
+      "package_destination": "tasks/cml-spec17/logs/do-01/test-tools-second-run.zip"
+    },
+    {
+      "source": "logs/do-01/test-tools-third-run.zip",
+      "package_destination": "tasks/cml-spec17/logs/do-01/test-tools-third-run.zip"
+    },
+    {
+      "source": "logs/do-01/tmp_hypium/127_0_0_1_11243_tmp_uitree.json",
+      "package_destination": "tasks/cml-spec17/logs/do-01/tmp_hypium/127_0_0_1_11243_tmp_uitree.json"
+    },
+    {
+      "source": "logs/do-01/warning-comparison.json",
+      "package_destination": "tasks/cml-spec17/logs/do-01/warning-comparison.json"
+    },
+    {
+      "source": "logs/do-02-fault/build-20261019-204943-command.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-02-fault/build-20261019-204943-command.txt"
+    },
+    {
+      "source": "logs/do-02-fault/build-20261019-204943-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-02-fault/build-20261019-204943-exit.txt"
+    },
+    {
+      "source": "logs/do-02-fault/build-20261019-204943.log",
+      "package_destination": "tasks/cml-spec17/logs/do-02-fault/build-20261019-204943.log"
+    },
+    {
+      "source": "logs/do-02-fault/ohpm-20261019-204943-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-02-fault/ohpm-20261019-204943-exit.txt"
+    },
+    {
+      "source": "logs/do-02-fault/ohpm-20261019-204943.log",
+      "package_destination": "tasks/cml-spec17/logs/do-02-fault/ohpm-20261019-204943.log"
+    },
+    {
+      "source": "logs/do-03-fault/build-20261019-210409-command.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/build-20261019-210409-command.txt"
+    },
+    {
+      "source": "logs/do-03-fault/build-20261019-210409-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/build-20261019-210409-exit.txt"
+    },
+    {
+      "source": "logs/do-03-fault/build-20261019-210409.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/build-20261019-210409.log"
+    },
+    {
+      "source": "logs/do-03-fault/bundle-20261019-211102.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/bundle-20261019-211102.txt"
+    },
+    {
+      "source": "logs/do-03-fault/final-audit-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/final-audit-exit.txt"
+    },
+    {
+      "source": "logs/do-03-fault/final-audit.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/final-audit.log"
+    },
+    {
+      "source": "logs/do-03-fault/forward-list-20261019-211102.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/forward-list-20261019-211102.log"
+    },
+    {
+      "source": "logs/do-03-fault/http-20261019-211102.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/http-20261019-211102.jsonl"
+    },
+    {
+      "source": "logs/do-03-fault/install-20261019-211102-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/install-20261019-211102-exit.txt"
+    },
+    {
+      "source": "logs/do-03-fault/install-20261019-211102.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/install-20261019-211102.log"
+    },
+    {
+      "source": "logs/do-03-fault/ohpm-20261019-210409-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/ohpm-20261019-210409-exit.txt"
+    },
+    {
+      "source": "logs/do-03-fault/ohpm-20261019-210409.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/ohpm-20261019-210409.log"
+    },
+    {
+      "source": "logs/do-03-fault/reports/2026-10-19-21-11-05/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/reports/2026-10-19-21-11-05/task_log.log"
+    },
+    {
+      "source": "logs/do-03-fault/rport-20261019-211102.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/rport-20261019-211102.log"
+    },
+    {
+      "source": "logs/do-03-fault/selftest-20261019-211102-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/selftest-20261019-211102-exit.txt"
+    },
+    {
+      "source": "logs/do-03-fault/selftest-20261019-211102.json",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/selftest-20261019-211102.json"
+    },
+    {
+      "source": "logs/do-03-fault/selftest-20261019-211102.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/selftest-20261019-211102.log"
+    },
+    {
+      "source": "logs/do-03-fault/server-20261019-211102-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/server-20261019-211102-error.log"
+    },
+    {
+      "source": "logs/do-03-fault/server-20261019-211102-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/server-20261019-211102-pid.txt"
+    },
+    {
+      "source": "logs/do-03-fault/server-20261019-211102.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03-fault/server-20261019-211102.log"
+    },
+    {
+      "source": "logs/do-03/build-20261019-210409-command.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/build-20261019-210409-command.txt"
+    },
+    {
+      "source": "logs/do-03/build-20261019-210409-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/build-20261019-210409-exit.txt"
+    },
+    {
+      "source": "logs/do-03/build-20261019-210409.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/build-20261019-210409.log"
+    },
+    {
+      "source": "logs/do-03/bundle-20261019-210518.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/bundle-20261019-210518.txt"
+    },
+    {
+      "source": "logs/do-03/bundle-20261019-212521.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/bundle-20261019-212521.txt"
+    },
+    {
+      "source": "logs/do-03/final-audit-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/final-audit-exit.txt"
+    },
+    {
+      "source": "logs/do-03/final-audit.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/final-audit.log"
+    },
+    {
+      "source": "logs/do-03/forward-list-20261019-210518.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/forward-list-20261019-210518.log"
+    },
+    {
+      "source": "logs/do-03/forward-list-20261019-212521.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/forward-list-20261019-212521.log"
+    },
+    {
+      "source": "logs/do-03/http-20261019-210518.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-03/http-20261019-210518.jsonl"
+    },
+    {
+      "source": "logs/do-03/http-20261019-212521.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-03/http-20261019-212521.jsonl"
+    },
+    {
+      "source": "logs/do-03/install-20261019-210518-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/install-20261019-210518-exit.txt"
+    },
+    {
+      "source": "logs/do-03/install-20261019-210518.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/install-20261019-210518.log"
+    },
+    {
+      "source": "logs/do-03/install-20261019-212521-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/install-20261019-212521-exit.txt"
+    },
+    {
+      "source": "logs/do-03/install-20261019-212521.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/install-20261019-212521.log"
+    },
+    {
+      "source": "logs/do-03/ohpm-20261019-210409-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/ohpm-20261019-210409-exit.txt"
+    },
+    {
+      "source": "logs/do-03/ohpm-20261019-210409.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/ohpm-20261019-210409.log"
+    },
+    {
+      "source": "logs/do-03/reports/2026-10-19-21-05-22/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/reports/2026-10-19-21-05-22/task_log.log"
+    },
+    {
+      "source": "logs/do-03/reports/2026-10-19-21-25-25/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/reports/2026-10-19-21-25-25/task_log.log"
+    },
+    {
+      "source": "logs/do-03/rport-20261019-210518.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/rport-20261019-210518.log"
+    },
+    {
+      "source": "logs/do-03/rport-20261019-212521.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/rport-20261019-212521.log"
+    },
+    {
+      "source": "logs/do-03/selftest-20261019-210518-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/selftest-20261019-210518-exit.txt"
+    },
+    {
+      "source": "logs/do-03/selftest-20261019-210518.json",
+      "package_destination": "tasks/cml-spec17/logs/do-03/selftest-20261019-210518.json"
+    },
+    {
+      "source": "logs/do-03/selftest-20261019-210518.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/selftest-20261019-210518.log"
+    },
+    {
+      "source": "logs/do-03/selftest-20261019-212521-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/selftest-20261019-212521-exit.txt"
+    },
+    {
+      "source": "logs/do-03/selftest-20261019-212521.json",
+      "package_destination": "tasks/cml-spec17/logs/do-03/selftest-20261019-212521.json"
+    },
+    {
+      "source": "logs/do-03/selftest-20261019-212521.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/selftest-20261019-212521.log"
+    },
+    {
+      "source": "logs/do-03/server-20261019-210518-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/server-20261019-210518-error.log"
+    },
+    {
+      "source": "logs/do-03/server-20261019-210518-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/server-20261019-210518-pid.txt"
+    },
+    {
+      "source": "logs/do-03/server-20261019-210518.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/server-20261019-210518.log"
+    },
+    {
+      "source": "logs/do-03/server-20261019-212521-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/server-20261019-212521-error.log"
+    },
+    {
+      "source": "logs/do-03/server-20261019-212521-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-03/server-20261019-212521-pid.txt"
+    },
+    {
+      "source": "logs/do-03/server-20261019-212521.log",
+      "package_destination": "tasks/cml-spec17/logs/do-03/server-20261019-212521.log"
+    },
+    {
+      "source": "logs/do-04-fault/build-20261019-213401-command.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/build-20261019-213401-command.txt"
+    },
+    {
+      "source": "logs/do-04-fault/build-20261019-213401-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/build-20261019-213401-exit.txt"
+    },
+    {
+      "source": "logs/do-04-fault/build-20261019-213401.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/build-20261019-213401.log"
+    },
+    {
+      "source": "logs/do-04-fault/bundle-20261019-214313.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/bundle-20261019-214313.txt"
+    },
+    {
+      "source": "logs/do-04-fault/final-audit-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/final-audit-exit.txt"
+    },
+    {
+      "source": "logs/do-04-fault/final-audit.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/final-audit.log"
+    },
+    {
+      "source": "logs/do-04-fault/forward-list-20261019-214313.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/forward-list-20261019-214313.log"
+    },
+    {
+      "source": "logs/do-04-fault/http-20261019-214313.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/http-20261019-214313.jsonl"
+    },
+    {
+      "source": "logs/do-04-fault/install-20261019-214313-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/install-20261019-214313-exit.txt"
+    },
+    {
+      "source": "logs/do-04-fault/install-20261019-214313.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/install-20261019-214313.log"
+    },
+    {
+      "source": "logs/do-04-fault/ohpm-20261019-213401-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/ohpm-20261019-213401-exit.txt"
+    },
+    {
+      "source": "logs/do-04-fault/ohpm-20261019-213401.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/ohpm-20261019-213401.log"
+    },
+    {
+      "source": "logs/do-04-fault/reports/2026-10-19-21-43-16/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/reports/2026-10-19-21-43-16/task_log.log"
+    },
+    {
+      "source": "logs/do-04-fault/rport-20261019-214313.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/rport-20261019-214313.log"
+    },
+    {
+      "source": "logs/do-04-fault/selftest-20261019-214313-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/selftest-20261019-214313-exit.txt"
+    },
+    {
+      "source": "logs/do-04-fault/selftest-20261019-214313.json",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/selftest-20261019-214313.json"
+    },
+    {
+      "source": "logs/do-04-fault/selftest-20261019-214313.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/selftest-20261019-214313.log"
+    },
+    {
+      "source": "logs/do-04-fault/server-20261019-214313-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/server-20261019-214313-error.log"
+    },
+    {
+      "source": "logs/do-04-fault/server-20261019-214313-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/server-20261019-214313-pid.txt"
+    },
+    {
+      "source": "logs/do-04-fault/server-20261019-214313.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04-fault/server-20261019-214313.log"
+    },
+    {
+      "source": "logs/do-04/build-20261019-213401-command.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/build-20261019-213401-command.txt"
+    },
+    {
+      "source": "logs/do-04/build-20261019-213401-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/build-20261019-213401-exit.txt"
+    },
+    {
+      "source": "logs/do-04/build-20261019-213401.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/build-20261019-213401.log"
+    },
+    {
+      "source": "logs/do-04/bundle-20261019-213445.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/bundle-20261019-213445.txt"
+    },
+    {
+      "source": "logs/do-04/bundle-20261019-213555.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/bundle-20261019-213555.txt"
+    },
+    {
+      "source": "logs/do-04/cleanup-forward-after.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/cleanup-forward-after.log"
+    },
+    {
+      "source": "logs/do-04/cleanup-forward-before.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/cleanup-forward-before.log"
+    },
+    {
+      "source": "logs/do-04/cleanup-forward-remove-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/cleanup-forward-remove-exit.txt"
+    },
+    {
+      "source": "logs/do-04/cleanup-forward-remove.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/cleanup-forward-remove.log"
+    },
+    {
+      "source": "logs/do-04/cleanup-http-listeners.json",
+      "package_destination": "tasks/cml-spec17/logs/do-04/cleanup-http-listeners.json"
+    },
+    {
+      "source": "logs/do-04/cleanup-owned-http-processes.json",
+      "package_destination": "tasks/cml-spec17/logs/do-04/cleanup-owned-http-processes.json"
+    },
+    {
+      "source": "logs/do-04/cleanup-test-cache-exists.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/cleanup-test-cache-exists.txt"
+    },
+    {
+      "source": "logs/do-04/final-audit-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/final-audit-exit.txt"
+    },
+    {
+      "source": "logs/do-04/final-audit.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/final-audit.log"
+    },
+    {
+      "source": "logs/do-04/forward-list-20261019-213445.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/forward-list-20261019-213445.log"
+    },
+    {
+      "source": "logs/do-04/forward-list-20261019-213555.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/forward-list-20261019-213555.log"
+    },
+    {
+      "source": "logs/do-04/http-20261019-213445.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-04/http-20261019-213445.jsonl"
+    },
+    {
+      "source": "logs/do-04/http-20261019-213555.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-04/http-20261019-213555.jsonl"
+    },
+    {
+      "source": "logs/do-04/install-20261019-213445-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/install-20261019-213445-exit.txt"
+    },
+    {
+      "source": "logs/do-04/install-20261019-213445.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/install-20261019-213445.log"
+    },
+    {
+      "source": "logs/do-04/install-20261019-213555-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/install-20261019-213555-exit.txt"
+    },
+    {
+      "source": "logs/do-04/install-20261019-213555.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/install-20261019-213555.log"
+    },
+    {
+      "source": "logs/do-04/ohpm-20261019-213401-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/ohpm-20261019-213401-exit.txt"
+    },
+    {
+      "source": "logs/do-04/ohpm-20261019-213401.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/ohpm-20261019-213401.log"
+    },
+    {
+      "source": "logs/do-04/ordinary-localdo-probe-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/ordinary-localdo-probe-exit.txt"
+    },
+    {
+      "source": "logs/do-04/ordinary-localdo-probe.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/ordinary-localdo-probe.log"
+    },
+    {
+      "source": "logs/do-04/ordinary-production-probe-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/ordinary-production-probe-exit.txt"
+    },
+    {
+      "source": "logs/do-04/ordinary-production-probe.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/ordinary-production-probe.log"
+    },
+    {
+      "source": "logs/do-04/reports/2026-10-19-21-34-49/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/reports/2026-10-19-21-34-49/task_log.log"
+    },
+    {
+      "source": "logs/do-04/reports/2026-10-19-21-35-59/task_log.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/reports/2026-10-19-21-35-59/task_log.log"
+    },
+    {
+      "source": "logs/do-04/rport-20261019-213445.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/rport-20261019-213445.log"
+    },
+    {
+      "source": "logs/do-04/rport-20261019-213555.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/rport-20261019-213555.log"
+    },
+    {
+      "source": "logs/do-04/selftest-20261019-213445-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/selftest-20261019-213445-exit.txt"
+    },
+    {
+      "source": "logs/do-04/selftest-20261019-213445.json",
+      "package_destination": "tasks/cml-spec17/logs/do-04/selftest-20261019-213445.json"
+    },
+    {
+      "source": "logs/do-04/selftest-20261019-213445.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/selftest-20261019-213445.log"
+    },
+    {
+      "source": "logs/do-04/selftest-20261019-213555-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/selftest-20261019-213555-exit.txt"
+    },
+    {
+      "source": "logs/do-04/selftest-20261019-213555.json",
+      "package_destination": "tasks/cml-spec17/logs/do-04/selftest-20261019-213555.json"
+    },
+    {
+      "source": "logs/do-04/selftest-20261019-213555.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/selftest-20261019-213555.log"
+    },
+    {
+      "source": "logs/do-04/server-20261019-213445-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/server-20261019-213445-error.log"
+    },
+    {
+      "source": "logs/do-04/server-20261019-213445-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/server-20261019-213445-pid.txt"
+    },
+    {
+      "source": "logs/do-04/server-20261019-213445.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/server-20261019-213445.log"
+    },
+    {
+      "source": "logs/do-04/server-20261019-213555-error.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/server-20261019-213555-error.log"
+    },
+    {
+      "source": "logs/do-04/server-20261019-213555-pid.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-04/server-20261019-213555-pid.txt"
+    },
+    {
+      "source": "logs/do-04/server-20261019-213555.log",
+      "package_destination": "tasks/cml-spec17/logs/do-04/server-20261019-213555.log"
+    },
+    {
+      "source": "logs/do-04/verification-tools-source.json",
+      "package_destination": "tasks/cml-spec17/logs/do-04/verification-tools-source.json"
+    },
+    {
+      "source": "logs/do-production-01/bundle.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/bundle.txt"
+    },
+    {
+      "source": "logs/do-production-01/cleanup-forward-after-02.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/cleanup-forward-after-02.log"
+    },
+    {
+      "source": "logs/do-production-01/cleanup-forward-after.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/cleanup-forward-after.log"
+    },
+    {
+      "source": "logs/do-production-01/cleanup-forward-before.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/cleanup-forward-before.log"
+    },
+    {
+      "source": "logs/do-production-01/cleanup-forward-remove-02-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/cleanup-forward-remove-02-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/cleanup-forward-remove-02.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/cleanup-forward-remove-02.log"
+    },
+    {
+      "source": "logs/do-production-01/cleanup-forward-remove-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/cleanup-forward-remove-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/cleanup-forward-remove.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/cleanup-forward-remove.log"
+    },
+    {
+      "source": "logs/do-production-01/cleanup-screen-timeout-restore-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/cleanup-screen-timeout-restore-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/cleanup-screen-timeout-restore.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/cleanup-screen-timeout-restore.log"
+    },
+    {
+      "source": "logs/do-production-01/d02-cleanup-forward-after.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/d02-cleanup-forward-after.log"
+    },
+    {
+      "source": "logs/do-production-01/d02-cleanup-forward-before.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/d02-cleanup-forward-before.log"
+    },
+    {
+      "source": "logs/do-production-01/d02-cleanup-forward-remove-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/d02-cleanup-forward-remove-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/d02-cleanup-forward-remove.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/d02-cleanup-forward-remove.log"
+    },
+    {
+      "source": "logs/do-production-01/d02-pre-screen-command.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/d02-pre-screen-command.log"
+    },
+    {
+      "source": "logs/do-production-01/d02-pre-screen-recv.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/d02-pre-screen-recv.log"
+    },
+    {
+      "source": "logs/do-production-01/finalize-report-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/finalize-report-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/finalize-report.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/finalize-report.log"
+    },
+    {
+      "source": "logs/do-production-01/guard-probe-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/guard-probe-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/guard-probe.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/guard-probe.log"
+    },
+    {
+      "source": "logs/do-production-01/independent-build-command.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/independent-build-command.txt"
+    },
+    {
+      "source": "logs/do-production-01/independent-build-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/independent-build-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/independent-build.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/independent-build.log"
+    },
+    {
+      "source": "logs/do-production-01/install-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/install-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/install.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/install.log"
+    },
+    {
+      "source": "logs/do-production-01/layout-command.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/layout-command.log"
+    },
+    {
+      "source": "logs/do-production-01/layout-recv.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/layout-recv.log"
+    },
+    {
+      "source": "logs/do-production-01/live-display-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/live-display-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/live-display.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/live-display.txt"
+    },
+    {
+      "source": "logs/do-production-01/localdo-no-want-guard-probe-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/localdo-no-want-guard-probe-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/localdo-no-want-guard-probe.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/localdo-no-want-guard-probe.log"
+    },
+    {
+      "source": "logs/do-production-01/old-freeze-preservation.json",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/old-freeze-preservation.json"
+    },
+    {
+      "source": "logs/do-production-01/power-help.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/power-help.txt"
+    },
+    {
+      "source": "logs/do-production-01/power-timeout-help.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/power-timeout-help.txt"
+    },
+    {
+      "source": "logs/do-production-01/screen-timeout-command.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/screen-timeout-command.txt"
+    },
+    {
+      "source": "logs/do-production-01/screen-timeout-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/screen-timeout-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/screen-timeout.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/screen-timeout.log"
+    },
+    {
+      "source": "logs/do-production-01/screenshot-command.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/screenshot-command.log"
+    },
+    {
+      "source": "logs/do-production-01/screenshot-recv.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/screenshot-recv.log"
+    },
+    {
+      "source": "logs/do-production-01/start-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/start-exit.txt"
+    },
+    {
+      "source": "logs/do-production-01/start.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/start.txt"
+    },
+    {
+      "source": "logs/do-production-01/stop.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/stop.txt"
+    },
+    {
+      "source": "logs/do-production-01/unlock-layout.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/unlock-layout.log"
+    },
+    {
+      "source": "logs/do-production-01/unlock-recv.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/unlock-recv.log"
+    },
+    {
+      "source": "logs/do-production-01/unlock-swipe.log",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/unlock-swipe.log"
+    },
+    {
+      "source": "logs/do-production-01/wakeup.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-production-01/wakeup.txt"
+    },
+    {
+      "source": "logs/do-scaffold-01/check-02-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-scaffold-01/check-02-exit.txt"
+    },
+    {
+      "source": "logs/do-scaffold-01/check-02.log",
+      "package_destination": "tasks/cml-spec17/logs/do-scaffold-01/check-02.log"
+    },
+    {
+      "source": "logs/do-scaffold-01/check-03-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-scaffold-01/check-03-exit.txt"
+    },
+    {
+      "source": "logs/do-scaffold-01/check-03.log",
+      "package_destination": "tasks/cml-spec17/logs/do-scaffold-01/check-03.log"
+    },
+    {
+      "source": "logs/do-scaffold-01/check-exit.txt",
+      "package_destination": "tasks/cml-spec17/logs/do-scaffold-01/check-exit.txt"
+    },
+    {
+      "source": "logs/do-scaffold-01/check.log",
+      "package_destination": "tasks/cml-spec17/logs/do-scaffold-01/check.log"
+    },
+    {
+      "source": "logs/do-scaffold-01/fingerprint.json",
+      "package_destination": "tasks/cml-spec17/logs/do-scaffold-01/fingerprint.json"
+    },
+    {
+      "source": "logs/do-scaffold-01/http-smoke.jsonl",
+      "package_destination": "tasks/cml-spec17/logs/do-scaffold-01/http-smoke.jsonl"
+    },
+    {
+      "source": "logs/do-scaffold-01/powershell-parse.json",
+      "package_destination": "tasks/cml-spec17/logs/do-scaffold-01/powershell-parse.json"
+    },
+    {
+      "source": "logs/do-scaffold-01/result.json",
+      "package_destination": "tasks/cml-spec17/logs/do-scaffold-01/result.json"
+    },
+    {
+      "source": "logs/implementation-build-01.log",
+      "package_destination": "tasks/cml-spec17/logs/implementation-build-01.log"
+    },
+    {
+      "source": "logs/implementation-build-02.log",
+      "package_destination": "tasks/cml-spec17/logs/implementation-build-02.log"
+    },
+    {
+      "source": "logs/implementation-build-03.log",
+      "package_destination": "tasks/cml-spec17/logs/implementation-build-03.log"
+    },
+    {
+      "source": "logs/implementation-build-04.log",
+      "package_destination": "tasks/cml-spec17/logs/implementation-build-04.log"
+    },
+    {
+      "source": "logs/implementation-fix-02-build-01.log",
+      "package_destination": "tasks/cml-spec17/logs/implementation-fix-02-build-01.log"
+    },
+    {
+      "source": "logs/implementation-fix-02-source-delta.json",
+      "package_destination": "tasks/cml-spec17/logs/implementation-fix-02-source-delta.json"
+    },
+    {
+      "source": "logs/implementation-fix-02-static-check.log",
+      "package_destination": "tasks/cml-spec17/logs/implementation-fix-02-static-check.log"
+    },
+    {
+      "source": "logs/implementation-ohpm-install-01.log",
+      "package_destination": "tasks/cml-spec17/logs/implementation-ohpm-install-01.log"
+    },
+    {
+      "source": "logs/implementation-static-check-01.log",
+      "package_destination": "tasks/cml-spec17/logs/implementation-static-check-01.log"
+    },
+    {
+      "source": "logs/implementation-warning-comparison-01.json",
+      "package_destination": "tasks/cml-spec17/logs/implementation-warning-comparison-01.json"
+    },
+    {
+      "source": "logs/implementation-warning-comparison-02.json",
+      "package_destination": "tasks/cml-spec17/logs/implementation-warning-comparison-02.json"
+    },
+    {
+      "source": "logs/ohpm-install-exit-code.txt",
+      "package_destination": "tasks/cml-spec17/logs/ohpm-install-exit-code.txt"
+    },
+    {
+      "source": "logs/ohpm-install.log",
+      "package_destination": "tasks/cml-spec17/logs/ohpm-install.log"
+    },
+    {
+      "source": "logs/prepare-baseline.log",
+      "package_destination": "tasks/cml-spec17/logs/prepare-baseline.log"
+    },
+    {
+      "source": "material-files.json",
+      "package_destination": "tasks/cml-spec17/material-files.json"
+    },
+    {
+      "source": "missing-fields.md",
+      "package_destination": "tasks/cml-spec17/missing-fields.md"
+    },
+    {
+      "source": "package-layout.json",
+      "package_destination": "tasks/cml-spec17/package-layout.json"
+    },
+    {
+      "source": "solution.fragment.md",
+      "package_destination": "tasks/cml-spec17/solution.fragment.md"
+    },
+    {
+      "source": "sources.fragment.md",
+      "package_destination": "tasks/cml-spec17/sources.fragment.md"
+    },
+    {
+      "source": "submission.json.fragment",
+      "package_destination": "tasks/cml-spec17/submission.json.fragment"
+    },
+    {
+      "source": "templates/submission-checklist.md",
+      "package_destination": "tasks/cml-spec17/templates/submission-checklist.md"
+    },
+    {
+      "source": "templates/submission.json",
+      "package_destination": "tasks/cml-spec17/templates/submission.json"
+    },
+    {
+      "source": "templates/trace-index.md",
+      "package_destination": "tasks/cml-spec17/templates/trace-index.md"
+    },
+    {
+      "source": "tools/close_workflow.py",
+      "package_destination": "tasks/cml-spec17/tools/close_workflow.py"
+    },
+    {
+      "source": "tools/collect_evidence.py",
+      "package_destination": "tasks/cml-spec17/tools/collect_evidence.py"
+    },
+    {
+      "source": "tools/freeze_project.py",
+      "package_destination": "tasks/cml-spec17/tools/freeze_project.py"
+    },
+    {
+      "source": "tools/write_handoff.py",
+      "package_destination": "tasks/cml-spec17/tools/write_handoff.py"
+    },
+    {
+      "source": "tools/write_indexes.py",
+      "package_destination": "tasks/cml-spec17/tools/write_indexes.py"
+    },
+    {
+      "source": "trace-index.md",
+      "package_destination": "tasks/cml-spec17/trace-index.md"
+    },
+    {
+      "source": "traces/client-version.json",
+      "package_destination": "traces/cml-spec17/client-version.json"
+    },
+    {
+      "source": "traces/code-snapshots/before-implementation.patch",
+      "package_destination": "traces/cml-spec17/code-snapshots/before-implementation.patch"
+    },
+    {
+      "source": "traces/code-snapshots/production-final-fingerprint.json",
+      "package_destination": "traces/cml-spec17/code-snapshots/production-final-fingerprint.json"
+    },
+    {
+      "source": "traces/code-snapshots/production-final.diff",
+      "package_destination": "traces/cml-spec17/code-snapshots/production-final.diff"
+    },
+    {
+      "source": "traces/config-used/AGENTS.md",
+      "package_destination": "traces/cml-spec17/config-used/AGENTS.md"
+    },
+    {
+      "source": "traces/config-used/agents/harmony_design.toml",
+      "package_destination": "traces/cml-spec17/config-used/agents/harmony_design.toml"
+    },
+    {
+      "source": "traces/config-used/agents/harmony_implementation.toml",
+      "package_destination": "traces/cml-spec17/config-used/agents/harmony_implementation.toml"
+    },
+    {
+      "source": "traces/config-used/agents/harmony_requirements.toml",
+      "package_destination": "traces/cml-spec17/config-used/agents/harmony_requirements.toml"
+    },
+    {
+      "source": "traces/config-used/agents/harmony_verification.toml",
+      "package_destination": "traces/cml-spec17/config-used/agents/harmony_verification.toml"
+    },
+    {
+      "source": "traces/config-used/harmony-task-flow/SKILL.md",
+      "package_destination": "traces/cml-spec17/config-used/harmony-task-flow/SKILL.md"
+    },
+    {
+      "source": "traces/config-used/harmony-task-flow/references/local-setup.md",
+      "package_destination": "traces/cml-spec17/config-used/harmony-task-flow/references/local-setup.md"
+    },
+    {
+      "source": "traces/config-used/harmony-task-flow/references/protocol.md",
+      "package_destination": "traces/cml-spec17/config-used/harmony-task-flow/references/protocol.md"
+    },
+    {
+      "source": "traces/config-used/harmony-task-flow/references/traces.md",
+      "package_destination": "traces/cml-spec17/config-used/harmony-task-flow/references/traces.md"
+    },
+    {
+      "source": "traces/config-used/manifest.json",
+      "package_destination": "traces/cml-spec17/config-used/manifest.json"
+    },
+    {
+      "source": "traces/export-manifest.json",
+      "package_destination": "traces/cml-spec17/export-manifest.json"
+    },
+    {
+      "source": "traces/markdown/01a15320-35c3-7341-a387-a8c8cec04015.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15320-35c3-7341-a387-a8c8cec04015.md"
+    },
+    {
+      "source": "traces/markdown/01a15321-8755-7262-9963-0de20e8bba3d.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15321-8755-7262-9963-0de20e8bba3d.md"
+    },
+    {
+      "source": "traces/markdown/01a15321-b0ef-7cc1-b352-1be9214d9d08.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15321-b0ef-7cc1-b352-1be9214d9d08.md"
+    },
+    {
+      "source": "traces/markdown/01a15324-7c59-7bd1-86f3-cc3cd488aac8.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15324-7c59-7bd1-86f3-cc3cd488aac8.md"
+    },
+    {
+      "source": "traces/markdown/01a1532a-90c7-7262-9d00-3fa0dd39ac01.md",
+      "package_destination": "traces/cml-spec17/markdown/01a1532a-90c7-7262-9d00-3fa0dd39ac01.md"
+    },
+    {
+      "source": "traces/markdown/01a15412-7c11-7292-b4ef-1b7d894060a9.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15412-7c11-7292-b4ef-1b7d894060a9.md"
+    },
+    {
+      "source": "traces/markdown/01a15414-3ee9-7f93-b561-64c0efe6502d.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15414-3ee9-7f93-b561-64c0efe6502d.md"
+    },
+    {
+      "source": "traces/markdown/01a15414-6cf3-7941-855f-f4b6b2ae6cab.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15414-6cf3-7941-855f-f4b6b2ae6cab.md"
+    },
+    {
+      "source": "traces/markdown/01a15417-9451-71d0-bd98-d23cbdacc756.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15417-9451-71d0-bd98-d23cbdacc756.md"
+    },
+    {
+      "source": "traces/markdown/01a15417-cde7-7a01-8e01-53189017033e.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15417-cde7-7a01-8e01-53189017033e.md"
+    },
+    {
+      "source": "traces/markdown/01a15490-1423-7570-9c1c-98d9a6af515d.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15490-1423-7570-9c1c-98d9a6af515d.md"
+    },
+    {
+      "source": "traces/markdown/01a15491-211c-7342-ac1b-abef22024170.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15491-211c-7342-ac1b-abef22024170.md"
+    },
+    {
+      "source": "traces/markdown/01a15491-7ced-7c42-be28-a86c6c4f2a61.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15491-7ced-7c42-be28-a86c6c4f2a61.md"
+    },
+    {
+      "source": "traces/markdown/01a15496-a1fa-7a32-a5d4-2c960d574a34.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15496-a1fa-7a32-a5d4-2c960d574a34.md"
+    },
+    {
+      "source": "traces/markdown/01a15497-0104-7da3-884f-b85648cacc52.md",
+      "package_destination": "traces/cml-spec17/markdown/01a15497-0104-7da3-884f-b85648cacc52.md"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T15-46-22-01a15320-35c3-7341-a387-a8c8cec04015.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T15-46-22-01a15320-35c3-7341-a387-a8c8cec04015.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T15-47-48-01a15321-8755-7262-9963-0de20e8bba3d.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T15-47-48-01a15321-8755-7262-9963-0de20e8bba3d.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T15-47-59-01a15321-b0ef-7cc1-b352-1be9214d9d08.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T15-47-59-01a15321-b0ef-7cc1-b352-1be9214d9d08.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T15-51-02-01a15324-7c59-7bd1-86f3-cc3cd488aac8.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T15-51-02-01a15324-7c59-7bd1-86f3-cc3cd488aac8.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T15-57-41-01a1532a-90c7-7262-9d00-3fa0dd39ac01.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T15-57-41-01a1532a-90c7-7262-9d00-3fa0dd39ac01.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T20-11-00-01a15412-7c11-7292-b4ef-1b7d894060a9.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T20-11-00-01a15412-7c11-7292-b4ef-1b7d894060a9.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T20-12-55-01a15414-3ee9-7f93-b561-64c0efe6502d.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T20-12-55-01a15414-3ee9-7f93-b561-64c0efe6502d.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T20-13-07-01a15414-6cf3-7941-855f-f4b6b2ae6cab.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T20-13-07-01a15414-6cf3-7941-855f-f4b6b2ae6cab.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T20-16-34-01a15417-9451-71d0-bd98-d23cbdacc756.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T20-16-34-01a15417-9451-71d0-bd98-d23cbdacc756.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T20-16-48-01a15417-cde7-7a01-8e01-53189017033e.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T20-16-48-01a15417-cde7-7a01-8e01-53189017033e.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T22-28-13-01a15490-1423-7570-9c1c-98d9a6af515d.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T22-28-13-01a15490-1423-7570-9c1c-98d9a6af515d.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T22-29-19-01a15491-211c-7342-ac1b-abef22024170.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T22-29-19-01a15491-211c-7342-ac1b-abef22024170.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T22-29-43-01a15491-7ced-7c42-be28-a86c6c4f2a61.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T22-29-43-01a15491-7ced-7c42-be28-a86c6c4f2a61.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T22-35-20-01a15496-a1fa-7a32-a5d4-2c960d574a34.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T22-35-20-01a15496-a1fa-7a32-a5d4-2c960d574a34.jsonl"
+    },
+    {
+      "source": "traces/native/rollout-2026-10-19T22-35-44-01a15497-0104-7da3-884f-b85648cacc52.jsonl",
+      "package_destination": "traces/cml-spec17/native/rollout-2026-10-19T22-35-44-01a15497-0104-7da3-884f-b85648cacc52.jsonl"
+    },
+    {
+      "source": "traces/session-index.filtered.jsonl",
+      "package_destination": "traces/cml-spec17/session-index.filtered.jsonl"
+    },
+    {
+      "source": "verification/audit_delivery.py",
+      "package_destination": "tasks/cml-spec17/verification/audit_delivery.py"
+    },
+    {
+      "source": "verification/audit_materials.py",
+      "package_destination": "tasks/cml-spec17/verification/audit_materials.py"
+    },
+    {
+      "source": "verification/content-audit.json",
+      "package_destination": "tasks/cml-spec17/verification/content-audit.json"
+    },
+    {
+      "source": "verification/content-audit.log",
+      "package_destination": "tasks/cml-spec17/verification/content-audit.log"
+    },
+    {
+      "source": "verification/content-command-01.stderr",
+      "package_destination": "tasks/cml-spec17/verification/content-command-01.stderr"
+    },
+    {
+      "source": "verification/content-command-01.stdout",
+      "package_destination": "tasks/cml-spec17/verification/content-command-01.stdout"
+    },
+    {
+      "source": "verification/content-command-02.stderr",
+      "package_destination": "tasks/cml-spec17/verification/content-command-02.stderr"
+    },
+    {
+      "source": "verification/content-command-02.stdout",
+      "package_destination": "tasks/cml-spec17/verification/content-command-02.stdout"
+    },
+    {
+      "source": "verification/evidence-audit-01.json",
+      "package_destination": "tasks/cml-spec17/verification/evidence-audit-01.json"
+    },
+    {
+      "source": "verification/evidence-audit-01.log",
+      "package_destination": "tasks/cml-spec17/verification/evidence-audit-01.log"
+    },
+    {
+      "source": "verification/evidence-audit-final.json",
+      "package_destination": "tasks/cml-spec17/verification/evidence-audit-final.json"
+    },
+    {
+      "source": "verification/evidence-audit-final.log",
+      "package_destination": "tasks/cml-spec17/verification/evidence-audit-final.log"
+    },
+    {
+      "source": "verification/final-audit.json",
+      "package_destination": "tasks/cml-spec17/verification/final-audit.json"
+    },
+    {
+      "source": "verification/finalize_verification.py",
+      "package_destination": "tasks/cml-spec17/verification/finalize_verification.py"
+    },
+    {
+      "source": "verification/independent-replay-files.json",
+      "package_destination": "tasks/cml-spec17/verification/independent-replay-files.json"
+    },
+    {
+      "source": "verification/independent-replay.json",
+      "package_destination": "tasks/cml-spec17/verification/independent-replay.json"
+    },
+    {
+      "source": "verification/independent-replay.log",
+      "package_destination": "tasks/cml-spec17/verification/independent-replay.log"
+    },
+    {
+      "source": "verification/metadata-scope-failure-01.json",
+      "package_destination": "tasks/cml-spec17/verification/metadata-scope-failure-01.json"
+    },
+    {
+      "source": "verification/replay-command-20261019T144832092421Z-01.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T144832092421Z-01.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T144832092421Z-01.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T144832092421Z-01.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T144832092421Z-02.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T144832092421Z-02.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T144832092421Z-02.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T144832092421Z-02.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T144832092421Z-03.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T144832092421Z-03.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T144832092421Z-03.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T144832092421Z-03.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T144832092421Z-04.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T144832092421Z-04.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T144832092421Z-04.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T144832092421Z-04.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T144832092421Z-05.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T144832092421Z-05.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T144832092421Z-05.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T144832092421Z-05.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T145407872074Z-01.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T145407872074Z-01.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T145407872074Z-01.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T145407872074Z-01.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T145407872074Z-02.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T145407872074Z-02.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T145407872074Z-02.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T145407872074Z-02.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T145407872074Z-03.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T145407872074Z-03.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T145407872074Z-03.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T145407872074Z-03.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T145407872074Z-04.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T145407872074Z-04.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T145407872074Z-04.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T145407872074Z-04.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T145407872074Z-05.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T145407872074Z-05.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T145407872074Z-05.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T145407872074Z-05.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T150512013367Z-01.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T150512013367Z-01.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T150512013367Z-01.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T150512013367Z-01.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T150512013367Z-02.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T150512013367Z-02.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T150512013367Z-02.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T150512013367Z-02.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T150512013367Z-03.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T150512013367Z-03.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T150512013367Z-03.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T150512013367Z-03.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T150512013367Z-04.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T150512013367Z-04.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T150512013367Z-04.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T150512013367Z-04.stdout"
+    },
+    {
+      "source": "verification/replay-command-20261019T150512013367Z-05.stderr",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T150512013367Z-05.stderr"
+    },
+    {
+      "source": "verification/replay-command-20261019T150512013367Z-05.stdout",
+      "package_destination": "tasks/cml-spec17/verification/replay-command-20261019T150512013367Z-05.stdout"
+    },
+    {
+      "source": "verification/replay_independently.py",
+      "package_destination": "tasks/cml-spec17/verification/replay_independently.py"
+    },
+    {
+      "source": "verification/round-01-content-audit.json",
+      "package_destination": "tasks/cml-spec17/verification/round-01-content-audit.json"
+    },
+    {
+      "source": "verification/round-01-content-audit.log",
+      "package_destination": "tasks/cml-spec17/verification/round-01-content-audit.log"
+    },
+    {
+      "source": "verification/round-01-evidence-audit-final.json",
+      "package_destination": "tasks/cml-spec17/verification/round-01-evidence-audit-final.json"
+    },
+    {
+      "source": "verification/round-01-evidence-audit-final.log",
+      "package_destination": "tasks/cml-spec17/verification/round-01-evidence-audit-final.log"
+    },
+    {
+      "source": "verification/round-01-independent-replay-files.json",
+      "package_destination": "tasks/cml-spec17/verification/round-01-independent-replay-files.json"
+    },
+    {
+      "source": "verification/round-01-independent-replay.json",
+      "package_destination": "tasks/cml-spec17/verification/round-01-independent-replay.json"
+    },
+    {
+      "source": "verification/round-01-independent-replay.log",
+      "package_destination": "tasks/cml-spec17/verification/round-01-independent-replay.log"
+    },
+    {
+      "source": "verification/round-02-content-audit.json",
+      "package_destination": "tasks/cml-spec17/verification/round-02-content-audit.json"
+    },
+    {
+      "source": "verification/round-02-content-audit.log",
+      "package_destination": "tasks/cml-spec17/verification/round-02-content-audit.log"
+    },
+    {
+      "source": "verification/round-02-corrected-evidence-audit-final.json",
+      "package_destination": "tasks/cml-spec17/verification/round-02-corrected-evidence-audit-final.json"
+    },
+    {
+      "source": "verification/round-02-corrected-evidence-audit-final.log",
+      "package_destination": "tasks/cml-spec17/verification/round-02-corrected-evidence-audit-final.log"
+    },
+    {
+      "source": "verification/round-02-evidence-audit-final.json",
+      "package_destination": "tasks/cml-spec17/verification/round-02-evidence-audit-final.json"
+    },
+    {
+      "source": "verification/round-02-evidence-audit-final.log",
+      "package_destination": "tasks/cml-spec17/verification/round-02-evidence-audit-final.log"
+    },
+    {
+      "source": "verification/round-02-final-audit.json",
+      "package_destination": "tasks/cml-spec17/verification/round-02-final-audit.json"
+    },
+    {
+      "source": "verification/round-02-independent-replay-files.json",
+      "package_destination": "tasks/cml-spec17/verification/round-02-independent-replay-files.json"
+    },
+    {
+      "source": "verification/round-02-independent-replay.json",
+      "package_destination": "tasks/cml-spec17/verification/round-02-independent-replay.json"
+    },
+    {
+      "source": "verification/round-02-independent-replay.log",
+      "package_destination": "tasks/cml-spec17/verification/round-02-independent-replay.log"
+    },
+    {
+      "source": "verification/round-02-layout-failure-content-audit.json",
+      "package_destination": "tasks/cml-spec17/verification/round-02-layout-failure-content-audit.json"
+    },
+    {
+      "source": "verification/round-02-layout-failure-content-audit.log",
+      "package_destination": "tasks/cml-spec17/verification/round-02-layout-failure-content-audit.log"
+    },
+    {
+      "source": "verification/round-02-proof-index.json",
+      "package_destination": "tasks/cml-spec17/verification/round-02-proof-index.json"
+    },
+    {
+      "source": "verification/round-03-native-group-assumption-audit_materials.py",
+      "package_destination": "tasks/cml-spec17/verification/round-03-native-group-assumption-audit_materials.py"
+    },
+    {
+      "source": "verification/round-03-native-group-assumption-evidence-audit-final.json",
+      "package_destination": "tasks/cml-spec17/verification/round-03-native-group-assumption-evidence-audit-final.json"
+    },
+    {
+      "source": "verification/round-03-native-group-assumption-evidence-audit-final.log",
+      "package_destination": "tasks/cml-spec17/verification/round-03-native-group-assumption-evidence-audit-final.log"
+    }
+  ]
+}
