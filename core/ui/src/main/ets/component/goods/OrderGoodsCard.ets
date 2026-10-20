@@ -15,6 +15,9 @@ export struct OrderGoodsCard {
    */
   @Param
   data: Cart = new Cart();
+  /** Optional stable IDs for the existing goods and specification rows. */
+  @Param
+  idPrefix: string = "";
   /**
    * 正在删除的规格ID集合
    */
@@ -76,7 +79,7 @@ export struct OrderGoodsCard {
           onCellClick: (): void => {
             this.onGoodsClick(this.data.goodsId);
           }
-        });
+        }).id(this.idPrefix ? `${this.idPrefix}_goods_${this.data.goodsId}` : "");
       }
 
       SpaceVerticalMedium();
@@ -105,7 +108,7 @@ export struct OrderGoodsCard {
                 this.itemActionSlotBuilder(item);
               }
             } : undefined
-          });
+          }).id(this.idPrefix ? `${this.idPrefix}_spec_${this.data.goodsId}_${item.id}` : "");
         }
       }, (item: CartGoodsSpec): string => `${item.id}`);
     }

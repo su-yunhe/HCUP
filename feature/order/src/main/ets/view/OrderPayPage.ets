@@ -33,5 +33,6 @@ export struct OrderPayPage {
   @Builder
   private OrderPayContent() {
     Text("订单支付页面内容视图")
+      .id("order_pay_page")
   }
 }

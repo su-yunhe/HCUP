@@ -65,7 +65,7 @@ export struct AddressDetailPage {
             text: $r("app.string.save_address"),
             loading: this.vm.isSaving,
             onTap: (): void => this.vm.onSaveTap()
-          });
+          }).id("address_save");
         }
       }
     }
@@ -114,7 +114,7 @@ export struct AddressDetailPage {
           onChange: (value: IBestFieldValueType): void => {
             this.vm.updateContactName(`${value ?? ""}`);
           }
-        });
+        }).id("address_contact_input");
 
         IBestField({
           formId: this.formId,
@@ -127,7 +127,7 @@ export struct AddressDetailPage {
           onChange: (value: IBestFieldValueType): void => {
             this.vm.updatePhone(`${value ?? ""}`);
           }
-        });
+        }).id("address_phone_input");
 
         IBestField({
           formId: this.formId,
@@ -141,7 +141,7 @@ export struct AddressDetailPage {
           onFieldClick: (): void => {
             this.vm.onRegionFieldClick();
           }
-        });
+        }).id("address_region_select");
 
         IBestField({
           formId: this.formId,
@@ -156,7 +156,7 @@ export struct AddressDetailPage {
           onChange: (value: IBestFieldValueType): void => {
             this.vm.updateDetailAddress(`${value ?? ""}`);
           }
-        });
+        }).id("address_detail_input");
       }
     }
 

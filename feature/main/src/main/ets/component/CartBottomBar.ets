@@ -130,7 +130,7 @@ export struct CartBottomBar {
               btnWidth: 90,
               btnHeight: 34,
               onBtnClick: (): void => this.onSettleClick()
-            });
+            }).id("cart_settle");
           }
         }
       }

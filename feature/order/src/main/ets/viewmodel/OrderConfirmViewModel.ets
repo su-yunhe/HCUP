@@ -1,7 +1,29 @@
-import { BaseNetWorkViewModel } from "base";
-import { CartRepository, OrderCacheStoreRepository, PageRepository } from "data";
-import { Cart, CartGoodsSpec, ConfirmOrder, Coupon, NetworkResponse, SelectedGoods } from "model";
-import { UserNavigator, UserSelectAddressResult } from "navigation";
+import { BaseNetWorkUiState, BaseNetWorkViewModel } from "base";
+import { CartRepository, OrderCacheStoreRepository, OrderRepository, PageRepository } from "data";
+import {
+  Address, Cart, CartGoodsSpec, ConfirmOrder, Coupon, CreateOrderRequest, Goods, GoodsSpec, NetworkResponse,
+  Order, SelectedGoods
+} from "model";
+import { OrderNavigator, UserNavigator, UserSelectAddressResult } from "navigation";
+import { RequestHelper } from "result";
+import { ToastUtils } from "util";
+
+enum PreparationState {
+  IDLE,
+  LOADING,
+  SUCCESS,
+  ERROR
+}
+
+class CreatedOrderReceipt {
+  id: number;
+  realPrice: number;
+
+  constructor(id: number, realPrice: number) {
+    this.id = id;
+    this.realPrice = realPrice;
+  }
+}
 
 /**
  * @file 订单确认页面 ViewModel
@@ -21,6 +43,21 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
    * 购物车仓库
    */
   private readonly cartRepository: CartRepository = new CartRepository();
+  private readonly orderRepository: OrderRepository = new OrderRepository();
+  private initialized: boolean = false;
+  private cacheState: PreparationState = PreparationState.IDLE;
+  private pageState: PreparationState = PreparationState.IDLE;
+  private addressChosen: boolean = false;
+  private visible: boolean = false;
+  private disposed: boolean = false;
+  private pendingAutoPay: boolean = false;
+  private payNavigationInProgress: boolean = false;
+  private receipt: CreatedOrderReceipt | null = null;
+  /** UI and requests share the same current address. */
+  @Trace
+  selectedAddress: Address | null = null;
+  @Trace
+  submitting: boolean = false;
   /**
    * 从购物车来的商品项（仅购物车页面会存储）
    */
@@ -80,10 +117,94 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
    * @returns {void} 无返回值
    */
   aboutToAppear(): void {
-    // 先加载缓存数据
+    if (this.initialized || this.disposed) {
+      return;
+    }
+    this.initialized = true;
     this.loadOrderCache();
-    // 再执行网络请求
     super.aboutToAppear();
+  }
+
+  onShown(reason: VisibilityChangeReason): void {
+    if (this.disposed) {
+      return;
+    }
+    this.visible = true;
+    this.payNavigationInProgress = false;
+    if (this.pendingAutoPay) {
+      this.navigateToCreatedOrder();
+    }
+  }
+
+  onHidden(reason: VisibilityChangeReason): void {
+    this.visible = false;
+  }
+
+  aboutToBeDeleted(): void {
+    this.disposed = true;
+    this.visible = false;
+    this.pendingAutoPay = false;
+  }
+
+  protected onRequestStart(): void {
+    if (!this.disposed) {
+      this.pageState = PreparationState.LOADING;
+      this.refreshReadyState();
+    }
+  }
+
+  protected onRequestSuccess(data: ConfirmOrder): void {
+    if (this.disposed) {
+      return;
+    }
+    if (!data) {
+      this.onRequestError();
+      return;
+    }
+    this.data = data;
+    if (!this.addressChosen) {
+      const address = data.defaultAddress;
+      this.selectedAddress = address && this.isPositiveNumber(address.id) ? new Address(address) : null;
+    }
+    this.pageState = PreparationState.SUCCESS;
+    this.refreshReadyState();
+  }
+
+  protected onRequestError(): void {
+    if (!this.disposed) {
+      this.pageState = PreparationState.ERROR;
+      this.refreshReadyState();
+    }
+  }
+
+  retryRequest(): void {
+    if (this.disposed) {
+      return;
+    }
+    if (this.cacheState === PreparationState.ERROR) {
+      this.loadOrderCache();
+    }
+    if (this.pageState === PreparationState.ERROR) {
+      this.executeRequest();
+    }
+  }
+
+  private refreshReadyState(): void {
+    if (this.disposed) {
+      return;
+    }
+    if (this.cacheState === PreparationState.ERROR || this.pageState === PreparationState.ERROR) {
+      this.uiState = BaseNetWorkUiState.ERROR;
+    } else if (this.cacheState === PreparationState.SUCCESS && this.pageState === PreparationState.SUCCESS) {
+      this.uiState = BaseNetWorkUiState.SUCCESS;
+    } else {
+      this.uiState = BaseNetWorkUiState.LOADING;
+    }
+  }
+
+  get canSubmit(): boolean {
+    return !this.disposed && !this.submitting && this.uiState === BaseNetWorkUiState.SUCCESS &&
+      this.hasValidGoods();
   }
 
   /**
@@ -91,24 +212,38 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
    * @returns {Promise<void>} Promise<void>
    */
   async loadOrderCache(): Promise<void> {
-    // 1. 读取购物车缓存（仅购物车页面会存储）
-    this.cachedCarts = await this.orderCacheStoreRepository.loadCarts();
-
-    // 2. 读取已选商品列表
-    this.selectedGoodsList = await this.orderCacheStoreRepository.loadSelectedGoodsList() ?? [];
-
-    // 3. 购物车列表：优先从 cachedCarts 获取，没有则从 selectedGoodsList 转换
-    if (this.cachedCarts && this.cachedCarts.length > 0) {
-      this.cartList = this.cachedCarts;
-    } else {
-      this.cartList = this.convertSelectedGoodsToCartList(this.selectedGoodsList);
+    if (this.disposed || this.cacheState === PreparationState.LOADING ||
+      this.cacheState === PreparationState.SUCCESS) {
+      return;
     }
-
-    // 4. 清除缓存，避免重复使用
-    await this.orderCacheStoreRepository.clearAll();
-
-    // 5. 计算商品原价
-    this.calculateOriginalPrice();
+    this.cacheState = PreparationState.LOADING;
+    this.refreshReadyState();
+    try {
+      // Publish both reads together; failed reads leave the cache available for retry.
+      const carts = await this.orderCacheStoreRepository.loadCarts();
+      const goods = await this.orderCacheStoreRepository.loadSelectedGoodsList() ?? [];
+      if (this.disposed) {
+        return;
+      }
+      this.cachedCarts = carts;
+      this.selectedGoodsList = goods;
+      this.cartList = carts && carts.length > 0 ? carts : this.convertSelectedGoodsToCartList(goods);
+      this.calculateOriginalPrice();
+      this.cacheState = PreparationState.SUCCESS;
+      this.refreshReadyState();
+      // Once published, this draft must not be replaced by a partially cleared cache.
+      try {
+        await this.orderCacheStoreRepository.clearAll();
+      } catch (error) {
+        console.error(`[OrderConfirm] clear consumed cache failed: ${String(error)}`);
+      }
+    } catch (error) {
+      console.error(`[OrderConfirm] read order cache failed: ${String(error)}`);
+      if (!this.disposed) {
+        this.cacheState = PreparationState.ERROR;
+        this.refreshReadyState();
+      }
+    }
   }
 
   /**
@@ -195,7 +330,9 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
    * @returns {void} 无返回值
    */
   showCouponModal(): void {
-    this.couponModalVisible = true;
+    if (!this.disposed && !this.submitting && !this.receipt) {
+      this.couponModalVisible = true;
+    }
   }
 
   /**
@@ -212,6 +349,9 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
    * @returns {void} 无返回值
    */
   selectCoupon(coupon: Coupon | null): void {
+    if (this.disposed || this.submitting || this.receipt) {
+      return;
+    }
     this.selectedCoupon = coupon;
     this.hideCouponModal();
     this.calculatePrices();
@@ -255,11 +395,19 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
    * @returns {void} 无返回值
    */
   navigateToAddressSelection(): void {
+    if (this.disposed || this.submitting || this.receipt) {
+      return;
+    }
     UserNavigator.toAddressList(true)
       .then((result?: UserSelectAddressResult): void => {
-        if (result?.address) {
-          console.log(JSON.stringify(result.address))
+        if (!this.disposed && !this.submitting && !this.receipt && result?.address &&
+          this.isPositiveNumber(result.address.id)) {
+          this.selectedAddress = new Address(result.address);
+          this.addressChosen = true;
         }
+      })
+      .catch((error: Error): void => {
+        console.error(`[OrderConfirm] address selection failed: ${String(error)}`);
       });
   }
 
@@ -268,40 +416,153 @@ export default class OrderConfirmViewModel extends BaseNetWorkViewModel<ConfirmO
    * @returns {void} 无返回值
    */
   onSubmitOrderClick(): void {
-    // TODO: 实现提交订单逻辑
+    if (this.disposed || this.submitting) {
+      return;
+    }
+    if (this.receipt) {
+      this.navigateToCreatedOrder();
+      return;
+    }
+    if (!this.canSubmit) {
+      return;
+    }
+    if (!this.selectedAddress || !this.isPositiveNumber(this.selectedAddress.id)) {
+      ToastUtils.showBottom($r("app.string.select_address"));
+      return;
+    }
+    // Synchronous guard: even a second click before the first await cannot create another order.
+    this.submitting = true;
+    this.submitOrder();
+  }
+
+  private isPositiveNumber(value: number): boolean {
+    return typeof value === "number" && Number.isFinite(value) && value > 0;
+  }
+
+  private hasValidGoods(): boolean {
+    return this.selectedGoodsList.length > 0 && this.selectedGoodsList.every((goods: SelectedGoods): boolean =>
+      this.isPositiveNumber(goods.goodsId) && !!goods.spec && this.isPositiveNumber(goods.spec.id) &&
+        Number.isInteger(goods.count) && goods.count > 0);
+  }
+
+  private copySpec(source: GoodsSpec): GoodsSpec {
+    const spec = new GoodsSpec(source);
+    spec.images = source.images ? [...source.images] : source.images;
+    return spec;
+  }
+
+  private copyPurchasedGoods(): SelectedGoods[] {
+    return this.selectedGoodsList.map((source: SelectedGoods): SelectedGoods => {
+      const goods = new SelectedGoods(source);
+      goods.spec = source.spec ? this.copySpec(source.spec) : null;
+      if (source.goodsInfo) {
+        const info = new Goods(source.goodsInfo);
+        info.pics = source.goodsInfo.pics ? [...source.goodsInfo.pics] : source.goodsInfo.pics;
+        info.contentPics = source.goodsInfo.contentPics ? [...source.goodsInfo.contentPics] : source.goodsInfo.contentPics;
+        info.specs = source.goodsInfo.specs ? source.goodsInfo.specs.map((spec: GoodsSpec): GoodsSpec =>
+          this.copySpec(spec)) : source.goodsInfo.specs;
+        goods.goodsInfo = info;
+      }
+      return goods;
+    });
+  }
+
+  private async submitOrder(): Promise<void> {
+    try {
+      const request = new CreateOrderRequest({
+        data: {
+          addressId: this.selectedAddress!.id,
+          goodsList: this.copyPurchasedGoods(),
+          remark: this.remark,
+          couponId: this.selectedCoupon?.id ?? null
+        }
+      });
+      const fromCart = this.isFromCart;
+      const order = await RequestHelper.repository<Order>(this.orderRepository.createOrder(request)).execute();
+      // Validate the raw payload before any Order constructor can supply missing fields with zero.
+      if (!order || !this.isPositiveNumber(order.id) || typeof order.realPrice !== "number" ||
+        !Number.isFinite(order.realPrice) || order.realPrice < 0) {
+        throw new Error("Invalid created order response");
+      }
+      this.receipt = new CreatedOrderReceipt(order.id, order.realPrice);
+      if (fromCart) {
+        this.deleteCartItems(request.data.goodsList).catch((error: Error): void => {
+          console.error(`[OrderConfirm] cart cleanup failed: ${String(error)}`);
+        });
+      }
+      if (!this.disposed) {
+        this.pendingAutoPay = true;
+        this.navigateToCreatedOrder();
+      }
+    } catch (error) {
+      // A receipt is terminal even when a later UI operation fails.
+      console.error(`[OrderConfirm] submit failed: ${String(error)}`);
+      if (!this.disposed && !this.receipt) {
+        ToastUtils.showError($r("app.string.order_submit_failed"));
+      }
+    } finally {
+      if (!this.disposed) {
+        this.submitting = false;
+      }
+    }
+  }
+
+  private navigateToCreatedOrder(): void {
+    if (this.disposed || !this.visible || !this.receipt || this.payNavigationInProgress) {
+      return;
+    }
+    this.pendingAutoPay = false;
+    this.payNavigationInProgress = true;
+    try {
+      OrderNavigator.toPay(this.receipt.id, this.receipt.realPrice);
+    } catch (error) {
+      this.payNavigationInProgress = false;
+      console.error(`[OrderConfirm] payment navigation failed: ${String(error)}`);
+    }
   }
 
   /**
    * 删除购物车中已下单的商品
    * @returns {Promise<void>} Promise<void>
    */
-  async deleteCartItems(): Promise<void> {
-    if (!this.cachedCarts || this.cachedCarts.length === 0) {
+  async deleteCartItems(purchasedGoods?: SelectedGoods[]): Promise<void> {
+    if (!purchasedGoods && !this.isFromCart) {
       return;
     }
-
-    for (const cart of this.cachedCarts) {
-      const goodsId = cart.goodsId;
-
-      // 获取该商品所有的规格ID
-      const specIds = new Set(cart.spec.map((s: CartGoodsSpec): number => s.id));
-
-      // 判断是否需要删除整个商品
-      const fullCart = await this.cartRepository.getCartByGoodsId(goodsId);
-
-      if (fullCart) {
-        // 所有规格是否都在订单中
-        const allSpecIds = new Set(fullCart.spec.map((s: CartGoodsSpec): number => s.id));
-
-        if (specIds.size === allSpecIds.size) {
-          // 删除整个商品
+    const purchases = new Map<number, Set<number>>();
+    for (const goods of purchasedGoods ?? this.copyPurchasedGoods()) {
+      if (goods.spec) {
+        let specIds = purchases.get(goods.goodsId);
+        if (!specIds) {
+          specIds = new Set<number>();
+          purchases.set(goods.goodsId, specIds);
+        }
+        specIds.add(goods.spec.id);
+      }
+    }
+    for (const entry of purchases) {
+      const goodsId = entry[0];
+      const purchasedIds = entry[1];
+      try {
+        const fullCart = await this.cartRepository.getCartByGoodsId(goodsId);
+        if (!fullCart || fullCart.spec.length === 0) {
+          continue;
+        }
+        if (fullCart.spec.every((spec: CartGoodsSpec): boolean => purchasedIds.has(spec.id))) {
           await this.cartRepository.removeFromCart(goodsId);
         } else {
-          // 逐个删除规格
-          for (const specId of specIds) {
-            await this.cartRepository.removeSpecFromCart(goodsId, specId);
+          for (const spec of fullCart.spec) {
+            if (purchasedIds.has(spec.id)) {
+              try {
+                await this.cartRepository.removeSpecFromCart(goodsId, spec.id);
+              } catch (error) {
+                console.error(`[OrderConfirm] cleanup ${goodsId}/${spec.id} failed: ${String(error)}`);
+              }
+            }
           }
         }
+      } catch (error) {
+        console.error(`[OrderConfirm] cleanup goods ${goodsId} failed: ${String(error)}`);
       }
     }
   }

@@ -6,6 +6,25 @@ import { CartLocalDataSource, CartLocalDataSourceImpl } from "database";
  * @author Joker.X
  */
 export class CartRepository {
+  private static readonly changeListeners: Set<() => void> = new Set();
+
+  /** Subscribe to completed local deletions, including deletions from another repository instance. */
+  static subscribeChanges(listener: () => void): () => void {
+    CartRepository.changeListeners.add(listener);
+    return (): void => {
+      CartRepository.changeListeners.delete(listener);
+    };
+  }
+
+  private static publishChanges(): void {
+    for (const listener of Array.from(CartRepository.changeListeners)) {
+      try {
+        listener();
+      } catch (error) {
+        console.error(`[CartRepository] change listener failed: ${String(error)}`);
+      }
+    }
+  }
   /**
    * 本地数据源实例
    */
@@ -53,8 +72,9 @@ export class CartRepository {
    * @param {number} goodsId 商品ID
    * @returns {Promise<void>} Promise<void>
    */
-  removeFromCart(goodsId: number): Promise<void> {
-    return this.dataSource.removeFromCart(goodsId);
+  async removeFromCart(goodsId: number): Promise<void> {
+    await this.dataSource.removeFromCart(goodsId);
+    CartRepository.publishChanges();
   }
 
   /**
@@ -63,8 +83,9 @@ export class CartRepository {
    * @param {number} specId 规格ID
    * @returns {Promise<void>} Promise<void>
    */
-  removeSpecFromCart(goodsId: number, specId: number): Promise<void> {
-    return this.dataSource.removeSpecFromCart(goodsId, specId);
+  async removeSpecFromCart(goodsId: number, specId: number): Promise<void> {
+    await this.dataSource.removeSpecFromCart(goodsId, specId);
+    CartRepository.publishChanges();
   }
 
   /**

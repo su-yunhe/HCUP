@@ -1,4 +1,4 @@
-import { ColumnStart, P100, SpaceVerticalMedium } from "designsystem";
+import { P100, SpaceVerticalMedium } from "designsystem";
 import { Cart, CartGoodsSpec } from "model";
 import { GoodsNavigator } from "navigation";
 import { AppNavDestination, EmptyCart, OrderGoodsCard } from "ui";
@@ -64,7 +64,7 @@ export struct CartPage {
         right: this.windowSafeAreaState.rightInset
       },
     }) {
-      ColumnStart({ fillMaxSize: true }) {
+      Column() {
         this.CartContent();
         if (!this.vm.isEmpty) {
           CartBottomBar({
@@ -86,6 +86,10 @@ export struct CartPage {
           });
         }
       }
+      .id("cart_page")
+      .width(P100)
+      .height(P100)
+      .alignItems(HorizontalAlign.Start)
     }
   }
 
@@ -107,6 +111,7 @@ export struct CartPage {
           ListItem() {
             OrderGoodsCard({
               data: cart,
+              idPrefix: "cart",
               onGoodsClick: (goodsId: number): void => {
                 GoodsNavigator.toDetail(goodsId);
               },
@@ -148,6 +153,6 @@ export struct CartPage {
       onChange: (): void => {
         this.vm.toggleSpecSelected(goodsId, spec.id);
       }
-    });
+    }).id(`cart_select_${goodsId}_${spec.id}`);
   }
 }

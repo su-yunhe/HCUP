@@ -1,17 +1,16 @@
 import { BaseNetWorkUiState } from "base";
 import {
-  ColumnStart,
   P100,
   RowSpaceBetweenCenter,
   RowStartCenter,
   SpaceHorizontalSmall,
   SpaceVerticalMedium
 } from "designsystem";
-import { Cart } from "model";
+import { Cart, Coupon } from "model";
 import { GoodsNavigator } from "navigation";
 import { getWindowSafeAreaState, WindowSafeAreaState } from "state";
 import {
-  AddressCard, AppNavDestination, BaseNetWorkView, Card, OrderGoodsCard, TitleWithLine
+  AddressCard, AppNavDestination, BaseNetWorkView, BottomModal, Card, OrderGoodsCard, TitleWithLine
 } from "ui";
 import { IBestButton, IBestCell, IBestCellGroup, IBestField, IBestPrice } from "ibestui";
 import OrderConfirmViewModel from "../viewmodel/OrderConfirmViewModel";
@@ -48,6 +47,12 @@ export struct OrderConfirmPage {
       }
     }) {
       this.PageContent();
+      BottomModal({
+        visible: this.vm.couponModalVisible,
+        title: $r("app.string.coupon"),
+        onDismiss: (): void => this.vm.hideCouponModal(),
+        content: (): void => this.CouponContent()
+      });
     }
   }
 
@@ -70,16 +75,18 @@ export struct OrderConfirmPage {
    */
   @Builder
   private OrderConfirmContent() {
-    ColumnStart({ fillMaxSize: true }) {
+    Column() {
       // 可滚动内容区域
       Scroll() {
         Column() {
           // 地址选择卡片
-          AddressCard({
-            address: this.vm.data?.defaultAddress,
-            addressSelected: true,
-            onTap: (): void => this.vm.navigateToAddressSelection()
-          });
+          ForEach([JSON.stringify(this.vm.selectedAddress)], (addressKey: string): void => {
+            AddressCard({
+              address: this.vm.selectedAddress,
+              addressSelected: true,
+              onTap: (): void => this.vm.navigateToAddressSelection()
+            }).id("order_confirm_address");
+          }, (addressKey: string): string => addressKey);
 
           SpaceVerticalMedium();
 
@@ -87,6 +94,7 @@ export struct OrderConfirmPage {
           ForEach(this.vm.cartList, (cart: Cart) => {
             OrderGoodsCard({
               data: cart,
+              idPrefix: "order_confirm",
               enableQuantityStepper: false,
               onGoodsClick: (goodsId: number): void => {
                 GoodsNavigator.toDetail(goodsId);
@@ -94,6 +102,11 @@ export struct OrderConfirmPage {
             });
             SpaceVerticalMedium();
           }, (cart: Cart): string => `${cart.goodsId}`);
+
+          if (this.vm.isEmpty) {
+            Text($r("app.string.order_goods_empty"))
+              .fontColor($r("app.color.text_subtitle"));
+          }
 
           // 价格明细卡片
           this.PriceDetailCard();
@@ -120,6 +133,10 @@ export struct OrderConfirmPage {
         this.BottomBar();
       }
     }
+    .id("order_confirm_page")
+    .width(P100)
+    .height(P100)
+    .alignItems(HorizontalAlign.Start)
   }
 
   /**
@@ -158,7 +175,7 @@ export struct OrderConfirmPage {
           onCellClick: (): void => {
             this.vm.showCouponModal();
           }
-        });
+        }).id("order_confirm_coupon");
 
         // 优惠券折扣（仅当有折扣时显示）
         if (this.vm.discountAmount > 0) {
@@ -179,6 +196,33 @@ export struct OrderConfirmPage {
         });
       }
     }
+  }
+
+  @Builder
+  private CouponContent() {
+    Scroll() {
+      Column() {
+        IBestCell({
+          title: $r("app.string.order_coupon_none"),
+          onCellClick: (): void => this.vm.selectCoupon(null)
+        }).id("order_coupon_none");
+        ForEach(this.vm.data?.userCoupon ?? [], (coupon: Coupon): void => {
+          IBestCell({
+            title: coupon.title,
+            label: coupon.description,
+            onCellClick: (): void => this.vm.selectCoupon(coupon)
+          }).id(`order_coupon_item_${coupon.id}`);
+        }, (coupon: Coupon): string => `${coupon.id}`);
+        if (!this.vm.data?.userCoupon || this.vm.data.userCoupon.length === 0) {
+          Text($r("app.string.order_coupon_empty"))
+            .fontColor($r("app.color.text_subtitle"))
+            .padding($r("app.float.space_padding_medium"));
+        }
+      }
+      .width(P100)
+    }
+    .constraintSize({ maxHeight: 360 })
+    .width(P100)
   }
 
   /**
@@ -251,7 +295,7 @@ export struct OrderConfirmPage {
           showWordLimit: true,
           hasBorder: false,
           autosize: true
-        });
+        }).id("order_confirm_remark_input");
       }
     }
   }
@@ -298,7 +342,7 @@ export struct OrderConfirmPage {
             integerFontSize: 20,
             decimalFontSize: 14,
             symbolFontSize: 14
-          });
+          }).id("order_confirm_total");
         }
 
         // 右侧：提交订单按钮
@@ -306,10 +350,13 @@ export struct OrderConfirmPage {
           text: $r("app.string.submit_order"),
           type: "primary",
           round: true,
+          loading: this.vm.submitting,
+          loadingText: $r("app.string.submit_order"),
+          disabled: !this.vm.canSubmit,
           btnWidth: 100,
           btnHeight: 36,
           onBtnClick: (): void => this.vm.onSubmitOrderClick()
-        });
+        }).id("order_confirm_submit");
       }
 
       // 底部安全区

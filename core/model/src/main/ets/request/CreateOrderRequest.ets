@@ -1,19 +1,32 @@
 import { SelectedGoods } from "../entity/SelectedGoods";
 
+/** Explicit data-only initializers allow typed literals with ArkTS's nominal class rules. */
+export interface CreateOrderInit {
+  remark?: string;
+  addressId: number;
+  goodsList: SelectedGoods[];
+  couponId?: number | null;
+  title?: string;
+}
+
+export interface CreateOrderRequestInit {
+  data: CreateOrderInit;
+}
+
 /**
  * @file 创建订单请求模型
  * @author Joker.X
  */
-export class CreateOrderRequest {
+export class CreateOrderRequest implements CreateOrderRequestInit {
   /**
    * 创建订单所需参数
    */
   data: CreateOrder;
 
   /**
-   * @param {CreateOrderRequest} init - 初始化数据
+   * @param {CreateOrderRequestInit} init - 初始化数据
    */
-  constructor(init: CreateOrderRequest) {
+  constructor(init: CreateOrderRequestInit) {
     this.data = new CreateOrder(init.data);
   }
 }
@@ -21,7 +34,7 @@ export class CreateOrderRequest {
 /**
  * 创建订单所需参数
  */
-export class CreateOrder {
+export class CreateOrder implements CreateOrderInit {
   /**
    * 备注信息
    */
@@ -44,9 +57,9 @@ export class CreateOrder {
   title?: string;
 
   /**
-   * @param {CreateOrder} init - 初始化数据
+   * @param {CreateOrderInit} init - 初始化数据
    */
-  constructor(init: CreateOrder) {
+  constructor(init: CreateOrderInit) {
     this.addressId = init.addressId;
     this.goodsList = init.goodsList.map((g) => new SelectedGoods(g));
     if (init.remark !== undefined) {

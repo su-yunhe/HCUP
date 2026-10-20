@@ -112,6 +112,7 @@ export struct MainPage {
       SpaceVerticalXSmall();
 
       Text(this.vm.tabItems[index].title)
+        .id(index === 2 ? "main_tab_cart" : `main_tab_${index}`)
         .fontSize(bp({
           sm: $r("app.float.body_medium"),
           md: $r("app.float.body_large"),

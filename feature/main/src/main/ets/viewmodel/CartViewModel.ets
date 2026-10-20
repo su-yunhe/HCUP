@@ -18,6 +18,34 @@ export default class CartViewModel extends BaseViewModel {
    * 订单缓存本地存储仓库
    */
   private readonly orderCacheStoreRepository: OrderCacheStoreRepository = new OrderCacheStoreRepository();
+  private unsubscribeChanges: (() => void) | null = null;
+  private cartLoadTask: Promise<void> | null = null;
+  private refreshPending: boolean = false;
+  private disposed: boolean = false;
+
+  aboutToAppear(): void {
+    if (this.disposed) {
+      return;
+    }
+    if (!this.unsubscribeChanges) {
+      this.unsubscribeChanges = CartRepository.subscribeChanges((): void => {
+        this.loadCartData();
+      });
+    }
+    this.loadCartData();
+  }
+
+  onShown(reason: VisibilityChangeReason): void {
+    this.loadCartData();
+  }
+
+  aboutToBeDeleted(): void {
+    this.disposed = true;
+    if (this.unsubscribeChanges) {
+      this.unsubscribeChanges();
+      this.unsubscribeChanges = null;
+    }
+  }
   /**
    * 购物车列表
    */
@@ -95,12 +123,48 @@ export default class CartViewModel extends BaseViewModel {
    * 加载购物车数据
    * @returns {Promise<void>} Promise<void>
    */
-  async loadCartData(): Promise<void> {
+  loadCartData(): Promise<void> {
+    if (this.disposed) {
+      return Promise.resolve();
+    }
+    this.refreshPending = true;
+    if (!this.cartLoadTask) {
+      this.cartLoadTask = this.refreshCartData();
+    }
+    return this.cartLoadTask;
+  }
+
+  private async refreshCartData(): Promise<void> {
     this.isLoading = true;
     try {
-      this.cartList = await this.cartRepository.getAllCarts();
+      do {
+        this.refreshPending = false;
+        try {
+          const carts = await this.cartRepository.getAllCarts();
+          if (this.disposed) {
+            return;
+          }
+          this.cartList = carts;
+          const remainingKeys = new Set<string>();
+          for (const cart of carts) {
+            for (const spec of cart.spec) {
+              const key = `${cart.goodsId}_${spec.id}`;
+              if (this.selectedSpecIds.has(key)) {
+                remainingKeys.add(key);
+              }
+            }
+          }
+          this.selectedSpecIds = remainingKeys;
+        } catch (error) {
+          console.error(`[Cart] refresh failed: ${String(error)}`);
+        }
+        // A deletion during this read requests one more read; the final notification is never dropped.
+      } while (this.refreshPending && !this.disposed);
     } finally {
-      this.isLoading = false;
+      this.cartLoadTask = null;
+      if (!this.disposed) {
+        this.isLoading = false;
+      }
     }
   }
 

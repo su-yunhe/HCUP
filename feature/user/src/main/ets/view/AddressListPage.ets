@@ -1,6 +1,6 @@
 import { IBestDialog } from "ibestui";
 import { BaseNetWorkListUiState } from "base";
-import { ColumnBase, ColumnStart, P100 } from "designsystem";
+import { ColumnBase, P100 } from "designsystem";
 import { Address } from "model";
 import { getWindowSafeAreaState, WindowSafeAreaState } from "state";
 import {
@@ -48,7 +48,7 @@ export struct AddressListPage {
         right: this.windowSafeAreaState.rightInset,
       }
     }) {
-      ColumnStart({ fillMaxSize: true }) {
+      Column() {
         BaseNetWorkListView({
           uiState: this.vm.uiState,
           onRetry: (): void => this.vm.retryRequest(),
@@ -59,9 +59,13 @@ export struct AddressListPage {
           AppBottomButton({
             text: $r("app.string.address_add_new"),
             onTap: (): void => this.vm.onAddAddress()
-          });
+          }).id("address_add_new");
         }
       }
+      .id("address_list_page")
+      .width(P100)
+      .height(P100)
+      .alignItems(HorizontalAlign.Start)
 
       IBestDialog({
         visible: this.vm.isDeleteDialogVisible,
@@ -114,7 +118,7 @@ export struct AddressListPage {
       address: item,
       onTap: (): void => this.vm.onAddressClick(item),
       actionSlot: (): void => this.AddressActionSlot(item)
-    });
+    }).id(`address_select_${item.id}`);
   }
 
   /**
