@@ -281,13 +281,13 @@ export class WebDavSyncManager {
     return WebDavSyncResult.fail('WebDAV 连接失败', `STEP remoteRoot PUT ${putRes.statusCode}: ${putRes.body}`);
   }
 
-  private async preflightRemoteRoot(client: IWebDavBackend): Promise<WebDavSyncResult | null> {
-    const key = `${safeTrim(this.settings.endpoint)}|${safeTrim(this.settings.remoteRoot)}`;
+  private async preflightRemoteRoot(client: IWebDavBackend, settings: WebDavSettings = this.settings): Promise<WebDavSyncResult | null> {
+    const key = `${safeTrim(settings.endpoint)}|${safeTrim(settings.remoteRoot)}`;
     if (this.remoteLayoutKey === key) {
       return null;
     }
 
-    const remoteRoot = normalizeRoot(this.settings.remoteRoot);
+    const remoteRoot = normalizeRoot(settings.remoteRoot);
     if (remoteRoot === '/') {
       this.remoteLayoutKey = key;
       this.remoteLayoutBase = '/';
@@ -328,7 +328,7 @@ export class WebDavSyncManager {
       return null;
     }
 
-    if (this.settings.requireRemoteRootExists) {
+    if (settings.requireRemoteRootExists) {
       return probeRemoteRoot;
     }
 
@@ -911,6 +911,10 @@ export class WebDavSyncManager {
   async backupToCloudInBackground(): Promise<WebDavSyncResult> {
     console.info('[WebDavSyncManager] ==== Starting cloud backup ====');
     const backupStartMs = Date.now();
+    const settings: WebDavSettings = new WebDavSettings(
+      this.settings.endpoint, this.settings.username, this.settings.password,
+      this.settings.syncPassword, this.settings.remoteRoot, this.settings.requireRemoteRootExists
+    );
     
     const missing = this.requireConfigured();
     if (missing !== null) {
@@ -918,8 +922,8 @@ export class WebDavSyncManager {
       return missing;
     }
 
-    // 检查是否已经在同步中
-    if (this.status === WebDavSyncStatus.SYNCING) {
+    // Do not take ownership from a pending test, restore, or sync operation.
+    if (this.status !== WebDavSyncStatus.IDLE && this.status !== WebDavSyncStatus.ERROR) {
       console.warn('[WebDavSyncManager] Backup already in progress');
       return WebDavSyncResult.fail('同步操作正在进行中', '请等待当前同步完成后再试');
     }
@@ -927,19 +931,16 @@ export class WebDavSyncManager {
     this.status = WebDavSyncStatus.SYNCING;
     console.info('[WebDavSyncManager] Backup status set to SYNCING');
 
-    // 先确保远程目录存在
-    const client = this.createClient();
-    const preflight = await this.preflightRemoteRoot(client);
-    if (preflight !== null) {
-      this.status = WebDavSyncStatus.ERROR;
-      console.error(`[WebDavSyncManager] Preflight check failed: ${preflight.message}`);
-      return preflight;
-    }
-
-    // yield 给 UI 线程
-    await new Promise<void>((resolve) => setTimeout(resolve, 0));
-
     try {
+      // Preflight and every later stage share the same cleanup and configuration.
+      const client: IWebDavBackend = new WebDavClient(settings.endpoint, settings.username, settings.password);
+      const preflight = await this.preflightRemoteRoot(client, settings);
+      if (preflight !== null) {
+        console.error(`[WebDavSyncManager] Preflight check failed: ${preflight.message}`);
+        return preflight;
+      }
+      const backupPath: string = this.backupFilePath();
+      await new Promise<void>((resolve) => setTimeout(resolve, 0));
       const syncManager = DataSyncManager.getInstance();
 
       // 导出数据（在主线程执行，需要数据库）
@@ -960,13 +961,13 @@ export class WebDavSyncManager {
       console.info('[WebDavSyncManager] Starting encryption and upload in background');
       const uploadStartMs = Date.now();
       const params: BackupTaskWithEncryptParams = {
-        endpoint: this.settings.endpoint,
-        username: this.settings.username,
-        password: this.settings.password,
-        syncPassword: this.settings.syncPassword,
-        remoteRoot: this.settings.remoteRoot,
+        endpoint: settings.endpoint,
+        username: settings.username,
+        password: settings.password,
+        syncPassword: settings.syncPassword,
+        remoteRoot: settings.remoteRoot,
         manifestJson: this.manifest.toJSON(),
-        backupFilePath: this.backupFilePath(),
+        backupFilePath: backupPath,
         plainData: exportResult.data
       };
 

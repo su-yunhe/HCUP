@@ -1,8 +1,3 @@
-// =====================================================
-// SettingsPage.ets - App Configuration Page
-// API Key management and user preferences
-// =====================================================
-
 import router from '@ohos.router';
 import promptAction from '@ohos.promptAction';
 import type resourceManager from '@ohos.resourceManager';
@@ -22,7 +17,7 @@ import { ColorsInterface } from '../model/TokenInterfaces';
 import { buildUserFacingError } from '../utils/ErrorClassifier';
 
 // Refactored Components
-import { SettingsSectionItem } from './settings/SettingsCommon';
+import { SettingsNavigationHeader, SettingsNavigationMenu, SETTINGS_SECTIONS, getSettingsSectionTitle } from './settings/SettingsNavigationBuilders';
 import { APIConfigSection, API_PROVIDERS } from './settings/APIConfigSection';
 import { PreferencesSection } from './settings/PreferencesSection';
 import { SettingsSyncSection } from './settings/SettingsSyncSection';
@@ -32,16 +27,6 @@ import { SettingsPrivacyDialog } from './settings/SettingsPrivacyDialog';
 import { SettingsSyncDialog } from './settings/SettingsSyncDialog';
 import { FSRSOptimizationSection } from './settings/FSRSOptimizationSection';
 import { ExternalDictionarySection } from './settings/ExternalDictionarySection';
-
-const SETTINGS_SECTIONS: SettingsSectionItem[] = [
-  { id: 'preferences', title: '学习与偏好', subtitle: '任务计划、语音、难度与语境' },
-  { id: 'dictionary', title: '外部词典', subtitle: '外链词典模板配置' },
-  { id: 'fsrs', title: 'FSRS优化', subtitle: '根据记忆表现优化算法参数' },
-  { id: 'api', title: 'API配置', subtitle: '提供商、接口与模型选择' },
-  { id: 'sync', title: 'WebDAV 配置', subtitle: '云端连接与自动同步设置' },
-  { id: 'backup', title: '备份与恢复', subtitle: '云端/本地数据导入导出' },
-  { id: 'about', title: '关于', subtitle: '版本、隐私与开源信息' }
-];
 
 interface LearningOrderPolicyJson {
   learningOrderPolicy?: string;
@@ -177,14 +162,6 @@ struct SettingsPage {
     void this.saveSettings(false).finally(() => {
       router.back();
     });
-  }
-
-  private getActiveSectionTitle(): string {
-    if (this.activeSectionId.length === 0) {
-      return '设置';
-    }
-    const item = SETTINGS_SECTIONS.find(s => s.id === this.activeSectionId);
-    return item ? item.title : '设置';
   }
 
   private loadWebDavSettings(): void {
@@ -479,64 +456,18 @@ struct SettingsPage {
   build() {
     Stack() {
       Column() {
-        // Header
-        Row() {
-          Text('←')
-            .fontSize(DesignTokens.Typography.FONT_SIZE_2XL)
-            .fontColor(this.colors.GRAY_900)
-            .onClick(() => { this.handleHeaderBack(); })
-          
-          Text(this.getActiveSectionTitle())
-            .fontSize(DesignTokens.Typography.FONT_SIZE_XL)
-            .fontWeight(DesignTokens.Typography.FONT_WEIGHT_BOLD)
-            .fontColor(this.colors.GRAY_900)
-            .margin({ left: DesignTokens.Spacing.LG })
-          
-          Blank()
-        }
-        .width('100%')
-        .height(56)
-        .padding({ left: DesignTokens.Layout.CONTAINER_PADDING, right: DesignTokens.Layout.CONTAINER_PADDING })
-        .backgroundColor(this.colors.SURFACE_ELEVATED)
-        .shadow({ color: this.colors.SHADOW_LIGHT, radius: 4, offsetX: 0, offsetY: 2 })
+        SettingsNavigationHeader({
+          colors: this.colors, title: getSettingsSectionTitle(this.activeSectionId),
+          onBack: (): void => { this.handleHeaderBack(); }
+        })
 
         Scroll() {
           Column() {
             if (this.activeSectionId.length === 0) {
-              Column() {
-                ForEach(SETTINGS_SECTIONS, (item: SettingsSectionItem) => {
-                  Column() {
-                    Row() {
-                      Column() {
-                        Text(item.title)
-                          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-                          .fontColor(this.colors.GRAY_900)
-                          .fontWeight(DesignTokens.Typography.FONT_WEIGHT_MEDIUM)
-                        Text(item.subtitle)
-                          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-                          .fontColor(this.colors.GRAY_600)
-                          .margin({ top: 4 })
-                      }
-                      .layoutWeight(1)
-                      Text('›').fontSize(DesignTokens.Typography.FONT_SIZE_LG).fontColor(this.colors.GRAY_400)
-                    }
-                    .width('100%')
-                    .height(64)
-                    .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
-                    .alignItems(VerticalAlign.Center)
-                    .onClick(() => {
-                      this.activeSectionId = item.id;
-                    })
-                    
-                    Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
-                  }
-                }, (item: SettingsSectionItem) => item.id)
-              }
-              .width('100%')
-              .backgroundColor(this.colors.SURFACE_PRIMARY)
-              .borderRadius(DesignTokens.BorderRadius.LG)
-              .shadow(DesignTokens.Shadows.CARD_ELEVATION_1)
-              .margin({ top: DesignTokens.Spacing.LG })
+              SettingsNavigationMenu({
+                colors: this.colors, items: SETTINGS_SECTIONS,
+                onSelect: (sectionId: string): void => { this.activeSectionId = sectionId; }
+              })
             } else {
               this.buildSectionContent()
             }
