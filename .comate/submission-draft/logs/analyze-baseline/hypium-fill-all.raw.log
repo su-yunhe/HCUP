@@ -1,0 +1,98 @@
+[2026-10-15 22:32:23,870] [33524] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-15 22:32:23,872] [33524] [EnvPool] [INFO] [Report path: D:\HCUP\vg-spec15\reports\2026-10-15-22-32-23]
+[2026-10-15 22:32:23,872] [33524] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-15 22:32:23,872] [33524] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-15 22:32:23,872] [33524] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-15 22:32:23,874] [33524] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-15 22:32:23,874] [33524] [EnvPool] [INFO] [Get device by selector]
+[2026-10-15 22:32:23,874] [33524] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-15 22:32:24,258] [9976] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-15 22:32:24,881] [33524] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5555'], label:phone]]
+[2026-10-15 22:32:24,882] [33524] [EnvPool] [INFO] [Device 127.0.0.1:5555: extend value: {}]
+[2026-10-15 22:32:25,129] [33524] [Device] [INFO] [6.0.2.3]
+[2026-10-15 22:32:25,316] [33524] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-15 22:32:25,316] [33524] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-15 22:32:25,364] [33524] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: None]
+[2026-10-15 22:32:25,364] [33524] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-15 22:32:25,425] [33524] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-15 22:32:25,425] [33524] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-15 22:32:25,488] [33524] [Device] [INFO] [Device agent is up to date!]
+[2026-10-15 22:32:27,689] [33524] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]
+[2026-10-15 22:32:29,824] [33524] [DeviceUIProxy] [INFO] [tcp forward port: 9910 for 127.0.0.1:5555]
+[2026-10-15 22:32:30,556] [33524] [Device] [INFO] [hypium base version: 6.1.0.210]
+{"time": "2026-10-15T14:32:30.556093+00:00", "kind": "hypium_connected", "device": "127.0.0.1:5555"}
+[2026-10-15 22:32:30,557] [33524] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-15 22:32:30,557] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput'))</div>]
+[2026-10-15 22:32:31,568] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput')) cost: 1.012s</div>]
+{"time": "2026-10-15T14:32:31.568782+00:00", "kind": "hypium_fields", "count": 5, "operation": ["fill_all"]}
+[2026-10-15 22:32:31,569] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput'))</div>]
+[2026-10-15 22:32:31,647] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput')) cost: 0.078s</div>]
+[2026-10-15 22:32:31,647] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#5, http://127.0.0.1:18085, mode={'_data': {'paste': True}})</div>]
+[2026-10-15 22:32:36,302] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#5, http://127.0.0.1:18085, mode={'_data': {'paste': True}}) cost: 4.655s</div>]
+{"time": "2026-10-15T14:32:36.302550+00:00", "kind": "hypium_input", "field_index": 0, "value": "http://127.0.0.1:18085", "mode": "paste(True), default replace"}
+{"time": "2026-10-15T14:32:36.585661+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "shell", "uitest", "uiInput", "keyEvent", "Back"], "started": "2026-10-15T14:32:36.302550+00:00", "exit_code": 0, "output_file": "hypium-dismiss-keyboard-0.log", "output": "No Error\r\n"}
+[2026-10-15 22:32:36,586] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput'))</div>]
+[2026-10-15 22:32:38,180] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput')) cost: 1.593s</div>]
+[2026-10-15 22:32:38,180] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#11, spec15-user, mode={'_data': {'paste': True}})</div>]
+[2026-10-15 22:32:41,348] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#11, spec15-user, mode={'_data': {'paste': True}}) cost: 3.169s</div>]
+{"time": "2026-10-15T14:32:41.348894+00:00", "kind": "hypium_input", "field_index": 1, "value": "spec15-user", "mode": "paste(True), default replace"}
+{"time": "2026-10-15T14:32:41.633008+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "shell", "uitest", "uiInput", "keyEvent", "Back"], "started": "2026-10-15T14:32:41.349895+00:00", "exit_code": 0, "output_file": "hypium-dismiss-keyboard-1.log", "output": "No Error\r\n"}
+[2026-10-15 22:32:41,633] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput'))</div>]
+[2026-10-15 22:32:43,245] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput')) cost: 1.612s</div>]
+[2026-10-15 22:32:43,245] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#17, BaselineOnly15!, mode={'_data': {'paste': True}})</div>]
+[2026-10-15 22:32:45,253] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#17, BaselineOnly15!, mode={'_data': {'paste': True}}) cost: 2.008s</div>]
+{"time": "2026-10-15T14:32:45.253694+00:00", "kind": "hypium_input", "field_index": 2, "value": "BaselineOnly15!", "mode": "paste(True), default replace"}
+{"time": "2026-10-15T14:32:45.552168+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "shell", "uitest", "uiInput", "keyEvent", "Back"], "started": "2026-10-15T14:32:45.254753+00:00", "exit_code": 0, "output_file": "hypium-dismiss-keyboard-2.log", "output": "No Error\r\n"}
+[2026-10-15 22:32:45,552] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput'))</div>]
+[2026-10-15 22:32:47,220] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput')) cost: 1.668s</div>]
+[2026-10-15 22:32:47,252] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#23, Spec15Sync!, mode={'_data': {'paste': True}})</div>]
+[2026-10-15 22:32:49,257] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#23, Spec15Sync!, mode={'_data': {'paste': True}}) cost: 2.005s</div>]
+{"time": "2026-10-15T14:32:49.258541+00:00", "kind": "hypium_input", "field_index": 3, "value": "Spec15Sync!", "mode": "paste(True), default replace"}
+{"time": "2026-10-15T14:32:49.543199+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "shell", "uitest", "uiInput", "keyEvent", "Back"], "started": "2026-10-15T14:32:49.259045+00:00", "exit_code": 0, "output_file": "hypium-dismiss-keyboard-3.log", "output": "No Error\r\n"}
+[2026-10-15 22:32:49,543] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput'))</div>]
+[2026-10-15 22:32:51,153] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput')) cost: 1.61s</div>]
+[2026-10-15 22:32:51,153] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#29, /baseline-spec15, mode={'_data': {'paste': True}})</div>]
+[2026-10-15 22:32:54,555] [33524] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#29, /baseline-spec15, mode={'_data': {'paste': True}}) cost: 3.402s</div>]
+{"time": "2026-10-15T14:32:54.555692+00:00", "kind": "hypium_input", "field_index": 4, "value": "/baseline-spec15", "mode": "paste(True), default replace"}
+{"time": "2026-10-15T14:32:54.822985+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "shell", "uitest", "uiInput", "keyEvent", "Back"], "started": "2026-10-15T14:32:54.556209+00:00", "exit_code": 0, "output_file": "hypium-dismiss-keyboard-4.log", "output": "No Error\r\n"}
+{"time": "2026-10-15T14:32:55.037071+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "shell", "uitest", "dumpLayout", "-p", "/data/local/tmp/vg-spec15-19-configuration-filled.json"], "started": "2026-10-15T14:32:54.822985+00:00", "exit_code": 0, "output_file": "19-configuration-filled-dumpLayout.log", "output": "DumpLayout saved to:/data/local/tmp/vg-spec15-19-configuration-filled.json\r\n"}
+{"time": "2026-10-15T14:32:55.176211+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "file", "recv", "/data/local/tmp/vg-spec15-19-configuration-filled.json", "D:\\HCUP\\vg-spec15\\logs\\analyze-baseline\\19-configuration-filled.json"], "started": "2026-10-15T14:32:55.037071+00:00", "exit_code": 0, "output_file": "19-configuration-filled-recv-json.log", "output": "FileTransfer finish, Size:78057, File count = 1, time:38ms rate:2054.13kB/s\r\n"}
+{"time": "2026-10-15T14:32:55.574084+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "shell", "uitest", "screenCap", "-p", "/data/local/tmp/vg-spec15-19-configuration-filled.png"], "started": "2026-10-15T14:32:55.177215+00:00", "exit_code": 0, "output_file": "19-configuration-filled-screenCap.log", "output": "ScreenCap saved to /data/local/tmp/vg-spec15-19-configuration-filled.png\r\n"}
+{"time": "2026-10-15T14:32:55.808340+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "file", "recv", "/data/local/tmp/vg-spec15-19-configuration-filled.png", "D:\\HCUP\\vg-spec15\\logs\\analyze-baseline\\19-configuration-filled.png"], "started": "2026-10-15T14:32:55.574084+00:00", "exit_code": 0, "output_file": "19-configuration-filled-recv-png.log", "output": "FileTransfer finish, Size:226973, File count = 1, time:69ms rate:3289.46kB/s\r\n"}
+{"time": "2026-10-15T14:32:55.808340+00:00", "kind": "snapshot", "name": "19-configuration-filled", "captured": ["json", "png"]}
+{"type": "Text", "text": "←", "id": "", "enabled": "true", "bounds": "[56,185][141,283]", "bundleName": null}
+{"type": "Text", "text": "WebDAV 配置", "id": "", "enabled": "true", "bounds": "[197,197][602,271]", "bundleName": null}
+{"type": "Scroll", "text": "", "id": "", "enabled": "true", "bounds": "[0,332][1308,2782]", "bundleName": null}
+{"type": "Text", "text": "基础配置", "id": "", "enabled": "true", "bounds": "[154,482][1154,539]", "bundleName": null}
+{"type": "Text", "text": "WebDAV 地址", "id": "", "enabled": "true", "bounds": "[154,581][1154,630]", "bundleName": null}
+{"type": "TextInput", "text": "http://127.0.0.1:18085", "id": "", "enabled": "true", "bounds": "[154,644][1154,798]", "bundleName": null}
+{"type": "Text", "text": "账号", "id": "", "enabled": "true", "bounds": "[154,840][1154,889]", "bundleName": null}
+{"type": "TextInput", "text": "spec15-user", "id": "", "enabled": "true", "bounds": "[154,903][1154,1057]", "bundleName": null}
+{"type": "Text", "text": "密码", "id": "", "enabled": "true", "bounds": "[154,1099][1154,1148]", "bundleName": null}
+{"type": "TextInput", "text": "***************", "id": "", "enabled": "true", "bounds": "[154,1162][929,1316]", "bundleName": null}
+{"type": "Button", "text": "显示", "id": "", "enabled": "true", "bounds": "[957,1162][1154,1316]", "bundleName": null}
+{"type": "Text", "text": "同步密码（用于 AES 加密）", "id": "", "enabled": "true", "bounds": "[154,1358][1154,1407]", "bundleName": null}
+{"type": "TextInput", "text": "***********", "id": "", "enabled": "true", "bounds": "[154,1421][929,1575]", "bundleName": null}
+{"type": "Button", "text": "显示", "id": "", "enabled": "true", "bounds": "[957,1421][1154,1575]", "bundleName": null}
+{"type": "Text", "text": "远端目录", "id": "", "enabled": "true", "bounds": "[154,1617][1154,1666]", "bundleName": null}
+{"type": "TextInput", "text": "/baseline-spec15", "id": "", "enabled": "true", "bounds": "[154,1680][1154,1834]", "bundleName": null}
+{"type": "Text", "text": "提示：请先在 WebDAV 服务端创建该目录（只需一次）", "id": "", "enabled": "true", "bounds": "[154,1876][1154,1974]", "bundleName": null}
+{"type": "Text", "text": "自动同步", "id": "", "enabled": "true", "bounds": "[98,2128][1210,2185]", "bundleName": null}
+{"type": "Text", "text": "启用自动同步", "id": "", "enabled": "true", "bounds": "[154,2286][449,2343]", "bundleName": null}
+{"type": "Text", "text": "进入前台时按间隔自动同步", "id": "", "enabled": "true", "bounds": "[154,2343][659,2392]", "bundleName": null}
+{"type": "Toggle", "text": "", "id": "", "enabled": "true", "bounds": "[1022,2304][1148,2374]", "bundleName": null}
+{"type": "Text", "text": "手动操作", "id": "", "enabled": "true", "bounds": "[98,2605][1210,2662]", "bundleName": null}
+{"type": "Button", "text": "保存设置", "id": "", "enabled": "true", "bounds": "[154,2704][654,2782]", "bundleName": null}
+{"type": "Button", "text": "测试连接", "id": "", "enabled": "true", "bounds": "[682,2704][1154,2782]", "bundleName": null}
+{"type": "Flex", "text": "10, :, 32", "id": "ClockStatusView", "enabled": "true", "bounds": "[42,47][181,131]", "bundleName": null}
+{"type": "Text", "text": "10", "id": "", "enabled": "true", "bounds": "[42,58][104,120]", "bundleName": null}
+{"type": "Text", "text": ":", "id": "TimeView_Text_timeText", "enabled": "true", "bounds": "[104,63][119,116]", "bundleName": null}
+{"type": "Text", "text": "32", "id": "", "enabled": "true", "bounds": "[119,58][181,120]", "bundleName": null}
+{"type": "Text", "text": "100", "id": "BatteryComponent-batteryIcon_Text_batterySoc", "enabled": "true", "bounds": "[1177,67][1247,112]", "bundleName": null}
+{"type": "Text", "text": "来自剪贴板", "id": "", "enabled": "true", "bounds": "[549,1787][760,1840]", "bundleName": null}
+{"type": "Scroll", "text": "", "id": "", "enabled": "true", "bounds": "[167,1846][1130,1938]", "bundleName": null}
+{"type": "Text", "text": "/baseline-spec15", "id": "", "enabled": "true", "bounds": "[174,1846][1130,1938]", "bundleName": null}

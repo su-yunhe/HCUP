@@ -1,0 +1,254 @@
+{
+  "time": "2026-10-15T16:00:26.284462+00:00",
+  "initial_mappings": [
+    [
+      "tcp:9906",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9919",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9961",
+      "tcp:8012",
+      "Forward"
+    ]
+  ],
+  "own_mappings_removed": [
+    [
+      "tcp:9917",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9926",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9936",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9944",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9951",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9954",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9972",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9989",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9993",
+      "tcp:8012",
+      "Forward"
+    ]
+  ],
+  "remaining_mappings": [
+    [
+      "tcp:9906",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9919",
+      "tcp:8012",
+      "Forward"
+    ],
+    [
+      "tcp:9961",
+      "tcp:8012",
+      "Forward"
+    ]
+  ],
+  "preexisting_preserved": true,
+  "own_mappings_absent": true,
+  "loopback_service_stopped": true,
+  "netstat_exit_code": 0,
+  "display_density": "3.5",
+  "display_mode": "0, 1308, 2880, 60",
+  "commands": [
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "fport",
+        "ls"
+      ],
+      "started": "2026-10-15T16:00:25.499958+00:00",
+      "exit_code": 0,
+      "raw_log": "ports-before-final-cleanup.raw.log"
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "fport",
+        "rm",
+        "tcp:9917",
+        "tcp:8012"
+      ],
+      "started": "2026-10-15T16:00:25.545669+00:00",
+      "exit_code": 0,
+      "raw_log": "cleanup-tcp-9917.raw.log"
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "fport",
+        "rm",
+        "tcp:9926",
+        "tcp:8012"
+      ],
+      "started": "2026-10-15T16:00:25.602683+00:00",
+      "exit_code": 0,
+      "raw_log": "cleanup-tcp-9926.raw.log"
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "fport",
+        "rm",
+        "tcp:9936",
+        "tcp:8012"
+      ],
+      "started": "2026-10-15T16:00:25.675479+00:00",
+      "exit_code": 0,
+      "raw_log": "cleanup-tcp-9936.raw.log"
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "fport",
+        "rm",
+        "tcp:9944",
+        "tcp:8012"
+      ],
+      "started": "2026-10-15T16:00:25.729118+00:00",
+      "exit_code": 0,
+      "raw_log": "cleanup-tcp-9944.raw.log"
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "fport",
+        "rm",
+        "tcp:9951",
+        "tcp:8012"
+      ],
+      "started": "2026-10-15T16:00:25.788455+00:00",
+      "exit_code": 0,
+      "raw_log": "cleanup-tcp-9951.raw.log"
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "fport",
+        "rm",
+        "tcp:9954",
+        "tcp:8012"
+      ],
+      "started": "2026-10-15T16:00:25.860457+00:00",
+      "exit_code": 0,
+      "raw_log": "cleanup-tcp-9954.raw.log"
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "fport",
+        "rm",
+        "tcp:9972",
+        "tcp:8012"
+      ],
+      "started": "2026-10-15T16:00:25.924858+00:00",
+      "exit_code": 0,
+      "raw_log": "cleanup-tcp-9972.raw.log"
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "fport",
+        "rm",
+        "tcp:9989",
+        "tcp:8012"
+      ],
+      "started": "2026-10-15T16:00:25.976706+00:00",
+      "exit_code": 0,
+      "raw_log": "cleanup-tcp-9989.raw.log"
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "fport",
+        "rm",
+        "tcp:9993",
+        "tcp:8012"
+      ],
+      "started": "2026-10-15T16:00:26.037160+00:00",
+      "exit_code": 0,
+      "raw_log": "cleanup-tcp-9993.raw.log"
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "fport",
+        "ls"
+      ],
+      "started": "2026-10-15T16:00:26.112016+00:00",
+      "exit_code": 0,
+      "raw_log": "ports-after-final-cleanup.raw.log"
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "shell",
+        "hidumper",
+        "-s",
+        "DisplayManagerService",
+        "-a",
+        "-a"
+      ],
+      "started": "2026-10-15T16:00:26.187045+00:00",
+      "exit_code": 0,
+      "raw_log": "environment-display-final.raw.log"
+    }
+  ]
+}

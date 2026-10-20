@@ -1,0 +1,44 @@
+{
+  "time": "2026-10-15T15:06:21.450Z",
+  "source": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+  "source_sha256": "e0e4f0804e3403c263f6e09b0d4efb204e90ee7acdbd00b77f3580f35bcf0508",
+  "method_sha256": "81267bcdeb3340e854ff0f5f9f8bdfe696004dbf8dce54ff6ba0869f663d1301",
+  "limitations": "Node transpilation and controlled dependencies; not actual ArkTS VM, ArkUI rendering, network, or business storage evidence.",
+  "results": [
+    {
+      "name": "first cancel and rejected native dialog have no settings/network/import side effects",
+      "status": "pass",
+      "evidence_level": "actual extracted method with controlled dependencies"
+    },
+    {
+      "name": "settings false or rejection ends before network",
+      "status": "pass",
+      "evidence_level": "actual extracted method with controlled dependencies"
+    },
+    {
+      "name": "download failure object and rejection clean actual busy",
+      "status": "pass",
+      "evidence_level": "actual extracted method with controlled dependencies"
+    },
+    {
+      "name": "empty plaintext and preview failure/rejection never import",
+      "status": "pass",
+      "evidence_level": "actual extracted method with controlled dependencies"
+    },
+    {
+      "name": "real dependency pending ownership through download preview confirmation and import; repeat guarded",
+      "status": "pass",
+      "evidence_level": "actual extracted method with controlled dependencies"
+    },
+    {
+      "name": "second cancel retains authorization boundary",
+      "status": "pass",
+      "evidence_level": "actual extracted method with controlled dependencies"
+    },
+    {
+      "name": "import failure object and rejection release ownership with actual error",
+      "status": "pass",
+      "evidence_level": "actual extracted method with controlled dependencies"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+Retrieval failure, before production edits:
+Command: python C:/Users/22580/.codex/skills/hmos-arkts-knowledge-retriever/scripts/search_docs.py --query "enum Promise async await"
+FileNotFoundError: [Errno 2] No such file or directory: C:/Users/22580/.codex/skills/hmos-arkts-knowledge-retriever/references/doc_index.json
+Resolution: read packaged Basic-Syntax/enumerations.md and concurrency.md directly; no skill/runtime mutation.
+
+Warning comparator first pass after successful build-02:
+Traceback (most recent call last):
+  File "<stdin>", line 16, in <module>
+  File "D:/anaconda3/Lib/collections/__init__.py", line 607, in __init__
+    self.update(iterable, **kwds)
+  File "D:/anaconda3/Lib/collections/__init__.py", line 699, in update
+    _count_elements(self, iterable)
+  File "<stdin>", line 16, in <genexpr>
+KeyError: 'file'
+Resolution: baseline index includes unlocated build headings. Filter compiler entries with file; retain other headings separately. Final compiler file+message and message multisets equal baseline, 759 each.

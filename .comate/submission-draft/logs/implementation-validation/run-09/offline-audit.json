@@ -1,0 +1,203 @@
+{
+  "run": "09",
+  "source_sha256": "7aa4077f95cf7caee7af04c5a852a15e3f8b9198dc87ac32e5897f8689272ce1",
+  "source_unchanged": true,
+  "harness_outcomes": {
+    "pass": 9
+  },
+  "pending_sample_count": 15,
+  "samples_inside_live_request_intervals": [
+    {
+      "scenario": "fresh-direct",
+      "sample": 0,
+      "time": "2026-10-15T15:46:50.453989+00:00",
+      "request_ids": [
+        1792079209448988300
+      ]
+    },
+    {
+      "scenario": "fresh-direct",
+      "sample": 1,
+      "time": "2026-10-15T15:46:51.410413+00:00",
+      "request_ids": [
+        1792079209448988300
+      ]
+    },
+    {
+      "scenario": "fresh-direct",
+      "sample": 2,
+      "time": "2026-10-15T15:46:52.369307+00:00",
+      "request_ids": [
+        1792079209448988300
+      ]
+    },
+    {
+      "scenario": "saved-A-draft-B",
+      "sample": 0,
+      "time": "2026-10-15T15:48:27.415364+00:00",
+      "request_ids": [
+        1792079306349710900
+      ]
+    },
+    {
+      "scenario": "saved-A-draft-B",
+      "sample": 1,
+      "time": "2026-10-15T15:48:28.417716+00:00",
+      "request_ids": [
+        1792079306349710900
+      ]
+    },
+    {
+      "scenario": "saved-A-draft-B",
+      "sample": 2,
+      "time": "2026-10-15T15:48:29.289988+00:00",
+      "request_ids": [
+        1792079306349710900
+      ]
+    },
+    {
+      "scenario": "repeat",
+      "sample": 0,
+      "time": "2026-10-15T15:49:10.976123+00:00",
+      "request_ids": [
+        1792079349223727300
+      ]
+    },
+    {
+      "scenario": "repeat",
+      "sample": 1,
+      "time": "2026-10-15T15:49:11.876032+00:00",
+      "request_ids": [
+        1792079349223727300
+      ]
+    },
+    {
+      "scenario": "repeat",
+      "sample": 2,
+      "time": "2026-10-15T15:49:12.852941+00:00",
+      "request_ids": [
+        1792079349223727300
+      ]
+    },
+    {
+      "scenario": "second-cancel",
+      "sample": 0,
+      "time": "2026-10-15T15:50:01.994174+00:00",
+      "request_ids": [
+        1792079400710552500
+      ]
+    },
+    {
+      "scenario": "second-cancel",
+      "sample": 1,
+      "time": "2026-10-15T15:50:02.921788+00:00",
+      "request_ids": [
+        1792079400710552500
+      ]
+    },
+    {
+      "scenario": "second-cancel",
+      "sample": 2,
+      "time": "2026-10-15T15:50:03.888405+00:00",
+      "request_ids": [
+        1792079400710552500
+      ]
+    },
+    {
+      "scenario": "actual-import",
+      "sample": 0,
+      "time": "2026-10-15T15:50:33.598368+00:00",
+      "request_ids": [
+        1792079432606908000
+      ]
+    },
+    {
+      "scenario": "actual-import",
+      "sample": 1,
+      "time": "2026-10-15T15:50:34.537644+00:00",
+      "request_ids": [
+        1792079432606908000
+      ]
+    },
+    {
+      "scenario": "actual-import",
+      "sample": 2,
+      "time": "2026-10-15T15:50:35.481204+00:00",
+      "request_ids": [
+        1792079432606908000
+      ]
+    }
+  ],
+  "second_waits": [
+    {
+      "file": "second-confirmation-1792079413251983200.json",
+      "visible_spinner": false,
+      "restore_exposed": true,
+      "exposed_restore_disabled": true
+    },
+    {
+      "file": "second-confirmation-1792079446081629000.json",
+      "visible_spinner": false,
+      "restore_exposed": true,
+      "exposed_restore_disabled": true
+    },
+    {
+      "file": "second-confirmation-1792079633021849200.json",
+      "visible_spinner": false,
+      "restore_exposed": true,
+      "exposed_restore_disabled": true
+    }
+  ],
+  "business_readback": {
+    "export_files": [
+      "export-01.json",
+      "export-02.json",
+      "export-03.json"
+    ],
+    "before_words": 1000,
+    "after_cancel_words": 1000,
+    "after_import_words": 2000,
+    "verified_new_fixture_words": 1000,
+    "cancel_preserved_business": true,
+    "actual_import_readback": true
+  },
+  "request_statuses": {
+    "200": 32,
+    "404": 14,
+    "201": 3,
+    "401": 3,
+    "403": 3,
+    "503": 3
+  },
+  "completed_scenarios": [
+    "input-modes-save-and-restart",
+    "first-confirm-preserves-unsaved-public-and-password-fields",
+    "fresh-direct-404",
+    "first-cancel-close-preserves-saved-A",
+    "saved-A-draft-B-current-values",
+    "rapid-entry-continue-and-pending-repeat",
+    "second-cancel-business-unchanged",
+    "genuine-decrypt-preview-authorized-import-export-readback",
+    "unauthorized",
+    "forbidden",
+    "server_error",
+    "disconnect",
+    "bad_encrypted",
+    "wrong_password",
+    "bad_preview",
+    "empty_plain",
+    "missing",
+    "legal-empty-business-separate-from-empty-plaintext",
+    "input-webdav_endpoint-0",
+    "input-webdav_username-0",
+    "input-webdav_password-0",
+    "input-webdav_sync_password-0",
+    "input-webdav_endpoint-3",
+    "input-webdav_username-3",
+    "input-webdav_password-3",
+    "input-webdav_sync_password-3",
+    "empty-space-and-directory-defaults-real-password-spaces",
+    "observed-return-reenter-background-and-process-restart"
+  ],
+  "retained_evidence_files": 442
+}

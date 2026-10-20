@@ -1,0 +1,52 @@
+[2026-10-15 22:21:34,259] [34004] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-15 22:21:34,261] [34004] [EnvPool] [INFO] [Report path: D:\HCUP\vg-spec15\reports\2026-10-15-22-21-34]
+[2026-10-15 22:21:34,261] [34004] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-15 22:21:34,261] [34004] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-15 22:21:34,261] [34004] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-15 22:21:34,263] [34004] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-15 22:21:34,263] [34004] [EnvPool] [INFO] [Get device by selector]
+[2026-10-15 22:21:34,263] [34004] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-15 22:21:34,666] [28624] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-15 22:21:35,271] [34004] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5555'], label:phone]]
+[2026-10-15 22:21:35,271] [34004] [EnvPool] [INFO] [Device 127.0.0.1:5555: extend value: {}]
+[2026-10-15 22:21:35,516] [34004] [Device] [INFO] [6.0.2.3]
+[2026-10-15 22:21:35,719] [34004] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-15 22:21:35,719] [34004] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-15 22:21:35,774] [34004] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: None]
+[2026-10-15 22:21:35,774] [34004] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-15 22:21:35,840] [34004] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-15 22:21:35,841] [34004] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-15 22:21:35,897] [34004] [Device] [INFO] [Device agent is up to date!]
+[2026-10-15 22:21:38,122] [34004] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]
+[2026-10-15 22:21:40,255] [34004] [DeviceUIProxy] [INFO] [tcp forward port: 9982 for 127.0.0.1:5555]
+[2026-10-15 22:21:40,965] [34004] [Device] [INFO] [hypium base version: 6.1.0.210]
+{"time": "2026-10-15T14:21:40.965246+00:00", "kind": "hypium_connected", "device": "127.0.0.1:5555"}
+[2026-10-15 22:21:40,965] [34004] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-15 22:21:40,965] [34004] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput'))</div>]
+[2026-10-15 22:21:42,064] [34004] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_all_components(127.0.0.1:5555, BY.type('TextInput')) cost: 1.1s</div>]
+{"time": "2026-10-15T14:21:42.064887+00:00", "kind": "hypium_fields", "count": 5, "operation": ["fill", "0", "http://127.0.0.1:18085", "11-hypium-endpoint"]}
+[2026-10-15 22:21:42,064] [34004] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#0, http://127.0.0.1:18085, mode={'_data': {'paste': True}})</div>]
+[2026-10-15 22:21:45,316] [34004] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, Component#0, http://127.0.0.1:18085, mode={'_data': {'paste': True}}) cost: 3.252s</div>]
+{"time": "2026-10-15T14:21:45.316605+00:00", "kind": "hypium_input", "field_index": 0, "value": "http://127.0.0.1:18085", "mode": "paste(True)"}
+{"time": "2026-10-15T14:21:45.507877+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "shell", "uitest", "dumpLayout", "-p", "/data/local/tmp/vg-spec15-11-hypium-endpoint.json"], "started": "2026-10-15T14:21:45.316605+00:00", "exit_code": 0, "output_file": "11-hypium-endpoint-dumpLayout.log", "output": "DumpLayout saved to:/data/local/tmp/vg-spec15-11-hypium-endpoint.json\r\n"}
+{"time": "2026-10-15T14:21:45.691469+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "file", "recv", "/data/local/tmp/vg-spec15-11-hypium-endpoint.json", "D:\\HCUP\\vg-spec15\\logs\\analyze-baseline\\11-hypium-endpoint.json"], "started": "2026-10-15T14:21:45.507877+00:00", "exit_code": 0, "output_file": "11-hypium-endpoint-recv-json.log", "output": "FileTransfer finish, Size:55099, File count = 1, time:64ms rate:860.92kB/s\r\n"}
+{"time": "2026-10-15T14:21:46.002841+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "shell", "uitest", "screenCap", "-p", "/data/local/tmp/vg-spec15-11-hypium-endpoint.png"], "started": "2026-10-15T14:21:45.692468+00:00", "exit_code": 0, "output_file": "11-hypium-endpoint-screenCap.log", "output": "ScreenCap saved to /data/local/tmp/vg-spec15-11-hypium-endpoint.png\r\n"}
+{"time": "2026-10-15T14:21:46.174159+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "file", "recv", "/data/local/tmp/vg-spec15-11-hypium-endpoint.png", "D:\\HCUP\\vg-spec15\\logs\\analyze-baseline\\11-hypium-endpoint.png"], "started": "2026-10-15T14:21:46.002841+00:00", "exit_code": 0, "output_file": "11-hypium-endpoint-recv-png.log", "output": "FileTransfer finish, Size:283391, File count = 1, time:52ms rate:5449.83kB/s\r\n"}
+{"time": "2026-10-15T14:21:46.174159+00:00", "kind": "snapshot", "name": "11-hypium-endpoint", "captured": ["json", "png"]}
+{"type": "Scroll", "text": "", "id": "", "enabled": "true", "bounds": "[0,164][1308,2880]", "bundleName": null}
+{"type": "Scroll", "text": "", "id": "", "enabled": "true", "bounds": "[0,164][1308,2502]", "bundleName": null}
+{"type": "Text", "text": "小艺输入法", "id": "Paf.Permission.appName", "enabled": "true", "bounds": "[391,934][917,1057]", "bundleName": null}
+{"type": "Text", "text": "快捷准确、安全有趣的输入法", "id": "Paf.Permission.appDesc", "enabled": "true", "bounds": "[335,1078][973,1135]", "bundleName": null}
+{"type": "Text", "text": "本应用需要联网，调用通讯录、相机、麦克风权限，可能会开启本地录音、拍照，读取通讯录、短信内容，读取并传送音频、图片，以提供通讯录词库、验证码提取、语音转文字、拍摄输入相关服务。我们仅在您使用具体业务功能时，才会触发上述行为收集使用相关的个人信息。详情请参阅关于小艺输入法与隐私的声明、权限使用说明。", "id": "paf_permission_privacy_text_0", "enabled": "true", "bounds": "[84,2201][1224,2406]", "bundleName": null}
+{"type": "Text", "text": "请仔细阅读上述声明，点击“同意”，即表示您知悉并同意我们向您提供本应用服务。", "id": "paf_permission_privacy_text_1", "enabled": "true", "bounds": "[84,2420][1224,2502]", "bundleName": null}
+{"type": "Button", "text": "取消", "id": "Paf.Permission.button_cancel", "enabled": "true", "bounds": "[56,2586][633,2726]", "bundleName": null}
+{"type": "Button", "text": "同意", "id": "Paf.Permission.button_confirm", "enabled": "true", "bounds": "[675,2586][1252,2726]", "bundleName": null}
+{"type": "Flex", "text": "10, :, 21", "id": "ClockStatusView", "enabled": "true", "bounds": "[42,47][181,131]", "bundleName": null}
+{"type": "Text", "text": "10", "id": "", "enabled": "true", "bounds": "[42,58][104,120]", "bundleName": null}
+{"type": "Text", "text": ":", "id": "TimeView_Text_timeText", "enabled": "true", "bounds": "[104,63][119,116]", "bundleName": null}
+{"type": "Text", "text": "21", "id": "", "enabled": "true", "bounds": "[119,58][181,120]", "bundleName": null}
+{"type": "Text", "text": "100", "id": "BatteryComponent-batteryIcon_Text_batterySoc", "enabled": "true", "bounds": "[1177,67][1247,112]", "bundleName": null}

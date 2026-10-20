@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-10-16T02:45:40.636580+00:00",
+  "verified_at": "2026-10-16T02:46:03.470763+00:00",
+  "base_commit": "88db8789e28333c7b7dcc8db078f394a262b73c3",
+  "project_snapshot_sha256": "b8b0eaf672f295d50c8570d0d5d1df2b7c073aa06b6a162ac867233db47ecdea",
+  "diff_bytes": 190895672,
+  "diff_sha256": "49c6fd78bb6c83e415d52da0cc387019268c88d2dad868aba2426f12adbde10a",
+  "baseline_clone": "local clone of this task Git repository, then detached checkout to metadata.base_commit; no protected bundle or upstream repair read",
+  "commands": [
+    "git clone --no-local --single-branch --no-tags --branch vg-spec15 --no-checkout <this-project> <temporary-baseline>",
+    "git -c core.autocrlf=true checkout --detach 88db8789e28333c7b7dcc8db078f394a262b73c3",
+    "git -c core.autocrlf=input apply --check --binary <changes/final.diff>",
+    "git -c core.autocrlf=input apply --binary <changes/final.diff>"
+  ],
+  "apply_check_exit_code": 0,
+  "apply_exit_code": 0,
+  "raw_byte_comparison_files": 2059,
+  "raw_byte_mismatches": [],
+  "missing": [],
+  "extra": [],
+  "added": 1763,
+  "modified": 4,
+  "deleted": 0,
+  "binary_files": 208,
+  "pass": true,
+  "line_endings": "Baseline checkout uses core.autocrlf=true, matching original Windows checkout; changed/new blobs are hashed with --no-filters. Apply uses core.autocrlf=input to preserve both original CRLF and LF raw bytes. SHA256 comparison is byte-for-byte, not normalized text.",
+  "snapshot_excludes_draft": true
+}

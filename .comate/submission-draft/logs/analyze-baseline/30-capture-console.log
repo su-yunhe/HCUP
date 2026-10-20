@@ -1,0 +1,36 @@
+{"time": "2026-10-15T14:36:54.195853+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "shell", "uitest", "dumpLayout", "-p", "/data/local/tmp/vg-spec15-30-restore-404-terminal.json"], "started": "2026-10-15T14:36:53.439977+00:00", "exit_code": 0, "output_file": "30-restore-404-terminal-dumpLayout.log", "output": "DumpLayout saved to:/data/local/tmp/vg-spec15-30-restore-404-terminal.json\r\n"}
+{"time": "2026-10-15T14:36:54.365729+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "file", "recv", "/data/local/tmp/vg-spec15-30-restore-404-terminal.json", "D:\\HCUP\\vg-spec15\\logs\\analyze-baseline\\30-restore-404-terminal.json"], "started": "2026-10-15T14:36:54.195853+00:00", "exit_code": 0, "output_file": "30-restore-404-terminal-recv-json.log", "output": "FileTransfer finish, Size:58294, File count = 1, time:54ms rate:1079.52kB/s\r\n"}
+{"time": "2026-10-15T14:36:54.627327+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "shell", "uitest", "screenCap", "-p", "/data/local/tmp/vg-spec15-30-restore-404-terminal.png"], "started": "2026-10-15T14:36:54.365729+00:00", "exit_code": 0, "output_file": "30-restore-404-terminal-screenCap.log", "output": "ScreenCap saved to /data/local/tmp/vg-spec15-30-restore-404-terminal.png\r\n"}
+{"time": "2026-10-15T14:36:54.802882+00:00", "kind": "command", "command": ["D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE", "-t", "127.0.0.1:5555", "file", "recv", "/data/local/tmp/vg-spec15-30-restore-404-terminal.png", "D:\\HCUP\\vg-spec15\\logs\\analyze-baseline\\30-restore-404-terminal.png"], "started": "2026-10-15T14:36:54.628328+00:00", "exit_code": 0, "output_file": "30-restore-404-terminal-recv-png.log", "output": "FileTransfer finish, Size:324761, File count = 1, time:53ms rate:6127.57kB/s\r\n"}
+{"time": "2026-10-15T14:36:54.802882+00:00", "kind": "snapshot", "name": "30-restore-404-terminal", "captured": ["json", "png"]}
+{"type": "Text", "text": "←", "id": "", "enabled": "true", "bounds": "[56,185][141,283]", "bundleName": null}
+{"type": "Text", "text": "WebDAV 配置", "id": "", "enabled": "true", "bounds": "[197,197][602,271]", "bundleName": null}
+{"type": "Scroll", "text": "", "id": "", "enabled": "true", "bounds": "[0,332][1308,2782]", "bundleName": null}
+{"type": "Text", "text": "远端目录", "id": "", "enabled": "true", "bounds": "[154,332][1154,348]", "bundleName": null}
+{"type": "TextInput", "text": "/baseline-spec15", "id": "", "enabled": "true", "bounds": "[154,362][1154,516]", "bundleName": null}
+{"type": "Text", "text": "提示：请先在 WebDAV 服务端创建该目录（只需一次）", "id": "", "enabled": "true", "bounds": "[154,558][1154,656]", "bundleName": null}
+{"type": "Text", "text": "自动同步", "id": "", "enabled": "true", "bounds": "[98,810][1210,867]", "bundleName": null}
+{"type": "Text", "text": "启用自动同步", "id": "", "enabled": "true", "bounds": "[154,968][449,1025]", "bundleName": null}
+{"type": "Text", "text": "进入前台时按间隔自动同步", "id": "", "enabled": "true", "bounds": "[154,1025][659,1074]", "bundleName": null}
+{"type": "Toggle", "text": "", "id": "", "enabled": "true", "bounds": "[1022,986][1148,1056]", "bundleName": null}
+{"type": "Text", "text": "手动操作", "id": "", "enabled": "true", "bounds": "[98,1287][1210,1344]", "bundleName": null}
+{"type": "Button", "text": "保存设置", "id": "", "enabled": "true", "bounds": "[154,1386][654,1540]", "bundleName": null}
+{"type": "Button", "text": "测试连接", "id": "", "enabled": "true", "bounds": "[682,1386][1154,1540]", "bundleName": null}
+{"type": "Text", "text": "✅ WebDAV 设置已保存", "id": "", "enabled": "true", "bounds": "[429,1568][880,1617]", "bundleName": null}
+{"type": "Button", "text": "立即同步", "id": "", "enabled": "true", "bounds": "[154,1702][1154,1856]", "bundleName": null}
+{"type": "Button", "text": "立即备份", "id": "", "enabled": "true", "bounds": "[154,1941][654,2095]", "bundleName": null}
+{"type": "Button", "text": "从云端恢复", "id": "", "enabled": "true", "bounds": "[682,1941][1154,2095]", "bundleName": null}
+{"type": "Text", "text": "⚠️ 云端暂无备份：云端不存在备份文件，请先在其他设备上创建备份", "id": "", "enabled": "true", "bounds": "[118,2123][1190,2221]", "bundleName": null}
+{"type": "Text", "text": "使用说明", "id": "", "enabled": "true", "bounds": "[570,2306][739,2355]", "bundleName": null}
+{"type": "Text", "text": "【立即同步】日常多端同步，只同步变更数据", "id": "", "enabled": "true", "bounds": "[154,2383][1154,2432]", "bundleName": null}
+{"type": "Text", "text": "• 同步学习过的单词、复习记录、用户词书", "id": "", "enabled": "true", "bounds": "[168,2432][1168,2481]", "bundleName": null}
+{"type": "Text", "text": "• 未学习的单词不会同步，节省流量", "id": "", "enabled": "true", "bounds": "[168,2481][1168,2530]", "bundleName": null}
+{"type": "Text", "text": "【立即备份】完整备份所有数据到云端", "id": "", "enabled": "true", "bounds": "[154,2558][1154,2607]", "bundleName": null}
+{"type": "Text", "text": "• 适合换设备前、定期备份使用", "id": "", "enabled": "true", "bounds": "[168,2607][1168,2656]", "bundleName": null}
+{"type": "Text", "text": "【从云端恢复】下载云端数据覆盖本地", "id": "", "enabled": "true", "bounds": "[154,2684][1154,2733]", "bundleName": null}
+{"type": "Text", "text": "• ⚠️ 会覆盖本地数据，新设备首次使用", "id": "", "enabled": "true", "bounds": "[168,2733][1168,2782]", "bundleName": null}
+{"type": "Flex", "text": "10, :, 36", "id": "ClockStatusView", "enabled": "true", "bounds": "[42,47][181,131]", "bundleName": null}
+{"type": "Text", "text": "10", "id": "", "enabled": "true", "bounds": "[42,58][104,120]", "bundleName": null}
+{"type": "Text", "text": ":", "id": "TimeView_Text_timeText", "enabled": "true", "bounds": "[104,63][119,116]", "bundleName": null}
+{"type": "Text", "text": "36", "id": "", "enabled": "true", "bounds": "[119,58][181,120]", "bundleName": null}
+{"type": "Text", "text": "100", "id": "BatteryComponent-batteryIcon_Text_batterySoc", "enabled": "true", "bounds": "[1177,67][1247,112]", "bundleName": null}

@@ -1,0 +1,559 @@
+FILE entry/src/main/ets/pages/Index.ets
+SHA256 f251cc100d283cfc458147a05d9284d2c0b40cee019ba834e3bfb0fab2bbf92f
+entry/src/main/ets/pages/Index.ets:288:     if (this.privacyChecked) {
+entry/src/main/ets/pages/Index.ets:289:       return;
+entry/src/main/ets/pages/Index.ets:290:     }
+entry/src/main/ets/pages/Index.ets:291:     try {
+entry/src/main/ets/pages/Index.ets:292:       await this.loadPrivacyPolicy();
+entry/src/main/ets/pages/Index.ets:293:       const settingsStore = SettingsStore.getInstance();
+entry/src/main/ets/pages/Index.ets:294:       if (!(await settingsStore.getPrivacyConsent())) {
+entry/src/main/ets/pages/Index.ets:295:         this.showPrivacyDialog = true;
+entry/src/main/ets/pages/Index.ets:296:       }
+entry/src/main/ets/pages/Index.ets:297:       this.privacyChecked = true;
+entry/src/main/ets/pages/Index.ets:298:     } catch (e) {
+entry/src/main/ets/pages/Index.ets:299:       this.showPrivacyDialog = true;
+entry/src/main/ets/pages/Index.ets:300:       this.privacyChecked = true;
+entry/src/main/ets/pages/Index.ets:301:     }
+entry/src/main/ets/pages/Index.ets:302:   }
+entry/src/main/ets/pages/Index.ets:303: 
+entry/src/main/ets/pages/Index.ets:304:   private async loadPrivacyPolicy(): Promise<void> {
+entry/src/main/ets/pages/Index.ets:305:     if (this.privacyLoaded) return;
+entry/src/main/ets/pages/Index.ets:306:     try {
+entry/src/main/ets/pages/Index.ets:307:       if (!this.resourceMgr && this.context) this.resourceMgr = this.context.resourceManager;
+entry/src/main/ets/pages/Index.ets:308:       if (!this.resourceMgr) return;
+entry/src/main/ets/pages/Index.ets:309:       const data = await this.resourceMgr.getRawFileContent('privacy.md');
+entry/src/main/ets/pages/Index.ets:310:       const content = Base64Util.utf8Decode(data);
+
+FILE entry/src/main/ets/pages/SettingsPage.ets
+SHA256 df9eac2e2484665743fe748888e7f0fbbe685bdab93d5d69a0fddc3ea3c8f2fd
+entry/src/main/ets/pages/SettingsPage.ets:35: 
+entry/src/main/ets/pages/SettingsPage.ets:36: const SETTINGS_SECTIONS: SettingsSectionItem[] = [
+entry/src/main/ets/pages/SettingsPage.ets:37:   { id: 'preferences', title: '学习与偏好', subtitle: '任务计划、语音、难度与语境' },
+entry/src/main/ets/pages/SettingsPage.ets:38:   { id: 'dictionary', title: '外部词典', subtitle: '外链词典模板配置' },
+entry/src/main/ets/pages/SettingsPage.ets:39:   { id: 'fsrs', title: 'FSRS优化', subtitle: '根据记忆表现优化算法参数' },
+entry/src/main/ets/pages/SettingsPage.ets:40:   { id: 'api', title: 'API配置', subtitle: '提供商、接口与模型选择' },
+entry/src/main/ets/pages/SettingsPage.ets:41:   { id: 'sync', title: 'WebDAV 配置', subtitle: '云端连接与自动同步设置' },
+entry/src/main/ets/pages/SettingsPage.ets:42:   { id: 'backup', title: '备份与恢复', subtitle: '云端/本地数据导入导出' },
+entry/src/main/ets/pages/SettingsPage.ets:43:   { id: 'about', title: '关于', subtitle: '版本、隐私与开源信息' }
+entry/src/main/ets/pages/SettingsPage.ets:44: ];
+entry/src/main/ets/pages/SettingsPage.ets:45: 
+entry/src/main/ets/pages/SettingsPage.ets:46: interface LearningOrderPolicyJson {
+entry/src/main/ets/pages/SettingsPage.ets:47:   learningOrderPolicy?: string;
+entry/src/main/ets/pages/SettingsPage.ets:48: }
+entry/src/main/ets/pages/SettingsPage.ets:49: 
+entry/src/main/ets/pages/SettingsPage.ets:50: interface DialogIndexResult {
+entry/src/main/ets/pages/SettingsPage.ets:447:     if (this.activeSectionId === 'sync') {
+entry/src/main/ets/pages/SettingsPage.ets:448:       SettingsSyncSection({
+entry/src/main/ets/pages/SettingsPage.ets:449:         webdavEndpoint: $webdavEndpoint,
+entry/src/main/ets/pages/SettingsPage.ets:450:         webdavUsername: $webdavUsername,
+entry/src/main/ets/pages/SettingsPage.ets:451:         webdavPassword: $webdavPassword,
+entry/src/main/ets/pages/SettingsPage.ets:452:         webdavSyncPassword: $webdavSyncPassword,
+entry/src/main/ets/pages/SettingsPage.ets:453:         webdavRemoteRoot: $webdavRemoteRoot,
+entry/src/main/ets/pages/SettingsPage.ets:454:         showWebdavPassword: $showWebdavPassword,
+entry/src/main/ets/pages/SettingsPage.ets:455:         showWebdavSyncPassword: $showWebdavSyncPassword,
+entry/src/main/ets/pages/SettingsPage.ets:456:         webdavAutoSyncEnabled: $webdavAutoSyncEnabled,
+entry/src/main/ets/pages/SettingsPage.ets:457:         webdavAutoSyncIntervalIndex: $webdavAutoSyncIntervalIndex,
+entry/src/main/ets/pages/SettingsPage.ets:458:         webdavAutoSyncUploadModelEnabled: $webdavAutoSyncUploadModelEnabled,
+entry/src/main/ets/pages/SettingsPage.ets:459:         webdavAutoSyncUploadBackupEnabled: $webdavAutoSyncUploadBackupEnabled,
+entry/src/main/ets/pages/SettingsPage.ets:460:         webdavAutoSyncLastSuccessMs: $webdavAutoSyncLastSuccessMs,
+entry/src/main/ets/pages/SettingsPage.ets:461:         webdavAutoSyncLastError: $webdavAutoSyncLastError
+entry/src/main/ets/pages/SettingsPage.ets:462:       })
+entry/src/main/ets/pages/SettingsPage.ets:520:                       .layoutWeight(1)
+entry/src/main/ets/pages/SettingsPage.ets:521:                       Text('›').fontSize(DesignTokens.Typography.FONT_SIZE_LG).fontColor(this.colors.GRAY_400)
+entry/src/main/ets/pages/SettingsPage.ets:522:                     }
+entry/src/main/ets/pages/SettingsPage.ets:523:                     .width('100%')
+entry/src/main/ets/pages/SettingsPage.ets:524:                     .height(64)
+entry/src/main/ets/pages/SettingsPage.ets:525:                     .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
+entry/src/main/ets/pages/SettingsPage.ets:526:                     .alignItems(VerticalAlign.Center)
+entry/src/main/ets/pages/SettingsPage.ets:527:                     .onClick(() => {
+entry/src/main/ets/pages/SettingsPage.ets:528:                       this.activeSectionId = item.id;
+entry/src/main/ets/pages/SettingsPage.ets:529:                     })
+entry/src/main/ets/pages/SettingsPage.ets:530:                     
+entry/src/main/ets/pages/SettingsPage.ets:531:                     Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
+entry/src/main/ets/pages/SettingsPage.ets:532:                   }
+entry/src/main/ets/pages/SettingsPage.ets:533:                 }, (item: SettingsSectionItem) => item.id)
+entry/src/main/ets/pages/SettingsPage.ets:534:               }
+entry/src/main/ets/pages/SettingsPage.ets:535:               .width('100%')
+
+FILE entry/src/main/ets/pages/settings/SettingsSyncSection.ets
+SHA256 b8bf0886d4edfbb486a20436cd3e714bc7cb1343dbd75fd6efb85a6845bffc2d
+FULL-FILE TOKEN SEARCH LoadingProgress: 0 matches
+FULL-FILE TOKEN SEARCH .id(: 0 matches
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:100:   private async saveWebDavSettings(): Promise<boolean> {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:101:     const s = new WebDavSettings(
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:102:       this.webdavEndpoint.trim(),
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:103:       this.webdavUsername.trim(),
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:104:       this.webdavPassword,
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:105:       this.webdavSyncPassword,
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:106:       this.webdavRemoteRoot.trim().length > 0 ? this.webdavRemoteRoot.trim() : '/weiyu_sync',
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:107:       true
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:108:     );
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:109:     const saved = await this.webdavManager.setSettings(s);
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:110:     this.webdavResult = saved ? '✅ WebDAV 设置已保存' : '⚠️ WebDAV 设置保存失败';
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:111:     return saved;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:112:   }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:113: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:114:   private readonly OPERATION_TIMEOUT = 120000; // 120秒超时
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:115: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:116:   private async runWithTimeout<T>(operation: () => Promise<T>, timeoutMs: number): Promise<T> {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:117:     return Promise.race([
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:118:       operation(),
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:119:       new Promise<T>((_, reject) => {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:120:         setTimeout(() => reject(new Error('操作超时，请检查网络连接')), timeoutMs);
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:121:       })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:122:     ]);
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:123:   }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:165:   private async webdavRestore(): Promise<void> {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:166:     // Bug fix: 检查是否已经在处理中，防止重复触发
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:167:     if (this.webdavBusy) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:168:       return;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:169:     }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:170: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:171:     // Bug fix: 防止重复弹出恢复确认对话框
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:172:     if (this.restoreDialogShowing) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:173:       console.warn('[SettingsSyncSection] Restore dialog already showing, skipping duplicate call');
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:174:       return;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:175:     }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:176: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:177:     // 第一层确认：点击按钮后立即弹出，防止误触
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:178:     try {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:179:       const firstConfirm = await promptAction.showDialog({
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:180:         title: '从云端恢复',
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:181:         message: '⚠️ 警告：此操作将从云端下载备份并覆盖本地数据，本地未同步的学习记录将丢失。\n\n确定要继续吗？',
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:182:         buttons: [
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:183:           { text: '取消', color: String(this.colors.TEXT_SECONDARY) },
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:184:           { text: '继续', color: String(this.colors.WARNING) }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:185:         ]
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:186:       });
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:187:       const clicked = firstConfirm as DialogIndexResult;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:188:       if (clicked.index === 0) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:189:         return; // 用户取消，不执行任何操作
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:190:       }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:191:     } catch (e) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:192:       return; // 对话框被关闭，视为取消
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:193:     }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:194: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:195:     // 开始下载和解析流程，手动管理状态
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:196:     this.webdavBusy = true;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:197:     this.restoreDialogShowing = true;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:198:     this.webdavBackupResult = '正在下载云端备份...';
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:199:     
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:200:     // Yield to UI thread to show download message
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:201:     await new Promise<void>((resolve) => setTimeout(resolve, 0));
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:202: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:203:     let download: WebDavBackupPlainResult | null = null;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:204:     
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:205:     try {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:206:       // Step 1: Download backup from cloud
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:207:       download = await this.runWithTimeout(() => this.webdavManager.downloadBackupPlain(false), this.OPERATION_TIMEOUT);
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:208:       
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:209:       if (!download.result.success) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:210:         this.webdavBackupResult = `⚠️ ${download.result.message}：${download.result.detail}`;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:211:         promptAction.showToast({ message: download.result.message, duration: 1200 });
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:212:         this.webdavBusy = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:213:         this.restoreDialogShowing = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:214:         return;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:215:       }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:216:       
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:217:       if (download.plain.length === 0) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:218:         this.webdavBackupResult = '⚠️ 云端无备份：未找到可用的备份文件';
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:219:         promptAction.showToast({ message: '云端无备份', duration: 1200 });
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:220:         this.webdavBusy = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:221:         this.restoreDialogShowing = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:222:         return;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:223:       }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:224: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:225:       // Step 2: Parse and preview backup data
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:226:       this.webdavBackupResult = '正在解析备份数据...';
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:227:       await new Promise<void>((resolve) => setTimeout(resolve, 0));
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:228:       
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:229:       const preview = await this.syncManager.previewImport(download.plain);
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:230:       if (preview.errors.length > 0) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:231:         this.webdavBackupResult = `⚠️ 预览失败：${preview.errors.join('; ')}`;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:232:         promptAction.showToast({ message: '预览失败', duration: 1200 });
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:233:         this.webdavBusy = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:234:         this.restoreDialogShowing = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:235:         return;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:236:       }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:237: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:238:       // Release busy state while waiting for user confirmation
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:239:       this.webdavBusy = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:240:       this.webdavBackupResult = ''; // Clear loading message before showing dialog
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:241: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:242:       // Step 3: Show second confirmation dialog with preview data
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:243:       const sample = preview.sampleUpdatedWords.length > 0 ? `\n示例：${preview.sampleUpdatedWords.join('、')}` : '';
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:244:       const msg = `⚠️ 警告：此操作将覆盖本地数据！\n\n将覆盖更新 ${preview.updated} 词，新增 ${preview.imported} 词，共 ${preview.total} 词。${sample}\n\n本地未同步的学习记录将丢失，请确认是否继续？`;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:245: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:246:       let userConfirmed = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:247:       try {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:248:         const dialogResult = await promptAction.showDialog({
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:249:           title: '⚠️ 恢复确认',
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:250:           message: msg,
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:251:           buttons: [
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:252:             { text: '取消', color: String(this.colors.TEXT_SECONDARY) },
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:253:             { text: '确认恢复', color: String(this.colors.ERROR) }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:254:           ]
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:255:         });
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:256: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:257:         const clickedSecond = dialogResult as DialogIndexResult;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:258:         userConfirmed = clickedSecond.index === 1;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:259:       } catch (e) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:260:         userConfirmed = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:261:       }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:262: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:263:       if (!userConfirmed) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:264:         this.webdavBackupResult = '✅ 已取消恢复';
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:265:         promptAction.showToast({ message: '已取消恢复', duration: 1200 });
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:266:         this.restoreDialogShowing = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:267:         return;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:268:       }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:269: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:270:       // Step 4: User confirmed, proceed with restore
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:271:       this.webdavBusy = true;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:272:       this.webdavBackupResult = '正在恢复数据...';
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:273:       await new Promise<void>((resolve) => setTimeout(resolve, 0));
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:274: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:275:       const importResult = await this.runWithTimeout(() => this.webdavManager.importPlainBackup(download!.plain), this.OPERATION_TIMEOUT);
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:276:       this.webdavBackupResult = importResult.success ? `✅ ${importResult.message}` : `⚠️ ${importResult.message}：${importResult.detail}`;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:277:       promptAction.showToast({ message: importResult.message, duration: 1200 });
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:278: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:279:     } catch (e) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:280:       const msg = e instanceof Error ? e.message : String(e);
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:281:       this.webdavBackupResult = `⚠️ WebDAV 操作异常：${msg}`;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:282:       promptAction.showToast({ message: 'WebDAV 操作异常', duration: 1200 });
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:283:     } finally {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:284:       this.webdavBusy = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:285:       this.restoreDialogShowing = false;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:286:     }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:343:     if (settings.syncPassword.length < 4) return '同步密码至少需要4位';
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:344:     return '';
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:345:   }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:346: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:347:   @Builder
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:348:   private buildInputField(label: string, value: string, placeholder: string, onChange: (val: string) => void) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:349:     Column() {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:350:       Text(label)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:351:         .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:352:         .fontColor(this.colors.GRAY_600)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:353:         .width('100%')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:354:         .margin({ bottom: DesignTokens.Spacing.XS })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:355: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:356:       TextInput({ text: value, placeholder })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:357:         .width('100%')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:358:         .height(44)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:359:         .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:360:         .backgroundColor(this.colors.GRAY_100)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:361:         .borderRadius(DesignTokens.BorderRadius.MD)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:362:         .padding({ left: DesignTokens.Spacing.MD, right: DesignTokens.Spacing.MD })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:363:         .onChange(onChange)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:364:     }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:365:     .width('100%')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:366:     .margin({ bottom: DesignTokens.Spacing.MD })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:367:   }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:368: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:369:   @Builder
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:370:   private buildPasswordField(label: string, value: string, placeholder: string, isVisible: boolean, onChange: (val: string) => void, onToggle: () => void) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:371:     Column() {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:372:       Text(label)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:373:         .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:374:         .fontColor(this.colors.GRAY_600)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:375:         .width('100%')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:376:         .margin({ bottom: DesignTokens.Spacing.XS })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:377: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:378:       Row() {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:379:         TextInput({ text: value, placeholder })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:380:           .type(isVisible ? InputType.Normal : InputType.Password)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:381:           .layoutWeight(1)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:382:           .height(44)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:383:           .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:384:           .backgroundColor(this.colors.GRAY_100)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:385:           .borderRadius(DesignTokens.BorderRadius.MD)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:386:           .padding({ left: DesignTokens.Spacing.MD, right: DesignTokens.Spacing.SM })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:387:           .onChange(onChange)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:388: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:389:         Button(isVisible ? '隐藏' : '显示')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:390:           .margin({ left: DesignTokens.Spacing.SM })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:391:           .height(44)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:392:           .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:393:           .fontColor(this.colors.GRAY_700)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:394:           .backgroundColor(this.colors.GRAY_200)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:395:           .borderRadius(DesignTokens.BorderRadius.MD)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:396:           .onClick(onToggle)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:397:       }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:398:       .width('100%')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:429:   @Builder
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:430:   private buildBasicConfigCard() {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:431:     Column() {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:432:       Text('基础配置')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:433:         .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:434:         .fontWeight(DesignTokens.Typography.FONT_WEIGHT_MEDIUM)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:435:         .fontColor(this.colors.TEXT_PRIMARY)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:436:         .width('100%')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:437:         .margin({ bottom: DesignTokens.Spacing.MD })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:438: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:439:       this.buildInputField('WebDAV 地址', this.webdavEndpoint, 'https://dav.example.com/dav/', (v) => this.webdavEndpoint = v)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:440:       this.buildInputField('账号', this.webdavUsername, 'username', (v) => this.webdavUsername = v)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:441:       this.buildPasswordField('密码', this.webdavPassword, 'password', this.showWebdavPassword, (v) => this.webdavPassword = v, () => this.showWebdavPassword = !this.showWebdavPassword)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:442:       this.buildPasswordField('同步密码（用于 AES 加密）', this.webdavSyncPassword, 'sync password', this.showWebdavSyncPassword, (v) => this.webdavSyncPassword = v, () => this.showWebdavSyncPassword = !this.showWebdavSyncPassword)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:443:       this.buildInputField('远端目录', this.webdavRemoteRoot, '/weiyu_sync', (v) => this.webdavRemoteRoot = v)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:466:       this.buildToggleRow('启用自动同步', '进入前台时按间隔自动同步', this.webdavAutoSyncEnabled, (isOn) => {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:467:         this.webdavAutoSyncEnabled = isOn;
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:468:         this.saveWebDavAutoSyncSettings();
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:469:       })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:470: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:471:       if (this.webdavAutoSyncEnabled) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:533:   private buildActionButtonsCard() {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:534:     Column() {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:535:       Text('手动操作')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:536:         .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:537:         .fontWeight(DesignTokens.Typography.FONT_WEIGHT_MEDIUM)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:538:         .fontColor(this.colors.TEXT_PRIMARY)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:539:         .width('100%')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:540:         .margin({ bottom: DesignTokens.Spacing.MD })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:541: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:542:       Row() {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:543:         Button(this.webdavBusy ? '处理中...' : '保存设置')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:544:           .layoutWeight(1)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:545:           .height(44)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:546:           .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:547:           .fontColor(this.colors.WHITE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:548:           .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.GRAY_600)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:549:           .borderRadius(DesignTokens.BorderRadius.MD)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:550:           .enabled(!this.webdavBusy)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:551:           .onClick(async () => { await this.saveWebDavSettings(); })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:552: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:553:         Button(this.webdavBusy ? '处理中...' : '测试连接')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:554:           .layoutWeight(1)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:555:           .height(44)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:556:           .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:557:           .fontColor(this.colors.WHITE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:558:           .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.PRIMARY)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:559:           .borderRadius(DesignTokens.BorderRadius.MD)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:560:           .enabled(!this.webdavBusy)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:561:           .margin({ left: DesignTokens.Spacing.SM })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:562:           .onClick(async () => { await this.webdavTest(); })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:563:       }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:564:       .width('100%')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:565:       .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:566: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:567:       if (this.webdavResult.length > 0) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:568:         Text(this.webdavResult)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:569:           .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:570:           .fontColor(this.webdavResult.includes('✅') ? this.colors.SUCCESS : this.colors.GRAY_600)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:571:           .margin({ top: DesignTokens.Spacing.SM })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:572:           .textAlign(TextAlign.Center)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:573:       }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:574: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:575:       Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:576: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:577:       Row() {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:578:         Button(this.webdavBusy ? '处理中...' : '立即同步')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:579:           .layoutWeight(1)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:580:           .height(44)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:581:           .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:582:           .fontColor(this.colors.WHITE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:583:           .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.PRIMARY)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:584:           .borderRadius(DesignTokens.BorderRadius.MD)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:585:           .enabled(!this.webdavBusy)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:586:           .onClick(async () => { await this.webdavSyncNow(); })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:587:       }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:588:       .width('100%')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:589:       .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:590: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:591:       Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:592: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:593:       Row() {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:594:         Button(this.webdavBusy ? '处理中...' : '立即备份')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:595:           .layoutWeight(1)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:596:           .height(44)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:597:           .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:598:           .fontColor(this.colors.WHITE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:599:           .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.SUCCESS)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:600:           .borderRadius(DesignTokens.BorderRadius.MD)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:601:           .enabled(!this.webdavBusy)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:602:           .onClick(async () => { await this.webdavBackup(); })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:603: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:604:         Button(this.webdavBusy ? '处理中...' : '从云端恢复')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:605:           .layoutWeight(1)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:606:           .height(44)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:607:           .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:608:           .fontColor(this.colors.WHITE)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:609:           .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.ERROR)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:610:           .borderRadius(DesignTokens.BorderRadius.MD)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:611:           .enabled(!this.webdavBusy)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:612:           .margin({ left: DesignTokens.Spacing.SM })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:613:           .onClick(async () => { await this.webdavRestore(); })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:614:       }
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:615:       .width('100%')
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:616:       .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:617: 
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:618:       if (this.webdavBackupResult.length > 0) {
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:619:         Text(this.webdavBackupResult)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:620:           .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:621:           .fontColor(this.webdavBackupResult.includes('✅') ? this.colors.SUCCESS : this.colors.GRAY_600)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:622:           .margin({ top: DesignTokens.Spacing.SM })
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:623:           .textAlign(TextAlign.Center)
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets:624:       }
+
+FILE entry/src/main/ets/sync/WebDavSyncManager.ets
+SHA256 926a501808f2627c9d7bbd353ef20153535e3d2b615dc2503199e5f73b630950
+entry/src/main/ets/sync/WebDavSyncManager.ets:164:   private requireConfigured(): WebDavSyncResult | null {
+entry/src/main/ets/sync/WebDavSyncManager.ets:165:     if (safeTrim(this.settings.endpoint).length === 0) {
+entry/src/main/ets/sync/WebDavSyncManager.ets:166:       return WebDavSyncResult.fail('未配置 WebDAV 地址', 'WebDAV endpoint is empty');
+entry/src/main/ets/sync/WebDavSyncManager.ets:167:     }
+entry/src/main/ets/sync/WebDavSyncManager.ets:168:     if (safeTrim(this.settings.username).length === 0 || safeTrim(this.settings.password).length === 0) {
+entry/src/main/ets/sync/WebDavSyncManager.ets:169:       return WebDavSyncResult.fail('未配置 WebDAV 账号', 'WebDAV username/password is empty');
+entry/src/main/ets/sync/WebDavSyncManager.ets:170:     }
+entry/src/main/ets/sync/WebDavSyncManager.ets:171:     if (safeTrim(this.settings.syncPassword).length < 4) {
+entry/src/main/ets/sync/WebDavSyncManager.ets:172:       return WebDavSyncResult.fail('同步密码过短', 'Sync password is too short');
+entry/src/main/ets/sync/WebDavSyncManager.ets:173:     }
+entry/src/main/ets/sync/WebDavSyncManager.ets:174:     return null;
+entry/src/main/ets/sync/WebDavSyncManager.ets:175:   }
+entry/src/main/ets/sync/WebDavSyncManager.ets:176: 
+entry/src/main/ets/sync/WebDavSyncManager.ets:177:   private createClient(): IWebDavBackend {
+entry/src/main/ets/sync/WebDavSyncManager.ets:178:     return new WebDavClient(
+entry/src/main/ets/sync/WebDavSyncManager.ets:179:       this.settings.endpoint,
+entry/src/main/ets/sync/WebDavSyncManager.ets:180:       this.settings.username,
+entry/src/main/ets/sync/WebDavSyncManager.ets:181:       this.settings.password
+entry/src/main/ets/sync/WebDavSyncManager.ets:182:     );
+entry/src/main/ets/sync/WebDavSyncManager.ets:284:   private async preflightRemoteRoot(client: IWebDavBackend): Promise<WebDavSyncResult | null> {
+entry/src/main/ets/sync/WebDavSyncManager.ets:285:     const key = `${safeTrim(this.settings.endpoint)}|${safeTrim(this.settings.remoteRoot)}`;
+entry/src/main/ets/sync/WebDavSyncManager.ets:286:     if (this.remoteLayoutKey === key) {
+entry/src/main/ets/sync/WebDavSyncManager.ets:287:       return null;
+entry/src/main/ets/sync/WebDavSyncManager.ets:288:     }
+entry/src/main/ets/sync/WebDavSyncManager.ets:289: 
+entry/src/main/ets/sync/WebDavSyncManager.ets:290:     const remoteRoot = normalizeRoot(this.settings.remoteRoot);
+entry/src/main/ets/sync/WebDavSyncManager.ets:291:     if (remoteRoot === '/') {
+entry/src/main/ets/sync/WebDavSyncManager.ets:292:       this.remoteLayoutKey = key;
+entry/src/main/ets/sync/WebDavSyncManager.ets:293:       this.remoteLayoutBase = '/';
+entry/src/main/ets/sync/WebDavSyncManager.ets:294:       this.remoteLayoutPrefix = '';
+entry/src/main/ets/sync/WebDavSyncManager.ets:295:       return null;
+entry/src/main/ets/sync/WebDavSyncManager.ets:296:     }
+entry/src/main/ets/sync/WebDavSyncManager.ets:297: 
+entry/src/main/ets/sync/WebDavSyncManager.ets:298:     const rootHead = await client.head(remoteRoot);
+entry/src/main/ets/sync/WebDavSyncManager.ets:299:     if (this.isCollectionReachable(rootHead.statusCode)) {
+entry/src/main/ets/sync/WebDavSyncManager.ets:300:       this.remoteLayoutKey = key;
+entry/src/main/ets/sync/WebDavSyncManager.ets:301:       this.remoteLayoutBase = remoteRoot;
+entry/src/main/ets/sync/WebDavSyncManager.ets:302:       this.remoteLayoutPrefix = '';
+entry/src/main/ets/sync/WebDavSyncManager.ets:303:       return null;
+entry/src/main/ets/sync/WebDavSyncManager.ets:304:     }
+entry/src/main/ets/sync/WebDavSyncManager.ets:475:   async downloadBackupPlain(force: boolean = false): Promise<WebDavBackupPlainResult> {
+entry/src/main/ets/sync/WebDavSyncManager.ets:476:     const missing = this.requireConfigured();
+entry/src/main/ets/sync/WebDavSyncManager.ets:477:     if (missing !== null) return new WebDavBackupPlainResult(missing, '');
+entry/src/main/ets/sync/WebDavSyncManager.ets:478: 
+entry/src/main/ets/sync/WebDavSyncManager.ets:479:     this.status = WebDavSyncStatus.RESTORING;
+entry/src/main/ets/sync/WebDavSyncManager.ets:480:     try {
+entry/src/main/ets/sync/WebDavSyncManager.ets:481:       const client = this.createClient();
+entry/src/main/ets/sync/WebDavSyncManager.ets:482:       const preflight = await this.preflightRemoteRoot(client);
+entry/src/main/ets/sync/WebDavSyncManager.ets:483:       if (preflight !== null) {
+entry/src/main/ets/sync/WebDavSyncManager.ets:484:         this.status = WebDavSyncStatus.ERROR;
+entry/src/main/ets/sync/WebDavSyncManager.ets:485:         return new WebDavBackupPlainResult(preflight, '');
+entry/src/main/ets/sync/WebDavSyncManager.ets:486:       }
+entry/src/main/ets/sync/WebDavSyncManager.ets:487: 
+entry/src/main/ets/sync/WebDavSyncManager.ets:488:       const result = await this.backupManager.downloadBackupPlain(
+entry/src/main/ets/sync/WebDavSyncManager.ets:489:         client,
+entry/src/main/ets/sync/WebDavSyncManager.ets:490:         this.settings,
+entry/src/main/ets/sync/WebDavSyncManager.ets:491:         this.manifest,
+entry/src/main/ets/sync/WebDavSyncManager.ets:492:         this.backupFilePath(),
+entry/src/main/ets/sync/WebDavSyncManager.ets:493:         this.legacyBackupFilePath(),
+entry/src/main/ets/sync/WebDavSyncManager.ets:494:         force
+entry/src/main/ets/sync/WebDavSyncManager.ets:495:       );
+entry/src/main/ets/sync/WebDavSyncManager.ets:496:       
+entry/src/main/ets/sync/WebDavSyncManager.ets:497:       this.status = result.result.success ? WebDavSyncStatus.IDLE : WebDavSyncStatus.ERROR;
+entry/src/main/ets/sync/WebDavSyncManager.ets:498:       return result;
+entry/src/main/ets/sync/WebDavSyncManager.ets:499:     } catch (e) {
+entry/src/main/ets/sync/WebDavSyncManager.ets:500:       this.status = WebDavSyncStatus.ERROR;
+entry/src/main/ets/sync/WebDavSyncManager.ets:501:       const msg = e instanceof Error ? e.message : String(e);
+entry/src/main/ets/sync/WebDavSyncManager.ets:502:       return new WebDavBackupPlainResult(WebDavSyncResult.fail('下载失败', msg), '');
+entry/src/main/ets/sync/WebDavSyncManager.ets:503:     }
+
+FILE entry/src/main/ets/sync/webdav/WebDavBackupManager.ets
+SHA256 39a611e8cf552ea81f8680b50b653f08aa0002066b21de78768ee76584e4b178
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:70:   async downloadBackupPlain(
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:71:     client: IWebDavBackend,
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:72:     settings: WebDavSettings,
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:73:     manifest: WebDavManifest,
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:74:     remoteFile: string,
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:75:     legacyRemoteFile: string,
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:76:     force: boolean
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:77:   ): Promise<WebDavBackupPlainResult> {
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:78:     let targetFile = remoteFile;
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:79:     
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:80:     if (!force) {
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:81:       let headRes = await client.head(targetFile);
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:82:       if (headRes.statusCode === 404) {
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:83:         const legacyHead = await client.head(legacyRemoteFile);
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:84:         if (legacyHead.statusCode !== 404) {
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:85:           targetFile = legacyRemoteFile;
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:86:           headRes = legacyHead;
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:87:         }
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:88:       }
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:89:       
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:90:       const conflict = WebDavConflictResolver.checkBackupRestore(headRes, manifest, force);
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:91:       if (conflict) {
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:92:         // Special handling for "IDLE" status result from resolver which means we should stop but it's not an error
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:93:         // But here we need to return WebDavBackupPlainResult
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:94:         return new WebDavBackupPlainResult(conflict, '');
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:95:       }
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:96:     }
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:97: 
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:98:     const snapshot = await this.syncManager.exportData();
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:99:     if (snapshot.success) {
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:100:       await this.store.saveSnapshotJson(snapshot.data);
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:101:     }
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:102: 
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:103:     const getRes = await client.get(targetFile);
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:104:     if (getRes.statusCode < 200 || getRes.statusCode >= 300) {
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:105:       return new WebDavBackupPlainResult(
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:106:         WebDavSyncResult.fail('下载失败', `GET ${getRes.statusCode}: ${getRes.body}`),
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:107:         ''
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:108:       );
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:109:     }
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:110: 
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:111:     // Bug fix: 使用 TaskPool 在后台线程解密，避免阻塞主线程
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:112:     let plain: string;
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:113:     try {
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:114:       const decryptParams: DecryptTaskParams = {
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:115:         encryptedData: getRes.body,
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:116:         syncPassword: settings.syncPassword
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:117:       };
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:118:       const decryptResult = await taskpool.execute(new taskpool.Task(executeDecrypt, decryptParams)) as DecryptTaskResult;
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:119:       
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:120:       if (!decryptResult.success) {
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:121:         return new WebDavBackupPlainResult(WebDavSyncResult.fail('解密失败', decryptResult.detail), '');
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:122:       }
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:123:       plain = decryptResult.data;
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:124:     } catch (ce) {
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:125:       const msg = ce instanceof Error ? ce.message : String(ce);
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:126:       return new WebDavBackupPlainResult(WebDavSyncResult.fail('解密失败', msg), '');
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:127:     }
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:128: 
+entry/src/main/ets/sync/webdav/WebDavBackupManager.ets:129:     return new WebDavBackupPlainResult(WebDavSyncResult.ok('已下载云端备份'), plain);
+
+FILE entry/src/main/ets/sync/webdav/WebDavClient.ets
+SHA256 6fcc21d0d55c474d9b7fd74c82fcfef19460f2625badab11c9e47db1b76acd1a
+entry/src/main/ets/sync/webdav/WebDavClient.ets:125:     const startMs = Date.now();
+entry/src/main/ets/sync/webdav/WebDavClient.ets:126:     const request = http.createHttp();
+entry/src/main/ets/sync/webdav/WebDavClient.ets:127: 
+entry/src/main/ets/sync/webdav/WebDavClient.ets:128:     const url = this.buildUrl(path);
+entry/src/main/ets/sync/webdav/WebDavClient.ets:129:     // Merge headers manually to avoid spread operator issues
+entry/src/main/ets/sync/webdav/WebDavClient.ets:130:     const allHeaders: Record<string, string> = {
+entry/src/main/ets/sync/webdav/WebDavClient.ets:131:       'Authorization': this.authHeader,
+entry/src/main/ets/sync/webdav/WebDavClient.ets:132:       'Accept': '*/*'
+entry/src/main/ets/sync/webdav/WebDavClient.ets:133:     };
+entry/src/main/ets/sync/webdav/WebDavClient.ets:134:     // Add custom headers
+entry/src/main/ets/sync/webdav/WebDavClient.ets:135:     Object.keys(headers).forEach((key: string) => {
+entry/src/main/ets/sync/webdav/WebDavClient.ets:136:       allHeaders[key] = headers[key];
+entry/src/main/ets/sync/webdav/WebDavClient.ets:137:     });
+entry/src/main/ets/sync/webdav/WebDavClient.ets:138: 
+entry/src/main/ets/sync/webdav/WebDavClient.ets:139:     try {
+entry/src/main/ets/sync/webdav/WebDavClient.ets:140:       const options: http.HttpRequestOptions = {
+entry/src/main/ets/sync/webdav/WebDavClient.ets:141:         method,
+entry/src/main/ets/sync/webdav/WebDavClient.ets:142:         header: allHeaders,
+entry/src/main/ets/sync/webdav/WebDavClient.ets:143:         connectTimeout: 15000,
+entry/src/main/ets/sync/webdav/WebDavClient.ets:144:         readTimeout: 20000
+entry/src/main/ets/sync/webdav/WebDavClient.ets:145:       };
+entry/src/main/ets/sync/webdav/WebDavClient.ets:146:       if (body !== undefined && (method === http.RequestMethod.PUT || method === http.RequestMethod.POST)) {
+entry/src/main/ets/sync/webdav/WebDavClient.ets:147:         options.extraData = body;
+entry/src/main/ets/sync/webdav/WebDavClient.ets:148:       }
+entry/src/main/ets/sync/webdav/WebDavClient.ets:149:       const res = await request.request(url, options);

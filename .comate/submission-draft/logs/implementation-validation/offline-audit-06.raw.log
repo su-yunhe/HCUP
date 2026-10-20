@@ -1,0 +1,59 @@
+{
+  "run": "06",
+  "source_sha256": "7aa4077f95cf7caee7af04c5a852a15e3f8b9198dc87ac32e5897f8689272ce1",
+  "source_unchanged": true,
+  "harness_outcomes": {
+    "pass": 7,
+    "fail": 2
+  },
+  "pending_sample_count": 9,
+  "business_readback": {
+    "export_files": [
+      "export-01.json",
+      "export-02.json",
+      "export-03.json"
+    ],
+    "before_words": 0,
+    "after_cancel_words": 0,
+    "after_import_words": 1000,
+    "verified_new_fixture_words": 1000,
+    "cancel_preserved_business": true,
+    "actual_import_readback": true
+  },
+  "request_statuses": {
+    "200": 30,
+    "404": 10,
+    "201": 3,
+    "401": 3,
+    "403": 3,
+    "503": 3
+  },
+  "completed_scenarios": [
+    "input-modes-save-and-restart",
+    "first-confirm-preserves-unsaved-public-and-password-fields",
+    "fresh-direct-404",
+    "second-cancel-business-unchanged",
+    "genuine-decrypt-preview-authorized-import-export-readback",
+    "unauthorized",
+    "forbidden",
+    "server_error",
+    "disconnect",
+    "bad_encrypted",
+    "wrong_password",
+    "bad_preview",
+    "empty_plain",
+    "missing",
+    "legal-empty-business-separate-from-empty-plaintext",
+    "input-webdav_endpoint-0",
+    "input-webdav_username-0",
+    "input-webdav_password-0",
+    "input-webdav_sync_password-0",
+    "input-webdav_endpoint-3",
+    "input-webdav_username-3",
+    "input-webdav_password-3",
+    "input-webdav_sync_password-3",
+    "empty-space-and-directory-defaults-real-password-spaces",
+    "observed-return-reenter-background-and-process-restart"
+  ],
+  "retained_evidence_files": 389
+}

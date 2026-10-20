@@ -1,0 +1,378 @@
+[
+  {
+    "time": "2026-10-15T15:44:44.758775+00:00",
+    "monotonic": 76380.421,
+    "kind": "verified_scenario",
+    "test": "test_00_input_binding_diagnostic",
+    "name": "input-modes-save-and-restart",
+    "requirements": [
+      "A02",
+      "A25",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:45:40.085663+00:00",
+    "monotonic": 76435.75,
+    "kind": "verified_scenario",
+    "test": "test_00a_first_confirm_form_diagnostic",
+    "name": "first-confirm-preserves-unsaved-public-and-password-fields",
+    "requirements": [
+      "A02",
+      "A16",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:46:54.550234+00:00",
+    "monotonic": 76510.218,
+    "kind": "verified_scenario",
+    "test": "test_01_first_entry_direct_configuration",
+    "name": "fresh-direct-404",
+    "requirements": [
+      "A01",
+      "A02",
+      "A03",
+      "A04",
+      "A05",
+      "A06",
+      "A07",
+      "A08",
+      "A09",
+      "A10",
+      "A11",
+      "A12",
+      "A13",
+      "A20",
+      "A26",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:48:00.753392+00:00",
+    "monotonic": 76576.421,
+    "kind": "verified_scenario",
+    "test": "test_02_saved_A_draft_B_cancel_and_close",
+    "name": "first-cancel-close-preserves-saved-A",
+    "requirements": [
+      "A16",
+      "A17",
+      "A22",
+      "A27",
+      "A25"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:48:31.352989+00:00",
+    "monotonic": 76607.015,
+    "kind": "verified_scenario",
+    "test": "test_02_saved_A_draft_B_cancel_and_close",
+    "name": "saved-A-draft-B-current-values",
+    "requirements": [
+      "A02",
+      "A05",
+      "A12",
+      "A13",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:49:14.879204+00:00",
+    "monotonic": 76650.546,
+    "kind": "verified_scenario",
+    "test": "test_03_fast_and_repeated_clicks",
+    "name": "rapid-entry-continue-and-pending-repeat",
+    "requirements": [
+      "A18",
+      "A19",
+      "A26"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:50:30.070900+00:00",
+    "monotonic": 76725.734,
+    "kind": "verified_scenario",
+    "test": "test_04_valid_backup_cancel_then_actual_import",
+    "name": "second-cancel-business-unchanged",
+    "requirements": [
+      "A22",
+      "A28"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:51:12.948258+00:00",
+    "monotonic": 76768.625,
+    "kind": "verified_scenario",
+    "test": "test_04_valid_backup_cancel_then_actual_import",
+    "name": "genuine-decrypt-preview-authorized-import-export-readback",
+    "requirements": [
+      "A05",
+      "A09",
+      "A12",
+      "A13",
+      "A26",
+      "A28"
+    ],
+    "status": "pass",
+    "fixture_words": 1000,
+    "exported_words": 2000
+  },
+  {
+    "time": "2026-10-15T15:51:48.649630+00:00",
+    "monotonic": 76804.312,
+    "kind": "verified_scenario",
+    "test": "test_05_network_and_data_failures_retry",
+    "name": "unauthorized",
+    "requirements": [
+      "A20",
+      "A23",
+      "A26"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:51:53.363139+00:00",
+    "monotonic": 76809.031,
+    "kind": "verified_scenario",
+    "test": "test_05_network_and_data_failures_retry",
+    "name": "forbidden",
+    "requirements": [
+      "A20",
+      "A23",
+      "A26"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:51:58.040918+00:00",
+    "monotonic": 76813.703,
+    "kind": "verified_scenario",
+    "test": "test_05_network_and_data_failures_retry",
+    "name": "server_error",
+    "requirements": [
+      "A20",
+      "A23",
+      "A26"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:53:03.593145+00:00",
+    "monotonic": 76879.265,
+    "kind": "verified_scenario",
+    "test": "test_05_network_and_data_failures_retry",
+    "name": "disconnect",
+    "requirements": [
+      "A20",
+      "A23",
+      "A26"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:53:08.383486+00:00",
+    "monotonic": 76884.046,
+    "kind": "verified_scenario",
+    "test": "test_05_network_and_data_failures_retry",
+    "name": "bad_encrypted",
+    "requirements": [
+      "A20",
+      "A23",
+      "A26"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:53:18.829318+00:00",
+    "monotonic": 76894.5,
+    "kind": "verified_scenario",
+    "test": "test_05_network_and_data_failures_retry",
+    "name": "wrong_password",
+    "requirements": [
+      "A20",
+      "A23",
+      "A26"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:53:28.846941+00:00",
+    "monotonic": 76904.515,
+    "kind": "verified_scenario",
+    "test": "test_05_network_and_data_failures_retry",
+    "name": "bad_preview",
+    "requirements": [
+      "A20",
+      "A23",
+      "A26"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:53:39.181524+00:00",
+    "monotonic": 76914.843,
+    "kind": "verified_scenario",
+    "test": "test_05_network_and_data_failures_retry",
+    "name": "empty_plain",
+    "requirements": [
+      "A20",
+      "A23",
+      "A26"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:53:43.779584+00:00",
+    "monotonic": 76919.453,
+    "kind": "verified_scenario",
+    "test": "test_05_network_and_data_failures_retry",
+    "name": "missing",
+    "requirements": [
+      "A20",
+      "A23",
+      "A26"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:53:56.274509+00:00",
+    "monotonic": 76931.937,
+    "kind": "verified_scenario",
+    "test": "test_05_network_and_data_failures_retry",
+    "name": "legal-empty-business-separate-from-empty-plaintext",
+    "requirements": [
+      "A20",
+      "A28"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:54:36.627185+00:00",
+    "monotonic": 76972.296,
+    "kind": "verified_scenario",
+    "test": "test_06_empty_and_whitespace_inputs",
+    "name": "input-webdav_endpoint-0",
+    "requirements": [
+      "A14",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:54:56.163670+00:00",
+    "monotonic": 76991.828,
+    "kind": "verified_scenario",
+    "test": "test_06_empty_and_whitespace_inputs",
+    "name": "input-webdav_username-0",
+    "requirements": [
+      "A14",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:55:15.527557+00:00",
+    "monotonic": 77011.203,
+    "kind": "verified_scenario",
+    "test": "test_06_empty_and_whitespace_inputs",
+    "name": "input-webdav_password-0",
+    "requirements": [
+      "A14",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:55:35.033832+00:00",
+    "monotonic": 77030.703,
+    "kind": "verified_scenario",
+    "test": "test_06_empty_and_whitespace_inputs",
+    "name": "input-webdav_sync_password-0",
+    "requirements": [
+      "A14",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:56:26.456732+00:00",
+    "monotonic": 77082.125,
+    "kind": "verified_scenario",
+    "test": "test_06_empty_and_whitespace_inputs",
+    "name": "input-webdav_endpoint-3",
+    "requirements": [
+      "A15",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:56:47.096788+00:00",
+    "monotonic": 77102.765,
+    "kind": "verified_scenario",
+    "test": "test_06_empty_and_whitespace_inputs",
+    "name": "input-webdav_username-3",
+    "requirements": [
+      "A15",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:57:07.916788+00:00",
+    "monotonic": 77123.593,
+    "kind": "verified_scenario",
+    "test": "test_06_empty_and_whitespace_inputs",
+    "name": "input-webdav_password-3",
+    "requirements": [
+      "A15",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:57:28.908638+00:00",
+    "monotonic": 77144.578,
+    "kind": "verified_scenario",
+    "test": "test_06_empty_and_whitespace_inputs",
+    "name": "input-webdav_sync_password-3",
+    "requirements": [
+      "A15",
+      "A27"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:58:45.112826+00:00",
+    "monotonic": 77220.781,
+    "kind": "verified_scenario",
+    "test": "test_06_empty_and_whitespace_inputs",
+    "name": "empty-space-and-directory-defaults-real-password-spaces",
+    "requirements": [
+      "A14",
+      "A15"
+    ],
+    "status": "pass"
+  },
+  {
+    "time": "2026-10-15T15:59:46.811237+00:00",
+    "monotonic": 77282.484,
+    "kind": "verified_scenario",
+    "test": "test_07_lifecycle_observation",
+    "name": "observed-return-reenter-background-and-process-restart",
+    "requirements": [
+      "A24",
+      "A25",
+      "A31"
+    ],
+    "status": "pass",
+    "scope": "Exploratory observations only; no invented persistence or continuation contract"
+  }
+]
