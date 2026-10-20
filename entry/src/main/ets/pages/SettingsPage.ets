@@ -484,6 +484,7 @@ struct SettingsPage {
           Text('←')
             .fontSize(DesignTokens.Typography.FONT_SIZE_2XL)
             .fontColor(this.colors.GRAY_900)
+            .id('settings_back')
             .onClick(() => { this.handleHeaderBack(); })
           
           Text(this.getActiveSectionTitle())
@@ -524,6 +525,7 @@ struct SettingsPage {
                     .height(64)
                     .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
                     .alignItems(VerticalAlign.Center)
+                    .id('settings_section_' + item.id)
                     .onClick(() => {
                       this.activeSectionId = item.id;
                     })

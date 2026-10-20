@@ -1,24 +1,22 @@
 import promptAction from '@ohos.promptAction';
-import { DesignTokens } from '../../model/DesignTokens';
 import { ColorsInterface } from '../../model/TokenInterfaces';
 import { ThemeManager } from '../../manager/ThemeManager';
 import { WebDavSyncManager, WebDavSettings, WebDavSyncResult, WebDavBackupPlainResult } from '../../sync/WebDavSyncManager';
-import { DataSyncManager } from '../../sync/DataSyncManager';
+import { DataSyncManager, ImportPreview } from '../../sync/DataSyncManager';
 import { WebDavStateStore } from '../../utils/WebDavStateStore';
-import { SelectOption } from './SettingsCommon';
+import { SettingsSyncView } from './SettingsSyncView';
 
-interface DialogIndexResult {
-  index: number;
+enum RestorePhase {
+  IDLE,
+  FIRST_CONFIRM,
+  PREPARING,
+  DOWNLOADING,
+  PREVIEWING,
+  SECOND_CONFIRM,
+  IMPORTING
 }
 
 const WEBDAV_AUTOSYNC_INTERVAL_HOURS: number[] = [1, 3, 6, 12, 24];
-const WEBDAV_AUTOSYNC_INTERVAL_OPTIONS: SelectOption[] = [
-  { value: '每1小时' },
-  { value: '每3小时' },
-  { value: '每6小时（默认）' },
-  { value: '每12小时' },
-  { value: '每24小时' }
-];
 
 @Component
 export struct SettingsSyncSection {
@@ -41,7 +39,7 @@ export struct SettingsSyncSection {
   @State webdavResult: string = '';
   @State webdavBackupResult: string = '';
   @State webdavBusy: boolean = false;
-  @State restoreDialogShowing: boolean = false; // Bug fix: 防止重复弹出恢复确认对话框
+  @State private restorePhase: RestorePhase = RestorePhase.IDLE;
 
   private webdavManager: WebDavSyncManager = WebDavSyncManager.getInstance();
   private webdavStateStore: WebDavStateStore = WebDavStateStore.getInstance();
@@ -77,24 +75,22 @@ export struct SettingsSyncSection {
     }
   }
 
+  private ownsRestore(): boolean {
+    return this.restorePhase !== RestorePhase.IDLE;
+  }
+
+  private isRestoreWorking(): boolean {
+    return this.restorePhase === RestorePhase.PREPARING || this.restorePhase === RestorePhase.DOWNLOADING ||
+      this.restorePhase === RestorePhase.PREVIEWING || this.restorePhase === RestorePhase.IMPORTING;
+  }
+
   private async saveWebDavAutoSyncSettings(): Promise<void> {
+    if (this.webdavBusy || this.ownsRestore()) return;
     await this.webdavStateStore.setAutoSyncEnabled(this.webdavAutoSyncEnabled);
     const hours = WEBDAV_AUTOSYNC_INTERVAL_HOURS[this.webdavAutoSyncIntervalIndex] ?? 6;
     await this.webdavStateStore.setAutoSyncIntervalHours(hours);
     await this.webdavStateStore.setAutoSyncUploadModelEnabled(this.webdavAutoSyncUploadModelEnabled);
     await this.webdavStateStore.setAutoSyncUploadBackupEnabled(this.webdavAutoSyncUploadBackupEnabled);
-  }
-
-  private formatWebDavAutoSyncLastSuccess(): string {
-    const ms = this.webdavAutoSyncLastSuccessMs;
-    if (ms <= 0) {
-      return '从未';
-    }
-    try {
-      return new Date(ms).toLocaleString();
-    } catch {
-      return String(ms);
-    }
   }
 
   private async saveWebDavSettings(): Promise<boolean> {
@@ -111,6 +107,19 @@ export struct SettingsSyncSection {
     return saved;
   }
 
+  private async webdavSave(): Promise<void> {
+    if (this.webdavBusy || this.ownsRestore()) return;
+    this.webdavBusy = true;
+    try {
+      await this.saveWebDavSettings();
+    } catch (e) {
+      const msg: string = e instanceof Error ? e.message : String(e);
+      this.webdavResult = `⚠️ WebDAV 操作异常：${msg}`;
+    } finally {
+      this.webdavBusy = false;
+    }
+  }
+
   private readonly OPERATION_TIMEOUT = 120000; // 120秒超时
 
   private async runWithTimeout<T>(operation: () => Promise<T>, timeoutMs: number): Promise<T> {
@@ -123,7 +132,7 @@ export struct SettingsSyncSection {
   }
 
   private async runWebDavAction(fn: () => Promise<WebDavSyncResult>): Promise<void> {
-    if (this.webdavBusy) return;
+    if (this.webdavBusy || this.ownsRestore()) return;
     this.webdavBusy = true;
     try {
       const res = await this.runWithTimeout(fn, this.OPERATION_TIMEOUT);
@@ -139,7 +148,7 @@ export struct SettingsSyncSection {
   }
 
   private async runWebDavBackupAction(fn: () => Promise<WebDavSyncResult>, loadingMessage: string = '正在处理...'): Promise<void> {
-    if (this.webdavBusy) return;
+    if (this.webdavBusy || this.ownsRestore()) return;
     this.webdavBusy = true;
     this.webdavBackupResult = loadingMessage;
 
@@ -163,89 +172,63 @@ export struct SettingsSyncSection {
   }
 
   private async webdavRestore(): Promise<void> {
-    // Bug fix: 检查是否已经在处理中，防止重复触发
-    if (this.webdavBusy) {
-      return;
-    }
-
-    // Bug fix: 防止重复弹出恢复确认对话框
-    if (this.restoreDialogShowing) {
-      console.warn('[SettingsSyncSection] Restore dialog already showing, skipping duplicate call');
-      return;
-    }
-
-    // 第一层确认：点击按钮后立即弹出，防止误触
+    if (this.webdavBusy || this.ownsRestore()) return;
+    this.restorePhase = RestorePhase.FIRST_CONFIRM;
     try {
-      const firstConfirm = await promptAction.showDialog({
-        title: '从云端恢复',
-        message: '⚠️ 警告：此操作将从云端下载备份并覆盖本地数据，本地未同步的学习记录将丢失。\n\n确定要继续吗？',
-        buttons: [
-          { text: '取消', color: String(this.colors.TEXT_SECONDARY) },
-          { text: '继续', color: String(this.colors.WARNING) }
-        ]
-      });
-      const clicked = firstConfirm as DialogIndexResult;
-      if (clicked.index === 0) {
-        return; // 用户取消，不执行任何操作
+      try {
+        const firstConfirm: promptAction.ShowDialogSuccessResponse = await promptAction.showDialog({
+          title: '从云端恢复',
+          message: '⚠️ 警告：此操作将从云端下载备份并覆盖本地数据，本地未同步的学习记录将丢失。\n\n确定要继续吗？',
+          buttons: [
+            { text: '取消', color: String(this.colors.TEXT_SECONDARY) },
+            { text: '继续', color: String(this.colors.WARNING) }
+          ]
+        });
+        if (firstConfirm.index !== 1) return;
+      } catch {
+        return;
       }
-    } catch (e) {
-      return; // 对话框被关闭，视为取消
-    }
 
-    // 开始下载和解析流程，手动管理状态
-    this.webdavBusy = true;
-    this.restoreDialogShowing = true;
-    this.webdavBackupResult = '正在下载云端备份...';
-    
-    // Yield to UI thread to show download message
-    await new Promise<void>((resolve) => setTimeout(resolve, 0));
+      this.restorePhase = RestorePhase.PREPARING;
+      this.webdavBackupResult = '正在准备云端恢复...';
+      await new Promise<void>((resolve) => setTimeout(resolve, 0));
+      const saved: boolean = await this.saveWebDavSettings();
+      if (!saved) {
+        this.webdavBackupResult = '⚠️ 保存设置失败，请先保存 WebDAV 设置';
+        return;
+      }
 
-    let download: WebDavBackupPlainResult | null = null;
-    
-    try {
-      // Step 1: Download backup from cloud
-      download = await this.runWithTimeout(() => this.webdavManager.downloadBackupPlain(false), this.OPERATION_TIMEOUT);
-      
+      this.restorePhase = RestorePhase.DOWNLOADING;
+      this.webdavBackupResult = '正在下载云端备份...';
+      const download: WebDavBackupPlainResult = await this.webdavManager.downloadBackupPlain(false);
       if (!download.result.success) {
         this.webdavBackupResult = `⚠️ ${download.result.message}：${download.result.detail}`;
         promptAction.showToast({ message: download.result.message, duration: 1200 });
-        this.webdavBusy = false;
-        this.restoreDialogShowing = false;
         return;
       }
-      
       if (download.plain.length === 0) {
         this.webdavBackupResult = '⚠️ 云端无备份：未找到可用的备份文件';
         promptAction.showToast({ message: '云端无备份', duration: 1200 });
-        this.webdavBusy = false;
-        this.restoreDialogShowing = false;
         return;
       }
 
-      // Step 2: Parse and preview backup data
+      this.restorePhase = RestorePhase.PREVIEWING;
       this.webdavBackupResult = '正在解析备份数据...';
       await new Promise<void>((resolve) => setTimeout(resolve, 0));
-      
-      const preview = await this.syncManager.previewImport(download.plain);
+      const preview: ImportPreview = await this.syncManager.previewImport(download.plain);
       if (preview.errors.length > 0) {
         this.webdavBackupResult = `⚠️ 预览失败：${preview.errors.join('; ')}`;
         promptAction.showToast({ message: '预览失败', duration: 1200 });
-        this.webdavBusy = false;
-        this.restoreDialogShowing = false;
         return;
       }
 
-      // Release busy state while waiting for user confirmation
-      this.webdavBusy = false;
-      this.webdavBackupResult = ''; // Clear loading message before showing dialog
-
-      // Step 3: Show second confirmation dialog with preview data
-      const sample = preview.sampleUpdatedWords.length > 0 ? `\n示例：${preview.sampleUpdatedWords.join('、')}` : '';
-      const msg = `⚠️ 警告：此操作将覆盖本地数据！\n\n将覆盖更新 ${preview.updated} 词，新增 ${preview.imported} 词，共 ${preview.total} 词。${sample}\n\n本地未同步的学习记录将丢失，请确认是否继续？`;
-
-      let userConfirmed = false;
+      this.restorePhase = RestorePhase.SECOND_CONFIRM;
+      this.webdavBackupResult = '';
+      const sample: string = preview.sampleUpdatedWords.length > 0 ? `\n示例：${preview.sampleUpdatedWords.join('、')}` : '';
+      const msg: string = `⚠️ 警告：此操作将覆盖本地数据！\n\n将覆盖更新 ${preview.updated} 词，新增 ${preview.imported} 词，共 ${preview.total} 词。${sample}\n\n本地未同步的学习记录将丢失，请确认是否继续？`;
+      let userConfirmed: boolean = false;
       try {
-        const dialogResult = await promptAction.showDialog({
+        const secondConfirm: promptAction.ShowDialogSuccessResponse = await promptAction.showDialog({
           title: '⚠️ 恢复确认',
           message: msg,
           buttons: [
@@ -253,41 +236,33 @@ export struct SettingsSyncSection {
             { text: '确认恢复', color: String(this.colors.ERROR) }
           ]
         });
-
-        const clickedSecond = dialogResult as DialogIndexResult;
-        userConfirmed = clickedSecond.index === 1;
-      } catch (e) {
+        userConfirmed = secondConfirm.index === 1;
+      } catch {
         userConfirmed = false;
       }
-
       if (!userConfirmed) {
         this.webdavBackupResult = '✅ 已取消恢复';
         promptAction.showToast({ message: '已取消恢复', duration: 1200 });
-        this.restoreDialogShowing = false;
         return;
       }
 
-      // Step 4: User confirmed, proceed with restore
-      this.webdavBusy = true;
+      this.restorePhase = RestorePhase.IMPORTING;
       this.webdavBackupResult = '正在恢复数据...';
       await new Promise<void>((resolve) => setTimeout(resolve, 0));
-
-      const importResult = await this.runWithTimeout(() => this.webdavManager.importPlainBackup(download!.plain), this.OPERATION_TIMEOUT);
+      const importResult: WebDavSyncResult = await this.webdavManager.importPlainBackup(download.plain);
       this.webdavBackupResult = importResult.success ? `✅ ${importResult.message}` : `⚠️ ${importResult.message}：${importResult.detail}`;
       promptAction.showToast({ message: importResult.message, duration: 1200 });
-
     } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
+      const msg: string = e instanceof Error ? e.message : String(e);
       this.webdavBackupResult = `⚠️ WebDAV 操作异常：${msg}`;
       promptAction.showToast({ message: 'WebDAV 操作异常', duration: 1200 });
     } finally {
-      this.webdavBusy = false;
-      this.restoreDialogShowing = false;
+      this.restorePhase = RestorePhase.IDLE;
     }
   }
 
   private async webdavSyncNow(): Promise<void> {
-    if (this.webdavBusy) return;
+    if (this.webdavBusy || this.ownsRestore()) return;
     this.webdavBusy = true;
     this.webdavResult = '正在同步数据...';
 
@@ -344,350 +319,33 @@ export struct SettingsSyncSection {
     return '';
   }
 
-  @Builder
-  private buildInputField(label: string, value: string, placeholder: string, onChange: (val: string) => void) {
-    Column() {
-      Text(label)
-        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-        .fontColor(this.colors.GRAY_600)
-        .width('100%')
-        .margin({ bottom: DesignTokens.Spacing.XS })
-
-      TextInput({ text: value, placeholder })
-        .width('100%')
-        .height(44)
-        .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-        .backgroundColor(this.colors.GRAY_100)
-        .borderRadius(DesignTokens.BorderRadius.MD)
-        .padding({ left: DesignTokens.Spacing.MD, right: DesignTokens.Spacing.MD })
-        .onChange(onChange)
-    }
-    .width('100%')
-    .margin({ bottom: DesignTokens.Spacing.MD })
-  }
-
-  @Builder
-  private buildPasswordField(label: string, value: string, placeholder: string, isVisible: boolean, onChange: (val: string) => void, onToggle: () => void) {
-    Column() {
-      Text(label)
-        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-        .fontColor(this.colors.GRAY_600)
-        .width('100%')
-        .margin({ bottom: DesignTokens.Spacing.XS })
-
-      Row() {
-        TextInput({ text: value, placeholder })
-          .type(isVisible ? InputType.Normal : InputType.Password)
-          .layoutWeight(1)
-          .height(44)
-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-          .backgroundColor(this.colors.GRAY_100)
-          .borderRadius(DesignTokens.BorderRadius.MD)
-          .padding({ left: DesignTokens.Spacing.MD, right: DesignTokens.Spacing.SM })
-          .onChange(onChange)
-
-        Button(isVisible ? '隐藏' : '显示')
-          .margin({ left: DesignTokens.Spacing.SM })
-          .height(44)
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.colors.GRAY_700)
-          .backgroundColor(this.colors.GRAY_200)
-          .borderRadius(DesignTokens.BorderRadius.MD)
-          .onClick(onToggle)
-      }
-      .width('100%')
-    }
-    .width('100%')
-    .margin({ bottom: DesignTokens.Spacing.MD })
-  }
-
-  @Builder
-  private buildToggleRow(title: string, subtitle: string, isOn: boolean, onChange: (val: boolean) => void) {
-    Row() {
-      Column() {
-        Text(title)
-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-          .fontColor(this.colors.GRAY_700)
-        Text(subtitle)
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.colors.GRAY_600)
-      }
-      .alignItems(HorizontalAlign.Start)
-
-      Blank()
-
-      Toggle({ type: ToggleType.Switch, isOn })
-        .selectedColor(this.colors.PRIMARY)
-        .switchPointColor(this.colors.WHITE)
-        .onChange(onChange)
-    }
-    .width('100%')
-    .height(64)
-    .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
-  }
-
-  @Builder
-  private buildBasicConfigCard() {
-    Column() {
-      Text('基础配置')
-        .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-        .fontWeight(DesignTokens.Typography.FONT_WEIGHT_MEDIUM)
-        .fontColor(this.colors.TEXT_PRIMARY)
-        .width('100%')
-        .margin({ bottom: DesignTokens.Spacing.MD })
-
-      this.buildInputField('WebDAV 地址', this.webdavEndpoint, 'https://dav.example.com/dav/', (v) => this.webdavEndpoint = v)
-      this.buildInputField('账号', this.webdavUsername, 'username', (v) => this.webdavUsername = v)
-      this.buildPasswordField('密码', this.webdavPassword, 'password', this.showWebdavPassword, (v) => this.webdavPassword = v, () => this.showWebdavPassword = !this.showWebdavPassword)
-      this.buildPasswordField('同步密码（用于 AES 加密）', this.webdavSyncPassword, 'sync password', this.showWebdavSyncPassword, (v) => this.webdavSyncPassword = v, () => this.showWebdavSyncPassword = !this.showWebdavSyncPassword)
-      this.buildInputField('远端目录', this.webdavRemoteRoot, '/weiyu_sync', (v) => this.webdavRemoteRoot = v)
-
-      Text('提示：请先在 WebDAV 服务端创建该目录（只需一次）')
-        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-        .fontColor(this.colors.GRAY_500)
-        .width('100%')
-    }
-    .width('100%')
-    .padding(DesignTokens.Spacing.LG)
-    .backgroundColor(this.colors.SURFACE_PRIMARY)
-    .borderRadius(DesignTokens.BorderRadius.LG)
-  }
-
-  @Builder
-  private buildAutoSyncCard() {
-    Column() {
-      Text('自动同步')
-        .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-        .fontWeight(DesignTokens.Typography.FONT_WEIGHT_MEDIUM)
-        .fontColor(this.colors.TEXT_PRIMARY)
-        .width('100%')
-        .margin({ bottom: DesignTokens.Spacing.MD })
-
-      this.buildToggleRow('启用自动同步', '进入前台时按间隔自动同步', this.webdavAutoSyncEnabled, (isOn) => {
-        this.webdavAutoSyncEnabled = isOn;
-        this.saveWebDavAutoSyncSettings();
-      })
-
-      if (this.webdavAutoSyncEnabled) {
-        Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
-
-        Row() {
-          Text('同步间隔')
-            .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-            .fontColor(this.colors.GRAY_700)
-          Blank()
-          Select(WEBDAV_AUTOSYNC_INTERVAL_OPTIONS)
-            .selected(this.webdavAutoSyncIntervalIndex)
-            .value(WEBDAV_AUTOSYNC_INTERVAL_OPTIONS[this.webdavAutoSyncIntervalIndex].value)
-            .font({ size: DesignTokens.Typography.FONT_SIZE_BASE })
-            .fontColor(this.colors.GRAY_700)
-            .onSelect((index: number) => {
-              this.webdavAutoSyncIntervalIndex = index;
-              this.saveWebDavAutoSyncSettings();
-            })
-        }
-        .width('100%')
-        .height(56)
-        .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
-
-        Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
-
-        this.buildToggleRow('自动上传模型', '用于多端算法同步', this.webdavAutoSyncUploadModelEnabled, (isOn) => {
-          this.webdavAutoSyncUploadModelEnabled = isOn;
-          this.saveWebDavAutoSyncSettings();
-        })
-
-        Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
-
-        this.buildToggleRow('自动上传全量备份', '只上传，不自动恢复覆盖本地', this.webdavAutoSyncUploadBackupEnabled, (isOn) => {
-          this.webdavAutoSyncUploadBackupEnabled = isOn;
-          this.saveWebDavAutoSyncSettings();
-        })
-
-        Column() {
-          Text(`上次自动同步：${this.formatWebDavAutoSyncLastSuccess()}`)
-            .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-            .fontColor(this.colors.GRAY_500)
-            .width('100%')
-
-          if (this.webdavAutoSyncLastError.length > 0) {
-            Text(`最近错误：${this.webdavAutoSyncLastError}`)
-              .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-              .fontColor(this.colors.ERROR)
-              .width('100%')
-              .margin({ top: DesignTokens.Spacing.XS })
-          }
-        }
-        .width('100%')
-        .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.SM })
-      }
-    }
-    .width('100%')
-    .padding({ top: DesignTokens.Spacing.LG, bottom: DesignTokens.Spacing.LG })
-    .backgroundColor(this.colors.SURFACE_PRIMARY)
-    .borderRadius(DesignTokens.BorderRadius.LG)
-    .margin({ top: DesignTokens.Spacing.MD })
-  }
-
-  @Builder
-  private buildActionButtonsCard() {
-    Column() {
-      Text('手动操作')
-        .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-        .fontWeight(DesignTokens.Typography.FONT_WEIGHT_MEDIUM)
-        .fontColor(this.colors.TEXT_PRIMARY)
-        .width('100%')
-        .margin({ bottom: DesignTokens.Spacing.MD })
-
-      Row() {
-        Button(this.webdavBusy ? '处理中...' : '保存设置')
-          .layoutWeight(1)
-          .height(44)
-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-          .fontColor(this.colors.WHITE)
-          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.GRAY_600)
-          .borderRadius(DesignTokens.BorderRadius.MD)
-          .enabled(!this.webdavBusy)
-          .onClick(async () => { await this.saveWebDavSettings(); })
-
-        Button(this.webdavBusy ? '处理中...' : '测试连接')
-          .layoutWeight(1)
-          .height(44)
-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-          .fontColor(this.colors.WHITE)
-          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.PRIMARY)
-          .borderRadius(DesignTokens.BorderRadius.MD)
-          .enabled(!this.webdavBusy)
-          .margin({ left: DesignTokens.Spacing.SM })
-          .onClick(async () => { await this.webdavTest(); })
-      }
-      .width('100%')
-      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
-
-      if (this.webdavResult.length > 0) {
-        Text(this.webdavResult)
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.webdavResult.includes('✅') ? this.colors.SUCCESS : this.colors.GRAY_600)
-          .margin({ top: DesignTokens.Spacing.SM })
-          .textAlign(TextAlign.Center)
-      }
-
-      Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
-
-      Row() {
-        Button(this.webdavBusy ? '处理中...' : '立即同步')
-          .layoutWeight(1)
-          .height(44)
-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-          .fontColor(this.colors.WHITE)
-          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.PRIMARY)
-          .borderRadius(DesignTokens.BorderRadius.MD)
-          .enabled(!this.webdavBusy)
-          .onClick(async () => { await this.webdavSyncNow(); })
-      }
-      .width('100%')
-      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
-
-      Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
-
-      Row() {
-        Button(this.webdavBusy ? '处理中...' : '立即备份')
-          .layoutWeight(1)
-          .height(44)
-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-          .fontColor(this.colors.WHITE)
-          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.SUCCESS)
-          .borderRadius(DesignTokens.BorderRadius.MD)
-          .enabled(!this.webdavBusy)
-          .onClick(async () => { await this.webdavBackup(); })
-
-        Button(this.webdavBusy ? '处理中...' : '从云端恢复')
-          .layoutWeight(1)
-          .height(44)
-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
-          .fontColor(this.colors.WHITE)
-          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.ERROR)
-          .borderRadius(DesignTokens.BorderRadius.MD)
-          .enabled(!this.webdavBusy)
-          .margin({ left: DesignTokens.Spacing.SM })
-          .onClick(async () => { await this.webdavRestore(); })
-      }
-      .width('100%')
-      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
-
-      if (this.webdavBackupResult.length > 0) {
-        Text(this.webdavBackupResult)
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.webdavBackupResult.includes('✅') ? this.colors.SUCCESS : this.colors.GRAY_600)
-          .margin({ top: DesignTokens.Spacing.SM })
-          .textAlign(TextAlign.Center)
-      }
-
-      Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
-
-      Text('使用说明')
-        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-        .fontColor(this.colors.TEXT_SECONDARY)
-        .margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
-
-      Column() {
-        Text('【立即同步】日常多端同步，只同步变更数据')
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.colors.TEXT_SECONDARY)
-          .width('100%')
-        Text('• 同步学习过的单词、复习记录、用户词书')
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.colors.GRAY_500)
-          .width('100%')
-          .margin({ left: DesignTokens.Spacing.SM })
-        Text('• 未学习的单词不会同步，节省流量')
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.colors.GRAY_500)
-          .width('100%')
-          .margin({ left: DesignTokens.Spacing.SM })
-        Text('【立即备份】完整备份所有数据到云端')
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.colors.TEXT_SECONDARY)
-          .width('100%')
-          .margin({ top: DesignTokens.Spacing.SM })
-        Text('• 适合换设备前、定期备份使用')
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.colors.GRAY_500)
-          .width('100%')
-          .margin({ left: DesignTokens.Spacing.SM })
-        Text('【从云端恢复】下载云端数据覆盖本地')
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.colors.TEXT_SECONDARY)
-          .width('100%')
-          .margin({ top: DesignTokens.Spacing.SM })
-        Text('• ⚠️ 会覆盖本地数据，新设备首次使用')
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.colors.GRAY_500)
-          .width('100%')
-          .margin({ left: DesignTokens.Spacing.SM })
-        Text('• 本地未同步的学习记录将丢失')
-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
-          .fontColor(this.colors.GRAY_500)
-          .width('100%')
-          .margin({ left: DesignTokens.Spacing.SM })
-      }
-      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.SM })
-      .width('100%')
-    }
-    .width('100%')
-    .padding({ top: DesignTokens.Spacing.LG, bottom: DesignTokens.Spacing.LG })
-    .backgroundColor(this.colors.SURFACE_PRIMARY)
-    .borderRadius(DesignTokens.BorderRadius.LG)
-    .margin({ top: DesignTokens.Spacing.MD })
-  }
-
   build() {
-    Column() {
-      this.buildBasicConfigCard()
-      this.buildAutoSyncCard()
-      this.buildActionButtonsCard()
-    }
-    .width('100%')
-    .padding(DesignTokens.Spacing.MD)
+    SettingsSyncView({
+      webdavEndpoint: $webdavEndpoint,
+      webdavUsername: $webdavUsername,
+      webdavPassword: $webdavPassword,
+      webdavSyncPassword: $webdavSyncPassword,
+      webdavRemoteRoot: $webdavRemoteRoot,
+      showWebdavPassword: $showWebdavPassword,
+      showWebdavSyncPassword: $showWebdavSyncPassword,
+      webdavAutoSyncEnabled: $webdavAutoSyncEnabled,
+      webdavAutoSyncIntervalIndex: $webdavAutoSyncIntervalIndex,
+      webdavAutoSyncUploadModelEnabled: $webdavAutoSyncUploadModelEnabled,
+      webdavAutoSyncUploadBackupEnabled: $webdavAutoSyncUploadBackupEnabled,
+      webdavAutoSyncLastSuccessMs: $webdavAutoSyncLastSuccessMs,
+      webdavAutoSyncLastError: $webdavAutoSyncLastError,
+      colors: this.colors,
+      webdavResult: this.webdavResult,
+      webdavBackupResult: this.webdavBackupResult,
+      actionsBusy: this.webdavBusy || this.isRestoreWorking(),
+      actionsDisabled: this.webdavBusy || this.ownsRestore(),
+      restoreWorking: this.isRestoreWorking(),
+      onSave: () => { void this.webdavSave(); },
+      onTest: () => { void this.webdavTest(); },
+      onSync: () => { void this.webdavSyncNow(); },
+      onBackup: () => { void this.webdavBackup(); },
+      onRestore: () => { void this.webdavRestore(); },
+      onAutoSyncChange: () => { void this.saveWebDavAutoSyncSettings(); }
+    })
   }
 }
