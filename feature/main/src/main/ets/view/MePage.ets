@@ -1,7 +1,6 @@
 import {
   ColumnStart,
   P100,
-  RowSpaceBetweenCenter,
   RowStartCenter,
   SpaceHorizontalLarge,
   SpaceHorizontalSmall,
@@ -100,13 +99,7 @@ export struct MePage {
    */
   @Builder
   private buildUserInfoSection(): void {
-    RowSpaceBetweenCenter({
-      widthValue: P100,
-      paddingValue: {
-        top: $r("app.float.space_vertical_medium"),
-      },
-      onTap: (): void => this.vm.onHeadClick()
-    }) {
+    Row() {
       RowStartCenter() {
         Avatar({
           src: this.vm.userInfo.avatarUrl,
@@ -121,6 +114,12 @@ export struct MePage {
 
       ArrowRightIcon({ iconSize: 16 });
     }
+    .id("me_login_entry")
+    .width(P100)
+    .padding({ top: $r("app.float.space_vertical_medium") })
+    .justifyContent(FlexAlign.SpaceBetween)
+    .alignItems(VerticalAlign.Center)
+    .onClick((): void => this.vm.onHeadClick());
   }
 
   /**

@@ -4,6 +4,7 @@ import { Footprint, OrderCount, User } from "model";
 import { RequestHelper } from "result";
 import { getUserState, UserState } from "state";
 import {
+  AuthRoutes,
   CommonRoutes,
   CsRoutes,
   FeedbackRoutes,
@@ -11,7 +12,8 @@ import {
   MarketRoutes,
   OrderRoutes,
   UserRoutes,
-  navigateTo
+  navigateTo,
+  getNavPathStack
 } from "navigation";
 import { MeMenuItem } from "../model/MeMenuItem";
 import { OrderStatusItem } from "../model/OrderStatusItem";
@@ -22,6 +24,7 @@ import { OrderStatusItem } from "../model/OrderStatusItem";
  */
 @ObservedV2
 export default class MeViewModel extends BaseViewModel {
+  private lastHeadNavigationAt: number = 0;
   /**
    * 全局用户状态
    */
@@ -267,6 +270,20 @@ export default class MeViewModel extends BaseViewModel {
    * @returns {void} 无返回值
    */
   onHeadClick(): void {
+    const now: number = Date.now();
+    if (now - this.lastHeadNavigationAt < 400) {
+      return;
+    }
+    const stack: NavPathStack | undefined = getNavPathStack();
+    if (stack === undefined) {
+      return;
+    }
+    const target: string = this.userState.isLoggedIn() ? UserRoutes.Profile : AuthRoutes.Login;
+    const paths: string[] = stack.getAllPathName();
+    if (paths.length > 0 && paths[paths.length - 1] === target) {
+      return;
+    }
+    this.lastHeadNavigationAt = now;
     this.toProfilePage();
   }
 

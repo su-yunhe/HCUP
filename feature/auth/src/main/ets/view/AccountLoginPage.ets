@@ -32,6 +32,14 @@ export struct AccountLoginPage {
    */
   @Builder
   private AccountLoginContent() {
-    Text("账号登录页面内容视图")
+    Column() {
+      Text("账号密码登录")
+        .fontSize($r("app.float.display_medium"))
+        .fontColor($r("app.color.text_primary"));
+    }
+    .id("auth_account_login_page")
+    .width("100%")
+    .height("100%")
+    .padding(24);
   }
 }

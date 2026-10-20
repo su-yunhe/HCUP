@@ -5,7 +5,7 @@ import { HomePage } from "./HomePage";
 import { CategoryPage } from "./CategoryPage";
 import { CartPage } from "./CartPage";
 import { MePage } from "./MePage";
-import { ColumnCenter, P100, size, SpaceVerticalXSmall } from "designsystem";
+import { P100, size, SpaceVerticalXSmall } from "designsystem";
 import {
   bp, BreakpointState, getBreakpointState, getWindowSafeAreaState, WindowSafeAreaState
 } from "state";
@@ -95,7 +95,7 @@ export struct MainPage {
    */
   @Builder
   private tabBarItem(index: number) {
-    ColumnCenter() {
+    Column() {
       Lottie({
         loop: false,
         autoPlay: this.vm.currentPageIndex === index,
@@ -121,6 +121,9 @@ export struct MainPage {
           $r("app.color.primary") :
           $r("app.color.text_subtitle"))
         .textAlign(TextAlign.Center);
-    };
+    }
+    .id(index === 3 ? "main_tab_me" : `main_tab_${index}`)
+    .justifyContent(FlexAlign.Center)
+    .alignItems(HorizontalAlign.Center);
   }
 }

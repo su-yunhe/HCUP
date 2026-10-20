@@ -32,6 +32,18 @@ export struct UserAgreementPage {
    */
   @Builder
   private UserAgreementContent() {
-    Text("用户协议页面内容视图")
+    Scroll() {
+      Text($r("app.string.local_user_agreement_body"))
+        .id("common_user_agreement_content")
+        .width("100%")
+        .fontSize(16)
+        .lineHeight(28)
+        .fontColor($r("app.color.text_primary"))
+        .padding(24);
+    }
+    .id("common_user_agreement_page")
+    .width("100%")
+    .height("100%")
+    .align(Alignment.TopStart);
   }
 }
