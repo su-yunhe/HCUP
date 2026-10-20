@@ -1,0 +1,81 @@
+[2026-10-20 18:48:19,508] [64984] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-20 18:48:19,510] [64984] [EnvPool] [INFO] [Report path: D:\HCUP\cml-spec7\logs\verification-navigation-diagnosis-02\reports\2026-10-20-18-48-19]
+[2026-10-20 18:48:19,511] [64984] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-20 18:48:19,511] [64984] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-20 18:48:19,511] [64984] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-20 18:48:19,513] [64984] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-20 18:48:19,514] [64984] [EnvPool] [INFO] [Get device by selector]
+[2026-10-20 18:48:19,514] [64984] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-20 18:48:19,975] [3296] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost
+127.0.0.1:5557		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-20 18:48:20,528] [64984] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5555'], label:phone]]
+[2026-10-20 18:48:20,528] [64984] [EnvPool] [INFO] [Device 127.0.0.1:5555: extend value: {}]
+[2026-10-20 18:48:20,854] [64984] [Device] [INFO] [6.0.2.3]
+[2026-10-20 18:48:21,040] [64984] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-20 18:48:21,040] [64984] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-20 18:48:21,117] [64984] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 16183]
+[2026-10-20 18:48:21,117] [64984] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-20 18:48:21,184] [64984] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-20 18:48:21,184] [64984] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-20 18:48:21,235] [64984] [Device] [INFO] [Device agent is up to date!]
+[2026-10-20 18:48:21,315] [64984] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-20 18:48:23,416] [64984] [DeviceUIProxy] [INFO] [tcp forward port: 9969 for 127.0.0.1:5555]
+[2026-10-20 18:48:23,587] [64984] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-20 18:48:23,587] [64984] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-20 18:48:23,587] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, com.joker.coolmall)</div>]
+[2026-10-20 18:48:24,197] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, com.joker.coolmall) cost: 0.611s</div>]
+[2026-10-20 18:48:24,197] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, com.joker.coolmall, page_name=EntryAbility, wait_time=2)</div>]
+[2026-10-20 18:48:26,306] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, com.joker.coolmall, page_name=EntryAbility, wait_time=2) cost: 2.109s</div>]
+[2026-10-20 18:48:26,306] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('main_tab_me'))</div>]
+[2026-10-20 18:48:27,518] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('main_tab_me')) cost: 1.212s</div>]
+[2026-10-20 18:48:27,518] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('青商城'))</div>]
+[2026-10-20 18:48:27,569] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('青商城')) cost: 0.051s</div>]
+[2026-10-20 18:48:27,569] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('不允许'))</div>]
+[2026-10-20 18:48:27,612] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('不允许')) cost: 0.044s</div>]
+[2026-10-20 18:48:27,783] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.5)</div>]
+[2026-10-20 18:48:28,284] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.5) cost: 0.501s</div>]
+[2026-10-20 18:48:28,284] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('确定'))</div>]
+[2026-10-20 18:48:28,333] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('确定')) cost: 0.048s</div>]
+{"label": "permission", "time": 1792493308.5020785, "text": "不允许"}
+[2026-10-20 18:48:28,503] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.press_back(127.0.0.1:5555)</div>]
+[2026-10-20 18:48:28,634] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.press_back(127.0.0.1:5555) cost: 0.13s</div>]
+[2026-10-20 18:48:28,635] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.6)</div>]
+[2026-10-20 18:48:29,235] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.6) cost: 0.601s</div>]
+[2026-10-20 18:48:29,235] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('main_tab_me'))</div>]
+[2026-10-20 18:48:31,764] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('main_tab_me')) cost: 2.529s</div>]
+[2026-10-20 18:48:31,764] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('青商城'))</div>]
+[2026-10-20 18:48:31,852] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('青商城')) cost: 0.087s</div>]
+[2026-10-20 18:48:31,852] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('不允许'))</div>]
+[2026-10-20 18:48:31,975] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('不允许')) cost: 0.123s</div>]
+[2026-10-20 18:48:31,975] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('禁止'))</div>]
+[2026-10-20 18:48:32,098] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('禁止')) cost: 0.124s</div>]
+[2026-10-20 18:48:32,098] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.press_back(127.0.0.1:5555)</div>]
+[2026-10-20 18:48:32,239] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.press_back(127.0.0.1:5555) cost: 0.141s</div>]
+[2026-10-20 18:48:32,239] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.6)</div>]
+[2026-10-20 18:48:32,840] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.6) cost: 0.601s</div>]
+[2026-10-20 18:48:32,840] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('main_tab_me'))</div>]
+[2026-10-20 18:48:33,997] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('main_tab_me')) cost: 1.157s</div>]
+[2026-10-20 18:48:34,181] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.8)</div>]
+[2026-10-20 18:48:34,983] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.8) cost: 0.8s</div>]
+[2026-10-20 18:48:34,983] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('me_login_entry'))</div>]
+[2026-10-20 18:48:35,737] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('me_login_entry')) cost: 0.755s</div>]
+[2026-10-20 18:48:35,907] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 1)</div>]
+[2026-10-20 18:48:36,908] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 1) cost: 1.001s</div>]
+[2026-10-20 18:48:36,908] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('auth_login_page'))</div>]
+[2026-10-20 18:48:37,557] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('auth_login_page')) cost: 0.649s</div>]
+[2026-10-20 18:48:37,558] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('auth_login_logo'))</div>]
+[2026-10-20 18:48:37,634] [64984] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.key('auth_login_logo')) cost: 0.076s</div>]
+{"label": "first_entry_after_1s", "time": 1792493317.6345675, "page": true, "logo": true}
+Traceback (most recent call last):
+  File "D:\HCUP\cml-spec7\workflow\verification\diagnose_navigation.py", line 68, in <module>
+    driver.capture_screen(str(out / "first-entry-native.png"))
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 815, in capture_screen
+    return self._driver_impl.capture_screen(save_path, in_pc, area)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 1343, in capture_screen
+    raise HypiumParamError(msg="Only support jpeg image")
+hypium.exception.HypiumParamError: Only support jpeg image

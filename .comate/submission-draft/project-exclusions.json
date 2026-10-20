@@ -1,0 +1,64 @@
+{
+  "excluded_files": [
+    {
+      "path": "logs/verification-emulator/instances/CmlSpec7_Layout/cache.img",
+      "reason": "temporary emulator disk or runtime lock; raw logs retained",
+      "bytes": 69206016
+    },
+    {
+      "path": "logs/verification-emulator/instances/CmlSpec7_Layout/cache.img.qcow2",
+      "reason": "temporary emulator disk or runtime lock; raw logs retained",
+      "bytes": 197120
+    },
+    {
+      "path": "logs/verification-emulator/instances/CmlSpec7_Layout/sys_prod.img.qcow2",
+      "reason": "temporary emulator disk or runtime lock; raw logs retained",
+      "bytes": 1441792
+    },
+    {
+      "path": "logs/verification-emulator/instances/CmlSpec7_Layout/system.img.qcow2",
+      "reason": "temporary emulator disk or runtime lock; raw logs retained",
+      "bytes": 197120
+    },
+    {
+      "path": "logs/verification-emulator/instances/CmlSpec7_Layout/userdata.img.qcow2",
+      "reason": "temporary emulator disk or runtime lock; raw logs retained",
+      "bytes": 842399744
+    },
+    {
+      "path": "logs/verification-emulator/instances/CmlSpec7_Layout/vendor.img.qcow2",
+      "reason": "temporary emulator disk or runtime lock; raw logs retained",
+      "bytes": 197120
+    },
+    {
+      "path": "test-harness/harness/__pycache__/__init__.cpython-312.pyc",
+      "reason": "temporary test runtime or Python bytecode cache",
+      "bytes": 420
+    },
+    {
+      "path": "test-harness/harness/__pycache__/device.cpython-312.pyc",
+      "reason": "temporary test runtime or Python bytecode cache",
+      "bytes": 3148
+    },
+    {
+      "path": "test-harness/harness/__pycache__/env_check.cpython-312.pyc",
+      "reason": "temporary test runtime or Python bytecode cache",
+      "bytes": 5596
+    },
+    {
+      "path": "workflow/verification/__pycache__/cml_evidence.cpython-312.pyc",
+      "reason": "temporary test runtime or Python bytecode cache",
+      "bytes": 9804
+    }
+  ],
+  "excluded_derivative_prefix": ".comate/submission-draft/",
+  "git_ignored_runtime_exclusions": [
+    "**/build/",
+    "**/oh_modules/",
+    "**/.hvigor/",
+    "tmp_hypium/",
+    "**/__pycache__/"
+  ],
+  "packaging_contract": "Stage3 must copy traces/code-snapshot/project/ as tasks/cml-spec7/project/, not recursively copy the live task root. Put the draft artifacts beside project/. Refresh freeze/patch if expanding project scope.",
+  "original_files_deleted": false
+}

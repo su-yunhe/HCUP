@@ -1,0 +1,86 @@
+{
+  "timestamp_utc": "2026-10-20T09:58:29.414771+00:00",
+  "device": "127.0.0.1:5555",
+  "action": [],
+  "commands": [
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cml-spec7-final-home.json"
+      ],
+      "exit_code": 0,
+      "stdout": "DumpLayout saved to:/data/local/tmp/cml-spec7-final-home.json\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "file",
+        "recv",
+        "/data/local/tmp/cml-spec7-final-home.json",
+        "D:\\HCUP\\cml-spec7\\traces\\analysis-baseline\\final-home.ui.json"
+      ],
+      "exit_code": 0,
+      "stdout": "FileTransfer finish, Size:58348, File count = 1, time:14ms rate:4167.71kB/s\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "shell",
+        "snapshot_display",
+        "-f",
+        "/data/local/tmp/cml-spec7-final-home.jpeg"
+      ],
+      "exit_code": 0,
+      "stdout": "fileType: \r\nprocess: display 0, file type: jpeg, width: 1308, height: 2880\r\nfileType: jpeg\r\nsnapshot: pixel format is: 3\r\nsnapshot: convert rgba8888 to rgb888 successfully.\r\n\r\nsuccess: snapshot display 0 , write to /data/local/tmp/cml-spec7-final-home.jpeg as jpeg, width: 1308, height: 2880\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "file",
+        "recv",
+        "/data/local/tmp/cml-spec7-final-home.jpeg",
+        "D:\\HCUP\\cml-spec7\\traces\\analysis-baseline\\final-home.jpeg"
+      ],
+      "exit_code": 0,
+      "stdout": "FileTransfer finish, Size:167514, File count = 1, time:45ms rate:3722.53kB/s\r\n",
+      "stderr": ""
+    }
+  ],
+  "texts": [
+    "  ",
+    "  ",
+    "麦克风权限",
+    "青商城, 版本 1.0.0",
+    "青商城",
+    "版本 1.0.0",
+    "使用麦克风录音",
+    "麦克风访问权限",
+    "麦克风访问权限",
+    "允许",
+    "允许",
+    "不允许",
+    "不允许",
+    "确定",
+    "05, :, 58",
+    "05",
+    ":",
+    "58",
+    "100"
+  ],
+  "status": "completed"
+}

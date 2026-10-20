@@ -1,0 +1,68 @@
+{
+  "reviewer": "root, direct view_image inspection",
+  "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+  "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863",
+  "screenshot_sha256": "76675e4cf55e90df8ac65d45c4b564d4df4cb08a681685b55dc176be4ca32515",
+  "requirements": {
+    "A2": {
+      "evidence": "logs/verification-navigation-smoke-03/test_A01.jpeg",
+      "status": "pass",
+      "notes": "Visible blue shopping-bag logo matches the application logo."
+    },
+    "A3": {
+      "evidence": "logs/verification-navigation-smoke-03/test_A01.jpeg",
+      "status": "pass",
+      "notes": "Logo is in the upper content section before both buttons."
+    },
+    "A8": {
+      "evidence": "logs/verification-navigation-smoke-03/test_A01.jpeg",
+      "status": "pass",
+      "notes": "Phone action has a solid blue fill."
+    },
+    "A9": {
+      "evidence": "logs/verification-navigation-smoke-03/test_A01.jpeg",
+      "status": "pass",
+      "notes": "Phone action has visibly rounded corners."
+    },
+    "A10": {
+      "evidence": "logs/verification-navigation-smoke-03/test_A01.jpeg",
+      "status": "pass",
+      "notes": "Visible secondary action reads 账号密码登录 and is visually subordinate to the filled action."
+    },
+    "A12": {
+      "evidence": "logs/verification-navigation-smoke-03/test_A01.jpeg",
+      "status": "pass",
+      "notes": "Account action has a blue outline and unfilled white interior."
+    },
+    "A13": {
+      "evidence": "logs/verification-navigation-smoke-03/test_A01.jpeg",
+      "status": "pass",
+      "notes": "Account action has visibly rounded corners."
+    },
+    "B3": {
+      "evidence": "logs/verification-navigation-smoke-03/test_A01.jpeg",
+      "status": "pass",
+      "notes": "WeChat double bubbles, QQ penguin and Alipay 支 brand icons are all visible."
+    },
+    "B17": {
+      "evidence": "logs/verification-navigation-smoke-03/test_A01.jpeg",
+      "status": "pass",
+      "notes": "Agreement footer is at the bottom above the gesture bar, after the main content."
+    },
+    "B18": {
+      "evidence": "logs/verification-navigation-smoke-03/test_A01.jpeg",
+      "status": "pass",
+      "notes": "User-agreement link is blue, matching the primary action/theme resource."
+    },
+    "B19": {
+      "evidence": "logs/verification-navigation-smoke-03/test_A01.jpeg",
+      "status": "pass",
+      "notes": "Privacy-policy link is blue, matching the primary action/theme resource."
+    }
+  },
+  "regression": {
+    "notes": "Navigation title and back circle are below the system clock/status bar; v1.0 overlap is absent.",
+    "status": "pass_visual"
+  },
+  "limits": "Direct root inspection of v1.2 actual phone screenshot after three stable full-window samples. Visual attributes only; interaction and other windows require separate evidence."
+}

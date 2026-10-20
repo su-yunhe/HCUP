@@ -1,0 +1,14 @@
+{
+  "task_id": "cml-spec7",
+  "project_source": "traces/code-snapshot/project",
+  "project_destination": "tasks/cml-spec7/project",
+  "task_material_destination": "tasks/cml-spec7",
+  "project_manifest": "project-manifest.json",
+  "project_must_be_exact": true,
+  "exclude_prefixes": [".validation-work/", "validation/independent-baseline/"],
+  "exclude_components": ["__pycache__", ".git"],
+  "exclude_files": ["artifact-manifest.json"],
+  "copy_contract": "Enumerate deliverable files from artifact-manifest.json. Do not recursively copy the live task root or the whole draft including temporary clones. Copy the declared exact project snapshot as project/.",
+  "cleanup_result": "temporary-clone-cleanup-rejected.json",
+  "formal_packaging_or_submission_performed": false
+}

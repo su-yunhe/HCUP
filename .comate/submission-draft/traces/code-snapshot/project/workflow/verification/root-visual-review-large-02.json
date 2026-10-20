@@ -1,0 +1,68 @@
+{
+  "reviewer": "root, direct view_image inspection",
+  "source_sha256": "8e377669fb468989fa2103e2987137d50320f9df9c1937c5cbd2f9ca392ff7a7",
+  "hap_sha256": "521ac47d8244aee9709f3de1e2a2bde95f99986d76eac2f0e7a5c453d8aaed8a",
+  "screenshot_sha256": "fe5664301f0a1e79c47deb1ca436cdce7b8535fe1fcdd308ff9a2d019b359128",
+  "requirements": {
+    "A2": {
+      "evidence": "logs/verification-layout-preview-02/layout1200-login-v11.jpeg",
+      "status": "pass",
+      "notes": "Visible blue shopping-bag logo matches the application logo."
+    },
+    "A3": {
+      "evidence": "logs/verification-layout-preview-02/layout1200-login-v11.jpeg",
+      "status": "pass",
+      "notes": "Logo is in the upper content section before both buttons."
+    },
+    "A8": {
+      "evidence": "logs/verification-layout-preview-02/layout1200-login-v11.jpeg",
+      "status": "pass",
+      "notes": "Phone action has a solid blue fill."
+    },
+    "A9": {
+      "evidence": "logs/verification-layout-preview-02/layout1200-login-v11.jpeg",
+      "status": "pass",
+      "notes": "Phone action has visibly rounded corners."
+    },
+    "A10": {
+      "evidence": "logs/verification-layout-preview-02/layout1200-login-v11.jpeg",
+      "status": "pass",
+      "notes": "Visible secondary action reads 账号密码登录 and is visually subordinate to the filled action."
+    },
+    "A12": {
+      "evidence": "logs/verification-layout-preview-02/layout1200-login-v11.jpeg",
+      "status": "pass",
+      "notes": "Account action has a blue outline and unfilled white interior."
+    },
+    "A13": {
+      "evidence": "logs/verification-layout-preview-02/layout1200-login-v11.jpeg",
+      "status": "pass",
+      "notes": "Account action has visibly rounded corners."
+    },
+    "B3": {
+      "evidence": "logs/verification-layout-preview-02/layout1200-login-v11.jpeg",
+      "status": "pass",
+      "notes": "WeChat double bubbles, QQ penguin and Alipay 支 brand icons are all visible."
+    },
+    "B17": {
+      "evidence": "logs/verification-layout-preview-02/layout1200-login-v11.jpeg",
+      "status": "pass",
+      "notes": "Agreement footer is at the bottom above the gesture bar, after the main content."
+    },
+    "B18": {
+      "evidence": "logs/verification-layout-preview-02/layout1200-login-v11.jpeg",
+      "status": "pass",
+      "notes": "User-agreement link is blue, matching the primary action/theme resource."
+    },
+    "B19": {
+      "evidence": "logs/verification-layout-preview-02/layout1200-login-v11.jpeg",
+      "status": "pass",
+      "notes": "Privacy-policy link is blue, matching the primary action/theme resource."
+    }
+  },
+  "regression": {
+    "notes": "No visible title overlap in this landscape screenshot; phone status-bar regression has separate actual phone evidence.",
+    "status": "pass_visual"
+  },
+  "limits": "Direct root inspection of the actual 1200vp landscape-window screenshot; ratios/centers/spacing/containment require independent live assertions."
+}

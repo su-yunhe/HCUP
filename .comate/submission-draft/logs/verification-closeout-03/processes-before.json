@@ -1,0 +1,13 @@
+{
+  "timestamp_utc": "2026-10-20T11:16:14.432272+00:00",
+  "command": [
+    "powershell.exe",
+    "-NoProfile",
+    "-Command",
+    ". 'D:/hongmengcup/Enter-HarmonyEnv.ps1'\n. 'D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1'\nGet-CimInstance Win32_Process -Filter \"Name='Emulator.exe'\" | Where-Object { $_.ProcessId -in @(35092,30856) } | Select-Object ProcessId,ParentProcessId,ExecutablePath,CommandLine | ConvertTo-Json -Depth 3"
+  ],
+  "exit_code": 0,
+  "timed_out": false,
+  "stdout": "Harmony development environment loaded for this terminal.\nPython: D:\\hongmengcup\\SWE-OpenHarmony\\.venv\\Scripts\\python.exe\nDevEco Studio: D:\\HarmonyDev\\DevEcoStudio-6.1.0 (6.1.0.860 / API 23)\nDownloads, temporary files and development caches: D:\\HarmonyDev\nHarmony development environment loaded for this terminal.\nPython: D:\\hongmengcup\\SWE-OpenHarmony\\.venv\\Scripts\\python.exe\nDevEco Studio: D:\\HarmonyDev\\DevEcoStudio-6.1.0 (6.1.0.860 / API 23)\nDownloads, temporary files and development caches: D:\\HarmonyDev\nWorkspace: D:\\HCUP\nOfficial package: D:\\SWE-OpenHarmony\n[\r\n    {\r\n        \"ProcessId\":  30856,\r\n        \"ParentProcessId\":  6140,\r\n        \"ExecutablePath\":  \"D:\\\\HarmonyDev\\\\DevEcoStudio-6.1.0\\\\tools\\\\emulator\\\\Emulator.exe\",\r\n        \"CommandLine\":  \"\\\"D:\\\\HarmonyDev\\\\DevEcoStudio-6.1.0\\\\tools\\\\emulator\\\\Emulator.exe\\\" -start HarmonyCup_API23 -instancePath D:/HarmonyDev/emulator/instances -imageRoot D:/HarmonyDev/emulator/images\"\r\n    },\r\n    {\r\n        \"ProcessId\":  35092,\r\n        \"ParentProcessId\":  9172,\r\n        \"ExecutablePath\":  \"D:\\\\HarmonyDev\\\\DevEcoStudio-6.1.0\\\\tools\\\\emulator\\\\Emulator.exe\",\r\n        \"CommandLine\":  \"\\\"D:\\\\HarmonyDev\\\\DevEcoStudio-6.1.0\\\\tools\\\\emulator\\\\Emulator.exe\\\" -start CmlSpec7_Layout -instancePath D:/HCUP/cml-spec7/logs/verification-emulator/instances -imageRoot D:/HarmonyDev/emulator/images\"\r\n    }\r\n]\r\n",
+  "stderr": ""
+}

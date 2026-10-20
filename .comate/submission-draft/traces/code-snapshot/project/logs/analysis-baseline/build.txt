@@ -1,0 +1,32 @@
+**********************
+PowerShell transcript start
+Start time: 20261020175148
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+& ./workflow/verification/baseline-build.ps1
+Process ID: 64360
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is D:/HCUP/cml-spec7/logs/analysis-baseline/build.txt
+2026-10-20T17:51:48.6097324+08:00
+COMMAND: hvigorw --mode module -p product=default -p module=entry@default -p buildMode=debug clean assembleHap --no-daemon
+
+BUILD_EXIT_CODE=0
+
+**********************
+PowerShell transcript end
+End time: 20261020175210
+**********************

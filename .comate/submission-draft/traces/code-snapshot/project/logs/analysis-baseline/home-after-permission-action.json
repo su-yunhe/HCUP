@@ -1,0 +1,90 @@
+{
+  "timestamp_utc": "2026-10-20T09:54:53.007239+00:00",
+  "device": "127.0.0.1:5555",
+  "action": [
+    "click-text",
+    "不允许"
+  ],
+  "commands": [
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cml-spec7-home-after-permission.json"
+      ],
+      "exit_code": 0,
+      "stdout": "DumpLayout saved to:/data/local/tmp/cml-spec7-home-after-permission.json\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "file",
+        "recv",
+        "/data/local/tmp/cml-spec7-home-after-permission.json",
+        "D:\\HCUP\\cml-spec7\\traces\\analysis-baseline\\home-after-permission.ui.json"
+      ],
+      "exit_code": 0,
+      "stdout": "FileTransfer finish, Size:58348, File count = 1, time:15ms rate:3889.87kB/s\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "shell",
+        "snapshot_display",
+        "-f",
+        "/data/local/tmp/cml-spec7-home-after-permission.jpeg"
+      ],
+      "exit_code": 0,
+      "stdout": "fileType: \r\nprocess: display 0, file type: jpeg, width: 1308, height: 2880\r\nfileType: jpeg\r\nsnapshot: pixel format is: 3\r\nsnapshot: convert rgba8888 to rgb888 successfully.\r\n\r\nsuccess: snapshot display 0 , write to /data/local/tmp/cml-spec7-home-after-permission.jpeg as jpeg, width: 1308, height: 2880\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "file",
+        "recv",
+        "/data/local/tmp/cml-spec7-home-after-permission.jpeg",
+        "D:\\HCUP\\cml-spec7\\traces\\analysis-baseline\\home-after-permission.jpeg"
+      ],
+      "exit_code": 0,
+      "stdout": "FileTransfer finish, Size:158756, File count = 1, time:14ms rate:11339.71kB/s\r\n",
+      "stderr": ""
+    }
+  ],
+  "target_bounds": "(left: 285, right: 453, top: 1622, bottom: 1688)",
+  "texts": [
+    "  ",
+    "  ",
+    "麦克风权限",
+    "青商城, 版本 1.0.0",
+    "青商城",
+    "版本 1.0.0",
+    "使用麦克风录音",
+    "麦克风访问权限",
+    "麦克风访问权限",
+    "允许",
+    "允许",
+    "不允许",
+    "不允许",
+    "确定",
+    "05, :, 55",
+    "05",
+    ":",
+    "55",
+    "100"
+  ],
+  "status": "completed"
+}

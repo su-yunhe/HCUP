@@ -1,0 +1,60 @@
+{
+  "collected_at_utc": "2026-10-20T11:47:33.807916+00:00",
+  "task_id": "cml-spec7",
+  "base_commit": "75fd0066a7fc0c1e8cedb6218df081f86d307f45",
+  "git_head": "75fd0066a7fc0c1e8cedb6218df081f86d307f45",
+  "app_package": {
+    "command": [
+      "powershell",
+      "-NoProfile",
+      "-Command",
+      "Get-AppxPackage -Name OpenAI.Codex | Select-Object Name,Version,InstallLocation | ConvertTo-Json -Compress"
+    ],
+    "exit_code": 0,
+    "stdout": "{\"Name\":\"OpenAI.Codex\",\"Version\":\"26.1013.4894.0\",\"InstallLocation\":\"C:\\\\Program Files\\\\WindowsApps\\\\OpenAI.Codex_26.1013.4894.0_x64__2p2nqsd0c76g0\"}\n",
+    "stderr": ""
+  },
+  "Comate_client_version": "【待补充】（Comate未使用或未发现）",
+  "Comate_extension_version": "【待补充】（无对应扩展记录）",
+  "hap": {
+    "path": "entry/build/default/outputs/default/entry-default-unsigned.hap",
+    "exists": true,
+    "bytes": 17068002,
+    "sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863"
+  },
+  "validation": {
+    "checked_at": "2026-10-20T11:19:25.266472+00:00",
+    "production_files_checked": 791,
+    "production_changes_after_validation": [],
+    "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+    "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863",
+    "requirement_counts": {
+      "pass": 38,
+      "blocked": 3
+    },
+    "test_files_checked": 8,
+    "test_files_unchanged": true,
+    "diff_check": "pass",
+    "tracked_build_noise_count": 0,
+    "approved_for": "local partial delivery with external B9-B11 blockers",
+    "not_official_score": true,
+    "build": "pass",
+    "install": "pass",
+    "cold_start": "pass",
+    "applicable_regressions": "pass_after_document_helper_correction",
+    "full_feature_validation_complete": false,
+    "matrix": "logs/verification-final-03.json",
+    "report": "workflow/verification/final-verification-03.md",
+    "delivery": "workflow/delivery-01.md",
+    "device_closeout": "logs/verification-closeout-03/closeout.json",
+    "temporary_disk_cleanup": "logs/verification-closeout-03/temporary-disk-cleanup-rejected.json",
+    "blocked_requirements": [
+      "B9",
+      "B10",
+      "B11"
+    ]
+  },
+  "original_record_gaps": [
+    "Initial standalone hdc stdout was not captured by Start-Transcript. Original tool result is retained in native session; explicitly labelled transcription and final complete device outputs are saved."
+  ]
+}

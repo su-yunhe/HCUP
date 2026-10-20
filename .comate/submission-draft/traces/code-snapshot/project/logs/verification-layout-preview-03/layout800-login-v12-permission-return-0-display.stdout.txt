@@ -1,0 +1,112 @@
+
+-------------------------------[ability]-------------------------------
+
+
+----------------------------------DisplayManagerService----------------------------------
+-------------- DMS FREEZED PID LIST  --------------
+-------------- DMS KEY EVENTS LIST  --------------
+[10-20 18:28:33.408]: Dms construct.
+[10-20 18:28:33.423]: Default screen id : 0
+[10-20 18:28:33.467]: Dms OnScreenChange register success.
+[10-20 18:28:33.467]: OnScreenChange triggered. screenId: 0  screenEvent: 0
+[10-20 18:28:33.468]: screenRotation: 0 ret value: 0correctionRet:0
+[10-20 18:28:33.468]: GetScreenPower state:0 screenId:0
+[10-20 18:28:33.496]: CreateScreenProperty by rsInterface success.
+[10-20 18:28:33.503]: create screen session success.
+[10-20 18:28:33.508]: Dms RefreshRateChange register success.
+[10-20 18:28:33.532]: Dms subscribed to sensor successfully.
+[10-20 18:28:33.532]: Dms init end.
+[10-20 18:28:33.538]: Dms AddSystemAbilityListener finished.
+[10-20 18:28:33.538]: Dms onstart end.
+[10-20 18:28:33.560]: GetScreenPower state:0 screenId:0
+[10-20 18:28:33.561]: GetScreenPower state:0
+[10-20 18:28:51.734]: set client userId: 100 newScbPid: 2268 clientName: com.ohos.sceneboard
+[10-20 18:28:51.756]:   oldUserId: 0  currentScbPId: -1  newUserId: 100  newScbPid: 2268  coldBoot: 1
+[10-20 18:42:40.900]: screenId: 0 rotation: 90 width: 2400 height: 1600 type: ROTATION_BEGIN
+[10-20 18:42:41.625]: screenId: 0 rotation: 90 width: 2400 height: 1600 type: ROTATION_END
+[10-20 19:03:28.305]: screenId: 0 rotation: 0 width: 1600 height: 2400 type: UNSPECIFIED
+[10-20 19:03:28.930]: screenId: 0 rotation: 0 width: 1600 height: 2400 type: ROTATION_END
+-------------- DMS Multi User Info --------------
+[oldScbPid:] 
+[userId:] 100
+[ScbPid:] 2268
+---------------- Screen ID: 0 ----------------
+PhysicalFoldStatus:           UNKNOWN
+FoldLockStatus:               UNLOCKED
+DisplayFoldStatus:            UNKNOWN
+TentMode:                     false
+[SCREEN SESSION]
+Name:                         UNKNOWN
+DisplayId:                    0
+RSScreenId:                   0
+isInternal:                   true
+isExtend:                     false
+NodeId:                       3152505995266
+activeModes<id, W, H, RS>:    0, 1600, 2400, 60
+SourceMode:                   0
+ScreenCombination:            5
+Orientation:                  1
+Rotation:                     0
+ScreenRequestedOrientation:   0
+isExtend:                     0
+[RS INFO]
+ScreenPowerState:             0
+GraphicPixelFormat:           12
+[CUTOUT INFO]
+WaterFall_L<X,Y,W,H>:         0, 0, 0, 0
+WaterFall_T<X,Y,W,H>:         0, 0, 0, 0
+WaterFall_R<X,Y,W,H>:         0, 0, 0, 0
+WaterFall_B<X,Y,W,H>:         0, 0, 0, 0
+BoundingRects<X,Y,W,H>:       [615, 50, 78, 78] 
+[SCREEN INFO]
+VirtualWidth:                 800
+VirtualHeight:                1200
+LastParentId:                 18446744073709551615
+ParentId:                     1
+IsScreenGroup:                0
+VirtualPixelRatio:            2
+Rotation:                     0
+Orientation:                  1
+SourceMode:                   0
+ScreenType:                   1
+[SCREEN PROPERTY]
+Rotation:                     0
+Density:                      2
+DensityInCurResolution:       2
+PhyWidth:                     72
+PhyHeight:                    156
+RefreshRate:                  60
+VirtualPixelRatio:            2
+ScreenRotation:               0
+Orientation:                  1
+DisplayOrientation:           0
+GetScreenType:                1
+ReqOrientation:               0
+DPI<X, Y>:                    564.444, 390.769
+Offset<X, Y>:                 0, 0
+StartPosition<X, Y>:          0, 0
+Bounds<L,T,W,H>:              0, 0, 1600, 2400, 
+PhyBounds<L,T,W,H>:           0, 0, 1600, 2400, 
+AvailableArea<X,Y,W,H>        0, 0, 2400, 1600, 
+DefaultDeviceRotationOffset   0
+DisplayGroupId                0
+MainDisplayIdOfGroup          0
+---------------- Display ID: 0 ----------------
+[DISPLAY INFO]
+Width:                        1600
+Height:                       2400
+------------- Client Screen Infos -------------
+Name:                         UNKNOWN
+ScreenId:                     0
+RSScreenId:                   0
+DisplayNode:                  3152505995266
+ScreenCombination:            5
+isExtend:                     false
+Orientation:                  0
+Rotation:                     0
+Bounds<L,T,W,H>:              0, 0, 1600, 2400, 
+PhyBounds<L,T,W,H>:           0, 0, 1600, 2400, 
+AvailableArea<X,Y,W,H>        0, 0, 1600, 2400, 
+-----------------------------------------------
+dms.hidumper.supportdebug false
+

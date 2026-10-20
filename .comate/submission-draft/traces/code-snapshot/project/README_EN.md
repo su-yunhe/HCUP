@@ -1,0 +1,237 @@
+<div align="center">
+
+<img src="docs/images/graphs/logo.svg" width="120" alt="CoolMall Logo"/>
+
+# CoolMall · HarmonyOS
+
+_🛍️ A HarmonyOS e-commerce app built with ArkTS and ArkUI_
+
+<!-- Language Switch Button -->
+<div align="center">
+  <a href="README.md">🌍 中文</a>
+</div>
+
+[![GitHub](https://img.shields.io/badge/GitHub-CoolMallArkTS-blue?style=flat-square&logo=github)](https://github.com/Joker-x-dev/CoolMallArkTS)
+[![Gitee](https://img.shields.io/badge/Gitee-CoolMallArkTS-red?style=flat-square&logo=gitee)](https://gitee.com/Joker-x-dev/CoolMallArkTS)
+[![API](https://img.shields.io/badge/API-Documentation-orange?style=flat-square&logo=postman)](https://coolmall.apifox.cn)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Joker-x-dev/CoolMallKotlin)
+
+</div>
+
+## 📖 Project Introduction
+
+This is an open-source e-commerce learning project built with ArkTS and ArkUI, aiming to
+demonstrate how to use modern HarmonyOS development technologies to build a complete e-commerce
+application. The project covers core flows such as user authentication, product display, shopping
+cart, and order payment, suitable for developers to learn and reference modern HarmonyOS development
+technologies.
+
+As a technology-loving individual developer, I have invested more than half a year of my spare time
+into this project. Every feature implementation and code optimization is the result of my careful
+crafting during leisure time. Although the progress may not be as fast as a dedicated team, and some
+feature implementations are not yet perfect, I will continue to improve and refine them. If you are
+interested in HarmonyOS development, whether for learning or collaborative creation, you are welcome
+to join.
+
+> If this project helps you, please give it a Star ⭐ This is very important to me and gives me the
+> motivation for long-term updates and maintenance!
+
+## 📍 Project Links
+
+- **GitHub Repository**: [https://github.com/Joker-x-dev/CoolMallArkTS](https://github.com/Joker-x-dev/CoolMallArkTS)
+- **Gitee Repository**: [https://gitee.com/Joker-x-dev/CoolMallArkTS](https://gitee.com/Joker-x-dev/CoolMallArkTS)
+
+### Related Docs
+
+- **CoolMall API Docs**: [View Online](https://coolmall.apifox.cn)
+  - The API documentation is kept in sync with project progress and mainly includes request parameters and response samples for each endpoint.
+
+
+- **IBest-UI-V2 Docs**: [View Online](https://ibestui-v2.ibestservices.com)
+  - Component usage and parameter reference with common examples.
+
+
+- **IBest-ORM Docs**: [View Online](https://ibest-orm.ibestservices.com/)
+  - Local database capabilities and entity definitions with basic usage examples.
+
+## 🛠️ Tech Stack
+
+### Core Technologies
+
+| Category             | Technology                         | Description                          |
+|----------------------|------------------------------------|--------------------------------------|
+| Programming Language | ArkTS                              | Primary language for HarmonyOS NEXT  |
+| UI Framework         | ArkUI                              | Declarative UI framework             |
+| Architecture Pattern | MVVM                               | View + ViewModel separation          |
+| Navigation           | Navigation                         | Routing and page navigation          |
+| State Management     | V2 (ObservedV2/AppStorageV2)        | Next-gen state management            |
+| Component Library    | IBest-UI-V2                         | Business UI components               |
+
+### Functional Modules
+
+| Category        | Technology | Description                         |
+|----------------|------------|-------------------------------------|
+| Network         | Axios      | HTTP client and interceptors        |
+| Database        | IBest-ORM  | Local database                      |
+
+## ✨ Project Features
+
+- **Modern Architecture**: Adopts modular design with highly decoupled
+  functional modules
+- **Declarative UI**: Uses ArkUI to build modern user interfaces
+- **Theme Adaptation**: Complete support for light/dark theme dynamic switching
+- **Internationalization**: Supports Chinese and English language switching for global promotion
+- **Reactive Programming**: Reactive programming paradigm based on V2 state management
+- **Complete Test Coverage** `Planned`
+- **Screen Adaptation**: Tablet / Foldable / Phone support
+
+## 📚 Resources and References
+
+- **Resource Description**: Some materials in the project come from the internet and are only used
+  for learning and communication
+- **Icon Source**: The icon library used in the project comes
+  from [TuNiao Icon](https://github.com/tuniaoTech)
+
+## 📱 Feature Module Directory
+
+> **Status Description:**
+> - `Completed` - Feature pages are fully implemented and can be used normally
+> - `To be improved` - Feature pages are basically implemented but need further polish
+> - `To be optimized` - Feature pages are implemented but need performance optimization or experience optimization
+> - `UI only` - Only page UI is completed, functional logic is not yet implemented
+> - `To be developed` - Feature pages are not yet developed and will be implemented gradually
+
+- **Main Module (main)**
+    - Home (home) `To be improved`
+    - Category (category) `To be improved`
+    - Shopping Cart (cart) `To be developed`
+    - Profile (me) `To be developed`
+
+
+- **Authentication Module (auth)**
+    - Login Home (login) `To be developed`
+    - Account Password Login (account-login) `To be developed`
+    - Registration Page (register) `To be developed`
+    - Password Recovery (reset-password) `To be developed`
+    - SMS Login (sms-login) `To be developed`
+
+
+- **User System Module (user)**
+    - Personal Center (profile) `To be developed`
+    - Address List (address-list) `To be developed`
+    - Address Details (address-detail) `To be developed`
+    - User Footprint (footprint) `To be developed`
+
+
+- **Order Module (order)**
+    - Order List (list) `To be developed`
+    - Confirm Order (confirm) `To be developed`
+    - Order Details (detail) `To be developed`
+    - Order Payment (pay) `To be developed`
+    - Refund Application (refund) `To be developed`
+    - Order Review (comment) `To be developed`
+    - Order Logistics (logistics) `To be developed`
+
+
+- **Product Module (goods)**
+    - Product Search (search) `To be developed`
+    - Product Details (detail) `To be developed`
+    - Product Reviews (comment) `To be developed`
+    - Product Category Page (category) `To be developed`
+
+
+- **Marketing Module (market)**
+    - Coupon Management (coupon) `To be developed`
+
+
+- **Customer Service Module (cs)**
+    - Customer Service Chat (chat) `To be developed`
+
+
+- **Feedback Module (feedback)**
+    - Feedback List (list) `To be developed`
+    - Submit Feedback (submit) `To be developed`
+
+
+- **Common Module (common)**
+    - About Us (about) `To be developed`
+    - WebView Page (web) `To be developed`
+    - App Settings (settings) `To be developed`
+    - User Agreement (user-agreement) `To be developed`
+    - Privacy Policy (privacy-policy) `To be developed`
+    - Contributors List (contributors) `To be developed`
+
+
+- **Launch Process Module (launch)**
+    - Splash Screen (splash) `To be developed`
+    - Guide Pages (guide) `To be developed`
+
+## Project Structure
+
+```
+AppScope/               # App config
+entry/                  # Application entry module
+core/                   # Core modules
+│   ├── base/           # Base classes
+│   ├── data/           # Data layer
+│   ├── database/       # Database
+│   ├── datastore/      # Data storage
+│   ├── designsystem/   # Design system
+│   ├── model/          # Data models
+│   ├── navigation/     # Navigation
+│   ├── network/        # Network layer
+│   ├── result/         # Result processing
+│   ├── state/          # Global state
+│   ├── ui/             # UI components
+│   └── util/           # Utility classes
+feature/                # Feature modules
+│   ├── auth/           # Authentication module
+│   ├── common/         # Common module
+│   ├── cs/             # Customer service module
+│   ├── feedback/       # Feedback module
+│   ├── goods/          # Product module
+│   ├── launch/         # Launch module
+│   ├── main/           # Main module
+│   ├── market/         # Marketing module
+│   ├── order/          # Order module
+│   └── user/           # User module
+```
+
+## 🚀 Development Plan
+
+This is a learning project maintained with long-term personal effort. The current priority is to
+solidify HarmonyOS foundations and complete core workflows, then expand modules and improve
+stability and experience over time.
+
+### 🔧 Near-term Focus
+
+1. **Core Flow Completion**: Improve Home and Category pages with stable data flows
+2. **Foundation Setup**: Standardize network/data layers, state management, and common components
+3. **Experience Polish**: Add empty/loading/error states for a smoother UX
+
+### 🚀 Medium to Long-term Planning
+
+4. **Module Expansion**: Implement auth, goods, order, and user modules gradually
+5. **Quality Improvement**: Add tests and performance optimizations
+6. **Documentation**: Keep docs and guides updated
+
+## 👥 Join the Community
+
+Welcome to join the CoolMall Developer Community to share learning experiences and discuss technical issues!
+
+<div align="left">
+  <img src="docs/images/group/qq.jpg" width="200" alt="QQ Group QR Code"/>
+  <p>Scan or search for the group number to join QQ Group</p>
+</div>
+
+## 🤝 Contributing
+
+Contributions are welcome for HarmonyOS development enthusiasts:
+
+- **Code Contribution**: Submit Pull Requests to add features or fix issues
+- **Issue Feedback**: Report bugs or suggest improvements via Issues
+- **Documentation**: Improve project docs and usage guides
+- **Design Support**: Provide UI/UX suggestions or resources
+- **Testing Assistance**: Participate in testing and share feedback
+
+Let’s build a high-quality HarmonyOS learning project together! 🚀

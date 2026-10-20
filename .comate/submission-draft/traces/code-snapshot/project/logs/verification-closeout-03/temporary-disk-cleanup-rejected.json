@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-10-20T11:18:34.9427317Z",
+  "action": "Remove only generated disk image files of the stopped task-owned CmlSpec7_Layout instance",
+  "status": "not_executed_automatic_approval_rejected",
+  "reason": "exec_command creation rejected: blocked by policy",
+  "target": "D:/HCUP/cml-spec7/logs/verification-emulator/instances/CmlSpec7_Layout",
+  "deleted_files": [],
+  "retained_generated_disks": [
+    "cache.img",
+    "cache.img.qcow2",
+    "sys_prod.img.qcow2",
+    "system.img.qcow2",
+    "userdata.img.qcow2",
+    "vendor.img.qcow2"
+  ],
+  "stop_evidence": "logs/verification-closeout-03/closeout.json",
+  "decision": "Retain all instance files; no retry through another deletion mechanism or permission question."
+}

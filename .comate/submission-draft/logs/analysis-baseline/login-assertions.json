@@ -1,0 +1,61 @@
+{
+  "timestamp_utc": "2026-10-20T10:01:29.118592+00:00",
+  "device": "127.0.0.1:5555",
+  "note": "A1 navigation is independently backed by before/after action snapshots; title alone is insufficient.",
+  "checks": [
+    {
+      "requirement": "A1",
+      "text": "登录",
+      "status": "pass",
+      "bounds": "(left: 0, right: 1308, top: 137, bottom: 332)"
+    },
+    {
+      "requirement": "A6",
+      "text": "手机号登录",
+      "status": "fail",
+      "error": "Expected visible login text absent: 手机号登录"
+    },
+    {
+      "requirement": "A10",
+      "text": "账号密码登录",
+      "status": "fail",
+      "error": "Expected visible login text absent: 账号密码登录"
+    },
+    {
+      "requirement": "B1",
+      "text": "其他登录方式",
+      "status": "fail",
+      "error": "Expected visible login text absent: 其他登录方式"
+    },
+    {
+      "requirement": "B6",
+      "text": "微信",
+      "status": "fail",
+      "error": "Expected visible login text absent: 微信"
+    },
+    {
+      "requirement": "B7",
+      "text": "QQ",
+      "status": "fail",
+      "error": "Expected visible login text absent: QQ"
+    },
+    {
+      "requirement": "B8",
+      "text": "支付宝",
+      "status": "fail",
+      "error": "Expected visible login text absent: 支付宝"
+    },
+    {
+      "requirement": "B12",
+      "text": "用户协议",
+      "status": "fail",
+      "error": "Expected visible login text absent: 用户协议"
+    },
+    {
+      "requirement": "B13",
+      "text": "隐私政策",
+      "status": "fail",
+      "error": "Expected visible login text absent: 隐私政策"
+    }
+  ]
+}

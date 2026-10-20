@@ -1,0 +1,17 @@
+{
+  "timestamp_utc": "2026-10-20T10:29:25.406708+00:00",
+  "command": [
+    "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+    "-t",
+    "127.0.0.1:5557",
+    "shell",
+    "hidumper",
+    "-s",
+    "DisplayManagerService",
+    "-a",
+    "-h"
+  ],
+  "exit_code": 0,
+  "stdout": "\r\n-------------------------------[ability]-------------------------------\r\n\r\n\r\n----------------------------------DisplayManagerService----------------------------------\r\n-------------- DMS FREEZED PID LIST  --------------\r\n-------------- DMS KEY EVENTS LIST  --------------\r\n[10-20 18:28:33.408]: Dms construct.\r\n[10-20 18:28:33.423]: Default screen id : 0\r\n[10-20 18:28:33.467]: Dms OnScreenChange register success.\r\n[10-20 18:28:33.467]: OnScreenChange triggered. screenId: 0  screenEvent: 0\r\n[10-20 18:28:33.468]: screenRotation: 0 ret value: 0correctionRet:0\r\n[10-20 18:28:33.468]: GetScreenPower state:0 screenId:0\r\n[10-20 18:28:33.496]: CreateScreenProperty by rsInterface success.\r\n[10-20 18:28:33.503]: create screen session success.\r\n[10-20 18:28:33.508]: Dms RefreshRateChange register success.\r\n[10-20 18:28:33.532]: Dms subscribed to sensor successfully.\r\n[10-20 18:28:33.532]: Dms init end.\r\n[10-20 18:28:33.538]: Dms AddSystemAbilityListener finished.\r\n[10-20 18:28:33.538]: Dms onstart end.\r\n[10-20 18:28:33.560]: GetScreenPower state:0 screenId:0\r\n[10-20 18:28:33.561]: GetScreenPower state:0\r\n[10-20 18:28:51.734]: set client userId: 100 newScbPid: 2268 clientName: com.ohos.sceneboard\r\n[10-20 18:28:51.756]:   oldUserId: 0  currentScbPId: -1  newUserId: 100  newScbPid: 2268  coldBoot: 1\r\n-------------- DMS Multi User Info --------------\r\n[oldScbPid:] \r\n[userId:] 100\r\n[ScbPid:] 2268\r\nUsage:\r\n -h                             |help text for the tool\r\n -a                             |dump all screen information in the system\r\n -z                             |switch to fold half status\r\n -y                             |switch to expand status\r\n -yy                            |switch to both first and second axes expand status\r\n -p                             |switch to fold status\r\n -f                             |switch to full display mode\r\n -m                             |switch to main display mode\r\n -sub                           |switch to sub display mode\r\n -coor                          |switch to coor display mode\r\n -g                          |switch to global full display mode\r\n -rotationlock                  |set rotation lock, 0 to unloick, 1 to lock, eg. -rotationlock,0 \r\n -motion                        |set the sensor rotation angle clockwise, 0 is 0 degree, 1 is 90 degree, 2 is 180 degree, 3 is 270 degree, eg. -motion,1\r\ndms.hidumper.supportdebug false\r\n\r\n",
+  "stderr": ""
+}

@@ -1,0 +1,45 @@
+
+-------------------------------[ability]-------------------------------
+
+
+----------------------------------DisplayManagerService----------------------------------
+-------------- DMS FREEZED PID LIST  --------------
+-------------- DMS KEY EVENTS LIST  --------------
+[10-20 17:52:36.234]: Dms construct.
+[10-20 17:52:36.662]: Default screen id : 0
+[10-20 17:52:36.662]: Default screen id : 0
+[10-20 17:52:36.680]: Dms OnScreenChange register success.
+[10-20 17:52:36.680]: OnScreenChange triggered. screenId: 0  screenEvent: 0
+[10-20 17:52:36.681]: screenRotation: 0 ret value: 0correctionRet:0
+[10-20 17:52:36.683]: GetScreenPower state:0 screenId:0
+[10-20 17:52:36.691]: Dms subscribed to sensor successfully.
+[10-20 17:52:36.691]: Dms init end.
+[10-20 17:52:36.696]: Dms AddSystemAbilityListener finished.
+[10-20 17:52:36.696]: Dms onstart end.
+[10-20 17:52:36.724]: CreateScreenProperty by rsInterface success.
+[10-20 17:52:36.750]: create screen session success.
+[10-20 17:52:36.751]: Dms RefreshRateChange register success.
+[10-20 17:52:36.758]: GetScreenPower state:0 screenId:0
+[10-20 17:52:36.801]: GetScreenPower state:0
+[10-20 17:52:42.227]: set client userId: 100 newScbPid: 1609 clientName: com.ohos.sceneboard
+[10-20 17:52:42.232]:   oldUserId: 0  currentScbPId: -1  newUserId: 100  newScbPid: 1609  coldBoot: 1
+-------------- DMS Multi User Info --------------
+[oldScbPid:] 
+[userId:] 100
+[ScbPid:] 1609
+Usage:
+ -h                             |help text for the tool
+ -a                             |dump all screen information in the system
+ -z                             |switch to fold half status
+ -y                             |switch to expand status
+ -yy                            |switch to both first and second axes expand status
+ -p                             |switch to fold status
+ -f                             |switch to full display mode
+ -m                             |switch to main display mode
+ -sub                           |switch to sub display mode
+ -coor                          |switch to coor display mode
+ -g                          |switch to global full display mode
+ -rotationlock                  |set rotation lock, 0 to unloick, 1 to lock, eg. -rotationlock,0 
+ -motion                        |set the sensor rotation angle clockwise, 0 is 0 degree, 1 is 90 degree, 2 is 180 degree, 3 is 270 degree, eg. -motion,1
+dms.hidumper.supportdebug false
+

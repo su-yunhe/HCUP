@@ -1,0 +1,65 @@
+**********************
+PowerShell transcript start
+Start time: 20261020175204
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -LiteralPath logs/analysis-baseline/emulator-discovery.txt -Force
+Get-Content -LiteralPath D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Get-ChildItem -LiteralPath D:/HarmonyDev/emulator -Force | Select-Object Name,Mode
+Get-ChildItem -LiteralPath D:/HarmonyDev/user-data -Force | Select-Object Name,Mode
+Emulator.exe -help
+Write-Output "emulator help exit=$LASTEXITCODE"
+Stop-Transcript
+Process ID: 38864
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/analysis-baseline/emulator-discovery.txt
+$ErrorActionPreference = 'Stop'
+. 'D:\hongmengcup\Enter-HarmonyEnv.ps1'
+
+$env:HARMONY_WORKSPACE_HOME = Split-Path -Parent $PSScriptRoot
+$env:HARMONY_PACKAGE_HOME = 'D:\SWE-OpenHarmony'
+$env:VIRTUAL_ENV = Join-Path $env:HARMONY_WORKSPACE_HOME 'common\.venv'
+$env:PIP_CONSTRAINT = 'D:\HarmonyDev\python-constraints.txt'
+$env:PYTHONUTF8 = '1'
+$env:PYTHONIOENCODING = 'utf-8'
+$OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+$taskHarnessPath = Join-Path $env:HARMONY_WORKSPACE_HOME 'common\test-harness'
+if ($env:PYTHONPATH) {
+    $env:PYTHONPATH = $taskHarnessPath + ';' + $env:PYTHONPATH
+} else {
+    $env:PYTHONPATH = $taskHarnessPath
+}
+$env:Path = (Join-Path $env:VIRTUAL_ENV 'Scripts') + ';D:\Program Files\Git\bin;' + $env:Path
+Write-Host "Workspace: $env:HARMONY_WORKSPACE_HOME"
+Write-Host "Official package: $env:HARMONY_PACKAGE_HOME"
+
+
+Name            Mode
+----            ----
+deployed        d----
+images          d----
+instances       d----
+DevEcoStudio610 d----
+Huawei-Local    d----
+Huawei-Roaming  d----
+ohpm            d----
+emulator help exit=0
+**********************
+PowerShell transcript end
+End time: 20261020175205
+**********************

@@ -1,0 +1,12 @@
+{
+  "action": "Clean generated temporary validation clones after successful patch verification",
+  "target": ".comate/submission-draft/.validation-work",
+  "result": "rejected before execution",
+  "tool_reason": "blocked by policy",
+  "original_evidence": "Root native thread 01a1590b-c9f9-7f32-9607-2b3f4c8c38e7: functions.exec/exec_command CreateProcess rejection",
+  "executed": false,
+  "alternative_deletion_attempted": false,
+  "local_directories_retained": [".validation-work/", "validation/independent-baseline/"],
+  "delivery_action": "Exclude these generated-only directories from package copying; preserve original patch/apply commands, outputs, hashes and this rejection record",
+  "record_note": "A subsequent shell request intended only to write this disclosure was also rejected before execution. This file is written through the file patch tool, without a filesystem cleanup operation."
+}

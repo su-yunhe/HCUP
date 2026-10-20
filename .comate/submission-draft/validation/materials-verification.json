@@ -1,0 +1,673 @@
+{
+  "schema_version": 1,
+  "task_id": "cml-spec7",
+  "thread_id": "01a15914-c10a-7f52-8c6b-5180f42bb365",
+  "checked_at_utc": "2026-10-20T11:50:28.203959+00:00",
+  "scope": "Final native/doc slice audit; no clone/apply/build/device/feature rerun",
+  "result": "pass_with_declared_gaps",
+  "counts": {
+    "pass": 15
+  },
+  "assertions": [
+    {
+      "check": "immutable_full_apply_proof_anchor",
+      "status": "pass",
+      "evidence": "validation/full-apply-03.json",
+      "sha256": "94a96a73b3e2f54cf657631a0c56b8a919e6baeee36ee2c20ae57a17abdaf496",
+      "expected_sha256": "94a96a73b3e2f54cf657631a0c56b8a919e6baeee36ee2c20ae57a17abdaf496"
+    },
+    {
+      "check": "same_project_and_patch_version",
+      "status": "pass",
+      "evidence": "Identical manifest/inventory/proof bytes and actual patch SHA-256; agreed immutable source window",
+      "changed": [],
+      "patch_sha256": "8fd315802f14975f3adf423b9e2931bf165d05b22f2b9d700cf5753ecccdbbca",
+      "note": "Full source/snapshot/apply checks are reused from the anchored report; not rerun in this final targeted audit."
+    },
+    {
+      "check": "final_nine_document_delta_scope",
+      "status": "pass",
+      "evidence": "Nine document hashes versus original manual review",
+      "changed": [
+        "trace-index.md"
+      ],
+      "trace_sha256": "54e05cadf31a4a2820cfbeb14ea67eebd20e67973ddeea1f9f0228d7c292d695"
+    },
+    {
+      "check": "native_two_dimension_discovery",
+      "status": "pass",
+      "evidence": "traces/native-discovery-search.json; traces/discovery.json",
+      "missing_registered": [],
+      "selected_count": 15,
+      "note": "Pending refreshed export when missing_registered is nonempty. Discovery command/results cross-checked locally; no global session store reread by verifier."
+    },
+    {
+      "check": "native_metadata_latest_cumulative_and_identity",
+      "status": "pass",
+      "evidence": "traces/session-metadata.json; traces/native/*.jsonl",
+      "errors": [],
+      "session_summaries": [
+        {
+          "session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "source_header_session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "parent": null,
+          "line_count": 557,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 555
+        },
+        {
+          "session_id": "01a158b7-9d99-7260-95c0-1f8da4f27301",
+          "source_header_session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "parent": {
+            "parent_thread_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+            "depth": 1,
+            "agent_path": "/root/requirements",
+            "agent_nickname": "Dirac",
+            "agent_role": "harmony_requirements"
+          },
+          "line_count": 155,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 153
+        },
+        {
+          "session_id": "01a158b7-cf4a-7b83-8b86-51f14fe4c556",
+          "source_header_session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "parent": {
+            "parent_thread_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+            "depth": 1,
+            "agent_path": "/root/baseline_verification",
+            "agent_nickname": "Ramanujan",
+            "agent_role": "harmony_verification"
+          },
+          "line_count": 441,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 439
+        },
+        {
+          "session_id": "01a158b8-5287-72f1-b1c8-d9a3f6c129b4",
+          "source_header_session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "parent": {
+            "parent_thread_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+            "depth": 1,
+            "agent_path": "/root/baseline_code_audit",
+            "agent_nickname": "Goodall",
+            "agent_role": "harmony_implementation"
+          },
+          "line_count": 141,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 139
+        },
+        {
+          "session_id": "01a158bf-f922-7593-823d-2c1460e4f2d4",
+          "source_header_session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "parent": {
+            "parent_thread_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+            "depth": 1,
+            "agent_path": "/root/analysis_design_review",
+            "agent_nickname": "Laplace",
+            "agent_role": "harmony_design"
+          },
+          "line_count": 132,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 130
+        },
+        {
+          "session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "source_header_session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "parent": null,
+          "line_count": 1847,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 1845
+        },
+        {
+          "session_id": "01a158d1-3d40-7092-b3c0-1c60dcb4cd06",
+          "source_header_session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "parent": {
+            "parent_thread_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+            "depth": 1,
+            "agent_path": "/root/requirements_do",
+            "agent_nickname": "Sagan",
+            "agent_role": "harmony_requirements"
+          },
+          "line_count": 174,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 172
+        },
+        {
+          "session_id": "01a158d2-9ec4-7050-87ff-875ea468f5ce",
+          "source_header_session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "parent": {
+            "parent_thread_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+            "depth": 1,
+            "agent_path": "/root/design_do",
+            "agent_nickname": "Anscombe",
+            "agent_role": "harmony_design"
+          },
+          "line_count": 328,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 326
+        },
+        {
+          "session_id": "01a158d3-1977-7490-b337-d28df9f59e73",
+          "source_header_session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "parent": {
+            "parent_thread_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+            "depth": 1,
+            "agent_path": "/root/verification_do",
+            "agent_nickname": "Dewey",
+            "agent_role": "harmony_verification"
+          },
+          "line_count": 1357,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 1355
+        },
+        {
+          "session_id": "01a158d7-59c4-7df2-95f7-995b90d6bbee",
+          "source_header_session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "parent": {
+            "parent_thread_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+            "depth": 1,
+            "agent_path": "/root/implementation_do",
+            "agent_nickname": "Franklin",
+            "agent_role": "harmony_implementation"
+          },
+          "line_count": 305,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 303
+        },
+        {
+          "session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "source_header_session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "parent": null,
+          "line_count": 692,
+          "last_event_type": "token_usage_record",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 692
+        },
+        {
+          "session_id": "01a1590c-9c06-7340-bb4f-14a58f111ec2",
+          "source_header_session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "parent": {
+            "parent_thread_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+            "depth": 1,
+            "agent_path": "/root/submission_requirements",
+            "agent_nickname": "Ohm",
+            "agent_role": "harmony_requirements"
+          },
+          "line_count": 138,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 136
+        },
+        {
+          "session_id": "01a1590f-cd99-7df0-9608-5c9d6cece03f",
+          "source_header_session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "parent": {
+            "parent_thread_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+            "depth": 1,
+            "agent_path": "/root/submission_design",
+            "agent_nickname": "Franklin",
+            "agent_role": "harmony_design"
+          },
+          "line_count": 162,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 160
+        },
+        {
+          "session_id": "01a15912-a712-7051-9226-6396f727ba11",
+          "source_header_session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "parent": {
+            "parent_thread_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+            "depth": 1,
+            "agent_path": "/root/submission_documents",
+            "agent_nickname": "Leibniz",
+            "agent_role": "harmony_implementation"
+          },
+          "line_count": 225,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 223
+        },
+        {
+          "session_id": "01a15914-c10a-7f52-8c6b-5180f42bb365",
+          "source_header_session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "parent": {
+            "parent_thread_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+            "depth": 1,
+            "agent_path": "/root/submission_verification",
+            "agent_nickname": "Confucius",
+            "agent_role": "harmony_verification"
+          },
+          "line_count": 357,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 355
+        }
+      ],
+      "excluded_ids": [
+        "01a13fc4-2611-7761-a580-1283e0c70541"
+      ],
+      "gaps": []
+    },
+    {
+      "check": "official_trace_index_all_fields",
+      "status": "pass",
+      "evidence": "trace-index.md; official template",
+      "fields": 24,
+      "missing": []
+    },
+    {
+      "check": "build_portable_and_complete_review",
+      "status": "pass",
+      "evidence": "build.md",
+      "absolute_paths": [],
+      "missing_tokens": [],
+      "scope": "Static portability/instruction audit only; existing build evidence checked separately; no new build/device execution."
+    },
+    {
+      "check": "json_single_task_relative_paths",
+      "status": "pass",
+      "evidence": "submission.json.fragment",
+      "actual": {
+        "task_id": "cml-spec7",
+        "status": "not_completed",
+        "project_path": "tasks/cml-spec7/project",
+        "build_instructions": "tasks/cml-spec7/build.md",
+        "trace_index": "tasks/cml-spec7/trace-index.md"
+      },
+      "expected_mapping": {
+        "project_path": "tasks/cml-spec7/project/",
+        "build_instructions": "tasks/cml-spec7/build.md",
+        "trace_index": "tasks/cml-spec7/trace-index.md"
+      },
+      "source_mapping": {
+        "project_path": "traces/code-snapshot/project",
+        "build_instructions": "build.md",
+        "trace_index": "trace-index.md"
+      },
+      "note": "Stage 3 mapping contract resolves to an existing snapshot directory and two existing files; trailing slash optional for directory; no final ZIP claimed."
+    },
+    {
+      "check": "partial_completion_and_human_gaps_disclosed",
+      "status": "pass",
+      "evidence": "solution.fragment.md; sources.fragment.md; human-changes.md; missing-fields.md"
+    },
+    {
+      "check": "two_handoff_lists_and_original_gaps",
+      "status": "pass",
+      "evidence": "auto-filled-facts.md; missing-fields.md; trace-index.md"
+    },
+    {
+      "check": "trace_tables_match_latest_export",
+      "status": "pass",
+      "evidence": "trace-index.md; traces/session-metadata.json",
+      "errors": []
+    },
+    {
+      "check": "manual_document_semantics",
+      "status": "pass",
+      "evidence": "validation/manual-document-review.json",
+      "stale": [],
+      "reviewed_fields": [
+        "Official trace template retains all 24 labels; actual metadata/table values checked independently against exported native files",
+        "38 pass / B9-B11 blocked consistently disclosed; no official score or full completion claim",
+        "Blank human_edits / known_issues / extra_sources / md_export_dir and team version/contact/freeze/members/source_guard remain pending; no invented no-edits/no-extra-sources declaration",
+        "Comate identifiers not fabricated; Codex own header id, parent/session_id and real sidebar rows distinguished; unavailable independent sidebar id pending",
+        "Agent/runtime model/effort/token fields reflect native exported metadata; cumulative counters not added and active cutoff boundaries explicit",
+        "Original baseline log and initial stdout gaps, failed/invalidated/helper-error/800vp rounds and cleanup rejection disclosed; failure/retry logs retained",
+        "Sources are historically observed local baseline reuse, original local text and prior official SDK research; no new network access or SDK integration claim",
+        "Build instructions use PATH and packaged relative Python entry points, state unsigned-HAP/signing limitations and actual target/observed SDK differences, and do not rely on private absolute paths",
+        "JSON is a single cml-spec7 task with not_completed draft default and package-relative project directory/build file/trace file mapping; no final submission/ZIP claim",
+        "Draft derivatives/caches/temporary clones excluded; snapshot version differs from base HEAD and formal team freeze; post-cutoff events left to Stage 3",
+        "Privacy disclosure retains local usernames/paths in raw unredacted task-only native copies; bounded artifact scan does not replace pending final human sensitivity review"
+      ]
+    },
+    {
+      "check": "final_native_contains_substantive_verification_and_rejection",
+      "status": "pass",
+      "evidence": "Actual native tool-output events (not only prompts/summary prose)",
+      "matching_events": [
+        {
+          "session_id": "01a15914-c10a-7f52-8c6b-5180f42bb365",
+          "line": 271,
+          "call_id": "call_969fa12a28aa433abd6362e8fea073a7",
+          "successful_audit_marker": false,
+          "cleanup_rejection_marker": true
+        },
+        {
+          "session_id": "01a15914-c10a-7f52-8c6b-5180f42bb365",
+          "line": 337,
+          "call_id": "call_fe213748bc974467b88b0b22405e575f",
+          "successful_audit_marker": true,
+          "cleanup_rejection_marker": false
+        },
+        {
+          "session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "line": 43,
+          "call_id": "call_c637fb1d66074229b211202b1827df00",
+          "successful_audit_marker": false,
+          "cleanup_rejection_marker": true
+        },
+        {
+          "session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "line": 420,
+          "call_id": "call_31f2bf5bc8d845beb80b0a3890bbf329",
+          "successful_audit_marker": true,
+          "cleanup_rejection_marker": false
+        },
+        {
+          "session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "line": 552,
+          "call_id": "call_43d280fa64ef4742aae84ca4e7e65c31",
+          "successful_audit_marker": false,
+          "cleanup_rejection_marker": true
+        },
+        {
+          "session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "line": 575,
+          "call_id": "call_7dff0c24d0bd457ab8b78c4535bcb3b7",
+          "successful_audit_marker": false,
+          "cleanup_rejection_marker": true
+        },
+        {
+          "session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "line": 617,
+          "call_id": "call_b51c5b2a8ce044a5b484a419a1deb034",
+          "successful_audit_marker": false,
+          "cleanup_rejection_marker": true
+        }
+      ]
+    },
+    {
+      "check": "retained_clones_excluded_without_cleanup_retry",
+      "status": "pass",
+      "evidence": "assembly-plan.json; temporary-clone-cleanup-rejected.json",
+      "reason": "blocked by policy"
+    },
+    {
+      "check": "final_slice_inputs_stable",
+      "status": "pass",
+      "evidence": "First-read/final SHA-256 over this targeted audit",
+      "changed_during_audit": []
+    }
+  ],
+  "requirements": [
+    {
+      "requirement": "S01",
+      "status": "pass",
+      "checks": [
+        "hap_and_matrix_identity",
+        "partial_completion_and_human_gaps_disclosed"
+      ]
+    },
+    {
+      "requirement": "S02",
+      "status": "pass",
+      "checks": [
+        "production_and_tests_unchanged"
+      ]
+    },
+    {
+      "requirement": "S03",
+      "status": "pass",
+      "checks": [
+        "real_inputs_templates_taskbook_versions",
+        "json_single_task_relative_paths"
+      ]
+    },
+    {
+      "requirement": "S04",
+      "status": "pass",
+      "checks": [
+        "project_scope_and_exclusions",
+        "project_snapshot_all_file_hashes",
+        "root_patch_proof_consistent"
+      ]
+    },
+    {
+      "requirement": "S05",
+      "status": "pass",
+      "checks": [
+        "independent_baseline_real_apply_all_files"
+      ]
+    },
+    {
+      "requirement": "S06",
+      "status": "pass",
+      "checks": [
+        "project_scope_and_exclusions",
+        "independent_change_and_eol_classification"
+      ]
+    },
+    {
+      "requirement": "S07",
+      "status": "pass",
+      "checks": [
+        "binary_inventory_complete",
+        "independent_binary_baseline_lineage"
+      ]
+    },
+    {
+      "requirement": "S08",
+      "status": "pass",
+      "checks": [
+        "build_portable_and_complete_review"
+      ]
+    },
+    {
+      "requirement": "S09",
+      "status": "pass",
+      "checks": [
+        "official_trace_index_all_fields",
+        "trace_tables_match_latest_export",
+        "manual_document_semantics"
+      ]
+    },
+    {
+      "requirement": "S10",
+      "status": "pass",
+      "checks": [
+        "native_two_dimension_discovery",
+        "native_metadata_latest_cumulative_and_identity"
+      ]
+    },
+    {
+      "requirement": "S11",
+      "status": "pass",
+      "checks": [
+        "native_metadata_latest_cumulative_and_identity"
+      ]
+    },
+    {
+      "requirement": "S12",
+      "status": "pass",
+      "checks": [
+        "native_metadata_latest_cumulative_and_identity",
+        "manual_document_semantics"
+      ]
+    },
+    {
+      "requirement": "S13",
+      "status": "pass",
+      "checks": [
+        "failed_round_and_rejection_preserved",
+        "logs_copy_complete_and_exact",
+        "manual_document_semantics"
+      ]
+    },
+    {
+      "requirement": "S14",
+      "status": "pass",
+      "checks": [
+        "native_metadata_latest_cumulative_and_identity",
+        "real_inputs_templates_taskbook_versions",
+        "manual_document_semantics"
+      ]
+    },
+    {
+      "requirement": "S15",
+      "status": "pass",
+      "checks": [
+        "partial_completion_and_human_gaps_disclosed",
+        "manual_document_semantics"
+      ]
+    },
+    {
+      "requirement": "S16",
+      "status": "pass",
+      "checks": [
+        "hap_and_matrix_identity",
+        "partial_completion_and_human_gaps_disclosed",
+        "manual_document_semantics"
+      ]
+    },
+    {
+      "requirement": "S17",
+      "status": "pass",
+      "checks": [
+        "json_single_task_relative_paths"
+      ]
+    },
+    {
+      "requirement": "S18",
+      "status": "pass",
+      "checks": [
+        "logs_copy_complete_and_exact",
+        "existing_install_selftest_source_hap_archives_correspond"
+      ]
+    },
+    {
+      "requirement": "S19",
+      "status": "pass",
+      "checks": [
+        "partial_completion_and_human_gaps_disclosed",
+        "manual_document_semantics"
+      ]
+    },
+    {
+      "requirement": "S20",
+      "status": "pass",
+      "checks": [
+        "two_handoff_lists_and_original_gaps",
+        "manual_document_semantics",
+        "bounded_sensitive_artifact_scan"
+      ]
+    },
+    {
+      "requirement": "S21",
+      "status": "pass",
+      "checks": [
+        "two_handoff_lists_and_original_gaps",
+        "manual_document_semantics"
+      ]
+    },
+    {
+      "requirement": "S22",
+      "status": "pass",
+      "checks": [
+        "project_snapshot_all_file_hashes",
+        "audit_inputs_stable",
+        "manual_document_semantics"
+      ]
+    }
+  ],
+  "inherited_full_apply": {
+    "path": "validation/full-apply-03.json",
+    "sha256": "94a96a73b3e2f54cf657631a0c56b8a919e6baeee36ee2c20ae57a17abdaf496",
+    "assertions": 33,
+    "requirements": 22,
+    "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+    "patch_sha256": "8fd315802f14975f3adf423b9e2931bf165d05b22f2b9d700cf5753ecccdbbca",
+    "same_immutable_version": true,
+    "original_apply_commands_results": "validation/independent-apply-proof-01.json",
+    "checker_failure_and_correction": "validation/checker-correction-01.json"
+  },
+  "input_sha256": {
+    "project-manifest.json": "bb9a2b77d80758fb63939084bf30a50ccb8411c657aecfa2f72b947bd462beea",
+    "project-exclusions.json": "9b9dc4e0bd471ecdcf471518cc6179835eb977e29f9fe96de6076093306e3fb5",
+    "changes/changed-files.json": "77ddefb58281e75f03a159307b7ecbaa8f63aea2e3e4673fd042cd6e518b0e94",
+    "changes/line-ending-only.json": "e065f412b593e9039c3ef80eb77959fa0a9105631319fcd3a88a5743b5ae70d8",
+    "changes/binary-files.json": "be1d4dc46ead477f60aab10217b4558aea7b7ab7b067a0b44c1d645cab6d24a6",
+    "changes/resource-files.json": "663b3895b02d6578aed9db245ac296050e6c85ea034cb12313519f974313768f",
+    "patch-validation.json": "2f6584e915e8ad39900803f9ac1e4ca70933df494883fbaa8ef4a31b4662e170",
+    "production-before.json": "8c6f3e9bddfeddf7acba7a8f6ea97d8e2c8866db04454e5c8a426c6dcbe69a01",
+    "changes/final.diff": "8fd315802f14975f3adf423b9e2931bf165d05b22f2b9d700cf5753ecccdbbca",
+    "traces/session-metadata.json": "2b09dd738ce9a94fc255ccc9286ff4e353e4d864720e382a256735ce74f75d40",
+    "traces/discovery.json": "03787acdd2ecac4583667bb8000d4b8d04985c13c5c4d6374fbf1cd5b7bc460a",
+    "traces/native-discovery-search.json": "fc6b3cf0fcec19a86d2c6a330061dd2b6a880ca13fd5584ad525c872078d94e4",
+    "traces/markdown/01a158b5-95c1-7843-be11-cfb16aaa2e74.md": "cf106b37e6786397ce4bf5807da8a94b3e0ce2959106f787a4e12d5e7034722d",
+    "traces/markdown/01a158b7-9d99-7260-95c0-1f8da4f27301.md": "8368214c3dd8cb0446891da3772ebf8d88b2b448eae9a5bcff03a534041c5de0",
+    "traces/markdown/01a158b7-cf4a-7b83-8b86-51f14fe4c556.md": "d003ce13b05ee026589bb592f79a64d2afe05b286b60481f6c7719781050d69c",
+    "traces/markdown/01a158b8-5287-72f1-b1c8-d9a3f6c129b4.md": "04f41f0741903590e25ab2789ced6f7bec4cfb0182d0e0533fc99b0c874b07d5",
+    "traces/markdown/01a158bf-f922-7593-823d-2c1460e4f2d4.md": "361d0ee8cc828886c52cab5397fc280a1763f7b4f59b27070cf24c8df1f03cd6",
+    "traces/markdown/01a158d0-416c-75a3-8836-233f0c35fb6f.md": "287d9f34127290253934afe1aa8dd3bfa33fdaa1b77f3aa0b2aeb5307d8f5a3b",
+    "traces/markdown/01a158d1-3d40-7092-b3c0-1c60dcb4cd06.md": "f92545c2d31a6ad719f5f248d713c3576d5d98839dba7257da1821d47541a7ee",
+    "traces/markdown/01a158d2-9ec4-7050-87ff-875ea468f5ce.md": "5b758297c8101893f4cc0f17b7f6d092da46df58a39ba8a7214146bfccd94b4a",
+    "traces/markdown/01a158d3-1977-7490-b337-d28df9f59e73.md": "16c9fbf28a9b84a9d7fa882824e9d71643cef177ff250a00e565a4fadbf8b8e0",
+    "traces/markdown/01a158d7-59c4-7df2-95f7-995b90d6bbee.md": "f182b8cd28f84924f0d73bd383e64a3d9af9959c03bbf15a3de4b46d8ebaf1b3",
+    "traces/markdown/01a1590b-c9f9-7f32-9607-2b3f4c8c38e7.md": "1a2604a3f9741f1db7198cd41b5bf58f49458c6848ae578451b936bb0443bfde",
+    "traces/markdown/01a1590c-9c06-7340-bb4f-14a58f111ec2.md": "bce5b3bb58aeb50718a1d06c67d8be7e3f3f6ef7920b0ec48e02a1d5b4193c50",
+    "traces/markdown/01a1590f-cd99-7df0-9608-5c9d6cece03f.md": "e9d8b387faaf362b832a68f97da41766bc3aca0605ecb01ea911beec0742bd25",
+    "traces/markdown/01a15912-a712-7051-9226-6396f727ba11.md": "da11b0591391bbc587f04790c56ff1e86b91fff3ecdd89ccdc95242687a37f7d",
+    "traces/markdown/01a15914-c10a-7f52-8c6b-5180f42bb365.md": "9aee0cc6b6494b942af5fbdfc15f8ffaef7d7919c892cd7a02dfa49fb0b6f650",
+    "trace-index.md": "54e05cadf31a4a2820cfbeb14ea67eebd20e67973ddeea1f9f0228d7c292d695",
+    "build.md": "02d1c8338059dbf6122b3a76f2d17afb6a647c0a43281f6a44d67843a5ced2ce",
+    "submission.json.fragment": "9e114f71cf01e75a0461735c2e90fc8954d6d1a1cbc145bed4a6e64aaa50d586",
+    "solution.fragment.md": "52d627abe500fbff8989f3960d9b45c8d102c7815afd385429cd0e15d37edc6c",
+    "sources.fragment.md": "406921a42e903e33ef7103e67d84e55d619101ea9b7f6bd4bfefb4d99e29505d",
+    "human-changes.md": "6879d83f606e29bb51bd44df8d2f28d219a3ab0045dd67541500ef7ca43fa81d",
+    "missing-fields.md": "97e9a34699512907ed94ac54c9fc8efdc13efdd90a235bc7245400d43c269bd6",
+    "auto-filled-facts.md": "c89b640bacc2536e1c792d396da93cc60ffecbefd7671281aa87a316ccced89a",
+    "assembly-plan.json": "4747de39a771e021e349316b90ea9c03b31256dcbb4b7ba6be121ece14e139d5",
+    "temporary-clone-cleanup-rejected.json": "f07b16c537441ce09fb665da73234ecc34503f6441b58399fa7bb2530d079c09"
+  },
+  "known_unresolved": [
+    "B9/B10/B11 remain blocked; 38 pass is local requirement evidence, not official score",
+    "Blank human/team declarations and official freeze/submission selection remain unprovided",
+    "Original baseline log, initial stdout gap, unavailable independent IDE/Comate identifiers remain disclosed gaps",
+    "Root temporary-clone cleanup rejected by automatic approval policy (blocked by policy); generated clones retained and excluded, no alternate deletion attempted"
+  ],
+  "cutoff_note": "Final exported records include substantive patch validation and cleanup refusal. This targeted audit and later closeout are after that declared slice; future events are not claimed exported.",
+  "verification_script_sha256": "3b8e57fa82b19b339f12fe07ae9d8fbb4fd0f403403ac7db30ff35fee1b3769f"
+}

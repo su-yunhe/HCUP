@@ -1,0 +1,449 @@
+{
+  "purpose": "Preflight evidence correspondence; documents/patch still pending",
+  "assertions": [
+    {
+      "check": "production_and_tests_unchanged",
+      "status": "pass",
+      "evidence": "production-before.json",
+      "checked": 799,
+      "mismatches": []
+    },
+    {
+      "check": "final_verification_source_identity",
+      "status": "pass",
+      "evidence": "workflow/verification/final-evidence-fingerprint-03.json",
+      "checked": 799,
+      "mismatches": [],
+      "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e"
+    },
+    {
+      "check": "hap_and_matrix_identity",
+      "status": "pass",
+      "evidence": "facts.json; logs/verification-final-03.json",
+      "counts": {
+        "pass": 38,
+        "blocked": 3
+      },
+      "blocked": [
+        "B10",
+        "B11",
+        "B9"
+      ],
+      "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863"
+    },
+    {
+      "check": "matrix_observation_paths",
+      "status": "pass",
+      "evidence": "logs/verification-final-03.json",
+      "missing": []
+    },
+    {
+      "check": "final_build_raw_result",
+      "status": "pass",
+      "evidence": "logs/verification-navigation-smoke-03/build.json",
+      "exit_code": 0,
+      "command": [
+        "D:\\HarmonyDev\\DevEcoStudio-6.1.0\\tools\\hvigor\\bin\\hvigorw.BAT",
+        "--mode",
+        "module",
+        "-p",
+        "product=default",
+        "-p",
+        "module=entry@default",
+        "-p",
+        "buildMode=debug",
+        "clean",
+        "assembleHap",
+        "--no-daemon",
+        "--no-incremental"
+      ]
+    },
+    {
+      "check": "existing_install_selftest_source_hap_archives_correspond",
+      "status": "pass",
+      "evidence": "logs/verification-final-03.json; per-round install/fingerprint/selftest/test-code",
+      "errors": [],
+      "rounds": [
+        {
+          "round": "logs/verification-navigation-smoke-03",
+          "device": "127.0.0.1:5555",
+          "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863",
+          "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+          "case_counts": {
+            "pass": 2
+          },
+          "test_archive_files": 6
+        },
+        {
+          "round": "logs/verification-phone-suite-03",
+          "device": "127.0.0.1:5555",
+          "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863",
+          "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+          "case_counts": {
+            "pass": 39,
+            "skip": 8,
+            "error": 1
+          },
+          "test_archive_files": 6
+        },
+        {
+          "round": "logs/verification-documents-03",
+          "device": "127.0.0.1:5555",
+          "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863",
+          "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+          "case_counts": {
+            "pass": 3
+          },
+          "test_archive_files": 8
+        },
+        {
+          "round": "logs/verification-phone-rotation-03",
+          "device": "127.0.0.1:5555",
+          "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863",
+          "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+          "case_counts": {
+            "pass": 1
+          },
+          "test_archive_files": 8
+        },
+        {
+          "round": "logs/verification-tablet-subset-03",
+          "device": "127.0.0.1:5557",
+          "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863",
+          "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+          "case_counts": {
+            "pass": 19,
+            "skip": 3
+          },
+          "test_archive_files": 8
+        },
+        {
+          "round": "logs/verification-large-subset-03",
+          "device": "127.0.0.1:5557",
+          "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863",
+          "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+          "case_counts": {
+            "pass": 19,
+            "skip": 3
+          },
+          "test_archive_files": 8
+        },
+        {
+          "round": "logs/verification-large-geometry-03",
+          "device": "127.0.0.1:5557",
+          "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863",
+          "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+          "case_counts": {
+            "pass": 4
+          },
+          "test_archive_files": 8
+        }
+      ]
+    },
+    {
+      "check": "logs_copy_complete_and_exact",
+      "status": "pass",
+      "evidence": "logs-copy-manifest.json",
+      "copied": 3526,
+      "exclusions": 6,
+      "source_mismatches": [],
+      "copy_mismatches": [],
+      "unrepresented": [],
+      "stale": []
+    },
+    {
+      "check": "logs_exclusions_are_declared_runtime_disks",
+      "status": "pass",
+      "evidence": "logs-copy-manifest.json"
+    },
+    {
+      "check": "failed_round_and_rejection_preserved",
+      "status": "pass",
+      "evidence": [
+        "logs/verification-closeout-03/temporary-disk-cleanup-rejected.json",
+        "logs/verification-final-03.json",
+        "logs/verification-phone-suite-02/hypium-runner.stderr.txt"
+      ]
+    },
+    {
+      "check": "native_two_dimension_discovery",
+      "status": "pass",
+      "evidence": "traces/native-discovery-search.json; traces/discovery.json",
+      "missing_registered": [],
+      "selected_count": 15,
+      "note": "Pending refreshed export when missing_registered is nonempty. Discovery command/results cross-checked locally; no global session store reread by verifier."
+    },
+    {
+      "check": "native_metadata_latest_cumulative_and_identity",
+      "status": "pass",
+      "evidence": "traces/session-metadata.json; traces/native/*.jsonl",
+      "errors": [],
+      "session_summaries": [
+        {
+          "session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "source_header_session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "parent": null,
+          "line_count": 557,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 555
+        },
+        {
+          "session_id": "01a158b7-9d99-7260-95c0-1f8da4f27301",
+          "source_header_session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "parent": {
+            "parent_thread_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+            "depth": 1,
+            "agent_path": "/root/requirements",
+            "agent_nickname": "Dirac",
+            "agent_role": "harmony_requirements"
+          },
+          "line_count": 155,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 153
+        },
+        {
+          "session_id": "01a158b7-cf4a-7b83-8b86-51f14fe4c556",
+          "source_header_session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "parent": {
+            "parent_thread_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+            "depth": 1,
+            "agent_path": "/root/baseline_verification",
+            "agent_nickname": "Ramanujan",
+            "agent_role": "harmony_verification"
+          },
+          "line_count": 441,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 439
+        },
+        {
+          "session_id": "01a158b8-5287-72f1-b1c8-d9a3f6c129b4",
+          "source_header_session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "parent": {
+            "parent_thread_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+            "depth": 1,
+            "agent_path": "/root/baseline_code_audit",
+            "agent_nickname": "Goodall",
+            "agent_role": "harmony_implementation"
+          },
+          "line_count": 141,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 139
+        },
+        {
+          "session_id": "01a158bf-f922-7593-823d-2c1460e4f2d4",
+          "source_header_session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+          "parent": {
+            "parent_thread_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+            "depth": 1,
+            "agent_path": "/root/analysis_design_review",
+            "agent_nickname": "Laplace",
+            "agent_role": "harmony_design"
+          },
+          "line_count": 132,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 130
+        },
+        {
+          "session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "source_header_session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "parent": null,
+          "line_count": 1847,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 1845
+        },
+        {
+          "session_id": "01a158d1-3d40-7092-b3c0-1c60dcb4cd06",
+          "source_header_session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "parent": {
+            "parent_thread_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+            "depth": 1,
+            "agent_path": "/root/requirements_do",
+            "agent_nickname": "Sagan",
+            "agent_role": "harmony_requirements"
+          },
+          "line_count": 174,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 172
+        },
+        {
+          "session_id": "01a158d2-9ec4-7050-87ff-875ea468f5ce",
+          "source_header_session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "parent": {
+            "parent_thread_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+            "depth": 1,
+            "agent_path": "/root/design_do",
+            "agent_nickname": "Anscombe",
+            "agent_role": "harmony_design"
+          },
+          "line_count": 328,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 326
+        },
+        {
+          "session_id": "01a158d3-1977-7490-b337-d28df9f59e73",
+          "source_header_session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "parent": {
+            "parent_thread_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+            "depth": 1,
+            "agent_path": "/root/verification_do",
+            "agent_nickname": "Dewey",
+            "agent_role": "harmony_verification"
+          },
+          "line_count": 1357,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 1355
+        },
+        {
+          "session_id": "01a158d7-59c4-7df2-95f7-995b90d6bbee",
+          "source_header_session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+          "parent": {
+            "parent_thread_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+            "depth": 1,
+            "agent_path": "/root/implementation_do",
+            "agent_nickname": "Franklin",
+            "agent_role": "harmony_implementation"
+          },
+          "line_count": 305,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 303
+        },
+        {
+          "session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "source_header_session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "parent": null,
+          "line_count": 402,
+          "last_event_type": "token_usage_record",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 402
+        },
+        {
+          "session_id": "01a1590c-9c06-7340-bb4f-14a58f111ec2",
+          "source_header_session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "parent": {
+            "parent_thread_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+            "depth": 1,
+            "agent_path": "/root/submission_requirements",
+            "agent_nickname": "Ohm",
+            "agent_role": "harmony_requirements"
+          },
+          "line_count": 138,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 136
+        },
+        {
+          "session_id": "01a1590f-cd99-7df0-9608-5c9d6cece03f",
+          "source_header_session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "parent": {
+            "parent_thread_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+            "depth": 1,
+            "agent_path": "/root/submission_design",
+            "agent_nickname": "Franklin",
+            "agent_role": "harmony_design"
+          },
+          "line_count": 162,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 160
+        },
+        {
+          "session_id": "01a15912-a712-7051-9226-6396f727ba11",
+          "source_header_session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "parent": {
+            "parent_thread_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+            "depth": 1,
+            "agent_path": "/root/submission_documents",
+            "agent_nickname": "Leibniz",
+            "agent_role": "harmony_implementation"
+          },
+          "line_count": 132,
+          "last_event_type": "event_msg",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 130
+        },
+        {
+          "session_id": "01a15914-c10a-7f52-8c6b-5180f42bb365",
+          "source_header_session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+          "parent": {
+            "parent_thread_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+            "depth": 1,
+            "agent_path": "/root/submission_verification",
+            "agent_nickname": "Confucius",
+            "agent_role": "harmony_verification"
+          },
+          "line_count": 102,
+          "last_event_type": "token_usage_record",
+          "models": [
+            "gpt-6.1-sol"
+          ],
+          "latest_usage_line": 102
+        }
+      ],
+      "excluded_ids": [
+        "01a13fc4-2611-7761-a580-1283e0c70541"
+      ],
+      "gaps": []
+    }
+  ],
+  "input_sha256": {
+    "production-before.json": "8c6f3e9bddfeddf7acba7a8f6ea97d8e2c8866db04454e5c8a426c6dcbe69a01",
+    "facts.json": "8f04bf67aedb53dabce9014824944839e1c2e371c13a5a80b3c87a070542f2d6",
+    "logs-copy-manifest.json": "d8363272db4bcfb3eff5a069064ae10c25d7a39c43ffa9d271786de1fad15bf7",
+    "traces/session-metadata.json": "a83f59ac42df3fd1b6be212660c9d8e64d4f2730a86d8db6943b8b7013f02322",
+    "traces/discovery.json": "5669213d9baa233a1da4c625f1af83f8dfec8a83eb325cd8e2dc8281334a18a3",
+    "traces/native-discovery-search.json": "b1b7a33933e22f88a132b7cf33ac7e388780c775842bf0e459bebb97148b48c1",
+    "traces/markdown/01a158b5-95c1-7843-be11-cfb16aaa2e74.md": "cf106b37e6786397ce4bf5807da8a94b3e0ce2959106f787a4e12d5e7034722d",
+    "traces/markdown/01a158b7-9d99-7260-95c0-1f8da4f27301.md": "8368214c3dd8cb0446891da3772ebf8d88b2b448eae9a5bcff03a534041c5de0",
+    "traces/markdown/01a158b7-cf4a-7b83-8b86-51f14fe4c556.md": "d003ce13b05ee026589bb592f79a64d2afe05b286b60481f6c7719781050d69c",
+    "traces/markdown/01a158b8-5287-72f1-b1c8-d9a3f6c129b4.md": "04f41f0741903590e25ab2789ced6f7bec4cfb0182d0e0533fc99b0c874b07d5",
+    "traces/markdown/01a158bf-f922-7593-823d-2c1460e4f2d4.md": "361d0ee8cc828886c52cab5397fc280a1763f7b4f59b27070cf24c8df1f03cd6",
+    "traces/markdown/01a158d0-416c-75a3-8836-233f0c35fb6f.md": "287d9f34127290253934afe1aa8dd3bfa33fdaa1b77f3aa0b2aeb5307d8f5a3b",
+    "traces/markdown/01a158d1-3d40-7092-b3c0-1c60dcb4cd06.md": "f92545c2d31a6ad719f5f248d713c3576d5d98839dba7257da1821d47541a7ee",
+    "traces/markdown/01a158d2-9ec4-7050-87ff-875ea468f5ce.md": "5b758297c8101893f4cc0f17b7f6d092da46df58a39ba8a7214146bfccd94b4a",
+    "traces/markdown/01a158d3-1977-7490-b337-d28df9f59e73.md": "16c9fbf28a9b84a9d7fa882824e9d71643cef177ff250a00e565a4fadbf8b8e0",
+    "traces/markdown/01a158d7-59c4-7df2-95f7-995b90d6bbee.md": "f182b8cd28f84924f0d73bd383e64a3d9af9959c03bbf15a3de4b46d8ebaf1b3",
+    "traces/markdown/01a1590b-c9f9-7f32-9607-2b3f4c8c38e7.md": "1a6bd13aa05ffbe9adcef42c6c884d9a3eab0a873219a59495d71cdb3dd3b1d4",
+    "traces/markdown/01a1590c-9c06-7340-bb4f-14a58f111ec2.md": "bce5b3bb58aeb50718a1d06c67d8be7e3f3f6ef7920b0ec48e02a1d5b4193c50",
+    "traces/markdown/01a1590f-cd99-7df0-9608-5c9d6cece03f.md": "e9d8b387faaf362b832a68f97da41766bc3aca0605ecb01ea911beec0742bd25",
+    "traces/markdown/01a15912-a712-7051-9226-6396f727ba11.md": "3acbf0a5abe3c5a70d0932a9550c846ba9f485f602858640a358d8c193a53055",
+    "traces/markdown/01a15914-c10a-7f52-8c6b-5180f42bb365.md": "2ce4222adcd9327576e10a7bd0e531a3cea416b800fbae60854eea37c7675665"
+  }
+}

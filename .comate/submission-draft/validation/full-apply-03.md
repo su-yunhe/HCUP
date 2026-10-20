@@ -1,0 +1,70 @@
+# cml-spec7 独立材料验证
+
+结果：pass_with_declared_gaps；真实 CODEX_THREAD_ID=01a15914-c10a-7f52-8c6b-5180f42bb365。
+
+本报告只校验材料及既有功能证据对应关系；未重跑构建、设备或功能测试。生产文件与测试按字节核对。
+
+| 检查 | 状态 | 证据 |
+| --- | --- | --- |
+| production_and_tests_unchanged | pass | production-before.json |
+| final_verification_source_identity | pass | workflow/verification/final-evidence-fingerprint-03.json |
+| production_file_set_and_aggregate | pass | independent directory enumeration and recorded path/hash JSON aggregation |
+| hap_and_matrix_identity | pass | facts.json; logs/verification-final-03.json |
+| matrix_observation_paths | pass | logs/verification-final-03.json |
+| final_build_raw_result | pass | logs/verification-navigation-smoke-03/build.json |
+| existing_install_selftest_source_hap_archives_correspond | pass | logs/verification-final-03.json; per-round install/fingerprint/selftest/test-code |
+| real_inputs_templates_taskbook_versions | pass | evidence-inputs/; taskbook-versions.json |
+| logs_copy_complete_and_exact | pass | logs-copy-manifest.json |
+| logs_exclusions_are_declared_runtime_disks | pass | logs-copy-manifest.json |
+| failed_round_and_rejection_preserved | pass | ['logs/verification-closeout-03/temporary-disk-cleanup-rejected.json', 'logs/verification-final-03.json', 'logs/verification-phone-suite-02/hypium-runner.stderr.txt'] |
+| native_two_dimension_discovery | pass | traces/native-discovery-search.json; traces/discovery.json |
+| native_metadata_latest_cumulative_and_identity | pass | traces/session-metadata.json; traces/native/*.jsonl |
+| project_snapshot_all_file_hashes | pass | project-manifest.json; traces/code-snapshot/project/ |
+| project_native_snapshots_exclude_overview | pass | snapshot traces/native/ JSONL headers |
+| project_scope_and_exclusions | pass | project-exclusions.json; git ls-files |
+| binary_inventory_complete | pass | changes/binary-files.json |
+| root_patch_proof_consistent | pass | patch-validation.json |
+| live_git_diff_check | pass | git diff --check |
+| bounded_sensitive_artifact_scan | pass | project-manifest.json; snapshot extensions/private-key header scan |
+| official_trace_index_all_fields | pass | trace-index.md; official template |
+| build_portable_and_complete_review | pass | build.md |
+| json_single_task_relative_paths | pass | submission.json.fragment |
+| partial_completion_and_human_gaps_disclosed | pass | solution.fragment.md; sources.fragment.md; human-changes.md; missing-fields.md |
+| two_handoff_lists_and_original_gaps | pass | auto-filled-facts.md; missing-fields.md; trace-index.md |
+| trace_tables_match_latest_export | pass | trace-index.md; traces/session-metadata.json |
+| manual_document_semantics | pass | validation/manual-document-review.json |
+| independent_original_apply_proof_reused | pass | validation/independent-apply-proof-01.json; checker-correction-01.json |
+| independent_baseline_real_apply_all_files | pass | validation command log; project-manifest.json |
+| independent_change_and_eol_classification | pass | fresh applied clone staged tree/name-status; changes/line-ending-only.json |
+| independent_binary_baseline_lineage | pass | baseline blob bytes; binary/resource inventories |
+| independent_clone_retained_and_excluded | pass | validation/temporary-material-exclusions.json |
+| audit_inputs_stable | pass | SHA-256 at first read and final report |
+
+| 批准需求 | 状态 | 对应检查 |
+| --- | --- | --- |
+| S01 | pass | hap_and_matrix_identity, partial_completion_and_human_gaps_disclosed |
+| S02 | pass | production_and_tests_unchanged |
+| S03 | pass | real_inputs_templates_taskbook_versions, json_single_task_relative_paths |
+| S04 | pass | project_scope_and_exclusions, project_snapshot_all_file_hashes, root_patch_proof_consistent |
+| S05 | pass | independent_baseline_real_apply_all_files |
+| S06 | pass | project_scope_and_exclusions, independent_change_and_eol_classification |
+| S07 | pass | binary_inventory_complete, independent_binary_baseline_lineage |
+| S08 | pass | build_portable_and_complete_review |
+| S09 | pass | official_trace_index_all_fields, trace_tables_match_latest_export, manual_document_semantics |
+| S10 | pass | native_two_dimension_discovery, native_metadata_latest_cumulative_and_identity |
+| S11 | pass | native_metadata_latest_cumulative_and_identity |
+| S12 | pass | native_metadata_latest_cumulative_and_identity, manual_document_semantics |
+| S13 | pass | failed_round_and_rejection_preserved, logs_copy_complete_and_exact, manual_document_semantics |
+| S14 | pass | native_metadata_latest_cumulative_and_identity, real_inputs_templates_taskbook_versions, manual_document_semantics |
+| S15 | pass | partial_completion_and_human_gaps_disclosed, manual_document_semantics |
+| S16 | pass | hap_and_matrix_identity, partial_completion_and_human_gaps_disclosed, manual_document_semantics |
+| S17 | pass | json_single_task_relative_paths |
+| S18 | pass | logs_copy_complete_and_exact, existing_install_selftest_source_hap_archives_correspond |
+| S19 | pass | partial_completion_and_human_gaps_disclosed, manual_document_semantics |
+| S20 | pass | two_handoff_lists_and_original_gaps, manual_document_semantics, bounded_sensitive_artifact_scan |
+| S21 | pass | two_handoff_lists_and_original_gaps, manual_document_semantics |
+| S22 | pass | project_snapshot_all_file_hashes, audit_inputs_stable, manual_document_semantics |
+
+全部命令、退出码、stdout/stderr、各会话ID/父ID、原始行数、输入SHA-256及失败详情见同名JSON。
+
+待解决：B9/B10/B11外部接入条件、空白人工/团队声明、正式冻结时间/提交选择、已声明的原始日志及ID缺口。当前草案不代表整题完成或正式提交。

@@ -1,0 +1,72 @@
+{
+  "common_containing_git_head": {
+    "command": [
+      "git",
+      "-C",
+      "D:\\HCUP\\common\\spec-harness",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit_code": 0,
+    "stdout": "e9befa727bcd94f2eea263bd3c92c56d9f8ec6ac\n",
+    "stderr": ""
+  },
+  "common_actual_git_root": {
+    "command": [
+      "git",
+      "-C",
+      "D:\\HCUP\\common\\spec-harness",
+      "rev-parse",
+      "--show-toplevel"
+    ],
+    "exit_code": 0,
+    "stdout": "D:/HCUP\n",
+    "stderr": ""
+  },
+  "task_books": [
+    {
+      "common_path": "../common/spec-harness/0-analyze.md",
+      "sha256": "a0518cb663406e9a25c2a8096799ddbb79253e1f874819b6099a38c2819c944a",
+      "local_path": "spec-harness/0-analyze.md",
+      "local_sha256": "a0518cb663406e9a25c2a8096799ddbb79253e1f874819b6099a38c2819c944a"
+    },
+    {
+      "common_path": "../common/spec-harness/1-do.md",
+      "sha256": "2f02be9274ea7e68e7863a319382fc250a9ea845fa5fa0c124effc5524ee337d",
+      "local_path": "spec-harness/1-do.md",
+      "local_sha256": "2f02be9274ea7e68e7863a319382fc250a9ea845fa5fa0c124effc5524ee337d"
+    },
+    {
+      "common_path": "../common/spec-harness/2-submit.md",
+      "sha256": "43455fc9ef3c6d0ddbcf0dc101201796ebec865e214929f3137b1bb4036895f9",
+      "local_path": "spec-harness/2-submit.md",
+      "local_sha256": "43455fc9ef3c6d0ddbcf0dc101201796ebec865e214929f3137b1bb4036895f9"
+    },
+    {
+      "common_path": "../common/spec-harness/3-package.md",
+      "sha256": "3a97a8072042c29adde571af04da1658d0b1547e9c41cdd649e02fba04ae6b9c",
+      "local_path": "spec-harness/3-package.md",
+      "local_sha256": "3a97a8072042c29adde571af04da1658d0b1547e9c41cdd649e02fba04ae6b9c"
+    }
+  ],
+  "history": [],
+  "official_templates": [
+    {
+      "path": "D:\\SWE-OpenHarmony\\templates\\submission-checklist.md",
+      "sha256": "e724ddbe018f4d5c84946418e9cb365b9e9f99543a179c4a1e04b2e290d6b858"
+    },
+    {
+      "path": "D:\\SWE-OpenHarmony\\templates\\trace-index.md",
+      "sha256": "d6936aef4500d6a19e4289de8e1455b53200f3113d6445f7e80ccb3c42a4c191"
+    },
+    {
+      "path": "D:\\SWE-OpenHarmony\\templates\\submission.json",
+      "sha256": "6d101815a88f6d68c3282f833f72d208f0084341c4af8faee9a54994c92c5efd"
+    }
+  ],
+  "official_baseline_report": {
+    "path": "D:/SWE-OpenHarmony/reports/build-baselines/cml-spec7.log",
+    "exists": false,
+    "substitute_existing_task_evidence": "logs/prepare-baseline.log; logs/baseline-build.log; workflow/baseline-provenance.json"
+  }
+}

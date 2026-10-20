@@ -1,0 +1,11 @@
+{
+  "evidence_kind": "transcription of tool result; not an original stdout file",
+  "reason": "PowerShell Start-Transcript omitted native process stdout. Original preflight transcript is retained without modification.",
+  "tool_result_chunk": "606bc4",
+  "observations": [
+    {"command": "hdc list targets", "exit_code": 0, "observed_stdout": "[Empty]"},
+    {"command": "hdc shell hidumper -s AbilityManagerService -a -l", "exit_code": 0, "observed_stdout": "[Fail]ExecuteCommand need connect-key? please confirm a device by help info"},
+    {"command": "hdc shell hidumper -s WindowManagerService -a -a", "exit_code": 0, "observed_stdout": "[Fail]ExecuteCommand need connect-key? please confirm a device by help info"},
+    {"command": "python -m harness.env_check", "exit_code": 1, "observed_error": "harness.device.DeviceError: 需要连接恰好一台设备，或通过 --device 明确指定；当前在线设备：[]"}
+  ]
+}

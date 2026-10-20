@@ -1,0 +1,25 @@
+{
+  "command": [
+    "python",
+    ".comate/submission-draft/validation/verify_materials.py",
+    "--resume-applied"
+  ],
+  "cwd": "D:/HCUP/cml-spec7",
+  "environment_scripts": [
+    "D:/hongmengcup/Enter-HarmonyEnv.ps1",
+    "D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1"
+  ],
+  "tool_process_session_id": 22431,
+  "exit_code": 0,
+  "stdout": "{\"result\": \"pass_with_declared_gaps\", \"counts\": {\"pass\": 33}, \"issues\": []}\n",
+  "observed_at_utc": "2026-10-20T11:46:47.224432+00:00",
+  "verification_script_sha256": "03a1a7ba545d9575ce28d633497d51ac1f0777821ed47f650f385cdc6da5849d",
+  "report_sha256": "94a96a73b3e2f54cf657631a0c56b8a919e6baeee36ee2c20ae57a17abdaf496",
+  "history": [
+    "preflight-01.json",
+    "evidence-preflight-02.json",
+    "independent-apply-proof-01.json",
+    "checker-correction-01.json"
+  ],
+  "initial_full_run_note": "31 pass / 1 checker-shape fail retained in the timestamped audit-run report. Corrective run re-read existing applied clone, did not reapply or delete."
+}

@@ -1,0 +1,41 @@
+**********************
+PowerShell transcript start
+Start time: 20261020180308
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+python workflow/verification/baseline-hdc.py runtime-display -t 127.0.0.1:5555 shell hidumper -s DisplayManagerService -a '-a'
+python workflow/verification/baseline-hdc.py runtime-api -t 127.0.0.1:5555 shell param get const.ohos.apiversion
+Start-Transcript -LiteralPath logs/analysis-baseline/tool-versions.txt -Force
+node --version | Out-Host
+python --version | Out-Host
+hvigorw --version | Out-Host
+hdc version | Out-Host
+python -c "import importlib.metadata,platform; print(platform.platform()); print('hypium='+importlib.metadata.version('hypium'))" | Out-Host
+Stop-Transcript
+Process ID: 14216
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/analysis-baseline/tool-versions.txt
+v18.20.1
+Python 3.12.3
+6.23.7
+Ver: 3.2.0c
+Windows-11-10.0.26200-SP0
+hypium=6.1.0.210
+**********************
+PowerShell transcript end
+End time: 20261020180308
+**********************

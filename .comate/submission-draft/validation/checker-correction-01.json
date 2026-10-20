@@ -1,0 +1,27 @@
+{
+  "failure": "Verifier compared full dictionaries to status/path-only dictionaries; published rows include line_endings_only.",
+  "minimum_reproduction": {
+    "expected_published_row": {
+      "status": "M",
+      "path": ".gitignore",
+      "line_endings_only": true
+    },
+    "actual_git_row": {
+      "status": "M",
+      "path": ".gitignore"
+    },
+    "old_check": "published_rows == actual_rows",
+    "old_result": false
+  },
+  "evidence": "independent-apply-proof-01.json and first audit-run JSON/Markdown retain original failure and commands",
+  "actual_material_findings": {
+    "all_4554_applied_file_hashes_match": true,
+    "all_4460_status_path_pairs_match": true,
+    "all_667_eol_paths_match": true,
+    "git_tree_matches": true
+  },
+  "attribution": "Verification script shape mismatch, strong evidence: same file tree hash and equality of status/path pairs.",
+  "correction": "Compare independently projected status/path values and separately assert every published line_endings_only flag against baseline-blob CRLF/LF classification. Re-read retained applied clone; original successful check/apply evidence remains unchanged.",
+  "production_spec_tests_modified": false,
+  "original_failure_removed": false
+}

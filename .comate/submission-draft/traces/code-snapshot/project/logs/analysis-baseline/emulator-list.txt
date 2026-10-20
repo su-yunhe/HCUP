@@ -1,0 +1,56 @@
+**********************
+PowerShell transcript start
+Start time: 20261020175218
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -LiteralPath logs/analysis-baseline/emulator-list.txt -Force
+Emulator.exe -list -details
+Write-Output "emulator list exit=$LASTEXITCODE"
+Get-ChildItem -LiteralPath D:/HarmonyDev/emulator/instances -Force | Select-Object Name,Mode
+Get-FileHash -LiteralPath entry/build/default/outputs/default/entry-default-unsigned.hap -Algorithm SHA256 | Format-List
+Stop-Transcript
+Get-Content -LiteralPath feature/auth/src/main/ets/view/LoginPage.ets
+Get-Content -LiteralPath feature/auth/src/main/ets/viewmodel/LoginViewModel.ets
+Process ID: 43668
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/analysis-baseline/emulator-list.txt
+
+emulator list exit=0
+
+Name                 Mode
+----                 ----
+HarmonyCup_API23     d----
+Mate X7              d----
+MateBook Pro         d----
+MatePad Pro 13       d----
+Pura 90              d----
+HarmonyCup_API23.ini -a---
+Mate X7.ini          -a---
+MateBook Pro.ini     -a---
+MatePad Pro 13.ini   -a---
+Pura 90.ini          -a---
+versionInfo.txt      -a---
+
+
+Algorithm : SHA256
+Hash      : EFA0976ECA9C2F70CEB92C23698B0A60E71715FA79FD7D554494D8D58120C4A8
+Path      : D:\HCUP\cml-spec7\entry\build\default\outputs\default\entry-default-unsigned.hap
+
+**********************
+PowerShell transcript end
+End time: 20261020175218
+**********************

@@ -1,0 +1,111 @@
+[2026-10-20 18:03:00,250] [80212] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-20 18:03:00,252] [80212] [EnvPool] [INFO] [Report path: D:\HCUP\cml-spec7\logs\analysis-baseline\reports\2026-10-20-18-03-00]
+[2026-10-20 18:03:00,252] [80212] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-20 18:03:00,252] [80212] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-20 18:03:00,252] [80212] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-20 18:03:00,254] [80212] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-20 18:03:00,254] [80212] [EnvPool] [INFO] [Get device by selector]
+[2026-10-20 18:03:00,255] [80212] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-20 18:03:00,602] [35984] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-20 18:03:01,258] [80212] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5555'], label:phone]]
+[2026-10-20 18:03:01,258] [80212] [EnvPool] [INFO] [Device 127.0.0.1:5555: extend value: {}]
+[2026-10-20 18:03:01,442] [80212] [Device] [INFO] [6.0.2.3]
+[2026-10-20 18:03:01,581] [80212] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-20 18:03:01,581] [80212] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-20 18:03:01,628] [80212] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 4496]
+[2026-10-20 18:03:01,628] [80212] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-20 18:03:01,669] [80212] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-20 18:03:01,669] [80212] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-20 18:03:01,709] [80212] [Device] [INFO] [Device agent is up to date!]
+[2026-10-20 18:03:01,753] [80212] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-20 18:03:03,843] [80212] [DeviceUIProxy] [INFO] [tcp forward port: 9901 for 127.0.0.1:5555]
+[2026-10-20 18:03:03,935] [80212] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-20 18:03:03,935] [80212] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-20 18:03:03,935] [80212] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('点击登录账号'))</div>]
+[2026-10-20 18:03:03,951] [80212] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:5555, BY.text('点击登录账号')) cost: 0.016s</div>]
+[
+  {
+    "text": "",
+    "type": "root",
+    "bounds": "[0,137][1308,2880]",
+    "id": "",
+    "bundleName": "com.joker.coolmall",
+    "backgroundColor": "#00000000"
+  },
+  {
+    "text": "登录",
+    "type": "TitleBar",
+    "bounds": "[0,137][1308,332]",
+    "id": "",
+    "bundleName": null,
+    "backgroundColor": "#FFF1F4FA"
+  },
+  {
+    "text": "登录",
+    "type": "Text",
+    "bounds": "[224,193][364,275]",
+    "id": "__NavdestinationField__Text__MainTitle__",
+    "bundleName": null,
+    "backgroundColor": "#00000000"
+  },
+  {
+    "text": "登录页面内容视图",
+    "type": "Text",
+    "bounds": "[430,332][878,398]",
+    "id": "",
+    "bundleName": null,
+    "backgroundColor": "#00000000"
+  },
+  {
+    "text": "",
+    "type": "WindowScene",
+    "bounds": "[0,0][1308,136]",
+    "id": "session21",
+    "bundleName": "com.ohos.sceneboard",
+    "backgroundColor": "#00000000"
+  },
+  {
+    "text": "06, :, 03",
+    "type": "Flex",
+    "bounds": "[42,47][181,131]",
+    "id": "ClockStatusView",
+    "bundleName": null,
+    "backgroundColor": "#00000000"
+  },
+  {
+    "text": "06",
+    "type": "Text",
+    "bounds": "[42,58][104,120]",
+    "id": "",
+    "bundleName": null,
+    "backgroundColor": "#00000000"
+  },
+  {
+    "text": ":",
+    "type": "Text",
+    "bounds": "[104,63][119,116]",
+    "id": "TimeView_Text_timeText",
+    "bundleName": null,
+    "backgroundColor": "#00000000"
+  },
+  {
+    "text": "03",
+    "type": "Text",
+    "bounds": "[119,58][181,120]",
+    "id": "",
+    "bundleName": null,
+    "backgroundColor": "#00000000"
+  },
+  {
+    "text": "100",
+    "type": "Text",
+    "bounds": "[1177,67][1247,112]",
+    "id": "BatteryComponent-batteryIcon_Text_batterySoc",
+    "bundleName": null,
+    "backgroundColor": "#00000000"
+  }
+]

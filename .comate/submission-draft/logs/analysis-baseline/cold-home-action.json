@@ -1,0 +1,105 @@
+{
+  "timestamp_utc": "2026-10-20T10:02:45.147356+00:00",
+  "device": "127.0.0.1:5555",
+  "action": [
+    "back"
+  ],
+  "commands": [
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cml-spec7-cold-home.json"
+      ],
+      "exit_code": 0,
+      "stdout": "DumpLayout saved to:/data/local/tmp/cml-spec7-cold-home.json\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "file",
+        "recv",
+        "/data/local/tmp/cml-spec7-cold-home.json",
+        "D:\\HCUP\\cml-spec7\\traces\\analysis-baseline\\cold-home.ui.json"
+      ],
+      "exit_code": 0,
+      "stdout": "FileTransfer finish, Size:171830, File count = 1, time:22ms rate:7810.45kB/s\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "shell",
+        "snapshot_display",
+        "-f",
+        "/data/local/tmp/cml-spec7-cold-home.jpeg"
+      ],
+      "exit_code": 0,
+      "stdout": "fileType: \r\nprocess: display 0, file type: jpeg, width: 1308, height: 2880\r\nfileType: jpeg\r\nsnapshot: pixel format is: 3\r\nsnapshot: convert rgba8888 to rgb888 successfully.\r\n\r\nsuccess: snapshot display 0 , write to /data/local/tmp/cml-spec7-cold-home.jpeg as jpeg, width: 1308, height: 2880\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "file",
+        "recv",
+        "/data/local/tmp/cml-spec7-cold-home.jpeg",
+        "D:\\HCUP\\cml-spec7\\traces\\analysis-baseline\\cold-home.jpeg"
+      ],
+      "exit_code": 0,
+      "stdout": "FileTransfer finish, Size:242070, File count = 1, time:12ms rate:20172.50kB/s\r\n",
+      "stderr": ""
+    }
+  ],
+  "texts": [
+    "搜索商品",
+    "加载中...",
+    "网络异常",
+    "重试",
+    "暂无数据",
+    "【满减券】小米精选满 299 减 30 元",
+    "领取",
+    "手机",
+    "平板",
+    "穿戴",
+    "电脑办公",
+    "电视影音",
+    "生活家电",
+    "智能家居",
+    "出行箱包",
+    "清洁电器",
+    "厨房个护",
+    "限时精选",
+    "查看全部",
+    "",
+    "Xiaomi 17T Pro",
+    "￥3999.00",
+    "Xiaomi 15S Pro",
+    "￥5499.00",
+    "Xiaomi 17T",
+    "￥2999.00",
+    "推荐商品",
+    "主页",
+    "分类",
+    "购物车",
+    "我的",
+    "06, :, 02",
+    "06",
+    ":",
+    "02",
+    "100"
+  ],
+  "status": "completed"
+}

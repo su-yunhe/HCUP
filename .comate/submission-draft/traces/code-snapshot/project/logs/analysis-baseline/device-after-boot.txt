@@ -1,0 +1,68 @@
+**********************
+PowerShell transcript start
+Start time: 20261020175312
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -LiteralPath logs/analysis-baseline/device-after-boot.txt -Force
+hdc list targets
+Write-Output "target-list exit=$LASTEXITCODE"
+Get-ChildItem -LiteralPath D:/HarmonyDev/emulator/instances/HarmonyCup_API23/Log -File | Format-Table Name,Length,LastWriteTime
+Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'Emulator|qemu' } | Select-Object Name,ProcessId,CommandLine | Format-List
+Stop-Transcript
+Get-Content -LiteralPath C:/Users/22580/.codex/plugins/cache/openai-bundled/computer-use/26.1013.40934/docs/guidance.md
+Get-Content -LiteralPath C:/Users/22580/.codex/plugins/cache/openai-bundled/computer-use/26.1013.40934/docs/api.md
+Get-Content -LiteralPath C:/Users/22580/.codex/plugins/cache/openai-bundled/computer-use/26.1013.40934/docs/confirmations.md
+Process ID: 48856
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/analysis-baseline/device-after-boot.txt
+
+target-list exit=0
+
+Name               Length LastWriteTime
+----               ------ -------------
+crash_server.log   565598 2026/10/20 17:52:48
+Emulator.log        26780 2026/10/20 17:52:51
+kernel.1.log     10485760 2026/10/17 13:19:03
+kernel.10.log    10485760 2026/10/16 16:43:45
+kernel.2.log     10485760 2026/10/17 11:32:32
+kernel.3.log     10485767 2026/10/17 9:28:01
+kernel.4.log     10485760 2026/10/17 6:22:30
+kernel.5.log     10485760 2026/10/17 3:18:03
+kernel.6.log     10485760 2026/10/17 0:11:51
+kernel.7.log     10485780 2026/10/16 22:27:16
+kernel.8.log     10485760 2026/10/16 20:28:45
+kernel.9.log     10485779 2026/10/16 19:24:45
+kernel.log        5684144 2026/10/17 14:58:35
+memInfo.log         41773 2026/10/17 14:58:12
+qemu.log           239026 2026/10/17 11:49:00
+
+
+Name        : Emulator.exe
+ProcessId   : 30856
+CommandLine : "D:\HarmonyDev\DevEcoStudio-6.1.0\tools\emulator\Emulator.exe" -start HarmonyCup_API23 -instancePath D:/H
+              armonyDev/emulator/instances -imageRoot D:/HarmonyDev/emulator/images
+
+Name        : emulator-crash-service.exe
+ProcessId   : 33988
+CommandLine : D:\HarmonyDev\DevEcoStudio-6.1.0\tools\emulator\emulator-crash-service.exe  -socket HarmonyCup_API23_cras
+              h -data-dir D:/HarmonyDev/emulator/instances/HarmonyCup_API23 -ppid 30856 -trace-params ,phone,6.1.0.115,
+              x86_64,23,PHEMU-FD00
+
+**********************
+PowerShell transcript end
+End time: 20261020175312
+**********************

@@ -1,0 +1,28 @@
+[2026-10-20 18:35:31,798] [55008] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-20 18:35:31,798] [55008] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-20 18:35:31,798] [55008] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-20 18:35:31,801] [55008] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-20 18:35:31,801] [55008] [EnvPool] [INFO] [Get device by selector]
+[2026-10-20 18:35:31,801] [55008] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-20 18:35:32,250] [39120] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost
+127.0.0.1:5557		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-20 18:35:32,809] [55008] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5557'], label:phone]]
+[2026-10-20 18:35:32,809] [55008] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5557, label:phone], selection option:[device sn:['127.0.0.1:5557'], label:phone]]
+[2026-10-20 18:35:32,809] [55008] [EnvPool] [INFO] [Device 127.0.0.1:5557: extend value: {}]
+[2026-10-20 18:35:33,086] [55008] [Device] [INFO] [6.0.2.3]
+[2026-10-20 18:35:33,320] [55008] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-20 18:35:33,388] [55008] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-20 18:35:33,487] [55008] [Device] [INFO] [/bin/sh: cat: /data/local/tmp/agent.so: No such file or directory
+]
+[2026-10-20 18:35:33,488] [55008] [Device] [INFO] [local agent version 1.1.9, device agent version 0.0.0]
+[2026-10-20 18:35:33,488] [55008] [Device] [INFO] [start update agent, path is D:\HCUP\common\.venv\Lib\site-packages\devicetest\res\prototype\native\uitest_agent_v1.1.9.x86_64_so]
+[2026-10-20 18:35:34,124] [55008] [Device] [INFO] [Update agent finish.]
+[2026-10-20 18:35:39,306] [55008] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-20 18:35:39,306] [55008] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-20 18:35:39,306] [55008] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5557, com.joker.coolmall)</div>]
+[2026-10-20 18:35:39,956] [55008] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5557, com.joker.coolmall) cost: 0.65s</div>]
+[2026-10-20 18:35:39,956] [55008] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5557, com.joker.coolmall, page_name=EntryAbility, wait_time=2)</div>]
+[2026-10-20 18:35:42,228] [55008] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5557, com.joker.coolmall, page_name=EntryAbility, wait_time=2) cost: 2.272s</div>]

@@ -1,0 +1,18 @@
+{
+  "ruled_out": [
+    "stale installed HAP",
+    "other-device active UI driver at independent reentry",
+    "dumpLayout before independent reentry click"
+  ],
+  "fingerprint": "me-login-entry-remains-locked-after-return",
+  "next_route": "Design removes lifecycle-dependent persistent latch; implementation changes only MeViewModel; verifier validates minimum return/reentry then full suite.",
+  "evidence": [
+    "logs/verification-phone-suite-02/reentry-after-interruption.jpeg",
+    "logs/verification-phone-suite-02/reentry-after-interruption-action.json",
+    "logs/verification-phone-suite-02/hypium-runner.stderr.txt"
+  ],
+  "status": "open",
+  "hypothesis": "Persistent headNavigationPending is only reset by nested Me destination onShown, which does not reliably fire when returning to the outer Main destination",
+  "source_sha256": "8e377669fb468989fa2103e2987137d50320f9df9c1937c5cbd2f9ca392ff7a7",
+  "hap_sha256": "521ac47d8244aee9709f3de1e2a2bde95f99986d76eac2f0e7a5c453d8aaed8a"
+}

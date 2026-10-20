@@ -1,0 +1,24 @@
+{
+  "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+  "source_unchanged": true,
+  "own_layout_stopped": true,
+  "own_initial_pid": 35092,
+  "shared_main_alive": true,
+  "shared_main_pid": 30856,
+  "shared_instance_config_sha256": {
+    "config.ini": "b0dcaa0afedcf29f7f2c56fc1f91ab4bc584606563fab26024784df4daa666a0",
+    "hardware-qemu.ini": "c121ee255eeef098900257b88bd4e53c9dd4e3314398e7455aaa282b70dde3ab",
+    "huawei-settings.cfg": "7c02ccc198dc502ca7ffcce6771fd1f8dc519359bab9b5010771bd68f6839e9a"
+  },
+  "shared_instance_config_unchanged": true,
+  "orientation_evidence": [
+    "logs/verification-large-geometry-03/final-orientation-restored-action.json",
+    "logs/verification-phone-rotation-03/test_D5_runtime_rotation_layout-rotation-restored-display.json",
+    "logs/verification-closeout-03/phone-display-before-stop.json",
+    "logs/verification-closeout-03/layout-display-before-stop.json"
+  ],
+  "retained_instance_path": "logs/verification-emulator/instances/CmlSpec7_Layout",
+  "instance_data_deleted": false,
+  "hdc_offline_entry_retained": true,
+  "helper_correction": "First closeout assertion confused an HDC Offline row with Connected; original logs retained. Verified process 35092 absent, target not Connected, main 30856 and 5555 Connected. Stop was issued once."
+}

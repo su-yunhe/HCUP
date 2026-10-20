@@ -1,0 +1,45 @@
+{
+  "reviewer": "root",
+  "reviewed_at": "2026-10-20T11:16:50.0174396Z",
+  "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+  "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863",
+  "screenshot": "logs/verification-large-geometry-03/test_C04.jpeg",
+  "screenshot_sha256": "fe5664301f0a1e79c47deb1ca436cdce7b8535fe1fcdd308ff9a2d019b359128",
+  "actual_window_px": [
+    2400,
+    1600
+  ],
+  "density": 2,
+  "width_vp": 1200,
+  "safe_content_x": [
+    0,
+    2400
+  ],
+  "button_region_x": [
+    480,
+    1920
+  ],
+  "ratio": 0.6,
+  "horizontal_center_px": 1200,
+  "icon_centers_x_px": [
+    752,
+    1200,
+    1648
+  ],
+  "icon_center_gaps_px": [
+    448,
+    448
+  ],
+  "observations": [
+    "Root inspected the final real large-window screenshot: title, logo, both buttons, brand icons/labels and full footer are visible.",
+    "C4-C7 each passed on an observed 1200vp window; no inference from the misleading earlier large-subset directory name.",
+    "This review adds direct final-image evidence; no source or test assertions changed."
+  ],
+  "evidence": [
+    "logs/verification-large-geometry-03/selftest.json",
+    "logs/verification-large-geometry-03/test_C04.observations.json",
+    "logs/verification-large-geometry-03/test_C05.observations.json",
+    "logs/verification-large-geometry-03/test_C06.observations.json",
+    "logs/verification-large-geometry-03/test_C07.observations.json"
+  ]
+}

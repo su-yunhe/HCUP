@@ -1,0 +1,1538 @@
+**********************
+PowerShell transcript start
+Start time: 20261020175712
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+& ./workflow/verification/baseline-build.ps1
+Process ID: 79992
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is D:/HCUP/cml-spec7/logs/analysis-baseline/build-full-transcript.txt
+2026-10-20T17:57:12.0814514+08:00
+COMMAND: hvigorw --mode project -p product=default clean --no-daemon
+> hvigor Finished ::clean... after 1 ms 
+> hvigor BUILD SUCCESSFUL in 2 s 118 ms 
+CLEAN_EXIT_CODE=0
+COMMAND: hvigorw --mode module -p product=default -p module=entry@default -p buildMode=debug clean assembleHap --no-daemon --no-incremental
+> hvigor Finished :entry:clean... after 1 s 226 ms 
+> hvigor Finished :entry:default@PreBuild... after 133 ms 
+> hvigor Finished :navigation:default@PreBuild... after 40 ms 
+> hvigor Finished :state:default@PreBuild... after 6 ms 
+> hvigor Finished :model:default@PreBuild... after 5 ms 
+> hvigor Finished :util:default@PreBuild... after 5 ms 
+> hvigor Finished :ui:default@PreBuild... after 6 ms 
+> hvigor Finished :base:default@PreBuild... after 6 ms 
+> hvigor Finished :result:default@PreBuild... after 6 ms 
+> hvigor Finished :designsystem:default@PreBuild... after 5 ms 
+> hvigor Finished :main:default@PreBuild... after 5 ms 
+> hvigor Finished :data:default@PreBuild... after 5 ms 
+> hvigor Finished :datastore:default@PreBuild... after 5 ms 
+> hvigor Finished :database:default@PreBuild... after 5 ms 
+> hvigor Finished :network:default@PreBuild... after 5 ms 
+> hvigor Finished :auth:default@PreBuild... after 5 ms 
+> hvigor Finished :user:default@PreBuild... after 5 ms 
+> hvigor Finished :order:default@PreBuild... after 5 ms 
+> hvigor Finished :goods:default@PreBuild... after 5 ms 
+> hvigor Finished :market:default@PreBuild... after 5 ms 
+> hvigor Finished :cs:default@PreBuild... after 5 ms 
+> hvigor Finished :feedback:default@PreBuild... after 5 ms 
+> hvigor Finished :common:default@PreBuild... after 4 ms 
+> hvigor Finished :launch:default@PreBuild... after 5 ms 
+> hvigor Finished :entry:default@CreateModuleInfo... after 1 ms 
+> hvigor Finished :entry:default@GenerateMetadata... after 2 ms 
+> hvigor Finished :entry:default@PreCheckSyscap... after 1 ms 
+> hvigor Finished :entry:default@GeneratePkgContextInfo... after 16 ms 
+> hvigor Finished :entry:default@GeneratePkgSdkInfo... after 5 ms 
+> hvigor Finished :entry:default@ProcessIntegratedHsp... after 1 ms 
+> hvigor Finished :model:default@CreateHarBuildProfile... after 2 ms 
+> hvigor Finished :model:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :model:default@MergeProfile... after 8 ms 
+> hvigor Finished :designsystem:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :designsystem:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :designsystem:default@MergeProfile... after 6 ms 
+> hvigor Finished :entry:default@SyscapTransform... after 1 ms 
+> hvigor Finished :entry:default@ProcessRouterMap... after 6 ms 
+> hvigor Finished :entry:default@ProcessShareConfig... after 5 ms 
+> hvigor Finished :entry:default@ProcessStartupConfig... after 4 ms 
+> hvigor Finished :database:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :network:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :result:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :state:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :util:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :model:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :database:default@MergeProfile... after 7 ms 
+> hvigor Finished :network:default@MergeProfile... after 7 ms 
+> hvigor Finished :result:default@MergeProfile... after 7 ms 
+> hvigor Finished :state:default@MergeProfile... after 14 ms 
+> hvigor Finished :util:default@MergeProfile... after 6 ms 
+> hvigor Finished :designsystem:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :entry:default@GenerateLoaderJson... after 29 ms 
+> hvigor Finished :base:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :navigation:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :datastore:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :database:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :model:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :network:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :result:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :state:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :util:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :base:default@MergeProfile... after 7 ms 
+> hvigor Finished :navigation:default@MergeProfile... after 7 ms 
+> hvigor Finished :datastore:default@MergeProfile... after 6 ms 
+> hvigor Finished :designsystem:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :ui:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :data:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :database:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :model:default@ProcessLibs... after 3 ms 
+> hvigor Finished :network:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :result:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :state:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :util:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :ui:default@MergeProfile... after 8 ms 
+> hvigor Finished :data:default@MergeProfile... after 7 ms 
+> hvigor Finished :designsystem:default@ProcessLibs... after 3 ms 
+> hvigor Finished :auth:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :main:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :user:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :order:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :goods:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :market:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :cs:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :feedback:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :common:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :launch:default@CreateHarBuildProfile... after 1 ms 
+> hvigor Finished :model:default@DoNativeStrip... after 4 ms 
+> hvigor Finished :base:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :navigation:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :datastore:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :auth:default@MergeProfile... after 9 ms 
+> hvigor Finished :main:default@MergeProfile... after 8 ms 
+> hvigor Finished :user:default@MergeProfile... after 8 ms 
+> hvigor Finished :order:default@MergeProfile... after 9 ms 
+> hvigor Finished :goods:default@MergeProfile... after 8 ms 
+> hvigor Finished :market:default@MergeProfile... after 10 ms 
+> hvigor Finished :cs:default@MergeProfile... after 9 ms 
+> hvigor Finished :feedback:default@MergeProfile... after 8 ms 
+> hvigor Finished :common:default@MergeProfile... after 8 ms 
+> hvigor Finished :launch:default@MergeProfile... after 8 ms 
+> hvigor Finished :designsystem:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :entry:default@CreateBuildProfile... after 2 ms 
+> hvigor Finished :database:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :network:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :result:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :state:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :util:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :base:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :navigation:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :datastore:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :entry:default@MergeProfile... after 64 ms 
+> hvigor Finished :database:default@ProcessLibs... after 2 ms 
+> hvigor Finished :network:default@ProcessLibs... after 3 ms 
+> hvigor Finished :result:default@ProcessLibs... after 2 ms 
+> hvigor Finished :state:default@ProcessLibs... after 2 ms 
+> hvigor Finished :util:default@ProcessLibs... after 2 ms 
+> hvigor Finished :ui:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :data:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :entry:default@MakePackInfo... after 3 ms 
+> hvigor Finished :entry:default@ProcessProfile... after 320 ms 
+> hvigor Finished :database:default@DoNativeStrip... after 3 ms 
+> hvigor Finished :network:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :result:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :state:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :util:default@DoNativeStrip... after 3 ms 
+> hvigor Finished :ui:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :data:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :entry:default@ProcessResource... after 3 ms 
+> hvigor Finished :base:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :navigation:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :datastore:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :auth:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :main:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :user:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :order:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :goods:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :market:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :cs:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :feedback:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :common:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :launch:default@ConfigureCmake... after 1 ms 
+> hvigor WARN: Warning: 'delete' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\string.json
+Warning: 'delete' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\en\element\string.json
+Warning: 'edit' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\string.json
+Warning: 'edit' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\en\element\string.json
+Warning: 'search' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\string.json
+Warning: 'search' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\en\element\string.json
+Warning: 'total' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\string.json
+Warning: 'total' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\en\element\string.json
+Warning: 'app_name' conflict, first declared.
+at D:\HCUP\cml-spec7\AppScope\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\auth\src\main\resources\base\element\string.json
+Warning: 'app_name' conflict, first declared.
+at D:\HCUP\cml-spec7\AppScope\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\auth\src\main\resources\en\element\string.json
+Warning: 'placeholder_float' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\float.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\auth\src\main\resources\base\element\float.json
+Warning: 'address_edit' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\base\element\string.json
+Warning: 'address_edit' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\en\element\string.json
+Warning: 'cancel' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\base\element\string.json
+Warning: 'cancel' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\en\element\string.json
+Warning: 'confirm' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\base\element\string.json
+Warning: 'confirm' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\en\element\string.json
+Warning: 'my_footprint' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\base\element\string.json
+Warning: 'my_footprint' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\en\element\string.json
+Warning: 'phone_number' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\base\element\string.json
+Warning: 'phone_number' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\en\element\string.json
+Warning: 'placeholder_float' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\float.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\base\element\float.json
+Warning: 'qq' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\auth\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\base\element\string.json
+Warning: 'qq' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\auth\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\en\element\string.json
+Warning: 'wechat' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\auth\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\base\element\string.json
+Warning: 'wechat' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\auth\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\en\element\string.json
+Warning: 'cancel' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\base\element\string.json
+Warning: 'cancel' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\en\element\string.json
+Warning: 'confirm' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\base\element\string.json
+Warning: 'confirm' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\en\element\string.json
+Warning: 'please_select' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\base\element\string.json
+Warning: 'please_select' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\en\element\string.json
+Warning: 'submit' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\base\element\string.json
+Warning: 'submit' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\en\element\string.json
+Warning: 'total' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\base\element\string.json
+Warning: 'total' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\en\element\string.json
+Warning: 'placeholder_float' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\float.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\base\element\float.json
+Warning: 'alipay' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\auth\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\base\element\string.json
+Warning: 'alipay' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\auth\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\en\element\string.json
+Warning: 'wechat' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\auth\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\base\element\string.json
+Warning: 'wechat' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\auth\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\en\element\string.json
+Warning: 'confirm' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\goods\src\main\resources\base\element\string.json
+Warning: 'confirm' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\goods\src\main\resources\en\element\string.json
+Warning: 'price' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\goods\src\main\resources\base\element\string.json
+Warning: 'price' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\goods\src\main\resources\en\element\string.json
+Warning: 'view_all' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\goods\src\main\resources\base\element\string.json
+Warning: 'view_all' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\goods\src\main\resources\en\element\string.json
+Warning: 'placeholder_float' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\float.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\goods\src\main\resources\base\element\float.json
+Warning: 'placeholder_float' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\float.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\market\src\main\resources\base\element\float.json
+Warning: 'placeholder_float' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\float.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\cs\src\main\resources\base\element\float.json
+Warning: 'submit' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\feedback\src\main\resources\base\element\string.json
+Warning: 'submit' conflict, first declared.
+at D:\HCUP\cml-spec7\core\ui\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\feedback\src\main\resources\en\element\string.json
+Warning: 'placeholder_float' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\float.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\feedback\src\main\resources\base\element\float.json
+Warning: 'submitting' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\feedback\src\main\resources\base\element\string.json
+Warning: 'submitting' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\order\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\feedback\src\main\resources\en\element\string.json
+Warning: 'placeholder_float' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\float.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\common\src\main\resources\base\element\float.json
+Warning: 'settings_title' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\common\src\main\resources\base\element\string.json
+Warning: 'settings_title' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\user\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\common\src\main\resources\en\element\string.json
+Warning: 'placeholder_float' conflict, first declared.
+at D:\HCUP\cml-spec7\feature\main\src\main\resources\base\element\float.json
+but declared again.
+at D:\HCUP\cml-spec7\feature\launch\src\main\resources\base\element\float.json
+Warning: 'page_text_font_size' conflict, first declared.
+at D:\HCUP\cml-spec7\entry\src\main\resources\base\element\float.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-orm@2.0.2\oh_modules\@ibestservices\ibest-orm\src\main\resources\base\element\float.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-orm@2.0.2\oh_modules\@ibestservices\ibest-orm\src\main\resources\base\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@hview+dayjs@1.11.11\oh_modules\@hview\dayjs\src\main\resources\base\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\en_US\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@hview+dayjs@1.11.11\oh_modules\@hview\dayjs\src\main\resources\en_US\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\zh_CN\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@hview+dayjs@1.11.11\oh_modules\@hview\dayjs\src\main\resources\zh_CN\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\lunar@1.0.0\oh_modules\lunar\src\main\resources\base\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\en_US\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\lunar@1.0.0\oh_modules\lunar\src\main\resources\en_US\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\zh_CN\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\lunar@1.0.0\oh_modules\lunar\src\main\resources\zh_CN\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+area-data@0.0.6\oh_modules\@ibestservices\area-data\src\main\resources\base\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\en_US\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+area-data@0.0.6\oh_modules\@ibestservices\area-data\src\main\resources\en_US\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\zh_CN\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+area-data@0.0.6\oh_modules\@ibestservices\area-data\src\main\resources\zh_CN\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ohos+axios@2.2.6\oh_modules\@ohos\axios\src\main\resources\base\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\en_US\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ohos+axios@2.2.6\oh_modules\@ohos\axios\src\main\resources\en_US\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\zh_CN\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ohos+axios@2.2.6\oh_modules\@ohos\axios\src\main\resources\zh_CN\element\string.json
+Warning: 'ibest_calendar_clocked' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_calendar_clocked' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_calendar_friday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_calendar_friday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_calendar_monday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_calendar_monday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_calendar_saturday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_calendar_saturday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_calendar_sunday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_calendar_sunday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_calendar_thursday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_calendar_thursday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_calendar_tuesday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_calendar_tuesday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_calendar_unclock' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_calendar_unclock' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_calendar_wednesday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_calendar_wednesday' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_custom_select' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_custom_select' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_day' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_day' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_guide_complete' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_guide_complete' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_guide_next' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_guide_next' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_guide_previous' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_guide_previous' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_hour' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_hour' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_maximum_limit' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_maximum_limit' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_minute' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_minute' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_month' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_month' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_please_select' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_please_select' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_second' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_second' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_cancel' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_cancel' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_clear' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_clear' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_collapse' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_collapse' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_complete' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_complete' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_confirm' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_confirm' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_detailed_address' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_detailed_address' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_detailed_address_description' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_detailed_address_description' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_expand' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_expand' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_identify' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_identify' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_input_correct_content' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_input_correct_content' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_input_name' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_input_name' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_input_phone' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_input_phone' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_input_postal_code' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_input_postal_code' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_loading' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_loading' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_loosing' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_loosing' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_name' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_name' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_phone_number' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_phone_number' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_postal_code' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_postal_code' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_province_city_district' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_province_city_district' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_pulling' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_pulling' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_select_region' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_select_region' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_select_region2' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_select_region2' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_slidingUp' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_slidingUp' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_text_sum' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_text_sum' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_upload_failed' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_upload_failed' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_uploading' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_uploading' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'ibest_year' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'ibest_year' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@ibestservices+ibest-ui-v2@1.0.7\oh_modules\@ibestservices\ibest-ui-v2\src\main\resources\en\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\base\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\base\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\en_US\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\en_US\element\string.json
+Warning: 'page_show' conflict, first declared.
+at D:\HCUP\cml-spec7\oh_modules\.ohpm\@jjr+lottie_component_v2@1.0.1\oh_modules\@jjr\lottie_component_v2\src\main\resources\zh_CN\element\string.json
+but declared again.
+at D:\HCUP\cml-spec7\entry\build\default\intermediates\res\default\resource_str\zh_CN\element\string.json
+
+> hvigor Finished :entry:default@CompileResource... after 1 s 843 ms 
+> hvigor Finished :base:default@ProcessLibs... after 2 ms 
+> hvigor Finished :navigation:default@ProcessLibs... after 2 ms 
+> hvigor Finished :datastore:default@ProcessLibs... after 3 ms 
+> hvigor Finished :auth:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :main:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :user:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :order:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :goods:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :market:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :cs:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :feedback:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :common:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :launch:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :entry:default@BuildJS... after 12 ms 
+> hvigor Finished :base:default@DoNativeStrip... after 3 ms 
+> hvigor Finished :navigation:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :datastore:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :entry:default@ConfigureCmake... after 1 ms 
+> hvigor Finished :ui:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :data:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :entry:default@BuildNativeWithCmake... after 1 ms 
+> hvigor Finished :ui:default@ProcessLibs... after 2 ms 
+> hvigor Finished :data:default@ProcessLibs... after 2 ms 
+> hvigor Finished :ui:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :data:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :auth:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :main:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :user:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :order:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :goods:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :market:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :cs:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :feedback:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :common:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :launch:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :auth:default@ProcessLibs... after 2 ms 
+> hvigor Finished :main:default@ProcessLibs... after 2 ms 
+> hvigor Finished :user:default@ProcessLibs... after 3 ms 
+> hvigor Finished :order:default@ProcessLibs... after 4 ms 
+> hvigor Finished :goods:default@ProcessLibs... after 4 ms 
+> hvigor Finished :market:default@ProcessLibs... after 3 ms 
+> hvigor Finished :cs:default@ProcessLibs... after 4 ms 
+> hvigor Finished :feedback:default@ProcessLibs... after 4 ms 
+> hvigor Finished :common:default@ProcessLibs... after 3 ms 
+> hvigor Finished :launch:default@ProcessLibs... after 4 ms 
+> hvigor Finished :auth:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :main:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :user:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :order:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :goods:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :market:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :cs:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :feedback:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :common:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :launch:default@DoNativeStrip... after 2 ms 
+> hvigor Finished :entry:default@BuildNativeWithNinja... after 1 ms 
+> hvigor Finished :entry:default@ProcessLibs... after 25 ms 
+> hvigor Finished :entry:default@DoNativeStrip... after 3 ms 
+> hvigor Finished :entry:default@CacheNativeLibs... after 12 ms 
+> hvigor WARN: WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/n/o.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/f/g.d.ets:72:46
+ Type notation using "this" is not supported (arkts-no-typing-with-this)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/f/g.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/f/h.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/f/i.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/f/j.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/f/k.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/n/p.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/l/m.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/d/src/c4.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/d/src/u3.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/d/src/e4.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/d/src/g4.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/d/src/i4.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/d/src/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/d/src/v3.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/t/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/t/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/u/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/u/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/v/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/w/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/w/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/w/x.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/y/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/y/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/z/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/z/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/z/a1.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/b1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/b1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/c1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/c1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/d1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/d1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/k3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/e1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/e1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/f1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/f1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/g1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/g1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/n1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/h1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/h1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/i1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/i1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/y1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/j1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/k1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/j1/e.d.ets:435:5
+ Function return type inference is limited (arkts-no-implicit-return-types)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/j1/e.d.ets:436:5
+ Function return type inference is limited (arkts-no-implicit-return-types)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/j1/e.d.ets:437:5
+ Function return type inference is limited (arkts-no-implicit-return-types)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/j1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/k1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/l1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/l1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/m1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/m1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/n1/e.d.ets:126:5
+ Function return type inference is limited (arkts-no-implicit-return-types)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/n1/e.d.ets:127:5
+ Function return type inference is limited (arkts-no-implicit-return-types)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/n1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/o1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/p1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/p1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/q1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/r1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/r1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/s1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/t1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/t1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/u1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/u1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/v1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/w1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/x1/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/x1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/y1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/z1/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/a2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/a2/e.d.ets:115:5
+ Function return type inference is limited (arkts-no-implicit-return-types)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/a2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/b2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/b2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/c2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/c2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/d2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/e2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/e2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/f2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/f2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/i2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/g2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/h2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/i2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/j2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/k2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/k2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/l2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/m2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/m2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/n2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/n2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/o2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/p2/e.d.ets:57:5
+ Function return type inference is limited (arkts-no-implicit-return-types)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/p2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/q2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/q2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/r2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/s2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/s2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/t2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/u2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/v2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/w2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/w2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/x2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/y2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/y2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/z2/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/z2/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/a3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/a3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/b3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/b3/e.d.ets:134:5
+ Function return type inference is limited (arkts-no-implicit-return-types)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/b3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/c3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/c3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/d3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/e3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/e3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/f3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/f3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/g3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/h3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/h3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/i3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/i3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/j3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/k3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/l3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/l3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/m3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/m3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/n3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/n3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/o3/r.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/src/main/ets/s/o3/e.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/Index.d.ets:12:21
+ "typeof" operator is allowed only in expression contexts (arkts-no-type-query)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/Index.d.ets:13:32
+ "typeof" operator is allowed only in expression contexts (arkts-no-type-query)
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@ibestservices+ibest-ui-v2@1.0.7/oh_modules/@ibestservices/ibest-ui-v2/Index.d.ets:2:1
+ Switching off type checks with in-place comments is not allowed (arkts-strict-typing-required)
+
+WARN: ArkTS:WARN: For details about ArkTS syntax errors, see FAQs
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@jjr+lottie_component_v2@1.0.1/oh_modules/@jjr/lottie_component_v2/src/main/ets/controller/LottieController.ets:27:20
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/oh_modules/.ohpm/@jjr+lottie_component_v2@1.0.1/oh_modules/@jjr/lottie_component_v2/src/main/ets/controller/LottieController.ets:29:20
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/context/ContextUtil.ets:51:20
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/context/ContextUtil.ets:52:12
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/permission/PermissionUtils.ets:108:12
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/image/ImageUtil.ets:41:36
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/image/ImageUtil.ets:53:12
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/image/ImageUtil.ets:105:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:20:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:31:20
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:40:20
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:82:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:111:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:140:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:169:11
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:199:13
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:308:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:317:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:325:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:335:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:352:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:360:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:374:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:383:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:391:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:400:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:408:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:458:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/util/src/main/ets/notification/NotificationUtil.ets:467:14
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/feature/main/src/main/ets/viewmodel/MainViewModel.ets:38:30
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/entry/src/main/ets/adapter/WindowAdapter.ets:112:28
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/entry/src/main/ets/adapter/WindowAdapter.ets:113:24
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/entry/src/main/ets/adapter/WindowAdapter.ets:157:26
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/entry/src/main/ets/adapter/WindowAdapter.ets:226:12
+ Function may throw exceptions. Special handling is required.
+
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Column.ets:217:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Column.ets:297:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Column.ets:377:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Column.ets:457:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Column.ets:537:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Column.ets:617:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Column.ets:697:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Column.ets:777:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Column.ets:857:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Column.ets:937:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:217:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:297:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:377:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:457:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:537:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:617:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:697:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:777:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:857:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:937:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:1017:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: ArkTS:WARN File: D:/HCUP/cml-spec7/core/designsystem/src/main/ets/component/Row.ets:1097:7
+ '@BuilderParam' attribute 'content' can only be initialized by '@Builder' function or '@LocalBuilder' method in struct.
+WARN: Duplicate file names detected, which may cause compilation errors. Please check the following files:
+D:\HCUP\cml-spec7\oh_modules\.ohpm\@hview+dayjs@1.11.11\oh_modules\@hview\dayjs\dayjs.min.js
+D:\HCUP\cml-spec7\oh_modules\.ohpm\@hview+dayjs@1.11.11\oh_modules\@hview\dayjs\dayjs.min.js?commonjs-entry
+WARN:  ArkTS:WARN Property 'sourceMapsPath' not found in '@ibestservices/ibest-ui-v2'. 
+
+> hvigor Finished :entry:default@CompileArkTS... after 22 s 496 ms 
+> hvigor Finished :entry:default@GeneratePkgModuleJson... after 3 ms 
+> hvigor Finished :entry:default@ProcessCompiledResources... after 2 ms 
+> hvigor Finished :entry:default@PackageHap... after 1 s 468 ms 
+> hvigor Finished :entry:default@PackingCheck... after 19 ms 
+> hvigor WARN: No signingConfig found for product default
+> hvigor Finished :entry:default@SignHap... after 2 ms 
+> hvigor Finished :entry:default@CollectDebugSymbol... after 1 ms 
+> hvigor Finished :entry:assembleHap... after 1 ms 
+> hvigor BUILD SUCCESSFUL in 32 s 790 ms 
+BUILD_EXIT_CODE=0
+
+
+Algorithm : SHA256
+Hash      : 792DC2809F4376F4D4C94A796D9C959305D300298870A00B1EE673BAFC20F109
+Path      : D:\HCUP\cml-spec7\entry\build\default\outputs\default\entry-default-unsigned.hap
+
+**********************
+PowerShell transcript end
+End time: 20261020175749
+**********************

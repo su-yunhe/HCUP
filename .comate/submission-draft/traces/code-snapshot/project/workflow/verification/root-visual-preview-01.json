@@ -1,0 +1,17 @@
+{
+  "fingerprint": "login-title-overlaps-statusbar",
+  "status": "open",
+  "source_sha256": "194f3c7aae13864e2df26b451d6838a16a46d96b61b5eede54a1ab6b670ecbc8",
+  "hap_sha256": "317c850e3ba470ed36ad51c12349296371409c580f5e2802ce9609dbcb5ab82f",
+  "screenshot": "logs/verification-phone-preview-01/phone-login-after-permission.jpeg",
+  "screenshot_sha256": "f0c551437898eb86e1508b1540dafcb2799b3a0788acd1a82c82e09ff9daee8b",
+  "observation": "Root inspected actual phone screenshot. Native navigation back circle overlaps status-bar clock; main logo/buttons/social/footer are visible.",
+  "ruled_out": [
+    "build failure",
+    "stale HAP",
+    "unreachable entry",
+    "screenshot capture failure"
+  ],
+  "route": "Design corrects top safe-area placement, implementation edits LoginPage, verifier rebuilds/reinstalls/retests.",
+  "final_visual_acceptance": false
+}

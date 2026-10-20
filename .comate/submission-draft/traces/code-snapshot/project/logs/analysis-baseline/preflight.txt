@@ -1,0 +1,61 @@
+**********************
+PowerShell transcript start
+Start time: 20261020175107
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+& ./workflow/verification/baseline-preflight.ps1
+Process ID: 58360
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is D:/HCUP/cml-spec7/logs/analysis-baseline/preflight.txt
+2026-10-20T17:51:07.6512162+08:00
+
+Name                           Value
+----                           -----
+CODEX_THREAD_ID                01a158b7-cf4a-7b83-8b86-51f14fe4c556
+CODEX_SESSION_ID               01a158b5-95c1-7843-be11-cfb16aaa2e74
+DEVECO_SDK_HOME                D:\HarmonyDev\sdk\api23
+DEVECO_STUDIO_HOME             D:\HarmonyDev\DevEcoStudio-6.1.0
+
+Name   : hvigorw.bat
+Source : D:\HarmonyDev\DevEcoStudio-6.1.0\tools\hvigor\bin\hvigorw.bat
+
+
+Name   : hdc.exe
+Source : D:\HarmonyDev\sdk\api23\default\openharmony\toolchains\hdc.exe
+
+
+Name   : python.exe
+Source : D:\HCUP\common\.venv\Scripts\python.exe
+
+
+Name   : node.exe
+Source : D:\HarmonyDev\DevEcoStudio-6.1.0\tools\node\node.exe
+
+
+fingerprint exit=0
+
+hdc list targets exit=0
+
+foreground dump exit=0
+
+window dump exit=0
+
+environment check exit=1
+**********************
+PowerShell transcript end
+End time: 20261020175124
+**********************

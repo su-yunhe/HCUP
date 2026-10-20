@@ -1,0 +1,63 @@
+**********************
+PowerShell transcript start
+Start time: 20261020175249
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -LiteralPath logs/analysis-baseline/emulator-diagnostics.txt -Force
+Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'Emulator|qemu' } | Select-Object Name,ProcessId,CommandLine | Format-List
+Get-ChildItem -LiteralPath D:/HarmonyDev/emulator/images -Force | Format-Table Name,Mode
+Get-ChildItem -LiteralPath C:/Users/22580/AppData/Local/Huawei/DevEcoStudio6.1/log -Filter '*emulator*' -ErrorAction SilentlyContinue | Format-Table Name,LastWriteTime
+Get-ChildItem -LiteralPath D:/HCUP/common/scripts -File | Format-Table Name
+Emulator.exe -list -details -instancePath D:/HarmonyDev/emulator/instances -imageRoot D:/HarmonyDev/emulator/images
+Write-Output "list explicit exit=$LASTEXITCODE"
+Stop-Transcript
+Process ID: 58456
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is logs/analysis-baseline/emulator-diagnostics.txt
+
+Name        : Emulator.exe
+ProcessId   : 30856
+CommandLine : "D:\HarmonyDev\DevEcoStudio-6.1.0\tools\emulator\Emulator.exe" -start HarmonyCup_API23 -instancePath D:/H
+              armonyDev/emulator/instances -imageRoot D:/HarmonyDev/emulator/images
+
+Name        : emulator-crash-service.exe
+ProcessId   : 33988
+CommandLine : D:\HarmonyDev\DevEcoStudio-6.1.0\tools\emulator\emulator-crash-service.exe  -socket HarmonyCup_API23_cras
+              h -data-dir D:/HarmonyDev/emulator/instances/HarmonyCup_API23 -ppid 30856 -trace-params ,phone,6.1.0.115,
+              x86_64,23,PHEMU-FD00
+
+
+Name               Mode
+----               ----
+system-image       d----
+productConfig.json -a---
+
+
+Name
+----
+lib.sh
+publish.sh
+setup.sh
+status.sh
+sync.sh
+
+
+list explicit exit=0
+**********************
+PowerShell transcript end
+End time: 20261020175249
+**********************

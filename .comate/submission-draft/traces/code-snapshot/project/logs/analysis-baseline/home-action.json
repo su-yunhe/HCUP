@@ -1,0 +1,84 @@
+{
+  "timestamp_utc": "2026-10-20T09:55:35.305292+00:00",
+  "device": "127.0.0.1:5555",
+  "action": [
+    "click-text",
+    "确定"
+  ],
+  "commands": [
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "shell",
+        "uitest",
+        "dumpLayout",
+        "-p",
+        "/data/local/tmp/cml-spec7-home.json"
+      ],
+      "exit_code": 0,
+      "stdout": "DumpLayout saved to:/data/local/tmp/cml-spec7-home.json\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "file",
+        "recv",
+        "/data/local/tmp/cml-spec7-home.json",
+        "D:\\HCUP\\cml-spec7\\traces\\analysis-baseline\\home.ui.json"
+      ],
+      "exit_code": 0,
+      "stdout": "FileTransfer finish, Size:54832, File count = 1, time:21ms rate:2611.05kB/s\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "shell",
+        "snapshot_display",
+        "-f",
+        "/data/local/tmp/cml-spec7-home.jpeg"
+      ],
+      "exit_code": 0,
+      "stdout": "fileType: \r\nprocess: display 0, file type: jpeg, width: 1308, height: 2880\r\nfileType: jpeg\r\nsnapshot: pixel format is: 3\r\nsnapshot: convert rgba8888 to rgb888 successfully.\r\n\r\nsuccess: snapshot display 0 , write to /data/local/tmp/cml-spec7-home.jpeg as jpeg, width: 1308, height: 2880\r\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "D:\\HarmonyDev\\sdk\\api23\\default\\openharmony\\toolchains\\hdc.EXE",
+        "-t",
+        "127.0.0.1:5555",
+        "file",
+        "recv",
+        "/data/local/tmp/cml-spec7-home.jpeg",
+        "D:\\HCUP\\cml-spec7\\traces\\analysis-baseline\\home.jpeg"
+      ],
+      "exit_code": 0,
+      "stdout": "FileTransfer finish, Size:117534, File count = 1, time:17ms rate:6913.76kB/s\r\n",
+      "stderr": ""
+    }
+  ],
+  "target_bounds": "(left: 56, right: 1252, top: 2586, bottom: 2726)",
+  "texts": [
+    "青商城",
+    "青商城, 版本 1.0.0",
+    "青商城, 版本 1.0.0",
+    "青商城",
+    "版本 1.0.0",
+    "允许“青商城”访问",
+    "通知",
+    "应用联网",
+    "05, :, 55",
+    "05",
+    ":",
+    "55",
+    "100"
+  ],
+  "status": "completed"
+}

@@ -1,0 +1,592 @@
+{
+  "schema_version": 1,
+  "task_id": "cml-spec7",
+  "root": "D:\\HCUP\\cml-spec7",
+  "project": "D:\\HCUP\\cml-spec7",
+  "base_commit": "75fd0066a7fc0c1e8cedb6218df081f86d307f45",
+  "baseline_bundle": "repo_bundles/coolmallarkts-75fd0066a7-base.bundle",
+  "spec_sha256": "d4600d3b744f8d5cd11d2c5e09e2148798a439b5206c03ffbf3c8c70a411fed9",
+  "metadata_sha256": "cf5f402ae5042331bf332c4173a3b26ddb3c2494cee9976bd2b39106ca0e5a88",
+  "phase": "acceptance",
+  "status": "blocked",
+  "created_at": "2026-10-20T17:42:58.852627+08:00",
+  "sessions": [
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a13fc4-2611-7761-a580-1283e0c70541",
+      "registered_at": "2026-10-20T17:42:58.852627+08:00",
+      "purpose": "Initialization only; this overview conversation also contains environment setup and other task preparation. Not feature-development evidence.",
+      "excluded_from_task_evidence": true,
+      "exclusion_reason": "Initialization overview includes other task preparation; must not read or export as cml-spec7 development evidence."
+    },
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a158b5-95c1-7843-be11-cfb16aaa2e74",
+      "registered_at": "2026-10-20T17:48:58.978541+08:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements",
+      "session_id": null,
+      "registered_at": "2026-10-20T17:49:56.516792+08:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/baseline_verification",
+      "session_id": null,
+      "registered_at": "2026-10-20T17:50:09.683311+08:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/baseline_code_audit",
+      "session_id": null,
+      "registered_at": "2026-10-20T17:50:48.252793+08:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements",
+      "session_id": "01a158b7-9d99-7260-95c0-1f8da4f27301",
+      "registered_at": "2026-10-20T17:51:23.671349+08:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/baseline_verification",
+      "session_id": "01a158b7-cf4a-7b83-8b86-51f14fe4c556",
+      "registered_at": "2026-10-20T17:51:53.6821+08:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/baseline_code_audit",
+      "session_id": "01a158b8-5287-72f1-b1c8-d9a3f6c129b4",
+      "registered_at": "2026-10-20T17:52:53.431826+08:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/analysis_design_review",
+      "session_id": null,
+      "registered_at": "2026-10-20T17:59:04.216872+08:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/analysis_design_review",
+      "session_id": "01a158bf-f922-7593-823d-2c1460e4f2d4",
+      "registered_at": "2026-10-20T17:59:29.049799+08:00"
+    },
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+      "registered_at": "2026-10-20T18:17:34.834051+08:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements_do",
+      "session_id": "01a158d1-3d40-7092-b3c0-1c60dcb4cd06",
+      "registered_at": "2026-10-20T18:18:25.919834+08:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/design_do",
+      "session_id": "01a158d2-9ec4-7050-87ff-875ea468f5ce",
+      "registered_at": "2026-10-20T18:22:16.464555+08:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/verification_do",
+      "session_id": "01a158d3-1977-7490-b337-d28df9f59e73",
+      "registered_at": "2026-10-20T18:22:16.590659+08:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/implementation_do",
+      "session_id": "01a158d7-59c4-7df2-95f7-995b90d6bbee",
+      "registered_at": "2026-10-20T18:24:58.441587+08:00"
+    },
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+      "registered_at": "2026-10-20T11:22:31.688049+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/submission_requirements",
+      "session_id": null,
+      "registered_at": "2026-10-20T11:22:51.015645+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/submission_requirements",
+      "session_id": "01a1590c-9c06-7340-bb4f-14a58f111ec2",
+      "registered_at": "2026-10-20T11:25:45.075802+00:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/submission_design",
+      "session_id": null,
+      "registered_at": "2026-10-20T11:26:18.092014+00:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/submission_design",
+      "session_id": "01a1590f-cd99-7df0-9608-5c9d6cece03f",
+      "registered_at": "2026-10-20T11:27:12.359577+00:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/submission_documents",
+      "session_id": "01a15912-a712-7051-9226-6396f727ba11",
+      "registered_at": "2026-10-20T11:30:35.649240+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/submission_verification",
+      "session_id": "01a15914-c10a-7f52-8c6b-5180f42bb365",
+      "registered_at": "2026-10-20T11:32:11.415338+00:00"
+    }
+  ],
+  "approved_artifacts": {
+    "prepared_inputs": [
+      "spec/requirement.md",
+      "spec/metadata.json"
+    ],
+    "analysis": [
+      {
+        "path": "spec/acceptance.md",
+        "sha256": "2641e9263707119bc64fff7074593ddb609ab3ac53fca3d4b36fc8fe5e92c1c0",
+        "bytes": 60701
+      },
+      {
+        "path": "spec/baseline-notes.md",
+        "sha256": "73e9ce36cb005f4b7d2cdd4338bdea30040e2f85369b358b965436a69497ac6e",
+        "bytes": 21522
+      },
+      {
+        "path": "workflow/requirements/acceptance-draft.md",
+        "sha256": "f97a642a0e3b3ef0c15b5305a7aa72405dd56da7a0efa3370420359b65595f51",
+        "bytes": 60076
+      },
+      {
+        "path": "workflow/implementation/baseline-code-audit-01.md",
+        "sha256": "9d4eef7089666400b4bde7a66e7989667d83e300978416fb18bb5b7bafc76600",
+        "bytes": 22703
+      },
+      {
+        "path": "workflow/design/analysis-review-01.md",
+        "sha256": "a789a215b69ea9e81b44cb8d1c60e43fb61f50c64d745afbe32fd4ad63e88b0d",
+        "bytes": 14728
+      },
+      {
+        "path": "workflow/verification/baseline-evidence-01.md",
+        "sha256": "4d34b0a683cab7e5998a63f55512591d6bc54dd969b2335495035dce957c9e6f",
+        "bytes": 15450
+      }
+    ],
+    "requirements_implementation": [
+      {
+        "path": "workflow/requirements/implementation-review-01.md",
+        "sha256": "4cc846246669fd576776a1cdf28660a55198e60b8c48da7820041285235497cf",
+        "bytes": 16268
+      }
+    ],
+    "implementation_design": [
+      {
+        "path": "workflow/design/implementation-plan-01.md",
+        "sha256": "6d01295dcb6547e664bb3576466fb5d053a6f615dc92643c07a1fe720a3e2fd0",
+        "bytes": 13978
+      }
+    ],
+    "production_implementation": [
+      {
+        "path": "workflow/implementation/implementation-handoff-01.md",
+        "sha256": "f6579f3636d8abed80e8cf217567ae09bccfabe2e1889a804ecced62edd8e60e",
+        "bytes": 2857
+      },
+      {
+        "path": "workflow/implementation/source-fingerprint-01.json",
+        "sha256": "f853a26f2292e3226e46193e44ed9ebd55a39e5d17dc4c966796dfc149bb666b",
+        "bytes": 2653
+      },
+      {
+        "path": "workflow/implementation/third-party-setup.md",
+        "sha256": "2bb36cab044d1993b92e499bfc6a932ddbfeb4f21a8c8b9f3d88ee2d5dfd0d7b",
+        "bytes": 2268
+      }
+    ],
+    "document_review": [
+      {
+        "path": "workflow/requirements/document-review-01.md",
+        "sha256": "455941c42a715d0c65f4cb0a5458eb1a61bc87149d0d393df3e508f78701b3c0",
+        "bytes": 8178
+      }
+    ],
+    "implementation_design_revision": [
+      {
+        "path": "workflow/design/implementation-plan-02.md",
+        "sha256": "00b24a61120c0b872a63b508b90c8cf9b60513234cc1377f9b83ae338a6e283e",
+        "bytes": 2152
+      }
+    ],
+    "production_revision": [
+      {
+        "path": "workflow/implementation/implementation-handoff-02.md",
+        "sha256": "e704cb7e78aaea3c92bb64de89279164f9e7a9619f29ff8f50d95968cdf29410",
+        "bytes": 1464
+      }
+    ],
+    "implementation_design_revision_03": [
+      {
+        "path": "workflow/design/implementation-plan-03.md",
+        "sha256": "98415d91a3c96317eddc0ac8c29c7d5919482c25000d187d8d9dc6eb661a6048",
+        "bytes": 2323
+      },
+      {
+        "path": "workflow/design/test-transport-review-01.md",
+        "sha256": "7549ed3b4e9faa51df074b983796466ccbdd3d693b416ee93f9f2909314328ee",
+        "bytes": 2853
+      }
+    ],
+    "production_revision_03": [
+      {
+        "path": "workflow/implementation/implementation-handoff-03.md",
+        "sha256": "c9322411a0b44de0340f24942981223e2284b9002762f40f845c07fc53e6b88a",
+        "bytes": 1631
+      }
+    ],
+    "final_local_verification": [
+      {
+        "path": "workflow/verification/final-verification-03.md",
+        "sha256": "b9c02a4cb8f9f911238e227623aba81c12026097fa179c011da8b19b9e0f1d4e",
+        "bytes": 16754
+      },
+      {
+        "path": "logs/verification-final-03.json",
+        "sha256": "3609e8d37d522951f2f56eb37d567be8afef7859114ff966982e03a7af06e556",
+        "bytes": 70615
+      },
+      {
+        "path": "workflow/verification/final-evidence-fingerprint-03.json",
+        "sha256": "343536726bccb4a27ec45ea6820e134a086b97f6f4d7031b18995922f3b86fdb",
+        "bytes": 100729
+      },
+      {
+        "path": "workflow/verification/root-delivery-check-03.json",
+        "sha256": "80e7df7863d1e6bf0a5afb7960c589ee9b93e480376add30c5f541beddc47c4a",
+        "bytes": 608
+      },
+      {
+        "path": "workflow/verification/root-final-large-geometry-review-03.json",
+        "sha256": "73ed785da5a44052a1653ab7579c4b9757f5e7915e54f1dc24f34121083c5226",
+        "bytes": 1512
+      },
+      {
+        "path": "logs/verification-closeout-03/closeout.json",
+        "sha256": "ca12e3a07b9c232b70acbdd9df64018ae9b91c9f69c66c357c2fbc988420b22a",
+        "bytes": 1352
+      }
+    ],
+    "implementation_delivery": [
+      {
+        "path": "workflow/delivery-01.md",
+        "sha256": "47cd490fbe8363a15b759d91f8e7a5587e5676ad86d0fca528b58083276cf94e",
+        "bytes": 6858
+      },
+      {
+        "path": "logs/final-build-noise-check.json",
+        "sha256": "c63e8f04cfa4a1e86fae6759ac0308586f5d5817547d0eead6bfb975d2c9ba11",
+        "bytes": 76
+      },
+      {
+        "path": "logs/verification-closeout-03/temporary-disk-cleanup-rejected.json",
+        "sha256": "3e0b0d9adf60f15a1d4d46a35dbd7a65b373f4a2aea7d65231b774cb00d682d6",
+        "bytes": 759
+      }
+    ],
+    "submission_requirements": [
+      {
+        "path": "workflow/requirements/submission-review-01.md",
+        "sha256": "e074a39dec29e83adab0884a03f3e74c6e553ce62241904a2fa5761c33c07a78",
+        "bytes": 24759
+      }
+    ],
+    "submission_design": [
+      {
+        "path": "workflow/design/submission-plan-01.md",
+        "sha256": "ec44ca303074aae3819861bb0e1c014a1889154f299e5506a2e19b843d530d53",
+        "bytes": 26305
+      }
+    ],
+    "submission_implementation": [
+      {
+        "path": "workflow/implementation/submission-handoff-01.md",
+        "sha256": "7f1981670dbb2bc62a8db981785fa184d5f5b1536d3bc902c9b460623c31d061",
+        "bytes": 6163
+      }
+    ]
+  },
+  "code_fingerprint": {
+    "head": "75fd0066a7fc0c1e8cedb6218df081f86d307f45",
+    "base_commit": "75fd0066a7fc0c1e8cedb6218df081f86d307f45",
+    "manifest": "workflow/final-implementation-fingerprint.json",
+    "manifest_sha256": "d11de32277dda6bdf4d46f6c082a07766c50d059e9469086dcdca859a268ca3c"
+  },
+  "failures": [
+    {
+      "fingerprint": "baseline-login-placeholder",
+      "status": "resolved",
+      "evidence": [
+        "workflow/verification/baseline-evidence-01.md",
+        "logs/analysis-baseline/login-assertions.json",
+        "traces/analysis-baseline/final-login.jpeg"
+      ],
+      "ruled_out": [
+        "build failure",
+        "stale installed HAP",
+        "entry unreachable",
+        "production input drift"
+      ],
+      "next_route": "Future requirements decisions then design/implementation; do not fix during 0-analyze",
+      "resolution_evidence": [
+        "workflow/verification/final-verification-03.md",
+        "logs/verification-final-03.json"
+      ]
+    },
+    {
+      "fingerprint": "environment-no-hdc-target",
+      "status": "resolved",
+      "evidence": [
+        "logs/analysis-baseline/initial-device-observation-transcription.json",
+        "logs/analysis-baseline/emulator-start.txt"
+      ],
+      "next_route": "Existing configured emulator now online; final install/run evidence retained"
+    },
+    {
+      "fingerprint": "start-transcript-native-stdout-not-captured",
+      "status": "resolved_for_final_evidence_with_initial_gap",
+      "evidence": [
+        "logs/analysis-baseline/build.txt",
+        "logs/analysis-baseline/build-full-raw.txt",
+        "workflow/verification/baseline-evidence-01.md"
+      ],
+      "next_route": "Final compiler/hdc outputs recaptured using Tee/subprocess; initial standalone stdout cannot be recovered"
+    },
+    {
+      "fingerprint": "screenshot-png-suffix-rejected-with-hdc-exit-zero",
+      "status": "resolved",
+      "evidence": [
+        "logs/analysis-baseline/initial-screenshot.stdout.txt",
+        "traces/analysis-baseline/final-login.jpeg"
+      ],
+      "next_route": "Use verified JPEG result; retain failed original"
+    },
+    {
+      "fingerprint": "hypium-start-app-missing-main-ability",
+      "status": "resolved",
+      "evidence": [
+        "logs/analysis-baseline/final-cold-restart-console.txt",
+        "logs/analysis-baseline/cold-start.json"
+      ],
+      "next_route": "Explicit EntryAbility used to complete cold reentry"
+    },
+    {
+      "fingerprint": "acceptance-geometric-direction-and-reference-ambiguity",
+      "status": "resolved",
+      "evidence": [
+        "workflow/requirements/acceptance-draft.md",
+        "workflow/design/analysis-review-01.md",
+        "spec/acceptance.md"
+      ],
+      "next_route": "Explicit coordinate inequalities, atomic C6/C7 and U3 baseline retained; R1/R2 closed"
+    },
+    {
+      "fingerprint": "login-title-overlaps-statusbar",
+      "status": "resolved",
+      "source_sha256": "194f3c7aae13864e2df26b451d6838a16a46d96b61b5eede54a1ab6b670ecbc8",
+      "hap_sha256": "317c850e3ba470ed36ad51c12349296371409c580f5e2802ce9609dbcb5ab82f",
+      "screenshot": "logs/verification-phone-preview-01/phone-login-after-permission.jpeg",
+      "screenshot_sha256": "f0c551437898eb86e1508b1540dafcb2799b3a0788acd1a82c82e09ff9daee8b",
+      "observation": "Root inspected actual phone screenshot. Native navigation back circle overlaps status-bar clock; main logo/buttons/social/footer are visible.",
+      "ruled_out": [
+        "build failure",
+        "stale HAP",
+        "unreachable entry",
+        "screenshot capture failure"
+      ],
+      "route": "Design corrects top safe-area placement, implementation edits LoginPage, verifier rebuilds/reinstalls/retests.",
+      "final_visual_acceptance": false,
+      "resolution_evidence": [
+        "workflow/verification/root-visual-review-phone-03.json",
+        "logs/verification-navigation-smoke-03/test_A01.jpeg"
+      ]
+    },
+    {
+      "ruled_out": [
+        "stale installed HAP",
+        "other-device active UI driver at independent reentry",
+        "dumpLayout before independent reentry click"
+      ],
+      "fingerprint": "me-login-entry-remains-locked-after-return",
+      "next_route": "Design removes lifecycle-dependent persistent latch; implementation changes only MeViewModel; verifier validates minimum return/reentry then full suite.",
+      "evidence": [
+        "logs/verification-phone-suite-02/reentry-after-interruption.jpeg",
+        "logs/verification-phone-suite-02/reentry-after-interruption-action.json",
+        "logs/verification-phone-suite-02/hypium-runner.stderr.txt"
+      ],
+      "status": "resolved",
+      "hypothesis": "Persistent headNavigationPending is only reset by nested Me destination onShown, which does not reliably fire when returning to the outer Main destination",
+      "source_sha256": "8e377669fb468989fa2103e2987137d50320f9df9c1937c5cbd2f9ca392ff7a7",
+      "hap_sha256": "521ac47d8244aee9709f3de1e2a2bde95f99986d76eac2f0e7a5c453d8aaed8a",
+      "resolution_evidence": [
+        "logs/verification-navigation-smoke-03/selftest.json",
+        "logs/verification-navigation-smoke-03/test_A01.observations.json"
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "latest_user_answer": "没有账号",
+      "question": "Real WeChat/QQ/Alipay application registrations, signing/callback configuration and credential-exchange contracts",
+      "id": "U2",
+      "affected_requirements": [
+        "B9",
+        "B10",
+        "B11"
+      ],
+      "status": "external_dependency_missing",
+      "source": "workflow/implementation/third-party-setup.md"
+    }
+  ],
+  "next_action": "Read submission-draft validation report and missing-fields list; stage3 must use declared exact source snapshot and refresh records at actual formal freeze. B9-B11 still require legitimate provider/backend prerequisites.",
+  "config_snapshot": "system-config\\initial-20261020T094258Z",
+  "record_gaps": [
+    "Initial standalone hdc stdout was not captured by Start-Transcript. Original tool result is retained in native session; explicitly labelled transcription and final complete device outputs are saved."
+  ],
+  "updated_at": "2026-10-20T11:38:05.158186+00:00",
+  "last_event_id": "bceadffc21eb4210b75e4a5da557b355",
+  "layout": "HCUP: the task root is the Git worktree and project root",
+  "setup_complete": true,
+  "current_scope": {
+    "request": "2-submit",
+    "source": "spec-harness/2-submit.md",
+    "business_code_frozen": true,
+    "full_feature_implementation_requested": false,
+    "dedicated_session": "01a1590b-c9f9-7f32-9607-2b3f4c8c38e7",
+    "deliverables": [
+      ".comate/submission-draft/ task materials only"
+    ]
+  },
+  "analysis_config_snapshot": "system-config/analysis-20261020T095248Z",
+  "native_snapshot_gaps": [],
+  "last_trace_snapshot": "traces/native/20261020T112004Z-01dcd6ae/manifest.json",
+  "trace_exclusion_note": "Initialization overview deliberately excluded under AGENTS.md; it is not task development evidence. Snapshots include only content written before capture.",
+  "analysis_stage": {
+    "status": "complete",
+    "completed_at": "2026-10-20T18:09:11.575459+08:00",
+    "deliverables": [
+      "spec/acceptance.md",
+      "spec/baseline-notes.md"
+    ],
+    "explicit_acceptance_items": 41,
+    "boundaries": 12,
+    "review": "workflow/design/analysis-review-01.md",
+    "independent_baseline_validation": "workflow/verification/baseline-evidence-01.md",
+    "final_runtime_summary_review": "Verifier confirmed baseline-notes needs no factual corrections; no rerun performed.",
+    "business_code_modified": false
+  },
+  "baseline_validation": {
+    "build": "pass",
+    "install": "pass",
+    "launch": "pass",
+    "entry": "pass",
+    "return_reentry": "pass",
+    "cold_reentry": "pass",
+    "matrix": {
+      "pass": 1,
+      "fail": 11,
+      "blocked": 25,
+      "not_run": 4
+    },
+    "production_inputs": 794,
+    "production_input_changes": [],
+    "tracked_files": 772,
+    "tracked_changes": [],
+    "hap_sha256": "792dc2809f4376f4d4c94a796d9c959305d300298870a00b1ee673bafc20f109",
+    "feature_validation_complete": false
+  },
+  "implementation_config_snapshot": "system-config/implementation-20261020T101847Z",
+  "implementation_decisions": {
+    "U1": "Reuse existing window breakpoints: <600vp 100%, 600..<840vp 70%, >=840vp 60%",
+    "U2": "User latest answer: no developer account. Real provider flows need platform-issued application identity and confirmed backend credential exchange; retain B9-B11 blocked.",
+    "U3": "Use auth_login_content after system safe-area insets and before business horizontal padding as width/center denominator",
+    "U4": "User authorized original local application documents; requirements independently approved the unchanged resources"
+  },
+  "implementation_validation": {
+    "checked_at": "2026-10-20T11:19:25.266472+00:00",
+    "production_files_checked": 791,
+    "production_changes_after_validation": [],
+    "source_sha256": "26307326248e8e874d1e2d8c3a4abf10e14008d5fd386b91682357a928f6f78e",
+    "hap_sha256": "8aaa5de48b5664b92210fad7ffcddf9abbcebbb92e52faf7f5359bbeb3611863",
+    "requirement_counts": {
+      "pass": 38,
+      "blocked": 3
+    },
+    "test_files_checked": 8,
+    "test_files_unchanged": true,
+    "diff_check": "pass",
+    "tracked_build_noise_count": 0,
+    "approved_for": "local partial delivery with external B9-B11 blockers",
+    "not_official_score": true,
+    "build": "pass",
+    "install": "pass",
+    "cold_start": "pass",
+    "applicable_regressions": "pass_after_document_helper_correction",
+    "full_feature_validation_complete": false,
+    "matrix": "logs/verification-final-03.json",
+    "report": "workflow/verification/final-verification-03.md",
+    "delivery": "workflow/delivery-01.md",
+    "device_closeout": "logs/verification-closeout-03/closeout.json",
+    "temporary_disk_cleanup": "logs/verification-closeout-03/temporary-disk-cleanup-rejected.json",
+    "blocked_requirements": [
+      "B9",
+      "B10",
+      "B11"
+    ]
+  },
+  "remaining_work": [
+    {
+      "requirements": [
+        "B9",
+        "B10",
+        "B11"
+      ],
+      "reason": "User confirms no third-party developer account; platform application identity/signing/callback and backend exchange contract unavailable.",
+      "next_action": "Obtain legitimate platform application registrations and backend contracts, then design/implement SDK authorization and run real-platform regressions."
+    }
+  ],
+  "previous_implementation_scope": {
+    "request": "1-do",
+    "business_code_frozen": true,
+    "full_feature_implementation_requested": true,
+    "source": "spec-harness/1-do.md",
+    "dedicated_session": "01a158d0-416c-75a3-8836-233f0c35fb6f",
+    "deliverables": [
+      "production implementation",
+      "hypium_tests",
+      "verification evidence"
+    ]
+  },
+  "submission_stage": {
+    "status": "draft_authored",
+    "feature_status_unchanged": "38 pass; 3 blocked (B9-B11)",
+    "draft_path": ".comate/submission-draft",
+    "independent_validation_report": ".comate/submission-draft/validation/materials-verification.json",
+    "patch_validation_report": ".comate/submission-draft/patch-validation.json",
+    "source_snapshot": ".comate/submission-draft/traces/code-snapshot/project",
+    "source_scope_note": "Exact source freeze is identified by draft/project-manifest.json after this checkpoint; the draft is outside project scope to avoid recursive patch/hash definitions.",
+    "human_fields_still_missing": true,
+    "official_submission_performed": false,
+    "formal_team_freeze_time": "【待补充】"
+  }
+}
