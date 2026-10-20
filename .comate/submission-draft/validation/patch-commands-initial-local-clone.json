@@ -1,0 +1,69 @@
+[
+  {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1",
+    "started_utc": "2026-10-20T06:22:10.418234+00:00",
+    "finished_utc": "2026-10-20T06:22:10.458804+00:00",
+    "exit_code": 0,
+    "stdout": "7014cebd60f2181fac2a36d399ca16b3d6a175ab\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "clone",
+      "--no-hardlinks",
+      "--no-checkout",
+      "--single-branch",
+      "--branch",
+      "cml-spec1",
+      "D:\\HCUP\\cml-spec1",
+      "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-source"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1",
+    "started_utc": "2026-10-20T06:22:10.494043+00:00",
+    "finished_utc": "2026-10-20T06:23:11.578387+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "Cloning into 'D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-source'...\ndone.\n"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "checkout",
+      "--detach",
+      "7014cebd60f2181fac2a36d399ca16b3d6a175ab"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-source",
+    "started_utc": "2026-10-20T06:23:11.579387+00:00",
+    "finished_utc": "2026-10-20T06:23:11.859080+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "HEAD is now at 7014ceb Harmony Cup sanitized baseline snapshot\n"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "add",
+      "--force",
+      "--all",
+      "."
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-source",
+    "started_utc": "2026-10-20T06:23:27.355451+00:00",
+    "finished_utc": "2026-10-20T06:24:23.345242+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

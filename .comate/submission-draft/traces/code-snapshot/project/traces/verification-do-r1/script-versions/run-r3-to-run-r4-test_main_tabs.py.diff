@@ -1,0 +1,31 @@
+--- run-r3/test_main_tabs.py
++++ run-r4/test_main_tabs.py
+@@ -74,7 +74,27 @@
+         return self.e.component("main_root", required=False) is not None
+ 
+     def launch(self, capture=False):
+-        self.driver.stop_app(self.bundle, wait_time=.15)
++        previous = self.e.cmd("shell", "pidof", self.bundle, check=False)
++        self.driver.stop_app(self.bundle, wait_time=.5)
++        empty_samples = 0
++        stopped = []
++        deadline = time.monotonic() + 10
++        while time.monotonic() < deadline:
++            result = self.e.cmd("shell", "pidof", self.bundle, check=False)
++            value = result.stdout.strip()
++            if value and not all(part.isdigit() for part in value.split()):
++                raise ObservationUnavailable(f"Cannot confirm stopped bundle process: {value}")
++            stopped.append({"time": time.monotonic(), "pids": value})
++            empty_samples = empty_samples + 1 if not value else 0
++            if empty_samples >= 3:
++                break
++            time.sleep(.2)
++        if empty_samples < 3:
++            raise ObservationUnavailable("Old bundle did not reach a reliable fully stopped state; do not issue start")
++        time.sleep(.5)
++        save_json(self.e.path / f"cold-stop-{self.e.seq}.json",
++                  {"beforePid": previous.stdout.strip(), "samples": stopped, "continuousEmpty": empty_samples,
++                   "settledSecondsAfterConfirmation": .5, "policy": "One normal start only; no failure retry"})
+         if capture:
+             trace = self.observe("initial", lambda: self.driver.start_app(self.bundle, page_name="EntryAbility", wait_time=0))
+         else:

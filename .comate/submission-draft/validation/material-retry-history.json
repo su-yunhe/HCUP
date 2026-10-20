@@ -1,0 +1,29 @@
+{
+  "recorded_at_utc": "2026-10-20T06:27:07.492705+00:00",
+  "attempts": [
+    {
+      "method": "Initial local git clone --no-hardlinks --single-branch",
+      "outcome": "Interrupted before trusted patch validation; default local clone copied shared object-store files beyond selected branch. Objects were not queried as implementation/history references. This temporary clone will be removed and is outside all delivered snapshots.",
+      "command_log": "patch-commands-initial-local-clone.json"
+    },
+    {
+      "method": "git clone --no-local --single-branch cml-spec1 into scoped directories",
+      "outcome": "Corrected branch-scoped validation in progress; see patch-command-history and patch-validation.json"
+    },
+    {
+      "method": "First scoped clone patch application",
+      "outcome": "git apply exits0 but exact comparison failed: global autocrlf changed LF toCRLF; live emulator logs also changed. Failure preserved, not accepted.",
+      "evidence": "patch-validation-r1-failed.json"
+    },
+    {
+      "method": "Scoped clones with persistent+explicit core.autocrlf=false; copied runtime log hashes authoritative",
+      "outcome": "Completed: apply check0, actual apply0,11951 reconstructed file path/hash matches, zero nonruntime project mismatch;4 ongoing dedicated emulator runtime-log changes explicitly recorded."
+    }
+  ],
+  "cleanup": {
+    "path": ".validation/patch-source",
+    "result": "Automatic approval policy rejected recursive deletion; not removed. Explicitly excluded from every delivered project/material packaging selection. Do not copy .validation into an artifact.",
+    "reason_returned": "blocked by policy"
+  },
+  "final_patch_validation": "da4db70fd3c29f6a4d05773479cb04acee153520c3769515612305482a5dcdc0"
+}

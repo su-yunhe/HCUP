@@ -1,0 +1,16 @@
+[
+  {
+    "command": "hvigorw clean --mode module -p product=default -p buildMode=debug --no-daemon",
+    "exit_code": 0,
+    "start_utc": "2026-10-20T03:18:06.4235389Z",
+    "end_utc": "2026-10-20T03:18:10.8390345Z",
+    "log": "logs/analysis-baseline-clean.log"
+  },
+  {
+    "command": "hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon",
+    "exit_code": 0,
+    "start_utc": "2026-10-20T03:18:10.8421626Z",
+    "end_utc": "2026-10-20T03:18:32.5883936Z",
+    "log": "logs/analysis-baseline-assembleHap.log"
+  }
+]

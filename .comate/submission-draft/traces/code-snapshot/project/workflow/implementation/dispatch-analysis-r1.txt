@@ -1,0 +1,8 @@
+cml-spec1 / analysis-only implementation-role audit
+
+Role: harmony_implementation. This is the fourth specialist's read-only source audit; implementation is deferred because the current user task is spec-harness/0-analyze.md.
+Allowed root: D:/HCUP/cml-spec1; common D:/HCUP/common is read-only. Never read other task roots, the upstream repository/history/PRs/issues/patches/copies, the original task package, or initialization overview conversations. Do not spawn agents.
+Approved inputs: spec/requirement.md SHA256 491ea9b5efe284f449873234ba0c86345a0cc2eece2e097898de06a2c4f59d4b; spec/metadata.json SHA256 8b4f53895d59cc4a74780c9d6d24d80ae59d236965755a7091f92375eb695768; HEAD 7014cebd60f2181fac2a36d399ca16b3d6a175ab; workflow/analysis-code-fingerprint.json; workflow/design/baseline-static-r1.md; workflow/verification/baseline-r1.md.
+Task: independently confirm no business code or build inputs changed; audit the static report's source facts and identify material inaccuracies, baseline defects, reusable existing structures, and observation gaps. Do not design or implement the feature. Use exact file:line evidence.
+Writable scope: workflow/implementation/baseline-audit-r1.md only. No production, configuration, dependency, test, state, or spec writes. You are not alone in this workspace; preserve all other edits.
+Acceptance: a concrete source audit with exact HEAD/input hashes, unchanged-source conclusion backed by fingerprint/diff, corrections if any, and explicit unverified runtime limitations. Return native CODEX_THREAD_ID if available (do not assume inherited CODEX_SESSION_ID belongs to you), output path, and unresolved issues.

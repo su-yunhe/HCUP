@@ -1,0 +1,57 @@
+[
+  {
+    "Label": "node-version",
+    "Command": "node",
+    "Arguments": [
+      "--version"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T13:02:18.1014281+08:00",
+    "Finished": "2026-10-20T13:02:18.1429300+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-build-run-r2-node-version.log"
+  },
+  {
+    "Label": "java-version",
+    "Command": "java",
+    "Arguments": [
+      "-version"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T13:02:18.1540946+08:00",
+    "Finished": "2026-10-20T13:02:18.2378564+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-build-run-r2-java-version.log"
+  },
+  {
+    "Label": "hdc-version",
+    "Command": "hdc",
+    "Arguments": [
+      "-v"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T13:02:18.2439473+08:00",
+    "Finished": "2026-10-20T13:02:18.2621477+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-build-run-r2-hdc-version.log"
+  },
+  {
+    "Label": "assembleHap",
+    "Command": "hvigorw",
+    "Arguments": [
+      "assembleHap",
+      "--mode",
+      "module",
+      "-p",
+      "product=default",
+      "-p",
+      "buildMode=debug",
+      "--no-daemon"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T13:02:18.2671937+08:00",
+    "Finished": "2026-10-20T13:02:24.3291414+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-build-run-r2-assembleHap.log"
+  }
+]

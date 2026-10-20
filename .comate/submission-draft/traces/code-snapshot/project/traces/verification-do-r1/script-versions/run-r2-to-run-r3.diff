@@ -1,0 +1,77 @@
+--- run-r2/test_main_tabs.py
++++ run-r3/test_main_tabs.py
+@@ -8,6 +8,7 @@
+ from __future__ import annotations
+ 
+ import json
++import hashlib
+ import os
+ import time
+ from pathlib import Path
+@@ -41,12 +42,16 @@
+             raise AssertionError(f"Invalid/unbounded local Lottie duration: {cls.duration}")
+         save_json(cls.run_dir / "run-context.json", {"device": cls.device_sn, "resourceDuration": cls.duration,
+                                                    "pythonSource": str(Path(__file__)), "started": time.time(),
++                                                   "testSourceSHA256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest()
++                                                                        for p in (Path(__file__), Path(__file__).with_name("evidence.py"))},
+                                                    "emptyInput": "N/A: Spec has no text input/submission",
+                                                    "whitespaceInput": "N/A: Spec has no text input/submission"})
+ 
+     def setUp(self):
+         self.e = Evidence(self, self.device_sn, self.run_dir)
+         self.finished = False
++        self.receive_anchor = None
++        self.offscreen_observation = 0
+ 
+     def tearDown(self):
+         try:
+@@ -252,19 +257,48 @@
+         save_json(trace["capture"].path / "color-metrics.json", metrics)
+ 
+     def receive_visible(self, nodes):
++        entries = nodes.get("home_coupon_receive", [])
++        if not entries:
++            self.assertIsNotNone(self.receive_anchor, "Offscreen absence requires a previously visible, verified same coupon anchor")
++            offset = self.y()
++            self.assertGreater(offset, 1, "Missing anchor is not proof of scrolling without a real nonzero offset")
++            self.assertEqual(self.e.state("main_root")["selectedIndex"], 0,
++                             "Anchor absence on another page cannot establish home scroll invisibility")
++            self.offscreen_observation += 1
++            proof = f"offscreen-coupon-{self.offscreen_observation}"
++            image = self.e.screenshot(proof)
++            save_json(self.e.path / f"{proof}.json", {"initialAnchor": self.receive_anchor,
++                      "actualYOffset": offset, "screenshot": str(image),
++                      "interpretation": "SDK omitted fully clipped node; actual scroll and original screenshot support invisibility"})
++            return False
+         attrs = self.node(nodes, "home_coupon_receive")["attributes"]
+         self.assertEqual(attrs.get("text"), "领取", "Top coupon anchor must keep exact Spec text")
+         box = rectangle(attrs.get("origBounds", attrs["bounds"]))
+         scroll = rectangle(self.node(nodes, "home_scroll")["attributes"]["bounds"])
+         pager = rectangle(self.node(nodes, "main_content_pager")["attributes"]["bounds"])
+         viewport = [max(scroll[0], pager[0]), max(scroll[1], pager[1]), min(scroll[2], pager[2]), min(scroll[3], pager[3])]
+-        return attrs.get("visible", "true") != "false" and intersection(box, viewport) / max(1, area(box)) > .8
++        visible = attrs.get("visible", "true") != "false" and intersection(box, viewport) / max(1, area(box)) > .8
++        if visible:
++            if self.receive_anchor is None:
++                self.receive_anchor = {"stableId": "home_coupon_receive", "text": attrs["text"],
++                                       "accessibilityId": attrs.get("accessibilityId"), "bounds": box,
++                                       "instanceId": self.e.state("main_root")["instanceId"]}
++                save_json(self.e.path / "initial-coupon-anchor.json", self.receive_anchor)
++            else:
++                self.assertEqual(self.e.state("main_root")["instanceId"], self.receive_anchor["instanceId"])
++                self.assertEqual(attrs.get("accessibilityId"), self.receive_anchor["accessibilityId"],
++                                 "Return-to-top must show the same real coupon node, not a replacement")
++        return visible
+ 
+     def y(self):
+         return float(self.e.state("home_scroll")["yOffset"])
+ 
+     def scroll_down(self):
+         before = self.y()
++        if self.receive_anchor is None:
++            origin = self.e.tree(f"scroll_origin_{self.e.seq}")
++            self.e.screenshot(f"scroll_origin_{self.e.seq}")
++            self.assertTrue(self.receive_visible(origin), "Verify the original top coupon before creating an offscreen precondition")
+         for n in range(6):
+             self.driver.swipe("UP", distance=55, area=BY.key("home_scroll"), swipe_time=.45)
+             time.sleep(.2)

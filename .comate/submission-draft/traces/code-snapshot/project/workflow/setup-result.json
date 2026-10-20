@@ -1,0 +1,47 @@
+{
+  "task_id": "cml-spec1",
+  "prepared_at": "2026-10-20T03:13:47.519931+00:00",
+  "project_root": "D:\\HCUP\\cml-spec1",
+  "branch": "cml-spec1",
+  "base_commit": "7014cebd60f2181fac2a36d399ca16b3d6a175ab",
+  "prepared_head": "7014cebd60f2181fac2a36d399ca16b3d6a175ab",
+  "baseline_prepare": {
+    "result": "pass",
+    "log": "logs/prepare-baseline.log"
+  },
+  "ohpm_install": {
+    "result": "pass",
+    "log": "logs/ohpm-install.log"
+  },
+  "baseline_build": {
+    "result": "pass",
+    "exit_code": 0,
+    "command": "hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon",
+    "log": "logs/baseline-build.log",
+    "warnings_recorded": true,
+    "warning_file_diagnostics": 182,
+    "sdk_declarations_preserved": true,
+    "hap": "entry/build/default/outputs/default/entry-default-unsigned.hap",
+    "hap_bytes": 19133822,
+    "hap_sha256": "5db47b8c997f0c70e36f879825ae4c171671936814b6d67e3a31c9b27c26301d"
+  },
+  "business_source_changes": [],
+  "preparation_configuration_changes": [],
+  "task_guidance": "AGENTS.md: task workflow guidance saved; existing baseline guidance retained if present",
+  "new_task_artifacts": [
+    "spec/",
+    "inputs/",
+    "workflow/",
+    "logs/",
+    "system-config/",
+    "traces/"
+  ],
+  "source_fingerprint": "workflow/setup-code-fingerprint.json",
+  "not_performed": [
+    "requirements analysis",
+    "feature implementation",
+    "app install/launch",
+    "functional tests"
+  ],
+  "next_action": "Open a dedicated chat rooted at this project, register its session, and start requirements analysis."
+}

@@ -1,0 +1,55 @@
+[
+  {
+    "Label": "install-current-hap",
+    "Command": "hdc",
+    "Arguments": [
+      "-t",
+      "127.0.0.1:11245",
+      "install",
+      "-r",
+      "D:\\HCUP\\cml-spec1\\entry\\build\\default\\outputs\\default\\entry-default-unsigned.hap"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T13:15:08.6719746+08:00",
+    "Finished": "2026-10-20T13:15:10.0880121+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-run-run-r3-install-current-hap.log"
+  },
+  {
+    "Label": "installed-bundle",
+    "Command": "hdc",
+    "Arguments": [
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "bm",
+      "dump",
+      "-n",
+      "com.joker.coolmall"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T13:15:10.0998029+08:00",
+    "Finished": "2026-10-20T13:15:10.5980817+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-run-run-r3-installed-bundle.log"
+  },
+  {
+    "Label": "runner",
+    "Command": "D:\\HCUP\\common\\.venv\\Scripts\\python.exe",
+    "Arguments": [
+      "-m",
+      "harness.runner",
+      "--project",
+      "D:\\HCUP\\cml-spec1",
+      "--device",
+      "127.0.0.1:11245",
+      "--json",
+      "D:\\HCUP\\cml-spec1\\logs\\selftest-run-r3.json"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1\\logs",
+    "Started": "2026-10-20T13:15:10.6099397+08:00",
+    "Finished": "2026-10-20T13:23:32.8312717+08:00",
+    "ExitCode": -1,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-run-run-r3-runner.log"
+  }
+]

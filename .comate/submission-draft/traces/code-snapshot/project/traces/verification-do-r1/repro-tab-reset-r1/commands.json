@@ -1,0 +1,189 @@
+[
+  {
+    "label": "stop",
+    "argv": [
+      "hdc",
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "aa",
+      "force-stop",
+      "com.joker.coolmall"
+    ],
+    "start": 1792472376.5375881,
+    "end": 1792472376.823784,
+    "exit": 0,
+    "output": "force stop process successfully.\n"
+  },
+  {
+    "label": "start",
+    "argv": [
+      "hdc",
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "aa",
+      "start",
+      "-a",
+      "EntryAbility",
+      "-b",
+      "com.joker.coolmall"
+    ],
+    "start": 1792472376.824782,
+    "end": 1792472377.341487,
+    "exit": 0,
+    "output": "start ability successfully.\n"
+  },
+  {
+    "label": "before-tree",
+    "argv": [
+      "hdc",
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "uitest",
+      "dumpLayout",
+      "-a",
+      "-p",
+      "/data/local/tmp/cml_spec1_repro_before.json"
+    ],
+    "start": 1792472379.3430655,
+    "end": 1792472384.0123105,
+    "exit": 0,
+    "output": "DumpLayout saved to:/data/local/tmp/cml_spec1_repro_before.json\n"
+  },
+  {
+    "label": "before-tree-recv",
+    "argv": [
+      "hdc",
+      "-t",
+      "127.0.0.1:11245",
+      "file",
+      "recv",
+      "/data/local/tmp/cml_spec1_repro_before.json",
+      "D:\\HCUP\\cml-spec1\\traces\\verification-do-r1\\repro-tab-reset-r1\\before.json"
+    ],
+    "start": 1792472384.0183184,
+    "end": 1792472384.3137152,
+    "exit": 0,
+    "output": "FileTransfer finish, Size:77282, File count = 1, time:73ms rate:1058.66kB/s\n"
+  },
+  {
+    "label": "before-image",
+    "argv": [
+      "hdc",
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "uitest",
+      "screenCap",
+      "-p",
+      "/data/local/tmp/cml_spec1_repro_before.png"
+    ],
+    "start": 1792472384.3137152,
+    "end": 1792472384.6963634,
+    "exit": 0,
+    "output": "ScreenCap saved to /data/local/tmp/cml_spec1_repro_before.png\n"
+  },
+  {
+    "label": "before-image-recv",
+    "argv": [
+      "hdc",
+      "-t",
+      "127.0.0.1:11245",
+      "file",
+      "recv",
+      "/data/local/tmp/cml_spec1_repro_before.png",
+      "D:\\HCUP\\cml-spec1\\traces\\verification-do-r1\\repro-tab-reset-r1\\before.png"
+    ],
+    "start": 1792472384.6973643,
+    "end": 1792472384.9335992,
+    "exit": 0,
+    "output": "FileTransfer finish, Size:315924, File count = 1, time:67ms rate:4715.28kB/s\n"
+  },
+  {
+    "label": "single-click-category",
+    "argv": [
+      "hdc",
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "uitest",
+      "uiInput",
+      "click",
+      "490",
+      "2671"
+    ],
+    "start": 1792472384.937103,
+    "end": 1792472385.2808352,
+    "exit": 0,
+    "output": "No Error\n"
+  },
+  {
+    "label": "after-tree",
+    "argv": [
+      "hdc",
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "uitest",
+      "dumpLayout",
+      "-a",
+      "-p",
+      "/data/local/tmp/cml_spec1_repro_after.json"
+    ],
+    "start": 1792472385.782589,
+    "end": 1792472390.342089,
+    "exit": 0,
+    "output": "DumpLayout saved to:/data/local/tmp/cml_spec1_repro_after.json\n"
+  },
+  {
+    "label": "after-tree-recv",
+    "argv": [
+      "hdc",
+      "-t",
+      "127.0.0.1:11245",
+      "file",
+      "recv",
+      "/data/local/tmp/cml_spec1_repro_after.json",
+      "D:\\HCUP\\cml-spec1\\traces\\verification-do-r1\\repro-tab-reset-r1\\after.json"
+    ],
+    "start": 1792472390.342089,
+    "end": 1792472390.5645773,
+    "exit": 0,
+    "output": "FileTransfer finish, Size:77663, File count = 1, time:63ms rate:1232.75kB/s\n"
+  },
+  {
+    "label": "after-image",
+    "argv": [
+      "hdc",
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "uitest",
+      "screenCap",
+      "-p",
+      "/data/local/tmp/cml_spec1_repro_after.png"
+    ],
+    "start": 1792472390.5655777,
+    "end": 1792472390.852876,
+    "exit": 0,
+    "output": "ScreenCap saved to /data/local/tmp/cml_spec1_repro_after.png\n"
+  },
+  {
+    "label": "after-image-recv",
+    "argv": [
+      "hdc",
+      "-t",
+      "127.0.0.1:11245",
+      "file",
+      "recv",
+      "/data/local/tmp/cml_spec1_repro_after.png",
+      "D:\\HCUP\\cml-spec1\\traces\\verification-do-r1\\repro-tab-reset-r1\\after.png"
+    ],
+    "start": 1792472390.8538828,
+    "end": 1792472391.0604644,
+    "exit": 0,
+    "output": "FileTransfer finish, Size:315924, File count = 1, time:60ms rate:5265.40kB/s\n"
+  }
+]

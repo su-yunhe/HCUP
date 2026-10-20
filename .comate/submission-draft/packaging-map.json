@@ -1,0 +1,82 @@
+{
+  "task_id": "cml-spec1",
+  "copy": [
+    {
+      "from": "traces/code-snapshot/project/",
+      "to": "tasks/cml-spec1/project/"
+    },
+    {
+      "from": "build.md",
+      "to": "tasks/cml-spec1/build.md"
+    },
+    {
+      "from": "trace-index.md",
+      "to": "tasks/cml-spec1/trace-index.md"
+    },
+    {
+      "from": "human-changes.md",
+      "to": "tasks/cml-spec1/human-changes.md"
+    },
+    {
+      "from": "changes/",
+      "to": "tasks/cml-spec1/changes/"
+    },
+    {
+      "from": "logs/",
+      "to": "tasks/cml-spec1/logs/"
+    },
+    {
+      "from": "validation/",
+      "to": "tasks/cml-spec1/validation/"
+    },
+    {
+      "from": "traces/",
+      "to": "traces/cml-spec1/"
+    },
+    {
+      "from": "missing-fields.md",
+      "to": "tasks/cml-spec1/missing-fields.md"
+    },
+    {
+      "from": "auto-filled-facts.md",
+      "to": "tasks/cml-spec1/auto-filled-facts.md"
+    },
+    {
+      "from": "delivery-notes.md",
+      "to": "tasks/cml-spec1/delivery-notes.md"
+    },
+    {
+      "from": "production-preservation.json",
+      "to": "tasks/cml-spec1/production-preservation.json"
+    },
+    {
+      "from": "logs-manifest.json",
+      "to": "tasks/cml-spec1/logs-manifest.json"
+    },
+    {
+      "from": "submission-state.json",
+      "to": "tasks/cml-spec1/submission-state.json"
+    },
+    {
+      "from": "packaging-map.json",
+      "to": "tasks/cml-spec1/packaging-map.json"
+    },
+    {
+      "from": "tools/",
+      "to": "tasks/cml-spec1/material-tools/"
+    }
+  ],
+  "merge": [
+    "solution.fragment.md -> solution.md",
+    "sources.fragment.md -> sources.md",
+    "submission.json.fragment -> submission.json.tasks entry only when team submitted_tasks selects this task"
+  ],
+  "never_copy": [
+    ".validation/",
+    "live worktree .comate/submission-draft/ into project",
+    ".git/",
+    "unrelated native store files"
+  ],
+  "note": "This is a packaging contract for3-package, not an executed package or ZIP.",
+  "tool_note": "Material tools preserve the original collection scripts; their ROOT calculation assumes the original .comate/submission-draft/tools placement. They are evidence/optional replay tools, not a portable prerequisite of the app build."
+}

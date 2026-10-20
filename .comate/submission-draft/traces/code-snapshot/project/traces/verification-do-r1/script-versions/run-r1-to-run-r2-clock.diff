@@ -1,0 +1,49 @@
+--- run-r1/evidence.py
++++ run-r2/evidence.py
+@@ -205,7 +205,7 @@
+     """Capture actual device images before/during/after one action.
+ 
+     A single native-shell loop avoids PC transfer delays in the sampling loop.
+-    Original JPEG/PNG and device uptime plus host arrival times are retained.
++    Original JPEG/PNG and device wall clock plus host arrival times are retained.
+     Backend is configurable only for tool compatibility, never to fake frames.
+     """
+     def __init__(self, evidence, label, count=48, interval=.1):
+@@ -225,9 +225,9 @@
+         shot = ('snapshot_display -f "$out"' if backend == "snapshot_display" else 'uitest screenCap -p "$out"')
+         suffix = "jpeg" if backend == "snapshot_display" else "png"
+         script = (f"mkdir -p {self.remote}; i=0; while [ $i -lt {self.count} ]; do "
+-                  "read stamp rest < /proc/uptime; echo FRAME_START $i $stamp; "
++                  "stamp=$(date +%s.%N); echo FRAME_START $i $stamp; "
+                   f'out={self.remote}/frame_$i.{suffix}; {shot}; rc=$?; '
+-                  "read stamp rest < /proc/uptime; echo FRAME_END $i $stamp $rc; "
++                  "stamp=$(date +%s.%N); echo FRAME_END $i $stamp $rc; "
+                   f"i=$((i+1)); sleep {self.interval}; done")
+         self.argv = ["hdc", "-t", self.e.serial, "shell", script]
+         self.started = time.monotonic()
+@@ -239,9 +239,9 @@
+                 for line in self.proc.stdout:
+                     log.write(line)
+                     log.flush()
+-                    match = re.search(r"FRAME_(START|END) (\d+) ([\d.]+)(?: (\d+))?", line)
++                    match = re.search(r"FRAME_(START|END) (\d+) (\d+\.\d+)(?: (\d+))?", line)
+                     if match:
+-                        self.rows.append({"event": match[1], "index": int(match[2]), "deviceUptime": float(match[3]),
++                        self.rows.append({"event": match[1], "index": int(match[2]), "deviceWallTime": float(match[3]),
+                                           "hostMonotonic": time.monotonic(), "exit": int(match[4]) if match[4] else None})
+                         self.ready.set()
+ 
+@@ -264,12 +264,12 @@
+         self.e.log({"argv": self.argv, "started": self.started, "finished": time.monotonic(), "exit": code,
+                     "raw": str(self.path / "capture-raw.log")})
+         save_json(self.path / "frame-times.json", self.rows)
++        self.e.cmd("file", "recv", self.remote, str(self.path))
+         if code:
+             raise ObservationUnavailable(f"Frame capture shell failed: {code}")
+         failed = [r for r in self.rows if r["event"] == "END" and r["exit"] != 0]
+         if failed:
+             raise ObservationUnavailable(f"Native screenshots failed; do not infer animation from diagnostics: {failed[:3]}")
+-        self.e.cmd("file", "recv", self.remote, str(self.path))
+         # hdc implementations differ in whether recv(dir, existing_dir) nests the source basename.
+         self.images = sorted(self.path.rglob("frame_*.*"), key=lambda p: int(re.search(r"frame_(\d+)", p.name)[1]))
+         if len(self.images) != self.count:

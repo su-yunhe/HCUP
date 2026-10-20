@@ -1,0 +1,390 @@
+{
+  "run": "run-r4",
+  "recorded": 1792475416.8503585,
+  "sourceCount": 688,
+  "sourceAggregateSHA256": "2cebe8ebb0c7fcc3d15058f9dedb0843580aacf5b1f41593f3dbe4200cf9d14c",
+  "sourceDifferences": {},
+  "hap": {
+    "Path": "D:\\HCUP\\cml-spec1\\entry\\build\\default\\outputs\\default\\entry-default-unsigned.hap",
+    "Length": 20739960,
+    "SHA256": "d54386d3d42a6049d5af9fcece16c9d0cdbd271a2217cb008c196af177202615",
+    "LastWrite": "2026-10-20T13:00:52.5220786+08:00",
+    "Recorded": "2026-10-20T13:02:24.3657203+08:00",
+    "FrozenManifest": "traces/do-implementation/source-frozen-r2.json",
+    "Handoff": "workflow/implementation/do-handoff-r2.md"
+  },
+  "testSHA256": {
+    "test_main_tabs.py": "4c7ce788e606dccccf2e42edb6084d177b8edb77f93236ec4919e214ce0204bb",
+    "evidence.py": "8c716e041bd5175bd991fc24f9ccd38adc725f793a36f55a8bdad09d6b4fc006"
+  },
+  "commands": [
+    {
+      "argv": [
+        "hdc",
+        "-t",
+        "127.0.0.1:11245",
+        "shell",
+        "ls",
+        "-l",
+        "/data/log/faultlog/faultlogger"
+      ],
+      "started": 1792475416.2416034,
+      "finished": 1792475416.37832,
+      "exitCode": 0,
+      "rawLog": "logs\\verification-do-run-r4-final-faultlogger.log",
+      "output": "total 122880\n-rw-rw-r-- 1 hiview system 119924 2026-10-20 13:19 sysfreeze-com.joker.coolmall-20020062-20261020131916558.log\n"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "started": 1792475416.37832,
+      "finished": 1792475416.4193823,
+      "exitCode": 0,
+      "rawLog": "logs\\verification-do-run-r4-final-diff-check.log",
+      "output": "warning: in the working copy of 'feature/main/src/main/ets/view/CartPage.ets', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'feature/main/src/main/ets/view/CategoryPage.ets', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'feature/main/src/main/ets/view/HomePage.ets', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'feature/main/src/main/ets/view/MainPage.ets', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'feature/main/src/main/ets/view/MePage.ets', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'feature/main/src/main/ets/viewmodel/HomeViewModel.ets', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'feature/main/src/main/ets/viewmodel/MainViewModel.ets', LF will be replaced by CRLF the next time Git touches it\n"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--name-only",
+        "--",
+        "**/BuildProfile.ets"
+      ],
+      "started": 1792475416.4193823,
+      "finished": 1792475416.4492576,
+      "exitCode": 0,
+      "rawLog": "logs\\verification-do-run-r4-final-build-profile.log",
+      "output": ""
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "started": 1792475416.4492576,
+      "finished": 1792475416.5022647,
+      "exitCode": 0,
+      "rawLog": "logs\\verification-do-run-r4-final-git-status.log",
+      "output": " M entry/oh-package-lock.json5\n M entry/src/main/ets/entryability/EntryAbility.ets\n M feature/main/oh-package-lock.json5\n M feature/main/oh-package.json5\n M feature/main/src/main/ets/view/CartPage.ets\n M feature/main/src/main/ets/view/CategoryPage.ets\n M feature/main/src/main/ets/view/HomePage.ets\n M feature/main/src/main/ets/view/MainPage.ets\n M feature/main/src/main/ets/view/MePage.ets\n M feature/main/src/main/ets/viewmodel/HomeViewModel.ets\n M feature/main/src/main/ets/viewmodel/MainViewModel.ets\n?? feature/main/src/main/ets/component/\n?? feature/main/src/main/resources/rawfile/\n?? hypium_tests/\n?? inputs/\n?? logs/\n?? spec-harness/\n?? spec/\n?? system-config/\n?? test-harness/\n?? traces/\n?? workflow/\n"
+    }
+  ],
+  "faultloggerBundleEntries": [
+    "-rw-rw-r-- 1 hiview system 119924 2026-10-20 13:19 sysfreeze-com.joker.coolmall-20020062-20261020131916558.log"
+  ],
+  "frameCollections": [
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_01_scene_one_click_navigation\\01_click_category",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_01_scene_one_click_navigation\\02_click_cart",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_02_scene_two_swipe_then_click\\01_home_left_category",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_02_scene_two_swipe_then_click\\02_category_left_cart",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_02_scene_two_swipe_then_click\\03_cart_click_me",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_03_scene_three_initial_reset_return\\01_initial",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_03_scene_three_initial_reset_return\\02_home_click_me",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_03_scene_three_initial_reset_return\\03_me_return_home",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [
+        "FRAME_FAIL 1 1792474151.271268957 255 retry=0",
+        "FRAME_FAIL 1 1792474153.345154296 255 retry=1"
+      ],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_04_scene_four_scroll_and_reselect\\01_leave_scrolled_home",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_04_scene_four_scroll_and_reselect\\02_return_preserve_scroll",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_04_scene_four_scroll_and_reselect\\03_selected_home_scroll_to_top",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\01_neighbor_LEFT_category",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\02_neighbor_LEFT_cart",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\03_neighbor_LEFT_me",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\04_neighbor_RIGHT_cart",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\05_neighbor_RIGHT_category",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\06_neighbor_RIGHT_home",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\07_endpoint_home",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\08_go_me_endpoint",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\09_endpoint_me",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\10_go_category_before_reclick",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\11_reclick_category",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\12_go_cart_before_reclick",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\13_reclick_cart",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\14_go_me_before_reclick",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_05_bidirectional_and_endpoint_policies\\15_reclick_me",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_06_repeat_cancel_and_rapid_actions\\01_home_top_reclick",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_06_repeat_cancel_and_rapid_actions\\02_home_rapid_reclicks",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_06_repeat_cancel_and_rapid_actions\\03_short_uncommitted_drag",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_06_repeat_cancel_and_rapid_actions\\04_go_me_before_running_home",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_06_repeat_cancel_and_rapid_actions\\05_return_then_reclick_running_home",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_06_repeat_cancel_and_rapid_actions\\06_rapid_mixed_inputs",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_07_empty_content_and_warm_restore\\01_local_content_category",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_07_empty_content_and_warm_restore\\02_local_content_cart",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_07_empty_content_and_warm_restore\\03_local_content_me",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_07_empty_content_and_warm_restore\\04_local_content_home",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_07_empty_content_and_warm_restore\\05_warm_scrolled_home",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_07_empty_content_and_warm_restore\\06_go_me_before_warm",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_07_empty_content_and_warm_restore\\07_warm_nonhome",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_08_cold_restart_and_playback_interruption\\01_go_me_before_cold",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_08_cold_restart_and_playback_interruption\\02_initial",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_08_cold_restart_and_playback_interruption\\03_leave_before_interruption_category",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_08_cold_restart_and_playback_interruption\\04_interrupt_home_category",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_08_cold_restart_and_playback_interruption\\05_return_after_interruption_category",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_08_cold_restart_and_playback_interruption\\06_leave_before_interruption_cart",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_08_cold_restart_and_playback_interruption\\07_interrupt_home_cart",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_08_cold_restart_and_playback_interruption\\08_return_after_interruption_cart",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_08_cold_restart_and_playback_interruption\\09_leave_before_interruption_swipe",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_08_cold_restart_and_playback_interruption\\10_interrupt_home_swipe",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    },
+    {
+      "path": "traces\\verification-do-r1\\run-r4\\test_08_cold_restart_and_playback_interruption\\11_return_after_interruption_swipe",
+      "successfulSamples": 48,
+      "failedCaptureAttempts": [],
+      "originalFrameFiles": 48
+    }
+  ],
+  "historicalLifecycleFault": {
+    "file": "logs/verification-do-run-r3-sysfreeze.log",
+    "reason": "LIFECYCLE_TIMEOUT",
+    "timeLocal": "2026-10-20 13:19:16",
+    "attribution": "medium: system lifecycle/fixture interaction; root cause not fully excluded; not a production source fix"
+  }
+}

@@ -1,0 +1,785 @@
+{
+  "export_started_utc": "2026-10-20T06:47:49.648733+00:00",
+  "export_finished_utc": "2026-10-20T06:47:50.451497+00:00",
+  "selection": "Task cwd metadata + task-id lookup in lightweight session index + rg restricted to cwd-approved task native files; non-task workspaces never copied.",
+  "cwd_matches_files": 16,
+  "task_id_search_hit_count": 16,
+  "excluded_non_task_or_overview_hits_count": 0,
+  "task_id_index_hit_count": 5,
+  "task_id_index_hits_not_cwd_approved_count": 3,
+  "task_id_index_candidates": [
+    {
+      "id": "01a15320-35c3-7341-a387-a8c8cec04015",
+      "decision": "excluded",
+      "reason": "Not task-cwd approved or mixed initialization; content not opened for this lookup"
+    },
+    {
+      "id": "01a15412-7c11-7292-b4ef-1b7d894060a9",
+      "decision": "excluded",
+      "reason": "Not task-cwd approved or mixed initialization; content not opened for this lookup"
+    },
+    {
+      "id": "01a15490-1423-7570-9c1c-98d9a6af515d",
+      "decision": "excluded",
+      "reason": "Not task-cwd approved or mixed initialization; content not opened for this lookup"
+    },
+    {
+      "id": "01a15796-a9f1-7d30-8387-81c60bbd3b0f",
+      "decision": "included",
+      "reason": "Task cwd approved"
+    },
+    {
+      "id": "01a157ed-349c-7131-b46e-eaaf0b4f6055",
+      "decision": "included",
+      "reason": "Task cwd approved"
+    }
+  ],
+  "excluded_overview_id": "01a13fc4-2611-7761-a580-1283e0c70541",
+  "files": [
+    {
+      "session_id": "01a1574d-f7fd-7032-96ff-7fec7f78a664",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a1574d-f7fd-7032-96ff-7fec7f78a664",
+      "sidebar_thread_id": "01a1574d-f7fd-7032-96ff-7fec7f78a664",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "root",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T11-14-50-01a1574d-f7fd-7032-96ff-7fec7f78a664.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T11-14-50-01a1574d-f7fd-7032-96ff-7fec7f78a664.jsonl",
+      "sha256": "4c551a5361d520e616b920420541694b2c62142268adee7fbd37f723c3fa4303",
+      "bytes": 859292,
+      "markdown": "traces/markdown/rollout-2026-10-20T11-14-50-01a1574d-f7fd-7032-96ff-7fec7f78a664.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 1819715,
+        "cached_input_tokens": 1734784,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 10341,
+        "reasoning_output_tokens": 3076,
+        "total_tokens": 1830056
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 14,
+        "spawn_agent": 3,
+        "send_message": 8,
+        "wait_agent": 2,
+        "request_user_input_async": 1
+      },
+      "nested_tools": {
+        "exec_command": 21,
+        "apply_patch": 3
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T03:14:57.654Z",
+      "last_timestamp": "2026-10-20T03:25:57.267Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a1574f-a76b-7b40-a501-a34a767746dc",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a1574f-a76b-7b40-a501-a34a767746dc",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/requirements",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T11-16-40-01a1574f-a76b-7b40-a501-a34a767746dc.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T11-16-40-01a1574f-a76b-7b40-a501-a34a767746dc.jsonl",
+      "sha256": "1676bd28e5e0ca7563d556143b16215a0120a051aed09b6bff22282a962f8026",
+      "bytes": 930473,
+      "markdown": "traces/markdown/rollout-2026-10-20T11-16-40-01a1574f-a76b-7b40-a501-a34a767746dc.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 1499449,
+        "cached_input_tokens": 1393920,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 27278,
+        "reasoning_output_tokens": 3809,
+        "total_tokens": 1526727
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 15,
+        "send_message": 5
+      },
+      "nested_tools": {
+        "exec_command": 25,
+        "apply_patch": 2
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T03:16:40.805Z",
+      "last_timestamp": "2026-10-20T03:32:57.710Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a1574f-c26c-7e20-9ea9-ad83cbe0762a",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a1574f-c26c-7e20-9ea9-ad83cbe0762a",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/verification",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T11-16-47-01a1574f-c26c-7e20-9ea9-ad83cbe0762a.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T11-16-47-01a1574f-c26c-7e20-9ea9-ad83cbe0762a.jsonl",
+      "sha256": "c6f13b9eb4c4702e60509b0959bb63133bbef92a84b49a921ba117a0eacd18dd",
+      "bytes": 7372980,
+      "markdown": "traces/markdown/rollout-2026-10-20T11-16-47-01a1574f-c26c-7e20-9ea9-ad83cbe0762a.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 8721782,
+        "cached_input_tokens": 8536320,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 45508,
+        "reasoning_output_tokens": 12560,
+        "total_tokens": 8767290
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 57,
+        "send_message": 14
+      },
+      "nested_tools": {
+        "exec_command": 52,
+        "write_stdin": 5,
+        "view_image": 7,
+        "apply_patch": 4
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T03:16:47.768Z",
+      "last_timestamp": "2026-10-20T03:53:34.852Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a15750-6e04-72b1-8b4d-5c2ff6dfc61b",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a15750-6e04-72b1-8b4d-5c2ff6dfc61b",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/design",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T11-17-31-01a15750-6e04-72b1-8b4d-5c2ff6dfc61b.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T11-17-31-01a15750-6e04-72b1-8b4d-5c2ff6dfc61b.jsonl",
+      "sha256": "f504c63ef65cd7c0a2445dc0aa1e2a875687de3b48a1a6e6690871c1011fb968",
+      "bytes": 5451711,
+      "markdown": "traces/markdown/rollout-2026-10-20T11-17-31-01a15750-6e04-72b1-8b4d-5c2ff6dfc61b.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 5306725,
+        "cached_input_tokens": 5016576,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 30752,
+        "reasoning_output_tokens": 6044,
+        "total_tokens": 5337477
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 29,
+        "send_message": 8
+      },
+      "nested_tools": {
+        "exec_command": 53,
+        "apply_patch": 4,
+        "view_image": 2
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T03:17:31.721Z",
+      "last_timestamp": "2026-10-20T03:52:48.576Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a1574d-f7fd-7032-96ff-7fec7f78a664",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a1574d-f7fd-7032-96ff-7fec7f78a664",
+      "sidebar_thread_id": "01a1574d-f7fd-7032-96ff-7fec7f78a664",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "root",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T11-26-05-01a1574d-f7fd-7032-96ff-7fec7f78a664_01a15758-4750-7453-9da5-8d444192278d.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T11-26-05-01a1574d-f7fd-7032-96ff-7fec7f78a664_01a15758-4750-7453-9da5-8d444192278d.jsonl",
+      "sha256": "e0d735cc2b9169f80bc1438812554c94ca2fbad808d594b3c2e2697385016631",
+      "bytes": 3948537,
+      "markdown": "traces/markdown/rollout-2026-10-20T11-26-05-01a1574d-f7fd-7032-96ff-7fec7f78a664_01a15758-4750-7453-9da5-8d444192278d.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 8909555,
+        "cached_input_tokens": 8754176,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 36026,
+        "reasoning_output_tokens": 9333,
+        "total_tokens": 8945581
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 40,
+        "list_agents": 1,
+        "followup_task": 6,
+        "spawn_agent": 1,
+        "request_user_input_async": 1,
+        "send_message": 10,
+        "wait_agent": 8
+      },
+      "nested_tools": {
+        "exec_command": 49,
+        "apply_patch": 11,
+        "view_image": 3,
+        "mcp__codex_app__open_in_codex": 1
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T03:26:05.785Z",
+      "last_timestamp": "2026-10-20T03:54:17.948Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a1575b-5b42-71e2-943b-1d61058056bc",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a1575b-5b42-71e2-943b-1d61058056bc",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/implementation",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T11-29-27-01a1575b-5b42-71e2-943b-1d61058056bc.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T11-29-27-01a1575b-5b42-71e2-943b-1d61058056bc.jsonl",
+      "sha256": "1e5163577de8c9d3e181a1357a9bd077a2d148305e7df3f052ab0fbfb41537a6",
+      "bytes": 735394,
+      "markdown": "traces/markdown/rollout-2026-10-20T11-29-27-01a1575b-5b42-71e2-943b-1d61058056bc.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 867136,
+        "cached_input_tokens": 767872,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 11802,
+        "reasoning_output_tokens": 1926,
+        "total_tokens": 878938
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 10,
+        "send_message": 1
+      },
+      "nested_tools": {
+        "exec_command": 16,
+        "apply_patch": 1
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T03:29:27.801Z",
+      "last_timestamp": "2026-10-20T03:34:03.575Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a15796-a9f1-7d30-8387-81c60bbd3b0f",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a15796-a9f1-7d30-8387-81c60bbd3b0f",
+      "sidebar_thread_id": "01a15796-a9f1-7d30-8387-81c60bbd3b0f",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "root",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T12-34-14-01a15796-a9f1-7d30-8387-81c60bbd3b0f.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T12-34-14-01a15796-a9f1-7d30-8387-81c60bbd3b0f.jsonl",
+      "sha256": "40cb55c17ec6b6c6af3684479b2669e16293b3f21d83486a114a3af4bdf4efdd",
+      "bytes": 3538081,
+      "markdown": "traces/markdown/rollout-2026-10-20T12-34-14-01a15796-a9f1-7d30-8387-81c60bbd3b0f.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 25863305,
+        "cached_input_tokens": 25650816,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 55883,
+        "reasoning_output_tokens": 27420,
+        "total_tokens": 25919188
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 79,
+        "spawn_agent": 4,
+        "send_message": 31,
+        "wait_agent": 69,
+        "followup_task": 4
+      },
+      "nested_tools": {
+        "exec_command": 84,
+        "view_image": 2,
+        "apply_patch": 2
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T04:34:36.670Z",
+      "last_timestamp": "2026-10-20T05:53:23.142Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a15797-d4c2-7802-8c32-1a2436301e28",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a15797-d4c2-7802-8c32-1a2436301e28",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/requirements_do",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T12-35-30-01a15797-d4c2-7802-8c32-1a2436301e28.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T12-35-30-01a15797-d4c2-7802-8c32-1a2436301e28.jsonl",
+      "sha256": "aa504202e6d1fb50ec0f478de2a66c4397db3082fd946970577cf1679031d0b6",
+      "bytes": 518308,
+      "markdown": "traces/markdown/rollout-2026-10-20T12-35-30-01a15797-d4c2-7802-8c32-1a2436301e28.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 448702,
+        "cached_input_tokens": 380032,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 6422,
+        "reasoning_output_tokens": 1047,
+        "total_tokens": 455124
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 6,
+        "send_message": 1
+      },
+      "nested_tools": {
+        "exec_command": 5,
+        "apply_patch": 1
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T04:35:31.111Z",
+      "last_timestamp": "2026-10-20T04:38:07.922Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a15798-0e52-7a10-bd8e-fd7c091bb41b",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a15798-0e52-7a10-bd8e-fd7c091bb41b",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/verification_do",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T12-35-45-01a15798-0e52-7a10-bd8e-fd7c091bb41b.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T12-35-45-01a15798-0e52-7a10-bd8e-fd7c091bb41b.jsonl",
+      "sha256": "3de4a37db613af2f3034331ac6d182c521a00c85e85a006baf2fb5d31c75e742",
+      "bytes": 6782295,
+      "markdown": "traces/markdown/rollout-2026-10-20T12-35-45-01a15798-0e52-7a10-bd8e-fd7c091bb41b.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 30781049,
+        "cached_input_tokens": 30397312,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 120428,
+        "reasoning_output_tokens": 49781,
+        "total_tokens": 30901477
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 123,
+        "send_message": 30,
+        "list_agents": 1,
+        "wait": 1
+      },
+      "nested_tools": {
+        "exec_command": 82,
+        "apply_patch": 26,
+        "write_stdin": 35,
+        "view_image": 5
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T04:35:45.796Z",
+      "last_timestamp": "2026-10-20T05:52:00.611Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a15798-722e-79d0-8668-f98754c9dda5",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a15798-722e-79d0-8668-f98754c9dda5",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/design_do",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T12-36-11-01a15798-722e-79d0-8668-f98754c9dda5.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T12-36-11-01a15798-722e-79d0-8668-f98754c9dda5.jsonl",
+      "sha256": "d117ab886e97a0b2a7d5604a1035b8a137383e2db13780963b4beee93486a365",
+      "bytes": 1822263,
+      "markdown": "traces/markdown/rollout-2026-10-20T12-36-11-01a15798-722e-79d0-8668-f98754c9dda5.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 3746174,
+        "cached_input_tokens": 3507456,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 25605,
+        "reasoning_output_tokens": 4553,
+        "total_tokens": 3771779
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 22,
+        "send_message": 7,
+        "sleep": 1
+      },
+      "nested_tools": {
+        "exec_command": 27,
+        "web__run": 3,
+        "apply_patch": 3,
+        "view_image": 1
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T04:36:11.328Z",
+      "last_timestamp": "2026-10-20T05:01:11.743Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a1579e-dd21-7b11-a80b-23fc553e29e4",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a1579e-dd21-7b11-a80b-23fc553e29e4",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/implementation_do",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T12-43-11-01a1579e-dd21-7b11-a80b-23fc553e29e4.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T12-43-11-01a1579e-dd21-7b11-a80b-23fc553e29e4.jsonl",
+      "sha256": "d1a74266059d3584f33827f5a184b8652132ae94a867f650e67184c5926043e5",
+      "bytes": 1396218,
+      "markdown": "traces/markdown/rollout-2026-10-20T12-43-11-01a1579e-dd21-7b11-a80b-23fc553e29e4.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 3392547,
+        "cached_input_tokens": 3274752,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 30759,
+        "reasoning_output_tokens": 4917,
+        "total_tokens": 3423306
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 24,
+        "send_message": 8
+      },
+      "nested_tools": {
+        "exec_command": 27,
+        "apply_patch": 4,
+        "write_stdin": 7
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T04:43:11.941Z",
+      "last_timestamp": "2026-10-20T05:01:52.660Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a157ed-349c-7131-b46e-eaaf0b4f6055",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a157ed-349c-7131-b46e-eaaf0b4f6055",
+      "sidebar_thread_id": "01a157ed-349c-7131-b46e-eaaf0b4f6055",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "root",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T14-08-45-01a157ed-349c-7131-b46e-eaaf0b4f6055.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T14-08-45-01a157ed-349c-7131-b46e-eaaf0b4f6055.jsonl",
+      "sha256": "60588b8a2019ce6d1f151ab9442f02faf68850b5bc20fd1fbd505486a0c7ee1d",
+      "bytes": 2057971,
+      "markdown": "traces/markdown/rollout-2026-10-20T14-08-45-01a157ed-349c-7131-b46e-eaaf0b4f6055.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 10957381,
+        "cached_input_tokens": 10745088,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 59364,
+        "reasoning_output_tokens": 22639,
+        "total_tokens": 11016745
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 60,
+        "spawn_agent": 4,
+        "send_message": 15,
+        "wait_agent": 3
+      },
+      "nested_tools": {
+        "exec_command": 59,
+        "apply_patch": 18,
+        "write_stdin": 13
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T06:09:07.979Z",
+      "last_timestamp": "2026-10-20T06:47:49.202Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a157ee-4963-7b11-812d-d2c1701d1ed4",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a157ee-4963-7b11-812d-d2c1701d1ed4",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/submission_requirements",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T14-09-56-01a157ee-4963-7b11-812d-d2c1701d1ed4.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T14-09-56-01a157ee-4963-7b11-812d-d2c1701d1ed4.jsonl",
+      "sha256": "e28c52412b27c24bf6a632167d16b1fa330e2bdad2a9e64d209c11ee15651a2d",
+      "bytes": 463547,
+      "markdown": "traces/markdown/rollout-2026-10-20T14-09-56-01a157ee-4963-7b11-812d-d2c1701d1ed4.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 382711,
+        "cached_input_tokens": 323200,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 9715,
+        "reasoning_output_tokens": 1493,
+        "total_tokens": 392426
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 6,
+        "send_message": 1
+      },
+      "nested_tools": {
+        "exec_command": 5,
+        "apply_patch": 1
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T06:09:57.012Z",
+      "last_timestamp": "2026-10-20T06:16:09.744Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a157ee-945f-7502-80af-20601743a67b",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a157ee-945f-7502-80af-20601743a67b",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/submission_design",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T14-10-15-01a157ee-945f-7502-80af-20601743a67b.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T14-10-15-01a157ee-945f-7502-80af-20601743a67b.jsonl",
+      "sha256": "29cfa991f71e7aed0a9c42afaf7cfa22bc58e8a33620ed76eb94e94a2569da1d",
+      "bytes": 1029300,
+      "markdown": "traces/markdown/rollout-2026-10-20T14-10-15-01a157ee-945f-7502-80af-20601743a67b.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 1539756,
+        "cached_input_tokens": 1425024,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 17423,
+        "reasoning_output_tokens": 2090,
+        "total_tokens": 1557179
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 14,
+        "send_message": 2
+      },
+      "nested_tools": {
+        "exec_command": 18,
+        "apply_patch": 2
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T06:10:16.248Z",
+      "last_timestamp": "2026-10-20T06:18:30.168Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a157ee-d57b-7052-9ec9-8289e2bb2dc7",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a157ee-d57b-7052-9ec9-8289e2bb2dc7",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/submission_implementation",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T14-10-32-01a157ee-d57b-7052-9ec9-8289e2bb2dc7.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T14-10-32-01a157ee-d57b-7052-9ec9-8289e2bb2dc7.jsonl",
+      "sha256": "e47f8d0ab92179ac624ff404b16e3cfe94de193c0f3da95187754fd9c230a025",
+      "bytes": 979760,
+      "markdown": "traces/markdown/rollout-2026-10-20T14-10-32-01a157ee-d57b-7052-9ec9-8289e2bb2dc7.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 1079654,
+        "cached_input_tokens": 986496,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 12678,
+        "reasoning_output_tokens": 2868,
+        "total_tokens": 1092332
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 9,
+        "send_message": 3
+      },
+      "nested_tools": {
+        "exec_command": 25,
+        "write_stdin": 2,
+        "apply_patch": 1
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T06:10:32.868Z",
+      "last_timestamp": "2026-10-20T06:16:09.257Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    },
+    {
+      "session_id": "01a157f4-4ba7-73e1-a3e6-88555681b82e",
+      "engine_sessionUuid": "【待补充】（Codex 原生格式没有该 Comate 字段）",
+      "codex_thread_id": "01a157f4-4ba7-73e1-a3e6-88555681b82e",
+      "sidebar_thread_id": "【待补充】（未在侧边栏索引中找到，保留实际原生子线程ID）",
+      "mapping_evidence": "session_meta.payload.id/session_id; sidebar mapping asserted only for actual matching session_index.jsonl entries",
+      "agent_path": "/root/submission_verification",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "native_source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\20\\rollout-2026-10-20T14-16-30-01a157f4-4ba7-73e1-a3e6-88555681b82e.jsonl",
+      "native_export": "traces/native/rollout-2026-10-20T14-16-30-01a157f4-4ba7-73e1-a3e6-88555681b82e.jsonl",
+      "sha256": "e8463fac293dd16cd5126eb2e7afda10398a73ef2697c7f514dad200aa0ebcbe",
+      "bytes": 1647255,
+      "markdown": "traces/markdown/rollout-2026-10-20T14-16-30-01a157f4-4ba7-73e1-a3e6-88555681b82e.md",
+      "models_efforts": [
+        [
+          "gpt-6.1-sol",
+          "xhigh"
+        ]
+      ],
+      "last_total_token_usage": {
+        "input_tokens": 6376294,
+        "cached_input_tokens": 6236416,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 46898,
+        "reasoning_output_tokens": 18295,
+        "total_tokens": 6423192
+      },
+      "token_scope": "Last native token_count per segment; do not sum segments as an audited billing total.",
+      "tools": {
+        "exec": 38,
+        "send_message": 12,
+        "wait_agent": 5
+      },
+      "nested_tools": {
+        "exec_command": 28,
+        "write_stdin": 3,
+        "apply_patch": 2
+      },
+      "parse_error_lines": [],
+      "ends_with_newline": true,
+      "first_timestamp": "2026-10-20T06:16:30.843Z",
+      "last_timestamp": "2026-10-20T06:46:26.581Z",
+      "snapshot_only": true,
+      "includes_future_events": false
+    }
+  ],
+  "filtered_index_rows": 3,
+  "audit_scope_disclosure": [
+    "The initial task-id filename-only rg query searched the whole native store, including mixed initialization records; it emitted filenames only, and no non-task raw file was copied. It was replaced by metadata/index-first selection. This is material collection, not feature-development evidence.",
+    "The implementation audit initially read 8000-byte prefixes of git-visible process files before excluding the mixed initialization snapshot; its report discloses the scope mistake."
+  ],
+  "gaps": [
+    "Comate database and sessionUuid fields absent; Codex native JSONL supplied instead.",
+    "IDE sidebar Markdown export directory not supplied; Markdown is generated from native JSONL.",
+    "Current preparation chat is an as-of export, not a final export of future events."
+  ]
+}

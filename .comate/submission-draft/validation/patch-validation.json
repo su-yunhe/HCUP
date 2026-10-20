@@ -1,0 +1,67 @@
+{
+  "checked_at_utc": "2026-10-20T06:37:19.859429+00:00",
+  "base_commit": "7014cebd60f2181fac2a36d399ca16b3d6a175ab",
+  "snapshot_aggregate_sha256": "e1c8f2286ca9f93ca33bb094356bd415f53efa80a857baf8d2d22ce699ee870a",
+  "final_git_tree": "302a8a6d043f1ad16d95552e289c5d7a636225ef",
+  "patch_bytes": 690529450,
+  "patch_sha256": "da4db70fd3c29f6a4d05773479cb04acee153520c3769515612305482a5dcdc0",
+  "git_apply_check_exit_code": 0,
+  "git_apply_exit_code": 0,
+  "files_compared": 11951,
+  "reconstruction_mismatches": [],
+  "live_project_mismatches": [],
+  "pass": true,
+  "live_runtime_log_changes_after_capture": [
+    "traces/baseline-analysis/emulator-instances/CmlSpec1Baseline/Log/crash_server.log",
+    "traces/baseline-analysis/emulator-instances/CmlSpec1Baseline/Log/hilog_tmp_2026-10-20T113148/hilog.041.20261020-143243.gz",
+    "traces/baseline-analysis/emulator-instances/CmlSpec1Baseline/Log/kernel.log",
+    "traces/baseline-analysis/emulator-instances/CmlSpec1Baseline/Log/memInfo.log"
+  ],
+  "live_runtime_log_change_details": [
+    {
+      "path": "traces/baseline-analysis/emulator-instances/CmlSpec1Baseline/Log/crash_server.log",
+      "captured": {
+        "bytes": 475830,
+        "sha256": "92417156968462812146e4ca766b07a12108ae5bccbb5ef75c21b9283ae4bb7e"
+      },
+      "live_after_validation": {
+        "bytes": 476500,
+        "sha256": "5379a9231178d4279f704be0a788115b5037bab9de49e87c112d69d5b514f7ce"
+      }
+    },
+    {
+      "path": "traces/baseline-analysis/emulator-instances/CmlSpec1Baseline/Log/hilog_tmp_2026-10-20T113148/hilog.041.20261020-143243.gz",
+      "captured": {
+        "bytes": 49133,
+        "sha256": "aa22c8ebcd5932e2946dc697617160d32893d52b2b168d679faa3d349803b570"
+      },
+      "live_after_validation": {
+        "bytes": 142511,
+        "sha256": "e4b681c58b823edf9ae886ed9f878a8ebc74bf9f723113e304fd42da081b9a4c"
+      }
+    },
+    {
+      "path": "traces/baseline-analysis/emulator-instances/CmlSpec1Baseline/Log/kernel.log",
+      "captured": {
+        "bytes": 6555084,
+        "sha256": "84c689452bd1a4f45fe3a41a30b21bf1d571251ce278f022953b833a5b426e21"
+      },
+      "live_after_validation": {
+        "bytes": 6710258,
+        "sha256": "8e0ac45c5e3ee767f6549c53e7cf9e3c0c2c3aa3a107419e19e91ed0ea8f7d62"
+      }
+    },
+    {
+      "path": "traces/baseline-analysis/emulator-instances/CmlSpec1Baseline/Log/memInfo.log",
+      "captured": {
+        "bytes": 43034,
+        "sha256": "7515ff70ad55ca8c1affd72162475a5dd542d278e18ff11c707726bc1727cbc4"
+      },
+      "live_after_validation": {
+        "bytes": 43403,
+        "sha256": "ca6a4aefe79c62852a8783f86bd3d5d5e3fe1c5d1104ad5b696e9164569c9f39"
+      }
+    }
+  ],
+  "runtime_log_capture_policy": "Emulator Log/ files are copied as-of this capture. Their copied hashes are authoritative; subsequent live writes/rotation are reported separately, not treated as changes to frozen evidence."
+}

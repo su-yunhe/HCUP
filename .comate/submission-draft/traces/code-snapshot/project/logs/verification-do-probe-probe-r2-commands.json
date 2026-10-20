@@ -1,0 +1,127 @@
+[
+  {
+    "Label": "device-version",
+    "Command": "hdc",
+    "Arguments": [
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "param",
+      "get",
+      "const.product.software.version"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:56:31.6548545+08:00",
+    "Finished": "2026-10-20T12:56:31.7496566+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-probe-probe-r2-device-version.log"
+  },
+  {
+    "Label": "device-api",
+    "Command": "hdc",
+    "Arguments": [
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "param",
+      "get",
+      "const.ohos.apiversion"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:56:31.7617706+08:00",
+    "Finished": "2026-10-20T12:56:32.0545456+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-probe-probe-r2-device-api.log"
+  },
+  {
+    "Label": "start",
+    "Command": "hdc",
+    "Arguments": [
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "aa",
+      "start",
+      "-a",
+      "EntryAbility",
+      "-b",
+      "com.joker.coolmall"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:56:32.0618915+08:00",
+    "Finished": "2026-10-20T12:56:32.3560590+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-probe-probe-r2-start.log"
+  },
+  {
+    "Label": "first-tree",
+    "Command": "hdc",
+    "Arguments": [
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "uitest",
+      "dumpLayout",
+      "-a",
+      "-p",
+      "/data/local/tmp/cml_spec1_first.json"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:56:32.9755457+08:00",
+    "Finished": "2026-10-20T12:56:38.0041248+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-probe-probe-r2-first-tree.log"
+  },
+  {
+    "Label": "first-tree-recv",
+    "Command": "hdc",
+    "Arguments": [
+      "-t",
+      "127.0.0.1:11245",
+      "file",
+      "recv",
+      "/data/local/tmp/cml_spec1_first.json",
+      "D:\\HCUP\\cml-spec1\\traces\\verification-do-r1\\first.json"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:56:38.0105337+08:00",
+    "Finished": "2026-10-20T12:56:38.2248758+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-probe-probe-r2-first-tree-recv.log"
+  },
+  {
+    "Label": "first-screen",
+    "Command": "hdc",
+    "Arguments": [
+      "-t",
+      "127.0.0.1:11245",
+      "shell",
+      "uitest",
+      "screenCap",
+      "-p",
+      "/data/local/tmp/cml_spec1_first.png"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:56:38.2320263+08:00",
+    "Finished": "2026-10-20T12:56:38.5935306+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-probe-probe-r2-first-screen.log"
+  },
+  {
+    "Label": "first-screen-recv",
+    "Command": "hdc",
+    "Arguments": [
+      "-t",
+      "127.0.0.1:11245",
+      "file",
+      "recv",
+      "/data/local/tmp/cml_spec1_first.png",
+      "D:\\HCUP\\cml-spec1\\traces\\verification-do-r1\\first.png"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:56:38.6018064+08:00",
+    "Finished": "2026-10-20T12:56:38.8491658+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-probe-probe-r2-first-screen-recv.log"
+  }
+]

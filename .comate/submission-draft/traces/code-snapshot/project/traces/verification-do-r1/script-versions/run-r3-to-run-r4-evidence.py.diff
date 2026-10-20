@@ -1,0 +1,14 @@
+--- run-r3/evidence.py
++++ run-r4/evidence.py
+@@ -227,6 +227,11 @@
+         script = (f"mkdir -p {self.remote}; i=0; while [ $i -lt {self.count} ]; do "
+                   "stamp=$(date +%s.%N); echo FRAME_START $i $stamp; "
+                   f'out={self.remote}/frame_$i.{suffix}; {shot}; rc=$?; '
++                  "retry=0; while [ $rc -ne 0 ] && [ $retry -lt 2 ]; do "
++                  "stamp=$(date +%s.%N); echo FRAME_FAIL $i $stamp $rc retry=$retry; "
++                  f'if [ -f "$out" ]; then mv "$out" {self.remote}/failed_$i' + '_$retry.' + suffix + '; fi; '
++                  "retry=$((retry+1)); stamp=$(date +%s.%N); echo FRAME_START $i $stamp; "
++                  f'{shot}; rc=$?; done; '
+                   "stamp=$(date +%s.%N); echo FRAME_END $i $stamp $rc; "
+                   f"i=$((i+1)); sleep {self.interval}; done")
+         self.argv = ["hdc", "-t", self.e.serial, "shell", script]

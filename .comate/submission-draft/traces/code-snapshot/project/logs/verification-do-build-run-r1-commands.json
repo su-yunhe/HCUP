@@ -1,0 +1,76 @@
+[
+  {
+    "Label": "node-version",
+    "Command": "node",
+    "Arguments": [
+      "--version"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:54:29.2301290+08:00",
+    "Finished": "2026-10-20T12:54:29.2790935+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-build-run-r1-node-version.log"
+  },
+  {
+    "Label": "java-version",
+    "Command": "java",
+    "Arguments": [
+      "-version"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:54:29.2819944+08:00",
+    "Finished": "2026-10-20T12:54:29.4034069+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-build-run-r1-java-version.log"
+  },
+  {
+    "Label": "hdc-version",
+    "Command": "hdc",
+    "Arguments": [
+      "-v"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:54:29.4045364+08:00",
+    "Finished": "2026-10-20T12:54:29.4247435+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-build-run-r1-hdc-version.log"
+  },
+  {
+    "Label": "clean",
+    "Command": "hvigorw",
+    "Arguments": [
+      "clean",
+      "--mode",
+      "module",
+      "-p",
+      "product=default",
+      "-p",
+      "buildMode=debug",
+      "--no-daemon"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:54:29.4258002+08:00",
+    "Finished": "2026-10-20T12:54:34.7257091+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-build-run-r1-clean.log"
+  },
+  {
+    "Label": "assembleHap",
+    "Command": "hvigorw",
+    "Arguments": [
+      "assembleHap",
+      "--mode",
+      "module",
+      "-p",
+      "product=default",
+      "-p",
+      "buildMode=debug",
+      "--no-daemon"
+    ],
+    "Cwd": "D:\\HCUP\\cml-spec1",
+    "Started": "2026-10-20T12:54:34.7279036+08:00",
+    "Finished": "2026-10-20T12:54:58.5406781+08:00",
+    "ExitCode": 0,
+    "RawLog": "D:\\HCUP\\cml-spec1\\logs\\verification-do-build-run-r1-assembleHap.log"
+  }
+]

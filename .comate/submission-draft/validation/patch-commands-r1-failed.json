@@ -1,0 +1,182 @@
+[
+  {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1",
+    "started_utc": "2026-10-20T06:26:54.308703+00:00",
+    "finished_utc": "2026-10-20T06:26:54.345055+00:00",
+    "exit_code": 0,
+    "stdout": "7014cebd60f2181fac2a36d399ca16b3d6a175ab\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "clone",
+      "--no-local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "--single-branch",
+      "--branch",
+      "cml-spec1",
+      "D:\\HCUP\\cml-spec1",
+      "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-source-scoped"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1",
+    "started_utc": "2026-10-20T06:26:54.379413+00:00",
+    "finished_utc": "2026-10-20T06:26:55.778679+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "Cloning into 'D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-source-scoped'...\n"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "checkout",
+      "--detach",
+      "7014cebd60f2181fac2a36d399ca16b3d6a175ab"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-source-scoped",
+    "started_utc": "2026-10-20T06:26:55.779681+00:00",
+    "finished_utc": "2026-10-20T06:26:56.031036+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "HEAD is now at 7014ceb Harmony Cup sanitized baseline snapshot\n"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "-c",
+      "core.safecrlf=false",
+      "add",
+      "--force",
+      "--all",
+      "."
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-source-scoped",
+    "started_utc": "2026-10-20T06:27:06.900226+00:00",
+    "finished_utc": "2026-10-20T06:28:00.251682+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "diff",
+      "--cached",
+      "--binary",
+      "--full-index",
+      "--no-ext-diff",
+      "--no-renames",
+      "7014cebd60f2181fac2a36d399ca16b3d6a175ab",
+      "--"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-source-scoped",
+    "started_utc": "2026-10-20T06:28:00.252684+00:00",
+    "finished_utc": "2026-10-20T06:28:09.976400+00:00",
+    "exit_code": 0,
+    "stdout": "[written to changes/final.diff]",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "write-tree"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-source-scoped",
+    "started_utc": "2026-10-20T06:28:09.978401+00:00",
+    "finished_utc": "2026-10-20T06:28:10.772359+00:00",
+    "exit_code": 0,
+    "stdout": "e251a1a8d8ed5cc0aa8f89bbe8c9d33c930d566f\n",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "clone",
+      "--no-local",
+      "--no-hardlinks",
+      "--no-checkout",
+      "--single-branch",
+      "--branch",
+      "cml-spec1",
+      "D:\\HCUP\\cml-spec1",
+      "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-apply-scoped"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1",
+    "started_utc": "2026-10-20T06:28:10.773351+00:00",
+    "finished_utc": "2026-10-20T06:28:11.528742+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "Cloning into 'D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-apply-scoped'...\n"
+  },
+  {
+    "argv": [
+      "git",
+      "-c",
+      "core.autocrlf=false",
+      "checkout",
+      "--force",
+      "--detach",
+      "7014cebd60f2181fac2a36d399ca16b3d6a175ab"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-apply-scoped",
+    "started_utc": "2026-10-20T06:28:11.529743+00:00",
+    "finished_utc": "2026-10-20T06:28:11.805135+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "HEAD is now at 7014ceb Harmony Cup sanitized baseline snapshot\n"
+  },
+  {
+    "argv": [
+      "git",
+      "clean",
+      "-fdx"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-apply-scoped",
+    "started_utc": "2026-10-20T06:28:11.807134+00:00",
+    "finished_utc": "2026-10-20T06:28:11.874815+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "apply",
+      "--check",
+      "--binary",
+      "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\changes\\final.diff"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-apply-scoped",
+    "started_utc": "2026-10-20T06:28:11.876016+00:00",
+    "finished_utc": "2026-10-20T06:28:18.102757+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "git",
+      "apply",
+      "--binary",
+      "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\changes\\final.diff"
+    ],
+    "cwd": "D:\\HCUP\\cml-spec1\\.comate\\submission-draft\\.validation\\patch-apply-scoped",
+    "started_utc": "2026-10-20T06:28:18.103758+00:00",
+    "finished_utc": "2026-10-20T06:28:27.774197+00:00",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "D:/HCUP/cml-spec1/.comate/submission-draft/changes/final.diff:21: trailing whitespace.\n/node_modules\r\nD:/HCUP/cml-spec1/.comate/submission-draft/changes/final.diff:22: trailing whitespace.\n/oh_modules\r\nD:/HCUP/cml-spec1/.comate/submission-draft/changes/final.diff:23: trailing whitespace.\n/local.properties\r\nD:/HCUP/cml-spec1/.comate/submission-draft/changes/final.diff:24: trailing whitespace.\n/.idea\r\nD:/HCUP/cml-spec1/.comate/submission-draft/changes/final.diff:25: trailing whitespace.\n**/build\r\nwarning: squelched 925359 whitespace errors\nwarning: 925364 lines add whitespace errors.\n"
+  }
+]

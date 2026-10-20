@@ -1,0 +1,39 @@
+[2026-10-20 11:43:44,210] [14092] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-20 11:43:44,212] [14092] [EnvPool] [INFO] [Report path: D:\HCUP\cml-spec1\traces\baseline-analysis\r3\reports\2026-10-20-11-43-44]
+[2026-10-20 11:43:44,212] [14092] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-20 11:43:44,212] [14092] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-20 11:43:44,212] [14092] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-20 11:43:44,214] [14092] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-20 11:43:44,214] [14092] [EnvPool] [INFO] [Get device by selector]
+[2026-10-20 11:43:44,215] [14092] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-20 11:43:45,321] [76860] [Hdc] [INFO] [127.0.0.1:11237		TCP	Connected	localhost
+127.0.0.1:11239		TCP	Connected	localhost
+127.0.0.1:11241		TCP	Connected	localhost
+127.0.0.1:11243		TCP	Offline	localhost
+127.0.0.1:11245		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-20 11:43:48,231] [14092] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11245'], label:phone]]
+[2026-10-20 11:43:48,231] [14092] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11245'], label:phone]]
+[2026-10-20 11:43:48,232] [14092] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11241, label:phone], selection option:[device sn:['127.0.0.1:11245'], label:phone]]
+[2026-10-20 11:43:48,232] [14092] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11245, label:phone], selection option:[device sn:['127.0.0.1:11245'], label:phone]]
+[2026-10-20 11:43:48,232] [14092] [EnvPool] [INFO] [Device 127.0.0.1:11245: extend value: {}]
+[2026-10-20 11:43:48,512] [14092] [Device] [INFO] [6.0.2.3]
+[2026-10-20 11:43:48,711] [14092] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-20 11:43:48,711] [14092] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-20 11:43:48,845] [14092] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 11576]
+[2026-10-20 11:43:48,845] [14092] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-20 11:43:48,924] [14092] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-20 11:43:48,924] [14092] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-20 11:43:49,192] [14092] [Device] [INFO] [Device agent is up to date!]
+[2026-10-20 11:43:49,371] [14092] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-20 11:43:51,491] [14092] [DeviceUIProxy] [INFO] [tcp forward port: 9955 for 127.0.0.1:11245]
+[2026-10-20 11:43:51,591] [14092] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-20 11:43:51,591] [14092] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-20 11:43:51,591] [14092] [DeviceTest] [INFO] [<div class='aw'>uidriver.swipe_to_recent_task(127.0.0.1:11245)</div>]
+[2026-10-20 11:43:51,600] [14092] [Device] [INFO] [total points: [29]]
+[2026-10-20 11:43:52,504] [14092] [DeviceTest] [INFO] [<div class='aw'>uidriver.swipe_to_recent_task(127.0.0.1:11245) cost: 0.913s</div>]
+{"utc": "2026-10-20T03:43:52.504310+00:00", "action": "UiDriver.swipe_to_recent_task", "result": "None"}
+EXIT_CODE=0
