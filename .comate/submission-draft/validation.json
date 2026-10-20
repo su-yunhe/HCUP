@@ -1,0 +1,81 @@
+{
+  "created_at": "2026-10-16T06:41:57.175196+00:00",
+  "pass": true,
+  "base_commit": "88db8789e28333c7b7dcc8db078f394a262b73c3",
+  "project_version": "sha256:0b99275142247ad243afda40ea9f5f62eac57f733f89c76be2baf00650ab535f",
+  "patch_sha256": "eb0a0db9fc4dfc2c63050d27e60a32337e1bcf42e82c503d74d289abec4d27bd",
+  "patch_bytes": 92628383,
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "clone",
+        "--no-hardlinks",
+        "--no-checkout",
+        "--",
+        "D:\\HCUP\\vg-spec14",
+        "D:\\HCUP\\vg-spec14\\.comate\\submission-draft\\_validation\\runs\\20261016T064139738737Z\\baseline-clone"
+      ],
+      "cwd_role": "task-root",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "Cloning into 'D:\\HCUP\\vg-spec14\\.comate\\submission-draft\\_validation\\runs\\20261016T064139738737Z\\baseline-clone'...\ndone.\n"
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=true",
+        "checkout",
+        "--detach",
+        "88db8789e28333c7b7dcc8db078f394a262b73c3"
+      ],
+      "cwd_role": "baseline-clone",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "HEAD is now at 88db878 Harmony Cup sanitized baseline snapshot\n"
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "apply",
+        "--check",
+        "--binary",
+        "D:\\HCUP\\vg-spec14\\.comate\\submission-draft\\changes\\final.diff"
+      ],
+      "cwd_role": "baseline-clone",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "apply",
+        "--binary",
+        "D:\\HCUP\\vg-spec14\\.comate\\submission-draft\\changes\\final.diff"
+      ],
+      "cwd_role": "baseline-clone",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "D:/HCUP/vg-spec14/.comate/submission-draft/changes/final.diff:561: trailing whitespace.\nimport promptAction from '@ohos.promptAction';\r\nD:/HCUP/vg-spec14/.comate/submission-draft/changes/final.diff:562: trailing whitespace.\nimport { FrameCallback, UIContext } from '@ohos.arkui.UIContext';\r\nD:/HCUP/vg-spec14/.comate/submission-draft/changes/final.diff:563: trailing whitespace.\nimport { DesignTokens } from '../../model/DesignTokens';\r\nD:/HCUP/vg-spec14/.comate/submission-draft/changes/final.diff:564: trailing whitespace.\nimport { ColorsInterface } from '../../model/TokenInterfaces';\r\nD:/HCUP/vg-spec14/.comate/submission-draft/changes/final.diff:565: trailing whitespace.\nimport { ThemeManager } from '../../manager/ThemeManager';\r\nwarning: squelched 92025 whitespace errors\nwarning: 92030 lines add whitespace errors.\n"
+    }
+  ],
+  "compared_files": 967,
+  "mismatches": [],
+  "current_project_mismatches": [],
+  "reconstructed_extra_files": [],
+  "unmanifested_project_files": [],
+  "one_do_source_mismatches": [],
+  "copied_log_mismatches": [],
+  "copied_trace_mismatches": [],
+  "literal_whole_workspace_claimed": false,
+  "scope": "exact project-manifest.json projection; delivery envelope outside project",
+  "kept_validation_checkout": "_validation/runs/20261016T064139738737Z/baseline-clone"
+}

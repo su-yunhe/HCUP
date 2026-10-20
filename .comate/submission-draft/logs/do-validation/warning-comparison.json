@@ -1,0 +1,611 @@
+{
+  "baseline_source_warnings": 759,
+  "current_source_warnings": 756,
+  "same": 724,
+  "relocated": [
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 310,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/sync/WebDavManualSyncController.ets",
+        "line": 133,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message,duration:1200});",
+      "match": "manually reviewed extraction of the same manual-sync promptAction.showToast API into helper",
+      "call_ownership": "old manual res.message -> controller response.message -> showToast(message)"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 131,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 115,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:res.message,duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 135,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 119,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "normalized_statement": "promptAction.showToast({message:'WebDAV操作异常',duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 135,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 119,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:'WebDAV操作异常',duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 151,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 135,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:res.message,duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 155,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 139,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "normalized_statement": "promptAction.showToast({message:'WebDAV操作异常',duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 155,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 139,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:'WebDAV操作异常',duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 179,
+        "column": 47,
+        "category": "P1-deprecated-api",
+        "message": "'showDialog' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 163,
+        "column": 47,
+        "category": "P1-deprecated-api",
+        "message": "'showDialog' has been deprecated."
+      },
+      "normalized_statement": "constfirstConfirm=awaitpromptAction.showDialog({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 211,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 197,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:download.result.message,duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 219,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 205,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:'云端无备份',duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 232,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 218,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:'预览失败',duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 248,
+        "column": 49,
+        "category": "P1-deprecated-api",
+        "message": "'showDialog' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 234,
+        "column": 49,
+        "category": "P1-deprecated-api",
+        "message": "'showDialog' has been deprecated."
+      },
+      "normalized_statement": "constdialogResult=awaitpromptAction.showDialog({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 265,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 251,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:'已取消恢复',duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 277,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 268,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:importResult.message,duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 282,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 273,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "normalized_statement": "promptAction.showToast({message:'WebDAV操作异常',duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "line": 282,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+        "line": 273,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:'WebDAV操作异常',duration:1200});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 152,
+        "column": 21,
+        "category": "P1-deprecated-api",
+        "message": "'getContext' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 130,
+        "column": 21,
+        "category": "P1-deprecated-api",
+        "message": "'getContext' has been deprecated."
+      },
+      "normalized_statement": "constcontext=getContext(this)ascommon.UIAbilityContext;",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 178,
+        "column": 14,
+        "category": "P1-deprecated-api",
+        "message": "'back' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 157,
+        "column": 14,
+        "category": "P1-deprecated-api",
+        "message": "'back' has been deprecated."
+      },
+      "normalized_statement": "router.back();",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 309,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 276,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:'API密钥保存失败',duration:2000});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 331,
+        "column": 50,
+        "category": "P1-deprecated-api",
+        "message": "'getLength' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 294,
+        "column": 50,
+        "category": "P1-deprecated-api",
+        "message": "'getLength' has been deprecated."
+      },
+      "normalized_statement": "constcurrentRouterStack=parseInt(router.getLength());",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 337,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 300,
+        "column": 22,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({message:'配置保存成功',duration:2000});",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 343,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 306,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "normalized_statement": "promptAction.showToast({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 343,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 306,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 365,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 326,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "normalized_statement": "promptAction.showToast({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 365,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 326,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 375,
+        "column": 28,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 335,
+        "column": 28,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "normalized_statement": "constclicked=await(promptAction.showDialog({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 375,
+        "column": 41,
+        "category": "P1-deprecated-api",
+        "message": "'showDialog' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 335,
+        "column": 41,
+        "category": "P1-deprecated-api",
+        "message": "'showDialog' has been deprecated."
+      },
+      "normalized_statement": "constclicked=await(promptAction.showDialog({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 390,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 348,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "normalized_statement": "promptAction.showToast({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 390,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 348,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 396,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 354,
+        "column": 7,
+        "category": "P2-exception-handling",
+        "message": "Function may throw exceptions. Special handling is required."
+      },
+      "normalized_statement": "promptAction.showToast({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 396,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 354,
+        "column": 20,
+        "category": "P1-deprecated-api",
+        "message": "'showToast' has been deprecated."
+      },
+      "normalized_statement": "promptAction.showToast({",
+      "match": "same message and corresponding source statement"
+    },
+    {
+      "before": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 474,
+        "column": 42,
+        "category": "P1-deprecated-api",
+        "message": "'pushUrl' has been deprecated."
+      },
+      "after": {
+        "file": "entry/src/main/ets/pages/SettingsPage.ets",
+        "line": 433,
+        "column": 42,
+        "category": "P1-deprecated-api",
+        "message": "'pushUrl' has been deprecated."
+      },
+      "normalized_statement": "onOpenOnboarding:()=>{router.pushUrl({url:'pages/OnboardingPage'});}",
+      "match": "same message and corresponding source statement"
+    }
+  ],
+  "new_candidates": [],
+  "removed": [
+    {
+      "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+      "line": 301,
+      "column": 22,
+      "category": "P1-deprecated-api",
+      "message": "'showToast' has been deprecated."
+    },
+    {
+      "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+      "line": 314,
+      "column": 7,
+      "category": "P2-exception-handling",
+      "message": "Function may throw exceptions. Special handling is required."
+    },
+    {
+      "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+      "line": 314,
+      "column": 20,
+      "category": "P1-deprecated-api",
+      "message": "'showToast' has been deprecated."
+    }
+  ],
+  "message_counts_equal": false,
+  "signing_warning_count": 1,
+  "status": "pass"
+}

@@ -1,0 +1,71 @@
+{
+  "methods": [
+    {
+      "method": "test_01_first_empty_and_unchanged",
+      "valid_batch": 7,
+      "method_body_ast_matches_frozen_final": true,
+      "script_copy": "logs/do-validation/device-run-v7/test-scripts/test_webdav_sync.py"
+    },
+    {
+      "method": "test_02_multistage",
+      "valid_batch": 7,
+      "method_body_ast_matches_frozen_final": true,
+      "script_copy": "logs/do-validation/device-run-v7/test-scripts/test_webdav_sync.py"
+    },
+    {
+      "method": "test_03_http_failure_and_retry",
+      "valid_batch": 7,
+      "method_body_ast_matches_frozen_final": true,
+      "script_copy": "logs/do-validation/device-run-v7/test-scripts/test_webdav_sync.py"
+    },
+    {
+      "method": "test_04_disconnect_and_retry",
+      "valid_batch": 8,
+      "method_body_ast_matches_frozen_final": true,
+      "script_copy": "logs/do-validation/device-run-v8/test-scripts/test_webdav_sync.py"
+    },
+    {
+      "method": "test_05_busy_and_rapid_clicks",
+      "valid_batch": 8,
+      "method_body_ast_matches_frozen_final": true,
+      "script_copy": "logs/do-validation/device-run-v8/test-scripts/test_webdav_sync.py"
+    },
+    {
+      "method": "test_06_busy_back_and_home_reentry",
+      "valid_batch": 8,
+      "method_body_ast_matches_frozen_final": true,
+      "script_copy": "logs/do-validation/device-run-v8/test-scripts/test_webdav_sync.py"
+    },
+    {
+      "method": "test_07_success_return_and_restart",
+      "valid_batch": 8,
+      "method_body_ast_matches_frozen_final": true,
+      "script_copy": "logs/do-validation/device-run-v8/test-scripts/test_webdav_sync.py"
+    },
+    {
+      "method": "test_08_endpoint_switch",
+      "valid_batch": 8,
+      "method_body_ast_matches_frozen_final": true,
+      "script_copy": "logs/do-validation/device-run-v8/test-scripts/test_webdav_sync.py"
+    },
+    {
+      "method": "test_10_fast_response_timeline",
+      "valid_batch": 10,
+      "method_body_ast_matches_frozen_final": true,
+      "script_copy": "logs/do-validation/device-run-v10/test-scripts/test_webdav_sync.py"
+    },
+    {
+      "method": "test_11_real_http_timeout_and_retry",
+      "valid_batch": 10,
+      "method_body_ast_matches_frozen_final": true,
+      "script_copy": "logs/do-validation/device-run-v10/test-scripts/test_webdav_sync.py"
+    },
+    {
+      "method": "test_09_empty_and_spaces_recover",
+      "valid_batch": 11,
+      "method_body_ast_matches_frozen_final": true,
+      "script_copy": "logs/do-validation/device-run-v11/test-scripts/test_webdav_sync.py"
+    }
+  ],
+  "helper_changes": "Only documented gesture/IME measurement corrections and added S03 checks; original stable IDs and network assertions retained; each claimed batch has its original full script snapshot."
+}

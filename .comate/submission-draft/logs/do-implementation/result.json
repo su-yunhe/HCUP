@@ -1,0 +1,56 @@
+{
+  "build_command": "hvigorw assembleHap --mode module -p product=default -p buildMode=debug --no-daemon",
+  "exit_code": 0,
+  "build_success_marker": "BUILD SUCCESSFUL in 9 s 991 ms",
+  "build_log": "logs/do-implementation/build-attempt-01.log",
+  "arkts_warning_locations": 754,
+  "warning_locations_in_touched_files": 32,
+  "hap": "entry/build/default/outputs/default/entry-default-unsigned.hap",
+  "hap_bytes": 8989084,
+  "hap_sha256": "a3c5c7511d0bb5f68c45d0e9eed739053c114db6d316fc2139dce4dbc1bfd33b",
+  "manifest": "workflow/implementation/do-source-after-v1.json",
+  "manifest_sha256": "2e92cfc7f940c1da6ede778d66d4fed2e69730bc0a6044b467f9de30bbdd48c8",
+  "source_sha256": "8d882180894e3689b4dc0930b59034f3d46627fb454496b0e3ac32a141f2b285",
+  "changed_existing_files": [
+    "entry/src/main/ets/pages/SettingsPage.ets",
+    "entry/src/main/ets/pages/index/components/TopNavigation.ets",
+    "entry/src/main/ets/pages/settings/SettingsSyncSection.ets"
+  ],
+  "added_source_files": [
+    "entry/src/main/ets/sync/WebDavManualSyncController.ets",
+    "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+    "entry/src/main/ets/pages/settings/SettingsOverviewSection.ets"
+  ],
+  "files": [
+    {
+      "path": "entry/src/main/ets/sync/WebDavManualSyncController.ets",
+      "lines": 138,
+      "sha256": "6878c3d1136194a5166302425168988ebee4dceb89bcf1fddeeebc12cf7bb24c"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsSyncActions.ets",
+      "lines": 466,
+      "sha256": "943581171e5954dcd9919f31ebbddb22b713e014943c2194938b96bb76fa268f"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+      "lines": 296,
+      "sha256": "b695bf3d874418500cabc76137b5ccfb28d3d4ec8a3d50384aab41f4dbd0b068"
+    },
+    {
+      "path": "entry/src/main/ets/pages/SettingsPage.ets",
+      "lines": 499,
+      "sha256": "2e672181eebfe9a9dd84ebcb13eff865ae59e7bd2eb1ec76fa773ac6648ee711"
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsOverviewSection.ets",
+      "lines": 78,
+      "sha256": "e0564fdf988719ff2f7ed60f4336d4372d973c8317420bce06de995163af5668"
+    },
+    {
+      "path": "entry/src/main/ets/pages/index/components/TopNavigation.ets",
+      "lines": 143,
+      "sha256": "7432624efcbc38f2db208b6362c793af8760b096bfcf7f4487d59961b9e37658"
+    }
+  ]
+}

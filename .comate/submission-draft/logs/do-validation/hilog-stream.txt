@@ -1,0 +1,1218 @@
+10-16 12:09:42.253 14997 14997 I A03d00/JSAPP: [WebDavManualSync] accepted op=1 time=1792123782253
+10-16 12:09:42.282 14997 14997 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=1 time=1792123782282
+10-16 12:09:42.290 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:09:42.290 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:09:43.385 14997 14997 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/restart/sync - 200 in 1094ms
+10-16 12:09:43.385 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:09:43.386 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/words_delta.json.enc
+10-16 12:09:43.386 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/words_delta.json.enc
+10-16 12:09:43.411 14997 17057 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/restart/sync/words_delta.json.enc - 404 in 25ms
+10-16 12:09:43.411 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/words_delta.json.enc
+10-16 12:09:43.412 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=27 data_length=0
+10-16 12:09:43.412 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] No words to import
+10-16 12:09:43.412 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:09:43.412 14997 14997 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:09:43.412 14997 14997 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:09:43.412 14997 14997 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 12:09:43.413 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:09:43.413 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:09:43.413 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/sync/words_delta.json.enc data_size=273 chars
+10-16 12:09:43.413 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:09:43.413 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:09:43.413 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:09:43.413 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:09:43.414 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:09:43.415 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:09:44.085 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:09:44.700 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:09:45.360 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:09:46.025 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:09:46.707 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:09:47.365 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:09:47.979 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:09:48.675 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:09:48.676 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5261
+10-16 12:09:48.676 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:09:48.698 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:09:48.699 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=5286
+10-16 12:09:48.699 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=5286
+10-16 12:09:48.699 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /sync/words_delta.json.enc
+10-16 12:09:48.747 14997 17057 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/restart/sync - 200 in 48ms
+10-16 12:09:48.777 14997 17057 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/restart/sync/words_delta.json.enc - 201 in 29ms
+10-16 12:09:48.777 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=5364 encrypt_ms=5286 upload_ms=78
+10-16 12:09:48.777 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=5365
+10-16 12:09:48.777 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:09:48.781 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/events_all.jsonl.enc
+10-16 12:09:48.782 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/events_all.jsonl.enc
+10-16 12:09:48.808 14997 17057 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/restart/sync/events_all.jsonl.enc - 404 in 26ms
+10-16 12:09:48.808 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/events_all.jsonl.enc
+10-16 12:09:48.809 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=32 data_length=0
+10-16 12:09:48.809 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:09:48.809 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:09:48.809 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:09:48.809 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:09:48.809 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:09:48.809 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=6519 ====
+10-16 12:09:48.809 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:09:48.809 14997 14997 I A03d00/JSAPP: [WebDavManualSync] settled op=1 time=1792123788809
+10-16 12:10:17.262 14997 14997 I A03d00/JSAPP: [WebDavManualSync] accepted op=2 time=1792123817262
+10-16 12:10:17.279 14997 14997 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=2 time=1792123817279
+10-16 12:10:17.283 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:10:17.283 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:10:18.371 14997 14997 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/restart/sync - 200 in 1088ms
+10-16 12:10:18.371 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:10:18.372 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/words_delta.json.enc
+10-16 12:10:18.372 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/words_delta.json.enc
+10-16 12:10:18.401 14997 17057 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/restart/sync/words_delta.json.enc - 200 in 29ms
+10-16 12:10:18.401 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Download complete size=549 chars ms=29
+10-16 12:10:18.401 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Decrypting downloaded data
+10-16 12:10:18.401 14997 17057 I A03d00/JSAPP: [WebDAV] crypto decrypt start
+10-16 12:10:18.401 14997 17057 I A03d00/JSAPP: [WebDAV] crypto decrypt data_size=273 bytes
+10-16 12:10:18.401 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:10:19.066 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:10:19.649 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:10:20.290 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:10:20.888 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:10:21.583 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:10:22.208 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:10:22.807 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:10:23.446 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:10:23.446 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5045
+10-16 12:10:23.446 14997 17057 I A03d00/JSAPP: [WebDAV] crypto decrypt step=aes
+10-16 12:10:23.457 14997 17057 I A03d00/JSAPP: [WebDAV] crypto decrypt complete output_size=273 bytes ms=5056
+10-16 12:10:23.457 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Decryption complete plain_size=273 chars ms=5056
+10-16 12:10:23.457 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Download task complete total_ms=5085
+10-16 12:10:23.457 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=5086 data_length=273
+10-16 12:10:23.458 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Importing downloaded words
+10-16 12:10:23.458 14997 14997 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:10:23.459 14997 14997 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 1ms
+10-16 12:10:23.459 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Import complete
+10-16 12:10:23.459 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:10:23.459 14997 14997 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:10:23.459 14997 14997 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:10:23.459 14997 14997 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 12:10:23.460 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:10:23.460 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:10:23.460 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/sync/words_delta.json.enc data_size=273 chars
+10-16 12:10:23.460 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:10:23.460 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:10:23.460 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:10:23.460 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:10:23.460 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:10:23.460 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:10:24.075 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:10:24.699 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:10:25.295 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:10:25.882 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:10:26.490 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:10:27.129 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:10:27.798 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:10:28.480 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:10:28.480 14997 17057 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5020
+10-16 12:10:28.481 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:10:28.497 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:10:28.498 14997 17057 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=5038
+10-16 12:10:28.498 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=5038
+10-16 12:10:28.498 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /sync/words_delta.json.enc
+10-16 12:10:28.529 14997 17057 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/restart/sync - 200 in 31ms
+10-16 12:10:28.560 14997 17057 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/restart/sync/words_delta.json.enc - 201 in 31ms
+10-16 12:10:28.560 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=5100 encrypt_ms=5038 upload_ms=62
+10-16 12:10:28.561 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=5102
+10-16 12:10:28.561 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:10:28.562 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/events_all.jsonl.enc
+10-16 12:10:28.562 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/events_all.jsonl.enc
+10-16 12:10:28.596 14997 17057 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/restart/sync/events_all.jsonl.enc - 404 in 34ms
+10-16 12:10:28.596 14997 17057 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/events_all.jsonl.enc
+10-16 12:10:28.597 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=36 data_length=0
+10-16 12:10:28.597 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:10:28.597 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:10:28.597 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:10:28.597 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:10:28.597 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:10:28.597 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=11314 ====
+10-16 12:10:28.597 14997 14997 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:10:28.597 14997 14997 I A03d00/JSAPP: [WebDavManualSync] settled op=2 time=1792123828597
+10-16 12:10:31.423 17140 17140 I A03d00/JSAPP: [WordLevelLoader] Starting to load word_levels.txt...
+10-16 12:10:31.511 17140 17140 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:10:31.511 17140 17140 I A03d00/JSAPP: [BuiltInDictionary] Starting to load master.txt...
+10-16 12:10:31.511 17140 17140 I A03d00/JSAPP: [App] 后台初始化开始
+10-16 12:10:31.511 17140 17140 I A03d00/JSAPP: [SecureStorage] initialize: Starting initialization
+10-16 12:10:31.534 17140 17140 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:10:31.535 17140 17140 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:10:31.535 17140 17140 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:10:31.574 17140 17140 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:10:31.574 17140 17140 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:10:31.574 17140 17140 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:10:31.906 17140 17140 I A03d00/JSAPP: [WordLevelLoader] Built sorted cache in 17ms
+10-16 12:10:31.906 17140 17140 I A03d00/JSAPP: [WordLevelLoader] Loaded 20740 words with levels in 483ms
+10-16 12:10:31.906 17140 17140 I A03d00/JSAPP: [WordLevelLoader] Available levels: JUNIOR, CET4, HIGH, KAIOYAN, PRIMARY, GRE, TOEFL, BEC, CET6, IELTS, SAT, GMAT
+10-16 12:10:31.907 17140 17140 I A03d00/JSAPP: [SecureStorage] initialize: Initialization successful
+10-16 12:10:31.907 17140 17140 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:10:33.269 17140 17140 I A03d00/JSAPP: [BuiltInDictionary] Loaded 20700 words in 1758ms
+10-16 12:10:33.269 17140 17140 I A03d00/JSAPP: [App] 内置词典加载完成
+10-16 12:10:33.269 17140 17140 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:10:33.270 17140 17140 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:10:33.271 17140 17140 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:10:33.273 17140 17140 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:10:33.273 17140 17140 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:10:33.274 17140 17140 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:10:33.274 17140 17140 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:10:33.274 17140 17140 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:10:33.274 17140 17140 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:10:33.331 17140 17140 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:10:33.331 17140 17140 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:10:33.331 17140 17140 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:10:33.338 17140 17140 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:10:33.350 17140 17140 I A03d00/JSAPP: [WordBookRepository] Migrating system word book membership from words table...
+10-16 12:10:33.351 17140 17140 I A03d00/JSAPP: [WordBookRepository] System book migration done.
+10-16 12:10:33.351 17140 17140 I A03d00/JSAPP: [DBManager] Database initialized successfully
+10-16 12:10:33.352 17140 17140 I A03d00/JSAPP: [App] 后台初始化完成
+10-16 12:10:33.352 17140 17140 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:10:34.449 17140 17140 I A03d00/JSAPP: [WebDavManualSync] subscribe=1 op=0
+10-16 12:10:34.449 17140 17140 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:10:34.449 17140 17140 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:10:34.453 17140 17140 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:10:34.454 17140 17140 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:10:34.455 17140 17140 I A03d00/JSAPP: [Settings] 进入设置页
+10-16 12:10:36.360  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:11:29.224 17140 17140 I A03d00/JSAPP: [WebDavManualSync] accepted op=1 time=1792123889224
+10-16 12:11:29.252 17140 17140 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=1 time=1792123889252
+10-16 12:11:29.258 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:11:29.258 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:11:30.338 17140 17140 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/restart-after/sync - 200 in 1080ms
+10-16 12:11:30.338 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:11:30.340 17140 18706 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/words_delta.json.enc
+10-16 12:11:30.340 17140 18706 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/words_delta.json.enc
+10-16 12:11:30.389 17140 18706 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/restart-after/sync/words_delta.json.enc - 404 in 49ms
+10-16 12:11:30.389 17140 18706 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/words_delta.json.enc
+10-16 12:11:30.390 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=52 data_length=0
+10-16 12:11:30.390 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] No words to import
+10-16 12:11:30.390 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:11:30.390 17140 17140 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:11:30.391 17140 17140 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:11:30.391 17140 17140 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 12:11:30.392 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:11:30.392 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:11:30.392 17140 18706 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/sync/words_delta.json.enc data_size=273 chars
+10-16 12:11:30.392 17140 18706 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:11:30.392 17140 18706 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:11:30.392 17140 18706 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:11:30.392 17140 18706 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:11:30.394 17140 18706 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:11:30.394 17140 18706 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:11:31.111 17140 18706 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:11:31.780 17140 18706 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:11:32.469 17140 18706 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:11:33.031 17140 18706 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:11:33.685 17140 18706 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:11:34.351 17140 18706 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:11:34.980 17140 18706 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:11:35.622 17140 18706 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:11:35.622 17140 18706 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5228
+10-16 12:11:35.622 17140 18706 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:11:35.638 17140 18706 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:11:35.639 17140 18706 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=5247
+10-16 12:11:35.639 17140 18706 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=5247
+10-16 12:11:35.639 17140 18706 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /sync/words_delta.json.enc
+10-16 12:11:35.670 17140 18706 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/restart-after/sync - 200 in 31ms
+10-16 12:11:35.702 17140 18706 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/restart-after/sync/words_delta.json.enc - 201 in 32ms
+10-16 12:11:35.702 17140 18706 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=5310 encrypt_ms=5247 upload_ms=63
+10-16 12:11:35.702 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=5312
+10-16 12:11:35.702 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:11:35.702 17140 18706 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/events_all.jsonl.enc
+10-16 12:11:35.702 17140 18706 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/events_all.jsonl.enc
+10-16 12:11:35.736 17140 18706 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/restart-after/sync/events_all.jsonl.enc - 404 in 34ms
+10-16 12:11:35.736 17140 18706 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/events_all.jsonl.enc
+10-16 12:11:35.736 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=34 data_length=0
+10-16 12:11:35.736 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:11:35.736 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:11:35.736 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:11:35.737 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:11:35.737 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:11:35.737 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=6479 ====
+10-16 12:11:35.737 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:11:35.737 17140 17140 I A03d00/JSAPP: [WebDavManualSync] settled op=1 time=1792123895737
+10-16 12:11:37.867 17140 17140 I A03d00/JSAPP: [WebDavManualSync] accepted op=2 time=1792123897867
+10-16 12:11:37.895 17140 17140 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=2 time=1792123897895
+10-16 12:11:37.908 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:11:37.908 17140 17140 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:11:40.026 18801 18801 I A03d00/JSAPP: [WordLevelLoader] Starting to load word_levels.txt...
+10-16 12:11:40.126 18801 18801 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:11:40.128 18801 18801 I A03d00/JSAPP: [BuiltInDictionary] Starting to load master.txt...
+10-16 12:11:40.128 18801 18801 I A03d00/JSAPP: [App] 后台初始化开始
+10-16 12:11:40.128 18801 18801 I A03d00/JSAPP: [SecureStorage] initialize: Starting initialization
+10-16 12:11:40.142 18801 18801 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:11:40.142 18801 18801 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:11:40.142 18801 18801 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:11:40.225 18801 18801 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:11:40.226 18801 18801 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:11:40.226 18801 18801 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:11:40.458 18801 18801 I A03d00/JSAPP: [WordLevelLoader] Built sorted cache in 15ms
+10-16 12:11:40.459 18801 18801 I A03d00/JSAPP: [WordLevelLoader] Loaded 20740 words with levels in 433ms
+10-16 12:11:40.459 18801 18801 I A03d00/JSAPP: [WordLevelLoader] Available levels: JUNIOR, CET4, HIGH, KAIOYAN, PRIMARY, GRE, TOEFL, BEC, CET6, IELTS, SAT, GMAT
+10-16 12:11:40.459 18801 18801 I A03d00/JSAPP: [SecureStorage] initialize: Initialization successful
+10-16 12:11:40.459 18801 18801 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:11:41.856 18801 18801 I A03d00/JSAPP: [BuiltInDictionary] Loaded 20700 words in 1728ms
+10-16 12:11:41.856 18801 18801 I A03d00/JSAPP: [App] 内置词典加载完成
+10-16 12:11:41.856 18801 18801 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:11:41.857 18801 18801 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:11:41.857 18801 18801 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:11:41.903 18801 18801 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:11:41.904 18801 18801 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:11:41.904 18801 18801 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:11:41.904 18801 18801 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:11:41.904 18801 18801 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:11:41.904 18801 18801 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:11:41.935 18801 18801 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:11:41.935 18801 18801 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:11:41.935 18801 18801 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:11:41.939 18801 18801 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:11:41.948 18801 18801 I A03d00/JSAPP: [WordBookRepository] Migrating system word book membership from words table...
+10-16 12:11:41.948 18801 18801 I A03d00/JSAPP: [WordBookRepository] System book migration done.
+10-16 12:11:41.948 18801 18801 I A03d00/JSAPP: [DBManager] Database initialized successfully
+10-16 12:11:41.949 18801 18801 I A03d00/JSAPP: [App] 后台初始化完成
+10-16 12:11:41.951 18801 18801 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:11:43.030 18801 18801 I A03d00/JSAPP: [WebDavManualSync] subscribe=1 op=0
+10-16 12:11:43.030 18801 18801 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:11:43.030 18801 18801 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:11:43.033 18801 18801 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:11:43.034 18801 18801 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:11:43.035 18801 18801 I A03d00/JSAPP: [Settings] 进入设置页
+10-16 12:11:44.900  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:12:38.600 18801 18801 I A03d00/JSAPP: [WebDavManualSync] accepted op=1 time=1792123958600
+10-16 12:12:38.616 18801 18801 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=1 time=1792123958616
+10-16 12:12:38.623 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:12:38.623 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:12:39.757 18801 18801 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/restart-after-interruption/sync - 200 in 1133ms
+10-16 12:12:39.757 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:12:39.759 18801 19871 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/words_delta.json.enc
+10-16 12:12:39.759 18801 19871 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/words_delta.json.enc
+10-16 12:12:39.786 18801 19871 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/restart-after-interruption/sync/words_delta.json.enc - 404 in 27ms
+10-16 12:12:39.786 18801 19871 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/words_delta.json.enc
+10-16 12:12:39.787 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=30 data_length=0
+10-16 12:12:39.787 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] No words to import
+10-16 12:12:39.787 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:12:39.787 18801 18801 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:12:39.787 18801 18801 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:12:39.787 18801 18801 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 12:12:39.788 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:12:39.788 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:12:39.790 18801 19871 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/sync/words_delta.json.enc data_size=273 chars
+10-16 12:12:39.790 18801 19871 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:12:39.790 18801 19871 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:12:39.790 18801 19871 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:12:39.790 18801 19871 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:12:39.792 18801 19871 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:12:39.792 18801 19871 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:12:40.422 18801 19871 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:12:41.063 18801 19871 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:12:41.796 18801 19871 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:12:42.484 18801 19871 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:12:43.114 18801 19871 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:12:43.734 18801 19871 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:12:44.419 18801 19871 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:12:45.040 18801 19871 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:12:45.040 18801 19871 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5248
+10-16 12:12:45.041 18801 19871 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:12:45.054 18801 19871 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:12:45.054 18801 19871 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=5264
+10-16 12:12:45.054 18801 19871 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=5264
+10-16 12:12:45.055 18801 19871 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /sync/words_delta.json.enc
+10-16 12:12:45.103 18801 19871 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/restart-after-interruption/sync - 200 in 48ms
+10-16 12:12:45.147 18801 19871 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/restart-after-interruption/sync/words_delta.json.enc - 201 in 43ms
+10-16 12:12:45.147 18801 19871 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=5357 encrypt_ms=5264 upload_ms=92
+10-16 12:12:45.148 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=5361
+10-16 12:12:45.149 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:12:45.150 18801 19871 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/events_all.jsonl.enc
+10-16 12:12:45.150 18801 19871 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/events_all.jsonl.enc
+10-16 12:12:45.195 18801 19871 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/restart-after-interruption/sync/events_all.jsonl.enc - 404 in 45ms
+10-16 12:12:45.195 18801 19871 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/events_all.jsonl.enc
+10-16 12:12:45.196 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=47 data_length=0
+10-16 12:12:45.196 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:12:45.196 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:12:45.196 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:12:45.196 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:12:45.196 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:12:45.196 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=6573 ====
+10-16 12:12:45.196 18801 18801 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:12:45.196 18801 18801 I A03d00/JSAPP: [WebDavManualSync] settled op=1 time=1792123965196
+10-16 12:12:48.715 19964 19964 I A03d00/JSAPP: [WordLevelLoader] Starting to load word_levels.txt...
+10-16 12:12:48.835 19964 19964 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:12:48.835 19964 19964 I A03d00/JSAPP: [BuiltInDictionary] Starting to load master.txt...
+10-16 12:12:48.835 19964 19964 I A03d00/JSAPP: [App] 后台初始化开始
+10-16 12:12:48.835 19964 19964 I A03d00/JSAPP: [SecureStorage] initialize: Starting initialization
+10-16 12:12:48.865 19964 19964 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:12:48.865 19964 19964 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:12:48.866 19964 19964 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:12:48.906 19964 19964 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:12:48.907 19964 19964 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:12:48.907 19964 19964 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:12:49.123 19964 19964 I A03d00/JSAPP: [WordLevelLoader] Built sorted cache in 13ms
+10-16 12:12:49.123 19964 19964 I A03d00/JSAPP: [WordLevelLoader] Loaded 20740 words with levels in 408ms
+10-16 12:12:49.123 19964 19964 I A03d00/JSAPP: [WordLevelLoader] Available levels: JUNIOR, CET4, HIGH, KAIOYAN, PRIMARY, GRE, TOEFL, BEC, CET6, IELTS, SAT, GMAT
+10-16 12:12:49.123 19964 19964 I A03d00/JSAPP: [SecureStorage] initialize: Initialization successful
+10-16 12:12:49.123 19964 19964 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:12:50.401 19964 19964 I A03d00/JSAPP: [BuiltInDictionary] Loaded 20700 words in 1566ms
+10-16 12:12:50.401 19964 19964 I A03d00/JSAPP: [App] 内置词典加载完成
+10-16 12:12:50.401 19964 19964 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:12:50.401 19964 19964 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:12:50.402 19964 19964 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:12:50.428 19964 19964 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:12:50.428 19964 19964 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:12:50.429 19964 19964 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:12:50.429 19964 19964 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:12:50.429 19964 19964 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:12:50.429 19964 19964 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:12:50.435 19964 19964 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:12:50.435 19964 19964 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:12:50.435 19964 19964 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:12:50.438 19964 19964 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:12:50.441 19964 19964 I A03d00/JSAPP: [WordBookRepository] Migrating system word book membership from words table...
+10-16 12:12:50.442 19964 19964 I A03d00/JSAPP: [WordBookRepository] System book migration done.
+10-16 12:12:50.442 19964 19964 I A03d00/JSAPP: [DBManager] Database initialized successfully
+10-16 12:12:50.442 19964 19964 I A03d00/JSAPP: [App] 后台初始化完成
+10-16 12:12:50.442 19964 19964 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:12:52.596 19964 19964 I A03d00/JSAPP: [WebDavManualSync] subscribe=1 op=0
+10-16 12:12:52.596 19964 19964 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:12:52.596 19964 19964 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:12:52.599 19964 19964 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:12:52.600 19964 19964 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:12:52.601 19964 19964 I A03d00/JSAPP: [Settings] 进入设置页
+10-16 12:12:54.587  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:13:48.464 19964 19964 I A03d00/JSAPP: [WebDavManualSync] accepted op=1 time=1792124028464
+10-16 12:13:48.482 19964 19964 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=1 time=1792124028482
+10-16 12:13:48.491 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:13:48.491 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:13:49.627 19964 19964 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/chosen-a/sync - 200 in 1136ms
+10-16 12:13:49.627 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:13:49.630 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/words_delta.json.enc
+10-16 12:13:49.630 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/words_delta.json.enc
+10-16 12:13:49.656 19964 21005 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/chosen-a/sync/words_delta.json.enc - 404 in 26ms
+10-16 12:13:49.656 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/words_delta.json.enc
+10-16 12:13:49.656 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=29 data_length=0
+10-16 12:13:49.656 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] No words to import
+10-16 12:13:49.656 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:13:49.657 19964 19964 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:13:49.657 19964 19964 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:13:49.657 19964 19964 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 12:13:49.657 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:13:49.658 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:13:49.658 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/sync/words_delta.json.enc data_size=273 chars
+10-16 12:13:49.658 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:13:49.658 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:13:49.658 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:13:49.658 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:13:49.659 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:13:49.659 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:13:50.308 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:13:50.941 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:13:51.799 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:13:52.442 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:13:53.076 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:13:53.720 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:13:54.341 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:13:55.000 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:13:55.000 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5341
+10-16 12:13:55.000 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:13:55.008 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:13:55.008 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=5350
+10-16 12:13:55.008 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=5350
+10-16 12:13:55.008 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /sync/words_delta.json.enc
+10-16 12:13:55.055 19964 21005 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/chosen-a/sync - 200 in 47ms
+10-16 12:13:55.088 19964 21005 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/chosen-a/sync/words_delta.json.enc - 201 in 32ms
+10-16 12:13:55.088 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=5430 encrypt_ms=5350 upload_ms=80
+10-16 12:13:55.089 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=5433
+10-16 12:13:55.089 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:13:55.089 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/events_all.jsonl.enc
+10-16 12:13:55.089 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/events_all.jsonl.enc
+10-16 12:13:55.116 19964 21005 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/chosen-a/sync/events_all.jsonl.enc - 404 in 27ms
+10-16 12:13:55.116 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/events_all.jsonl.enc
+10-16 12:13:55.116 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=27 data_length=0
+10-16 12:13:55.116 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:13:55.116 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:13:55.116 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:13:55.117 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:13:55.117 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:13:55.117 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=6626 ====
+10-16 12:13:55.117 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:13:55.117 19964 19964 I A03d00/JSAPP: [WebDavManualSync] settled op=1 time=1792124035117
+10-16 12:14:10.623  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:15:03.246 19964 19964 I A03d00/JSAPP: [WebDavManualSync] accepted op=2 time=1792124103246
+10-16 12:15:03.265 19964 19964 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=2 time=1792124103265
+10-16 12:15:03.269 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:15:03.269 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:15:04.396 19964 19964 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/chosen-b/sync - 200 in 1127ms
+10-16 12:15:04.396 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:15:04.396 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/words_delta.json.enc
+10-16 12:15:04.396 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/words_delta.json.enc
+10-16 12:15:04.442 19964 21005 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/chosen-b/sync/words_delta.json.enc - 404 in 46ms
+10-16 12:15:04.442 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/words_delta.json.enc
+10-16 12:15:04.442 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=46 data_length=0
+10-16 12:15:04.443 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] No words to import
+10-16 12:15:04.443 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:15:04.443 19964 19964 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:15:04.443 19964 19964 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:15:04.443 19964 19964 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 12:15:04.444 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:15:04.444 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:15:04.445 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/sync/words_delta.json.enc data_size=273 chars
+10-16 12:15:04.445 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:15:04.445 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:15:04.445 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:15:04.445 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:15:04.445 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:15:04.445 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:15:05.092 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:15:05.690 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:15:06.300 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:15:06.934 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:15:07.537 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:15:08.181 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:15:08.818 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:15:09.428 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:15:09.429 19964 21005 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=4984
+10-16 12:15:09.429 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:15:09.447 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:15:09.447 19964 21005 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=5002
+10-16 12:15:09.447 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=5002
+10-16 12:15:09.447 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /sync/words_delta.json.enc
+10-16 12:15:09.495 19964 21005 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/chosen-b/sync - 200 in 48ms
+10-16 12:15:09.543 19964 21005 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/chosen-b/sync/words_delta.json.enc - 201 in 48ms
+10-16 12:15:09.543 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=5098 encrypt_ms=5002 upload_ms=96
+10-16 12:15:09.543 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=5100
+10-16 12:15:09.543 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:15:09.544 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/events_all.jsonl.enc
+10-16 12:15:09.544 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/events_all.jsonl.enc
+10-16 12:15:09.573 19964 21005 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/chosen-b/sync/events_all.jsonl.enc - 404 in 29ms
+10-16 12:15:09.573 19964 21005 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/events_all.jsonl.enc
+10-16 12:15:09.573 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=30 data_length=0
+10-16 12:15:09.573 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:15:09.573 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:15:09.573 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:15:09.573 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:15:09.573 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:15:09.573 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=6304 ====
+10-16 12:15:09.573 19964 19964 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:15:09.573 19964 19964 I A03d00/JSAPP: [WebDavManualSync] settled op=2 time=1792124109573
+10-16 12:15:12.917 22240 22240 I A03d00/JSAPP: [WordLevelLoader] Starting to load word_levels.txt...
+10-16 12:15:13.033 22240 22240 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:15:13.035 22240 22240 I A03d00/JSAPP: [BuiltInDictionary] Starting to load master.txt...
+10-16 12:15:13.035 22240 22240 I A03d00/JSAPP: [App] 后台初始化开始
+10-16 12:15:13.035 22240 22240 I A03d00/JSAPP: [SecureStorage] initialize: Starting initialization
+10-16 12:15:13.057 22240 22240 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:15:13.057 22240 22240 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:15:13.057 22240 22240 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:15:13.126 22240 22240 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:15:13.126 22240 22240 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:15:13.126 22240 22240 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:15:13.331 22240 22240 I A03d00/JSAPP: [WordLevelLoader] Built sorted cache in 10ms
+10-16 12:15:13.331 22240 22240 I A03d00/JSAPP: [WordLevelLoader] Loaded 20740 words with levels in 413ms
+10-16 12:15:13.331 22240 22240 I A03d00/JSAPP: [WordLevelLoader] Available levels: JUNIOR, CET4, HIGH, KAIOYAN, PRIMARY, GRE, TOEFL, BEC, CET6, IELTS, SAT, GMAT
+10-16 12:15:13.332 22240 22240 I A03d00/JSAPP: [SecureStorage] initialize: Initialization successful
+10-16 12:15:13.332 22240 22240 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:15:14.705 22240 22240 I A03d00/JSAPP: [BuiltInDictionary] Loaded 20700 words in 1670ms
+10-16 12:15:14.705 22240 22240 I A03d00/JSAPP: [App] 内置词典加载完成
+10-16 12:15:14.706 22240 22240 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:15:14.706 22240 22240 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:15:14.706 22240 22240 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:15:14.820 22240 22240 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:15:14.821 22240 22240 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:15:14.821 22240 22240 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:15:14.821 22240 22240 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:15:14.821 22240 22240 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:15:14.821 22240 22240 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:15:14.841 22240 22240 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:15:14.841 22240 22240 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:15:14.841 22240 22240 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:15:14.842 22240 22240 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:15:14.845 22240 22240 I A03d00/JSAPP: [WordBookRepository] Migrating system word book membership from words table...
+10-16 12:15:14.846 22240 22240 I A03d00/JSAPP: [WordBookRepository] System book migration done.
+10-16 12:15:14.846 22240 22240 I A03d00/JSAPP: [DBManager] Database initialized successfully
+10-16 12:15:14.846 22240 22240 I A03d00/JSAPP: [App] 后台初始化完成
+10-16 12:15:14.846 22240 22240 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:15:15.901 22240 22240 I A03d00/JSAPP: [WebDavManualSync] subscribe=1 op=0
+10-16 12:15:15.901 22240 22240 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:15:15.901 22240 22240 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:15:15.905 22240 22240 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:15:15.905 22240 22240 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:15:15.906 22240 22240 I A03d00/JSAPP: [Settings] 进入设置页
+10-16 12:15:17.723  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:16:09.946 22240 22240 I A03d00/JSAPP: [WebDavManualSync] accepted op=1 time=1792124169946
+10-16 12:16:09.989 22240 22240 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=1 time=1792124169989
+10-16 12:16:10.000 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:16:10.001 22240 22240 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:16:10.001 22240 22240 I A03d00/JSAPP: [WebDavManualSync] settled op=1 time=1792124170001
+10-16 12:16:25.809  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:17:15.474 22240 22240 I A03d00/JSAPP: [WebDavManualSync] accepted op=2 time=1792124235474
+10-16 12:17:15.505 22240 22240 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=2 time=1792124235505
+10-16 12:17:15.518 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:17:15.518 22240 22240 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:17:15.518 22240 22240 I A03d00/JSAPP: [WebDavManualSync] settled op=2 time=1792124235518
+10-16 12:17:31.065  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:18:21.945 22240 22240 I A03d00/JSAPP: [WebDavManualSync] accepted op=3 time=1792124301945
+10-16 12:18:21.963 22240 22240 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=3 time=1792124301963
+10-16 12:18:21.970 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:18:21.970 22240 22240 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:18:21.970 22240 22240 I A03d00/JSAPP: [WebDavManualSync] settled op=3 time=1792124301970
+10-16 12:18:38.024  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:19:28.813 22240 22240 I A03d00/JSAPP: [WebDavManualSync] accepted op=4 time=1792124368813
+10-16 12:19:28.857 22240 22240 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=4 time=1792124368857
+10-16 12:19:28.866 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:19:28.866 22240 22240 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:19:28.867 22240 22240 I A03d00/JSAPP: [WebDavManualSync] settled op=4 time=1792124368867
+10-16 12:19:44.830  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:20:35.560 22240 22240 I A03d00/JSAPP: [WebDavManualSync] accepted op=5 time=1792124435559
+10-16 12:20:35.572 22240 22240 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=5 time=1792124435572
+10-16 12:20:35.588 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:20:35.588 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:20:35.667 22240 22240 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/invalid/weiyu_sync - 200 in 79ms
+10-16 12:20:35.668 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:20:35.669 22240 23326 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/weiyu_sync/words_delta.json.enc
+10-16 12:20:35.669 22240 23326 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /weiyu_sync/words_delta.json.enc
+10-16 12:20:35.704 22240 23326 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/invalid/weiyu_sync/words_delta.json.enc - 404 in 35ms
+10-16 12:20:35.704 22240 23326 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /weiyu_sync/words_delta.json.enc
+10-16 12:20:35.704 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=36 data_length=0
+10-16 12:20:35.704 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] No words to import
+10-16 12:20:35.704 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:20:35.705 22240 22240 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:20:35.705 22240 22240 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:20:35.706 22240 22240 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 1ms
+10-16 12:20:35.707 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:20:35.707 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:20:35.707 22240 23326 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/weiyu_sync/words_delta.json.enc data_size=273 chars
+10-16 12:20:35.708 22240 23326 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:20:35.708 22240 23326 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:20:35.708 22240 23326 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:20:35.708 22240 23326 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:20:35.710 22240 23326 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:20:35.710 22240 23326 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:20:36.423 22240 23326 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:20:37.122 22240 23326 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:20:37.743 22240 23326 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:20:38.387 22240 23326 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:20:39.056 22240 23326 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:20:39.735 22240 23326 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:20:40.397 22240 23326 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:20:41.061 22240 23326 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:20:41.061 22240 23326 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5350
+10-16 12:20:41.062 22240 23326 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:20:41.077 22240 23326 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:20:41.077 22240 23326 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=5369
+10-16 12:20:41.077 22240 23326 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=5369
+10-16 12:20:41.077 22240 23326 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /weiyu_sync/words_delta.json.enc
+10-16 12:20:41.124 22240 23326 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/invalid/weiyu_sync - 200 in 47ms
+10-16 12:20:41.174 22240 23326 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/invalid/weiyu_sync/words_delta.json.enc - 201 in 50ms
+10-16 12:20:41.174 22240 23326 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=5466 encrypt_ms=5369 upload_ms=97
+10-16 12:20:41.174 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=5470
+10-16 12:20:41.174 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:20:41.175 22240 23326 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/weiyu_sync/events_all.jsonl.enc
+10-16 12:20:41.175 22240 23326 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /weiyu_sync/events_all.jsonl.enc
+10-16 12:20:41.201 22240 23326 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/invalid/weiyu_sync/events_all.jsonl.enc - 404 in 26ms
+10-16 12:20:41.202 22240 23326 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /weiyu_sync/events_all.jsonl.enc
+10-16 12:20:41.202 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=28 data_length=0
+10-16 12:20:41.202 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:20:41.202 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:20:41.202 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:20:41.202 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:20:41.202 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:20:41.202 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=5614 ====
+10-16 12:20:41.202 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:20:41.203 22240 22240 I A03d00/JSAPP: [WebDavManualSync] settled op=5 time=1792124441203
+10-16 12:20:56.626  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:21:48.547 22240 22240 I A03d00/JSAPP: [WebDavManualSync] accepted op=6 time=1792124508547
+10-16 12:21:48.577 22240 22240 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=6 time=1792124508576
+10-16 12:21:48.588 22240 22240 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:21:48.588 22240 22240 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:21:48.589 22240 22240 I A03d00/JSAPP: [WebDavManualSync] settled op=6 time=1792124508589
+10-16 12:22:04.036  1443  1443 E A03d00/JSAPP: Failed to unsubscribe. Code is 401, message is Parameter error. Incorrect parameter types.The type of param must be subscribe.
+10-16 12:23:52.460 31118 31118 I A03d00/JSAPP: [WordLevelLoader] Starting to load word_levels.txt...
+10-16 12:23:52.524 31118 31118 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:23:52.525 31118 31118 I A03d00/JSAPP: [BuiltInDictionary] Starting to load master.txt...
+10-16 12:23:52.525 31118 31118 I A03d00/JSAPP: [App] 后台初始化开始
+10-16 12:23:52.525 31118 31118 I A03d00/JSAPP: [SecureStorage] initialize: Starting initialization
+10-16 12:23:52.537 31118 31118 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:23:52.538 31118 31118 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:23:52.538 31118 31118 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:23:52.620 31118 31118 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:23:52.620 31118 31118 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:23:52.620 31118 31118 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:23:52.992 31118 31118 I A03d00/JSAPP: [WordLevelLoader] Built sorted cache in 18ms
+10-16 12:23:52.992 31118 31118 I A03d00/JSAPP: [WordLevelLoader] Loaded 20740 words with levels in 532ms
+10-16 12:23:52.992 31118 31118 I A03d00/JSAPP: [WordLevelLoader] Available levels: JUNIOR, CET4, HIGH, KAIOYAN, PRIMARY, GRE, TOEFL, BEC, CET6, IELTS, SAT, GMAT
+10-16 12:23:52.992 31118 31118 I A03d00/JSAPP: [SecureStorage] initialize: Initialization successful
+10-16 12:23:52.992 31118 31118 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:23:54.897 31118 31118 I A03d00/JSAPP: [BuiltInDictionary] Loaded 20700 words in 2372ms
+10-16 12:23:54.897 31118 31118 I A03d00/JSAPP: [App] 内置词典加载完成
+10-16 12:23:54.897 31118 31118 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:23:54.898 31118 31118 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:23:54.899 31118 31118 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:23:54.904 31118 31118 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:23:54.905 31118 31118 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:23:54.905 31118 31118 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:23:54.905 31118 31118 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:23:54.905 31118 31118 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:23:54.905 31118 31118 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:23:54.911 31118 31118 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:23:54.911 31118 31118 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:23:54.911 31118 31118 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:23:54.911 31118 31118 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:23:54.915 31118 31118 I A03d00/JSAPP: [WordBookRepository] Migrating system word book membership from words table...
+10-16 12:23:54.915 31118 31118 I A03d00/JSAPP: [WordBookRepository] System book migration done.
+10-16 12:23:54.915 31118 31118 I A03d00/JSAPP: [DBManager] Database initialized successfully
+10-16 12:23:54.915 31118 31118 I A03d00/JSAPP: [App] 后台初始化完成
+10-16 12:23:54.916 31118 31118 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:24:04.161 31118 31118 I A03d00/JSAPP: [WebDavManualSync] subscribe=1 op=0
+10-16 12:24:04.161 31118 31118 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:24:04.161 31118 31118 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:24:04.167 31118 31118 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:24:04.168 31118 31118 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:24:04.170 31118 31118 I A03d00/JSAPP: [Settings] 进入设置页
+10-16 12:24:08.133 31118 31118 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:24:08.133 31118 31118 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:24:08.133 31118 31118 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:24:08.134 31118 31118 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:24:08.728 31118 31118 I A03d00/JSAPP: [WebDavManualSync] unsubscribe=1
+10-16 12:24:08.728 31118 31118 I A03d00/JSAPP: [SecureStorage] saveApiKey: Attempting to save API key
+10-16 12:24:08.733 31118 31118 I A03d00/JSAPP: [SecureStorage] saveApiKey: API key saved successfully
+10-16 12:24:08.733 31118 31118 I A03d00/JSAPP: [SettingsStore] Settings saved successfully
+10-16 12:24:08.733 31118 31118 I A03d00/JSAPP: [DictionaryManager] API configured
+10-16 12:28:55.201  3584  3584 I A03d00/JSAPP: [WordLevelLoader] Starting to load word_levels.txt...
+10-16 12:28:55.311  3584  3584 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:28:55.312  3584  3584 I A03d00/JSAPP: [BuiltInDictionary] Starting to load master.txt...
+10-16 12:28:55.312  3584  3584 I A03d00/JSAPP: [App] 后台初始化开始
+10-16 12:28:55.312  3584  3584 I A03d00/JSAPP: [SecureStorage] initialize: Starting initialization
+10-16 12:28:55.320  3584  3584 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:28:55.320  3584  3584 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:28:55.321  3584  3584 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:28:55.399  3584  3584 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:28:55.400  3584  3584 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:28:55.400  3584  3584 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:28:55.718  3584  3584 I A03d00/JSAPP: [WordLevelLoader] Built sorted cache in 11ms
+10-16 12:28:55.718  3584  3584 I A03d00/JSAPP: [WordLevelLoader] Loaded 20740 words with levels in 517ms
+10-16 12:28:55.718  3584  3584 I A03d00/JSAPP: [WordLevelLoader] Available levels: JUNIOR, CET4, HIGH, KAIOYAN, PRIMARY, GRE, TOEFL, BEC, CET6, IELTS, SAT, GMAT
+10-16 12:28:55.718  3584  3584 I A03d00/JSAPP: [SecureStorage] initialize: Initialization successful
+10-16 12:28:55.718  3584  3584 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:28:55.718  3584  3584 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:28:57.708  3584  3584 I A03d00/JSAPP: [BuiltInDictionary] Loaded 20700 words in 2396ms
+10-16 12:28:57.708  3584  3584 I A03d00/JSAPP: [App] 内置词典加载完成
+10-16 12:28:57.708  3584  3584 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:28:57.709  3584  3584 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:28:57.767  3584  3584 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:28:57.768  3584  3584 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:28:57.768  3584  3584 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:28:57.768  3584  3584 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:28:57.771  3584  3584 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:28:57.771  3584  3584 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:28:57.777  3584  3584 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:28:57.777  3584  3584 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:28:57.777  3584  3584 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:28:57.778  3584  3584 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:28:57.788  3584  3584 I A03d00/JSAPP: [WordBookRepository] Migrating system word book membership from words table...
+10-16 12:28:57.789  3584  3584 I A03d00/JSAPP: [WordBookRepository] System book migration done.
+10-16 12:28:57.789  3584  3584 I A03d00/JSAPP: [DBManager] Database initialized successfully
+10-16 12:28:57.789  3584  3584 I A03d00/JSAPP: [App] 后台初始化完成
+10-16 12:28:57.789  3584  3584 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:29:06.938  3584  3584 I A03d00/JSAPP: [WebDavManualSync] subscribe=1 op=0
+10-16 12:29:06.938  3584  3584 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:29:06.938  3584  3584 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:29:06.943  3584  3584 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:29:06.943  3584  3584 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:29:06.949  3584  3584 I A03d00/JSAPP: [Settings] 进入设置页
+10-16 12:29:08.663  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:29:08.954  3584  3584 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:29:08.954  3584  3584 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:29:08.955  3584  3584 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:29:08.955  3584  3584 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:29:09.552  3584  3584 I A03d00/JSAPP: [WebDavManualSync] unsubscribe=1
+10-16 12:29:09.552  3584  3584 I A03d00/JSAPP: [SecureStorage] saveApiKey: Attempting to save API key
+10-16 12:29:09.556  3584  3584 I A03d00/JSAPP: [SecureStorage] saveApiKey: API key saved successfully
+10-16 12:29:09.556  3584  3584 I A03d00/JSAPP: [SettingsStore] Settings saved successfully
+10-16 12:29:09.556  3584  3584 I A03d00/JSAPP: [DictionaryManager] API configured
+10-16 12:29:48.384  4020  4020 I A03d00/JSAPP: [WordLevelLoader] Starting to load word_levels.txt...
+10-16 12:29:48.533  4020  4020 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:29:48.534  4020  4020 I A03d00/JSAPP: [BuiltInDictionary] Starting to load master.txt...
+10-16 12:29:48.545  4020  4020 I A03d00/JSAPP: [App] 后台初始化开始
+10-16 12:29:48.545  4020  4020 I A03d00/JSAPP: [SecureStorage] initialize: Starting initialization
+10-16 12:29:48.562  4020  4020 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:29:48.562  4020  4020 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:29:48.563  4020  4020 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:29:48.640  4020  4020 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:29:48.641  4020  4020 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:29:48.641  4020  4020 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:29:48.925  4020  4020 I A03d00/JSAPP: [WordLevelLoader] Built sorted cache in 13ms
+10-16 12:29:48.925  4020  4020 I A03d00/JSAPP: [WordLevelLoader] Loaded 20740 words with levels in 541ms
+10-16 12:29:48.925  4020  4020 I A03d00/JSAPP: [WordLevelLoader] Available levels: JUNIOR, CET4, HIGH, KAIOYAN, PRIMARY, GRE, TOEFL, BEC, CET6, IELTS, SAT, GMAT
+10-16 12:29:50.213  4020  4020 I A03d00/JSAPP: [BuiltInDictionary] Loaded 20700 words in 1678ms
+10-16 12:29:50.213  4020  4020 I A03d00/JSAPP: [App] 内置词典加载完成
+10-16 12:29:50.213  4020  4020 I A03d00/JSAPP: [SecureStorage] initialize: Initialization successful
+10-16 12:29:50.213  4020  4020 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:29:50.213  4020  4020 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:29:50.214  4020  4020 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:29:50.215  4020  4020 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:29:50.233  4020  4020 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:29:50.234  4020  4020 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:29:50.234  4020  4020 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:29:50.234  4020  4020 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:29:50.234  4020  4020 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:29:50.234  4020  4020 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:29:50.269  4020  4020 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:29:50.269  4020  4020 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:29:50.269  4020  4020 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:29:50.270  4020  4020 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:29:50.277  4020  4020 I A03d00/JSAPP: [WordBookRepository] Migrating system word book membership from words table...
+10-16 12:29:50.278  4020  4020 I A03d00/JSAPP: [WordBookRepository] System book migration done.
+10-16 12:29:50.278  4020  4020 I A03d00/JSAPP: [DBManager] Database initialized successfully
+10-16 12:29:50.278  4020  4020 I A03d00/JSAPP: [App] 后台初始化完成
+10-16 12:29:50.278  4020  4020 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:29:51.363  4020  4020 I A03d00/JSAPP: [WebDavManualSync] subscribe=1 op=0
+10-16 12:29:51.363  4020  4020 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:29:51.363  4020  4020 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:29:51.366  4020  4020 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:29:51.367  4020  4020 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:29:51.368  4020  4020 I A03d00/JSAPP: [Settings] 进入设置页
+10-16 12:29:53.338  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:30:20.191  4020  4020 I A03d00/JSAPP: [WebDavManualSync] accepted op=1 time=1792125020191
+10-16 12:30:20.208  4020  4020 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=1 time=1792125020208
+10-16 12:30:20.212  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:30:20.212  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:30:20.301  4020  4020 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/fast/sync - 200 in 88ms
+10-16 12:30:20.301  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:30:20.302  4020  4667 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/words_delta.json.enc
+10-16 12:30:20.303  4020  4667 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/words_delta.json.enc
+10-16 12:30:20.329  4020  4667 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/fast/sync/words_delta.json.enc - 404 in 26ms
+10-16 12:30:20.329  4020  4667 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/words_delta.json.enc
+10-16 12:30:20.329  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=28 data_length=0
+10-16 12:30:20.329  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] No words to import
+10-16 12:30:20.329  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:30:20.329  4020  4020 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:30:20.329  4020  4020 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:30:20.329  4020  4020 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 12:30:20.330  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:30:20.330  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:30:20.331  4020  4667 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/sync/words_delta.json.enc data_size=273 chars
+10-16 12:30:20.331  4020  4667 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:30:20.331  4020  4667 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:30:20.331  4020  4667 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:30:20.331  4020  4667 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:30:20.333  4020  4667 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:30:20.333  4020  4667 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:30:20.978  4020  4667 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:30:21.694  4020  4667 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:30:22.360  4020  4667 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:30:23.021  4020  4667 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:30:23.655  4020  4667 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:30:24.258  4020  4667 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:30:24.945  4020  4667 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:30:25.573  4020  4667 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:30:25.573  4020  4667 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5240
+10-16 12:30:25.574  4020  4667 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:30:25.584  4020  4667 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:30:25.585  4020  4667 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=5254
+10-16 12:30:25.585  4020  4667 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=5254
+10-16 12:30:25.585  4020  4667 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /sync/words_delta.json.enc
+10-16 12:30:25.632  4020  4667 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/fast/sync - 200 in 47ms
+10-16 12:30:25.665  4020  4667 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/fast/sync/words_delta.json.enc - 201 in 33ms
+10-16 12:30:25.665  4020  4667 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=5334 encrypt_ms=5254 upload_ms=80
+10-16 12:30:25.665  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=5336
+10-16 12:30:25.665  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:30:25.665  4020  4667 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/events_all.jsonl.enc
+10-16 12:30:25.665  4020  4667 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/events_all.jsonl.enc
+10-16 12:30:25.693  4020  4667 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/fast/sync/events_all.jsonl.enc - 404 in 28ms
+10-16 12:30:25.693  4020  4667 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/events_all.jsonl.enc
+10-16 12:30:25.693  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=28 data_length=0
+10-16 12:30:25.693  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:30:25.693  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:30:25.693  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:30:25.694  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:30:25.694  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:30:25.694  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=5482 ====
+10-16 12:30:25.694  4020  4020 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:30:25.694  4020  4020 I A03d00/JSAPP: [WebDavManualSync] settled op=1 time=1792125025694
+10-16 12:30:29.315  4773  4773 I A03d00/JSAPP: [WordLevelLoader] Starting to load word_levels.txt...
+10-16 12:30:29.465  4773  4773 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:30:29.468  4773  4773 I A03d00/JSAPP: [BuiltInDictionary] Starting to load master.txt...
+10-16 12:30:29.468  4773  4773 I A03d00/JSAPP: [App] 后台初始化开始
+10-16 12:30:29.468  4773  4773 I A03d00/JSAPP: [SecureStorage] initialize: Starting initialization
+10-16 12:30:29.494  4773  4773 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:30:29.494  4773  4773 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:30:29.494  4773  4773 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:30:29.532  4773  4773 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:30:29.533  4773  4773 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:30:29.533  4773  4773 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:30:29.735  4773  4773 I A03d00/JSAPP: [WordLevelLoader] Built sorted cache in 11ms
+10-16 12:30:29.735  4773  4773 I A03d00/JSAPP: [WordLevelLoader] Loaded 20740 words with levels in 420ms
+10-16 12:30:29.736  4773  4773 I A03d00/JSAPP: [WordLevelLoader] Available levels: JUNIOR, CET4, HIGH, KAIOYAN, PRIMARY, GRE, TOEFL, BEC, CET6, IELTS, SAT, GMAT
+10-16 12:30:29.736  4773  4773 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:30:31.346  4773  4773 I A03d00/JSAPP: [BuiltInDictionary] Loaded 20700 words in 1877ms
+10-16 12:30:31.346  4773  4773 I A03d00/JSAPP: [App] 内置词典加载完成
+10-16 12:30:31.346  4773  4773 I A03d00/JSAPP: [SecureStorage] initialize: Initialization successful
+10-16 12:30:31.346  4773  4773 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:30:31.346  4773  4773 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:30:31.347  4773  4773 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:30:31.374  4773  4773 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:30:31.375  4773  4773 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:30:31.375  4773  4773 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:30:31.375  4773  4773 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:30:31.375  4773  4773 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:30:31.375  4773  4773 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:30:31.405  4773  4773 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:30:31.405  4773  4773 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:30:31.405  4773  4773 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:30:31.414  4773  4773 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:30:31.418  4773  4773 I A03d00/JSAPP: [WordBookRepository] Migrating system word book membership from words table...
+10-16 12:30:31.423  4773  4773 I A03d00/JSAPP: [WordBookRepository] System book migration done.
+10-16 12:30:31.423  4773  4773 I A03d00/JSAPP: [DBManager] Database initialized successfully
+10-16 12:30:31.423  4773  4773 I A03d00/JSAPP: [App] 后台初始化完成
+10-16 12:30:31.423  4773  4773 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:30:32.492  4773  4773 I A03d00/JSAPP: [WebDavManualSync] subscribe=1 op=0
+10-16 12:30:32.493  4773  4773 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:30:32.493  4773  4773 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:30:32.496  4773  4773 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:30:32.497  4773  4773 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:30:32.497  4773  4773 I A03d00/JSAPP: [Settings] 进入设置页
+10-16 12:31:03.369  4773  4773 I A03d00/JSAPP: [WebDavManualSync] accepted op=1 time=1792125063369
+10-16 12:31:03.398  4773  4773 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=1 time=1792125063398
+10-16 12:31:03.404  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:31:03.404  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:31:23.426  4773  4773 E A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/timeout/sync - ERROR 2300028: BusinessError: Operation timeout raw={"code":2300028,"message":"Operation timeout"} (20022ms)
+10-16 12:31:23.487  4773  4773 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/timeout/sync - 500 in 61ms
+10-16 12:31:23.516  4773  4773 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/timeout/sync/.probe_1792125083426.txt - 500 in 29ms
+10-16 12:31:23.516  4773  4773 E A03d00/JSAPP: [WebDavSyncManager] Preflight check failed: WebDAV 连接失败
+10-16 12:31:23.517  4773  4773 I A03d00/JSAPP: [WebDavManualSync] settled op=1 time=1792125083517
+10-16 12:31:25.680  4773  4773 I A03d00/JSAPP: [WebDavManualSync] accepted op=2 time=1792125085680
+10-16 12:31:25.692  4773  4773 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=2 time=1792125085692
+10-16 12:31:25.697  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:31:25.697  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:31:26.925  4773  4773 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/timeout/sync - 200 in 1228ms
+10-16 12:31:26.925  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:31:26.927  4773  5629 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/words_delta.json.enc
+10-16 12:31:26.927  4773  5629 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/words_delta.json.enc
+10-16 12:31:26.971  4773  5629 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/timeout/sync/words_delta.json.enc - 404 in 44ms
+10-16 12:31:26.972  4773  5629 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/words_delta.json.enc
+10-16 12:31:26.972  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=47 data_length=0
+10-16 12:31:26.972  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] No words to import
+10-16 12:31:26.972  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:31:26.973  4773  4773 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:31:26.973  4773  4773 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:31:26.973  4773  4773 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 12:31:26.974  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:31:26.974  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:31:26.974  4773  5629 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/sync/words_delta.json.enc data_size=273 chars
+10-16 12:31:26.974  4773  5629 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:31:26.974  4773  5629 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:31:26.974  4773  5629 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:31:26.975  4773  5629 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:31:26.976  4773  5629 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:31:26.976  4773  5629 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:31:27.649  4773  5629 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:31:28.264  4773  5629 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:31:29.881  4773  5629 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:31:31.196  4773  5629 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:31:31.781  4773  5629 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:31:32.428  4773  5629 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:31:33.268  4773  5629 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:31:33.898  4773  5629 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:31:33.898  4773  5629 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=6922
+10-16 12:31:33.899  4773  5629 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:31:33.915  4773  5629 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:31:33.916  4773  5629 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=6942
+10-16 12:31:33.916  4773  5629 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=6942
+10-16 12:31:33.916  4773  5629 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /sync/words_delta.json.enc
+10-16 12:31:33.947  4773  5629 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/timeout/sync - 200 in 31ms
+10-16 12:31:33.992  4773  5629 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/timeout/sync/words_delta.json.enc - 201 in 45ms
+10-16 12:31:33.992  4773  5629 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=7018 encrypt_ms=6942 upload_ms=76
+10-16 12:31:33.992  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=7020
+10-16 12:31:33.992  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:31:33.993  4773  5629 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/events_all.jsonl.enc
+10-16 12:31:33.993  4773  5629 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/events_all.jsonl.enc
+10-16 12:31:34.037  4773  5629 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/timeout/sync/events_all.jsonl.enc - 404 in 44ms
+10-16 12:31:34.037  4773  5629 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/events_all.jsonl.enc
+10-16 12:31:34.038  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=46 data_length=0
+10-16 12:31:34.038  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:31:34.038  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:31:34.038  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:31:34.039  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:31:34.039  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:31:34.039  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=8342 ====
+10-16 12:31:34.039  4773  4773 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:31:34.039  4773  4773 I A03d00/JSAPP: [WebDavManualSync] settled op=2 time=1792125094039
+10-16 12:32:33.691  7385  7385 I A03d00/JSAPP: [WordLevelLoader] Starting to load word_levels.txt...
+10-16 12:32:33.809  7385  7385 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:32:33.810  7385  7385 I A03d00/JSAPP: [BuiltInDictionary] Starting to load master.txt...
+10-16 12:32:33.810  7385  7385 I A03d00/JSAPP: [App] 后台初始化开始
+10-16 12:32:33.810  7385  7385 I A03d00/JSAPP: [SecureStorage] initialize: Starting initialization
+10-16 12:32:33.832  7385  7385 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:32:33.832  7385  7385 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:32:33.832  7385  7385 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:32:33.920  7385  7385 E A03d00/JSAPP: [ReviewEventRepository] Operation attempted on uninitialized database
+10-16 12:32:33.920  7385  7385 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:32:33.920  7385  7385 E A03d00/JSAPP: [WordRepository] Operation attempted on uninitialized database
+10-16 12:32:34.321  7385  7385 I A03d00/JSAPP: [WordLevelLoader] Built sorted cache in 15ms
+10-16 12:32:34.321  7385  7385 I A03d00/JSAPP: [WordLevelLoader] Loaded 20740 words with levels in 630ms
+10-16 12:32:34.321  7385  7385 I A03d00/JSAPP: [WordLevelLoader] Available levels: JUNIOR, CET4, HIGH, KAIOYAN, PRIMARY, GRE, TOEFL, BEC, CET6, IELTS, SAT, GMAT
+10-16 12:32:34.321  7385  7385 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:32:36.221  7385  7385 I A03d00/JSAPP: [BuiltInDictionary] Loaded 20700 words in 2411ms
+10-16 12:32:36.221  7385  7385 I A03d00/JSAPP: [App] 内置词典加载完成
+10-16 12:32:36.221  7385  7385 I A03d00/JSAPP: [SecureStorage] initialize: Initialization successful
+10-16 12:32:36.221  7385  7385 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:32:36.222  7385  7385 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:32:36.223  7385  7385 I A03d00/JSAPP: [SettingsStore] Preferences initialized successfully
+10-16 12:32:36.229  7385  7385 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:32:36.230  7385  7385 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:32:36.230  7385  7385 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:32:36.230  7385  7385 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:32:36.230  7385  7385 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:32:36.230  7385  7385 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:32:36.244  7385  7385 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:32:36.244  7385  7385 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:32:36.244  7385  7385 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:32:36.245  7385  7385 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:32:36.247  7385  7385 I A03d00/JSAPP: [WordBookRepository] Migrating system word book membership from words table...
+10-16 12:32:36.248  7385  7385 I A03d00/JSAPP: [WordBookRepository] System book migration done.
+10-16 12:32:36.248  7385  7385 I A03d00/JSAPP: [DBManager] Database initialized successfully
+10-16 12:32:36.248  7385  7385 I A03d00/JSAPP: [App] 后台初始化完成
+10-16 12:32:36.248  7385  7385 I A03d00/JSAPP: [GuideManager] Onboarding state loaded successfully
+10-16 12:32:45.463  7385  7385 I A03d00/JSAPP: [WebDavManualSync] subscribe=1 op=0
+10-16 12:32:45.463  7385  7385 I A03d00/JSAPP: [SecureStorage] injectContext: Context injected successfully
+10-16 12:32:45.463  7385  7385 I A03d00/JSAPP: [SecureStorage] getApiKey: Attempting to get API key
+10-16 12:32:45.468  7385  7385 I A03d00/JSAPP: [SecureStorage] getApiKey: API key retrieved successfully, length: 0
+10-16 12:32:45.469  7385  7385 I A03d00/JSAPP: [SettingsStore] Settings loaded successfully
+10-16 12:32:45.471  7385  7385 I A03d00/JSAPP: [Settings] 进入设置页
+10-16 12:32:49.528  1443  1443 I A03d00/JSAPP: Succeeded in unsubscribing.
+10-16 12:33:16.526  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=1 time=1792125196526
+10-16 12:33:16.543  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=1 time=1792125196543
+10-16 12:33:16.547  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:33:16.547  7385  7385 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:33:16.547  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=1 time=1792125196547
+10-16 12:33:45.890  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=2 time=1792125225890
+10-16 12:33:45.908  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=2 time=1792125225908
+10-16 12:33:45.918  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:33:45.918  7385  7385 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:33:45.918  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=2 time=1792125225918
+10-16 12:34:16.558  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=3 time=1792125256558
+10-16 12:34:16.579  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=3 time=1792125256579
+10-16 12:34:16.585  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:34:16.585  7385  7385 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:34:16.585  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=3 time=1792125256585
+10-16 12:35:00.951  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=4 time=1792125300951
+10-16 12:35:00.966  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=4 time=1792125300966
+10-16 12:35:00.972  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:35:00.972  7385  7385 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:35:00.973  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=4 time=1792125300972
+10-16 12:35:31.003  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=5 time=1792125331003
+10-16 12:35:31.018  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=5 time=1792125331018
+10-16 12:35:31.024  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:35:31.024  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:35:31.092  7385  7385 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/invalid/weiyu_sync - 200 in 68ms
+10-16 12:35:31.093  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:35:31.094  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/weiyu_sync/words_delta.json.enc
+10-16 12:35:31.095  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /weiyu_sync/words_delta.json.enc
+10-16 12:35:31.128  7385  7646 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/invalid/weiyu_sync/words_delta.json.enc - 404 in 33ms
+10-16 12:35:31.128  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /weiyu_sync/words_delta.json.enc
+10-16 12:35:31.128  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=35 data_length=0
+10-16 12:35:31.128  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] No words to import
+10-16 12:35:31.129  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:35:31.129  7385  7385 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:35:31.129  7385  7385 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:35:31.130  7385  7385 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 1ms
+10-16 12:35:31.130  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:35:31.130  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:35:31.131  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/weiyu_sync/words_delta.json.enc data_size=273 chars
+10-16 12:35:31.131  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:35:31.131  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:35:31.131  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:35:31.131  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:35:31.133  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:35:31.133  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:35:31.720  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:35:32.426  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:35:33.034  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:35:33.783  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:35:34.422  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:35:35.059  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:35:35.724  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:35:36.307  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:35:36.307  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5174
+10-16 12:35:36.307  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:35:36.328  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:35:36.328  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=5197
+10-16 12:35:36.328  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=5197
+10-16 12:35:36.328  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /weiyu_sync/words_delta.json.enc
+10-16 12:35:36.359  7385  7646 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/invalid/weiyu_sync - 200 in 30ms
+10-16 12:35:36.406  7385  7646 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/invalid/weiyu_sync/words_delta.json.enc - 201 in 46ms
+10-16 12:35:36.406  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=5275 encrypt_ms=5197 upload_ms=77
+10-16 12:35:36.406  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=5277
+10-16 12:35:36.406  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:35:36.406  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/weiyu_sync/events_all.jsonl.enc
+10-16 12:35:36.406  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /weiyu_sync/events_all.jsonl.enc
+10-16 12:35:36.453  7385  7646 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/invalid/weiyu_sync/events_all.jsonl.enc - 404 in 47ms
+10-16 12:35:36.453  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /weiyu_sync/events_all.jsonl.enc
+10-16 12:35:36.453  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=47 data_length=0
+10-16 12:35:36.453  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:35:36.453  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:35:36.453  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:35:36.454  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:35:36.454  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:35:36.454  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=5430 ====
+10-16 12:35:36.454  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:35:36.454  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=5 time=1792125336454
+10-16 12:36:09.417  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=6 time=1792125369417
+10-16 12:36:09.447  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=6 time=1792125369447
+10-16 12:36:09.458  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:36:09.458  7385  7385 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:36:09.458  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=6 time=1792125369458
+10-16 12:36:42.191  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=7 time=1792125402191
+10-16 12:36:42.207  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=7 time=1792125402207
+10-16 12:36:42.221  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:36:42.221  7385  7385 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:36:42.222  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=7 time=1792125402222
+10-16 12:37:16.283  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=8 time=1792125436283
+10-16 12:37:16.300  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=8 time=1792125436300
+10-16 12:37:16.308  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:37:16.308  7385  7385 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:37:16.308  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=8 time=1792125436308
+10-16 12:37:50.012  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=9 time=1792125470012
+10-16 12:37:50.029  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=9 time=1792125470029
+10-16 12:37:50.035  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:37:50.035  7385  7385 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:37:50.035  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=9 time=1792125470035
+10-16 12:38:10.556  7877  7877 I A03d00/JSAPP: [a92ab2aa327a499] [RCP]  success to add processor, processorId=1
+10-16 12:38:23.684  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=10 time=1792125503684
+10-16 12:38:23.728  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=10 time=1792125503728
+10-16 12:38:23.749  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:38:23.749  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:38:23.861  7385  7385 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/invalid/weiyu_sync - 200 in 111ms
+10-16 12:38:23.862  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:38:23.863  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/weiyu_sync/words_delta.json.enc
+10-16 12:38:23.863  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /weiyu_sync/words_delta.json.enc
+10-16 12:38:23.900  7385  7646 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/invalid/weiyu_sync/words_delta.json.enc - 200 in 37ms
+10-16 12:38:23.900  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Download complete size=549 chars ms=37
+10-16 12:38:23.900  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Decrypting downloaded data
+10-16 12:38:23.900  7385  7646 I A03d00/JSAPP: [WebDAV] crypto decrypt start
+10-16 12:38:23.900  7385  7646 I A03d00/JSAPP: [WebDAV] crypto decrypt data_size=273 bytes
+10-16 12:38:23.900  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:38:24.560  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:38:25.261  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:38:25.910  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:38:26.594  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:38:27.246  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:38:27.976  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:38:28.568  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:38:29.239  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:38:29.239  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5339
+10-16 12:38:29.240  7385  7646 I A03d00/JSAPP: [WebDAV] crypto decrypt step=aes
+10-16 12:38:29.256  7385  7646 I A03d00/JSAPP: [WebDAV] crypto decrypt complete output_size=273 bytes ms=5356
+10-16 12:38:29.256  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Decryption complete plain_size=273 chars ms=5356
+10-16 12:38:29.256  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Download task complete total_ms=5393
+10-16 12:38:29.258  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=5396 data_length=273
+10-16 12:38:29.258  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Importing downloaded words
+10-16 12:38:29.258  7385  7385 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:38:29.259  7385  7385 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 12:38:29.259  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Import complete
+10-16 12:38:29.259  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:38:29.259  7385  7385 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:38:29.259  7385  7385 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:38:29.259  7385  7385 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 12:38:29.260  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:38:29.260  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:38:29.260  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/weiyu_sync/words_delta.json.enc data_size=273 chars
+10-16 12:38:29.260  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:38:29.260  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:38:29.260  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:38:29.260  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:38:29.261  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:38:29.261  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:38:29.985  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:38:30.664  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:38:31.343  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:38:31.974  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:38:32.631  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:38:33.228  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:38:33.965  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:38:34.638  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:38:34.638  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5377
+10-16 12:38:34.639  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:38:34.649  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:38:34.649  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=5389
+10-16 12:38:34.649  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=5389
+10-16 12:38:34.649  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /weiyu_sync/words_delta.json.enc
+10-16 12:38:34.695  7385  7646 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/invalid/weiyu_sync - 200 in 46ms
+10-16 12:38:34.726  7385  7646 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/invalid/weiyu_sync/words_delta.json.enc - 201 in 31ms
+10-16 12:38:34.726  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=5466 encrypt_ms=5389 upload_ms=77
+10-16 12:38:34.726  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=5467
+10-16 12:38:34.726  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:38:34.727  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/weiyu_sync/events_all.jsonl.enc
+10-16 12:38:34.727  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /weiyu_sync/events_all.jsonl.enc
+10-16 12:38:34.773  7385  7646 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/invalid/weiyu_sync/events_all.jsonl.enc - 404 in 46ms
+10-16 12:38:34.773  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /weiyu_sync/events_all.jsonl.enc
+10-16 12:38:34.773  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=47 data_length=0
+10-16 12:38:34.773  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:38:34.773  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:38:34.773  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:38:34.773  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:38:34.773  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:38:34.773  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=11024 ====
+10-16 12:38:34.773  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:38:34.774  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=10 time=1792125514774
+10-16 12:39:11.478  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=11 time=1792125551478
+10-16 12:39:11.492  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=11 time=1792125551492
+10-16 12:39:11.501  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:39:11.501  7385  7385 E A03d00/JSAPP: [WebDavSyncManager] Sync failed: not configured
+10-16 12:39:11.501  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=11 time=1792125551501
+10-16 12:39:38.357  7385  7385 I A03d00/JSAPP: [WebDavManualSync] accepted op=12 time=1792125578357
+10-16 12:39:38.373  7385  7385 I A03d00/JSAPP: [WebDavManualSync] visible frame ready op=12 time=1792125578373
+10-16 12:39:38.378  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Starting incremental sync ====
+10-16 12:39:38.378  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Sync status set to SYNCING
+10-16 12:39:39.622  7385  7385 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/recovered/sync - 200 in 1244ms
+10-16 12:39:39.622  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 1/4: Download words delta =====
+10-16 12:39:39.623  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/words_delta.json.enc
+10-16 12:39:39.623  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/words_delta.json.enc
+10-16 12:39:39.672  7385  7646 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/recovered/sync/words_delta.json.enc - 404 in 49ms
+10-16 12:39:39.672  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/words_delta.json.enc
+10-16 12:39:39.672  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 1 complete ms=50 data_length=0
+10-16 12:39:39.672  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] No words to import
+10-16 12:39:39.672  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 2/4: Upload words delta =====
+10-16 12:39:39.673  7385  7385 I A03d00/JSAPP: [DataSyncManager] Incremental export: 0 words updated after 0
+10-16 12:39:39.673  7385  7385 I A03d00/JSAPP: [WordBookRepository] Fetching user word books
+10-16 12:39:39.673  7385  7385 I A03d00/JSAPP: [WordBookRepository] Fetched 0 word books in 0ms
+10-16 12:39:39.674  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 2 export complete data_length=273
+10-16 12:39:39.674  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Uploading words to cloud
+10-16 12:39:39.675  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Starting upload with encryption in taskpool file=/sync/words_delta.json.enc data_size=273 chars
+10-16 12:39:39.675  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Encrypting data in background
+10-16 12:39:39.675  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt start input_size=273 chars
+10-16 12:39:39.675  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=utf8
+10-16 12:39:39.675  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt utf8_bytes=273
+10-16 12:39:39.675  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=pbkdf2
+10-16 12:39:39.675  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 start iterations=10000 dkLen=64
+10-16 12:39:40.296  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=2500/10000 (25%)
+10-16 12:39:40.871  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=5000/10000 (50%)
+10-16 12:39:41.519  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=7500/10000 (75%)
+10-16 12:39:42.181  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=1/2 iterations=10000/10000 (100%)
+10-16 12:39:42.833  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=2500/10000 (25%)
+10-16 12:39:43.464  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=5000/10000 (50%)
+10-16 12:39:44.102  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=7500/10000 (75%)
+10-16 12:39:44.754  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 progress block=2/2 iterations=10000/10000 (100%)
+10-16 12:39:44.755  7385  7646 I A03d00/JSAPP: [WebDAV] crypto pbkdf2 complete ms=5080
+10-16 12:39:44.755  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=aes
+10-16 12:39:44.764  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt step=base64
+10-16 12:39:44.765  7385  7646 I A03d00/JSAPP: [WebDAV] crypto encrypt complete output_size=549 chars ms=5090
+10-16 12:39:44.765  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Encryption complete encrypted_size=549 chars ms=5090
+10-16 12:39:44.765  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Uploading encrypted data to /sync/words_delta.json.enc
+10-16 12:39:44.796  7385  7646 I A03d00/JSAPP: [WebDAV] HEAD http://127.0.0.1:18164/recovered/sync - 200 in 31ms
+10-16 12:39:44.827  7385  7646 I A03d00/JSAPP: [WebDAV] PUT http://127.0.0.1:18164/recovered/sync/words_delta.json.enc - 201 in 31ms
+10-16 12:39:44.828  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Upload completed successfully total_ms=5153 encrypt_ms=5090 upload_ms=63
+10-16 12:39:44.834  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 2 complete ms=5162
+10-16 12:39:44.835  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 3/4: Download events =====
+10-16 12:39:44.836  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Starting download in taskpool file=/sync/events_all.jsonl.enc
+10-16 12:39:44.836  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] Downloading from /sync/events_all.jsonl.enc
+10-16 12:39:44.857  7385  7646 I A03d00/JSAPP: [WebDAV] GET http://127.0.0.1:18164/recovered/sync/events_all.jsonl.enc - 404 in 21ms
+10-16 12:39:44.857  7385  7646 I A03d00/JSAPP: [WebDavSyncTask] File not found (404): /sync/events_all.jsonl.enc
+10-16 12:39:44.858  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Step 3 complete ms=23 data_length=0
+10-16 12:39:44.858  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] No events to import
+10-16 12:39:44.858  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ===== Step 4/4: Upload events =====
+10-16 12:39:44.858  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Fetching events after timestamp 0
+10-16 12:39:44.859  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Found 0 events to upload
+10-16 12:39:44.859  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] No events to upload, skipping step 4
+10-16 12:39:44.859  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] ==== Sync completed successfully total_ms=6481 ====
+10-16 12:39:44.859  7385  7385 I A03d00/JSAPP: [WebDavSyncManager] Sync status reset to IDLE
+10-16 12:39:44.859  7385  7385 I A03d00/JSAPP: [WebDavManualSync] settled op=12 time=1792125584859

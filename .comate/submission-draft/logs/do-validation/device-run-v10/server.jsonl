@@ -1,0 +1,43 @@
+{"utc": "2026-10-16T04:28:52.014+00:00", "monotonic_ns": 122227687000000, "event": "listening", "port": 18164}
+{"utc": "2026-10-16T04:28:56.309+00:00", "monotonic_ns": 122231984000000, "event": "release_all"}
+{"utc": "2026-10-16T04:29:48.833+00:00", "monotonic_ns": 122284500000000, "event": "release_all"}
+{"utc": "2026-10-16T04:29:49.316+00:00", "monotonic_ns": 122284984000000, "event": "release_all"}
+{"utc": "2026-10-16T04:29:49.377+00:00", "monotonic_ns": 122285046000000, "event": "release_all"}
+{"utc": "2026-10-16T04:30:21.937+00:00", "monotonic_ns": 122317609000000, "event": "configuration", "gated": false, "status": null, "disconnect": false, "empty": false, "after": 0, "hold_seconds": 28}
+{"utc": "2026-10-16T04:30:22.286+00:00", "monotonic_ns": 122317953000000, "event": "request", "id": 1, "method": "HEAD", "path": "/fast/sync", "bodyBytes": 0, "authPresent": true}
+{"utc": "2026-10-16T04:30:22.287+00:00", "monotonic_ns": 122317953000000, "event": "response", "id": 1, "status": 200, "method": "HEAD", "path": "/fast/sync"}
+{"utc": "2026-10-16T04:30:22.311+00:00", "monotonic_ns": 122317984000000, "event": "request", "id": 2, "method": "GET", "path": "/fast/sync/words_delta.json.enc", "bodyBytes": 0, "authPresent": true}
+{"utc": "2026-10-16T04:30:22.312+00:00", "monotonic_ns": 122317984000000, "event": "response", "id": 2, "status": 404, "method": "GET", "path": "/fast/sync/words_delta.json.enc"}
+{"utc": "2026-10-16T04:30:27.614+00:00", "monotonic_ns": 122323281000000, "event": "request", "id": 3, "method": "HEAD", "path": "/fast/sync", "bodyBytes": 0, "authPresent": true}
+{"utc": "2026-10-16T04:30:27.614+00:00", "monotonic_ns": 122323281000000, "event": "response", "id": 3, "status": 200, "method": "HEAD", "path": "/fast/sync"}
+{"utc": "2026-10-16T04:30:27.645+00:00", "monotonic_ns": 122323312000000, "event": "request", "id": 4, "method": "PUT", "path": "/fast/sync/words_delta.json.enc", "bodyBytes": 549, "authPresent": true}
+{"utc": "2026-10-16T04:30:27.645+00:00", "monotonic_ns": 122323312000000, "event": "response", "id": 4, "status": 201, "method": "PUT", "path": "/fast/sync/words_delta.json.enc"}
+{"utc": "2026-10-16T04:30:27.676+00:00", "monotonic_ns": 122323343000000, "event": "request", "id": 5, "method": "GET", "path": "/fast/sync/events_all.jsonl.enc", "bodyBytes": 0, "authPresent": true}
+{"utc": "2026-10-16T04:30:27.676+00:00", "monotonic_ns": 122323343000000, "event": "response", "id": 5, "status": 404, "method": "GET", "path": "/fast/sync/events_all.jsonl.enc"}
+{"utc": "2026-10-16T04:30:29.800+00:00", "monotonic_ns": 122325468000000, "event": "release_all"}
+{"utc": "2026-10-16T04:30:30.246+00:00", "monotonic_ns": 122325921000000, "event": "release_all"}
+{"utc": "2026-10-16T04:30:30.309+00:00", "monotonic_ns": 122325984000000, "event": "release_all"}
+{"utc": "2026-10-16T04:31:05.136+00:00", "monotonic_ns": 122360812000000, "event": "configuration", "gated": true, "status": null, "disconnect": false, "empty": false, "after": 5, "hold_seconds": 35.0}
+{"utc": "2026-10-16T04:31:05.444+00:00", "monotonic_ns": 122361109000000, "event": "request", "id": 6, "method": "HEAD", "path": "/timeout/sync", "bodyBytes": 0, "authPresent": true}
+{"utc": "2026-10-16T04:31:06.527+00:00", "monotonic_ns": 122362203000000, "event": "configuration", "gated": false, "status": 500, "disconnect": false, "empty": false, "after": 6, "hold_seconds": 28}
+{"utc": "2026-10-16T04:31:25.469+00:00", "monotonic_ns": 122381140000000, "event": "request", "id": 7, "method": "HEAD", "path": "/timeout/sync", "bodyBytes": 0, "authPresent": true}
+{"utc": "2026-10-16T04:31:25.470+00:00", "monotonic_ns": 122381140000000, "event": "response", "id": 7, "status": 500, "method": "HEAD", "path": "/timeout/sync"}
+{"utc": "2026-10-16T04:31:25.500+00:00", "monotonic_ns": 122381171000000, "event": "request", "id": 8, "method": "PUT", "path": "/timeout/sync/.probe_1792125083426.txt", "bodyBytes": 5, "authPresent": true}
+{"utc": "2026-10-16T04:31:25.500+00:00", "monotonic_ns": 122381171000000, "event": "response", "id": 8, "status": 500, "method": "PUT", "path": "/timeout/sync/.probe_1792125083426.txt"}
+{"utc": "2026-10-16T04:31:25.545+00:00", "monotonic_ns": 122381218000000, "event": "client_closed", "id": 6, "without_response": true}
+{"utc": "2026-10-16T04:31:27.469+00:00", "monotonic_ns": 122383140000000, "event": "configuration", "gated": true, "status": null, "disconnect": false, "empty": false, "after": 8, "hold_seconds": 28}
+{"utc": "2026-10-16T04:31:27.719+00:00", "monotonic_ns": 122383390000000, "event": "request", "id": 9, "method": "HEAD", "path": "/timeout/sync", "bodyBytes": 0, "authPresent": true}
+{"utc": "2026-10-16T04:31:28.915+00:00", "monotonic_ns": 122384578000000, "event": "release_all"}
+{"utc": "2026-10-16T04:31:28.916+00:00", "monotonic_ns": 122384593000000, "event": "response", "id": 9, "status": 200, "method": "HEAD", "path": "/timeout/sync"}
+{"utc": "2026-10-16T04:31:28.954+00:00", "monotonic_ns": 122384625000000, "event": "request", "id": 10, "method": "GET", "path": "/timeout/sync/words_delta.json.enc", "bodyBytes": 0, "authPresent": true}
+{"utc": "2026-10-16T04:31:28.954+00:00", "monotonic_ns": 122384625000000, "event": "response", "id": 10, "status": 404, "method": "GET", "path": "/timeout/sync/words_delta.json.enc"}
+{"utc": "2026-10-16T04:31:35.931+00:00", "monotonic_ns": 122391593000000, "event": "request", "id": 11, "method": "HEAD", "path": "/timeout/sync", "bodyBytes": 0, "authPresent": true}
+{"utc": "2026-10-16T04:31:35.931+00:00", "monotonic_ns": 122391593000000, "event": "response", "id": 11, "status": 200, "method": "HEAD", "path": "/timeout/sync"}
+{"utc": "2026-10-16T04:31:35.975+00:00", "monotonic_ns": 122391640000000, "event": "request", "id": 12, "method": "PUT", "path": "/timeout/sync/words_delta.json.enc", "bodyBytes": 549, "authPresent": true}
+{"utc": "2026-10-16T04:31:35.975+00:00", "monotonic_ns": 122391640000000, "event": "response", "id": 12, "status": 201, "method": "PUT", "path": "/timeout/sync/words_delta.json.enc"}
+{"utc": "2026-10-16T04:31:36.021+00:00", "monotonic_ns": 122391687000000, "event": "request", "id": 13, "method": "GET", "path": "/timeout/sync/events_all.jsonl.enc", "bodyBytes": 0, "authPresent": true}
+{"utc": "2026-10-16T04:31:36.021+00:00", "monotonic_ns": 122391687000000, "event": "response", "id": 13, "status": 404, "method": "GET", "path": "/timeout/sync/events_all.jsonl.enc"}
+{"utc": "2026-10-16T04:31:38.009+00:00", "monotonic_ns": 122393671000000, "event": "release_all"}
+{"utc": "2026-10-16T04:31:38.452+00:00", "monotonic_ns": 122394125000000, "event": "release_all"}
+{"utc": "2026-10-16T04:31:38.453+00:00", "monotonic_ns": 122394125000000, "event": "release_all"}
+{"utc": "2026-10-16T04:31:38.704+00:00", "monotonic_ns": 122394375000000, "event": "stopped"}

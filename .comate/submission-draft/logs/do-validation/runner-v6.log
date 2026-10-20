@@ -1,0 +1,29 @@
+hypium_tests.test_webdav_sync (unittest.loader._FailedTest.hypium_tests.test_webdav_sync) ... ERROR
+
+======================================================================
+ERROR: hypium_tests.test_webdav_sync (unittest.loader._FailedTest.hypium_tests.test_webdav_sync)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: hypium_tests.test_webdav_sync
+Traceback (most recent call last):
+  File "D:\Program Files\Python312\Lib\unittest\loader.py", line 394, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Program Files\Python312\Lib\unittest\loader.py", line 337, in _get_module_from_name
+    __import__(name)
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 18, in <module>
+    from hypium import BY, InputTextMode
+ImportError: cannot import name 'InputTextMode' from 'hypium' (D:\HCUP\common\.venv\Lib\site-packages\hypium\__init__.py)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (errors=1)
+
+项目: D:\HCUP\vg-spec14
+设备: 127.0.0.1:5555
+
+测试用例: 1  通过: 0  失败: 1  跳过(未验证): 0
+  ✗ hypium_tests.test_webdav_sync (unittest.loader._FailedTest.hypium_tests.test_webdav_sync) — ImportError: cannot import name 'InputTextMode' from 'hypium' (D:\HCUP\common\.venv\Lib\site-packages\hypium\__init__.py)
+
+报告已保存: D:/HCUP/vg-spec14/logs/do-validation/runner-v6.json

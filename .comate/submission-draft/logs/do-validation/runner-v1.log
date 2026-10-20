@@ -1,0 +1,457 @@
+[2026-10-16 11:47:21,663] [46500] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-16 11:47:21,665] [46500] [EnvPool] [INFO] [Report path: D:\HCUP\vg-spec14\logs\reports\2026-10-16-11-47-21]
+[2026-10-16 11:47:21,666] [46500] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-16 11:47:21,666] [46500] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-16 11:47:21,666] [46500] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-16 11:47:21,668] [46500] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-16 11:47:21,668] [46500] [EnvPool] [INFO] [Get device by selector]
+[2026-10-16 11:47:21,669] [46500] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-16 11:47:22,200] [26064] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-16 11:47:22,677] [46500] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5555'], label:phone]]
+[2026-10-16 11:47:22,677] [46500] [EnvPool] [INFO] [Device 127.0.0.1:5555: extend value: {}]
+[2026-10-16 11:47:22,942] [46500] [Device] [INFO] [6.0.2.3]
+[2026-10-16 11:47:23,156] [46500] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-16 11:47:23,156] [46500] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-16 11:47:23,219] [46500] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: None]
+[2026-10-16 11:47:23,219] [46500] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-16 11:47:23,295] [46500] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-16 11:47:23,295] [46500] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-16 11:47:23,361] [46500] [Device] [INFO] [Device agent is up to date!]
+[2026-10-16 11:47:25,574] [46500] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]
+[2026-10-16 11:47:27,692] [46500] [DeviceUIProxy] [INFO] [tcp forward port: 9909 for 127.0.0.1:5555]
+[2026-10-16 11:47:28,448] [46500] [Device] [INFO] [hypium base version: 6.1.0.210]
+[2026-10-16 11:47:28,512] [46500] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-16 11:47:28,512] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu)</div>]
+[2026-10-16 11:47:29,117] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu) cost: 0.605s</div>]
+[2026-10-16 11:47:29,117] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, io.qzz.weiyu, wait_time=2)</div>]
+[2026-10-16 11:47:29,176] [46500] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 11:47:29,176] [46500] [DeviceTest] [INFO] [flash error msg.]
+test_01_first_empty_and_unchanged (hypium_tests.test_webdav_sync.WebDavSyncTests.test_01_first_empty_and_unchanged) ... ERROR
+[2026-10-16 11:47:29,253] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu)</div>]
+[2026-10-16 11:47:29,890] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu) cost: 0.636s</div>]
+[2026-10-16 11:47:29,890] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, io.qzz.weiyu, wait_time=2)</div>]
+[2026-10-16 11:47:29,961] [46500] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 11:47:29,961] [46500] [DeviceTest] [INFO] [flash error msg.]
+test_02_multistage (hypium_tests.test_webdav_sync.WebDavSyncTests.test_02_multistage) ... ERROR
+[2026-10-16 11:47:30,027] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu)</div>]
+[2026-10-16 11:47:30,648] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu) cost: 0.621s</div>]
+[2026-10-16 11:47:30,648] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, io.qzz.weiyu, wait_time=2)</div>]
+[2026-10-16 11:47:30,721] [46500] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 11:47:30,721] [46500] [DeviceTest] [INFO] [flash error msg.]
+test_03_http_failure_and_retry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_03_http_failure_and_retry) ... ERROR
+[2026-10-16 11:47:30,788] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu)</div>]
+[2026-10-16 11:47:31,392] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu) cost: 0.604s</div>]
+[2026-10-16 11:47:31,392] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, io.qzz.weiyu, wait_time=2)</div>]
+[2026-10-16 11:47:31,463] [46500] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 11:47:31,463] [46500] [DeviceTest] [INFO] [flash error msg.]
+test_04_disconnect_and_retry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_04_disconnect_and_retry) ... ERROR
+[2026-10-16 11:47:31,526] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu)</div>]
+[2026-10-16 11:47:32,119] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu) cost: 0.594s</div>]
+[2026-10-16 11:47:32,119] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, io.qzz.weiyu, wait_time=2)</div>]
+[2026-10-16 11:47:32,178] [46500] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 11:47:32,179] [46500] [DeviceTest] [INFO] [flash error msg.]
+test_05_busy_and_rapid_clicks (hypium_tests.test_webdav_sync.WebDavSyncTests.test_05_busy_and_rapid_clicks) ... ERROR
+[2026-10-16 11:47:32,243] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu)</div>]
+[2026-10-16 11:47:32,848] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu) cost: 0.604s</div>]
+[2026-10-16 11:47:32,848] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, io.qzz.weiyu, wait_time=2)</div>]
+[2026-10-16 11:47:32,919] [46500] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 11:47:32,919] [46500] [DeviceTest] [INFO] [flash error msg.]
+test_06_busy_back_and_home_reentry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_06_busy_back_and_home_reentry) ... ERROR
+[2026-10-16 11:47:32,982] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu)</div>]
+[2026-10-16 11:47:33,573] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu) cost: 0.592s</div>]
+[2026-10-16 11:47:33,573] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, io.qzz.weiyu, wait_time=2)</div>]
+[2026-10-16 11:47:33,632] [46500] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 11:47:33,632] [46500] [DeviceTest] [INFO] [flash error msg.]
+test_07_success_return_and_restart (hypium_tests.test_webdav_sync.WebDavSyncTests.test_07_success_return_and_restart) ... ERROR
+[2026-10-16 11:47:33,700] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu)</div>]
+[2026-10-16 11:47:34,312] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu) cost: 0.612s</div>]
+[2026-10-16 11:47:34,313] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, io.qzz.weiyu, wait_time=2)</div>]
+[2026-10-16 11:47:34,381] [46500] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 11:47:34,381] [46500] [DeviceTest] [INFO] [flash error msg.]
+test_08_endpoint_switch (hypium_tests.test_webdav_sync.WebDavSyncTests.test_08_endpoint_switch) ... ERROR
+[2026-10-16 11:47:34,446] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu)</div>]
+[2026-10-16 11:47:35,051] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu) cost: 0.605s</div>]
+[2026-10-16 11:47:35,051] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, io.qzz.weiyu, wait_time=2)</div>]
+[2026-10-16 11:47:35,123] [46500] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 11:47:35,123] [46500] [DeviceTest] [INFO] [flash error msg.]
+test_09_empty_and_spaces_recover (hypium_tests.test_webdav_sync.WebDavSyncTests.test_09_empty_and_spaces_recover) ... ERROR
+[2026-10-16 11:47:35,187] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu)</div>]
+[2026-10-16 11:47:35,782] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu) cost: 0.595s</div>]
+[2026-10-16 11:47:35,782] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, io.qzz.weiyu, wait_time=2)</div>]
+[2026-10-16 11:47:35,847] [46500] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 11:47:35,847] [46500] [DeviceTest] [INFO] [flash error msg.]
+test_10_fast_response_timeline (hypium_tests.test_webdav_sync.WebDavSyncTests.test_10_fast_response_timeline) ... ERROR
+[2026-10-16 11:47:35,910] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu)</div>]
+[2026-10-16 11:47:36,501] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:5555, io.qzz.weiyu) cost: 0.59s</div>]
+[2026-10-16 11:47:36,501] [46500] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:5555, io.qzz.weiyu, wait_time=2)</div>]
+[2026-10-16 11:47:36,593] [46500] [DeviceTest] [ERROR] [Fail to get main ability of [io.qzz.weiyu], please specify one] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 11:47:36,593] [46500] [DeviceTest] [INFO] [flash error msg.]
+test_11_real_http_timeout_and_retry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_11_real_http_timeout_and_retry) ... ERROR
+
+======================================================================
+ERROR: test_01_first_empty_and_unchanged (hypium_tests.test_webdav_sync.WebDavSyncTests.test_01_first_empty_and_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 77, in setUp
+    self.driver.start_app(BUNDLE, wait_time=2)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+======================================================================
+ERROR: test_02_multistage (hypium_tests.test_webdav_sync.WebDavSyncTests.test_02_multistage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 77, in setUp
+    self.driver.start_app(BUNDLE, wait_time=2)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+======================================================================
+ERROR: test_03_http_failure_and_retry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_03_http_failure_and_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 77, in setUp
+    self.driver.start_app(BUNDLE, wait_time=2)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+======================================================================
+ERROR: test_04_disconnect_and_retry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_04_disconnect_and_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 77, in setUp
+    self.driver.start_app(BUNDLE, wait_time=2)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+======================================================================
+ERROR: test_05_busy_and_rapid_clicks (hypium_tests.test_webdav_sync.WebDavSyncTests.test_05_busy_and_rapid_clicks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 77, in setUp
+    self.driver.start_app(BUNDLE, wait_time=2)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+======================================================================
+ERROR: test_06_busy_back_and_home_reentry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_06_busy_back_and_home_reentry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 77, in setUp
+    self.driver.start_app(BUNDLE, wait_time=2)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+======================================================================
+ERROR: test_07_success_return_and_restart (hypium_tests.test_webdav_sync.WebDavSyncTests.test_07_success_return_and_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 77, in setUp
+    self.driver.start_app(BUNDLE, wait_time=2)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+======================================================================
+ERROR: test_08_endpoint_switch (hypium_tests.test_webdav_sync.WebDavSyncTests.test_08_endpoint_switch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 77, in setUp
+    self.driver.start_app(BUNDLE, wait_time=2)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+======================================================================
+ERROR: test_09_empty_and_spaces_recover (hypium_tests.test_webdav_sync.WebDavSyncTests.test_09_empty_and_spaces_recover)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 77, in setUp
+    self.driver.start_app(BUNDLE, wait_time=2)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+======================================================================
+ERROR: test_10_fast_response_timeline (hypium_tests.test_webdav_sync.WebDavSyncTests.test_10_fast_response_timeline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 77, in setUp
+    self.driver.start_app(BUNDLE, wait_time=2)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+======================================================================
+ERROR: test_11_real_http_timeout_and_retry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_11_real_http_timeout_and_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 304, in start_app
+    return self._driver_impl.start_app(package_name, page_name, params, wait_time)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 516, in start_app
+    raise ValueError(f"Fail to get main ability of [{package_name}], please specify one")
+ValueError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec14\hypium_tests\test_webdav_sync.py", line 77, in setUp
+    self.driver.start_app(BUNDLE, wait_time=2)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+----------------------------------------------------------------------
+Ran 11 tests in 15.459s
+
+FAILED (errors=11)
+
+项目: D:\HCUP\vg-spec14
+设备: 127.0.0.1:5555
+
+测试用例: 11  通过: 0  失败: 11  跳过(未验证): 0
+  ✗ test_01_first_empty_and_unchanged (hypium_tests.test_webdav_sync.WebDavSyncTests.test_01_first_empty_and_unchanged) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+  ✗ test_02_multistage (hypium_tests.test_webdav_sync.WebDavSyncTests.test_02_multistage) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+  ✗ test_03_http_failure_and_retry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_03_http_failure_and_retry) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+  ✗ test_04_disconnect_and_retry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_04_disconnect_and_retry) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+  ✗ test_05_busy_and_rapid_clicks (hypium_tests.test_webdav_sync.WebDavSyncTests.test_05_busy_and_rapid_clicks) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+  ✗ test_06_busy_back_and_home_reentry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_06_busy_back_and_home_reentry) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+  ✗ test_07_success_return_and_restart (hypium_tests.test_webdav_sync.WebDavSyncTests.test_07_success_return_and_restart) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+  ✗ test_08_endpoint_switch (hypium_tests.test_webdav_sync.WebDavSyncTests.test_08_endpoint_switch) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+  ✗ test_09_empty_and_spaces_recover (hypium_tests.test_webdav_sync.WebDavSyncTests.test_09_empty_and_spaces_recover) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+  ✗ test_10_fast_response_timeline (hypium_tests.test_webdav_sync.WebDavSyncTests.test_10_fast_response_timeline) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+  ✗ test_11_real_http_timeout_and_retry (hypium_tests.test_webdav_sync.WebDavSyncTests.test_11_real_http_timeout_and_retry) — devicetest.core.exception.DeviceTestError: Fail to get main ability of [io.qzz.weiyu], please specify one
+
+报告已保存: D:/HCUP/vg-spec14/logs/do-validation/runner-v1.json

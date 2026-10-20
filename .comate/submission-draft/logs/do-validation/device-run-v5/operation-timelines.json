@@ -1,0 +1,304 @@
+{
+  "run": 5,
+  "operations": [
+    {
+      "test": "test_01_first_empty_and_unchanged",
+      "label": "first-empty",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T03:54:37.944+00:00",
+        "monotonic_ns": 120173609000000,
+        "test": "test_01_first_empty_and_unchanged",
+        "event": "manual_click",
+        "after_request": 0,
+        "label": "first-empty"
+      },
+      "idle": {
+        "utc": "2026-10-16T03:54:46.109+00:00",
+        "monotonic_ns": 120181781000000,
+        "test": "test_01_first_empty_and_unchanged",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T03:54:38.288+00:00",
+          "monotonic_ns": 120173953000000,
+          "event": "request",
+          "id": 1,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:54:39.356+00:00",
+          "monotonic_ns": 120175031000000,
+          "event": "request",
+          "id": 2,
+          "method": "GET",
+          "path": "/endpoint-a/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:54:44.811+00:00",
+          "monotonic_ns": 120180484000000,
+          "event": "request",
+          "id": 3,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:54:44.857+00:00",
+          "monotonic_ns": 120180531000000,
+          "event": "request",
+          "id": 4,
+          "method": "PUT",
+          "path": "/endpoint-a/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:54:44.902+00:00",
+          "monotonic_ns": 120180578000000,
+          "event": "request",
+          "id": 5,
+          "method": "GET",
+          "path": "/endpoint-a/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T03:54:39.325+00:00",
+          "monotonic_ns": 120175000000000,
+          "event": "response",
+          "id": 1,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync"
+        },
+        {
+          "utc": "2026-10-16T03:54:39.357+00:00",
+          "monotonic_ns": 120175031000000,
+          "event": "response",
+          "id": 2,
+          "status": 404,
+          "method": "GET",
+          "path": "/endpoint-a/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:54:44.812+00:00",
+          "monotonic_ns": 120180484000000,
+          "event": "response",
+          "id": 3,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync"
+        },
+        {
+          "utc": "2026-10-16T03:54:44.858+00:00",
+          "monotonic_ns": 120180531000000,
+          "event": "response",
+          "id": 4,
+          "status": 201,
+          "method": "PUT",
+          "path": "/endpoint-a/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:54:44.902+00:00",
+          "monotonic_ns": 120180578000000,
+          "event": "response",
+          "id": 5,
+          "status": 404,
+          "method": "GET",
+          "path": "/endpoint-a/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_01_first_empty_and_unchanged-first-empty-120174203000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_01_first_empty_and_unchanged-first-empty-120174203000000.json",
+          "ui_observation_upper_ns": 120175000000000,
+          "later_request_id": 2,
+          "request_received_ns": 120175031000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-first-empty-120174203000000.json",
+          "ui_observation_upper_ns": 120175000000000,
+          "later_request_id": 3,
+          "request_received_ns": 120180484000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-first-empty-120174203000000.json",
+          "ui_observation_upper_ns": 120175000000000,
+          "later_request_id": 4,
+          "request_received_ns": 120180531000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-first-empty-120174203000000.json",
+          "ui_observation_upper_ns": 120175000000000,
+          "later_request_id": 5,
+          "request_received_ns": 120180578000000
+        }
+      ]
+    },
+    {
+      "test": "test_01_first_empty_and_unchanged",
+      "label": "unchanged",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T03:54:46.884+00:00",
+        "monotonic_ns": 120182546000000,
+        "test": "test_01_first_empty_and_unchanged",
+        "event": "manual_click",
+        "after_request": 5,
+        "label": "unchanged"
+      },
+      "idle": {
+        "utc": "2026-10-16T03:54:59.799+00:00",
+        "monotonic_ns": 120195468000000,
+        "test": "test_01_first_empty_and_unchanged",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T03:54:47.125+00:00",
+          "monotonic_ns": 120182796000000,
+          "event": "request",
+          "id": 6,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:54:48.236+00:00",
+          "monotonic_ns": 120183906000000,
+          "event": "request",
+          "id": 7,
+          "method": "GET",
+          "path": "/endpoint-a/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:54:58.550+00:00",
+          "monotonic_ns": 120194218000000,
+          "event": "request",
+          "id": 8,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:54:58.583+00:00",
+          "monotonic_ns": 120194250000000,
+          "event": "request",
+          "id": 9,
+          "method": "PUT",
+          "path": "/endpoint-a/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:54:58.614+00:00",
+          "monotonic_ns": 120194281000000,
+          "event": "request",
+          "id": 10,
+          "method": "GET",
+          "path": "/endpoint-a/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T03:54:48.195+00:00",
+          "monotonic_ns": 120183859000000,
+          "event": "response",
+          "id": 6,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync"
+        },
+        {
+          "utc": "2026-10-16T03:54:48.237+00:00",
+          "monotonic_ns": 120183906000000,
+          "event": "response",
+          "id": 7,
+          "status": 200,
+          "method": "GET",
+          "path": "/endpoint-a/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:54:58.550+00:00",
+          "monotonic_ns": 120194218000000,
+          "event": "response",
+          "id": 8,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync"
+        },
+        {
+          "utc": "2026-10-16T03:54:58.583+00:00",
+          "monotonic_ns": 120194250000000,
+          "event": "response",
+          "id": 9,
+          "status": 201,
+          "method": "PUT",
+          "path": "/endpoint-a/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:54:58.614+00:00",
+          "monotonic_ns": 120194281000000,
+          "event": "response",
+          "id": 10,
+          "status": 404,
+          "method": "GET",
+          "path": "/endpoint-a/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_01_first_empty_and_unchanged-unchanged-120183140000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_01_first_empty_and_unchanged-unchanged-120183140000000.json",
+          "ui_observation_upper_ns": 120183859000000,
+          "later_request_id": 7,
+          "request_received_ns": 120183906000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-unchanged-120183140000000.json",
+          "ui_observation_upper_ns": 120183859000000,
+          "later_request_id": 8,
+          "request_received_ns": 120194218000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-unchanged-120183140000000.json",
+          "ui_observation_upper_ns": 120183859000000,
+          "later_request_id": 9,
+          "request_received_ns": 120194250000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-unchanged-120183140000000.json",
+          "ui_observation_upper_ns": 120183859000000,
+          "later_request_id": 10,
+          "request_received_ns": 120194281000000
+        }
+      ]
+    }
+  ],
+  "limitation": "Finite observed UI samples; no claim to inspect every rendered frame or hidden tests.",
+  "request_count": 10,
+  "fast_order_results": [],
+  "timeout_evidence": [],
+  "reentry_ages": []
+}

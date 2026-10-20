@@ -1,0 +1,685 @@
+{
+  "run": 10,
+  "operations": [
+    {
+      "test": "test_10_fast_response_timeline",
+      "label": "fast",
+      "attempt": 1,
+      "click": {
+        "utc": "2026-10-16T04:30:22.061+00:00",
+        "monotonic_ns": 122317734000000,
+        "test": "test_10_fast_response_timeline",
+        "event": "manual_click",
+        "after_request": 0,
+        "label": "fast",
+        "attempt": 1
+      },
+      "idle": {
+        "utc": "2026-10-16T04:30:28.786+00:00",
+        "monotonic_ns": 122324453000000,
+        "test": "test_10_fast_response_timeline",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T04:30:22.286+00:00",
+          "monotonic_ns": 122317953000000,
+          "event": "request",
+          "id": 1,
+          "method": "HEAD",
+          "path": "/fast/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:30:22.311+00:00",
+          "monotonic_ns": 122317984000000,
+          "event": "request",
+          "id": 2,
+          "method": "GET",
+          "path": "/fast/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:30:27.614+00:00",
+          "monotonic_ns": 122323281000000,
+          "event": "request",
+          "id": 3,
+          "method": "HEAD",
+          "path": "/fast/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:30:27.645+00:00",
+          "monotonic_ns": 122323312000000,
+          "event": "request",
+          "id": 4,
+          "method": "PUT",
+          "path": "/fast/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:30:27.676+00:00",
+          "monotonic_ns": 122323343000000,
+          "event": "request",
+          "id": 5,
+          "method": "GET",
+          "path": "/fast/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:30:22.287+00:00",
+          "monotonic_ns": 122317953000000,
+          "event": "response",
+          "id": 1,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/fast/sync"
+        },
+        {
+          "utc": "2026-10-16T04:30:22.312+00:00",
+          "monotonic_ns": 122317984000000,
+          "event": "response",
+          "id": 2,
+          "status": 404,
+          "method": "GET",
+          "path": "/fast/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:30:27.614+00:00",
+          "monotonic_ns": 122323281000000,
+          "event": "response",
+          "id": 3,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/fast/sync"
+        },
+        {
+          "utc": "2026-10-16T04:30:27.645+00:00",
+          "monotonic_ns": 122323312000000,
+          "event": "response",
+          "id": 4,
+          "status": 201,
+          "method": "PUT",
+          "path": "/fast/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:30:27.676+00:00",
+          "monotonic_ns": 122323343000000,
+          "event": "response",
+          "id": 5,
+          "status": 404,
+          "method": "GET",
+          "path": "/fast/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "fast-1-122317734000000.json",
+          "ui_observation_upper_ns": 122317984000000,
+          "later_request_id": 2,
+          "request_received_ns": 122317984000000
+        },
+        {
+          "capture": "fast-1-122317734000000.json",
+          "ui_observation_upper_ns": 122317984000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122317734000000.json",
+          "ui_observation_upper_ns": 122317984000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122317734000000.json",
+          "ui_observation_upper_ns": 122317984000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122318187000000.json",
+          "ui_observation_upper_ns": 122318359000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122318187000000.json",
+          "ui_observation_upper_ns": 122318359000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122318187000000.json",
+          "ui_observation_upper_ns": 122318359000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122318531000000.json",
+          "ui_observation_upper_ns": 122318718000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122318531000000.json",
+          "ui_observation_upper_ns": 122318718000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122318531000000.json",
+          "ui_observation_upper_ns": 122318718000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122318921000000.json",
+          "ui_observation_upper_ns": 122319125000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122318921000000.json",
+          "ui_observation_upper_ns": 122319125000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122318921000000.json",
+          "ui_observation_upper_ns": 122319125000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122319343000000.json",
+          "ui_observation_upper_ns": 122319546000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122319343000000.json",
+          "ui_observation_upper_ns": 122319546000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122319343000000.json",
+          "ui_observation_upper_ns": 122319546000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122319687000000.json",
+          "ui_observation_upper_ns": 122319890000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122319687000000.json",
+          "ui_observation_upper_ns": 122319890000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122319687000000.json",
+          "ui_observation_upper_ns": 122319890000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122320062000000.json",
+          "ui_observation_upper_ns": 122320218000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122320062000000.json",
+          "ui_observation_upper_ns": 122320218000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122320062000000.json",
+          "ui_observation_upper_ns": 122320218000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122320390000000.json",
+          "ui_observation_upper_ns": 122320578000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122320390000000.json",
+          "ui_observation_upper_ns": 122320578000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122320390000000.json",
+          "ui_observation_upper_ns": 122320578000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122320750000000.json",
+          "ui_observation_upper_ns": 122320937000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122320750000000.json",
+          "ui_observation_upper_ns": 122320937000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122320750000000.json",
+          "ui_observation_upper_ns": 122320937000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122321093000000.json",
+          "ui_observation_upper_ns": 122321265000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122321093000000.json",
+          "ui_observation_upper_ns": 122321265000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122321093000000.json",
+          "ui_observation_upper_ns": 122321265000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122321437000000.json",
+          "ui_observation_upper_ns": 122321609000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122321437000000.json",
+          "ui_observation_upper_ns": 122321609000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122321437000000.json",
+          "ui_observation_upper_ns": 122321609000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122321781000000.json",
+          "ui_observation_upper_ns": 122321984000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122321781000000.json",
+          "ui_observation_upper_ns": 122321984000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122321781000000.json",
+          "ui_observation_upper_ns": 122321984000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122322156000000.json",
+          "ui_observation_upper_ns": 122322359000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122322156000000.json",
+          "ui_observation_upper_ns": 122322359000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122322156000000.json",
+          "ui_observation_upper_ns": 122322359000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122322531000000.json",
+          "ui_observation_upper_ns": 122322703000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122322531000000.json",
+          "ui_observation_upper_ns": 122322703000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122322531000000.json",
+          "ui_observation_upper_ns": 122322703000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        },
+        {
+          "capture": "fast-1-122322890000000.json",
+          "ui_observation_upper_ns": 122323062000000,
+          "later_request_id": 3,
+          "request_received_ns": 122323281000000
+        },
+        {
+          "capture": "fast-1-122322890000000.json",
+          "ui_observation_upper_ns": 122323062000000,
+          "later_request_id": 4,
+          "request_received_ns": 122323312000000
+        },
+        {
+          "capture": "fast-1-122322890000000.json",
+          "ui_observation_upper_ns": 122323062000000,
+          "later_request_id": 5,
+          "request_received_ns": 122323343000000
+        }
+      ]
+    },
+    {
+      "test": "test_11_real_http_timeout_and_retry",
+      "label": "timeout-initial",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T04:31:05.136+00:00",
+        "monotonic_ns": 122360812000000,
+        "test": "test_11_real_http_timeout_and_retry",
+        "event": "manual_click",
+        "after_request": 5,
+        "label": "timeout-initial"
+      },
+      "idle": {
+        "utc": "2026-10-16T04:31:26.689+00:00",
+        "monotonic_ns": 122382359000000,
+        "test": "test_11_real_http_timeout_and_retry",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T04:31:05.444+00:00",
+          "monotonic_ns": 122361109000000,
+          "event": "request",
+          "id": 6,
+          "method": "HEAD",
+          "path": "/timeout/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:31:25.469+00:00",
+          "monotonic_ns": 122381140000000,
+          "event": "request",
+          "id": 7,
+          "method": "HEAD",
+          "path": "/timeout/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:31:25.500+00:00",
+          "monotonic_ns": 122381171000000,
+          "event": "request",
+          "id": 8,
+          "method": "PUT",
+          "path": "/timeout/sync/.probe_1792125083426.txt",
+          "bodyBytes": 5,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:31:25.470+00:00",
+          "monotonic_ns": 122381140000000,
+          "event": "response",
+          "id": 7,
+          "status": 500,
+          "method": "HEAD",
+          "path": "/timeout/sync"
+        },
+        {
+          "utc": "2026-10-16T04:31:25.500+00:00",
+          "monotonic_ns": 122381171000000,
+          "event": "response",
+          "id": 8,
+          "status": 500,
+          "method": "PUT",
+          "path": "/timeout/sync/.probe_1792125083426.txt"
+        },
+        {
+          "utc": "2026-10-16T04:31:25.545+00:00",
+          "monotonic_ns": 122381218000000,
+          "event": "client_closed",
+          "id": 6,
+          "without_response": true
+        }
+      ],
+      "visible_loading_captures": [
+        "test_11_real_http_timeout_and_retry-timeout-initial-122361406000000.json",
+        "test_11_real_http_timeout_and_retry-timeout-still-waiting-122366437000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_11_real_http_timeout_and_retry-timeout-initial-122361406000000.json",
+          "ui_observation_upper_ns": 122362203000000,
+          "later_request_id": 7,
+          "request_received_ns": 122381140000000
+        },
+        {
+          "capture": "test_11_real_http_timeout_and_retry-timeout-initial-122361406000000.json",
+          "ui_observation_upper_ns": 122362203000000,
+          "later_request_id": 8,
+          "request_received_ns": 122381171000000
+        },
+        {
+          "capture": "test_11_real_http_timeout_and_retry-timeout-still-waiting-122366437000000.json",
+          "ui_observation_upper_ns": 122367156000000,
+          "later_request_id": 7,
+          "request_received_ns": 122381140000000
+        },
+        {
+          "capture": "test_11_real_http_timeout_and_retry-timeout-still-waiting-122366437000000.json",
+          "ui_observation_upper_ns": 122367156000000,
+          "later_request_id": 8,
+          "request_received_ns": 122381171000000
+        }
+      ]
+    },
+    {
+      "test": "test_11_real_http_timeout_and_retry",
+      "label": "timeout-retry",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T04:31:27.469+00:00",
+        "monotonic_ns": 122383140000000,
+        "test": "test_11_real_http_timeout_and_retry",
+        "event": "manual_click",
+        "after_request": 8,
+        "label": "timeout-retry"
+      },
+      "idle": {
+        "utc": "2026-10-16T04:31:37.235+00:00",
+        "monotonic_ns": 122392906000000,
+        "test": "test_11_real_http_timeout_and_retry",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T04:31:27.719+00:00",
+          "monotonic_ns": 122383390000000,
+          "event": "request",
+          "id": 9,
+          "method": "HEAD",
+          "path": "/timeout/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:31:28.954+00:00",
+          "monotonic_ns": 122384625000000,
+          "event": "request",
+          "id": 10,
+          "method": "GET",
+          "path": "/timeout/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:31:35.931+00:00",
+          "monotonic_ns": 122391593000000,
+          "event": "request",
+          "id": 11,
+          "method": "HEAD",
+          "path": "/timeout/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:31:35.975+00:00",
+          "monotonic_ns": 122391640000000,
+          "event": "request",
+          "id": 12,
+          "method": "PUT",
+          "path": "/timeout/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:31:36.021+00:00",
+          "monotonic_ns": 122391687000000,
+          "event": "request",
+          "id": 13,
+          "method": "GET",
+          "path": "/timeout/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:31:28.916+00:00",
+          "monotonic_ns": 122384593000000,
+          "event": "response",
+          "id": 9,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/timeout/sync"
+        },
+        {
+          "utc": "2026-10-16T04:31:28.954+00:00",
+          "monotonic_ns": 122384625000000,
+          "event": "response",
+          "id": 10,
+          "status": 404,
+          "method": "GET",
+          "path": "/timeout/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:31:35.931+00:00",
+          "monotonic_ns": 122391593000000,
+          "event": "response",
+          "id": 11,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/timeout/sync"
+        },
+        {
+          "utc": "2026-10-16T04:31:35.975+00:00",
+          "monotonic_ns": 122391640000000,
+          "event": "response",
+          "id": 12,
+          "status": 201,
+          "method": "PUT",
+          "path": "/timeout/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:31:36.021+00:00",
+          "monotonic_ns": 122391687000000,
+          "event": "response",
+          "id": 13,
+          "status": 404,
+          "method": "GET",
+          "path": "/timeout/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_11_real_http_timeout_and_retry-timeout-retry-122383718000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_11_real_http_timeout_and_retry-timeout-retry-122383718000000.json",
+          "ui_observation_upper_ns": 122384578000000,
+          "later_request_id": 10,
+          "request_received_ns": 122384625000000
+        },
+        {
+          "capture": "test_11_real_http_timeout_and_retry-timeout-retry-122383718000000.json",
+          "ui_observation_upper_ns": 122384578000000,
+          "later_request_id": 11,
+          "request_received_ns": 122391593000000
+        },
+        {
+          "capture": "test_11_real_http_timeout_and_retry-timeout-retry-122383718000000.json",
+          "ui_observation_upper_ns": 122384578000000,
+          "later_request_id": 12,
+          "request_received_ns": 122391640000000
+        },
+        {
+          "capture": "test_11_real_http_timeout_and_retry-timeout-retry-122383718000000.json",
+          "ui_observation_upper_ns": 122384578000000,
+          "later_request_id": 13,
+          "request_received_ns": 122391687000000
+        }
+      ]
+    }
+  ],
+  "limitation": "Finite observed UI samples; no claim to inspect every rendered frame or hidden tests.",
+  "request_count": 13,
+  "fast_order_results": [
+    {
+      "utc": "2026-10-16T04:30:29.799+00:00",
+      "monotonic_ns": 122325468000000,
+      "test": "test_10_fast_response_timeline",
+      "event": "fast_order_result",
+      "attempt": 1,
+      "proved": true,
+      "request_count": 5,
+      "samples": 21
+    }
+  ],
+  "timeout_evidence": [
+    {
+      "utc": "2026-10-16T04:31:27.468+00:00",
+      "monotonic_ns": 122383140000000,
+      "test": "test_11_real_http_timeout_and_retry",
+      "event": "real_timeout_evidence",
+      "request_id": 6,
+      "elapsed_seconds": 20.109,
+      "configured_read_seconds": 20.0,
+      "client_closed_without_response": true
+    }
+  ],
+  "reentry_ages": []
+}

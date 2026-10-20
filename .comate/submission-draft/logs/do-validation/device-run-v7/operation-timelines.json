@@ -1,0 +1,1589 @@
+{
+  "run": 7,
+  "operations": [
+    {
+      "test": "test_01_first_empty_and_unchanged",
+      "label": "first-empty",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T03:57:28.699+00:00",
+        "monotonic_ns": 120344375000000,
+        "test": "test_01_first_empty_and_unchanged",
+        "event": "manual_click",
+        "after_request": 0,
+        "label": "first-empty"
+      },
+      "idle": {
+        "utc": "2026-10-16T03:57:36.457+00:00",
+        "monotonic_ns": 120352125000000,
+        "test": "test_01_first_empty_and_unchanged",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T03:57:28.988+00:00",
+          "monotonic_ns": 120344656000000,
+          "event": "request",
+          "id": 1,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:57:30.099+00:00",
+          "monotonic_ns": 120345765000000,
+          "event": "request",
+          "id": 2,
+          "method": "GET",
+          "path": "/endpoint-a/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:57:35.195+00:00",
+          "monotonic_ns": 120350859000000,
+          "event": "request",
+          "id": 3,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:57:35.242+00:00",
+          "monotonic_ns": 120350906000000,
+          "event": "request",
+          "id": 4,
+          "method": "PUT",
+          "path": "/endpoint-a/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:57:35.272+00:00",
+          "monotonic_ns": 120350937000000,
+          "event": "request",
+          "id": 5,
+          "method": "GET",
+          "path": "/endpoint-a/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T03:57:30.073+00:00",
+          "monotonic_ns": 120345750000000,
+          "event": "response",
+          "id": 1,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync"
+        },
+        {
+          "utc": "2026-10-16T03:57:30.100+00:00",
+          "monotonic_ns": 120345765000000,
+          "event": "response",
+          "id": 2,
+          "status": 404,
+          "method": "GET",
+          "path": "/endpoint-a/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:57:35.195+00:00",
+          "monotonic_ns": 120350859000000,
+          "event": "response",
+          "id": 3,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync"
+        },
+        {
+          "utc": "2026-10-16T03:57:35.242+00:00",
+          "monotonic_ns": 120350906000000,
+          "event": "response",
+          "id": 4,
+          "status": 201,
+          "method": "PUT",
+          "path": "/endpoint-a/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:57:35.274+00:00",
+          "monotonic_ns": 120350937000000,
+          "event": "response",
+          "id": 5,
+          "status": 404,
+          "method": "GET",
+          "path": "/endpoint-a/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_01_first_empty_and_unchanged-first-empty-120344968000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_01_first_empty_and_unchanged-first-empty-120344968000000.json",
+          "ui_observation_upper_ns": 120345734000000,
+          "later_request_id": 2,
+          "request_received_ns": 120345765000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-first-empty-120344968000000.json",
+          "ui_observation_upper_ns": 120345734000000,
+          "later_request_id": 3,
+          "request_received_ns": 120350859000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-first-empty-120344968000000.json",
+          "ui_observation_upper_ns": 120345734000000,
+          "later_request_id": 4,
+          "request_received_ns": 120350906000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-first-empty-120344968000000.json",
+          "ui_observation_upper_ns": 120345734000000,
+          "later_request_id": 5,
+          "request_received_ns": 120350937000000
+        }
+      ]
+    },
+    {
+      "test": "test_01_first_empty_and_unchanged",
+      "label": "unchanged",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T03:57:37.246+00:00",
+        "monotonic_ns": 120352921000000,
+        "test": "test_01_first_empty_and_unchanged",
+        "event": "manual_click",
+        "after_request": 5,
+        "label": "unchanged"
+      },
+      "idle": {
+        "utc": "2026-10-16T03:57:50.509+00:00",
+        "monotonic_ns": 120366171000000,
+        "test": "test_01_first_empty_and_unchanged",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T03:57:37.524+00:00",
+          "monotonic_ns": 120353187000000,
+          "event": "request",
+          "id": 6,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:57:38.610+00:00",
+          "monotonic_ns": 120354281000000,
+          "event": "request",
+          "id": 7,
+          "method": "GET",
+          "path": "/endpoint-a/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:57:49.231+00:00",
+          "monotonic_ns": 120364906000000,
+          "event": "request",
+          "id": 8,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:57:49.278+00:00",
+          "monotonic_ns": 120364953000000,
+          "event": "request",
+          "id": 9,
+          "method": "PUT",
+          "path": "/endpoint-a/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:57:49.308+00:00",
+          "monotonic_ns": 120364984000000,
+          "event": "request",
+          "id": 10,
+          "method": "GET",
+          "path": "/endpoint-a/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T03:57:38.568+00:00",
+          "monotonic_ns": 120354234000000,
+          "event": "response",
+          "id": 6,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync"
+        },
+        {
+          "utc": "2026-10-16T03:57:38.610+00:00",
+          "monotonic_ns": 120354281000000,
+          "event": "response",
+          "id": 7,
+          "status": 200,
+          "method": "GET",
+          "path": "/endpoint-a/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:57:49.232+00:00",
+          "monotonic_ns": 120364906000000,
+          "event": "response",
+          "id": 8,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/endpoint-a/sync"
+        },
+        {
+          "utc": "2026-10-16T03:57:49.279+00:00",
+          "monotonic_ns": 120364953000000,
+          "event": "response",
+          "id": 9,
+          "status": 201,
+          "method": "PUT",
+          "path": "/endpoint-a/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:57:49.310+00:00",
+          "monotonic_ns": 120364984000000,
+          "event": "response",
+          "id": 10,
+          "status": 404,
+          "method": "GET",
+          "path": "/endpoint-a/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_01_first_empty_and_unchanged-unchanged-120353484000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_01_first_empty_and_unchanged-unchanged-120353484000000.json",
+          "ui_observation_upper_ns": 120354234000000,
+          "later_request_id": 7,
+          "request_received_ns": 120354281000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-unchanged-120353484000000.json",
+          "ui_observation_upper_ns": 120354234000000,
+          "later_request_id": 8,
+          "request_received_ns": 120364906000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-unchanged-120353484000000.json",
+          "ui_observation_upper_ns": 120354234000000,
+          "later_request_id": 9,
+          "request_received_ns": 120364953000000
+        },
+        {
+          "capture": "test_01_first_empty_and_unchanged-unchanged-120353484000000.json",
+          "ui_observation_upper_ns": 120354234000000,
+          "later_request_id": 10,
+          "request_received_ns": 120364984000000
+        }
+      ]
+    },
+    {
+      "test": "test_02_multistage",
+      "label": "stage-one",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T03:58:50.676+00:00",
+        "monotonic_ns": 120426343000000,
+        "test": "test_02_multistage",
+        "event": "manual_click",
+        "after_request": 10,
+        "label": "stage-one"
+      },
+      "idle": {
+        "utc": "2026-10-16T03:58:59.433+00:00",
+        "monotonic_ns": 120435109000000,
+        "test": "test_02_multistage",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T03:58:50.967+00:00",
+          "monotonic_ns": 120426640000000,
+          "event": "request",
+          "id": 11,
+          "method": "HEAD",
+          "path": "/multistage/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:58:51.989+00:00",
+          "monotonic_ns": 120427656000000,
+          "event": "request",
+          "id": 12,
+          "method": "GET",
+          "path": "/multistage/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:58:58.237+00:00",
+          "monotonic_ns": 120433906000000,
+          "event": "request",
+          "id": 13,
+          "method": "HEAD",
+          "path": "/multistage/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:58:58.283+00:00",
+          "monotonic_ns": 120433953000000,
+          "event": "request",
+          "id": 14,
+          "method": "PUT",
+          "path": "/multistage/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:58:58.315+00:00",
+          "monotonic_ns": 120433984000000,
+          "event": "request",
+          "id": 15,
+          "method": "GET",
+          "path": "/multistage/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T03:58:51.968+00:00",
+          "monotonic_ns": 120427640000000,
+          "event": "release",
+          "id": 11
+        },
+        {
+          "utc": "2026-10-16T03:58:51.969+00:00",
+          "monotonic_ns": 120427640000000,
+          "event": "response",
+          "id": 11,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/multistage/sync"
+        },
+        {
+          "utc": "2026-10-16T03:58:53.038+00:00",
+          "monotonic_ns": 120428703000000,
+          "event": "response",
+          "id": 12,
+          "status": 404,
+          "method": "GET",
+          "path": "/multistage/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:58:58.238+00:00",
+          "monotonic_ns": 120433906000000,
+          "event": "response",
+          "id": 13,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/multistage/sync"
+        },
+        {
+          "utc": "2026-10-16T03:58:58.284+00:00",
+          "monotonic_ns": 120433953000000,
+          "event": "response",
+          "id": 14,
+          "status": 201,
+          "method": "PUT",
+          "path": "/multistage/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:58:58.315+00:00",
+          "monotonic_ns": 120433984000000,
+          "event": "response",
+          "id": 15,
+          "status": 404,
+          "method": "GET",
+          "path": "/multistage/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_02_multistage-stage-one-120426875000000.json",
+        "test_02_multistage-stage-two-120427921000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_02_multistage-stage-one-120426875000000.json",
+          "ui_observation_upper_ns": 120427640000000,
+          "later_request_id": 12,
+          "request_received_ns": 120427656000000
+        },
+        {
+          "capture": "test_02_multistage-stage-one-120426875000000.json",
+          "ui_observation_upper_ns": 120427640000000,
+          "later_request_id": 13,
+          "request_received_ns": 120433906000000
+        },
+        {
+          "capture": "test_02_multistage-stage-one-120426875000000.json",
+          "ui_observation_upper_ns": 120427640000000,
+          "later_request_id": 14,
+          "request_received_ns": 120433953000000
+        },
+        {
+          "capture": "test_02_multistage-stage-one-120426875000000.json",
+          "ui_observation_upper_ns": 120427640000000,
+          "later_request_id": 15,
+          "request_received_ns": 120433984000000
+        },
+        {
+          "capture": "test_02_multistage-stage-two-120427921000000.json",
+          "ui_observation_upper_ns": 120428687000000,
+          "later_request_id": 13,
+          "request_received_ns": 120433906000000
+        },
+        {
+          "capture": "test_02_multistage-stage-two-120427921000000.json",
+          "ui_observation_upper_ns": 120428687000000,
+          "later_request_id": 14,
+          "request_received_ns": 120433953000000
+        },
+        {
+          "capture": "test_02_multistage-stage-two-120427921000000.json",
+          "ui_observation_upper_ns": 120428687000000,
+          "later_request_id": 15,
+          "request_received_ns": 120433984000000
+        }
+      ]
+    },
+    {
+      "test": "test_02_multistage",
+      "label": "partial-failure-first",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T03:59:00.150+00:00",
+        "monotonic_ns": 120435812000000,
+        "test": "test_02_multistage",
+        "event": "manual_click",
+        "after_request": 15,
+        "label": "partial-failure-first"
+      },
+      "idle": {
+        "utc": "2026-10-16T03:59:03.725+00:00",
+        "monotonic_ns": 120439390000000,
+        "test": "test_02_multistage",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T03:59:00.402+00:00",
+          "monotonic_ns": 120436078000000,
+          "event": "request",
+          "id": 16,
+          "method": "HEAD",
+          "path": "/multistage/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:59:01.484+00:00",
+          "monotonic_ns": 120437156000000,
+          "event": "request",
+          "id": 17,
+          "method": "GET",
+          "path": "/multistage/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T03:59:01.467+00:00",
+          "monotonic_ns": 120437140000000,
+          "event": "release",
+          "id": 16
+        },
+        {
+          "utc": "2026-10-16T03:59:01.467+00:00",
+          "monotonic_ns": 120437140000000,
+          "event": "response",
+          "id": 16,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/multistage/sync"
+        },
+        {
+          "utc": "2026-10-16T03:59:02.513+00:00",
+          "monotonic_ns": 120438187000000,
+          "event": "response",
+          "id": 17,
+          "status": 500,
+          "method": "GET",
+          "path": "/multistage/sync/words_delta.json.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_02_multistage-partial-failure-first-120436343000000.json",
+        "test_02_multistage-partial-failure-later-120437421000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_02_multistage-partial-failure-first-120436343000000.json",
+          "ui_observation_upper_ns": 120437140000000,
+          "later_request_id": 17,
+          "request_received_ns": 120437156000000
+        }
+      ]
+    },
+    {
+      "test": "test_02_multistage",
+      "label": "partial-failure-retry",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T03:59:04.331+00:00",
+        "monotonic_ns": 120440000000000,
+        "test": "test_02_multistage",
+        "event": "manual_click",
+        "after_request": 17,
+        "label": "partial-failure-retry"
+      },
+      "idle": {
+        "utc": "2026-10-16T03:59:18.090+00:00",
+        "monotonic_ns": 120453765000000,
+        "test": "test_02_multistage",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T03:59:04.573+00:00",
+          "monotonic_ns": 120440250000000,
+          "event": "request",
+          "id": 18,
+          "method": "HEAD",
+          "path": "/multistage/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:59:05.753+00:00",
+          "monotonic_ns": 120441421000000,
+          "event": "request",
+          "id": 19,
+          "method": "GET",
+          "path": "/multistage/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:59:16.724+00:00",
+          "monotonic_ns": 120452390000000,
+          "event": "request",
+          "id": 20,
+          "method": "HEAD",
+          "path": "/multistage/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:59:16.909+00:00",
+          "monotonic_ns": 120452578000000,
+          "event": "request",
+          "id": 21,
+          "method": "PUT",
+          "path": "/multistage/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T03:59:16.939+00:00",
+          "monotonic_ns": 120452609000000,
+          "event": "request",
+          "id": 22,
+          "method": "GET",
+          "path": "/multistage/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T03:59:05.729+00:00",
+          "monotonic_ns": 120441406000000,
+          "event": "response",
+          "id": 18,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/multistage/sync"
+        },
+        {
+          "utc": "2026-10-16T03:59:05.753+00:00",
+          "monotonic_ns": 120441421000000,
+          "event": "response",
+          "id": 19,
+          "status": 200,
+          "method": "GET",
+          "path": "/multistage/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:59:16.725+00:00",
+          "monotonic_ns": 120452390000000,
+          "event": "response",
+          "id": 20,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/multistage/sync"
+        },
+        {
+          "utc": "2026-10-16T03:59:16.909+00:00",
+          "monotonic_ns": 120452578000000,
+          "event": "response",
+          "id": 21,
+          "status": 201,
+          "method": "PUT",
+          "path": "/multistage/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T03:59:16.940+00:00",
+          "monotonic_ns": 120452609000000,
+          "event": "response",
+          "id": 22,
+          "status": 404,
+          "method": "GET",
+          "path": "/multistage/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_02_multistage-partial-failure-retry-120440578000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_02_multistage-partial-failure-retry-120440578000000.json",
+          "ui_observation_upper_ns": 120441390000000,
+          "later_request_id": 19,
+          "request_received_ns": 120441421000000
+        },
+        {
+          "capture": "test_02_multistage-partial-failure-retry-120440578000000.json",
+          "ui_observation_upper_ns": 120441390000000,
+          "later_request_id": 20,
+          "request_received_ns": 120452390000000
+        },
+        {
+          "capture": "test_02_multistage-partial-failure-retry-120440578000000.json",
+          "ui_observation_upper_ns": 120441390000000,
+          "later_request_id": 21,
+          "request_received_ns": 120452578000000
+        },
+        {
+          "capture": "test_02_multistage-partial-failure-retry-120440578000000.json",
+          "ui_observation_upper_ns": 120441390000000,
+          "later_request_id": 22,
+          "request_received_ns": 120452609000000
+        }
+      ]
+    },
+    {
+      "test": "test_03_http_failure_and_retry",
+      "label": "http-401",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T04:00:19.164+00:00",
+        "monotonic_ns": 120514828000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "manual_click",
+        "after_request": 22,
+        "label": "http-401"
+      },
+      "idle": {
+        "utc": "2026-10-16T04:00:21.763+00:00",
+        "monotonic_ns": 120517437000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T04:00:19.440+00:00",
+          "monotonic_ns": 120515109000000,
+          "event": "request",
+          "id": 23,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:00:20.602+00:00",
+          "monotonic_ns": 120516265000000,
+          "event": "request",
+          "id": 24,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:00:20.648+00:00",
+          "monotonic_ns": 120516312000000,
+          "event": "request",
+          "id": 25,
+          "method": "PUT",
+          "path": "/failure/sync/.probe_1792123218598.txt",
+          "bodyBytes": 5,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:00:20.575+00:00",
+          "monotonic_ns": 120516250000000,
+          "event": "response",
+          "id": 23,
+          "status": 401,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:00:20.602+00:00",
+          "monotonic_ns": 120516265000000,
+          "event": "response",
+          "id": 24,
+          "status": 401,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:00:20.649+00:00",
+          "monotonic_ns": 120516312000000,
+          "event": "response",
+          "id": 25,
+          "status": 401,
+          "method": "PUT",
+          "path": "/failure/sync/.probe_1792123218598.txt"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_03_http_failure_and_retry-http-401-120515421000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_03_http_failure_and_retry-http-401-120515421000000.json",
+          "ui_observation_upper_ns": 120516250000000,
+          "later_request_id": 24,
+          "request_received_ns": 120516265000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-http-401-120515421000000.json",
+          "ui_observation_upper_ns": 120516250000000,
+          "later_request_id": 25,
+          "request_received_ns": 120516312000000
+        }
+      ]
+    },
+    {
+      "test": "test_03_http_failure_and_retry",
+      "label": "retry-after-401",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T04:00:48.954+00:00",
+        "monotonic_ns": 120544625000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "manual_click",
+        "after_request": 25,
+        "label": "retry-after-401"
+      },
+      "idle": {
+        "utc": "2026-10-16T04:00:56.732+00:00",
+        "monotonic_ns": 120552406000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T04:00:49.214+00:00",
+          "monotonic_ns": 120544890000000,
+          "event": "request",
+          "id": 26,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:00:50.233+00:00",
+          "monotonic_ns": 120545906000000,
+          "event": "request",
+          "id": 27,
+          "method": "GET",
+          "path": "/failure/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:00:55.472+00:00",
+          "monotonic_ns": 120551140000000,
+          "event": "request",
+          "id": 28,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:00:55.502+00:00",
+          "monotonic_ns": 120551171000000,
+          "event": "request",
+          "id": 29,
+          "method": "PUT",
+          "path": "/failure/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:00:55.548+00:00",
+          "monotonic_ns": 120551218000000,
+          "event": "request",
+          "id": 30,
+          "method": "GET",
+          "path": "/failure/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:00:50.194+00:00",
+          "monotonic_ns": 120545859000000,
+          "event": "response",
+          "id": 26,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:00:50.234+00:00",
+          "monotonic_ns": 120545906000000,
+          "event": "response",
+          "id": 27,
+          "status": 404,
+          "method": "GET",
+          "path": "/failure/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:00:55.472+00:00",
+          "monotonic_ns": 120551140000000,
+          "event": "response",
+          "id": 28,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:00:55.503+00:00",
+          "monotonic_ns": 120551171000000,
+          "event": "response",
+          "id": 29,
+          "status": 201,
+          "method": "PUT",
+          "path": "/failure/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:00:55.550+00:00",
+          "monotonic_ns": 120551218000000,
+          "event": "response",
+          "id": 30,
+          "status": 404,
+          "method": "GET",
+          "path": "/failure/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_03_http_failure_and_retry-retry-after-401-120545140000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-401-120545140000000.json",
+          "ui_observation_upper_ns": 120545859000000,
+          "later_request_id": 27,
+          "request_received_ns": 120545906000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-401-120545140000000.json",
+          "ui_observation_upper_ns": 120545859000000,
+          "later_request_id": 28,
+          "request_received_ns": 120551140000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-401-120545140000000.json",
+          "ui_observation_upper_ns": 120545859000000,
+          "later_request_id": 29,
+          "request_received_ns": 120551171000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-401-120545140000000.json",
+          "ui_observation_upper_ns": 120545859000000,
+          "later_request_id": 30,
+          "request_received_ns": 120551218000000
+        }
+      ]
+    },
+    {
+      "test": "test_03_http_failure_and_retry",
+      "label": "http-403",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T04:00:57.497+00:00",
+        "monotonic_ns": 120553171000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "manual_click",
+        "after_request": 30,
+        "label": "http-403"
+      },
+      "idle": {
+        "utc": "2026-10-16T04:01:00.104+00:00",
+        "monotonic_ns": 120555781000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T04:00:57.780+00:00",
+          "monotonic_ns": 120553453000000,
+          "event": "request",
+          "id": 31,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:00:58.887+00:00",
+          "monotonic_ns": 120554562000000,
+          "event": "request",
+          "id": 32,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:00:58.919+00:00",
+          "monotonic_ns": 120554593000000,
+          "event": "request",
+          "id": 33,
+          "method": "PUT",
+          "path": "/failure/sync/.probe_1792123256865.txt",
+          "bodyBytes": 5,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:00:58.846+00:00",
+          "monotonic_ns": 120554515000000,
+          "event": "response",
+          "id": 31,
+          "status": 403,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:00:58.888+00:00",
+          "monotonic_ns": 120554562000000,
+          "event": "response",
+          "id": 32,
+          "status": 403,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:00:58.919+00:00",
+          "monotonic_ns": 120554593000000,
+          "event": "response",
+          "id": 33,
+          "status": 403,
+          "method": "PUT",
+          "path": "/failure/sync/.probe_1792123256865.txt"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_03_http_failure_and_retry-http-403-120553750000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_03_http_failure_and_retry-http-403-120553750000000.json",
+          "ui_observation_upper_ns": 120554515000000,
+          "later_request_id": 32,
+          "request_received_ns": 120554562000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-http-403-120553750000000.json",
+          "ui_observation_upper_ns": 120554515000000,
+          "later_request_id": 33,
+          "request_received_ns": 120554593000000
+        }
+      ]
+    },
+    {
+      "test": "test_03_http_failure_and_retry",
+      "label": "retry-after-403",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T04:01:27.146+00:00",
+        "monotonic_ns": 120582812000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "manual_click",
+        "after_request": 33,
+        "label": "retry-after-403"
+      },
+      "idle": {
+        "utc": "2026-10-16T04:01:39.979+00:00",
+        "monotonic_ns": 120595656000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T04:01:27.409+00:00",
+          "monotonic_ns": 120583078000000,
+          "event": "request",
+          "id": 34,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:01:28.491+00:00",
+          "monotonic_ns": 120584156000000,
+          "event": "request",
+          "id": 35,
+          "method": "GET",
+          "path": "/failure/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:01:38.678+00:00",
+          "monotonic_ns": 120594343000000,
+          "event": "request",
+          "id": 36,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:01:38.724+00:00",
+          "monotonic_ns": 120594390000000,
+          "event": "request",
+          "id": 37,
+          "method": "PUT",
+          "path": "/failure/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:01:38.772+00:00",
+          "monotonic_ns": 120594437000000,
+          "event": "request",
+          "id": 38,
+          "method": "GET",
+          "path": "/failure/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:01:28.467+00:00",
+          "monotonic_ns": 120584140000000,
+          "event": "response",
+          "id": 34,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:01:28.491+00:00",
+          "monotonic_ns": 120584156000000,
+          "event": "response",
+          "id": 35,
+          "status": 200,
+          "method": "GET",
+          "path": "/failure/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:01:38.679+00:00",
+          "monotonic_ns": 120594343000000,
+          "event": "response",
+          "id": 36,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:01:38.724+00:00",
+          "monotonic_ns": 120594390000000,
+          "event": "response",
+          "id": 37,
+          "status": 201,
+          "method": "PUT",
+          "path": "/failure/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:01:38.772+00:00",
+          "monotonic_ns": 120594437000000,
+          "event": "response",
+          "id": 38,
+          "status": 404,
+          "method": "GET",
+          "path": "/failure/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_03_http_failure_and_retry-retry-after-403-120583343000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-403-120583343000000.json",
+          "ui_observation_upper_ns": 120584140000000,
+          "later_request_id": 35,
+          "request_received_ns": 120584156000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-403-120583343000000.json",
+          "ui_observation_upper_ns": 120584140000000,
+          "later_request_id": 36,
+          "request_received_ns": 120594343000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-403-120583343000000.json",
+          "ui_observation_upper_ns": 120584140000000,
+          "later_request_id": 37,
+          "request_received_ns": 120594390000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-403-120583343000000.json",
+          "ui_observation_upper_ns": 120584140000000,
+          "later_request_id": 38,
+          "request_received_ns": 120594437000000
+        }
+      ]
+    },
+    {
+      "test": "test_03_http_failure_and_retry",
+      "label": "http-500",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T04:01:40.680+00:00",
+        "monotonic_ns": 120596343000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "manual_click",
+        "after_request": 38,
+        "label": "http-500"
+      },
+      "idle": {
+        "utc": "2026-10-16T04:01:43.363+00:00",
+        "monotonic_ns": 120599031000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T04:01:40.939+00:00",
+          "monotonic_ns": 120596609000000,
+          "event": "request",
+          "id": 39,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:01:42.124+00:00",
+          "monotonic_ns": 120597796000000,
+          "event": "request",
+          "id": 40,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:01:42.170+00:00",
+          "monotonic_ns": 120597843000000,
+          "event": "request",
+          "id": 41,
+          "method": "PUT",
+          "path": "/failure/sync/.probe_1792123300100.txt",
+          "bodyBytes": 5,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:01:42.089+00:00",
+          "monotonic_ns": 120597765000000,
+          "event": "response",
+          "id": 39,
+          "status": 500,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:01:42.124+00:00",
+          "monotonic_ns": 120597796000000,
+          "event": "response",
+          "id": 40,
+          "status": 500,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:01:42.172+00:00",
+          "monotonic_ns": 120597843000000,
+          "event": "response",
+          "id": 41,
+          "status": 500,
+          "method": "PUT",
+          "path": "/failure/sync/.probe_1792123300100.txt"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_03_http_failure_and_retry-http-500-120596937000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_03_http_failure_and_retry-http-500-120596937000000.json",
+          "ui_observation_upper_ns": 120597750000000,
+          "later_request_id": 40,
+          "request_received_ns": 120597796000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-http-500-120596937000000.json",
+          "ui_observation_upper_ns": 120597750000000,
+          "later_request_id": 41,
+          "request_received_ns": 120597843000000
+        }
+      ]
+    },
+    {
+      "test": "test_03_http_failure_and_retry",
+      "label": "retry-after-500",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T04:02:10.364+00:00",
+        "monotonic_ns": 120626031000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "manual_click",
+        "after_request": 41,
+        "label": "retry-after-500"
+      },
+      "idle": {
+        "utc": "2026-10-16T04:02:23.474+00:00",
+        "monotonic_ns": 120639140000000,
+        "test": "test_03_http_failure_and_retry",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T04:02:10.626+00:00",
+          "monotonic_ns": 120626296000000,
+          "event": "request",
+          "id": 42,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:02:11.802+00:00",
+          "monotonic_ns": 120627468000000,
+          "event": "request",
+          "id": 43,
+          "method": "GET",
+          "path": "/failure/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:02:22.226+00:00",
+          "monotonic_ns": 120637890000000,
+          "event": "request",
+          "id": 44,
+          "method": "HEAD",
+          "path": "/failure/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:02:22.258+00:00",
+          "monotonic_ns": 120637921000000,
+          "event": "request",
+          "id": 45,
+          "method": "PUT",
+          "path": "/failure/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:02:22.301+00:00",
+          "monotonic_ns": 120637968000000,
+          "event": "request",
+          "id": 46,
+          "method": "GET",
+          "path": "/failure/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:02:11.762+00:00",
+          "monotonic_ns": 120627437000000,
+          "event": "response",
+          "id": 42,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:02:11.803+00:00",
+          "monotonic_ns": 120627468000000,
+          "event": "response",
+          "id": 43,
+          "status": 200,
+          "method": "GET",
+          "path": "/failure/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:02:22.227+00:00",
+          "monotonic_ns": 120637890000000,
+          "event": "response",
+          "id": 44,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/failure/sync"
+        },
+        {
+          "utc": "2026-10-16T04:02:22.259+00:00",
+          "monotonic_ns": 120637921000000,
+          "event": "response",
+          "id": 45,
+          "status": 201,
+          "method": "PUT",
+          "path": "/failure/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:02:22.302+00:00",
+          "monotonic_ns": 120637968000000,
+          "event": "response",
+          "id": 46,
+          "status": 404,
+          "method": "GET",
+          "path": "/failure/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_03_http_failure_and_retry-retry-after-500-120626578000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-500-120626578000000.json",
+          "ui_observation_upper_ns": 120627437000000,
+          "later_request_id": 43,
+          "request_received_ns": 120627468000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-500-120626578000000.json",
+          "ui_observation_upper_ns": 120627437000000,
+          "later_request_id": 44,
+          "request_received_ns": 120637890000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-500-120626578000000.json",
+          "ui_observation_upper_ns": 120627437000000,
+          "later_request_id": 45,
+          "request_received_ns": 120637921000000
+        },
+        {
+          "capture": "test_03_http_failure_and_retry-retry-after-500-120626578000000.json",
+          "ui_observation_upper_ns": 120627437000000,
+          "later_request_id": 46,
+          "request_received_ns": 120637968000000
+        }
+      ]
+    },
+    {
+      "test": "test_04_disconnect_and_retry",
+      "label": "disconnect",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T04:03:23.529+00:00",
+        "monotonic_ns": 120699203000000,
+        "test": "test_04_disconnect_and_retry",
+        "event": "manual_click",
+        "after_request": 46,
+        "label": "disconnect"
+      },
+      "idle": {
+        "utc": "2026-10-16T04:03:26.245+00:00",
+        "monotonic_ns": 120701921000000,
+        "test": "test_04_disconnect_and_retry",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T04:03:23.849+00:00",
+          "monotonic_ns": 120699515000000,
+          "event": "request",
+          "id": 47,
+          "method": "HEAD",
+          "path": "/disconnect/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:03:24.922+00:00",
+          "monotonic_ns": 120700593000000,
+          "event": "request",
+          "id": 48,
+          "method": "HEAD",
+          "path": "/disconnect/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:03:25.038+00:00",
+          "monotonic_ns": 120700703000000,
+          "event": "request",
+          "id": 49,
+          "method": "PUT",
+          "path": "/disconnect/sync/.probe_1792123402876.txt",
+          "bodyBytes": 5,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:03:24.839+00:00",
+          "monotonic_ns": 120700515000000,
+          "event": "disconnect",
+          "id": 47
+        },
+        {
+          "utc": "2026-10-16T04:03:24.922+00:00",
+          "monotonic_ns": 120700593000000,
+          "event": "disconnect",
+          "id": 48
+        },
+        {
+          "utc": "2026-10-16T04:03:25.039+00:00",
+          "monotonic_ns": 120700703000000,
+          "event": "disconnect",
+          "id": 49
+        }
+      ],
+      "visible_loading_captures": [
+        "test_04_disconnect_and_retry-disconnect-120699781000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_04_disconnect_and_retry-disconnect-120699781000000.json",
+          "ui_observation_upper_ns": 120700500000000,
+          "later_request_id": 48,
+          "request_received_ns": 120700593000000
+        },
+        {
+          "capture": "test_04_disconnect_and_retry-disconnect-120699781000000.json",
+          "ui_observation_upper_ns": 120700500000000,
+          "later_request_id": 49,
+          "request_received_ns": 120700703000000
+        }
+      ]
+    },
+    {
+      "test": "test_04_disconnect_and_retry",
+      "label": "disconnect-retry",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T04:03:27.039+00:00",
+        "monotonic_ns": 120702703000000,
+        "test": "test_04_disconnect_and_retry",
+        "event": "manual_click",
+        "after_request": 49,
+        "label": "disconnect-retry"
+      },
+      "idle": null,
+      "requests": [
+        {
+          "utc": "2026-10-16T04:03:27.357+00:00",
+          "monotonic_ns": 120703031000000,
+          "event": "request",
+          "id": 50,
+          "method": "HEAD",
+          "path": "/disconnect/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:03:28.437+00:00",
+          "monotonic_ns": 120704109000000,
+          "event": "request",
+          "id": 51,
+          "method": "GET",
+          "path": "/disconnect/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:03:28.397+00:00",
+          "monotonic_ns": 120704062000000,
+          "event": "response",
+          "id": 50,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/disconnect/sync"
+        },
+        {
+          "utc": "2026-10-16T04:03:28.437+00:00",
+          "monotonic_ns": 120704109000000,
+          "event": "response",
+          "id": 51,
+          "status": 404,
+          "method": "GET",
+          "path": "/disconnect/sync/words_delta.json.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_04_disconnect_and_retry-disconnect-retry-120703281000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_04_disconnect_and_retry-disconnect-retry-120703281000000.json",
+          "ui_observation_upper_ns": 120704062000000,
+          "later_request_id": 51,
+          "request_received_ns": 120704109000000
+        }
+      ]
+    }
+  ],
+  "limitation": "Finite observed UI samples; no claim to inspect every rendered frame or hidden tests.",
+  "request_count": 51,
+  "fast_order_results": [],
+  "timeout_evidence": [],
+  "reentry_ages": []
+}

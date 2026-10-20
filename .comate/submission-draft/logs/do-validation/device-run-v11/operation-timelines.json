@@ -1,0 +1,157 @@
+{
+  "run": 11,
+  "operations": [
+    {
+      "test": "test_09_empty_and_spaces_recover",
+      "label": "after-invalid-recovery",
+      "attempt": null,
+      "click": {
+        "utc": "2026-10-16T04:39:40.149+00:00",
+        "monotonic_ns": 122875812000000,
+        "test": "test_09_empty_and_spaces_recover",
+        "event": "manual_click",
+        "after_request": 10,
+        "label": "after-invalid-recovery"
+      },
+      "idle": {
+        "utc": "2026-10-16T04:39:48.021+00:00",
+        "monotonic_ns": 122883687000000,
+        "test": "test_09_empty_and_spaces_recover",
+        "event": "idle_observed"
+      },
+      "requests": [
+        {
+          "utc": "2026-10-16T04:39:40.387+00:00",
+          "monotonic_ns": 122876062000000,
+          "event": "request",
+          "id": 11,
+          "method": "HEAD",
+          "path": "/recovered/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:39:41.657+00:00",
+          "monotonic_ns": 122877328000000,
+          "event": "request",
+          "id": 12,
+          "method": "GET",
+          "path": "/recovered/sync/words_delta.json.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:39:46.781+00:00",
+          "monotonic_ns": 122882453000000,
+          "event": "request",
+          "id": 13,
+          "method": "HEAD",
+          "path": "/recovered/sync",
+          "bodyBytes": 0,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:39:46.812+00:00",
+          "monotonic_ns": 122882484000000,
+          "event": "request",
+          "id": 14,
+          "method": "PUT",
+          "path": "/recovered/sync/words_delta.json.enc",
+          "bodyBytes": 549,
+          "authPresent": true
+        },
+        {
+          "utc": "2026-10-16T04:39:46.842+00:00",
+          "monotonic_ns": 122882515000000,
+          "event": "request",
+          "id": 15,
+          "method": "GET",
+          "path": "/recovered/sync/events_all.jsonl.enc",
+          "bodyBytes": 0,
+          "authPresent": true
+        }
+      ],
+      "responses_or_disconnects": [
+        {
+          "utc": "2026-10-16T04:39:41.615+00:00",
+          "monotonic_ns": 122877281000000,
+          "event": "response",
+          "id": 11,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/recovered/sync"
+        },
+        {
+          "utc": "2026-10-16T04:39:41.657+00:00",
+          "monotonic_ns": 122877328000000,
+          "event": "response",
+          "id": 12,
+          "status": 404,
+          "method": "GET",
+          "path": "/recovered/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:39:46.781+00:00",
+          "monotonic_ns": 122882453000000,
+          "event": "response",
+          "id": 13,
+          "status": 200,
+          "method": "HEAD",
+          "path": "/recovered/sync"
+        },
+        {
+          "utc": "2026-10-16T04:39:46.812+00:00",
+          "monotonic_ns": 122882484000000,
+          "event": "response",
+          "id": 14,
+          "status": 201,
+          "method": "PUT",
+          "path": "/recovered/sync/words_delta.json.enc"
+        },
+        {
+          "utc": "2026-10-16T04:39:46.843+00:00",
+          "monotonic_ns": 122882515000000,
+          "event": "response",
+          "id": 15,
+          "status": 404,
+          "method": "GET",
+          "path": "/recovered/sync/events_all.jsonl.enc"
+        }
+      ],
+      "visible_loading_captures": [
+        "test_09_empty_and_spaces_recover-after-invalid-recovery-122876437000000.json"
+      ],
+      "completed_ui_before_later_real_request": [
+        {
+          "capture": "test_09_empty_and_spaces_recover-after-invalid-recovery-122876437000000.json",
+          "ui_observation_upper_ns": 122877281000000,
+          "later_request_id": 12,
+          "request_received_ns": 122877328000000
+        },
+        {
+          "capture": "test_09_empty_and_spaces_recover-after-invalid-recovery-122876437000000.json",
+          "ui_observation_upper_ns": 122877281000000,
+          "later_request_id": 13,
+          "request_received_ns": 122882453000000
+        },
+        {
+          "capture": "test_09_empty_and_spaces_recover-after-invalid-recovery-122876437000000.json",
+          "ui_observation_upper_ns": 122877281000000,
+          "later_request_id": 14,
+          "request_received_ns": 122882484000000
+        },
+        {
+          "capture": "test_09_empty_and_spaces_recover-after-invalid-recovery-122876437000000.json",
+          "ui_observation_upper_ns": 122877281000000,
+          "later_request_id": 15,
+          "request_received_ns": 122882515000000
+        }
+      ]
+    }
+  ],
+  "limitation": "Finite observed UI samples; no claim to inspect every rendered frame or hidden tests.",
+  "request_count": 15,
+  "fast_order_results": [],
+  "timeout_evidence": [],
+  "reentry_ages": []
+}
