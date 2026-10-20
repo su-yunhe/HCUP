@@ -1,0 +1,601 @@
+{
+  "source_commit": "d5da9cb86f84d1799124d13c777de949c1cd078f",
+  "task": "vg-spec7",
+  "published_files": [
+    {
+      "path": ".comate/submission-draft/README.md",
+      "bytes": 6343,
+      "sha256": "2c1cb98b9d204641b9b17783826c6315e3b995b862b9bb2be54f54121563023e",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/build.md",
+      "bytes": 5468,
+      "sha256": "1ac1fd3f2235be249230386ffae64db680ce66e1b9a44dadcaec087d3080b92c",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/changes/binary-files.json",
+      "bytes": 38226,
+      "sha256": "3b0ba3a8627065d6ee87365bce64efd9b38e75ca5932469a4b866b6a21b2114c",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/changes/binary-files.md",
+      "bytes": 15898,
+      "sha256": "411bd240d27e3ea2e3bfe43732a07a5aa10be26f674672e0ae63fbc124e96a7d",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/changes/final.diff",
+      "bytes": 127000663,
+      "sha256": "8b071d1ca8833f47f1d6edf1555e0876d5869cb967a20b279456d8b19b0c2666",
+      "storage": "git-lfs"
+    },
+    {
+      "path": ".comate/submission-draft/changes/project-snapshot.json",
+      "bytes": 486679,
+      "sha256": "8b8256c5ee9be707980c9ea45f731efbcbc5c6013530b15f29f10fe852939d54",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/baseline-build-exit-code.txt",
+      "bytes": 3,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/baseline-build.log",
+      "bytes": 122094,
+      "sha256": "703533f642101bbde83d47d619c192402efe102085491ea9d609f73f077a08d2",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v1/INVALID.json",
+      "bytes": 193,
+      "sha256": "c638dc6edb2c8026a0d7377d0c42027475070bf03fbcb4401782246605d2fd84",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v1/install.json",
+      "bytes": 387,
+      "sha256": "35e4580bec19b499554346c69e2ab94f039a87f0ef8f6975619714d957acb849",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v1/install.log",
+      "bytes": 447,
+      "sha256": "8bff44375407af0199c8b34e36ae1184db8f519e88eac2772329e9ed69fe3898",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v1/installed-bundle.log",
+      "bytes": 18315,
+      "sha256": "6461454a526e3404c835ae8ca2846e68bc32603d58b34a89709ca0f33788dddb",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v1/selftest.log",
+      "bytes": 3997,
+      "sha256": "4728799954756aa94bd45d57538b034e64bb47063614596f3b24032f9507f6c9",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v1/targets.log",
+      "bytes": 16,
+      "sha256": "4ca36888acb84402fcbb27574439040ccdf2f5afed5b20513ee43a2f145de157",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v2/install.json",
+      "bytes": 423,
+      "sha256": "174c989725d88f2472eaaf57456071de00e759f499a282bda18271e8574ab964",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v2/install.log",
+      "bytes": 153,
+      "sha256": "14e5d5c3c2bd5d0e3225dc66e7d801a0d31d87eb6f109a7385185672856e72dd",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v2/installed-bundle.log",
+      "bytes": 18315,
+      "sha256": "1671928f9bb51b825adfb40dc0a595901dfeef4b665e11b185f50ed50e243df4",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v2/invocation.json",
+      "bytes": 481,
+      "sha256": "1dc9970d990b625742b5d555051749eca693ba3a735bc51d29e96da92de3a3c7",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v2/selftest.json",
+      "bytes": 1799,
+      "sha256": "b15de4dc9fc26084966be35d8df76690051718841a0305400067051cbacb1ca8",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v2/selftest.log",
+      "bytes": 171911,
+      "sha256": "06c34349bcee22b8d7bba506822348662d240fa71a76982be8c5619cdbf3200a",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-core-v2/targets.log",
+      "bytes": 16,
+      "sha256": "4ca36888acb84402fcbb27574439040ccdf2f5afed5b20513ee43a2f145de157",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-implementation/build-v1.log",
+      "bytes": 121451,
+      "sha256": "1cd0d314ce8de8732be6e97def9dbcbd289b9728aa6517be589f3c2374931969",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-implementation/diff-check.log",
+      "bytes": 151,
+      "sha256": "7d1ce0a65a6ea902c5d75891b529e0181e1b425963e159cbde716c869b380dc9",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-implementation/retrieval-index-failure.log",
+      "bytes": 1299,
+      "sha256": "86956ae966b99b3f63ee770457d32f7c955cdba35a661e920c5c52d1c44147bf",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-implementation/source-fingerprint.json",
+      "bytes": 978,
+      "sha256": "2ce4ea122d041bc8ba955c1bde9236ff2772c997acd4f1c63ab71c3156065d98",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-implementation/warning-comparison.json",
+      "bytes": 904,
+      "sha256": "c699ab64d776c650d4c65a10770a5f02a5c8eea2e1621de31b6ff5f1ec5491dd",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-implementation/warnings-current.json",
+      "bytes": 154674,
+      "sha256": "622d90f8449993500b91c320318c502a9a7de1b457c3c94ffab69f39d5b1f604",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-regression-v3/install.json",
+      "bytes": 423,
+      "sha256": "70436d8c37d950dda073820397a0731523f114faafa255352fdbcb4163f73654",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-regression-v3/install.log",
+      "bytes": 153,
+      "sha256": "14e5d5c3c2bd5d0e3225dc66e7d801a0d31d87eb6f109a7385185672856e72dd",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-regression-v3/installed-bundle.log",
+      "bytes": 18315,
+      "sha256": "f5c9fabf07bd2b1baee7b4bffff8d4e7b3a835e6b5cec411fa308e30d10de1bd",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-regression-v3/invocation.json",
+      "bytes": 705,
+      "sha256": "53d71d63bdd9e3ced104fbf02df2a20487d68bc56b0eac2294d6078da6deb7c4",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-regression-v3/selftest.json",
+      "bytes": 1053,
+      "sha256": "6b1cd2e230803214973a88c2c7246104e37b826f2d36785f8cee735cc5eccf3a",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-regression-v3/selftest.log",
+      "bytes": 52587,
+      "sha256": "0d6d8b5aa49ef2ac30400698e438ca3c41ee97e1fa7366f665c524ef8f39c098",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/do-regression-v3/targets.log",
+      "bytes": 16,
+      "sha256": "4ca36888acb84402fcbb27574439040ccdf2f5afed5b20513ee43a2f145de157",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/ohpm-install.log",
+      "bytes": 41,
+      "sha256": "39cef4d74998350464f767ae6f3d9add3ead57c45b5946dafe30dba41c839223",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/prepare-baseline.log",
+      "bytes": 211,
+      "sha256": "9cf1e204437206d2e4e6d3aec3722feda0a0c153756a06ea745313355ee7c7c2",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/reports/2026-10-17-11-26-00/task_log.log",
+      "bytes": 3396,
+      "sha256": "841ff18a2e73c2fa80e5f34658044334b0ed0af1953fadf33de4f66dce81f3f2",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/reports/2026-10-17-11-26-44/task_log.log",
+      "bytes": 166914,
+      "sha256": "f23e71b31d1caaec51a59701cb553efab6a7bb71355aac9f44f09eced5982b61",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/logs/reports/2026-10-17-11-43-25/task_log.log",
+      "bytes": 50396,
+      "sha256": "9abb47f350482d179a9eb0a3700f5fb97ec487f88e929cb85255a6a0a1b6f8d3",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/solution.fragment.md",
+      "bytes": 3249,
+      "sha256": "3f6c4d1d0880808c31eb656384c377ed60860aea19709af15d1ae820412fa767",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/sources.fragment.md",
+      "bytes": 3356,
+      "sha256": "1dfb6bd12cd046be70e89867e40f8ca5587181d7a59f954c822ffa312f3c3cfa",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/submission.json.fragment",
+      "bytes": 205,
+      "sha256": "66a1888ba06d7731deacd71aefa8bb1a9921bd7ba7e9f3e3a57a1197fbbf0ce9",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/tools/prepare_materials.py",
+      "bytes": 18989,
+      "sha256": "727a1e5f6ca2f2a5ed7a8bc0c74bf11532c24cec315bd8f328cb9660f587d278",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/tools/write_documents.py",
+      "bytes": 29438,
+      "sha256": "80e86812d8e37b02318a4cb4376117a390f051ad0902ba518ddbad7dc2e47aa7",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/trace-index.md",
+      "bytes": 13287,
+      "sha256": "3cb6e7b70c1d78890ba2e4c0663ac51c4908ec83884b20017e8e86c8e946000e",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/client-environment.json",
+      "bytes": 490,
+      "sha256": "6e8df68a4eacbc88b1fa01d53bec0546ce22e38381d203cfe7c045a646f6bff7",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/code-snapshots/SettingsSyncCards.ets",
+      "bytes": 12219,
+      "sha256": "95aa35a51b0ff78397d8c036885b7a079d24160f06e94dabb57d3f78ff2bfeef",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/code-snapshots/SettingsSyncSection.ets",
+      "bytes": 17376,
+      "sha256": "1efbcd13f3c90a65144d0211edfe2db31daa8b33d03ca201cdd3e42802429fab",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/input-records/manifest.json",
+      "bytes": 352,
+      "sha256": "6f710d0e96e7d0da1f0ade8030ac080e374e57168b3b21700f9b162f35e9d2b2",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/input-records/submit-input.yaml",
+      "bytes": 616,
+      "sha256": "838356706441598a96803a04a8e7933d227d2c564efba5668fc60a3d7bf94b3f",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/input-records/team.yaml",
+      "bytes": 909,
+      "sha256": "2d426ad41bf48e9ee36a2b69b93e41fcec6c2d5c0cd1ccfe8e7be1264710da39",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a147ac-5335-7db2-9deb-49a293cb1024.md",
+      "bytes": 2430267,
+      "sha256": "5a848f64cac43da7fd51ba350192ebbb192da5cbbd3ce36edef3a64f2932601f",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a147ad-4b32-7e32-b827-77426acb9976.md",
+      "bytes": 640033,
+      "sha256": "b2cbb1c2364def64fa8e281517217c78e160b7c088e724b9dbbbdbf745cf3b6c",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a147ad-74b7-7ae0-9ad5-ace8a0c4eca2.md",
+      "bytes": 1157156,
+      "sha256": "2d1545dca3a6963d7b0bd558b4eff8e66340aceb717fcf62ec013b023cbb1bd5",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a147ad-a75c-7190-b9a6-32cb7c84ea09.md",
+      "bytes": 739382,
+      "sha256": "a53f6a76999d104613073cbcecb40c72dcd670a712253459ced37e27900c49ef",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a147b0-804a-7681-bf1e-0840900d8531.md",
+      "bytes": 2578329,
+      "sha256": "2a8ad74a7bf7df3ea438741880d395299a8700f552937b473208630777759902",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a147d9-320a-7c82-9055-dfebef374231.md",
+      "bytes": 3163782,
+      "sha256": "cd886fe9be1cef72b793d3de4c764d8953fd4f688a5bf8cd5fb1b822a85d1e39",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a147da-8dc2-7780-ac5f-766b7c09a3b3.md",
+      "bytes": 756155,
+      "sha256": "99b85095783dadd114e0617b494cf941bc4aa58fdcc767ac8135524e7126a74b",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a147dc-1914-7c62-9f1f-9ce36b52ddf6.md",
+      "bytes": 832091,
+      "sha256": "e13431f6948494c3f5bc48deed10f42d67e50cb885db79170017b13d3b25972b",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a147dc-c7c9-7cd1-bcc0-4fa3d0f42e2d.md",
+      "bytes": 3883824,
+      "sha256": "86f945583b56dd9fc52e8f0c64c00f51ebe38f3184e5d4c833f696bab77b7da3",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a147de-92a2-7fc0-8660-63e6144b4bd5.md",
+      "bytes": 1099558,
+      "sha256": "8cc5caaadc7faaf55b90f0961f1e6ac23cb8b72c012c669c14f637bf75cfa21a",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a14823-79c4-78f3-b80d-737ef7fb7799.md",
+      "bytes": 1479228,
+      "sha256": "9eec13328d2ca716e0cc3aecd8053e8dfd405e9f8fd7b838bfff54ef8166d012",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a14824-4e6a-7452-85df-b22e8c094252.md",
+      "bytes": 445917,
+      "sha256": "650cdc6370be806920b00b84fcdc24e1880237e336ff9d779fbbb259c48d47f2",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a14824-6b26-7cc1-8647-9139f92a6774.md",
+      "bytes": 627156,
+      "sha256": "316928ab2ceb61175c8620c096ecfed17337a8a6418b9f4b3d578b6048ed171a",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a14824-85c8-78d0-aaf6-24e0c2e5dae1.md",
+      "bytes": 864827,
+      "sha256": "79acba16938cf643b3967339c62197233cdcc0a21e1b22f3c23bba704eb9c7c8",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/markdown/01a14828-5469-73a3-8a04-f7ab2e3409dc.md",
+      "bytes": 1166515,
+      "sha256": "52e608d26a95d674c3ae211ee6105d05afb3ba5de19433e1a1d0d6b0bd02ede1",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native-manifest.json",
+      "bytes": 25642,
+      "sha256": "89e92a3b9fd7c06415d318326f7b351c1deab6619bd13f03d3aff77933ea3fde",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T10-23-58-01a147ac-5335-7db2-9deb-49a293cb1024.jsonl",
+      "bytes": 2292079,
+      "sha256": "6c15e4138a913237e78e98ba2e9e38ee2d34a4dbb379b3c3ba690e040bbeba38",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T10-25-01-01a147ad-4b32-7e32-b827-77426acb9976.jsonl",
+      "bytes": 611897,
+      "sha256": "838f3a06cf9f4d81bddfea92b05b2b7262e475c6a5bbb10bbdb4dbcc62a220b2",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T10-25-12-01a147ad-74b7-7ae0-9ad5-ace8a0c4eca2.jsonl",
+      "bytes": 1109097,
+      "sha256": "d4fa9369c93928305dea1ab03937ebcb5e19eb37516fce8e6e4a3e5d7b9fa592",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T10-25-25-01a147ad-a75c-7190-b9a6-32cb7c84ea09.jsonl",
+      "bytes": 709578,
+      "sha256": "89aa9f795c3862d1a3eb34f0be9eb3560d4ed0f4782dbb4dd546cc528e16924e",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T10-28-32-01a147b0-804a-7681-bf1e-0840900d8531.jsonl",
+      "bytes": 2458165,
+      "sha256": "b076b7d4acd119b8bcd7ade181f73219ad69c748ff53a173c93c5452687f259a",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T11-12-58-01a147d9-320a-7c82-9055-dfebef374231.jsonl",
+      "bytes": 2905033,
+      "sha256": "a4f94dc770a4ef61b55b660f09bda22e95e7cc5bb9a1e2c2f740375527eb7622",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T11-14-28-01a147da-8dc2-7780-ac5f-766b7c09a3b3.jsonl",
+      "bytes": 719724,
+      "sha256": "583121341c663c45edc18652c4e7fab2078f264cc9a56ea176d5baf12de24ff7",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T11-16-09-01a147dc-1914-7c62-9f1f-9ce36b52ddf6.jsonl",
+      "bytes": 791149,
+      "sha256": "45a129d013a184ba611255ee2e1b97ac09a440667fa5b4b3d106e01d0f123364",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T11-16-53-01a147dc-c7c9-7cd1-bcc0-4fa3d0f42e2d.jsonl",
+      "bytes": 3683010,
+      "sha256": "3da97757a6129eb6e6218ad0f1544e8b36b1981d8575f962010393f28d623e8e",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T11-18-51-01a147de-92a2-7fc0-8660-63e6144b4bd5.jsonl",
+      "bytes": 1043746,
+      "sha256": "b9c00e71a336c2fbb887c46dab5544577ba9d7f220a462c418de5902426085ad",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T12-34-07-01a14823-79c4-78f3-b80d-737ef7fb7799.jsonl",
+      "bytes": 1364944,
+      "sha256": "cad2aaf156a6520adeeb7b207a054a7a19cd048cf9fd46c461691ca520693383",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T12-35-01-01a14824-4e6a-7452-85df-b22e8c094252.jsonl",
+      "bytes": 428541,
+      "sha256": "3c6d0ef3906393ec463d4c6d7f25271c5485f745a3296e3346d505901752d512",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T12-35-08-01a14824-6b26-7cc1-8647-9139f92a6774.jsonl",
+      "bytes": 595225,
+      "sha256": "3d25b3fba345e957cd63e286fe7c82929b0ce70ccd7d1ad840015054d1276261",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T12-35-15-01a14824-85c8-78d0-aaf6-24e0c2e5dae1.jsonl",
+      "bytes": 829098,
+      "sha256": "029c32f64a3c2ae6904390d06a9848eab6da046023e151e2dcf2bc358527042c",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/native/rollout-2026-10-17T12-39-25-01a14828-5469-73a3-8a04-f7ab2e3409dc.jsonl",
+      "bytes": 1094520,
+      "sha256": "1c9f1385ee0d93c9cc94a9a41bbd0a74bd1cade32bed4d4a5707cabc26e68a96",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/session-index.filtered.jsonl",
+      "bytes": 402,
+      "sha256": "60a5ba5853c2c2c660ed99b3e12d5e50039735a18df3e6ae552e035b895be220",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/task-books/0-analyze.md",
+      "bytes": 5082,
+      "sha256": "a0518cb663406e9a25c2a8096799ddbb79253e1f874819b6099a38c2819c944a",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/task-books/1-do.md",
+      "bytes": 7721,
+      "sha256": "2f02be9274ea7e68e7863a319382fc250a9ea845fa5fa0c124effc5524ee337d",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/task-books/2-submit.md",
+      "bytes": 7587,
+      "sha256": "43455fc9ef3c6d0ddbcf0dc101201796ebec865e214929f3137b1bb4036895f9",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/task-books/3-package.md",
+      "bytes": 9121,
+      "sha256": "3a97a8072042c29adde571af04da1658d0b1547e9c41cdd649e02fba04ae6b9c",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/traces/task-books/version.json",
+      "bytes": 1224,
+      "sha256": "76349649f74e7df75f08ff0bb6e8d53b8dcdedf596c4ceaa87daa7224d570443",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/validation/completion.md",
+      "bytes": 2181,
+      "sha256": "2cc71a5152987b740e6c3b68569f65887226278a423ebe0f06036ba39393a898",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/validation/diff-validation-attempt1.json",
+      "bytes": 11976,
+      "sha256": "e6e5d1cbf3234e3e95533b2ffd11123d4e70e3fd2cb8e91846bb9ae21713d039",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/validation/diff-validation-attempt2.json",
+      "bytes": 3818,
+      "sha256": "1d040d85f4e34b9e345ced8d715bba72a96c89229e041a2563e63a4a94837104",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/validation/diff-validation-prefinal.json",
+      "bytes": 3639,
+      "sha256": "f532d67a0716ed21d392cc001af344ab56ba9ba9da182ec1d07564ccba34a490",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/validation/diff-validation.json",
+      "bytes": 3639,
+      "sha256": "4c79a51c50c275b8480dc27b1bfe3ce5a876d57ff991476a4303f2508bf2f61a",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/validation/final-production-integrity.json",
+      "bytes": 422,
+      "sha256": "021519d75733aaea65246015410f22f4bf1cdf7e4840441eae4a67d6a698f2ad",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/validation/independent-review.md",
+      "bytes": 31364,
+      "sha256": "153a0913396b1a0dad3aed34047144c86ef79c261bb792be43f740944c818b88",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/validation/material-attempts.md",
+      "bytes": 1613,
+      "sha256": "bdd42a2568f1502176d0804023ed5449ae73593f67f4906bde565752bdf81a14",
+      "storage": "git"
+    },
+    {
+      "path": ".comate/submission-draft/validation/prefinal-summary.json",
+      "bytes": 298,
+      "sha256": "ad06340183a8b9fbc09a010a9e6b718de664131635a646af9781157bf38bd06d",
+      "storage": "git"
+    }
+  ],
+  "excluded_temporary_paths": [
+    {
+      "path": ".scratch/",
+      "reason": "temporary material-work directory"
+    }
+  ],
+  "notes": [
+    "Draft source files were not rewritten.",
+    "Temporary nested Git clones and material-generation caches are retained locally.",
+    "Existing missing-field notes and acceptance limitations remain unchanged.",
+    "Run git lfs install and git lfs pull after checkout to obtain large files.",
+    "Frozen nested .gitattributes files retain their original text=auto rules. To check exact bytes run python .comate/restore-submission-draft.py; add --restore to restore tracked draft files from HEAD without line-ending conversion."
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "validated_at_utc": "2026-10-17T04:50:30.828735+00:00",
+  "status": "pass",
+  "base_commit": "9cbcf7292c8cc46955dc3b522ddbda41c66a61d9",
+  "diff_sha256": "8b071d1ca8833f47f1d6edf1555e0876d5869cb967a20b279456d8b19b0c2666",
+  "snapshot_digest_sha256": "783c71c495ecbb70e0f0caf9e568c89a7ab4001b630e5fdf8c74b354d109988f",
+  "checked_file_count": 1338,
+  "missing": [],
+  "extra": [],
+  "hash_mismatches": [],
+  "production_matches_do_acceptance": {
+    "entry/src/main/ets/pages/settings/SettingsSyncSection.ets": true,
+    "entry/src/main/ets/pages/settings/SettingsSyncCards.ets": true
+  },
+  "temporary_clone": "D:\\HCUP\\vg-spec7\\.comate\\submission-draft\\.scratch\\baseline-kt_00q8d\\project",
+  "clone_source": "This task local Git repository; no upstream source or other task visited.",
+  "clone_local_info_attributes": "* -text -filter -working-tree-encoding",
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "clone",
+        "--no-local",
+        "--no-hardlinks",
+        "--no-checkout",
+        "--single-branch",
+        "--branch",
+        "vg-spec7",
+        "D:\\HCUP\\vg-spec7",
+        "D:\\HCUP\\vg-spec7\\.comate\\submission-draft\\.scratch\\baseline-kt_00q8d\\project"
+      ],
+      "cwd": "D:\\HCUP\\vg-spec7",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "Cloning into 'D:\\HCUP\\vg-spec7\\.comate\\submission-draft\\.scratch\\baseline-kt_00q8d\\project'...\n"
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "checkout",
+        "--detach",
+        "9cbcf7292c8cc46955dc3b522ddbda41c66a61d9"
+      ],
+      "cwd": "D:\\HCUP\\vg-spec7\\.comate\\submission-draft\\.scratch\\baseline-kt_00q8d\\project",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "HEAD is now at 9cbcf72 Harmony Cup sanitized baseline snapshot\n"
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "apply",
+        "--check",
+        "--binary",
+        "D:\\HCUP\\vg-spec7\\.comate\\submission-draft\\changes\\final.diff"
+      ],
+      "cwd": "D:\\HCUP\\vg-spec7\\.comate\\submission-draft\\.scratch\\baseline-kt_00q8d\\project",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "-c",
+        "core.autocrlf=false",
+        "-c",
+        "core.eol=lf",
+        "apply",
+        "--binary",
+        "D:\\HCUP\\vg-spec7\\.comate\\submission-draft\\changes\\final.diff"
+      ],
+      "cwd": "D:\\HCUP\\vg-spec7\\.comate\\submission-draft\\.scratch\\baseline-kt_00q8d\\project",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "D:/HCUP/vg-spec7/.comate/submission-draft/changes/final.diff:170: trailing whitespace.\n---\r\nD:/HCUP/vg-spec7/.comate/submission-draft/changes/final.diff:171: trailing whitespace.\nname: \"arkts-code-linter\"\r\nD:/HCUP/vg-spec7/.comate/submission-draft/changes/final.diff:172: trailing whitespace.\ndescription: \"基于华为 HarmonyOS NEXT 官方文档和 ArkTS 规范的代码检查工具。自动检测代码中的规范违规、性能问题和潜在错误，确保代码符合 HarmonyOS 应用开发最佳实践。\"\r\nD:/HCUP/vg-spec7/.comate/submission-draft/changes/final.diff:173: trailing whitespace.\n---\r\nD:/HCUP/vg-spec7/.comate/submission-draft/changes/final.diff:174: trailing whitespace.\n\r\nwarning: squelched 360201 whitespace errors\nwarning: 360206 lines add whitespace errors.\n"
+    }
+  ],
+  "all_files_compared": true
+}

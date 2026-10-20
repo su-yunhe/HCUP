@@ -1,0 +1,19 @@
+{
+  "start": "2026-10-17T11:43:23.7890446+08:00",
+  "cwd": "D:/HCUP/vg-spec7/logs",
+  "command": [
+    "D:/HCUP/common/.venv/Scripts/python.exe",
+    "-m",
+    "harness.runner",
+    "--project",
+    "D:/HCUP/vg-spec7",
+    "--device",
+    "127.0.0.1:5555",
+    "--json",
+    "D:/HCUP/vg-spec7/logs/do-regression-v3/selftest.json"
+  ],
+  "evidence_dir": "D:/HCUP/vg-spec7/traces/do-verification/regression-v3",
+  "explicitly_selected_cases": "test_04_cancel_return_and_reenter,test_06_rapid_entry_and_continue_clicks,test_08_encrypted_download_preview_cancel_preserves_data,test_09_controlled_http_failure_releases_busy",
+  "end": "2026-10-17T11:48:20.0213274+08:00",
+  "exit_code": 0
+}

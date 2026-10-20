@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "C:\Users\22580\.codex\skills\hmos-arkts-knowledge-retriever\scripts\search_docs.py", line 788, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "C:\Users\22580\.codex\skills\hmos-arkts-knowledge-retriever\scripts\search_docs.py", line 130, in main
+    doc_index = inject_local_tool_docs(load_json(REFERENCE_ROOT / "doc_index.json"))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\22580\.codex\skills\hmos-arkts-knowledge-retriever\scripts\search_docs.py", line 784, in load_json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Program Files\Python312\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Program Files\Python312\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\22580\\.codex\\skills\\hmos-arkts-knowledge-retriever\\references\\doc_index.json'
