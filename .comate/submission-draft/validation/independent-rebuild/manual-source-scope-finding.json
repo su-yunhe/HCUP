@@ -1,0 +1,18 @@
+{
+  "id": "source-scope-overclaim",
+  "status": "fail",
+  "requirement": "2-submit hard constraints 1/10; source and human declarations must not be inferred from blank inputs",
+  "observed_text": "没有从来源应用上游当前实现或相关修复历史获取本功能代码。",
+  "expected": "Statement limited to the inspected AI native records; unknown human/extra source declaration remains pending",
+  "actual": "Unqualified all-task source claim despite blank human_edits and extra_sources",
+  "related_files": [
+    "sources.fragment.md",
+    "spec/submit-input.yaml",
+    "trace-index.md"
+  ],
+  "attribution": "Material wording; not a demonstrated prohibited source access",
+  "evidence_strength": "Direct document wording and blank declared inputs; does not prove any hidden human action",
+  "route": "return to material author for scope correction and patch/manifest regeneration",
+  "retest": "Fresh local baseline clone, binary check/apply, full-file hash comparison and source scope review required",
+  "production_change_required": false
+}

@@ -1,0 +1,528 @@
+{
+  "thread_id": "01a14549-2c5d-70c0-ab26-64feca32bde8",
+  "started_at": "2026-10-16T15:37:29.881639+00:00",
+  "scope": "submission material checks; no build, device, network, unrelated session, or production mutation",
+  "checks": {
+    "trace_index_24_fields": {
+      "status": "pass",
+      "official_count": 24,
+      "actual_count": 24,
+      "fields": [
+        {
+          "field": "题目 ID",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "AI 在本题实际参与的研发环节、用途及对应原始会话／事件范围（每道作答的赛题均须填写）",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "基线构建准备",
+          "populated": true,
+          "contains_pending": true
+        },
+        {
+          "field": "Agent 名称及版本",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "模型名称、版本及运行参数",
+          "populated": true,
+          "contains_pending": true
+        },
+        {
+          "field": "本题实际使用的 Skill、系统提示、工具及编排配置版本和保存位置",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "运行期间配置变更及原因（无则填“无”）",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "主会话 ID",
+          "populated": true,
+          "contains_pending": true
+        },
+        {
+          "field": "关联会话及子会话 ID",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "解题过程中产生的全部相关原始日志、DB 或原生轨迹文件路径及读取方式",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "失败、重试、未采用的候选方案及选择过程的记录位置",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "实际提示、工具调用及返回结果、检索与代码修改、构建和自测记录位置",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "导出时间、方法与读取方式",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "成果冻结时间（北京时间，与 `solution.md` 一致）",
+          "populated": true,
+          "contains_pending": true
+        },
+        {
+          "field": "官方工程基线标识（本次题包 metadata.base_commit 发布提交号）、最终提交版本标识",
+          "populated": true,
+          "contains_pending": true
+        },
+        {
+          "field": "基线至提交版本的完整差异位置（建议 changes/final.diff，含新增、修改、删除；二进制变更另列文件及摘要）",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "与提交源码的对应关系",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "人工操作及相关记录位置",
+          "populated": true,
+          "contains_pending": true
+        },
+        {
+          "field": "人工修改索引位置（可使用 `human-changes.md`；无则注明“无人工直接修改代码”）",
+          "populated": true,
+          "contains_pending": true
+        },
+        {
+          "field": "人工修改的操作人、目的、文件、代码差异、修改前后版本及对应原始记录位置",
+          "populated": true,
+          "contains_pending": true
+        },
+        {
+          "field": "公开资料检索与代码复用记录位置，以及 `sources.md` 中的对应来源条目",
+          "populated": true,
+          "contains_pending": true
+        },
+        {
+          "field": "本题工作目录，以及赛题来源保护措施在本题运行中的配置位置（见 `solution.md`）",
+          "populated": true,
+          "contains_pending": true
+        },
+        {
+          "field": "脱敏范围（无则填“无”）",
+          "populated": true,
+          "contains_pending": false
+        },
+        {
+          "field": "记录缺失及原因（无则填“无”）",
+          "populated": true,
+          "contains_pending": true
+        }
+      ]
+    },
+    "submission_paths": {
+      "status": "pass",
+      "checks": [
+        {
+          "field": "project_path",
+          "path": "tasks/vg-spec8/project",
+          "package_relative": true,
+          "exists_as_required_kind": true
+        },
+        {
+          "field": "build_instructions",
+          "path": "tasks/vg-spec8/build.md",
+          "package_relative": true,
+          "exists_as_required_kind": true
+        },
+        {
+          "field": "trace_index",
+          "path": "tasks/vg-spec8/trace-index.md",
+          "package_relative": true,
+          "exists_as_required_kind": true
+        }
+      ]
+    },
+    "portable_build_document": {
+      "status": "pass",
+      "private_absolute_path_matches": [],
+      "required_tokens": {
+        "ohpm install": true,
+        "assembleHap": true,
+        "install -r": true,
+        "aa start": true,
+        "io.qzz.weiyu": true,
+        "EntryAbility": true,
+        "entry-default-unsigned.hap": true,
+        "初始化": true,
+        "verification_support.py": true,
+        "【待补充】": true
+      },
+      "test_script_portability_limit_disclosed": true
+    },
+    "pending_inputs": {
+      "status": "pass",
+      "pending_input_fields": [
+        "team.version",
+        "team.contact",
+        "team.freeze_time",
+        "team.members[].name / work",
+        "team.source_guard",
+        "task.human_edits",
+        "task.known_issues",
+        "task.extra_sources",
+        "task.md_export_dir"
+      ],
+      "team_only_package_fields_also_disclosed": true
+    },
+    "codex_comate_disclosure": {
+      "status": "pass",
+      "note": "Codex thread and inherited native session ID are disclosed; Comate dual IDs are pending/not applicable, not fabricated"
+    },
+    "native_traces": {
+      "status": "pass",
+      "expected_threads": 14,
+      "indexed_threads": 14,
+      "native_files": 14,
+      "missing_ids": [],
+      "extra_ids": [],
+      "unknown_old_native_filenames": [],
+      "mixed_overview_raw_absent": true,
+      "filtered_index_rows": 14,
+      "sessions": [
+        {
+          "thread_id": "01a144eb-32eb-7cb3-b4d6-daea0ae599b7",
+          "native_session_id": "01a144eb-32eb-7cb3-b4d6-daea0ae599b7",
+          "records": 565,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 233,
+            "response_item": 238,
+            "world_state": 6,
+            "turn_context": 1,
+            "token_usage_record": 66,
+            "inter_agent_communication_metadata": 20
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a144ec-8fc2-7773-b6c4-d2cadea6ddf3",
+          "native_session_id": "01a144eb-32eb-7cb3-b4d6-daea0ae599b7",
+          "records": 143,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 60,
+            "response_item": 58,
+            "world_state": 1,
+            "turn_context": 2,
+            "inter_agent_communication_metadata": 5,
+            "token_usage_record": 16
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a144ec-c5a6-7ce3-9feb-43490f2b2fed",
+          "native_session_id": "01a144eb-32eb-7cb3-b4d6-daea0ae599b7",
+          "records": 171,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 80,
+            "response_item": 64,
+            "world_state": 2,
+            "turn_context": 2,
+            "inter_agent_communication_metadata": 4,
+            "token_usage_record": 18
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a144ed-37c3-7240-b34d-e526c496efeb",
+          "native_session_id": "01a144eb-32eb-7cb3-b4d6-daea0ae599b7",
+          "records": 320,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 136,
+            "response_item": 136,
+            "world_state": 1,
+            "turn_context": 1,
+            "inter_agent_communication_metadata": 8,
+            "token_usage_record": 37
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a144f2-adb3-7f82-b090-505bdb99a517",
+          "native_session_id": "01a144eb-32eb-7cb3-b4d6-daea0ae599b7",
+          "records": 111,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 53,
+            "response_item": 42,
+            "world_state": 1,
+            "turn_context": 1,
+            "inter_agent_communication_metadata": 1,
+            "token_usage_record": 12
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+          "native_session_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+          "records": 1434,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 594,
+            "response_item": 608,
+            "world_state": 9,
+            "turn_context": 2,
+            "token_usage_record": 176,
+            "inter_agent_communication_metadata": 44
+          },
+          "valid": true,
+          "active_prefix_snapshot": true
+        },
+        {
+          "thread_id": "01a14503-0a39-7740-b830-25311d66c1db",
+          "native_session_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+          "records": 90,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 38,
+            "response_item": 35,
+            "world_state": 3,
+            "turn_context": 1,
+            "inter_agent_communication_metadata": 3,
+            "token_usage_record": 9
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a14503-4b1d-7e70-943e-a0d57c675547",
+          "native_session_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+          "records": 205,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 96,
+            "response_item": 80,
+            "world_state": 1,
+            "turn_context": 1,
+            "inter_agent_communication_metadata": 5,
+            "token_usage_record": 21
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a14503-a32e-74c1-b3bc-c948f2f304ea",
+          "native_session_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+          "records": 870,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 364,
+            "response_item": 376,
+            "world_state": 1,
+            "turn_context": 2,
+            "inter_agent_communication_metadata": 19,
+            "token_usage_record": 107
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a1450b-f62c-7710-8bcd-0c24be8870be",
+          "native_session_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+          "records": 192,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 81,
+            "response_item": 79,
+            "world_state": 1,
+            "turn_context": 1,
+            "inter_agent_communication_metadata": 6,
+            "token_usage_record": 23
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a14545-6fd5-7bf2-9311-974eff3239ba",
+          "native_session_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+          "records": 67,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 29,
+            "response_item": 26,
+            "world_state": 1,
+            "turn_context": 1,
+            "inter_agent_communication_metadata": 1,
+            "token_usage_record": 8
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a14545-a74e-7fb1-84c3-6581c2697778",
+          "native_session_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+          "records": 72,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 30,
+            "response_item": 31,
+            "world_state": 1,
+            "turn_context": 1,
+            "inter_agent_communication_metadata": 1,
+            "token_usage_record": 7
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a14545-f23b-76d2-b9c1-52e17e4363af",
+          "native_session_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+          "records": 174,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 82,
+            "response_item": 67,
+            "world_state": 1,
+            "turn_context": 1,
+            "inter_agent_communication_metadata": 2,
+            "token_usage_record": 20
+          },
+          "valid": true,
+          "active_prefix_snapshot": false
+        },
+        {
+          "thread_id": "01a14549-2c5d-70c0-ab26-64feca32bde8",
+          "native_session_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+          "records": 50,
+          "types": {
+            "session_meta": 1,
+            "event_msg": 19,
+            "response_item": 21,
+            "world_state": 1,
+            "turn_context": 1,
+            "inter_agent_communication_metadata": 1,
+            "token_usage_record": 6
+          },
+          "valid": true,
+          "active_prefix_snapshot": true
+        }
+      ],
+      "external_source_sessions_scanned": false
+    },
+    "logs_and_failures": {
+      "status": "pass",
+      "original_task_log_files": 756,
+      "copied_log_files": 757,
+      "original_location_project_log_files": 756,
+      "missing": [],
+      "extra": [
+        "copy-manifest.json"
+      ],
+      "different": [],
+      "generated_copy_manifest": "copy-manifest.json",
+      "copy_manifest_entries": 756,
+      "copy_manifest_failures": [],
+      "failed_and_retry_examples_present": {
+        "analysis-baseline/mock-requests.jsonl": true,
+        "implementation-validation/round-01/install-attempt01-raw-exit.json": true,
+        "implementation-validation/round-01/install-attempt01-path-failure.log": true,
+        "implementation-validation/round-01/harness-attempt01.log": true,
+        "implementation-validation/round-01/harness-report-attempt01.json": true,
+        "implementation-validation/round-01/attempt02/harness-report.json": true,
+        "implementation-validation/round-01/attempt04-full/harness-report.json": true,
+        "implementation-validation/round-01/attempt05-sentinel/harness-report.json": true
+      },
+      "excluded_unrelated_preinstall_ui": [
+        "analysis-baseline/00-before-install.json",
+        "analysis-baseline/00-before-install.png"
+      ]
+    },
+    "recorded_session_discovery": {
+      "status": "pass",
+      "cwd_query_ids": 14,
+      "task_query_ids": 2,
+      "unexported_dedicated_ids": [],
+      "evidence": "validation/session-discovery.json",
+      "evidence_strength": "Reviewed parent-recorded read-only metadata query; verifier did not open client database or other session originals"
+    },
+    "binary_manifest": {
+      "status": "pass",
+      "files": 397,
+      "baseline_same_bytes": 8,
+      "failed_bytes_or_hash": [],
+      "failed_baseline_origin": [],
+      "unlisted_nul_sample_files": [],
+      "duplicate_paths": 0,
+      "baseline_tree_exit_code": 0
+    },
+    "taskbook_version": {
+      "status": "pass",
+      "files": 4,
+      "failures": [],
+      "common_own_git_checkout_declared": false,
+      "task_history_exists": false
+    },
+    "production_258_unchanged": {
+      "status": "pass",
+      "files": 258,
+      "different": [],
+      "freeze_manifest_sha256": "cff0ff9567ae804b76c12add8b9989e95d37c89c18152b99b3fc3b09f4e85f5f",
+      "parent_before_matches_implementation_freeze": true
+    },
+    "artifact_boundaries": {
+      "status": "pass",
+      "recursive_output_boundaries": [
+        ".comate/submission-draft/changes",
+        ".comate/submission-draft/project",
+        ".comate/submission-draft/validation"
+      ],
+      "nested_derived_files": [],
+      "repository_metadata_absent_from_snapshot": true,
+      "original_worktree_pointer_preserved": true,
+      "original_pointer_sha256": "9224e71e28ce75d495438beafead70181a2057d5ec47fb3239c991e1f6bb5078",
+      "overview_jsonl_absent": true
+    },
+    "hap_artifact": {
+      "status": "pass",
+      "path": "artifacts/entry-default-unsigned.hap",
+      "bytes": 9110978,
+      "sha256": "c30a83a3523e83ee77db7ba8a827ca781aad5cd0d4f2669de293fef19b4bf229",
+      "manifest": {
+        "path": "artifacts/entry-default-unsigned.hap",
+        "bytes": 9110978,
+        "sha256": "c30a83a3523e83ee77db7ba8a827ca781aad5cd0d4f2669de293fef19b4bf229",
+        "kind": "tested generated HAP, not new application resource"
+      }
+    },
+    "freeze_time_disclosure": {
+      "status": "pass",
+      "official_team_freeze_time": "【待补充】",
+      "technical_identifier_created_at": "2026-10-16T15:23:39.879380+00:00",
+      "later_manifest_written_at": "2026-10-16T15:26:54.806463+00:00",
+      "note": "Technical identifier/export start time is not material freeze completion or the official team freeze time"
+    }
+  },
+  "manifest_sha256_before": "3228be5cdbdc86b9d60da4bd221c71c3ffbabacb444228b2fa24dbf1368835e3",
+  "manifest_sha256_after": "3228be5cdbdc86b9d60da4bd221c71c3ffbabacb444228b2fa24dbf1368835e3",
+  "frozen_manifest_unchanged_during_checks": true,
+  "passed": true,
+  "ended_at": "2026-10-16T15:37:33.541458+00:00"
+}

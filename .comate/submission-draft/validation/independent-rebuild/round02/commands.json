@@ -1,0 +1,123 @@
+[
+  {
+    "command": [
+      "git",
+      "clone",
+      "--no-local",
+      "--no-checkout",
+      "--single-branch",
+      "--branch",
+      "base/vg-spec8",
+      "--no-tags",
+      "--depth",
+      "1",
+      "D:\\HCUP\\vg-spec8",
+      "D:\\HCUP\\vg-spec8\\.comate\\submission-draft\\validation\\independent-rebuild\\round02\\baseline"
+    ],
+    "cwd": "D:\\HCUP\\vg-spec8",
+    "started_at": "2026-10-16T15:33:15.783221+00:00",
+    "ended_at": "2026-10-16T15:33:16.154402+00:00",
+    "exit_code": 0,
+    "stdout": "01-stdout.log",
+    "stderr": "01-stderr.log"
+  },
+  {
+    "command": [
+      "git",
+      "config",
+      "core.autocrlf",
+      "false"
+    ],
+    "cwd": "D:\\HCUP\\vg-spec8\\.comate\\submission-draft\\validation\\independent-rebuild\\round02\\baseline",
+    "started_at": "2026-10-16T15:33:16.155405+00:00",
+    "ended_at": "2026-10-16T15:33:16.182400+00:00",
+    "exit_code": 0,
+    "stdout": "02-stdout.log",
+    "stderr": "02-stderr.log"
+  },
+  {
+    "command": [
+      "git",
+      "config",
+      "core.eol",
+      "lf"
+    ],
+    "cwd": "D:\\HCUP\\vg-spec8\\.comate\\submission-draft\\validation\\independent-rebuild\\round02\\baseline",
+    "started_at": "2026-10-16T15:33:16.182400+00:00",
+    "ended_at": "2026-10-16T15:33:16.207904+00:00",
+    "exit_code": 0,
+    "stdout": "03-stdout.log",
+    "stderr": "03-stderr.log"
+  },
+  {
+    "command": [
+      "git",
+      "config",
+      "core.safecrlf",
+      "false"
+    ],
+    "cwd": "D:\\HCUP\\vg-spec8\\.comate\\submission-draft\\validation\\independent-rebuild\\round02\\baseline",
+    "started_at": "2026-10-16T15:33:16.207904+00:00",
+    "ended_at": "2026-10-16T15:33:16.232926+00:00",
+    "exit_code": 0,
+    "stdout": "04-stdout.log",
+    "stderr": "04-stderr.log"
+  },
+  {
+    "command": [
+      "git",
+      "checkout",
+      "--detach",
+      "9cbcf7292c8cc46955dc3b522ddbda41c66a61d9"
+    ],
+    "cwd": "D:\\HCUP\\vg-spec8\\.comate\\submission-draft\\validation\\independent-rebuild\\round02\\baseline",
+    "started_at": "2026-10-16T15:33:16.234929+00:00",
+    "ended_at": "2026-10-16T15:33:16.366540+00:00",
+    "exit_code": 0,
+    "stdout": "05-stdout.log",
+    "stderr": "05-stderr.log"
+  },
+  {
+    "command": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "D:\\HCUP\\vg-spec8\\.comate\\submission-draft\\validation\\independent-rebuild\\round02\\baseline",
+    "started_at": "2026-10-16T15:33:16.366540+00:00",
+    "ended_at": "2026-10-16T15:33:16.390542+00:00",
+    "exit_code": 0,
+    "stdout": "06-stdout.log",
+    "stderr": "06-stderr.log"
+  },
+  {
+    "command": [
+      "git",
+      "apply",
+      "--check",
+      "--binary",
+      "D:\\HCUP\\vg-spec8\\.comate\\submission-draft\\changes\\final.diff"
+    ],
+    "cwd": "D:\\HCUP\\vg-spec8\\.comate\\submission-draft\\validation\\independent-rebuild\\round02\\baseline",
+    "started_at": "2026-10-16T15:33:16.390542+00:00",
+    "ended_at": "2026-10-16T15:33:18.793046+00:00",
+    "exit_code": 0,
+    "stdout": "07-stdout.log",
+    "stderr": "07-stderr.log"
+  },
+  {
+    "command": [
+      "git",
+      "apply",
+      "--binary",
+      "--whitespace=nowarn",
+      "D:\\HCUP\\vg-spec8\\.comate\\submission-draft\\changes\\final.diff"
+    ],
+    "cwd": "D:\\HCUP\\vg-spec8\\.comate\\submission-draft\\validation\\independent-rebuild\\round02\\baseline",
+    "started_at": "2026-10-16T15:33:18.794046+00:00",
+    "ended_at": "2026-10-16T15:33:20.870025+00:00",
+    "exit_code": 0,
+    "stdout": "08-stdout.log",
+    "stderr": "08-stderr.log"
+  }
+]

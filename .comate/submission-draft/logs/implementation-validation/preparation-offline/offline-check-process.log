@@ -1,0 +1,29 @@
+{"time": "2026-10-16T14:14:32.494756+00:00", "monotonic": 157370.296, "action": "mock_started", "address": "127.0.0.1", "port": 65031}
+{"time": "2026-10-16T14:14:32.541276+00:00", "monotonic": 157370.343, "action": "network_checkpoint", "name": "offline-observer-all-methods", "baseline": 0, "count": 11, "delta": 11, "purpose": "test-tool-only; no-product-result"}
+{"time": "2026-10-16T14:14:33.053607+00:00", "monotonic": 157370.859, "action": "mock_stopped", "count": 11}
+{
+  "syntaxFiles": [
+    "hypium_tests/__init__.py",
+    "hypium_tests/compare_warnings.py",
+    "hypium_tests/offline_check.py",
+    "hypium_tests/test_restore_confirmation.py",
+    "hypium_tests/verification_support.py"
+  ],
+  "releaseGuard": "pass",
+  "realHttpMethodsObserved": [
+    "HEAD",
+    "GET",
+    "PUT",
+    "DELETE",
+    "PROPFIND",
+    "MKCOL",
+    "OPTIONS",
+    "POST",
+    "TRACE",
+    "PATCH",
+    "FROB"
+  ],
+  "exitCode": 0,
+  "deviceTouched": false,
+  "productRequirements": "all not_run"
+}

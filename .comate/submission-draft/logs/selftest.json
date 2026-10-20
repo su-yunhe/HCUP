@@ -1,0 +1,75 @@
+{
+  "report_kind": "aggregate_of_actual_runs_not_a_single_suite_run",
+  "project": "D:\\HCUP\\vg-spec8",
+  "device_sn": "127.0.0.1:5555",
+  "env_warnings": [],
+  "cases": [
+    {
+      "name": "test_01_core_smoke (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_01_core_smoke)",
+      "outcome": "pass",
+      "message": "",
+      "evidence": "logs/implementation-validation/round-01/attempt04-full/harness-report.json"
+    },
+    {
+      "name": "test_10_continuous_cancel_reopen_and_lifecycle (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_10_continuous_cancel_reopen_and_lifecycle)",
+      "outcome": "pass",
+      "message": "",
+      "evidence": "logs/implementation-validation/round-01/attempt05-sentinel/harness-report.json"
+    },
+    {
+      "name": "test_20_empty_and_whitespace_configuration (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_20_empty_and_whitespace_configuration)",
+      "outcome": "pass",
+      "message": "",
+      "evidence": "logs/implementation-validation/round-01/attempt04-full/harness-report.json"
+    },
+    {
+      "name": "test_90_continue_positive_control (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_90_continue_positive_control)",
+      "outcome": "pass",
+      "message": "",
+      "evidence": "logs/implementation-validation/round-01/attempt05-sentinel/harness-report.json"
+    },
+    {
+      "name": "test_05_prepare_nonempty_local_sentinel (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_05_prepare_nonempty_local_sentinel)",
+      "outcome": "pass",
+      "message": "",
+      "evidence": "logs/implementation-validation/round-01/attempt05-sentinel/harness-report.json"
+    },
+    {
+      "name": "test_11_nonempty_local_data_unchanged (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_11_nonempty_local_data_unchanged)",
+      "outcome": "pass",
+      "message": "",
+      "evidence": "logs/implementation-validation/round-01/attempt05-sentinel/harness-report.json"
+    }
+  ],
+  "evidence_runs": [
+    {
+      "path": "logs/implementation-validation/round-01/attempt04-full/harness-report.json",
+      "outcomes": {
+        "pass": 4,
+        "fail": 0,
+        "error": 0,
+        "skip": 2
+      },
+      "unauthorized_zero_checkpoints": 91,
+      "authorized_requests": 3,
+      "hap_sha256": "c30a83a3523e83ee77db7ba8a827ca781aad5cd0d4f2669de293fef19b4bf229"
+    },
+    {
+      "path": "logs/implementation-validation/round-01/attempt05-sentinel/harness-report.json",
+      "outcomes": {
+        "pass": 4,
+        "fail": 0,
+        "error": 0,
+        "skip": 0
+      },
+      "unauthorized_zero_checkpoints": 47,
+      "authorized_requests": 3,
+      "hap_sha256": "c30a83a3523e83ee77db7ba8a827ca781aad5cd0d4f2669de293fef19b4bf229"
+    }
+  ],
+  "earlier_skips_resolved_by": "attempt05-sentinel",
+  "production_files": 258,
+  "source_unchanged_since_freeze": true,
+  "official_hidden_tests_run": false,
+  "timestamp": "2026-10-16T14:48:30.163796+00:00"
+}

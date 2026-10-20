@@ -1,0 +1,32 @@
+{
+  "project": "D:\\HCUP\\vg-spec8",
+  "device_sn": "127.0.0.1:5555",
+  "env_warnings": [],
+  "cases": [
+    {
+      "name": "test_05_prepare_nonempty_local_sentinel (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_05_prepare_nonempty_local_sentinel)",
+      "outcome": "error",
+      "message": "AttributeError: UiDriver has no attribute [scroll_to]"
+    },
+    {
+      "name": "test_10_continuous_cancel_reopen_and_lifecycle (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_10_continuous_cancel_reopen_and_lifecycle)",
+      "outcome": "error",
+      "message": "AttributeError: UiDriver has no attribute [scroll_to]"
+    },
+    {
+      "name": "test_11_nonempty_local_data_unchanged (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_11_nonempty_local_data_unchanged)",
+      "outcome": "skip",
+      "message": "前置条件未满足: A16 非空哨兵快照未准备成功"
+    },
+    {
+      "name": "test_20_empty_and_whitespace_configuration (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_20_empty_and_whitespace_configuration)",
+      "outcome": "fail",
+      "message": "AssertionError: 测试前置：webdav_config_result 未显示 ✅ WebDAV 设置已保存"
+    },
+    {
+      "name": "test_90_continue_positive_control (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_90_continue_positive_control)",
+      "outcome": "fail",
+      "message": "AssertionError: 测试前置：webdav_config_result 未显示 ✅ WebDAV 设置已保存"
+    }
+  ]
+}

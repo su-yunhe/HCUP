@@ -1,0 +1,177 @@
+{
+  "status": "pass",
+  "productionInputs": 258,
+  "productionUnchanged": true,
+  "productionManifestSha256": "cff0ff9567ae804b76c12add8b9989e95d37c89c18152b99b3fc3b09f4e85f5f",
+  "hapSha256": "c30a83a3523e83ee77db7ba8a827ca781aad5cd0d4f2669de293fef19b4bf229",
+  "runs": {
+    "attempt04-full": {
+      "passed": 4,
+      "skipped": 2,
+      "failed": 0,
+      "zeroWindowStart": "2026-10-16T14:29:04.168856+00:00",
+      "zeroWindowEnd": "2026-10-16T14:31:13.650089+00:00",
+      "zeroWindowSeconds": 129.48500000001513,
+      "uncontinuedCheckpoints": 91,
+      "boundaryBranches": 20,
+      "uiOpenSnapshotsAudited": 45,
+      "requests": [
+        {
+          "time": "2026-10-16T14:41:03.780435+00:00",
+          "monotonic": 158961.578,
+          "sequence": 1,
+          "method": "HEAD",
+          "path": "/dav/vg_spec8_verification",
+          "response": 200,
+          "bodyBytes": 0,
+          "bodySha256": null,
+          "mode": "empty"
+        },
+        {
+          "time": "2026-10-16T14:41:03.842775+00:00",
+          "monotonic": 158961.64,
+          "sequence": 2,
+          "method": "HEAD",
+          "path": "/dav/vg_spec8_verification/backup.json.enc",
+          "response": 404,
+          "bodyBytes": 0,
+          "bodySha256": null,
+          "mode": "empty"
+        },
+        {
+          "time": "2026-10-16T14:41:03.905507+00:00",
+          "monotonic": 158961.703,
+          "sequence": 3,
+          "method": "HEAD",
+          "path": "/dav/vg_spec8_verification/data/backup.json.enc",
+          "response": 404,
+          "bodyBytes": 0,
+          "bodySha256": null,
+          "mode": "empty"
+        }
+      ],
+      "authorizationBoundary": "2026-10-16T14:41:03.043311+00:00"
+    },
+    "attempt05-sentinel": {
+      "passed": 4,
+      "skipped": 0,
+      "failed": 0,
+      "zeroWindowStart": "2026-10-16T14:44:31.032052+00:00",
+      "zeroWindowEnd": "2026-10-16T14:46:40.489833+00:00",
+      "zeroWindowSeconds": 129.46799999999348,
+      "uncontinuedCheckpoints": 47,
+      "boundaryBranches": 0,
+      "uiOpenSnapshotsAudited": 23,
+      "requests": [
+        {
+          "time": "2026-10-16T14:47:04.381654+00:00",
+          "monotonic": 159322.187,
+          "sequence": 1,
+          "method": "HEAD",
+          "path": "/dav/vg_spec8_verification",
+          "response": 200,
+          "bodyBytes": 0,
+          "bodySha256": null,
+          "mode": "empty"
+        },
+        {
+          "time": "2026-10-16T14:47:04.447989+00:00",
+          "monotonic": 159322.25,
+          "sequence": 2,
+          "method": "HEAD",
+          "path": "/dav/vg_spec8_verification/backup.json.enc",
+          "response": 404,
+          "bodyBytes": 0,
+          "bodySha256": null,
+          "mode": "empty"
+        },
+        {
+          "time": "2026-10-16T14:47:04.520014+00:00",
+          "monotonic": 159322.328,
+          "sequence": 3,
+          "method": "HEAD",
+          "path": "/dav/vg_spec8_verification/data/backup.json.enc",
+          "response": 404,
+          "bodyBytes": 0,
+          "bodySha256": null,
+          "mode": "empty"
+        }
+      ],
+      "authorizationBoundary": "2026-10-16T14:47:03.652212+00:00"
+    }
+  },
+  "finalLogicalCases": {
+    "test_01_core_smoke": {
+      "outcome": "pass",
+      "run": "attempt04-full",
+      "case": "test_01_core_smoke (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_01_core_smoke)"
+    },
+    "test_10_continuous_cancel_reopen_and_lifecycle": {
+      "outcome": "pass",
+      "run": "attempt05-sentinel",
+      "case": "test_10_continuous_cancel_reopen_and_lifecycle (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_10_continuous_cancel_reopen_and_lifecycle)"
+    },
+    "test_20_empty_and_whitespace_configuration": {
+      "outcome": "pass",
+      "run": "attempt04-full",
+      "case": "test_20_empty_and_whitespace_configuration (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_20_empty_and_whitespace_configuration)"
+    },
+    "test_90_continue_positive_control": {
+      "outcome": "pass",
+      "run": "attempt05-sentinel",
+      "case": "test_90_continue_positive_control (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_90_continue_positive_control)"
+    },
+    "test_05_prepare_nonempty_local_sentinel": {
+      "outcome": "pass",
+      "run": "attempt05-sentinel",
+      "case": "test_05_prepare_nonempty_local_sentinel (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_05_prepare_nonempty_local_sentinel)"
+    },
+    "test_11_nonempty_local_data_unchanged": {
+      "outcome": "pass",
+      "run": "attempt05-sentinel",
+      "case": "test_11_nonempty_local_data_unchanged (hypium_tests.test_restore_confirmation.RestoreConfirmationTests.test_11_nonempty_local_data_unchanged)"
+    }
+  },
+  "retainedCaseMethodsUnchanged": {
+    "test_01_core_smoke": true,
+    "test_20_empty_and_whitespace_configuration": true
+  },
+  "sentinelTables": {
+    "words": 0,
+    "word_identities": 0,
+    "definitions": 0,
+    "review_events": 0,
+    "user_notebook_words": 0,
+    "user_word_books": 1,
+    "user_word_book_words": 0,
+    "system_word_book_words": 0
+  },
+  "sentinelEntitiesEqual": true,
+  "sentinelBeforeSha256": "ec26de7371422fe7554b5b7a29cfc90033a7ffa3e49939176c6ecfadfc2c5506",
+  "sentinelAfterSha256": "ec26de7371422fe7554b5b7a29cfc90033a7ffa3e49939176c6ecfadfc2c5506",
+  "requirements": {
+    "A1": "pass",
+    "A2": "pass",
+    "A3": "pass",
+    "A4": "pass",
+    "A5": "pass",
+    "A6": "pass",
+    "A7": "pass",
+    "A8": "pass",
+    "A9": "pass",
+    "A10": "pass",
+    "A11": "pass",
+    "A12": "pass",
+    "A13": "pass",
+    "A14": "pass",
+    "A15": "pass",
+    "A16": "pass",
+    "A17": "pass",
+    "A18": "pass",
+    "A19": "pass"
+  },
+  "notRun": [
+    "D2 preview cancellation/deep restore",
+    "concurrent automatic sync"
+  ]
+}

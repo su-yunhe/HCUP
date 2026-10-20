@@ -1,0 +1,369 @@
+{
+  "schema_version": 1,
+  "task_id": "vg-spec8",
+  "root": "D:\\HCUP\\vg-spec8",
+  "project": "D:\\HCUP\\vg-spec8",
+  "base_commit": "9cbcf7292c8cc46955dc3b522ddbda41c66a61d9",
+  "baseline_bundle": "repo_bundles/vignette-9cbcf7292c-base.bundle",
+  "spec_sha256": "256038a2336dce8956585ff92c18e7ec9e5cd79d736f7b7f56021dbf646af592",
+  "metadata_sha256": "92a41fc04e0bb8ff18e0fce0e9324039fb369a4c879cffd2477c2e9b15e58c9c",
+  "phase": "acceptance",
+  "status": "local_validation_complete",
+  "created_at": "2026-10-16T13:30:06.025320+00:00",
+  "sessions": [
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a13fc4-2611-7761-a580-1283e0c70541",
+      "registered_at": "2026-10-16T13:30:06.025320+00:00",
+      "purpose": "Initialization only; this overview conversation also contains environment setup and other task preparation. Not feature-development evidence."
+    },
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a144eb-32eb-7cb3-b4d6-daea0ae599b7",
+      "registered_at": "2026-10-16T13:34:53.262351+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements_analysis",
+      "session_id": "01a144ec-8fc2-7773-b6c4-d2cadea6ddf3",
+      "registered_at": "2026-10-16T13:36:42.394111+00:00",
+      "session_id_resolution": "Actual CODEX_THREAD_ID returned by child; earlier null registration retained in events.jsonl."
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/baseline_mapping",
+      "session_id": "01a144ec-c5a6-7ce3-9feb-43490f2b2fed",
+      "registered_at": "2026-10-16T13:36:42.474353+00:00",
+      "session_id_resolution": "Actual CODEX_THREAD_ID returned by child; earlier null registration retained in events.jsonl."
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/baseline_verification",
+      "session_id": "01a144ed-37c3-7240-b34d-e526c496efeb",
+      "registered_at": "2026-10-16T13:36:42.553100+00:00",
+      "session_id_resolution": "Actual CODEX_THREAD_ID returned by child; earlier null registration retained in events.jsonl."
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements_analysis",
+      "session_id": "01a144ec-8fc2-7773-b6c4-d2cadea6ddf3",
+      "registered_at": "2026-10-16T13:37:21.843936+00:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/baseline_mapping",
+      "session_id": "01a144ec-c5a6-7ce3-9feb-43490f2b2fed",
+      "registered_at": "2026-10-16T13:37:21.926773+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/baseline_verification",
+      "session_id": "01a144ed-37c3-7240-b34d-e526c496efeb",
+      "registered_at": "2026-10-16T13:38:57.543361+00:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/readonly_implementation_audit",
+      "session_id": "01a144f2-adb3-7f82-b090-505bdb99a517",
+      "registered_at": "2026-10-16T13:42:22.203600+00:00",
+      "session_id_resolution": "Actual CODEX_THREAD_ID returned by child; earlier null registration retained in events.jsonl."
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/readonly_implementation_audit",
+      "session_id": "01a144f2-adb3-7f82-b090-505bdb99a517",
+      "registered_at": "2026-10-16T13:47:15.088292+00:00"
+    },
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+      "registered_at": "2026-10-16T13:59:35.762754+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements_review",
+      "session_id": "01a14503-0a39-7740-b830-25311d66c1db",
+      "registered_at": "2026-10-16T14:01:14.982716+00:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/implementation_design",
+      "session_id": "01a14503-4b1d-7e70-943e-a0d57c675547",
+      "registered_at": "2026-10-16T14:01:15.068285+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/independent_verification",
+      "session_id": "01a14503-a32e-74c1-b3bc-c948f2f304ea",
+      "registered_at": "2026-10-16T14:01:15.151126+00:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/feature_implementation",
+      "session_id": "01a1450b-f62c-7710-8bcd-0c24be8870be",
+      "registered_at": "2026-10-16T14:10:25.625863+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/submission_requirements",
+      "session_id": "01a14545-6fd5-7bf2-9311-974eff3239ba",
+      "registered_at": "2026-10-16T15:14:51.894412+00:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/submission_design",
+      "session_id": "01a14545-a74e-7fb1-84c3-6581c2697778",
+      "registered_at": "2026-10-16T15:14:51.979946+00:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/submission_facts",
+      "session_id": "01a14545-f23b-76d2-b9c1-52e17e4363af",
+      "registered_at": "2026-10-16T15:14:52.062461+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/submission_verification",
+      "session_id": "01a14549-2c5d-70c0-ab26-64feca32bde8",
+      "registered_at": "2026-10-16T15:17:35.283786+00:00"
+    }
+  ],
+  "approved_artifacts": {
+    "prepared_inputs": [
+      "spec/requirement.md",
+      "spec/metadata.json"
+    ],
+    "analysis_documents": [
+      {
+        "path": "spec/acceptance.md",
+        "sha256": "69849e82f4402b87fd1a49cd53631b4a42154d24f3a9fbbc653c2786a98ef057"
+      },
+      {
+        "path": "spec/baseline-notes.md",
+        "sha256": "e72636ed63581533a85d90a4040814a85b33eb3233cb694b2805344b73690556"
+      }
+    ],
+    "implementation_requirements": {
+      "path": "workflow/requirements/implementation-review-01.md",
+      "sha256": "48bcbc9dd9186b0aedc8a9bff76aaa5f209a73c8ebb0d2f2961d1e1fe4effd64"
+    },
+    "implementation_design": {
+      "path": "workflow/design/implementation-plan-01.md",
+      "sha256": "9a08f8254c3b1e1159234997b6af011ce35241cbf0ffc6633a021714aaab3dcb"
+    },
+    "implementation_handoff": {
+      "path": "workflow/implementation/implementation-01.md",
+      "sha256": "c1715bfbefa5c48d511e6759ef6370cc6291fc9723540b15639e2c4e308f6290"
+    },
+    "implementation_final_validation": {
+      "path": "workflow/verification/implementation-final-01.md",
+      "sha256": "c0d29fca94c19e18d6dbc15572b6253e56bf722e9844c65285de924fc18984dd"
+    }
+  },
+  "code_fingerprint": {
+    "head": "9cbcf7292c8cc46955dc3b522ddbda41c66a61d9",
+    "manifest": "workflow/production-freeze-01.json",
+    "manifest_sha256": "cff0ff9567ae804b76c12add8b9989e95d37c89c18152b99b3fc3b09f4e85f5f",
+    "files": 258,
+    "production_changes": true
+  },
+  "failures": [
+    {
+      "fingerprint": "baseline-first-confirm-missing-network-before-continue",
+      "kind": "baseline_spec_gap",
+      "requirements": [
+        "A2",
+        "A9",
+        "A12",
+        "A17"
+      ],
+      "evidence": [
+        "workflow/verification/analysis-01.md",
+        "logs/analysis-baseline/mock-requests.jsonl",
+        "logs/analysis-baseline/06-first-restore-inflight.json"
+      ],
+      "result": "Documented; no fix authorized in analysis-only stage. First confirmation absent; 6 requests without Continue across two operations.",
+      "next_route": "Read acceptance and baseline-notes before any separately requested design/implementation stage.",
+      "current_source_resolution": {
+        "status": "resolved_locally",
+        "evidence": "workflow/verification/implementation-final-01.md",
+        "resolved_at": "2026-10-16T14:54:07.674538+00:00"
+      }
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "U1",
+      "status": "implementation_choice_recorded",
+      "source": "workflow/requirements/implementation-review-01.md section 4",
+      "scope_limit": "Not upgraded to Spec explicit; U3 concurrency remains unverified outside isolated scenario."
+    },
+    {
+      "id": "U2",
+      "status": "implementation_choice_recorded",
+      "source": "workflow/requirements/implementation-review-01.md section 4",
+      "scope_limit": "Not upgraded to Spec explicit; U3 concurrency remains unverified outside isolated scenario."
+    },
+    {
+      "id": "U3",
+      "status": "implementation_choice_recorded",
+      "source": "workflow/requirements/implementation-review-01.md section 4",
+      "scope_limit": "Not upgraded to Spec explicit; U3 concurrency remains unverified outside isolated scenario."
+    },
+    {
+      "id": "U4",
+      "status": "implementation_choice_recorded",
+      "source": "workflow/requirements/implementation-review-01.md section 4",
+      "scope_limit": "Not upgraded to Spec explicit; U3 concurrency remains unverified outside isolated scenario."
+    },
+    {
+      "id": "U5",
+      "status": "implementation_choice_recorded",
+      "source": "workflow/requirements/implementation-review-01.md section 4",
+      "scope_limit": "Not upgraded to Spec explicit; U3 concurrency remains unverified outside isolated scenario."
+    },
+    {
+      "id": "U6",
+      "status": "implementation_choice_recorded",
+      "source": "workflow/requirements/implementation-review-01.md section 4",
+      "scope_limit": "Not upgraded to Spec explicit; U3 concurrency remains unverified outside isolated scenario."
+    }
+  ],
+  "next_action": "Collect task-only native traces and facts, generate portable build/docs/full patch snapshot, independently check binary apply and complete file equality.",
+  "config_snapshot": "system-config\\initial-20261016T133006Z",
+  "record_gaps": [],
+  "updated_at": "2026-10-16T15:17:35.283786+00:00",
+  "last_event_id": "124bc3d0f75d4fa39beb3001291a62ea",
+  "layout": "HCUP: the task root is the Git worktree and project root",
+  "native_snapshot_gaps": [],
+  "last_trace_snapshot": "traces\\native\\20261016T145508Z-ba186921\\manifest.json",
+  "setup_complete": true,
+  "current_request": {
+    "source": "spec-harness/2-submit.md",
+    "scope": "local_submission_materials_only",
+    "production_changes_authorized": false,
+    "stage_status": "in_progress",
+    "session_id": "01a14501-8f22-73b2-b107-150ed01e18bb"
+  },
+  "analysis_role_artifacts": {
+    "harmony_requirements": "workflow/requirements/analysis-01.md",
+    "harmony_design": "workflow/design/baseline-map-01.md",
+    "harmony_implementation": "workflow/implementation/read-only-audit-01.md",
+    "harmony_verification": "workflow/verification/analysis-01.md"
+  },
+  "production_writer": null,
+  "applied_config_notes": "Implementation session uses harmony-task-flow and four native roles; actual configs in system-config/implementation-20261016. HCUP root/environment override legacy example paths.",
+  "analysis_complete": true,
+  "analysis_validation": {
+    "build_exit_code": 0,
+    "install_exit_code": 0,
+    "start_exit_code": 0,
+    "observation_exit_code": 1,
+    "located_arkts_warnings": 764,
+    "request_count": 6,
+    "continue_clicked": false,
+    "cancel_clicked": false,
+    "feature_validation_complete": false,
+    "temporary_mock_stopped": true,
+    "temporary_reverse_port_removed": true
+  },
+  "device_reservation": {
+    "device": "127.0.0.1:5555",
+    "owner": "/root/independent_verification",
+    "basis": "hdc unique device; no Python test processes; current task source frozen",
+    "status": "released",
+    "released_at": "2026-10-16T14:54:07.674538+00:00"
+  },
+  "implementation_role_artifacts": {
+    "harmony_requirements": "workflow/requirements/implementation-review-01.md",
+    "harmony_design": "workflow/design/implementation-plan-01.md",
+    "harmony_implementation": "workflow/implementation/implementation-01.md",
+    "harmony_verification": "workflow/verification/implementation-final-01.md"
+  },
+  "validation_progress": {
+    "build_exit_code": 0,
+    "baseline_warnings": 764,
+    "current_warnings": 764,
+    "new_diagnostics": 0,
+    "install_success_verified": true,
+    "acceptance_pass": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A7",
+      "A8",
+      "A9",
+      "A10",
+      "A11",
+      "A12",
+      "A13",
+      "A14",
+      "A15",
+      "A16",
+      "A17",
+      "A18",
+      "A19"
+    ],
+    "unique_test_methods_with_pass_evidence": 6,
+    "evidence_runs": [
+      "attempt04-full: 4 pass, 2 data-precondition skip",
+      "attempt05-sentinel: 4 pass, 0 skip; prior skips resolved"
+    ],
+    "unauthorized_zero_checkpoints": 138,
+    "positive_control_requests_per_run": 3,
+    "nonempty_entities_equal": true,
+    "source_files_unchanged": 258,
+    "temporary_mock_stopped": true,
+    "task_forward_removed": true,
+    "feature_validation_complete": true
+  },
+  "implementation_complete": true,
+  "delivery": "workflow/implementation-delivery.md",
+  "selftest_summary": "logs/selftest.json",
+  "verification_limits": [
+    "Official hidden tests unavailable/not run",
+    "D2 preview cancellation and complete successful restore not run",
+    "Concurrent automatic sync not run; isolated automatic sync disabled persistently",
+    "Existing 764 warnings and SettingsPage >500 lines retained as documented baseline debt"
+  ],
+  "implementation_process_failures": [
+    {
+      "fingerprint": "hdc-absolute-path-textual-fail-exit-zero",
+      "kind": "environment_tool",
+      "status": "resolved",
+      "evidence": "logs/implementation-validation/round-01/install-attempt01-raw-exit.json"
+    },
+    {
+      "fingerprint": "hypium-main-ability-auto-discovery",
+      "kind": "test_setup",
+      "status": "resolved",
+      "evidence": "logs/implementation-validation/round-01/harness-attempt01.log"
+    },
+    {
+      "fingerprint": "hypium-unsupported-scroll-and-offscreen-target",
+      "kind": "test_setup",
+      "status": "resolved",
+      "evidence": "logs/implementation-validation/round-01/attempt02/harness-report.json"
+    },
+    {
+      "fingerprint": "sentinel-home-selector-ambiguous",
+      "kind": "test_precondition",
+      "status": "resolved",
+      "evidence": "logs/implementation-validation/round-01/attempt05-sentinel/harness-report.json"
+    }
+  ],
+  "previous_request": {
+    "source": "spec-harness/1-do.md",
+    "scope": "implementation_and_local_validation",
+    "production_changes_authorized": true,
+    "stage_status": "complete",
+    "session_id": "01a14501-8f22-73b2-b107-150ed01e18bb",
+    "completed_at": "2026-10-16T14:54:07.674538+00:00"
+  }
+}

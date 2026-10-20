@@ -1,0 +1,106 @@
+{
+  "words": {
+    "columns": [
+      "id",
+      "word",
+      "status",
+      "fsrs_state",
+      "history",
+      "definition",
+      "due_date",
+      "created_at",
+      "updated_at",
+      "book_id",
+      "tags"
+    ],
+    "rows": []
+  },
+  "word_identities": {
+    "columns": [
+      "word",
+      "status",
+      "fsrs_state",
+      "history",
+      "due_date",
+      "created_at",
+      "updated_at",
+      "total_reps",
+      "total_lapses",
+      "first_book_id"
+    ],
+    "rows": []
+  },
+  "definitions": {
+    "columns": [
+      "id",
+      "word",
+      "definition",
+      "source",
+      "created_at"
+    ],
+    "rows": []
+  },
+  "review_events": {
+    "columns": [
+      "id",
+      "word_id",
+      "rating",
+      "timestamp",
+      "prev_state_json",
+      "new_state_json",
+      "error_tag",
+      "reflection",
+      "scheduled_days"
+    ],
+    "rows": []
+  },
+  "user_notebook_words": {
+    "columns": [
+      "word",
+      "created_at"
+    ],
+    "rows": []
+  },
+  "user_word_books": {
+    "columns": [
+      "id",
+      "name",
+      "created_at",
+      "updated_at",
+      "description",
+      "category",
+      "difficulty",
+      "cover_color",
+      "icon"
+    ],
+    "rows": [
+      [
+        "user_1792161831966_29441",
+        "VG8取消哨兵224348",
+        1792161831966,
+        1792161831966,
+        "用户自定义词书",
+        "其他",
+        "CET-4",
+        "[\"#a8edea\",\"#fed6e3\"]",
+        "📓"
+      ]
+    ]
+  },
+  "user_word_book_words": {
+    "columns": [
+      "book_id",
+      "word",
+      "created_at"
+    ],
+    "rows": []
+  },
+  "system_word_book_words": {
+    "columns": [
+      "book_id",
+      "word",
+      "created_at"
+    ],
+    "rows": []
+  }
+}

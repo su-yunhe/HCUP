@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+# Keep frozen submission evidence byte-for-byte.
+/.comate/submission-draft/** -text
+"/.comate/submission-draft/changes/final.diff" filter=lfs diff=lfs merge=lfs -text
+"/.comate/submission-draft/validation/revisions/revision1/final.diff" filter=lfs diff=lfs merge=lfs -text

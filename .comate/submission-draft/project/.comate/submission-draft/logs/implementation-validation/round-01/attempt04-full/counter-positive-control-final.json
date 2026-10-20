@@ -1,0 +1,43 @@
+{
+  "time": "2026-10-16T14:41:06.024514+00:00",
+  "name": "positive-control-final",
+  "baseline": 0,
+  "count": 3,
+  "delta": 3,
+  "requests": [
+    {
+      "time": "2026-10-16T14:41:03.780435+00:00",
+      "monotonic": 158961.578,
+      "sequence": 1,
+      "method": "HEAD",
+      "path": "/dav/vg_spec8_verification",
+      "response": 200,
+      "bodyBytes": 0,
+      "bodySha256": null,
+      "mode": "empty"
+    },
+    {
+      "time": "2026-10-16T14:41:03.842775+00:00",
+      "monotonic": 158961.64,
+      "sequence": 2,
+      "method": "HEAD",
+      "path": "/dav/vg_spec8_verification/backup.json.enc",
+      "response": 404,
+      "bodyBytes": 0,
+      "bodySha256": null,
+      "mode": "empty"
+    },
+    {
+      "time": "2026-10-16T14:41:03.905507+00:00",
+      "monotonic": 158961.703,
+      "sequence": 3,
+      "method": "HEAD",
+      "path": "/dav/vg_spec8_verification/data/backup.json.enc",
+      "response": 404,
+      "bodyBytes": 0,
+      "bodySha256": null,
+      "mode": "empty"
+    }
+  ],
+  "continueEverClicked": true
+}

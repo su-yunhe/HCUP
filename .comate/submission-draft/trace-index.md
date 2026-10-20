@@ -1,0 +1,26 @@
+# 运行记录索引
+
+- 题目 ID：vg-spec8
+- AI 在本题实际参与的研发环节、用途及对应原始会话／事件范围（每道作答的赛题均须填写）：需求分析、基线观察、方案、实现、独立自测、提交材料；逐线程/工具事件见traces/session-index.json、tool-index.jsonl和原生JSONL；AI实际参与不以摘要代替原始记录。
+- 基线构建准备：实际日志project/logs/prepare-baseline.log：profile=harmony-cup-build-v1、dry_run=false、changes=[]；project/workflow/setup-result.json记录pass。官方reports/build-baselines/vg-spec8.log不存在；脚本精确执行时刻【待补充】，prepared_at仅汇总时间。
+- Agent 名称及版本：Codex Desktop 26.1007.2314.0，CLI0.162.0-alpha.17.2；四原生角色名称/版本配置见project/system-config与session_meta。Comate未使用，扩展版本不适用。
+- 模型名称、版本及运行参数：原生turn_context记录gpt-6.1-sol、effort=xhigh；独立模型构建版本【待补充】；累计tokenUsage原字段与口径见traces/session-index.json，不把缓存输入与总输入重复相加。
+- 本题实际使用的 Skill、系统提示、工具及编排配置版本和保存位置：既有project/system-config/initial-*及implementation-*；native session_meta/turn_context保留实际提示规则；traces/tool-index.jsonl列实际工具调用；本阶段不生成团队system-config。
+- 运行期间配置变更及原因（无则填“无”）：历史配置及分析/实现阶段变更见project/workflow/state.json与既有system-config；材料阶段未改生产规则/资源/构建配置，仅加本地材料与调度记录。
+- 主会话 ID：Codex主线程：分析01a144eb-32eb-7cb3-b4d6-daea0ae599b7，实施/材料01a14501-8f22-73b2-b107-150ed01e18bb。Comate引擎sessionUuid【待补充：本次未使用Comate，无法提供】；Comate IDE侧边栏ID【待补充：不适用】。Codex原生session_meta.session_id与id分别列在session-index；read_thread核实当前侧边栏thread.id等于后者。子会话session_id可继承主会话，不冒充Comate双ID。
+- 关联会话及子会话 ID：全部本题登记子会话见traces/session-index.json（含四角色分析、实现及材料复审）；跨题初始化总览01a13fc4-2611-7761-a580-1283e0c70541不整体提交。
+- 解题过程中产生的全部相关原始日志、DB 或原生轨迹文件路径及读取方式：traces/native/*.jsonl，UTF-8逐行JSON；traces/markdown/*.md为机械可读副本；traces/session-index.filtered.jsonl为本题过滤索引；代码快照见traces/code-changes/及冻结project。未提交整个客户端DB。
+- 失败、重试、未采用的候选方案及选择过程的记录位置：原生调用与返回、project/workflow/events.jsonl、各阶段报告及logs/的所有本题失败/重试；包含提前联网基线失败、hdc假成功、Ability/滚动适配、哨兵前置skip及补测。
+- 实际提示、工具调用及返回结果、检索与代码修改、构建和自测记录位置：traces/native、tool-index.jsonl；project/workflow/design/implementation-plan-01.md；project/logs/analysis-baseline与implementation-validation；changes/final.diff及代码快照。
+- 导出时间、方法与读取方式：本地技术导出截点 2026-10-16T15:23:39.879380+00:00；tools/prepare_materials.py按登记UUID取原生完整行前缀，分别核对工程路径与题号；账户标识/临时环境验证值脱敏后原生JSON格式保留。活跃会话之后产生的尾部不在该截点内。
+- 成果冻结时间（北京时间，与 `solution.md` 一致）：【待补充】（team.freeze_time为空；不得用本地技术快照或导出时间代填团队成果冻结时间）
+- 官方工程基线标识（本次题包 metadata.base_commit 发布提交号）、最终提交版本标识：官方基线9cbcf7292c8cc46955dc3b522ddbda41c66a61d9；当前Git HEAD仍为该基线并有未提交变更，未伪造最终commit。最终技术版本标识local-snapshot-20261016T152339Z，以changes/project-manifest.json全文件摘要定义。团队version【待补充】。
+- 基线至提交版本的完整差异位置（建议 changes/final.diff，含新增、修改、删除；二进制变更另列文件及摘要）：changes/final.diff（--binary、完整新增修改删除）；changes/binary-manifest.json逐项路径/字节/SHA及基线同源判断，真实文件保留在冻结project。补丁与其派生manifest位于project之外，避免自引用。
+- 与提交源码的对应关系：3-package必须复制本目录project/为tasks/vg-spec8/project，不能重新扫描活动工程。冻结时的普通.comate材料也纳入；仅project/changes/validation派生容器、缓存和明确跨题原文排除，见changes/exclusions.json。验证基线check+真实apply并逐文件比对，见validation/apply-check.json。业务258指纹与1-do冻结一致。
+- 人工操作及相关记录位置：human-changes.md；用户提示和共享设备允许记录在分析主会话；本Agent本轮只整理材料，不进行业务写入。实际人工操作人声明【待补充】。
+- 人工修改索引位置（可使用 `human-changes.md`；无则注明“无人工直接修改代码”）：human-changes.md；spec/submit-input.yaml的human_edits为空，仍【待补充】，不擅自写“无人工直接修改代码”。
+- 人工修改的操作人、目的、文件、代码差异、修改前后版本及对应原始记录位置：【待补充】操作人/目的/文件/前后版本/当时证据。可观察AI工具修改记录另见编码native，不据此否定未知人工编辑。
+- 公开资料检索与代码复用记录位置，以及 `sources.md` 中的对应来源条目：sources.fragment.md（供根sources.md汇总）；设计原生线程包含通用OpenHarmony master和6.0 CustomDialog文档读取，SDK/ArkTS资料及公共框架。extra_sources用户声明【待补充】。
+- 本题工作目录，以及赛题来源保护措施在本题运行中的配置位置（见 `solution.md`）：实际工作目录D:/HCUP/vg-spec8；本题AGENTS/原生派工/既有system-config记录只读common、禁止其他题及上游相关修复。团队source_guard声明【待补充】，不以机器观察代填。
+- 脱敏范围（无则填“无”）：traces/redaction-ledger.json及validation/redaction-rules.json：只处理选中会话header账户标识及精确重复、临时环境验证输出；源URL/代码/失败/依据不遮蔽。跨题总览和安装前非本题UI直接排除并记录hash/理由；原机文件不改。
+- 记录缺失及原因（无则填“无”）：Comate双ID/数据库未使用；IDE人工Markdown未提供（已生成原生转换）；官方指定prepare日志缺失（本题实际日志存在）；共享总览未整体导出，未证明可覆盖其所有本题初始化原始事件；活跃材料会话截点后的尾部待3-package再冻结。独立模型构建版本/用户空字段【待补充】。检索只限登记UUID，不能证明不存在未登记会话。

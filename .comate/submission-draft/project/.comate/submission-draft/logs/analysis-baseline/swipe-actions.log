@@ -1,0 +1,69 @@
+[2026-10-16 21:45:42,471] [49596] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-16 21:45:42,473] [49596] [EnvPool] [INFO] [Report path: D:\HCUP\vg-spec8\logs\analysis-baseline\reports\2026-10-16-21-45-42]
+[2026-10-16 21:45:42,473] [49596] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-16 21:45:42,473] [49596] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-16 21:45:42,473] [49596] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-16 21:45:42,475] [49596] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-16 21:45:42,476] [49596] [EnvPool] [INFO] [Get device by selector]
+[2026-10-16 21:45:42,476] [49596] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-16 21:45:43,068] [19148] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-16 21:45:43,490] [49596] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5555'], label:phone]]
+[2026-10-16 21:45:43,490] [49596] [EnvPool] [INFO] [Device 127.0.0.1:5555: extend value: {}]
+[2026-10-16 21:45:43,708] [49596] [Device] [INFO] [6.0.2.3]
+[2026-10-16 21:45:43,893] [49596] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-16 21:45:43,893] [49596] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-16 21:45:43,951] [49596] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 17154]
+[2026-10-16 21:45:43,951] [49596] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-16 21:45:44,027] [49596] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-16 21:45:44,027] [49596] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-16 21:45:44,066] [49596] [Device] [INFO] [Device agent is up to date!]
+[2026-10-16 21:45:44,127] [49596] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-16 21:45:46,311] [49596] [DeviceUIProxy] [INFO] [tcp forward port: 9984 for 127.0.0.1:5555]
+[2026-10-16 21:45:46,473] [49596] [Device] [INFO] [hypium base version: 6.1.0.210]
+{"time": "2026-10-16T21:45:46.473812+08:00", "action": "swipe", "direction": "up"}
+[2026-10-16 21:45:46,474] [49596] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-16 21:45:46,474] [49596] [DeviceTest] [INFO] [<div class='aw3-container'><div class='aw3' id='rainbowText'>uidriver.swipe(127.0.0.1:5555, up) ui_adaptive</div></div>]
+[2026-10-16 21:45:46,498] [49596] [DeviceTest] [ERROR] [invalid direction up, expect [RIGHT, LEFT, UP, DOWN]] [ErrorNo=00000, is_traceback=True]
+[2026-10-16 21:45:46,498] [49596] [DeviceTest] [INFO] [flash error msg.]
+Traceback (most recent call last):
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword
+    _ret = func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\record_actions\record_action.py", line 1298, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 698, in swipe
+    return self._driver_impl.swipe(direction, distance, area, side, start_point, swipe_time, speed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 1158, in swipe
+    start, end = self._generate_swipe_position(direction, distance, side, start_point, area)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 1109, in _generate_swipe_position
+    distance = self._generate_absolute_distance(direction, distance / 100, len_x, len_y)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 1067, in _generate_absolute_distance
+    raise HypiumParamDirectionError(direction)
+hypium.exception.HypiumParamDirectionError: invalid direction up, expect [RIGHT, LEFT, UP, DOWN]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\HCUP\vg-spec8\logs\analysis-baseline\observe.py", line 123, in <module>
+    main()
+  File "D:\HCUP\vg-spec8\logs\analysis-baseline\observe.py", line 86, in main
+    driver.swipe(args.direction)
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper
+    run_k = run_keyword(func, *args, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword
+    _screenshot_and_flash_error_msg(
+  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg
+    raise DeviceTestError(error_msg)
+devicetest.core.exception.DeviceTestError: invalid direction up, expect [RIGHT, LEFT, UP, DOWN]
