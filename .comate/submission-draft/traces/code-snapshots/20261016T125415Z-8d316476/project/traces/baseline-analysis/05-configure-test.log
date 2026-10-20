@@ -1,0 +1,119 @@
+**********************
+PowerShell transcript start
+Start time: 20261016193949
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. 'D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1'
+Start-Transcript -Path traces/baseline-analysis/05-configure-test.log -Force
+hdc rport tcp:18769 tcp:18769
+"RPORT_EXIT=$LASTEXITCODE"
+python workflow/verification/baseline_probe.py configure > traces/baseline-analysis/configure-ui-raw.log 2>&1
+"CONFIGURE_EXIT=$LASTEXITCODE"
+Stop-Transcript
+Get-Content traces/baseline-analysis/configure-ui-raw.log -Tail 160
+Process ID: 39332
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is traces/baseline-analysis/05-configure-test.log
+
+RPORT_EXIT=0
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:51,136] [50716] [Analysis] [WARNING] [tracker dependency is not ok]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:51,137] [50716] [EnvPool] [INFO] [Report path: D:\HCUP\vg-spec9\reports\2026-10-16-19-39-51]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:51,138] [50716] [EnvPool] [INFO] [Load Managers ...]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:51,138] [50716] [EnvPool] [INFO] [Env pool running in cache mode.]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:51,138] [50716] [EnvPool] [INFO] [Prepare to init pool]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:51,140] [50716] [EnvPool] [INFO] [Pool is prepared]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:51,140] [50716] [EnvPool] [INFO] [Get device by selector]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:51,141] [50716] [EnvPool] [INFO] [Apply device in pool]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:51,699] [46404] [Hdc] [INFO] [127.0.0.1:5555		TCP	Connected	localhost"
+>> ParameterBinding(Out-File): name="InputObject"; value="COM3		UART	Ready	unknown..."
+>> ParameterBinding(Out-File): name="InputObject"; value="COM4		UART	Ready	unknown..."
+>> ParameterBinding(Out-File): name="InputObject"; value="]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:52,150] [50716] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:5555, label:phone], selection option:[device sn:['127.0.0.1:5555'], label:phone]]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:52,150] [50716] [EnvPool] [INFO] [Device 127.0.0.1:5555: extend value: {}]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:52,416] [50716] [Device] [INFO] [6.0.2.3]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:52,617] [50716] [Device] [INFO] [Init ui proxy by default socket.]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:52,617] [50716] [DeviceUIProxy] [INFO] [Check uitest running status.]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:52,678] [50716] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: None]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:52,678] [50716] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:52,758] [50716] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9"
+>> ParameterBinding(Out-File): name="InputObject"; value="]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:52,758] [50716] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:52,820] [50716] [Device] [INFO] [Device agent is up to date!]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:55,041] [50716] [DeviceUIProxy] [INFO] [Harmony ui rpc start success!!!!]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:57,189] [50716] [DeviceUIProxy] [INFO] [tcp forward port: 9982 for 127.0.0.1:5555]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:57,931] [50716] [Device] [INFO] [hypium base version: 6.1.0.210]"
+>> ParameterBinding(Out-File): name="InputObject"; value="Filling fixture input 'https://dav.example.com/dav/'"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:57,931] [50716] [DeviceTest] [INFO] [init DeccVariable cur case object]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:39:57,931] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('https://dav.example.com/dav/', None).type('TextInput'), http://127.0.0.1:18769)</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:03,533] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('https://dav.example.com/dav/', None).type('TextInput'), http://127.0.0.1:18769) cost: 5.602s</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:03,533] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.2)</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:03,735] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.2) cost: 0.2s</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="Filling fixture input 'username'"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:03,735] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('username', None).type('TextInput'), baseline-vg-spec9)</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:07,367] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('username', None).type('TextInput'), baseline-vg-spec9) cost: 3.632s</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:07,367] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.2)</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:07,567] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.2) cost: 0.201s</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="Filling fixture input 'password'"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:07,567] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('password', None).type('TextInput'), baseline-test-only)</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:11,241] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('password', None).type('TextInput'), baseline-test-only) cost: 3.674s</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:11,242] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.2)</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:11,443] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.2) cost: 0.201s</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="Filling fixture input 'sync password'"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:11,443] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('sync password', None).type('TextInput'), baseline-sync-only)</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:15,441] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('sync password', None).type('TextInput'), baseline-sync-only) cost: 3.999s</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:15,442] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.2)</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:15,642] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:5555, 0.2) cost: 0.2s</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="Filling fixture input '/weiyu_sync'"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:15,642] [50716] [DeviceTest] [INFO] [<div class='aw'>uidriver.input_text(127.0.0.1:5555, BY.hint('/weiyu_sync', None).type('TextInput'), /vg-spec9-round01)</div>]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:20,822] [50716] [DeviceTest] [ERROR] [[Script-0203002] Can't find component with [BY.hint('/weiyu_sync', None).type('TextInput')]] [ErrorNo=00000, is_traceback=True]"
+>> ParameterBinding(Out-File): name="InputObject"; value="[2026-10-16 19:40:20,822] [50716] [DeviceTest] [INFO] [flash error msg.]"
+>> ParameterBinding(Out-File): name="InputObject"; value="Traceback (most recent call last):"
+PS>ParameterBinding(Out-File): name="InputObject"; value="  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1186, in run_keyword"
+PS>ParameterBinding(Out-File): name="InputObject"; value="    _ret = func(*args, **kwargs)"
+PS>ParameterBinding(Out-File): name="InputObject"; value="           ^^^^^^^^^^^^^^^^^^^^^"
+PS>ParameterBinding(Out-File): name="InputObject"; value="  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\action\device\uidriver.py", line 851, in input_text"
+PS>ParameterBinding(Out-File): name="InputObject"; value="    return self._driver_impl.input_text(component, text, mode)"
+PS>ParameterBinding(Out-File): name="InputObject"; value="           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+PS>ParameterBinding(Out-File): name="InputObject"; value="  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\ohos\uidriver.py", line 1400, in input_text"
+PS>ParameterBinding(Out-File): name="InputObject"; value="    component = _convert_to_uicomponent(driver, component)"
+PS>ParameterBinding(Out-File): name="InputObject"; value="                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+PS>ParameterBinding(Out-File): name="InputObject"; value="  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\record_actions\record_action.py", line 1298, in wrapper"
+PS>ParameterBinding(Out-File): name="InputObject"; value="    return func(*args, **kwargs)"
+PS>ParameterBinding(Out-File): name="InputObject"; value="           ^^^^^^^^^^^^^^^^^^^^^"
+PS>ParameterBinding(Out-File): name="InputObject"; value="  File "D:\HCUP\common\.venv\Lib\site-packages\hypium\uidriver\common\enhanced_component_finder.py", line 85, in _convert_to_uicomponent"
+PS>ParameterBinding(Out-File): name="InputObject"; value="    raise HypiumComponentNotFoundError(by)"
+PS>ParameterBinding(Out-File): name="InputObject"; value="hypium.exception.HypiumComponentNotFoundError: Can't find component with [BY.hint('/weiyu_sync', None).type('TextInput')]"
+PS>ParameterBinding(Out-File): name="InputObject"; value=""
+PS>ParameterBinding(Out-File): name="InputObject"; value="During handling of the above exception, another exception occurred:"
+PS>ParameterBinding(Out-File): name="InputObject"; value=""
+PS>ParameterBinding(Out-File): name="InputObject"; value="Traceback (most recent call last):"
+PS>ParameterBinding(Out-File): name="InputObject"; value="  File "D:\HCUP\vg-spec9\workflow\verification\baseline_probe.py", line 43, in <module>"
+PS>ParameterBinding(Out-File): name="InputObject"; value="    d.input_text(BY.type('TextInput').hint(hint),value)"
+PS>ParameterBinding(Out-File): name="InputObject"; value="  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1100, in wrapper"
+PS>ParameterBinding(Out-File): name="InputObject"; value="    run_k = run_keyword(func, *args, **kwargs)"
+PS>ParameterBinding(Out-File): name="InputObject"; value="            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+PS>ParameterBinding(Out-File): name="InputObject"; value="  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1167, in wrapper"
+PS>ParameterBinding(Out-File): name="InputObject"; value="    return func(*args, **kwargs)"
+PS>ParameterBinding(Out-File): name="InputObject"; value="           ^^^^^^^^^^^^^^^^^^^^^"
+PS>ParameterBinding(Out-File): name="InputObject"; value="  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 1242, in run_keyword"
+PS>ParameterBinding(Out-File): name="InputObject"; value="    _screenshot_and_flash_error_msg("
+PS>ParameterBinding(Out-File): name="InputObject"; value="  File "D:\HCUP\common\.venv\Lib\site-packages\devicetest\core\test_case.py", line 994, in _screenshot_and_flash_error_msg"
+PS>ParameterBinding(Out-File): name="InputObject"; value="    raise DeviceTestError(error_msg)"
+PS>ParameterBinding(Out-File): name="InputObject"; value="devicetest.core.exception.DeviceTestError: [Script-0203002] Can't find component with [BY.hint('/weiyu_sync', None).type('TextInput')]"
+CONFIGURE_EXIT=1
+**********************
+PowerShell transcript end
+End time: 20261016194020
+**********************

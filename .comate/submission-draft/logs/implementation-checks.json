@@ -1,0 +1,74 @@
+{
+  "native_session_id": "01a14496-c173-76b3-ac93-888a4286fe9d",
+  "spec_sha256": "c6236994e253c6de9f6decd99d7c0637620027ac16ce3699154796cba7a5edbf",
+  "build_log": "logs/implementation-build-01.log",
+  "build_exit_code": 0,
+  "files": [
+    {
+      "path": "entry/src/main/ets/sync/ManualWebDavSyncController.ets",
+      "sha256": "4b026923dd98eaa9458a0eb0d47e91e6f5d83a28cec18e90c108debfb7671a18",
+      "lines": 100
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+      "sha256": "2d36d55d5fc6043bbea226ea5da3820abbf8523f6945cd3c8853d1211f771400",
+      "lines": 489
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsSyncConfigCard.ets",
+      "sha256": "4c89659e03ce9248267bb03e8432326db4aa3442d9c2926e8c413c1cef16d157",
+      "lines": 106
+    },
+    {
+      "path": "entry/src/main/ets/pages/settings/SettingsSyncActionCard.ets",
+      "sha256": "43b9b01653f800c59515cddc3920560e8e3939bc5cb7069746d1ca4cdaad0aed",
+      "lines": 188
+    },
+    {
+      "path": "entry/src/main/ets/sync/WebDavSyncManager.ets",
+      "sha256": "0420493b1d6dddd8b2a4cf8494fde279e45640820bcf46791a8b9e1652cc9b9f",
+      "lines": 1218
+    }
+  ],
+  "five_file_sha256": "bc10b92786d5502b5a6b132a78728711e590560ca9ada73b10e64153b1f2386a",
+  "git_diff_check_exit_code": 0,
+  "git_diff_check_output": "warning: in the working copy of 'entry/src/main/ets/pages/settings/SettingsSyncSection.ets', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'entry/src/main/ets/sync/WebDavSyncManager.ets', LF will be replaced by CRLF the next time Git touches it\n",
+  "warning_comparison": {
+    "normalization": "ArkTS diagnostic file plus message; source line and column ignored after extraction",
+    "baseline_count": 759,
+    "implementation_count": 754,
+    "added": [],
+    "removed": [
+      {
+        "file": "src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "message": "'showToast' has been deprecated.",
+        "count": 2
+      },
+      {
+        "file": "src/main/ets/pages/settings/SettingsSyncSection.ets",
+        "message": "Function may throw exceptions. Special handling is required.",
+        "count": 1
+      },
+      {
+        "file": "src/main/ets/ui/LoadingAnimations.ets",
+        "message": "The @Prop property 'text' cannot be an optional parameter.",
+        "count": 1
+      },
+      {
+        "file": "src/main/ets/ui/LoadingAnimations.ets",
+        "message": "The @Prop property 'duration' cannot be an optional parameter.",
+        "count": 1
+      }
+    ]
+  },
+  "knowledge_lookup": {
+    "search_command": "python C:/Users/22580/.codex/skills/hmos-arkts-knowledge-retriever/scripts/search_docs.py --query class static singleton callback function type Promise async await try finally arrays",
+    "result": "Failed: references/doc_index.json missing. Read package docs directly.",
+    "references": [
+      "docs/ArkTS-Language-Guide/Basic-Syntax/functions.md:226 Function Types",
+      "docs/ArkTS-Language-Guide/Basic-Syntax/classes.md:251 Static Members",
+      "docs/ArkTS-Language-Guide/Basic-Syntax/error-handling.md:85 finally and 231 Error Handling in Async Code"
+    ]
+  },
+  "scope": "No install, device command, or independent acceptance performed by implementation role."
+}

@@ -1,0 +1,39 @@
+{
+  "baseline_count": 759,
+  "current_count": 756,
+  "current_categories": {
+    "Usage of 'ESObject' type is restricted (arkts-limited-esobj)": 1,
+    "Classes cannot be used as objects (arkts-no-classes-as-obj)": 2,
+    "Function may throw exceptions. Special handling is required.": 504,
+    "deprecated API": 247,
+    "The @Prop property 'text' cannot be an optional parameter.": 1,
+    "The @Prop property 'duration' cannot be an optional parameter.": 1
+  },
+  "unmatched_by_message_and_source_expression": [
+    {
+      "rawLogLine": 1732,
+      "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+      "line": 66,
+      "column": 22,
+      "message": "'showToast' has been deprecated.",
+      "category": "deprecated API",
+      "sourceLine": "promptAction.showToast({ message: state.toastMessage, duration: 1200 });",
+      "baselineMatch": "requires review"
+    }
+  ],
+  "remaining_baseline_count": 4,
+  "signing_warning": true,
+  "net_added_by_file_and_message": [],
+  "net_removed_by_file_and_message": [
+    {
+      "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+      "message": "'showToast' has been deprecated.",
+      "count": 2
+    },
+    {
+      "file": "entry/src/main/ets/pages/settings/SettingsSyncSection.ets",
+      "message": "Function may throw exceptions. Special handling is required.",
+      "count": 1
+    }
+  ]
+}

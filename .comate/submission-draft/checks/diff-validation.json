@@ -1,0 +1,34 @@
+{
+  "checked_at_utc": "2026-10-16T13:03:17.567177+00:00",
+  "base_commit": "a22f32b07bf81c6dde4367e2543ebac29186cbc1",
+  "clone_source": "D:\\HCUP\\vg-spec9",
+  "clone_destination": "D:\\HCUP\\vg-spec9\\.comate\\submission-draft\\checks\\work\\20261016T130254Z-d8384998\\baseline-apply-check",
+  "checkout": "a22f32b07bf81c6dde4367e2543ebac29186cbc1",
+  "commands": [
+    "git clone --no-local --single-branch --no-tags --branch vg-spec9 --no-checkout <local-task-repository> <temporary-clone>",
+    "git config core.autocrlf false",
+    "git config core.eol lf",
+    "git checkout --detach a22f32b07bf81c6dde4367e2543ebac29186cbc1",
+    "git apply --check --binary --whitespace=nowarn <final.diff>",
+    "git -c core.autocrlf=false apply --binary --whitespace=nowarn <final.diff>"
+  ],
+  "apply_check_exit_code": 0,
+  "apply_exit_code": 0,
+  "all_files_reconstructed_byte_identically": true,
+  "all_snapshot_files_match_original_worktree": true,
+  "reconstructed_files": 776,
+  "patch_bytes": 84428236,
+  "patch_sha256": "50848e13ad6cfe56642228e0a064711a425fcc436b6532bfd27ab6b75a152779",
+  "snapshot_id": "1b5799251641879b65b9daed9c3a8073439773ab7f0692901ecd6103c81921e3",
+  "changed_files": 760,
+  "historic_whitespace_check_exit_code": 2,
+  "historic_whitespace_log": "checks/patch-whitespace.log",
+  "real_git_index_and_head_untouched": true,
+  "baseline_checkout_eol_only_entries": 277,
+  "stage3_project_source": "traces/code-snapshots/20261016T130254Z-d8384998/project",
+  "limits": [
+    "No claim that the raw workspace including unrelated initialization traces is package-ready.",
+    "Use the complete snapshot as project/, without adding the submission-material container recursively.",
+    "Submission metadata completion does not change the frozen project; regenerate patch if project contents change."
+  ]
+}

@@ -1,0 +1,43 @@
+**********************
+PowerShell transcript start
+Start time: 20261016193756
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. 'D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1'
+$ev='traces/baseline-analysis'
+Start-Transcript -Path "$ev/04-ui-initial.log" -Force
+hdc file recv /data/local/tmp/vg-spec9-before.json "$ev/before-install.json"
+hdc file recv /data/local/tmp/vg-spec9-before.png "$ev/before-install.png"
+hdc shell uitest dumpLayout -p /data/local/tmp/vg-spec9-launch.json
+hdc file recv /data/local/tmp/vg-spec9-launch.json "$ev/launch.json"
+hdc shell uitest screenCap -p /data/local/tmp/vg-spec9-launch.png
+hdc file recv /data/local/tmp/vg-spec9-launch.png "$ev/launch.png"
+Stop-Transcript
+rg --files entry/src/main/ets | rg 'SettingsSyncSection|TopNavigation|WebDav|GuideManager'
+python -c 'import json; from pathlib import Path; d=json.loads(Path("traces/baseline-analysis/launch.json").read_text(encoding="utf-8")); print(json.dumps(d,ensure_ascii=False)[:12000])'
+Get-Content entry/src/main/ets/pages/OnboardingPage.ets -TotalCount 240
+Process ID: 46136
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is traces/baseline-analysis/04-ui-initial.log
+
+
+
+
+
+
+**********************
+PowerShell transcript end
+End time: 20261016193758
+**********************

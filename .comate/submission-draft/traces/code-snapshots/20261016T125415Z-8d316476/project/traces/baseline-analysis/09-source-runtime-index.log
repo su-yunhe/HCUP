@@ -1,0 +1,49 @@
+**********************
+PowerShell transcript start
+Start time: 20261016194439
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. 'D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1'
+Start-Transcript -Path traces/baseline-analysis/09-source-runtime-index.log -Force
+Get-Date -Format o
+node --version
+python --version
+java -version
+$PSVersionTable.PSVersion.ToString()
+rg -n 'LoadingProgress|\.id\(' entry/src/main/ets/pages/settings/SettingsSyncSection.ets
+"SETTINGS_SYNC_LOADING_OR_ID_SEARCH_EXIT=$LASTEXITCODE"
+rg -n 'TextInput|type\(InputType.Password|buildInputField|buildPasswordField' entry/src/main/ets/pages/settings/SettingsSyncSection.ets
+rg -n 'PREFERENCES_NAME|settings|saveSettingsJson|\.flush\(' entry/src/main/ets/utils/WebDavStateStore.ets
+rg -n 'preflightRemoteRoot|async request|request.request|connectTimeout|readTimeout|Authorization' entry/src/main/ets/sync/WebDavSyncManager.ets entry/src/main/ets/sync/webdav/WebDavClient.ets
+Get-Item entry/build/default/outputs/default/entry-default-unsigned.hap | Select-Object FullName,Length,LastWriteTime
+Stop-Transcript
+Process ID: 32812
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is traces/baseline-analysis/09-source-runtime-index.log
+2026-10-16T19:44:39.6832129+08:00
+
+
+
+7.6.5
+
+SETTINGS_SYNC_LOADING_OR_ID_SEARCH_EXIT=1
+
+
+
+
+**********************
+PowerShell transcript end
+End time: 20261016194439
+**********************

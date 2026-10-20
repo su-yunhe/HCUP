@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "task_id": "vg-spec9",
+  "root": "D:\\HCUP\\vg-spec9",
+  "project": "D:\\HCUP\\vg-spec9",
+  "base_commit": "a22f32b07bf81c6dde4367e2543ebac29186cbc1",
+  "baseline_bundle": "repo_bundles/vignette-a22f32b07b-base.bundle",
+  "spec_sha256": "c6236994e253c6de9f6decd99d7c0637620027ac16ce3699154796cba7a5edbf",
+  "metadata_sha256": "496950d171e032fe6f10cf76fd485341f4f293b6f162857d60a46bd98756f660",
+  "phase": "acceptance",
+  "status": "local_validation_complete",
+  "created_at": "2026-10-16T11:32:16.853736+00:00",
+  "sessions": [
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a13fc4-2611-7761-a580-1283e0c70541",
+      "registered_at": "2026-10-16T11:32:16.853736+00:00",
+      "purpose": "Initialization only; this overview conversation also contains environment setup and other task preparation. Not feature-development evidence."
+    },
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a1447d-ff45-7802-986d-1bc93f60db1c",
+      "registered_at": "2026-10-16T11:35:27.068444+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements",
+      "session_id": null,
+      "registered_at": "2026-10-16T11:36:18.704499+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/baseline_verification",
+      "session_id": null,
+      "registered_at": "2026-10-16T11:36:18.784829+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements",
+      "session_id": "01a1447f-1e68-7d61-8a9c-bdce1f715686",
+      "registered_at": "2026-10-16T11:37:13.706865+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/baseline_verification",
+      "session_id": "01a1447f-6645-73d2-853c-540c0da81e11",
+      "registered_at": "2026-10-16T11:37:48.751071+00:00"
+    },
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a1448f-dc21-7c42-a6c5-731bc0a5c14e",
+      "registered_at": "2026-10-16T11:55:20.356752+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements_resume",
+      "session_id": null,
+      "registered_at": "2026-10-16T11:55:20.439556+00:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/design",
+      "session_id": null,
+      "registered_at": "2026-10-16T11:56:26.203723+00:00"
+    },
+    {
+      "role": "harmony_requirements",
+      "agent_id": "/root/requirements_resume",
+      "session_id": "01a14490-c05f-7bf3-a763-fefb443417ae",
+      "registered_at": "2026-10-16T11:56:54.609739+00:00"
+    },
+    {
+      "role": "harmony_design",
+      "agent_id": "/root/design",
+      "session_id": "01a14491-f121-7960-a9b6-155ce2b272d8",
+      "registered_at": "2026-10-16T11:57:24.713736+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/verification",
+      "session_id": null,
+      "registered_at": "2026-10-16T11:57:24.794158+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/verification",
+      "session_id": "01a14492-d90e-7c23-aa1e-0deef1467f23",
+      "registered_at": "2026-10-16T11:58:27.649480+00:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/implementation",
+      "session_id": null,
+      "registered_at": "2026-10-16T12:01:56.391547+00:00"
+    },
+    {
+      "role": "harmony_implementation",
+      "agent_id": "/root/implementation",
+      "session_id": "01a14496-c173-76b3-ac93-888a4286fe9d",
+      "registered_at": "2026-10-16T12:02:27.553380+00:00"
+    },
+    {
+      "role": "orchestrator",
+      "agent_id": "root",
+      "session_id": "01a144bb-b227-7933-8cef-05d447b96e83",
+      "registered_at": "2026-10-16T12:44:01.889308+00:00"
+    },
+    {
+      "role": "harmony_verification",
+      "agent_id": "/root/submission_verification",
+      "session_id": "01a144bd-8665-7712-93a5-de24724c416c",
+      "registered_at": "2026-10-16T12:44:33.151767+00:00"
+    }
+  ],
+  "approved_artifacts": {
+    "prepared_inputs": [
+      "spec/requirement.md",
+      "spec/metadata.json"
+    ],
+    "requirements_analysis": [
+      "spec/acceptance.md",
+      "spec/baseline-notes.md",
+      "workflow/requirements/round-01-review.json"
+    ],
+    "requirements_implementation_review": [
+      "workflow/requirements/round-02-implementation-review.md",
+      "workflow/implementation/orchestrator-decisions.md"
+    ],
+    "design": [
+      "workflow/design/round-01-plan.md"
+    ],
+    "implementation": [
+      "workflow/implementation/round-01-handoff.md",
+      "workflow/implementation/frozen-source-01.json",
+      "logs/implementation-production.diff"
+    ],
+    "verification": [
+      "workflow/verification/round-02-final-report.md",
+      "logs/build.log",
+      "logs/install.log",
+      "logs/selftest.log",
+      "logs/selftest.json"
+    ],
+    "local_acceptance": [
+      "workflow/acceptance/local-acceptance.md",
+      "workflow/acceptance/final-audit.json",
+      "workflow/acceptance/cleanup.log"
+    ]
+  },
+  "code_fingerprint": {
+    "head": "a22f32b07bf81c6dde4367e2543ebac29186cbc1",
+    "manifest": "workflow/setup-code-fingerprint.json",
+    "manifest_sha256": "267df87e78e0bba319ca39ff817b36cb22a86a4c30dbe1fcbbb57d84de55a2c0",
+    "analysis_engineering_manifest": "traces/baseline-analysis/source-fingerprint-after.json",
+    "analysis_engineering_manifest_sha256": "7ba986acc0d3c664565d1a3bc42846586cc44d757a3480980cffdbc48b149ff1",
+    "implementation_freeze": "workflow/implementation/frozen-source-01.json",
+    "final_runtime_manifest": "traces/implementation-validation/round02-supplement/source-fingerprint-after.json",
+    "final_runtime_manifest_sha256": "e7389484845bf9abf6ea6571434e7cc1995def6e363d87c359adafc64bebd575",
+    "hap_sha256": "b367da84359ad19ba9fad5e808f864fe06c10280850332da1c11615a8efe70b6"
+  },
+  "failures": [
+    {
+      "fingerprint": "baseline_no_loadingprogress",
+      "scope": "baseline observation; analysis itself complete",
+      "evidence": [
+        "traces/baseline-analysis/sync-during.json",
+        "traces/baseline-analysis/sync-during-second.json",
+        "traces/baseline-analysis/webdav-requests.jsonl",
+        "workflow/verification/round-01-baseline-evidence.md"
+      ],
+      "result": "Real delayed preflight requests and busy state observed; actual LoadingProgress absent. Production unchanged.",
+      "resolved_by": "workflow/verification/round-02-final-report.md"
+    },
+    {
+      "fingerprint": "hypium_swipe_direction_case",
+      "scope": "test preparation navigation before sync",
+      "evidence": [
+        "traces/implementation-validation/round02-t1/selftest.json"
+      ],
+      "result": "Corrected test .upper(); production unchanged; new HAP install before retry",
+      "resolved_by": "workflow/verification/round-02-final-report.md"
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "U1",
+      "question": "Invalid config validation, persistence and default rules",
+      "source": "spec/acceptance.md#8",
+      "blocking_analysis": false,
+      "status": "RESOLVED_AS_REVERSIBLE_IMPLEMENTATION_CHOICE",
+      "resolution": "workflow/implementation/orchestrator-decisions.md"
+    },
+    {
+      "id": "U2",
+      "question": "Repeated clicks and concurrency policy",
+      "source": "spec/acceptance.md#8",
+      "blocking_analysis": false,
+      "status": "RESOLVED_AS_REVERSIBLE_IMPLEMENTATION_CHOICE",
+      "resolution": "workflow/implementation/orchestrator-decisions.md"
+    },
+    {
+      "id": "U3",
+      "question": "Fast-response visibility and visual presentation details",
+      "source": "spec/acceptance.md#8",
+      "blocking_analysis": false,
+      "status": "RESOLVED_AS_REVERSIBLE_IMPLEMENTATION_CHOICE",
+      "resolution": "workflow/implementation/orchestrator-decisions.md"
+    },
+    {
+      "id": "U4",
+      "question": "Navigation, backgrounding and process lifecycle policy",
+      "source": "spec/acceptance.md#8",
+      "blocking_analysis": false,
+      "status": "RESOLVED_AS_REVERSIBLE_IMPLEMENTATION_CHOICE",
+      "resolution": "workflow/implementation/orchestrator-decisions.md"
+    },
+    {
+      "id": "U5",
+      "question": "Actual backend completion versus wrapper timeout/cancellation",
+      "source": "spec/acceptance.md#8",
+      "blocking_analysis": false,
+      "status": "RESOLVED_AS_REVERSIBLE_IMPLEMENTATION_CHOICE",
+      "resolution": "workflow/implementation/orchestrator-decisions.md"
+    },
+    {
+      "id": "U6",
+      "question": "Configuration ownership during an active sync",
+      "source": "spec/acceptance.md#8",
+      "blocking_analysis": false,
+      "status": "RESOLVED_AS_REVERSIBLE_IMPLEMENTATION_CHOICE",
+      "resolution": "workflow/implementation/orchestrator-decisions.md"
+    }
+  ],
+  "next_action": "Fill submission-draft/pending-fields.md from actual user information, then explicitly start 3-package. Use the verified project snapshot and packaging map in .comate/submission-draft/delivery-notes.md; do not submit or publish automatically.",
+  "config_snapshot": "system-config\\initial-20261016T113216Z",
+  "record_gaps": [],
+  "updated_at": "2026-10-16T13:02:54.027404+00:00",
+  "last_event_id": "5a68d4de6427417e9666804398a68dd3",
+  "layout": "HCUP: the task root is the Git worktree and project root",
+  "native_snapshot_gaps": [],
+  "last_trace_snapshot": "traces\\native\\analysis-20261016T114810Z\\manifest.json",
+  "setup_complete": true,
+  "analysis_stage_complete": true,
+  "analysis": {
+    "scope": "spec-harness/0-analyze.md",
+    "status": "complete",
+    "completed_at": "2026-10-16T11:48:10.084787+00:00",
+    "review": "workflow/requirements/round-01-review.json",
+    "outputs": {
+      "spec/acceptance.md": "3c99c7f9862426082762de5e7f660c09fbf0de4b21090de2b2935f4c29cc1410",
+      "spec/baseline-notes.md": "8d1cf80bc5de92e91b8bb8400a0813cb3e379d5570b79b5a93195b71e83425e3"
+    },
+    "business_code_changed": false,
+    "full_success_sync_tested": false,
+    "whole_task_validated": false,
+    "deferred_roles": [
+      "harmony_design",
+      "harmony_implementation"
+    ],
+    "deferred_reason": "Current request prohibits business implementation and is limited to analysis."
+  },
+  "environment_limitations": [
+    {
+      "kind": "cleanup_auto_review_rejected",
+      "action": "hdc fport rm tcp:18769 tcp:18769",
+      "reason": "blocked by policy; no further reason supplied",
+      "service_stopped": true,
+      "residual_mappings": [
+        "18769 -> 18769 Reverse",
+        "9949 -> 8012 Forward",
+        "9982 -> 8012 Forward"
+      ],
+      "evidence": "workflow/verification/round-01-baseline-evidence.md"
+    },
+    {
+      "kind": "cache_delete_auto_review_rejected",
+      "action": "Recursive removal of three task-local generated __pycache__ directories",
+      "reason": "blocked by policy; no further reason supplied",
+      "resolution": "Preserved contents by moving verified cache directories to ignored task-local .hvigor/vg-spec9-selftest-cache-20261016-1238/",
+      "evidence": "workflow/acceptance/cleanup.log",
+      "blocking": false
+    }
+  ],
+  "analysis_trace_snapshot": "traces\\native\\analysis-20261016T114810Z\\manifest.json",
+  "implementation_trace_snapshot": "traces/native/implementation-20261016T124115Z-622cf51a/manifest.json",
+  "implementation_record_gaps": [],
+  "implementation": {
+    "scope": "spec-harness/1-do.md",
+    "status": "complete",
+    "design_sha256": "bfb77288758643788077f9ca6a5c26979e859294cb9357efdfb59c3ed6de085c",
+    "source_owner": "/root/implementation",
+    "validation_owner": "/root/verification",
+    "completed_at": "2026-10-16T12:41:15.189558+00:00",
+    "valid_unique_test_cases": 12,
+    "test_result": "12 pass; 0 fail/error/skip",
+    "whole_task_local_validation": true,
+    "official_result": "not_available"
+  },
+  "local_validation_limitations": [
+    "Official hidden evaluation not available",
+    "Unsigned HAP tested only on local API23 emulator",
+    "Optional runtime force-stop, automatic sync contention, unrelated ohosTest and fresh-data onboarding not run; detailed limits in verification report",
+    "Prior hdc mappings retained; fixture service stopped"
+  ],
+  "device_lease": null
+}

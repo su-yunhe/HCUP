@@ -1,0 +1,335 @@
+**********************
+PowerShell transcript start
+Start time: 20261016193631
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. 'D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1'
+$ev='D:/HCUP/vg-spec9/traces/baseline-analysis'
+New-Item -ItemType Directory -Force -Path $ev | Out-Null
+Start-Transcript -Path "$ev/01-preflight.log" -Force
+Get-Date -Format o
+git rev-parse HEAD
+git status --short
+git diff --name-status
+git diff --cached --name-status
+Get-FileHash spec/requirement.md,spec/metadata.json -Algorithm SHA256
+Get-Command hdc,hvigorw,node,python -ErrorAction SilentlyContinue | Select-Object Name,Source
+Get-ChildItem -Force | Select-Object Name,Mode
+Get-Content -Raw build-profile.json5
+Get-Content -Raw entry/src/main/module.json5
+hdc list targets
+hdc shell aa dump --mission-list
+Stop-Transcript
+Process ID: 54068
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is D:/HCUP/vg-spec9/traces/baseline-analysis/01-preflight.log
+2026-10-16T19:36:31.2963634+08:00
+
+
+
+
+
+Algorithm       Hash                                                                   Path
+---------       ----                                                                   ----
+SHA256          C6236994E253C6DE9F6DECD99D7C0637620027AC16CE3699154796CBA7A5EDBF       D:\HCUP\vg-spec9\spec\requireme…
+SHA256          496950D171E032FE6F10CF76FD485341F4F293B6F162857D60A46BD98756F660       D:\HCUP\vg-spec9\spec\metadata.…
+
+Name   : hdc.exe
+Source : D:\HarmonyDev\sdk\api23\default\openharmony\toolchains\hdc.exe
+
+
+Name   : hvigorw.bat
+Source : D:\HarmonyDev\DevEcoStudio-6.1.0\tools\hvigor\bin\hvigorw.bat
+
+
+Name   : node.exe
+Source : D:\HarmonyDev\DevEcoStudio-6.1.0\tools\node\node.exe
+
+
+Name   : python.exe
+Source : D:\HCUP\common\.venv\Scripts\python.exe
+
+
+Name : .agents
+Mode : d----
+
+
+Name : .hvigor
+Mode : d----
+
+
+Name : .trae
+Mode : d----
+
+
+Name : .vscode
+Mode : d----
+
+
+Name : agent-system
+Mode : d----
+
+
+Name : AppScope
+Mode : d----
+
+
+Name : entry
+Mode : d----
+
+
+Name : hvigor
+Mode : d----
+
+
+Name : inputs
+Mode : d----
+
+
+Name : logs
+Mode : d----
+
+
+Name : material
+Mode : d----
+
+
+Name : oh_modules
+Mode : d----
+
+
+Name : screenshots
+Mode : d----
+
+
+Name : scripts
+Mode : d----
+
+
+Name : spec
+Mode : d----
+
+
+Name : spec-harness
+Mode : d----
+
+
+Name : system-config
+Mode : d----
+
+
+Name : test-harness
+Mode : d----
+
+
+Name : traces
+Mode : d----
+
+
+Name : workflow
+Mode : d----
+
+
+Name : .git
+Mode : -a-h-
+
+
+Name : .gitattributes
+Mode : -a---
+
+
+Name : .gitignore
+Mode : -a---
+
+
+Name : AGENTS.md
+Mode : -a---
+
+
+Name : build-profile.json5
+Mode : -a---
+
+
+Name : code-linter.json5
+Mode : -a---
+
+
+Name : compliance-report.md
+Mode : -a---
+
+
+Name : CONTRIBUTING.md
+Mode : -a---
+
+
+Name : hvigorfile.ts
+Mode : -a---
+
+
+Name : IMPLEMENTATION_SUMMARY.md
+Mode : -a---
+
+
+Name : jsconfig.json
+Mode : -a---
+
+
+Name : LICENSE
+Mode : -a---
+
+
+Name : oh-package-lock.json5
+Mode : -a---
+
+
+Name : oh-package.json5
+Mode : -a---
+
+
+Name : package.json
+Mode : -a---
+
+
+Name : PRIVACY.md
+Mode : -a---
+
+
+Name : PROJECT_ANALYSIS.md
+Mode : -a---
+
+
+Name : README.md
+Mode : -a---
+
+// Modified by Harmony Cup on 2026-09-25: remove local signing configuration.
+{
+  "app": {
+    "signingConfigs": [],
+    "products": [
+      {
+        "name": "default",
+        "targetSdkVersion": "6.0.2(22)",
+        "compatibleSdkVersion": "6.0.2(22)",
+        "runtimeOS": "HarmonyOS",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug"
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}
+{
+  "module": {
+    "name": "entry",
+    "type": "entry",
+    "description": "$string:module_desc",
+    "mainElement": "EntryAbility",
+    "deviceTypes": [
+      "phone"
+    ],
+    "deliveryWithInstall": true,
+    "installationFree": false,
+    "pages": "$profile:main_pages",
+    "requestPermissions": [
+      {
+        "name": "ohos.permission.INTERNET",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.VIBRATE",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      }
+    ],
+    "abilities": [
+      {
+        "name": "EntryAbility",
+        "srcEntry": "./ets/entryability/EntryAbility.ets",
+        "description": "$string:EntryAbility_desc",
+        "icon": "$media:layered_image",
+        "label": "$string:EntryAbility_label",
+        "startWindowIcon": "$media:startIcon",
+        "startWindowBackground": "$color:start_window_background",
+        "exported": true,
+        "skills": [
+          {
+            "entities": [
+              "entity.system.home"
+            ],
+            "actions": [
+              "ohos.want.action.home"
+            ]
+          }
+        ]
+      }
+    ],
+    "extensionAbilities": [
+      {
+        "name": "EntryBackupAbility",
+        "srcEntry": "./ets/entrybackupability/EntryBackupAbility.ets",
+        "type": "backup",
+        "exported": false,
+        "metadata": [
+          {
+            "name": "ohos.extension.backup",
+            "resource": "$profile:backup_config"
+          }
+        ]
+      }
+    ],
+    "metadata": [
+      {
+        "name": "ohos.module.syscap",
+        "resource": "$profile:sys_cap"
+      }
+    ]
+  }
+}
+
+
+**********************
+PowerShell transcript end
+End time: 20261016193631
+**********************

@@ -1,0 +1,41 @@
+**********************
+PowerShell transcript start
+Start time: 20261016200345
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -Path 'traces/implementation-validation/preparation/python-and-fixture-check.log' -Force
+& 'D:/HCUP/common/.venv/Scripts/python.exe' -m py_compile hypium_tests/evidence.py hypium_tests/webdav_fixture.py hypium_tests/test_webdav_loading.py workflow/verification/fixture_selfcheck.py
+Write-Output "py_compile exit=$LASTEXITCODE"
+& 'D:/HCUP/common/.venv/Scripts/python.exe' workflow/verification/fixture_selfcheck.py
+Write-Output "fixture_selfcheck exit=$LASTEXITCODE"
+$env:PYTHONPATH='D:/HCUP/common/test-harness'
+& 'D:/HCUP/common/.venv/Scripts/python.exe' -c "from pathlib import Path; from harness.runner import discover, _collect_case_names; print('\n'.join(_collect_case_names(discover(Path('D:/HCUP/vg-spec9')))))"
+Write-Output "harness discovery exit=$LASTEXITCODE"
+Stop-Transcript
+Process ID: 51620
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is traces/implementation-validation/preparation/python-and-fixture-check.log
+
+py_compile exit=0
+
+fixture_selfcheck exit=0
+
+harness discovery exit=0
+**********************
+PowerShell transcript end
+End time: 20261016200347
+**********************

@@ -1,0 +1,67 @@
+**********************
+PowerShell transcript start
+Start time: 20261016193741
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. 'D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1'
+$ev='D:/HCUP/vg-spec9/traces/baseline-analysis'
+Start-Transcript -Path "$ev/03-device-install.log" -Force
+Get-Date -Format o
+hdc shell param get const.product.software.version
+hdc shell param get const.product.model
+hdc shell param get const.product.devicetype
+hdc shell param get const.ohos.apiversion
+hdc shell param get persist.sys.dpi
+hdc shell hidumper -s WindowManagerService -a '-a' > "$ev/window-manager-before.log"
+hdc shell uitest dumpLayout -p /data/local/tmp/vg-spec9-before.json
+hdc file recv /data/local/tmp/vg-spec9-before.json "$ev/before-install.json"
+hdc shell uitest screenCap -p /data/local/tmp/vg-spec9-before.png
+hdc file recv /data/local/tmp/vg-spec9-before.png "$ev/before-install.png"
+Get-FileHash entry/build/default/outputs/default/entry-default-unsigned.hap -Algorithm SHA256 | Format-List
+hdc install -r entry/build/default/outputs/default/entry-default-unsigned.hap
+"INSTALL_EXIT_CODE=$LASTEXITCODE"
+hdc shell aa force-stop io.qzz.weiyu
+hdc shell aa start -a EntryAbility -b io.qzz.weiyu
+"START_EXIT_CODE=$LASTEXITCODE"
+Stop-Transcript
+rg -n 'Onboarding|first|首次|SettingsPage|设置|WebDAV|立即同步|LoadingProgress|isBusy|busy|syncIncremental|saveConfig|openWeb' entry/src/main/ets/pages/Index.ets entry/src/main/ets/pages/OnboardingPage.ets entry/src/main/ets/pages/SettingsPage.ets entry/src/main/ets/components/settings/SettingsSyncSection.ets
+Get-Content -Raw entry/src/main/resources/base/profile/main_pages.json
+Process ID: 43128
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is D:/HCUP/vg-spec9/traces/baseline-analysis/03-device-install.log
+2026-10-16T19:37:41.6639933+08:00
+
+
+
+
+
+
+
+
+
+
+Algorithm : SHA256
+Hash      : 6397218E05107233A02EAF9154367AF16EED5843B09A1C9AB1224466793364A8
+Path      : D:\HCUP\vg-spec9\entry\build\default\outputs\default\entry-default-unsigned.hap
+
+
+INSTALL_EXIT_CODE=0
+
+
+START_EXIT_CODE=0
+**********************
+PowerShell transcript end
+End time: 20261016193744
+**********************

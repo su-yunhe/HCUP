@@ -1,0 +1,935 @@
+diff --git a/entry/src/main/ets/pages/settings/SettingsSyncSection.ets b/entry/src/main/ets/pages/settings/SettingsSyncSection.ets
+index dd2c444..53efe20 100644
+--- a/entry/src/main/ets/pages/settings/SettingsSyncSection.ets
++++ b/entry/src/main/ets/pages/settings/SettingsSyncSection.ets
+@@ -6,6 +6,9 @@ import { WebDavSyncManager, WebDavSettings, WebDavSyncResult, WebDavBackupPlainR
+ import { DataSyncManager } from '../../sync/DataSyncManager';
+ import { WebDavStateStore } from '../../utils/WebDavStateStore';
+ import { SelectOption } from './SettingsCommon';
++import { ManualWebDavSyncController, ManualWebDavSyncSnapshot } from '../../sync/ManualWebDavSyncController';
++import { SettingsSyncConfigCard } from './SettingsSyncConfigCard';
++import { SettingsSyncActionCard } from './SettingsSyncActionCard';
+ 
+ interface DialogIndexResult {
+   index: number;
+@@ -41,6 +44,9 @@ export struct SettingsSyncSection {
+   @State webdavResult: string = '';
+   @State webdavBackupResult: string = '';
+   @State webdavBusy: boolean = false;
++  @State private manualSyncRunning: boolean = false;
++  private manualSyncController: ManualWebDavSyncController = ManualWebDavSyncController.getInstance();
++  private manualSyncSubscription: number = -1;
+   @State restoreDialogShowing: boolean = false; // Bug fix: 防止重复弹出恢复确认对话框
+ 
+   private webdavManager: WebDavSyncManager = WebDavSyncManager.getInstance();
+@@ -52,9 +58,26 @@ export struct SettingsSyncSection {
+   }
+ 
+   aboutToAppear(): void {
++    this.manualSyncSubscription = this.manualSyncController.subscribe((state: ManualWebDavSyncSnapshot) => {
++      const finished: boolean = this.manualSyncRunning && !state.running;
++      this.manualSyncRunning = state.running;
++      this.webdavResult = state.resultText;
++      if (finished && state.toastMessage.length > 0) {
++        promptAction.showToast({ message: state.toastMessage, duration: 1200 });
++      }
++    });
+     void this.loadAutoSyncSettings();
+   }
+ 
++  aboutToDisappear(): void {
++    this.manualSyncController.unsubscribe(this.manualSyncSubscription);
++    this.manualSyncSubscription = -1;
++  }
++
++  private isWebDavBusy(): boolean {
++    return this.webdavBusy || this.manualSyncController.getSnapshot().running;
++  }
++
+   private async loadAutoSyncSettings(): Promise<void> {
+     try {
+       const enabled = await this.webdavStateStore.getAutoSyncEnabled();
+@@ -97,18 +120,26 @@ export struct SettingsSyncSection {
+     }
+   }
+ 
+-  private async saveWebDavSettings(): Promise<boolean> {
+-    const s = new WebDavSettings(
+-      this.webdavEndpoint.trim(),
+-      this.webdavUsername.trim(),
+-      this.webdavPassword,
+-      this.webdavSyncPassword,
+-      this.webdavRemoteRoot.trim().length > 0 ? this.webdavRemoteRoot.trim() : '/weiyu_sync',
+-      true
++  private createWebDavSettings(): WebDavSettings {
++    return new WebDavSettings(
++      this.webdavEndpoint.trim(), this.webdavUsername.trim(), this.webdavPassword, this.webdavSyncPassword,
++      this.webdavRemoteRoot.trim().length > 0 ? this.webdavRemoteRoot.trim() : '/weiyu_sync', true
+     );
+-    const saved = await this.webdavManager.setSettings(s);
+-    this.webdavResult = saved ? '✅ WebDAV 设置已保存' : '⚠️ WebDAV 设置保存失败';
+-    return saved;
++  }
++
++  private async saveWebDavSettings(): Promise<boolean> {
++    if (this.isWebDavBusy()) return false;
++    this.webdavBusy = true;
++    try {
++      const saved: boolean = await this.webdavManager.setSettings(this.createWebDavSettings());
++      this.webdavResult = saved ? '✅ WebDAV 设置已保存' : '⚠️ WebDAV 设置保存失败';
++      return saved;
++    } catch (e) {
++      this.webdavResult = '⚠️ WebDAV 设置保存失败';
++      return false;
++    } finally {
++      this.webdavBusy = false;
++    }
+   }
+ 
+   private readonly OPERATION_TIMEOUT = 120000; // 120秒超时
+@@ -123,7 +154,7 @@ export struct SettingsSyncSection {
+   }
+ 
+   private async runWebDavAction(fn: () => Promise<WebDavSyncResult>): Promise<void> {
+-    if (this.webdavBusy) return;
++    if (this.isWebDavBusy()) return;
+     this.webdavBusy = true;
+     try {
+       const res = await this.runWithTimeout(fn, this.OPERATION_TIMEOUT);
+@@ -139,7 +170,7 @@ export struct SettingsSyncSection {
+   }
+ 
+   private async runWebDavBackupAction(fn: () => Promise<WebDavSyncResult>, loadingMessage: string = '正在处理...'): Promise<void> {
+-    if (this.webdavBusy) return;
++    if (this.isWebDavBusy()) return;
+     this.webdavBusy = true;
+     this.webdavBackupResult = loadingMessage;
+ 
+@@ -164,7 +195,7 @@ export struct SettingsSyncSection {
+ 
+   private async webdavRestore(): Promise<void> {
+     // Bug fix: 检查是否已经在处理中，防止重复触发
+-    if (this.webdavBusy) {
++    if (this.isWebDavBusy()) {
+       return;
+     }
+ 
+@@ -192,6 +223,8 @@ export struct SettingsSyncSection {
+       return; // 对话框被关闭，视为取消
+     }
+ 
++    if (this.isWebDavBusy()) return;
++
+     // 开始下载和解析流程，手动管理状态
+     this.webdavBusy = true;
+     this.restoreDialogShowing = true;
+@@ -267,6 +300,11 @@ export struct SettingsSyncSection {
+         return;
+       }
+ 
++      if (this.isWebDavBusy()) {
++        this.restoreDialogShowing = false;
++        return;
++      }
++
+       // Step 4: User confirmed, proceed with restore
+       this.webdavBusy = true;
+       this.webdavBackupResult = '正在恢复数据...';
+@@ -286,35 +324,9 @@ export struct SettingsSyncSection {
+     }
+   }
+ 
+-  private async webdavSyncNow(): Promise<void> {
+-    if (this.webdavBusy) return;
+-    this.webdavBusy = true;
+-    this.webdavResult = '正在同步数据...';
+-
+-    // 使用更长的延迟确保 UI 更新
+-    await new Promise<void>((resolve) => setTimeout(resolve, 100));
+-
+-    try {
+-      const saved = await this.saveWebDavSettings();
+-      if (!saved) {
+-        this.webdavResult = '⚠️ 保存设置失败，请先保存 WebDAV 设置';
+-        promptAction.showToast({ message: '保存设置失败', duration: 1200 });
+-        return;
+-      }
+-
+-      // 给 UI 线程时间响应
+-      await new Promise<void>((resolve) => setTimeout(resolve, 50));
+-
+-      const res = await this.runWithTimeout(() => this.webdavManager.syncIncremental(), this.OPERATION_TIMEOUT);
+-      this.webdavResult = res.success ? `✅ ${res.message}` : `⚠️ ${res.message}：${res.detail}`;
+-      promptAction.showToast({ message: res.message, duration: 1200 });
+-    } catch (e) {
+-      const msg = e instanceof Error ? e.message : String(e);
+-      this.webdavResult = `⚠️ WebDAV 操作异常：${msg}`;
+-      promptAction.showToast({ message: 'WebDAV 操作异常', duration: 1200 });
+-    } finally {
+-      this.webdavBusy = false;
+-    }
++  private webdavSyncNow(): void {
++    if (this.isWebDavBusy()) return;
++    this.manualSyncController.start(this.createWebDavSettings());
+   }
+ 
+   private async webdavTest(): Promise<void> {
+@@ -345,64 +357,7 @@ export struct SettingsSyncSection {
+   }
+ 
+   @Builder
+-  private buildInputField(label: string, value: string, placeholder: string, onChange: (val: string) => void) {
+-    Column() {
+-      Text(label)
+-        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-        .fontColor(this.colors.GRAY_600)
+-        .width('100%')
+-        .margin({ bottom: DesignTokens.Spacing.XS })
+-
+-      TextInput({ text: value, placeholder })
+-        .width('100%')
+-        .height(44)
+-        .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+-        .backgroundColor(this.colors.GRAY_100)
+-        .borderRadius(DesignTokens.BorderRadius.MD)
+-        .padding({ left: DesignTokens.Spacing.MD, right: DesignTokens.Spacing.MD })
+-        .onChange(onChange)
+-    }
+-    .width('100%')
+-    .margin({ bottom: DesignTokens.Spacing.MD })
+-  }
+-
+-  @Builder
+-  private buildPasswordField(label: string, value: string, placeholder: string, isVisible: boolean, onChange: (val: string) => void, onToggle: () => void) {
+-    Column() {
+-      Text(label)
+-        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-        .fontColor(this.colors.GRAY_600)
+-        .width('100%')
+-        .margin({ bottom: DesignTokens.Spacing.XS })
+-
+-      Row() {
+-        TextInput({ text: value, placeholder })
+-          .type(isVisible ? InputType.Normal : InputType.Password)
+-          .layoutWeight(1)
+-          .height(44)
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+-          .backgroundColor(this.colors.GRAY_100)
+-          .borderRadius(DesignTokens.BorderRadius.MD)
+-          .padding({ left: DesignTokens.Spacing.MD, right: DesignTokens.Spacing.SM })
+-          .onChange(onChange)
+-
+-        Button(isVisible ? '隐藏' : '显示')
+-          .margin({ left: DesignTokens.Spacing.SM })
+-          .height(44)
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-          .fontColor(this.colors.GRAY_700)
+-          .backgroundColor(this.colors.GRAY_200)
+-          .borderRadius(DesignTokens.BorderRadius.MD)
+-          .onClick(onToggle)
+-      }
+-      .width('100%')
+-    }
+-    .width('100%')
+-    .margin({ bottom: DesignTokens.Spacing.MD })
+-  }
+-
+-  @Builder
+-  private buildToggleRow(title: string, subtitle: string, isOn: boolean, onChange: (val: boolean) => void) {
++  private buildToggleRow(controlId: string, title: string, subtitle: string, isOn: boolean, onChange: (val: boolean) => void) {
+     Row() {
+       Column() {
+         Text(title)
+@@ -417,6 +372,7 @@ export struct SettingsSyncSection {
+       Blank()
+ 
+       Toggle({ type: ToggleType.Switch, isOn })
++        .id(controlId)
+         .selectedColor(this.colors.PRIMARY)
+         .switchPointColor(this.colors.WHITE)
+         .onChange(onChange)
+@@ -426,33 +382,6 @@ export struct SettingsSyncSection {
+     .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
+   }
+ 
+-  @Builder
+-  private buildBasicConfigCard() {
+-    Column() {
+-      Text('基础配置')
+-        .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+-        .fontWeight(DesignTokens.Typography.FONT_WEIGHT_MEDIUM)
+-        .fontColor(this.colors.TEXT_PRIMARY)
+-        .width('100%')
+-        .margin({ bottom: DesignTokens.Spacing.MD })
+-
+-      this.buildInputField('WebDAV 地址', this.webdavEndpoint, 'https://dav.example.com/dav/', (v) => this.webdavEndpoint = v)
+-      this.buildInputField('账号', this.webdavUsername, 'username', (v) => this.webdavUsername = v)
+-      this.buildPasswordField('密码', this.webdavPassword, 'password', this.showWebdavPassword, (v) => this.webdavPassword = v, () => this.showWebdavPassword = !this.showWebdavPassword)
+-      this.buildPasswordField('同步密码（用于 AES 加密）', this.webdavSyncPassword, 'sync password', this.showWebdavSyncPassword, (v) => this.webdavSyncPassword = v, () => this.showWebdavSyncPassword = !this.showWebdavSyncPassword)
+-      this.buildInputField('远端目录', this.webdavRemoteRoot, '/weiyu_sync', (v) => this.webdavRemoteRoot = v)
+-
+-      Text('提示：请先在 WebDAV 服务端创建该目录（只需一次）')
+-        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-        .fontColor(this.colors.GRAY_500)
+-        .width('100%')
+-    }
+-    .width('100%')
+-    .padding(DesignTokens.Spacing.LG)
+-    .backgroundColor(this.colors.SURFACE_PRIMARY)
+-    .borderRadius(DesignTokens.BorderRadius.LG)
+-  }
+-
+   @Builder
+   private buildAutoSyncCard() {
+     Column() {
+@@ -463,7 +392,7 @@ export struct SettingsSyncSection {
+         .width('100%')
+         .margin({ bottom: DesignTokens.Spacing.MD })
+ 
+-      this.buildToggleRow('启用自动同步', '进入前台时按间隔自动同步', this.webdavAutoSyncEnabled, (isOn) => {
++      this.buildToggleRow('webdav_auto_sync_toggle', '启用自动同步', '进入前台时按间隔自动同步', this.webdavAutoSyncEnabled, (isOn) => {
+         this.webdavAutoSyncEnabled = isOn;
+         this.saveWebDavAutoSyncSettings();
+       })
+@@ -492,14 +421,14 @@ export struct SettingsSyncSection {
+ 
+         Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
+ 
+-        this.buildToggleRow('自动上传模型', '用于多端算法同步', this.webdavAutoSyncUploadModelEnabled, (isOn) => {
++        this.buildToggleRow('webdav_auto_sync_upload_model_toggle', '自动上传模型', '用于多端算法同步', this.webdavAutoSyncUploadModelEnabled, (isOn) => {
+           this.webdavAutoSyncUploadModelEnabled = isOn;
+           this.saveWebDavAutoSyncSettings();
+         })
+ 
+         Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
+ 
+-        this.buildToggleRow('自动上传全量备份', '只上传，不自动恢复覆盖本地', this.webdavAutoSyncUploadBackupEnabled, (isOn) => {
++        this.buildToggleRow('webdav_auto_sync_upload_backup_toggle', '自动上传全量备份', '只上传，不自动恢复覆盖本地', this.webdavAutoSyncUploadBackupEnabled, (isOn) => {
+           this.webdavAutoSyncUploadBackupEnabled = isOn;
+           this.saveWebDavAutoSyncSettings();
+         })
+@@ -529,165 +458,32 @@ export struct SettingsSyncSection {
+     .margin({ top: DesignTokens.Spacing.MD })
+   }
+ 
+-  @Builder
+-  private buildActionButtonsCard() {
+-    Column() {
+-      Text('手动操作')
+-        .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+-        .fontWeight(DesignTokens.Typography.FONT_WEIGHT_MEDIUM)
+-        .fontColor(this.colors.TEXT_PRIMARY)
+-        .width('100%')
+-        .margin({ bottom: DesignTokens.Spacing.MD })
+-
+-      Row() {
+-        Button(this.webdavBusy ? '处理中...' : '保存设置')
+-          .layoutWeight(1)
+-          .height(44)
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+-          .fontColor(this.colors.WHITE)
+-          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.GRAY_600)
+-          .borderRadius(DesignTokens.BorderRadius.MD)
+-          .enabled(!this.webdavBusy)
+-          .onClick(async () => { await this.saveWebDavSettings(); })
+-
+-        Button(this.webdavBusy ? '处理中...' : '测试连接')
+-          .layoutWeight(1)
+-          .height(44)
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+-          .fontColor(this.colors.WHITE)
+-          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.PRIMARY)
+-          .borderRadius(DesignTokens.BorderRadius.MD)
+-          .enabled(!this.webdavBusy)
+-          .margin({ left: DesignTokens.Spacing.SM })
+-          .onClick(async () => { await this.webdavTest(); })
+-      }
+-      .width('100%')
+-      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
+-
+-      if (this.webdavResult.length > 0) {
+-        Text(this.webdavResult)
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-          .fontColor(this.webdavResult.includes('✅') ? this.colors.SUCCESS : this.colors.GRAY_600)
+-          .margin({ top: DesignTokens.Spacing.SM })
+-          .textAlign(TextAlign.Center)
+-      }
+-
+-      Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
+-
+-      Row() {
+-        Button(this.webdavBusy ? '处理中...' : '立即同步')
+-          .layoutWeight(1)
+-          .height(44)
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+-          .fontColor(this.colors.WHITE)
+-          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.PRIMARY)
+-          .borderRadius(DesignTokens.BorderRadius.MD)
+-          .enabled(!this.webdavBusy)
+-          .onClick(async () => { await this.webdavSyncNow(); })
+-      }
+-      .width('100%')
+-      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
+-
+-      Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
+-
+-      Row() {
+-        Button(this.webdavBusy ? '处理中...' : '立即备份')
+-          .layoutWeight(1)
+-          .height(44)
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+-          .fontColor(this.colors.WHITE)
+-          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.SUCCESS)
+-          .borderRadius(DesignTokens.BorderRadius.MD)
+-          .enabled(!this.webdavBusy)
+-          .onClick(async () => { await this.webdavBackup(); })
+-
+-        Button(this.webdavBusy ? '处理中...' : '从云端恢复')
+-          .layoutWeight(1)
+-          .height(44)
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
+-          .fontColor(this.colors.WHITE)
+-          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.ERROR)
+-          .borderRadius(DesignTokens.BorderRadius.MD)
+-          .enabled(!this.webdavBusy)
+-          .margin({ left: DesignTokens.Spacing.SM })
+-          .onClick(async () => { await this.webdavRestore(); })
+-      }
+-      .width('100%')
+-      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
+-
+-      if (this.webdavBackupResult.length > 0) {
+-        Text(this.webdavBackupResult)
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-          .fontColor(this.webdavBackupResult.includes('✅') ? this.colors.SUCCESS : this.colors.GRAY_600)
+-          .margin({ top: DesignTokens.Spacing.SM })
+-          .textAlign(TextAlign.Center)
+-      }
+-
+-      Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
+-
+-      Text('使用说明')
+-        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-        .fontColor(this.colors.TEXT_SECONDARY)
+-        .margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
+-
+-      Column() {
+-        Text('【立即同步】日常多端同步，只同步变更数据')
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-          .fontColor(this.colors.TEXT_SECONDARY)
+-          .width('100%')
+-        Text('• 同步学习过的单词、复习记录、用户词书')
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-          .fontColor(this.colors.GRAY_500)
+-          .width('100%')
+-          .margin({ left: DesignTokens.Spacing.SM })
+-        Text('• 未学习的单词不会同步，节省流量')
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-          .fontColor(this.colors.GRAY_500)
+-          .width('100%')
+-          .margin({ left: DesignTokens.Spacing.SM })
+-        Text('【立即备份】完整备份所有数据到云端')
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-          .fontColor(this.colors.TEXT_SECONDARY)
+-          .width('100%')
+-          .margin({ top: DesignTokens.Spacing.SM })
+-        Text('• 适合换设备前、定期备份使用')
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-          .fontColor(this.colors.GRAY_500)
+-          .width('100%')
+-          .margin({ left: DesignTokens.Spacing.SM })
+-        Text('【从云端恢复】下载云端数据覆盖本地')
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-          .fontColor(this.colors.TEXT_SECONDARY)
+-          .width('100%')
+-          .margin({ top: DesignTokens.Spacing.SM })
+-        Text('• ⚠️ 会覆盖本地数据，新设备首次使用')
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-          .fontColor(this.colors.GRAY_500)
+-          .width('100%')
+-          .margin({ left: DesignTokens.Spacing.SM })
+-        Text('• 本地未同步的学习记录将丢失')
+-          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
+-          .fontColor(this.colors.GRAY_500)
+-          .width('100%')
+-          .margin({ left: DesignTokens.Spacing.SM })
+-      }
+-      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.SM })
+-      .width('100%')
+-    }
+-    .width('100%')
+-    .padding({ top: DesignTokens.Spacing.LG, bottom: DesignTokens.Spacing.LG })
+-    .backgroundColor(this.colors.SURFACE_PRIMARY)
+-    .borderRadius(DesignTokens.BorderRadius.LG)
+-    .margin({ top: DesignTokens.Spacing.MD })
+-  }
+-
+   build() {
+     Column() {
+-      this.buildBasicConfigCard()
++      SettingsSyncConfigCard({
++        webdavEndpoint: $webdavEndpoint,
++        webdavUsername: $webdavUsername,
++        webdavPassword: $webdavPassword,
++        webdavSyncPassword: $webdavSyncPassword,
++        webdavRemoteRoot: $webdavRemoteRoot,
++        showWebdavPassword: $showWebdavPassword,
++        showWebdavSyncPassword: $showWebdavSyncPassword
++      })
+       this.buildAutoSyncCard()
+-      this.buildActionButtonsCard()
++      SettingsSyncActionCard({
++        webdavBusy: this.webdavBusy || this.manualSyncRunning,
++        manualSyncRunning: this.manualSyncRunning,
++        webdavResult: this.webdavResult,
++        webdavBackupResult: this.webdavBackupResult,
++        onSave: () => { void this.saveWebDavSettings(); },
++        onTest: () => { void this.webdavTest(); },
++        onSync: () => { this.webdavSyncNow(); },
++        onBackup: () => { void this.webdavBackup(); },
++        onRestore: () => { void this.webdavRestore(); }
++      })
+     }
+     .width('100%')
+     .padding(DesignTokens.Spacing.MD)
++    .id('webdav_config_section')
+   }
+ }
+diff --git a/entry/src/main/ets/sync/WebDavSyncManager.ets b/entry/src/main/ets/sync/WebDavSyncManager.ets
+index eb751b5..180a881 100644
+--- a/entry/src/main/ets/sync/WebDavSyncManager.ets
++++ b/entry/src/main/ets/sync/WebDavSyncManager.ets
+@@ -688,19 +688,19 @@ export class WebDavSyncManager {
+     this.status = WebDavSyncStatus.SYNCING;
+     console.info('[WebDavSyncManager] Sync status set to SYNCING');
+ 
+-    // 先确保远程目录存在
+-    const client = this.createClient();
+-    const preflight = await this.preflightRemoteRoot(client);
+-    if (preflight !== null) {
+-      this.status = WebDavSyncStatus.ERROR;
+-      console.error(`[WebDavSyncManager] Preflight check failed: ${preflight.message}`);
+-      return preflight;
+-    }
++    try {
++      // 先确保远程目录存在
++      const client = this.createClient();
++      const preflight = await this.preflightRemoteRoot(client);
++      if (preflight !== null) {
++        this.status = WebDavSyncStatus.ERROR;
++        console.error(`[WebDavSyncManager] Preflight check failed: ${preflight.message}`);
++        return preflight;
++      }
+ 
+-    // yield 给 UI 线程
+-    await new Promise<void>((resolve) => setTimeout(resolve, 0));
++      // yield 给 UI 线程
++      await new Promise<void>((resolve) => setTimeout(resolve, 0));
+ 
+-    try {
+       const syncManager = DataSyncManager.getInstance();
+       const dbManager = DBManager.getInstance();
+ 
+--- /dev/null
++++ b/entry/src/main/ets/sync/ManualWebDavSyncController.ets
+@@ -0,0 +1,100 @@
++import { WebDavSettings, WebDavSyncManager, WebDavSyncResult, WebDavSyncStatus } from './WebDavSyncManager';
++
++export class ManualWebDavSyncSnapshot {
++  readonly running: boolean;
++  readonly resultText: string;
++  readonly toastMessage: string;
++
++  constructor(running: boolean = false, resultText: string = '', toastMessage: string = '') {
++    this.running = running;
++    this.resultText = resultText;
++    this.toastMessage = toastMessage;
++  }
++}
++
++export type ManualWebDavSyncListener = (state: ManualWebDavSyncSnapshot) => void;
++
++// Owns the task for this process. Pages only subscribe while they are mounted.
++export class ManualWebDavSyncController {
++  private static instance: ManualWebDavSyncController | null = null;
++  private snapshot: ManualWebDavSyncSnapshot = new ManualWebDavSyncSnapshot();
++  private listeners: Map<number, ManualWebDavSyncListener> = new Map<number, ManualWebDavSyncListener>();
++  private nextToken: number = 0;
++  private manager: WebDavSyncManager = WebDavSyncManager.getInstance();
++
++  private constructor() {}
++
++  static getInstance(): ManualWebDavSyncController {
++    if (ManualWebDavSyncController.instance === null) {
++      ManualWebDavSyncController.instance = new ManualWebDavSyncController();
++    }
++    return ManualWebDavSyncController.instance;
++  }
++
++  getSnapshot(): ManualWebDavSyncSnapshot {
++    return this.snapshot;
++  }
++
++  subscribe(listener: ManualWebDavSyncListener): number {
++    const token: number = this.nextToken++;
++    this.listeners.set(token, listener);
++    this.notifyListener(listener);
++    return token;
++  }
++
++  unsubscribe(token: number): void {
++    this.listeners.delete(token);
++  }
++
++  start(settings: WebDavSettings): void {
++    if (this.snapshot.running) return;
++    const status: WebDavSyncStatus = this.manager.getStatus();
++    if (status === WebDavSyncStatus.SYNCING || status === WebDavSyncStatus.TESTING ||
++      status === WebDavSyncStatus.RESTORING) {
++      this.publish(new ManualWebDavSyncSnapshot(false, '⚠️ 同步操作正在进行中：请等待当前操作完成后再试'));
++      return;
++    }
++
++    const frozenSettings: WebDavSettings = new WebDavSettings(settings.endpoint, settings.username, settings.password,
++      settings.syncPassword, settings.remoteRoot, settings.requireRemoteRootExists);
++    // Set the guard synchronously, before saving settings or awaiting any work.
++    this.publish(new ManualWebDavSyncSnapshot(true, '正在同步数据...'));
++    void this.run(frozenSettings);
++  }
++
++  private async run(settings: WebDavSettings): Promise<void> {
++    let resultText: string = '';
++    let toastMessage: string = '';
++    try {
++      const saved: boolean = await this.manager.setSettings(settings);
++      if (!saved) {
++        resultText = '⚠️ 保存设置失败，请先保存 WebDAV 设置';
++        toastMessage = '保存设置失败';
++        return;
++      }
++      // This is the actual operation: a UI timeout must never end its loading state.
++      const result: WebDavSyncResult = await this.manager.syncIncremental();
++      resultText = result.success ? `✅ ${result.message}` : `⚠️ ${result.message}：${result.detail}`;
++      toastMessage = result.message;
++    } catch (e) {
++      const message: string = e instanceof Error ? e.message : String(e);
++      resultText = `⚠️ WebDAV 操作异常：${message}`;
++      toastMessage = 'WebDAV 操作异常';
++    } finally {
++      this.publish(new ManualWebDavSyncSnapshot(false, resultText, toastMessage));
++    }
++  }
++
++  private publish(snapshot: ManualWebDavSyncSnapshot): void {
++    this.snapshot = snapshot;
++    this.listeners.forEach((listener: ManualWebDavSyncListener) => this.notifyListener(listener));
++  }
++
++  private notifyListener(listener: ManualWebDavSyncListener): void {
++    try {
++      listener(this.snapshot);
++    } catch (e) {
++      console.error('[ManualWebDavSyncController] Failed to notify subscriber:', e);
++    }
++  }
++}
+--- /dev/null
++++ b/entry/src/main/ets/pages/settings/SettingsSyncConfigCard.ets
+@@ -0,0 +1,106 @@
++import { DesignTokens } from '../../model/DesignTokens';
++import { ColorsInterface } from '../../model/TokenInterfaces';
++import { ThemeManager } from '../../manager/ThemeManager';
++
++@Component
++export struct SettingsSyncConfigCard {
++  @Link webdavEndpoint: string;
++  @Link webdavUsername: string;
++  @Link webdavPassword: string;
++  @Link webdavSyncPassword: string;
++  @Link webdavRemoteRoot: string;
++  @Link showWebdavPassword: boolean;
++  @Link showWebdavSyncPassword: boolean;
++  @StorageProp('ThemeRefreshToken') @Watch('onThemeChange') themeRefreshToken: number = 0;
++  @State private colors: ColorsInterface = ThemeManager.getInstance().getColors();
++
++  private onThemeChange(): void {
++    this.colors = ThemeManager.getInstance().getColors();
++  }
++
++  @Builder
++  private buildInputField(controlId: string, label: string, value: string, placeholder: string, onChange: (val: string) => void) {
++    Column() {
++      Text(label)
++        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++        .fontColor(this.colors.GRAY_600)
++        .width('100%')
++        .margin({ bottom: DesignTokens.Spacing.XS })
++
++      TextInput({ text: value, placeholder })
++        .id(controlId)
++        .width('100%')
++        .height(44)
++        .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
++        .backgroundColor(this.colors.GRAY_100)
++        .borderRadius(DesignTokens.BorderRadius.MD)
++        .padding({ left: DesignTokens.Spacing.MD, right: DesignTokens.Spacing.MD })
++        .onChange(onChange)
++    }
++    .width('100%')
++    .margin({ bottom: DesignTokens.Spacing.MD })
++  }
++
++  @Builder
++  private buildPasswordField(controlId: string, label: string, value: string, placeholder: string, isVisible: boolean, onChange: (val: string) => void, onToggle: () => void) {
++    Column() {
++      Text(label)
++        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++        .fontColor(this.colors.GRAY_600)
++        .width('100%')
++        .margin({ bottom: DesignTokens.Spacing.XS })
++
++      Row() {
++        TextInput({ text: value, placeholder })
++          .id(controlId)
++          .type(isVisible ? InputType.Normal : InputType.Password)
++          .layoutWeight(1)
++          .height(44)
++          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
++          .backgroundColor(this.colors.GRAY_100)
++          .borderRadius(DesignTokens.BorderRadius.MD)
++          .padding({ left: DesignTokens.Spacing.MD, right: DesignTokens.Spacing.SM })
++          .onChange(onChange)
++
++        Button(isVisible ? '隐藏' : '显示')
++          .margin({ left: DesignTokens.Spacing.SM })
++          .height(44)
++          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++          .fontColor(this.colors.GRAY_700)
++          .backgroundColor(this.colors.GRAY_200)
++          .borderRadius(DesignTokens.BorderRadius.MD)
++          .onClick(onToggle)
++      }
++      .width('100%')
++    }
++    .width('100%')
++    .margin({ bottom: DesignTokens.Spacing.MD })
++  }
++
++  build() {
++    Column() {
++      Text('基础配置')
++        .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
++        .fontWeight(DesignTokens.Typography.FONT_WEIGHT_MEDIUM)
++        .fontColor(this.colors.TEXT_PRIMARY)
++        .width('100%')
++        .margin({ bottom: DesignTokens.Spacing.MD })
++
++      this.buildInputField('webdav_endpoint_input', 'WebDAV 地址', this.webdavEndpoint, 'https://dav.example.com/dav/', (v) => this.webdavEndpoint = v)
++      this.buildInputField('webdav_username_input', '账号', this.webdavUsername, 'username', (v) => this.webdavUsername = v)
++      this.buildPasswordField('webdav_password_input', '密码', this.webdavPassword, 'password', this.showWebdavPassword, (v) => this.webdavPassword = v, () => this.showWebdavPassword = !this.showWebdavPassword)
++      this.buildPasswordField('webdav_sync_password_input', '同步密码（用于 AES 加密）', this.webdavSyncPassword, 'sync password', this.showWebdavSyncPassword, (v) => this.webdavSyncPassword = v, () => this.showWebdavSyncPassword = !this.showWebdavSyncPassword)
++      this.buildInputField('webdav_remote_root_input', '远端目录', this.webdavRemoteRoot, '/weiyu_sync', (v) => this.webdavRemoteRoot = v)
++
++      Text('提示：请先在 WebDAV 服务端创建该目录（只需一次）')
++        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++        .fontColor(this.colors.GRAY_500)
++        .width('100%')
++    }
++    .width('100%')
++    .padding(DesignTokens.Spacing.LG)
++    .backgroundColor(this.colors.SURFACE_PRIMARY)
++    .borderRadius(DesignTokens.BorderRadius.LG)
++  }
++
++}
+--- /dev/null
++++ b/entry/src/main/ets/pages/settings/SettingsSyncActionCard.ets
+@@ -0,0 +1,188 @@
++import { DesignTokens } from '../../model/DesignTokens';
++import { ColorsInterface } from '../../model/TokenInterfaces';
++import { ThemeManager } from '../../manager/ThemeManager';
++
++@Component
++export struct SettingsSyncActionCard {
++  @Prop webdavBusy: boolean = false;
++  @Prop manualSyncRunning: boolean = false;
++  @Prop webdavResult: string = '';
++  @Prop webdavBackupResult: string = '';
++  onSave: () => void = () => {};
++  onTest: () => void = () => {};
++  onSync: () => void = () => {};
++  onBackup: () => void = () => {};
++  onRestore: () => void = () => {};
++  @StorageProp('ThemeRefreshToken') @Watch('onThemeChange') themeRefreshToken: number = 0;
++  @State private colors: ColorsInterface = ThemeManager.getInstance().getColors();
++
++  private onThemeChange(): void {
++    this.colors = ThemeManager.getInstance().getColors();
++  }
++
++  build() {
++    Column() {
++      Text('手动操作')
++        .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
++        .fontWeight(DesignTokens.Typography.FONT_WEIGHT_MEDIUM)
++        .fontColor(this.colors.TEXT_PRIMARY)
++        .width('100%')
++        .margin({ bottom: DesignTokens.Spacing.MD })
++
++      Row() {
++        Button(this.webdavBusy ? '处理中...' : '保存设置')
++          .id('webdav_save_button')
++          .layoutWeight(1)
++          .height(44)
++          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
++          .fontColor(this.colors.WHITE)
++          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.GRAY_600)
++          .borderRadius(DesignTokens.BorderRadius.MD)
++          .enabled(!this.webdavBusy)
++          .onClick(() => { this.onSave(); })
++
++        Button(this.webdavBusy ? '处理中...' : '测试连接')
++          .id('webdav_test_connection_button')
++          .layoutWeight(1)
++          .height(44)
++          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
++          .fontColor(this.colors.WHITE)
++          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.PRIMARY)
++          .borderRadius(DesignTokens.BorderRadius.MD)
++          .enabled(!this.webdavBusy)
++          .margin({ left: DesignTokens.Spacing.SM })
++          .onClick(() => { this.onTest(); })
++      }
++      .width('100%')
++      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG })
++
++      if (this.webdavResult.length > 0) {
++        Text(this.webdavResult)
++          .id('webdav_action_result')
++          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++          .fontColor(this.webdavResult.includes('✅') ? this.colors.SUCCESS : this.colors.GRAY_600)
++          .margin({ top: DesignTokens.Spacing.SM })
++          .textAlign(TextAlign.Center)
++      }
++
++      Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
++
++      Row() {
++        LoadingProgress()
++          .id('webdav_sync_loading')
++          .width(24)
++          .height(24)
++          .color(this.colors.PRIMARY)
++          .visibility(this.manualSyncRunning ? Visibility.Visible : Visibility.None)
++          .margin({ right: DesignTokens.Spacing.SM })
++
++        Button(this.webdavBusy ? '处理中...' : '立即同步')
++          .id('webdav_sync_now_button')
++          .layoutWeight(1)
++          .height(44)
++          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
++          .fontColor(this.colors.WHITE)
++          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.PRIMARY)
++          .borderRadius(DesignTokens.BorderRadius.MD)
++          .enabled(!this.webdavBusy)
++          .onClick(() => { this.onSync(); })
++      }
++      .width('100%')
++      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
++
++      Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
++
++      Row() {
++        Button(this.webdavBusy ? '处理中...' : '立即备份')
++          .id('webdav_backup_button')
++          .layoutWeight(1)
++          .height(44)
++          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
++          .fontColor(this.colors.WHITE)
++          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.SUCCESS)
++          .borderRadius(DesignTokens.BorderRadius.MD)
++          .enabled(!this.webdavBusy)
++          .onClick(() => { this.onBackup(); })
++
++        Button(this.webdavBusy ? '处理中...' : '从云端恢复')
++          .id('webdav_restore_button')
++          .layoutWeight(1)
++          .height(44)
++          .fontSize(DesignTokens.Typography.FONT_SIZE_BASE)
++          .fontColor(this.colors.WHITE)
++          .backgroundColor(this.webdavBusy ? this.colors.GRAY_400 : this.colors.ERROR)
++          .borderRadius(DesignTokens.BorderRadius.MD)
++          .enabled(!this.webdavBusy)
++          .margin({ left: DesignTokens.Spacing.SM })
++          .onClick(() => { this.onRestore(); })
++      }
++      .width('100%')
++      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
++
++      if (this.webdavBackupResult.length > 0) {
++        Text(this.webdavBackupResult)
++          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++          .fontColor(this.webdavBackupResult.includes('✅') ? this.colors.SUCCESS : this.colors.GRAY_600)
++          .margin({ top: DesignTokens.Spacing.SM })
++          .textAlign(TextAlign.Center)
++      }
++
++      Divider().color(this.colors.GRAY_200).margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
++
++      Text('使用说明')
++        .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++        .fontColor(this.colors.TEXT_SECONDARY)
++        .margin({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.MD })
++
++      Column() {
++        Text('【立即同步】日常多端同步，只同步变更数据')
++          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++          .fontColor(this.colors.TEXT_SECONDARY)
++          .width('100%')
++        Text('• 同步学习过的单词、复习记录、用户词书')
++          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++          .fontColor(this.colors.GRAY_500)
++          .width('100%')
++          .margin({ left: DesignTokens.Spacing.SM })
++        Text('• 未学习的单词不会同步，节省流量')
++          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++          .fontColor(this.colors.GRAY_500)
++          .width('100%')
++          .margin({ left: DesignTokens.Spacing.SM })
++        Text('【立即备份】完整备份所有数据到云端')
++          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++          .fontColor(this.colors.TEXT_SECONDARY)
++          .width('100%')
++          .margin({ top: DesignTokens.Spacing.SM })
++        Text('• 适合换设备前、定期备份使用')
++          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++          .fontColor(this.colors.GRAY_500)
++          .width('100%')
++          .margin({ left: DesignTokens.Spacing.SM })
++        Text('【从云端恢复】下载云端数据覆盖本地')
++          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++          .fontColor(this.colors.TEXT_SECONDARY)
++          .width('100%')
++          .margin({ top: DesignTokens.Spacing.SM })
++        Text('• ⚠️ 会覆盖本地数据，新设备首次使用')
++          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++          .fontColor(this.colors.GRAY_500)
++          .width('100%')
++          .margin({ left: DesignTokens.Spacing.SM })
++        Text('• 本地未同步的学习记录将丢失')
++          .fontSize(DesignTokens.Typography.FONT_SIZE_SM)
++          .fontColor(this.colors.GRAY_500)
++          .width('100%')
++          .margin({ left: DesignTokens.Spacing.SM })
++      }
++      .padding({ left: DesignTokens.Spacing.LG, right: DesignTokens.Spacing.LG, top: DesignTokens.Spacing.SM })
++      .width('100%')
++    }
++    .width('100%')
++    .padding({ top: DesignTokens.Spacing.LG, bottom: DesignTokens.Spacing.LG })
++    .backgroundColor(this.colors.SURFACE_PRIMARY)
++    .borderRadius(DesignTokens.BorderRadius.LG)
++    .margin({ top: DesignTokens.Spacing.MD })
++  }
++
++}

@@ -1,0 +1,58 @@
+**********************
+PowerShell transcript start
+Start time: 20261016203650
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -Path 'traces/implementation-validation/finalization-command.log' -Force
+& 'D:/HCUP/common/.venv/Scripts/python.exe' workflow/verification/summarize_validation.py round02-t1-retry round02-regression round02-supplement
+Write-Output "final validation summary exit=$LASTEXITCODE"
+& 'D:/HCUP/common/.venv/Scripts/python.exe' workflow/verification/export_logs.py round02-t1-retry round02-regression round02-supplement
+Write-Output "log export exit=$LASTEXITCODE"
+& 'D:/HCUP/common/.venv/Scripts/python.exe' -c "import socket; sock=socket.socket(); sock.settimeout(1); result=sock.connect_ex(('127.0.0.1',18769)); sock.close(); print('Loopback fixture connect_ex after normal close=',result); assert result!=0"
+Write-Output "fixture closed check exit=$LASTEXITCODE"
+hdc -t 127.0.0.1:5555 fport ls
+Write-Output "final fport list exit=$LASTEXITCODE"
+Get-FileHash -LiteralPath 'entry/build/default/outputs/default/entry-default-unsigned.hap','hypium_tests/test_webdav_loading.py','hypium_tests/webdav_fixture.py' -Algorithm SHA256 | Format-List
+Stop-Transcript
+Process ID: 53124
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is traces/implementation-validation/finalization-command.log
+
+final validation summary exit=0
+
+log export exit=0
+
+fixture closed check exit=0
+
+final fport list exit=0
+
+Algorithm : SHA256
+Hash      : B367DA84359AD19BA9FAD5E808F864FE06C10280850332DA1C11615A8EFE70B6
+Path      : D:\HCUP\vg-spec9\entry\build\default\outputs\default\entry-default-unsigned.hap
+
+Algorithm : SHA256
+Hash      : 78C9AAA7FA8E368B5A59869D064BD26DB665127D2D240427397E9F0D0A76C726
+Path      : D:\HCUP\vg-spec9\hypium_tests\test_webdav_loading.py
+
+Algorithm : SHA256
+Hash      : 95FE3371FBA612A99A3881DE08831ADEC737EAE7EA09CA3FA38B9549DD6739D8
+Path      : D:\HCUP\vg-spec9\hypium_tests\webdav_fixture.py
+
+**********************
+PowerShell transcript end
+End time: 20261016203651
+**********************

@@ -1,0 +1,753 @@
+{
+  "runs": [
+    {
+      "run": "round02-t1-retry",
+      "report": "traces\\implementation-validation\\round02-t1-retry\\selftest.json",
+      "runner_exit": 0,
+      "counts": {
+        "pass": 1
+      },
+      "environment_warnings": [],
+      "requests": 5,
+      "responses": 5,
+      "methods": {
+        "HEAD": 2,
+        "GET": 2,
+        "PUT": 1
+      },
+      "max_request_seconds": 6.006941556930542,
+      "loading_network_overlaps": [
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_01_success_real_request_and_loading",
+          "epoch": 1792152577.1603968,
+          "root": "/vg-spec9-test_01_success_real_request_and_loading-1792152538339491000",
+          "request_ids": [
+            1
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_01_success_real_request_and_loading",
+          "epoch": 1792152578.240907,
+          "root": "/vg-spec9-test_01_success_real_request_and_loading-1792152538339491000",
+          "request_ids": [
+            1
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_01_success_real_request_and_loading",
+          "epoch": 1792152583.6522624,
+          "root": "/vg-spec9-test_01_success_real_request_and_loading-1792152538339491000",
+          "request_ids": [
+            2
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_01_success_real_request_and_loading",
+          "epoch": 1792152594.1102784,
+          "root": "/vg-spec9-test_01_success_real_request_and_loading-1792152538339491000",
+          "request_ids": [
+            3
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_01_success_real_request_and_loading",
+          "epoch": 1792152599.0027397,
+          "root": "/vg-spec9-test_01_success_real_request_and_loading-1792152538339491000",
+          "request_ids": [
+            4
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_01_success_real_request_and_loading",
+          "epoch": 1792152603.9013805,
+          "root": "/vg-spec9-test_01_success_real_request_and_loading-1792152538339491000",
+          "request_ids": [
+            5
+          ]
+        }
+      ],
+      "terminals": [
+        {
+          "epoch": 1792152609.1968148,
+          "monotonic": 149907.0,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_01_success_real_request_and_loading",
+          "root": "/vg-spec9-test_01_success_real_request_and_loading-1792152538339491000",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 5
+        }
+      ],
+      "long_chains": []
+    },
+    {
+      "run": "round02-regression",
+      "report": "traces\\implementation-validation\\round02-regression\\selftest.json",
+      "runner_exit": 0,
+      "counts": {
+        "pass": 9
+      },
+      "environment_warnings": [],
+      "requests": 78,
+      "responses": 78,
+      "methods": {
+        "HEAD": 41,
+        "PUT": 18,
+        "GET": 18,
+        "DELETE": 1
+      },
+      "max_request_seconds": 24.008025407791138,
+      "loading_network_overlaps": [
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_02_error_recovery_and_corrected_retry",
+          "epoch": 1792152690.7848744,
+          "root": "/vg-spec9-test_02_error_recovery_and_corrected_retry-1792152646991086200",
+          "request_ids": [
+            1
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_02_error_recovery_and_corrected_retry",
+          "epoch": 1792152739.4164612,
+          "root": "/vg-spec9-test_02_error_recovery_and_corrected_retry-1792152693352325900",
+          "request_ids": [
+            4
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_03_repeat_rapid_clicks_and_empty_remote",
+          "epoch": 1792152797.6027834,
+          "root": "/vg-spec9-test_03_repeat_rapid_clicks_and_empty_remote-1792152753461775300",
+          "request_ids": [
+            9
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_03_repeat_rapid_clicks_and_empty_remote",
+          "epoch": 1792152798.9516752,
+          "root": "/vg-spec9-test_03_repeat_rapid_clicks_and_empty_remote-1792152753461775300",
+          "request_ids": [
+            9
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_03_repeat_rapid_clicks_and_empty_remote",
+          "epoch": 1792152807.735867,
+          "root": "/vg-spec9-test_03_repeat_rapid_clicks_and_empty_remote-1792152753461775300",
+          "request_ids": [
+            14
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153111.964293,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            19
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153233.2109504,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            34
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153234.2619762,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            34
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153240.6876392,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            35
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153249.374719,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            36
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153256.8349798,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            37
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153265.0667198,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            38
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153273.2668152,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            39
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153280.8341622,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            40
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153289.1219246,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            41
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153296.7121828,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            42
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153304.887288,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            43
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153313.1137633,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            44
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153321.3145442,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            45
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153328.8674757,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            46
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153337.091909,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            47
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153350.7124872,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            48
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153359.019568,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            49
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "epoch": 1792153366.584856,
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "request_ids": [
+            50
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_07_inflight_return_reentry",
+          "epoch": 1792153423.466277,
+          "root": "/vg-spec9-test_07_inflight_return_reentry-1792153381816514600",
+          "request_ids": [
+            51
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_07_inflight_return_reentry",
+          "epoch": 1792153427.1616955,
+          "root": "/vg-spec9-test_07_inflight_return_reentry-1792153381816514600",
+          "request_ids": [
+            51
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_07_inflight_return_reentry",
+          "epoch": 1792153428.2023945,
+          "root": "/vg-spec9-test_07_inflight_return_reentry-1792153381816514600",
+          "request_ids": [
+            51
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_07_inflight_return_reentry",
+          "epoch": 1792153436.455976,
+          "root": "/vg-spec9-test_07_inflight_return_reentry-1792153381816514600",
+          "request_ids": [
+            52
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_07_inflight_return_reentry",
+          "epoch": 1792153449.7934446,
+          "root": "/vg-spec9-test_07_inflight_return_reentry-1792153381816514600",
+          "request_ids": [
+            53
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_07_inflight_return_reentry",
+          "epoch": 1792153457.4379382,
+          "root": "/vg-spec9-test_07_inflight_return_reentry-1792153381816514600",
+          "request_ids": [
+            54
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_07_inflight_return_reentry",
+          "epoch": 1792153465.6974585,
+          "root": "/vg-spec9-test_07_inflight_return_reentry-1792153381816514600",
+          "request_ids": [
+            55
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_08_empty_directory_defaults_and_trimmed_config",
+          "epoch": 1792153551.7121594,
+          "root": "/weiyu_sync",
+          "request_ids": [
+            56
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_08_empty_directory_defaults_and_trimmed_config",
+          "epoch": 1792153583.2048128,
+          "root": "/weiyu_sync",
+          "request_ids": [
+            61
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_09_connection_failure_then_valid_retry",
+          "epoch": 1792153695.6997404,
+          "root": "/vg-spec9-test_09_connection_failure_then_valid_retry-1792153649502907700",
+          "request_ids": [
+            66
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153754.1735919,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153709557688800",
+          "request_ids": [
+            71
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153776.9939415,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153709557688800",
+          "request_ids": [
+            71,
+            72
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153778.1054847,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153709557688800",
+          "request_ids": [
+            72
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153782.4458828,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153709557688800",
+          "request_ids": [
+            73
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153790.6178055,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153709557688800",
+          "request_ids": [
+            74
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153798.269238,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153709557688800",
+          "request_ids": [
+            75
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153811.814346,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153709557688800",
+          "request_ids": [
+            76
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153820.0621417,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153709557688800",
+          "request_ids": [
+            77
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153827.7129428,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153709557688800",
+          "request_ids": [
+            78
+          ]
+        }
+      ],
+      "terminals": [
+        {
+          "epoch": 1792152693.3513238,
+          "monotonic": 149991.156,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_02_error_recovery_and_corrected_retry",
+          "root": "/vg-spec9-test_02_error_recovery_and_corrected_retry-1792152646991086200",
+          "success": false,
+          "result": "⚠️ WebDAV 连接失败：STEP remoteRoot PUT 403: 权限不足（目录可能不可写）",
+          "requests": 3
+        },
+        {
+          "epoch": 1792152746.7399724,
+          "monotonic": 150044.546,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_02_error_recovery_and_corrected_retry",
+          "root": "/vg-spec9-test_02_error_recovery_and_corrected_retry-1792152693352325900",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 5
+        },
+        {
+          "epoch": 1792152806.4548464,
+          "monotonic": 150104.25,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_03_repeat_rapid_clicks_and_empty_remote",
+          "root": "/vg-spec9-test_03_repeat_rapid_clicks_and_empty_remote-1792152753461775300",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 5
+        },
+        {
+          "epoch": 1792152821.1761897,
+          "monotonic": 150118.984,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_03_repeat_rapid_clicks_and_empty_remote",
+          "root": "/vg-spec9-test_03_repeat_rapid_clicks_and_empty_remote-1792152753461775300",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 10
+        },
+        {
+          "epoch": 1792153375.0681536,
+          "monotonic": 150672.875,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout",
+          "root": "/vg-spec9-long-1792153071728817200/a/b/c/d/e/f",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 32
+        },
+        {
+          "epoch": 1792153474.076702,
+          "monotonic": 150771.875,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_07_inflight_return_reentry",
+          "root": "/vg-spec9-test_07_inflight_return_reentry-1792153381816514600",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 5
+        },
+        {
+          "epoch": 1792153559.5545936,
+          "monotonic": 150857.359,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_08_empty_directory_defaults_and_trimmed_config",
+          "root": "/weiyu_sync",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 5
+        },
+        {
+          "epoch": 1792153590.9544358,
+          "monotonic": 150888.75,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_08_empty_directory_defaults_and_trimmed_config",
+          "root": "/weiyu_sync",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 5
+        },
+        {
+          "epoch": 1792153649.5029078,
+          "monotonic": 150947.312,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_09_connection_failure_then_valid_retry",
+          "root": "/vg-spec9-test_09_connection_failure_then_valid_retry-1792153597932479600",
+          "success": false,
+          "result": "⚠️ WebDAV 连接失败：STEP remoteRoot PUT 0: BusinessError: Failed to connect to the server raw={\"code\":2300007,\"message\":\"Failed to connect to the server\"}",
+          "requests": 0
+        },
+        {
+          "epoch": 1792153703.252904,
+          "monotonic": 151001.062,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_09_connection_failure_then_valid_retry",
+          "root": "/vg-spec9-test_09_connection_failure_then_valid_retry-1792153649502907700",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 5
+        },
+        {
+          "epoch": 1792153836.4047437,
+          "monotonic": 151134.203,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153709557688800",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 8
+        }
+      ],
+      "long_chains": [
+        {
+          "epoch": 1792153375.0945275,
+          "monotonic": 150672.89,
+          "event": "long_chain_complete",
+          "elapsed_seconds": 264.4690000000119
+        }
+      ]
+    },
+    {
+      "run": "round02-supplement",
+      "report": "traces\\implementation-validation\\round02-supplement\\selftest.json",
+      "runner_exit": 0,
+      "counts": {
+        "pass": 3
+      },
+      "environment_warnings": [],
+      "requests": 15,
+      "responses": 15,
+      "methods": {
+        "HEAD": 6,
+        "GET": 6,
+        "PUT": 3
+      },
+      "max_request_seconds": 18.0122389793396,
+      "loading_network_overlaps": [
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153926.2436552,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153880831622300",
+          "request_ids": [
+            1
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153949.0650184,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153880831622300",
+          "request_ids": [
+            2
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153950.171181,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153880831622300",
+          "request_ids": [
+            2
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153957.6860402,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153880831622300",
+          "request_ids": [
+            3
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153965.8847494,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153880831622300",
+          "request_ids": [
+            4
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "epoch": 1792153974.255494,
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153880831622300",
+          "request_ids": [
+            5
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_11_password_spaces_preserve_auth_and_mac",
+          "epoch": 1792154052.4883664,
+          "root": "/vg-spec9-test_11_password_spaces_preserve_auth_and_mac-1792153988868282500",
+          "request_ids": [
+            6
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_12_system_back_inflight_reentry",
+          "epoch": 1792154112.549543,
+          "root": "/vg-spec9-test_12_system_back_inflight_reentry-1792154067509126400",
+          "request_ids": [
+            11
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_12_system_back_inflight_reentry",
+          "epoch": 1792154118.478538,
+          "root": "/vg-spec9-test_12_system_back_inflight_reentry-1792154067509126400",
+          "request_ids": [
+            11
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_12_system_back_inflight_reentry",
+          "epoch": 1792154119.5421033,
+          "root": "/vg-spec9-test_12_system_back_inflight_reentry-1792154067509126400",
+          "request_ids": [
+            11
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_12_system_back_inflight_reentry",
+          "epoch": 1792154127.8547103,
+          "root": "/vg-spec9-test_12_system_back_inflight_reentry-1792154067509126400",
+          "request_ids": [
+            12
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_12_system_back_inflight_reentry",
+          "epoch": 1792154141.7341907,
+          "root": "/vg-spec9-test_12_system_back_inflight_reentry-1792154067509126400",
+          "request_ids": [
+            13
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_12_system_back_inflight_reentry",
+          "epoch": 1792154149.1706154,
+          "root": "/vg-spec9-test_12_system_back_inflight_reentry-1792154067509126400",
+          "request_ids": [
+            14
+          ]
+        },
+        {
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_12_system_back_inflight_reentry",
+          "epoch": 1792154157.5028312,
+          "root": "/vg-spec9-test_12_system_back_inflight_reentry-1792154067509126400",
+          "request_ids": [
+            15
+          ]
+        }
+      ],
+      "terminals": [
+        {
+          "epoch": 1792153982.2639308,
+          "monotonic": 151280.062,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations",
+          "root": "/vg-spec9-test_10_inflight_edit_cannot_submit_other_operations-1792153880831622300",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 5
+        },
+        {
+          "epoch": 1792154060.4259574,
+          "monotonic": 151358.234,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_11_password_spaces_preserve_auth_and_mac",
+          "root": "/vg-spec9-test_11_password_spaces_preserve_auth_and_mac-1792153988868282500",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 5
+        },
+        {
+          "epoch": 1792154165.4774458,
+          "monotonic": 151463.281,
+          "event": "sync_terminal",
+          "test": "hypium_tests.test_webdav_loading.WebDavLoadingTests.test_12_system_back_inflight_reentry",
+          "root": "/vg-spec9-test_12_system_back_inflight_reentry-1792154067509126400",
+          "success": true,
+          "result": "✅ 同步完成",
+          "requests": 5
+        }
+      ],
+      "long_chains": []
+    }
+  ],
+  "outcomes": {
+    "test_01_success_real_request_and_loading (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_01_success_real_request_and_loading)": "pass",
+    "test_02_error_recovery_and_corrected_retry (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_02_error_recovery_and_corrected_retry)": "pass",
+    "test_03_repeat_rapid_clicks_and_empty_remote (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_03_repeat_rapid_clicks_and_empty_remote)": "pass",
+    "test_04_no_trigger_cancel_input_save_and_idle_reentry (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_04_no_trigger_cancel_input_save_and_idle_reentry)": "pass",
+    "test_05_empty_and_whitespace_recovery (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_05_empty_and_whitespace_recovery)": "pass",
+    "test_06_long_chain_exceeds_old_wrapper_timeout (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout)": "pass",
+    "test_07_inflight_return_reentry (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_07_inflight_return_reentry)": "pass",
+    "test_08_empty_directory_defaults_and_trimmed_config (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_08_empty_directory_defaults_and_trimmed_config)": "pass",
+    "test_09_connection_failure_then_valid_retry (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_09_connection_failure_then_valid_retry)": "pass",
+    "test_10_inflight_edit_cannot_submit_other_operations (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations)": "pass",
+    "test_11_password_spaces_preserve_auth_and_mac (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_11_password_spaces_preserve_auth_and_mac)": "pass",
+    "test_12_system_back_inflight_reentry (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_12_system_back_inflight_reentry)": "pass"
+  },
+  "official_result": "not_available",
+  "source_integrity": {
+    "all_fingerprints_equal": true,
+    "files": 251,
+    "manifest_sha256": "19bd55c11a219168929aa255afb3a0580826b59cf958b5d2782f24b2d4b411cd"
+  }
+}

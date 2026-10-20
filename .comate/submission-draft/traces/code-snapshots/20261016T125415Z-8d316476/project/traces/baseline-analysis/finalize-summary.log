@@ -1,0 +1,62 @@
+{
+  "generated": "2026-10-16T19:44:14.233609+08:00",
+  "finalCaptureStarted": "2026-10-16T19:42:08.511774+08:00",
+  "observationScope": "one manual-sync action; intentionally delayed 403 preflight errors; no successful sync tested",
+  "requests": [
+    {
+      "event": "request",
+      "time": "2026-10-16T19:41:40.592918+08:00",
+      "method": "HEAD",
+      "path": "/vg-spec9-round01",
+      "authMatchesFixture": true,
+      "delaySeconds": 12
+    },
+    {
+      "event": "response",
+      "time": "2026-10-16T19:41:52.593760+08:00",
+      "method": "HEAD",
+      "path": "/vg-spec9-round01",
+      "status": 403
+    },
+    {
+      "event": "request",
+      "time": "2026-10-16T19:41:52.642762+08:00",
+      "method": "HEAD",
+      "path": "/vg-spec9-round01",
+      "authMatchesFixture": true,
+      "delaySeconds": 12
+    },
+    {
+      "event": "response",
+      "time": "2026-10-16T19:42:04.643987+08:00",
+      "method": "HEAD",
+      "path": "/vg-spec9-round01",
+      "status": 403
+    },
+    {
+      "event": "request",
+      "time": "2026-10-16T19:42:04.710889+08:00",
+      "method": "PUT",
+      "path": "/vg-spec9-round01/.probe_1792150912648.txt",
+      "authMatchesFixture": true,
+      "delaySeconds": 0
+    },
+    {
+      "event": "response",
+      "time": "2026-10-16T19:42:04.712016+08:00",
+      "method": "PUT",
+      "path": "/vg-spec9-round01/.probe_1792150912648.txt",
+      "status": 403
+    }
+  ],
+  "finalErrorTexts": [
+    "⚠️ WebDAV 连接失败：STEP remoteRoot PUT 403: 权限不足（目录可能不可写）"
+  ],
+  "autoSyncEnabled": [
+    "false"
+  ],
+  "originalHelperLimitation": "sync-observations.json after state was captured after only first HEAD response; a second HEAD remained pending; its busyRestoredAfterError=false is an early observation, not a product failure",
+  "finalBusyRestoredAfterError": true,
+  "requiredLoaderObserved": false,
+  "successfulSyncFlowTested": false
+}

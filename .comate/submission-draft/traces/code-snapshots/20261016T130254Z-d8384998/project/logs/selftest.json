@@ -1,0 +1,121 @@
+{
+  "project": "D:\\HCUP\\vg-spec9",
+  "device_sn": "127.0.0.1:5555",
+  "cases": [
+    {
+      "name": "test_01_success_real_request_and_loading (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_01_success_real_request_and_loading)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-t1-retry",
+      "raw_report": "traces/implementation-validation/round02-t1-retry/selftest.json"
+    },
+    {
+      "name": "test_02_error_recovery_and_corrected_retry (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_02_error_recovery_and_corrected_retry)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-regression",
+      "raw_report": "traces/implementation-validation/round02-regression/selftest.json"
+    },
+    {
+      "name": "test_03_repeat_rapid_clicks_and_empty_remote (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_03_repeat_rapid_clicks_and_empty_remote)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-regression",
+      "raw_report": "traces/implementation-validation/round02-regression/selftest.json"
+    },
+    {
+      "name": "test_04_no_trigger_cancel_input_save_and_idle_reentry (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_04_no_trigger_cancel_input_save_and_idle_reentry)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-regression",
+      "raw_report": "traces/implementation-validation/round02-regression/selftest.json"
+    },
+    {
+      "name": "test_05_empty_and_whitespace_recovery (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_05_empty_and_whitespace_recovery)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-regression",
+      "raw_report": "traces/implementation-validation/round02-regression/selftest.json"
+    },
+    {
+      "name": "test_06_long_chain_exceeds_old_wrapper_timeout (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_06_long_chain_exceeds_old_wrapper_timeout)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-regression",
+      "raw_report": "traces/implementation-validation/round02-regression/selftest.json"
+    },
+    {
+      "name": "test_07_inflight_return_reentry (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_07_inflight_return_reentry)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-regression",
+      "raw_report": "traces/implementation-validation/round02-regression/selftest.json"
+    },
+    {
+      "name": "test_08_empty_directory_defaults_and_trimmed_config (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_08_empty_directory_defaults_and_trimmed_config)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-regression",
+      "raw_report": "traces/implementation-validation/round02-regression/selftest.json"
+    },
+    {
+      "name": "test_09_connection_failure_then_valid_retry (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_09_connection_failure_then_valid_retry)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-regression",
+      "raw_report": "traces/implementation-validation/round02-regression/selftest.json"
+    },
+    {
+      "name": "test_10_inflight_edit_cannot_submit_other_operations (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_10_inflight_edit_cannot_submit_other_operations)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-supplement",
+      "raw_report": "traces/implementation-validation/round02-supplement/selftest.json"
+    },
+    {
+      "name": "test_11_password_spaces_preserve_auth_and_mac (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_11_password_spaces_preserve_auth_and_mac)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-supplement",
+      "raw_report": "traces/implementation-validation/round02-supplement/selftest.json"
+    },
+    {
+      "name": "test_12_system_back_inflight_reentry (hypium_tests.test_webdav_loading.WebDavLoadingTests.test_12_system_back_inflight_reentry)",
+      "outcome": "pass",
+      "message": "",
+      "evidence_run": "round02-supplement",
+      "raw_report": "traces/implementation-validation/round02-supplement/selftest.json"
+    }
+  ],
+  "counts": {
+    "pass": 12
+  },
+  "raw_runs": [
+    {
+      "run": "round02-t1-retry",
+      "runner_exit": 0,
+      "report": "traces/implementation-validation/round02-t1-retry/selftest.json",
+      "raw_log": "traces/implementation-validation/round02-t1-retry/selftest-raw.log"
+    },
+    {
+      "run": "round02-regression",
+      "runner_exit": 0,
+      "report": "traces/implementation-validation/round02-regression/selftest.json",
+      "raw_log": "traces/implementation-validation/round02-regression/selftest-raw.log"
+    },
+    {
+      "run": "round02-supplement",
+      "runner_exit": 0,
+      "report": "traces/implementation-validation/round02-supplement/selftest.json",
+      "raw_log": "traces/implementation-validation/round02-supplement/selftest-raw.log"
+    }
+  ],
+  "failure_history": [
+    {
+      "run": "round02-t1",
+      "classification": "test harness lowercase swipe direction before sync click",
+      "report": "traces/implementation-validation/round02-t1/selftest.json"
+    }
+  ],
+  "official_result": "not_available"
+}

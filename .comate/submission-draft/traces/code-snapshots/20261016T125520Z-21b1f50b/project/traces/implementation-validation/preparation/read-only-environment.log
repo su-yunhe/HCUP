@@ -1,0 +1,41 @@
+**********************
+PowerShell transcript start
+Start time: 20261016195853
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+New-Item -ItemType Directory -Path 'traces/implementation-validation/preparation' -Force | Out-Null
+Start-Transcript -Path 'traces/implementation-validation/preparation/read-only-environment.log' -Force
+hdc list targets
+Write-Output "hdc list targets exit=$LASTEXITCODE"
+hdc fport ls
+Write-Output "hdc fport ls exit=$LASTEXITCODE"
+hdc shell bm dump -n io.qzz.weiyu
+Write-Output "bm dump exit=$LASTEXITCODE"
+Stop-Transcript
+Process ID: 32728
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is traces/implementation-validation/preparation/read-only-environment.log
+
+hdc list targets exit=0
+
+hdc fport ls exit=0
+
+bm dump exit=0
+**********************
+PowerShell transcript end
+End time: 20261016195853
+**********************

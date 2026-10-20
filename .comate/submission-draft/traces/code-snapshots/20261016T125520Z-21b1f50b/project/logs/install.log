@@ -1,0 +1,19 @@
+RUN round02-t1-retry
+SOURCE traces\implementation-validation\round02-t1-retry/Run-command.log
+COMMAND: hdc -t 127.0.0.1:5555 install -r D:\HCUP\vg-spec9\entry\build\default\outputs\default\entry-default-unsigned.hap
+
+INSTALL_EXIT=0
+
+
+RUN round02-regression
+SOURCE traces\implementation-validation\round02-regression/Run-command.log
+COMMAND: hdc -t 127.0.0.1:5555 install -r D:\HCUP\vg-spec9\entry\build\default\outputs\default\entry-default-unsigned.hap
+
+INSTALL_EXIT=0
+
+
+RUN round02-supplement
+SOURCE traces\implementation-validation\round02-supplement/Run-command.log
+COMMAND: hdc -t 127.0.0.1:5555 install -r D:\HCUP\vg-spec9\entry\build\default\outputs\default\entry-default-unsigned.hap
+
+INSTALL_EXIT=0

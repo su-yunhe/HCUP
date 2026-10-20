@@ -1,0 +1,70 @@
+**********************
+PowerShell transcript start
+Start time: 20261016201229
+Username: soft42501\soft42501
+RunAs User: soft42501\soft42501
+Configuration Name: 
+Machine: SOFT42501 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Users\22580\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.dll -Command try { [Console]::OutputEncoding=[System.Text.Encoding]::UTF8 } catch {}
+. D:/hongmengcup/Enter-HarmonyEnv.ps1
+. D:/HCUP/.hcup-local/Enter-HarmonyEnv.ps1
+Start-Transcript -Path 'traces/implementation-validation/round02-t1-retry/environment-and-static-command.log' -Force
+hdc -t 127.0.0.1:5555 shell param get const.product.software.version
+Write-Output "software version exit=$LASTEXITCODE"
+hdc -t 127.0.0.1:5555 shell param get const.ohos.apiversion
+Write-Output "API version exit=$LASTEXITCODE"
+hdc -t 127.0.0.1:5555 shell param get const.product.model
+Write-Output "model exit=$LASTEXITCODE"
+$taskFiles=@('entry/src/main/ets/pages/settings/SettingsSyncSection.ets','entry/src/main/ets/pages/settings/SettingsSyncConfigCard.ets','entry/src/main/ets/pages/settings/SettingsSyncActionCard.ets','entry/src/main/ets/sync/ManualWebDavSyncController.ets','entry/src/main/ets/sync/WebDavSyncManager.ets')
+foreach ($taskFile in $taskFiles) { Write-Output "$taskFile lines=$((Get-Content -LiteralPath $taskFile).Count)" }
+git diff --check
+Write-Output "git diff --check exit=$LASTEXITCODE"
+Get-FileHash -LiteralPath 'spec/requirement.md','spec/metadata.json','spec/acceptance.md','spec/baseline-notes.md' -Algorithm SHA256 | Format-List
+Stop-Transcript
+Get-Content -LiteralPath 'traces/implementation-validation/round02-regression/selftest-raw.log' | Select-Object -Last 4
+Process ID: 36492
+PSVersion: 7.6.5
+PSEdition: Core
+GitCommitId: 7.6.5
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is traces/implementation-validation/round02-t1-retry/environment-and-static-command.log
+
+software version exit=0
+
+API version exit=0
+
+model exit=0
+entry/src/main/ets/pages/settings/SettingsSyncSection.ets lines=489
+entry/src/main/ets/pages/settings/SettingsSyncConfigCard.ets lines=106
+entry/src/main/ets/pages/settings/SettingsSyncActionCard.ets lines=188
+entry/src/main/ets/sync/ManualWebDavSyncController.ets lines=100
+entry/src/main/ets/sync/WebDavSyncManager.ets lines=1218
+
+git diff --check exit=0
+
+Algorithm : SHA256
+Hash      : C6236994E253C6DE9F6DECD99D7C0637620027AC16CE3699154796CBA7A5EDBF
+Path      : D:\HCUP\vg-spec9\spec\requirement.md
+
+Algorithm : SHA256
+Hash      : 496950D171E032FE6F10CF76FD485341F4F293B6F162857D60A46BD98756F660
+Path      : D:\HCUP\vg-spec9\spec\metadata.json
+
+Algorithm : SHA256
+Hash      : 3C99C7F9862426082762DE5E7F660C09FBF0DE4B21090DE2B2935F4C29CC1410
+Path      : D:\HCUP\vg-spec9\spec\acceptance.md
+
+Algorithm : SHA256
+Hash      : 8D1CF80BC5DE92E91B8BB8400A0813CB3E379D5570B79B5A93195B71E83425E3
+Path      : D:\HCUP\vg-spec9\spec\baseline-notes.md
+
+**********************
+PowerShell transcript end
+End time: 20261016201230
+**********************
