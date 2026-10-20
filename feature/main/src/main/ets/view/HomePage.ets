@@ -68,7 +68,8 @@ export struct HomePage {
         }
 
         ListItem() {
-          HomeCategorySection({ categories: this.vm.pageData.category ?? [] });
+          HomeCategorySection({ categories: this.vm.pageData.category ?? [],
+            onCategoryClick: (id: number): void => GoodsNavigator.toCategory({ typeId: String(id) }) });
         }
 
         ListItem() {

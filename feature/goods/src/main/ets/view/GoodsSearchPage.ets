@@ -37,9 +37,11 @@ export struct GoodsSearchPage {
       viewModel: this.vm,
       hideTitleBar: true
     }) {
+      Column() {
       SearchTopAppBar({
         value: this.vm.searchValue,
         autoFocus: true,
+        idPrefix: "gs.search",
         onValueChange: (value: string): void => this.vm.onSearchValueChange(value),
         onSearch: (value: string): void => {
           this.vm.onSearch(value);
@@ -63,6 +65,7 @@ export struct GoodsSearchPage {
         onCancel: (): void => this.vm.hideClearHistoryDialog(),
         onClose: (): void => this.vm.hideClearHistoryDialog()
       });
+      }.id("gs.page").width(P100).height(P100);
     }
   }
 

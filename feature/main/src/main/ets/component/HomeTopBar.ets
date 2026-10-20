@@ -68,6 +68,7 @@ export struct HomeTopBar {
     })
     .backgroundColor($r("app.color.bg_white"))
     .borderRadius($r("app.float.radius_medium"))
+    .id("gc.entry.home.search")
     .onClick((): void => this.onSearchTap());
   }
 

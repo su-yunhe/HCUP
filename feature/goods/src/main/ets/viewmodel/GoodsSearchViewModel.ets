@@ -83,8 +83,6 @@ export default class GoodsSearchViewModel extends BaseNetWorkViewModel<GoodsSear
     await this.loadSearchHistory();
 
     const params: GoodsCategoryParam = {
-      featured: false,
-      recommend: false,
       keyword: trimmed
     };
     GoodsNavigator.toCategory(params);

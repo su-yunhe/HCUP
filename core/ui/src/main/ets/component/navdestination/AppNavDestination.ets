@@ -66,6 +66,11 @@ export struct AppNavDestination {
   @Param
   paddingValue: Padding | Length | LocalizedPadding | undefined = undefined;
 
+  @Param
+  onReady: (context: NavDestinationContext) => void = (): void => {};
+  @Param
+  onBackPressed: () => boolean = (): boolean => false;
+
   /**
    * 页面出现时的生命周期回调
    * @returns {void} 无返回值
@@ -128,6 +133,8 @@ export struct AppNavDestination {
     .title(this.title, this.titleOptions)
     .hideTitleBar(this.hideTitleBar)
     .menus(this.menus, this.menuOptions)
+    .onReady((context: NavDestinationContext): void => this.onReady(context))
+    .onBackPressed((): boolean => this.onBackPressed())
     .onShown((reason: VisibilityChangeReason) => {
       this.viewModel.onShown(reason);
     })

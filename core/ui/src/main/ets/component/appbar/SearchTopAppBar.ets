@@ -8,6 +8,8 @@ import { ArrowLeftIcon } from "../icon/ArrowLeftIcon";
  */
 @ComponentV2
 export struct SearchTopAppBar {
+  @Param
+  idPrefix: string = "";
   /**
    * 搜索输入值
    */
@@ -85,10 +87,12 @@ export struct SearchTopAppBar {
    */
   @Builder
   private buildLeft(): void {
+    Row() {
     ArrowLeftIcon({
       iconSize: 24,
       onTap: (): void => this.onBackClick()
     });
+    }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.back` : "");
   }
 
   /**
@@ -97,6 +101,7 @@ export struct SearchTopAppBar {
    */
   @Builder
   private buildTitle(): void {
+    Row() {
     IBestSearch({
       value: this.value,
       placeholder: this.placeholder,
@@ -115,6 +120,7 @@ export struct SearchTopAppBar {
       onClear: (): void => this.onValueChange("")
     })
     .width(P100);
+    }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.input` : "").width(P100);
   }
 
   /**
@@ -135,6 +141,7 @@ export struct SearchTopAppBar {
   @Builder
   private buildSearchButton(): void {
     Text($r("app.string.search"))
+      .id(this.idPrefix.length > 0 ? `${this.idPrefix}.submit` : "")
       .fontColor($r("app.color.text_primary"))
       .fontSize($r("app.float.body_medium"))
       .padding({ left: 10, right: 10 })

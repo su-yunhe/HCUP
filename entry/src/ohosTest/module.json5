@@ -2,12 +2,21 @@
   "module": {
     "name": "entry_test",
     "type": "feature",
-    "deviceTypes": [
-      "phone",
-      "tablet",
-      "2in1"
-    ],
+    "description": "$string:gcf_module_desc",
+    "mainElement": "FixtureAbility",
+    "deviceTypes": ["phone", "tablet", "2in1"],
     "deliveryWithInstall": true,
-    "installationFree": false
+    "installationFree": false,
+    "pages": "$profile:fixture_pages",
+    "abilities": [{
+      "name": "FixtureAbility",
+      "srcEntry": "./ets/fixture/FixtureAbility.ets",
+      "description": "$string:gcf_module_desc",
+      "label": "$string:gcf_label",
+      "icon": "$media:gcf_start",
+      "startWindowIcon": "$media:gcf_start",
+      "startWindowBackground": "$color:gcf_background",
+      "exported": true
+    }]
   }
 }

@@ -4,6 +4,7 @@ import { bp, getWindowSafeAreaState, WindowSafeAreaState } from "state";
 import { IBestSideBar, IBestSideBarItem } from "ibestui";
 import { AppNavDestination, BaseNetWorkView, NetWorkImage, TitleWithLine } from "ui";
 import CategoryViewModel from "../viewmodel/CategoryViewModel";
+import { GoodsNavigator } from "navigation";
 
 /**
  * @file 分类页面视图
@@ -189,7 +190,9 @@ export struct CategoryPage {
       top: $r("app.float.space_vertical_small_x"),
       bottom: $r("app.float.space_vertical_small_x")
     })
-    .alignItems(HorizontalAlign.Center);
+    .alignItems(HorizontalAlign.Center)
+    .id(`gc.entry.category.${category.id}`)
+    .onClick((): void => GoodsNavigator.toCategory({ typeId: String(category.id) }));
   }
 
   /**

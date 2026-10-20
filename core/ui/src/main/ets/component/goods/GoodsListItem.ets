@@ -17,6 +17,8 @@ import { Card } from "../../../../../Index";
  */
 @ComponentV2
 export struct GoodsListItem {
+  @Param
+  idPrefix: string = "";
   /**
    * 商品数据
    */
@@ -34,10 +36,12 @@ export struct GoodsListItem {
    * @returns {void} 无返回值
    */
   build(): void {
+    Column() {
     Card({
       onTap: (): void => this.onItemClick(this.goods.id)
     }) {
       Row() {
+        Stack() {
         NetWorkImage({
           model: this.goods.mainPic,
           sizeValue: 100,
@@ -45,12 +49,14 @@ export struct GoodsListItem {
           showBackground: true,
           cornerRadius: $r("app.float.radius_small")
         });
+        }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.image.${this.goods.id}` : "");
 
         SpaceHorizontalSmall();
 
         Column() {
           ColumnStart() {
             Text(this.goods.title)
+              .id(this.idPrefix.length > 0 ? `${this.idPrefix}.name.${this.goods.id}` : "")
               .fontSize($r("app.float.body_large"))
               .fontColor($r("app.color.text_primary"))
               .maxLines(2)
@@ -67,9 +73,12 @@ export struct GoodsListItem {
           }
 
           RowSpaceBetweenCenter({ widthValue: P100 }) {
-            IBestPrice({ value: this.goods.price });
+            Row() {
+              IBestPrice({ value: this.goods.price });
+            }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.price.${this.goods.id}` : "");
 
             Text($r("app.string.goods_sold", this.goods.sold))
+              .id(this.idPrefix.length > 0 ? `${this.idPrefix}.sold.${this.goods.id}` : "")
               .fontSize($r("app.float.body_medium"))
               .fontColor($r("app.color.text_tertiary"));
           };
@@ -86,5 +95,6 @@ export struct GoodsListItem {
       .width(P100)
       .padding($r("app.float.space_padding_small"));
     }
+    }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.goods.${this.goods.id}` : "").width(P100);
   }
 }

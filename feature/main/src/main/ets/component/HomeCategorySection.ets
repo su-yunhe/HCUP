@@ -73,6 +73,7 @@ export struct HomeCategorySection {
       bottom: $r("app.float.space_vertical_small_x")
     })
     .alignItems(HorizontalAlign.Center)
+    .id(`gc.entry.home.category.${category.id}`)
     .onClick((): void => this.onCategoryClick(category.id));
   }
 

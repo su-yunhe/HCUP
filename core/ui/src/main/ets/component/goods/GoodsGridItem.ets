@@ -20,6 +20,8 @@ import { bp } from "state";
  */
 @ComponentV2
 export struct GoodsGridItem {
+  @Param
+  idPrefix: string = "";
   /**
    * 商品数据
    */
@@ -37,12 +39,14 @@ export struct GoodsGridItem {
    * @returns {void} 无返回值
    */
   build(): void {
+    Column() {
     Card({
       heightValue: bp({ sm: 230, md: 250, lg: 270 }),
       paddingValue: $r("app.float.space_padding_small"),
       onTap: (): void => this.onItemClick(this.goods.id)
     }) {
       ColumnSpaceBetween({ heightValue: P100 }) {
+        Stack() {
         NetWorkImage({
           model: this.goods.mainPic,
           sizeValue: bp({ sm: 120, md: 140, lg: 160 }),
@@ -50,9 +54,11 @@ export struct GoodsGridItem {
           showBackground: false,
           cornerRadius: $r("app.float.radius_small")
         });
+        }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.image.${this.goods.id}` : "");
 
         ColumnStart({ widthValue: P100 }) {
           Text(this.goods.title)
+            .id(this.idPrefix.length > 0 ? `${this.idPrefix}.name.${this.goods.id}` : "")
             .fontSize($r("app.float.body_large"))
             .fontColor($r("app.color.text_primary"))
             .maxLines(2)
@@ -69,13 +75,17 @@ export struct GoodsGridItem {
         }
 
         RowSpaceBetweenCenter({ widthValue: P100 }) {
-          IBestPrice({ value: this.goods.price });
+          Row() {
+            IBestPrice({ value: this.goods.price });
+          }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.price.${this.goods.id}` : "");
 
           Text($r("app.string.goods_sold", this.goods.sold))
+            .id(this.idPrefix.length > 0 ? `${this.idPrefix}.sold.${this.goods.id}` : "")
             .fontSize($r("app.float.body_medium"))
             .fontColor($r("app.color.text_tertiary"));
         };
       }
     }
+    }.id(this.idPrefix.length > 0 ? `${this.idPrefix}.goods.${this.goods.id}` : "").width(P100);
   }
 }

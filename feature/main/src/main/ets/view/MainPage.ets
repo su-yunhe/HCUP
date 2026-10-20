@@ -112,6 +112,7 @@ export struct MainPage {
       SpaceVerticalXSmall();
 
       Text(this.vm.tabItems[index].title)
+        .id(index === 1 ? "gc.entry.category.tab" : "")
         .fontSize(bp({
           sm: $r("app.float.body_medium"),
           md: $r("app.float.body_large"),

@@ -27,7 +27,22 @@
       "name": "default"
     },
     {
+      "name": "emulator",
+      "config": {
+        "buildOption": {
+          "externalNativeOptions": { "abiFilters": ["x86_64"] },
+          "nativeLib": { "filter": { "excludes": ["**/arm64-v8a/**"] } }
+        }
+      }
+    },
+    {
       "name": "ohosTest",
+      "config": {
+        "buildOption": {
+          "externalNativeOptions": { "abiFilters": ["x86_64"] },
+          "nativeLib": { "filter": { "excludes": ["**/arm64-v8a/**"] } }
+        }
+      }
     }
   ]
 }
