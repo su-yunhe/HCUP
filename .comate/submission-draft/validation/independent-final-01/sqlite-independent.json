@@ -1,0 +1,2017 @@
+{
+  "count": 91,
+  "all_integrity_ok": true,
+  "nonempty_wal_count": 5,
+  "nonempty_wal_paths": [
+    "traces/boundary-completion/server/host-protocol-20261018T142917068063Z/fixture.sqlite-wal",
+    "traces/boundary-completion/server/host-protocol-20261018T143018161367Z/fixture.sqlite-wal",
+    "traces/boundary-completion/server/host-protocol-20261018T143252356738Z/fixture.sqlite-wal",
+    "traces/boundary-completion/verification/runtime/fixture.sqlite-wal",
+    "traces/fixture-ui/evidence/fixture.sqlite-wal"
+  ],
+  "audits": [
+    {
+      "source_db": "traces/boundary-completion/server/host-protocol-20261018T142917068063Z/fixture.sqlite",
+      "source_wal": "traces/boundary-completion/server/host-protocol-20261018T142917068063Z/fixture.sqlite-wal",
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/001",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/server/host-protocol-20261018T143018161367Z/fixture.sqlite",
+      "source_wal": "traces/boundary-completion/server/host-protocol-20261018T143018161367Z/fixture.sqlite-wal",
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/002",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 140
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/server/host-protocol-20261018T143252356738Z/fixture.sqlite",
+      "source_wal": "traces/boundary-completion/server/host-protocol-20261018T143252356738Z/fixture.sqlite-wal",
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/003",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 142
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/final-cleanup-01/fixture-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/004",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 1874
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-01/cases/test_BC01_BC02_full_25_both_modes_and_tail_swipes/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/005",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 25,
+        "metadata": 2,
+        "http_events": 16
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-01/cases/test_BC02_empty_management_and_selection_swipes/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/006",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 0,
+        "metadata": 2,
+        "http_events": 30
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-01/cases/test_BC03_navigation_triple_cart/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/007",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 43
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-01/cases/test_BC03_navigation_triple_new/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/008",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 53
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-01/cases/test_BC03_navigation_triple_order_card/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/009",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 66
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-01/cases/test_BC03_navigation_triple_personal/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/010",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 79
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-02/cases/test_BC01_BC02_full_25_both_modes_and_tail_swipes/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/011",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 25,
+        "metadata": 2,
+        "http_events": 124
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-02/cases/test_BC02_empty_management_and_selection_swipes/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/012",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 0,
+        "metadata": 2,
+        "http_events": 157
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-02/cases/test_BC03_navigation_triple_cart/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/013",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 173
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-02/cases/test_BC03_navigation_triple_new/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/014",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 192
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-02/cases/test_BC03_navigation_triple_order_card/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/015",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 209
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-02/cases/test_BC03_navigation_triple_personal/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/016",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 227
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-02/cases/test_BC03_navigation_triple_region/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/017",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 247
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-02/cases/test_BC11_region_finite_linkage_and_cancel/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/018",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 266
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-03/cases/test_BC01_BC02_full_25_both_modes_and_tail_swipes/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/019",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 25,
+        "metadata": 2,
+        "http_events": 312
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-03/cases/test_BC03_navigation_triple_cart/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/020",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 330
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-03/cases/test_BC03_navigation_triple_new/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/021",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 351
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-03/cases/test_BC03_navigation_triple_order_card/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/022",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 370
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-03/cases/test_BC03_navigation_triple_personal/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/023",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 390
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g1-new-04/cases/test_BC03_navigation_triple_new/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/024",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 484
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g2-01/cases/test_BC04_default_old_A_after_select_B/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/025",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 413
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g2-01/cases/test_BC05_info_A_pending_leave_edit_B/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/026",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 438
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g2-01/cases/test_BC05_list_pending_leave_then_late_read/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/027",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 463
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g2-default-02/cases/test_BC04_default_old_A_after_select_B/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/028",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 507
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g3-01/cases/test_BC06_pending_back_add/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/029",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 530
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g3-01/cases/test_BC06_pending_back_delete/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/030",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 1,
+        "metadata": 2,
+        "http_events": 577
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g3-01/cases/test_BC06_pending_back_update/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/031",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 601
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g3-01/cases/test_BC06_update_background/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/032",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 625
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g3-02/cases/test_BC06_pending_back_add/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/033",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 648
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g3-02/cases/test_BC06_pending_back_delete/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/034",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 1,
+        "metadata": 2,
+        "http_events": 697
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g3-02/cases/test_BC06_pending_back_update/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/035",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 721
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g3-02/cases/test_BC06_update_background/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/036",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 745
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-01/cases/test_BC07_timeout_add_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/037",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 776
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-01/cases/test_BC07_timeout_add_not_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/038",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 807
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-01/cases/test_BC07_timeout_delete_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/039",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 1,
+        "metadata": 2,
+        "http_events": 842
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-01/cases/test_BC07_timeout_delete_not_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/040",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 877
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-01/cases/test_BC07_timeout_update_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/041",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 909
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-01/cases/test_BC07_timeout_update_not_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/042",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 941
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-r4-02/cases/test_BC07_timeout_add_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/043",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 973
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-r4-02/cases/test_BC07_timeout_add_not_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/044",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1005
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-r4-02/cases/test_BC07_timeout_delete_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/045",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 1,
+        "metadata": 2,
+        "http_events": 1035
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-r4-02/cases/test_BC07_timeout_delete_not_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/046",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1067
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-r4-02/cases/test_BC07_timeout_update_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/047",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1096
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g4-r4-02/cases/test_BC07_timeout_update_not_committed/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/048",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1128
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r4-01/cases/test_BC08_historical_values_name_only/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/049",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1149
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r4-01/cases/test_BC09_validation_alpha/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/050",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1174
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r4-01/cases/test_BC09_validation_empty_contact/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/051",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1206
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r4-01/cases/test_BC09_validation_short_numeric/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/052",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1238
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r4-01/cases/test_BC10_missing_code_add/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/053",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 1269
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r4-01/cases/test_BC10_missing_code_default/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/054",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1295
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r4-01/cases/test_BC10_missing_code_delete/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/055",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 1,
+        "metadata": 2,
+        "http_events": 1326
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r4-01/cases/test_BC10_missing_code_info/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/056",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1355
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r4-01/cases/test_BC10_missing_code_list/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/057",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1377
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r4-01/cases/test_BC10_missing_code_update/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/058",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1409
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r4-01/cases/test_RG09_explicit_code1001_update_failure_then_success/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/059",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1441
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r5-02/cases/test_BC08_historical_values_name_only/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/060",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1482
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r5-02/cases/test_BC09_validation_alpha/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/061",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1514
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r5-02/cases/test_BC09_validation_empty_contact/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/062",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1546
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r5-02/cases/test_BC09_validation_short_numeric/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/063",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1578
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r5-02/cases/test_BC10_missing_code_add/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/064",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 1609
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r5-02/cases/test_BC10_missing_code_default/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/065",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1635
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r5-02/cases/test_BC10_missing_code_delete/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/066",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 1,
+        "metadata": 2,
+        "http_events": 1666
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r5-02/cases/test_BC10_missing_code_info/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/067",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1695
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r5-02/cases/test_BC10_missing_code_list/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/068",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1723
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r5-02/cases/test_BC10_missing_code_update/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/069",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1755
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/g5-r5-02/cases/test_RG09_explicit_code1001_update_failure_then_success/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/070",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1787
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/r10-r5-01/cases/test_RG10_long_legacy_phone_changed_then_exact_restored/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/071",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 1828
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runs/r10-r5-01/cases/test_RG10_valid_numeric_add_update_and_normal_ime_back/sqlite-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/072",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 1870
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/boundary-completion/verification/runtime/fixture.sqlite",
+      "source_wal": "traces/boundary-completion/verification/runtime/fixture.sqlite-wal",
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/073",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 1874
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/evidence/fixture-initial.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/074",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 2
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/evidence/fixture.sqlite",
+      "source_wal": "traces/fixture-ui/evidence/fixture.sqlite-wal",
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/075",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 1,
+        "metadata": 2,
+        "http_events": 748
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/core-02/cases/test_01_create_default_actual_pending_taps_and_persistence/sqlite-added.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/076",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 35
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/core-02/cases/test_01_create_default_actual_pending_taps_and_persistence/sqlite-after-service-restart.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/077",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 49
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/core-02/cases/test_01_create_default_actual_pending_taps_and_persistence/sqlite-before-service-restart.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/078",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 45
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r2-core01/cases/test_01_create_default_actual_pending_taps_and_persistence/sqlite-added.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/079",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 256
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r2-core01/cases/test_01_create_default_actual_pending_taps_and_persistence/sqlite-after-service-restart.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/080",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 271
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r2-core01/cases/test_01_create_default_actual_pending_taps_and_persistence/sqlite-before-service-restart.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/081",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 266
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r3-cleanup/fixture-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/082",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 1,
+        "metadata": 2,
+        "http_events": 745
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r3-cleanup02/fixture-final.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/083",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 1,
+        "metadata": 2,
+        "http_events": 748
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r3-core01/cases/test_01_create_default_actual_pending_taps_and_persistence/sqlite-added.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/084",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 318
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r3-core01/cases/test_01_create_default_actual_pending_taps_and_persistence/sqlite-after-service-restart.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/085",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 333
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r3-core01/cases/test_01_create_default_actual_pending_taps_and_persistence/sqlite-before-service-restart.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/086",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 3,
+        "metadata": 2,
+        "http_events": 328
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r3-core01/cases/test_03_name_only_edit_both_default_states_pending_and_persistence/sqlite-after-service-restart.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/087",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 392
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r3-core01/cases/test_03_name_only_edit_both_default_states_pending_and_persistence/sqlite-before-service-restart.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/088",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 387
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r3-core01/cases/test_03_name_only_edit_both_default_states_pending_and_persistence/sqlite-both-name-only-updates.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/089",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 2,
+        "metadata": 2,
+        "http_events": 377
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r3-core01/cases/test_04_delete_cancel_close_confirm_pending_empty_and_persistence/sqlite-after-service-restart.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/090",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 0,
+        "metadata": 2,
+        "http_events": 481
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    },
+    {
+      "source_db": "traces/fixture-ui/verification/r3-core01/cases/test_04_delete_cancel_close_confirm_pending_empty_and_persistence/sqlite-before-service-restart.sqlite",
+      "source_wal": null,
+      "audit_copy": ".comate/submission-draft/validation/independent-final-01/sqlite-audit/091",
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "journal_mode": [
+        [
+          "wal"
+        ]
+      ],
+      "table_counts": {
+        "addresses": 0,
+        "metadata": 2,
+        "http_events": 476
+      },
+      "source_canonical_hash_mtime_unchanged": true,
+      "sqlite_version": "3.45.1"
+    }
+  ],
+  "method": "Opened only independently copied validation audit DB/WAL pairs; originals and canonical never connected"
+}

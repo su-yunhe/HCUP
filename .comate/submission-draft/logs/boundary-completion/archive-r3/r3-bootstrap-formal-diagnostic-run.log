@@ -1,0 +1,75 @@
+[2026-10-18 21:48:10,467] [3960] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-18 21:48:10,469] [3960] [EnvPool] [INFO] [Report path: D:\HCUP\cml-spec28\traces\fixture-ui\verification\r3-formal-diagnostic\logs\reports\2026-10-18-21-48-10]
+[2026-10-18 21:48:10,469] [3960] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-18 21:48:10,469] [3960] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-18 21:48:10,470] [3960] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-18 21:48:10,472] [3960] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-18 21:48:10,472] [3960] [EnvPool] [INFO] [Get device by selector]
+[2026-10-18 21:48:10,472] [3960] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-18 21:48:11,065] [45580] [Hdc] [INFO] [127.0.0.1:11235		TCP	Offline	localhost
+127.0.0.1:11237		TCP	Connected	localhost
+127.0.0.1:11239		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-18 21:48:11,475] [3960] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11239'], label:phone]]
+[2026-10-18 21:48:11,475] [3960] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11239'], label:phone]]
+[2026-10-18 21:48:11,475] [3960] [EnvPool] [INFO] [Device 127.0.0.1:11239: extend value: {}]
+[2026-10-18 21:48:11,785] [3960] [Device] [INFO] [6.0.2.3]
+[2026-10-18 21:48:11,971] [3960] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-18 21:48:11,971] [3960] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-18 21:48:12,034] [3960] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 7075]
+[2026-10-18 21:48:12,034] [3960] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-18 21:48:12,096] [3960] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-18 21:48:12,096] [3960] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-18 21:48:12,172] [3960] [Device] [INFO] [Device agent is up to date!]
+[2026-10-18 21:48:12,235] [3960] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-18 21:48:14,323] [3960] [DeviceUIProxy] [INFO] [tcp forward port: 9944 for 127.0.0.1:11239]
+[2026-10-18 21:48:14,495] [3960] [Device] [INFO] [hypium base version: 6.1.0.210]
+test_00_cold_start_natural_unauthenticated_entries (__main__.FormalDiagnostic.test_00_cold_start_natural_unauthenticated_entries)
+Entry diagnostic only: both real home paths reach legal login. ... [2026-10-18 21:48:14,496] [3960] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-18 21:48:14,496] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:11239, com.joker.coolmall)</div>]
+[2026-10-18 21:48:15,115] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:11239, com.joker.coolmall) cost: 0.619s</div>]
+[2026-10-18 21:48:15,115] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:11239, com.joker.coolmall, page_name=EntryAbility, wait_time=2)</div>]
+[2026-10-18 21:48:17,191] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:11239, com.joker.coolmall, page_name=EntryAbility, wait_time=2) cost: 2.076s</div>]
+[2026-10-18 21:48:18,427] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('main_me_tab'))</div>]
+[2026-10-18 21:48:18,482] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('main_me_tab')) cost: 0.055s</div>]
+[2026-10-18 21:48:18,482] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('main_cart_tab'))</div>]
+[2026-10-18 21:48:18,559] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('main_cart_tab')) cost: 0.076s</div>]
+[2026-10-18 21:48:18,559] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('main_me_tab'))</div>]
+[2026-10-18 21:48:18,637] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('main_me_tab')) cost: 0.078s</div>]
+[2026-10-18 21:48:18,698] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239)</div>]
+[2026-10-18 21:48:18,730] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239) cost: 0.032s</div>]
+[2026-10-18 21:48:19,986] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('me_address_entry'))</div>]
+[2026-10-18 21:48:20,678] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('me_address_entry')) cost: 0.692s</div>]
+[2026-10-18 21:48:20,724] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239)</div>]
+[2026-10-18 21:48:20,755] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239) cost: 0.031s</div>]
+[2026-10-18 21:48:21,757] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.text('账号密码登录'))</div>]
+[2026-10-18 21:48:22,658] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.text('账号密码登录')) cost: 0.901s</div>]
+[2026-10-18 21:48:23,516] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:11239, com.joker.coolmall)</div>]
+[2026-10-18 21:48:24,198] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:11239, com.joker.coolmall) cost: 0.681s</div>]
+[2026-10-18 21:48:24,198] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:11239, com.joker.coolmall, page_name=EntryAbility, wait_time=2)</div>]
+[2026-10-18 21:48:26,296] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:11239, com.joker.coolmall, page_name=EntryAbility, wait_time=2) cost: 2.098s</div>]
+[2026-10-18 21:48:26,296] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('main_cart_tab'))</div>]
+[2026-10-18 21:48:26,423] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('main_cart_tab')) cost: 0.127s</div>]
+[2026-10-18 21:48:26,485] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239)</div>]
+[2026-10-18 21:48:26,516] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239) cost: 0.031s</div>]
+[2026-10-18 21:48:27,575] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('cart_confirm_order'))</div>]
+[2026-10-18 21:48:28,139] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('cart_confirm_order')) cost: 0.564s</div>]
+[2026-10-18 21:48:28,170] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239)</div>]
+[2026-10-18 21:48:28,202] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239) cost: 0.031s</div>]
+[2026-10-18 21:48:29,214] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.text('账号密码登录'))</div>]
+[2026-10-18 21:48:30,026] [3960] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.text('账号密码登录')) cost: 0.812s</div>]
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 21.201s
+
+OK
+
+项目: D:\HCUP\cml-spec28
+设备: 127.0.0.1:11239
+
+测试用例: 1  通过: 1  失败: 0  跳过(未验证): 0
+  ✓ test_00_cold_start_natural_unauthenticated_entries (__main__.FormalDiagnostic.test_00_cold_start_natural_unauthenticated_entries)

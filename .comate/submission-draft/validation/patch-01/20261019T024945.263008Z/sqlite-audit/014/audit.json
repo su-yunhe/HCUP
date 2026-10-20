@@ -1,0 +1,32 @@
+{
+  "source_db": "traces/boundary-completion/verification/runs/g1-02/cases/test_BC03_navigation_triple_new/sqlite-final.sqlite",
+  "source_wal": null,
+  "audit_directory": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/sqlite-audit/014",
+  "started_at_utc": "2026-10-19T02:50:39.815897+00:00",
+  "SQLite_version": "3.45.1",
+  "operation": "Open disposable audit DB+WAL copy; PRAGMA integrity_check; close. No original DB/engineering-copy checkpoint or connection.",
+  "copied_files": [
+    {
+      "path": "traces/boundary-completion/verification/runs/g1-02/cases/test_BC03_navigation_triple_new/sqlite-final.sqlite",
+      "audit_copy": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/sqlite-audit/014/sqlite-final.sqlite",
+      "expected_sha256": "5049d3e1c80b9787b4685e261670c39b65cf2b34bf9b1a608707b6eb4afd7119",
+      "copy_sha256": "5049d3e1c80b9787b4685e261670c39b65cf2b34bf9b1a608707b6eb4afd7119",
+      "original_postcopy_sha256": "5049d3e1c80b9787b4685e261670c39b65cf2b34bf9b1a608707b6eb4afd7119",
+      "original_mtime_ns_before": 1792335217064782700,
+      "original_mtime_ns_after": 1792335217064782700,
+      "stable_and_equal": true
+    }
+  ],
+  "journal_mode_on_audit_copy": [
+    [
+      "wal"
+    ]
+  ],
+  "integrity_check_rows": [
+    [
+      "ok"
+    ]
+  ],
+  "integrity_ok": true,
+  "finished_at_utc": "2026-10-19T02:50:39.821411+00:00"
+}

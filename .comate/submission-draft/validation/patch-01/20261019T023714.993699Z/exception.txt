@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "D:\HCUP\cml-spec28\.comate\submission-draft\tools\freeze-and-verify.py", line 566, in execute
+    original_before = self.original_state()
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\HCUP\cml-spec28\.comate\submission-draft\tools\freeze-and-verify.py", line 213, in original_state
+    no_links(gitdir, self.root)
+  File "D:\HCUP\cml-spec28\.comate\submission-draft\tools\freeze-and-verify.py", line 73, in no_links
+    relative = absolute.relative_to(pathlib.Path(os.path.abspath(parent)))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Program Files\Python312\Lib\pathlib.py", line 682, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: 'D:\\HCUP\\.git\\worktrees\\cml-spec28' is not in the subpath of 'D:\\HCUP\\cml-spec28'

@@ -1,0 +1,37 @@
+{
+  "project": "D:\\HCUP\\cml-spec28\\traces\\boundary-completion\\runner",
+  "device_sn": "127.0.0.1:11239",
+  "env_warnings": [],
+  "cases": [
+    {
+      "name": "test_BC07_timeout_add_committed (hypium_tests.boundary_cases.BoundaryTests.test_BC07_timeout_add_committed)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_BC07_timeout_add_not_committed (hypium_tests.boundary_cases.BoundaryTests.test_BC07_timeout_add_not_committed)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_BC07_timeout_delete_committed (hypium_tests.boundary_cases.BoundaryTests.test_BC07_timeout_delete_committed)",
+      "outcome": "fail",
+      "message": "AssertionError: False is not true : No same-path actual client timeout log"
+    },
+    {
+      "name": "test_BC07_timeout_delete_not_committed (hypium_tests.boundary_cases.BoundaryTests.test_BC07_timeout_delete_not_committed)",
+      "outcome": "fail",
+      "message": "AssertionError: False is not true : No same-path actual client timeout log"
+    },
+    {
+      "name": "test_BC07_timeout_update_committed (hypium_tests.boundary_cases.BoundaryTests.test_BC07_timeout_update_committed)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_BC07_timeout_update_not_committed (hypium_tests.boundary_cases.BoundaryTests.test_BC07_timeout_update_not_committed)",
+      "outcome": "pass",
+      "message": ""
+    }
+  ]
+}

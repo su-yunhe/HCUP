@@ -1,0 +1,386 @@
+{
+  "schema_version": 1,
+  "task_id": "cml-spec28",
+  "captured_at_utc": "2026-10-19T03:07:58.788819+00:00",
+  "method": "Only five exact registered material-session UUIDs from initial task manifest; full bounded native file prefix, all-event Markdown derivative.",
+  "initial_16_session_manifest": ".comate/submission-draft/traces/manifest.json",
+  "initial_manifest_sha256": "1993b0b08a958bf300b3d6d321c153bf53f8c9a2269048eeb95ff1d87fd6b221",
+  "supersedes_current_session_snapshots_only": true,
+  "unique_total_task_sessions_remains": 16,
+  "excluded_initialization_session_id": "01a13fc4-2611-7761-a580-1283e0c70541",
+  "excluded_initialization_body_read": false,
+  "session_count": 5,
+  "sessions": [
+    {
+      "session_id": "01a14f53-1fa0-72d2-b947-fa27e7fb37c7",
+      "source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\18\\rollout-2026-10-18T22-03-30-01a14f53-1fa0-72d2-b947-fa27e7fb37c7.jsonl",
+      "registrations": [
+        {
+          "role": "orchestrator",
+          "agent_id": "root",
+          "session_id": "01a14f53-1fa0-72d2-b947-fa27e7fb37c7",
+          "registered_at": "2026-10-18T14:05:30.435295+00:00"
+        }
+      ],
+      "source_meta_id": "01a14f53-1fa0-72d2-b947-fa27e7fb37c7",
+      "source_meta_cwd": "D:\\HCUP\\cml-spec28",
+      "parent_thread_id": null,
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "capture_started_at_utc": "2026-10-19T03:07:58.091420+00:00",
+      "captured_at_utc": "2026-10-19T03:07:58.260494+00:00",
+      "source_size_at_start": 7751294,
+      "source_size_after_read": 7751294,
+      "bounded_bytes_read": 7751294,
+      "trailing_unfinished_record_bytes_excluded": 0,
+      "raw": ".comate/submission-draft/traces/materials-final/native/rollout-2026-10-18T22-03-30-01a14f53-1fa0-72d2-b947-fa27e7fb37c7.jsonl",
+      "bytes": 7751294,
+      "sha256": "4ff3c99dbcf2cd4fabfa28a60f9f369b5fed3e2aba7e460bf246d0449ae79c45",
+      "markdown": ".comate/submission-draft/traces/materials-final/markdown/01a14f53-1fa0-72d2-b947-fa27e7fb37c7.md",
+      "markdown_bytes": 8454487,
+      "markdown_sha256": "f07a1a6d28376b09b47e8c7c57f6640269a5c3f6b0e5ef82f3047cbc1816cea4",
+      "line_count": 3236,
+      "parse_errors": [],
+      "event_types": {
+        "session_meta": 1,
+        "event_msg": 1348,
+        "response_item": 1360,
+        "world_state": 22,
+        "turn_context": 5,
+        "token_usage_record": 341,
+        "inter_agent_communication_metadata": 157,
+        "compacted": 2
+      },
+      "first_timestamp": "2026-10-18T14:03:49.791Z",
+      "last_timestamp": "2026-10-19T03:07:57.868Z",
+      "models": [
+        "gpt-6.1-sol"
+      ],
+      "efforts": [
+        "xhigh"
+      ],
+      "token_count_event_count": 415,
+      "last_native_token_info": {
+        "total_token_usage": {
+          "input_tokens": 49076763,
+          "cached_input_tokens": 48459648,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 190242,
+          "reasoning_output_tokens": 106143,
+          "total_tokens": 49267005
+        },
+        "last_token_usage": {
+          "input_tokens": 94085,
+          "cached_input_tokens": 93184,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 991,
+          "reasoning_output_tokens": 968,
+          "total_tokens": 95076
+        },
+        "model_context_window": 475000
+      },
+      "token_accounting_note": "Native cumulative/context metrics; not billed usage; do not sum repeated events or duplicate snapshots.",
+      "snapshot_only": true,
+      "includes_future_events": false,
+      "redaction": "None; opaque encrypted fields preserved without decryption. Account identifiers/local paths remain; packaging confidentiality review still required."
+    },
+    {
+      "session_id": "01a14f55-3f56-7841-af11-d4ab55b3ba1a",
+      "source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\18\\rollout-2026-10-18T22-05-49-01a14f55-3f56-7841-af11-d4ab55b3ba1a.jsonl",
+      "registrations": [
+        {
+          "role": "harmony_design",
+          "agent_id": "/root/submit_design",
+          "session_id": "01a14f55-3f56-7841-af11-d4ab55b3ba1a",
+          "registered_at": "2026-10-18T14:07:27.512581+00:00"
+        }
+      ],
+      "source_meta_id": "01a14f55-3f56-7841-af11-d4ab55b3ba1a",
+      "source_meta_cwd": "D:\\HCUP\\cml-spec28",
+      "parent_thread_id": "01a14f53-1fa0-72d2-b947-fa27e7fb37c7",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "capture_started_at_utc": "2026-10-19T03:07:58.281494+00:00",
+      "captured_at_utc": "2026-10-19T03:07:58.339074+00:00",
+      "source_size_at_start": 3132984,
+      "source_size_after_read": 3132984,
+      "bounded_bytes_read": 3132984,
+      "trailing_unfinished_record_bytes_excluded": 0,
+      "raw": ".comate/submission-draft/traces/materials-final/native/rollout-2026-10-18T22-05-49-01a14f55-3f56-7841-af11-d4ab55b3ba1a.jsonl",
+      "bytes": 3132984,
+      "sha256": "063308a132cfc13d53ff7a6b77c7af82e1c69774a1487ed0bf24cf93a3cffd42",
+      "markdown": ".comate/submission-draft/traces/materials-final/markdown/01a14f55-3f56-7841-af11-d4ab55b3ba1a.md",
+      "markdown_bytes": 3283534,
+      "markdown_sha256": "abe51a1c6b83fe98273bf8ae748ab6b5619ede1edf6ca83221056206a34e9235",
+      "line_count": 650,
+      "parse_errors": [],
+      "event_types": {
+        "session_meta": 1,
+        "event_msg": 283,
+        "response_item": 259,
+        "world_state": 4,
+        "turn_context": 7,
+        "inter_agent_communication_metadata": 18,
+        "token_usage_record": 78
+      },
+      "first_timestamp": "2026-10-18T14:05:49.645Z",
+      "last_timestamp": "2026-10-19T02:15:07.963Z",
+      "models": [
+        "gpt-6.1-sol"
+      ],
+      "efforts": [
+        "xhigh"
+      ],
+      "token_count_event_count": 84,
+      "last_native_token_info": {
+        "total_token_usage": {
+          "input_tokens": 15263118,
+          "cached_input_tokens": 14596480,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 55964,
+          "reasoning_output_tokens": 15261,
+          "total_tokens": 15319082
+        },
+        "last_token_usage": {
+          "input_tokens": 317879,
+          "cached_input_tokens": 316928,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 338,
+          "reasoning_output_tokens": 224,
+          "total_tokens": 318217
+        },
+        "model_context_window": 475000
+      },
+      "token_accounting_note": "Native cumulative/context metrics; not billed usage; do not sum repeated events or duplicate snapshots.",
+      "snapshot_only": true,
+      "includes_future_events": false,
+      "redaction": "None; opaque encrypted fields preserved without decryption. Account identifiers/local paths remain; packaging confidentiality review still required."
+    },
+    {
+      "session_id": "01a14f55-1969-7703-8fb7-ef6f5619d6da",
+      "source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\18\\rollout-2026-10-18T22-05-39-01a14f55-1969-7703-8fb7-ef6f5619d6da.jsonl",
+      "registrations": [
+        {
+          "role": "harmony_requirements",
+          "agent_id": "/root/submit_requirements",
+          "session_id": "01a14f55-1969-7703-8fb7-ef6f5619d6da",
+          "registered_at": "2026-10-18T14:08:44.137768+00:00"
+        }
+      ],
+      "source_meta_id": "01a14f55-1969-7703-8fb7-ef6f5619d6da",
+      "source_meta_cwd": "D:\\HCUP\\cml-spec28",
+      "parent_thread_id": "01a14f53-1fa0-72d2-b947-fa27e7fb37c7",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "capture_started_at_utc": "2026-10-19T03:07:58.354541+00:00",
+      "captured_at_utc": "2026-10-19T03:07:58.431783+00:00",
+      "source_size_at_start": 4332338,
+      "source_size_after_read": 4332338,
+      "bounded_bytes_read": 4332338,
+      "trailing_unfinished_record_bytes_excluded": 0,
+      "raw": ".comate/submission-draft/traces/materials-final/native/rollout-2026-10-18T22-05-39-01a14f55-1969-7703-8fb7-ef6f5619d6da.jsonl",
+      "bytes": 4332338,
+      "sha256": "e76355c802143c3d61b3bd8196404b767290e7f6d6ba8b9508bcd7054e415922",
+      "markdown": ".comate/submission-draft/traces/materials-final/markdown/01a14f55-1969-7703-8fb7-ef6f5619d6da.md",
+      "markdown_bytes": 4533973,
+      "markdown_sha256": "9d20c86cd8e8f1e9c8fb6329a8065539d2f4c854865c2fba5fe7abf8a9023940",
+      "line_count": 884,
+      "parse_errors": [],
+      "event_types": {
+        "session_meta": 1,
+        "event_msg": 402,
+        "response_item": 343,
+        "world_state": 2,
+        "turn_context": 12,
+        "inter_agent_communication_metadata": 21,
+        "token_usage_record": 103
+      },
+      "first_timestamp": "2026-10-18T14:05:39.957Z",
+      "last_timestamp": "2026-10-19T02:30:25.804Z",
+      "models": [
+        "gpt-6.1-sol"
+      ],
+      "efforts": [
+        "xhigh"
+      ],
+      "token_count_event_count": 107,
+      "last_native_token_info": {
+        "total_token_usage": {
+          "input_tokens": 19774623,
+          "cached_input_tokens": 19086208,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 77173,
+          "reasoning_output_tokens": 23452,
+          "total_tokens": 19851796
+        },
+        "last_token_usage": {
+          "input_tokens": 332928,
+          "cached_input_tokens": 332544,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 87,
+          "reasoning_output_tokens": 0,
+          "total_tokens": 333015
+        },
+        "model_context_window": 475000
+      },
+      "token_accounting_note": "Native cumulative/context metrics; not billed usage; do not sum repeated events or duplicate snapshots.",
+      "snapshot_only": true,
+      "includes_future_events": false,
+      "redaction": "None; opaque encrypted fields preserved without decryption. Account identifiers/local paths remain; packaging confidentiality review still required."
+    },
+    {
+      "session_id": "01a14f55-5f14-7860-976f-10407965f444",
+      "source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\18\\rollout-2026-10-18T22-05-57-01a14f55-5f14-7860-976f-10407965f444.jsonl",
+      "registrations": [
+        {
+          "role": "harmony_verification",
+          "agent_id": "/root/submit_verification",
+          "session_id": "01a14f55-5f14-7860-976f-10407965f444",
+          "registered_at": "2026-10-18T14:10:35.344178+00:00"
+        }
+      ],
+      "source_meta_id": "01a14f55-5f14-7860-976f-10407965f444",
+      "source_meta_cwd": "D:\\HCUP\\cml-spec28",
+      "parent_thread_id": "01a14f53-1fa0-72d2-b947-fa27e7fb37c7",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "capture_started_at_utc": "2026-10-19T03:07:58.447723+00:00",
+      "captured_at_utc": "2026-10-19T03:07:58.635004+00:00",
+      "source_size_at_start": 9290460,
+      "source_size_after_read": 9290460,
+      "bounded_bytes_read": 9290460,
+      "trailing_unfinished_record_bytes_excluded": 0,
+      "raw": ".comate/submission-draft/traces/materials-final/native/rollout-2026-10-18T22-05-57-01a14f55-5f14-7860-976f-10407965f444.jsonl",
+      "bytes": 9290460,
+      "sha256": "5a8e653e02a66239b05cf3d2edd94451d44c30e6be2981a7a4f4fa8db1087cb5",
+      "markdown": ".comate/submission-draft/traces/materials-final/markdown/01a14f55-5f14-7860-976f-10407965f444.md",
+      "markdown_bytes": 9938033,
+      "markdown_sha256": "b1e0c907da1028f2eca96559cb3230ca40da38a68921756ed4f8370ce0b8367b",
+      "line_count": 2749,
+      "parse_errors": [],
+      "event_types": {
+        "session_meta": 1,
+        "event_msg": 1152,
+        "response_item": 1174,
+        "world_state": 4,
+        "turn_context": 7,
+        "inter_agent_communication_metadata": 74,
+        "token_usage_record": 335,
+        "compacted": 2
+      },
+      "first_timestamp": "2026-10-18T14:05:57.790Z",
+      "last_timestamp": "2026-10-19T03:07:53.070Z",
+      "models": [
+        "gpt-6.1-sol"
+      ],
+      "efforts": [
+        "xhigh"
+      ],
+      "token_count_event_count": 378,
+      "last_native_token_info": {
+        "total_token_usage": {
+          "input_tokens": 61903177,
+          "cached_input_tokens": 61161472,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 185686,
+          "reasoning_output_tokens": 68780,
+          "total_tokens": 62088863
+        },
+        "last_token_usage": {
+          "input_tokens": 94820,
+          "cached_input_tokens": 92288,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 260,
+          "reasoning_output_tokens": 0,
+          "total_tokens": 95080
+        },
+        "model_context_window": 475000
+      },
+      "token_accounting_note": "Native cumulative/context metrics; not billed usage; do not sum repeated events or duplicate snapshots.",
+      "snapshot_only": true,
+      "includes_future_events": false,
+      "redaction": "None; opaque encrypted fields preserved without decryption. Account identifiers/local paths remain; packaging confidentiality review still required."
+    },
+    {
+      "session_id": "01a14f58-dd63-7fb1-8463-04c83e0cf7e4",
+      "source": "C:\\Users\\22580\\.codex\\sessions\\2026\\10\\18\\rollout-2026-10-18T22-09-46-01a14f58-dd63-7fb1-8463-04c83e0cf7e4.jsonl",
+      "registrations": [
+        {
+          "role": "harmony_implementation",
+          "agent_id": "/root/submit_implementation",
+          "session_id": "01a14f58-dd63-7fb1-8463-04c83e0cf7e4",
+          "registered_at": "2026-10-18T14:12:39.623431+00:00"
+        }
+      ],
+      "source_meta_id": "01a14f58-dd63-7fb1-8463-04c83e0cf7e4",
+      "source_meta_cwd": "D:\\HCUP\\cml-spec28",
+      "parent_thread_id": "01a14f53-1fa0-72d2-b947-fa27e7fb37c7",
+      "originator": "Codex Desktop",
+      "cli_version": "0.163.0-alpha.10.2",
+      "capture_started_at_utc": "2026-10-19T03:07:58.658364+00:00",
+      "captured_at_utc": "2026-10-19T03:07:58.768085+00:00",
+      "source_size_at_start": 5289440,
+      "source_size_after_read": 5289440,
+      "bounded_bytes_read": 5289440,
+      "trailing_unfinished_record_bytes_excluded": 0,
+      "raw": ".comate/submission-draft/traces/materials-final/native/rollout-2026-10-18T22-09-46-01a14f58-dd63-7fb1-8463-04c83e0cf7e4.jsonl",
+      "bytes": 5289440,
+      "sha256": "ac3dc1eabb94db28f8d6e9dddc873c2a01a1c91bda7bfdae40c2df5b08e16b51",
+      "markdown": ".comate/submission-draft/traces/materials-final/markdown/01a14f58-dd63-7fb1-8463-04c83e0cf7e4.md",
+      "markdown_bytes": 5623642,
+      "markdown_sha256": "af783307dbd685cc94bd3396ccad046318b9e39d58418af0264ca87c87a0780c",
+      "line_count": 1407,
+      "parse_errors": [],
+      "event_types": {
+        "session_meta": 1,
+        "event_msg": 620,
+        "response_item": 568,
+        "world_state": 3,
+        "turn_context": 11,
+        "inter_agent_communication_metadata": 39,
+        "token_usage_record": 164,
+        "compacted": 1
+      },
+      "first_timestamp": "2026-10-18T14:09:46.754Z",
+      "last_timestamp": "2026-10-19T02:57:09.944Z",
+      "models": [
+        "gpt-6.1-sol"
+      ],
+      "efforts": [
+        "xhigh"
+      ],
+      "token_count_event_count": 176,
+      "last_native_token_info": {
+        "total_token_usage": {
+          "input_tokens": 27975081,
+          "cached_input_tokens": 27091840,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 152847,
+          "reasoning_output_tokens": 42951,
+          "total_tokens": 28127928
+        },
+        "last_token_usage": {
+          "input_tokens": 140937,
+          "cached_input_tokens": 140288,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 519,
+          "reasoning_output_tokens": 260,
+          "total_tokens": 141456
+        },
+        "model_context_window": 475000
+      },
+      "token_accounting_note": "Native cumulative/context metrics; not billed usage; do not sum repeated events or duplicate snapshots.",
+      "snapshot_only": true,
+      "includes_future_events": false,
+      "redaction": "None; opaque encrypted fields preserved without decryption. Account identifiers/local paths remain; packaging confidentiality review still required."
+    }
+  ],
+  "snapshot_only": true,
+  "includes_future_events": false,
+  "formal_team_freeze_time": null,
+  "project_exclusion": "Declared before project freeze; these late material events are separately copied to package traces/cml-spec28/materials-final, outside frozen canonical project.",
+  "ide_export": false,
+  "comate_export": false,
+  "failure_events_filtered": false,
+  "records_after_capture_not_included": true
+}

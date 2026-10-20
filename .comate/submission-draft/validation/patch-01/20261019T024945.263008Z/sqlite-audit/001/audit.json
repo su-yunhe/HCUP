@@ -1,0 +1,42 @@
+{
+  "source_db": "traces/boundary-completion/server/host-protocol-20261018T142917068063Z/fixture.sqlite",
+  "source_wal": "traces/boundary-completion/server/host-protocol-20261018T142917068063Z/fixture.sqlite-wal",
+  "audit_directory": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/sqlite-audit/001",
+  "started_at_utc": "2026-10-19T02:50:39.649184+00:00",
+  "SQLite_version": "3.45.1",
+  "operation": "Open disposable audit DB+WAL copy; PRAGMA integrity_check; close. No original DB/engineering-copy checkpoint or connection.",
+  "copied_files": [
+    {
+      "path": "traces/boundary-completion/server/host-protocol-20261018T142917068063Z/fixture.sqlite",
+      "audit_copy": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/sqlite-audit/001/fixture.sqlite",
+      "expected_sha256": "e3ba06536f7dbba337dee3c1c5f01b43660ce276abb54c5cee2d5defc5b970aa",
+      "copy_sha256": "e3ba06536f7dbba337dee3c1c5f01b43660ce276abb54c5cee2d5defc5b970aa",
+      "original_postcopy_sha256": "e3ba06536f7dbba337dee3c1c5f01b43660ce276abb54c5cee2d5defc5b970aa",
+      "original_mtime_ns_before": 1792333757201655000,
+      "original_mtime_ns_after": 1792333757201655000,
+      "stable_and_equal": true
+    },
+    {
+      "path": "traces/boundary-completion/server/host-protocol-20261018T142917068063Z/fixture.sqlite-wal",
+      "audit_copy": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/sqlite-audit/001/fixture.sqlite-wal",
+      "expected_sha256": "d3af8d7df2d5e906031562f5b3208acc07988aed01e4aee548a481a5bc5950db",
+      "copy_sha256": "d3af8d7df2d5e906031562f5b3208acc07988aed01e4aee548a481a5bc5950db",
+      "original_postcopy_sha256": "d3af8d7df2d5e906031562f5b3208acc07988aed01e4aee548a481a5bc5950db",
+      "original_mtime_ns_before": 1792333757636997700,
+      "original_mtime_ns_after": 1792333757636997700,
+      "stable_and_equal": true
+    }
+  ],
+  "journal_mode_on_audit_copy": [
+    [
+      "wal"
+    ]
+  ],
+  "integrity_check_rows": [
+    [
+      "ok"
+    ]
+  ],
+  "integrity_ok": true,
+  "finished_at_utc": "2026-10-19T02:50:39.669251+00:00"
+}

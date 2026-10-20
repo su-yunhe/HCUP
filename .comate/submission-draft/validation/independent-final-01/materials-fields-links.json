@@ -1,0 +1,444 @@
+{
+  "captured_utc": "2026-10-19T03:05:12.283814+00:00",
+  "official_trace_fields": {
+    "count": 24,
+    "missing": [],
+    "labels": [
+      "题目 ID",
+      "AI 在本题实际参与的研发环节、用途及对应原始会话／事件范围（每道作答的赛题均须填写）",
+      "基线构建准备：脚本配置版本、执行时间及输出记录路径（见 tools/prepare_baseline.py）",
+      "Agent 名称及版本",
+      "模型名称、版本及运行参数",
+      "本题实际使用的 Skill、系统提示、工具及编排配置版本和保存位置",
+      "运行期间配置变更及原因（无则填“无”）",
+      "主会话 ID",
+      "关联会话及子会话 ID",
+      "解题过程中产生的全部相关原始日志、DB 或原生轨迹文件路径及读取方式",
+      "失败、重试、未采用的候选方案及选择过程的记录位置",
+      "实际提示、工具调用及返回结果、检索与代码修改、构建和自测记录位置",
+      "导出时间、方法与读取方式",
+      "成果冻结时间（北京时间，与 `solution.md` 一致）",
+      "官方工程基线标识（本次题包 metadata.base_commit 发布提交号）、最终提交版本标识",
+      "基线至提交版本的完整差异位置（建议 changes/final.diff，含新增、修改、删除；二进制变更另列文件及摘要）",
+      "与提交源码的对应关系",
+      "人工操作及相关记录位置",
+      "人工修改索引位置（可使用 `human-changes.md`；无则注明“无人工直接修改代码”）",
+      "人工修改的操作人、目的、文件、代码差异、修改前后版本及对应原始记录位置",
+      "公开资料检索与代码复用记录位置，以及 `sources.md` 中的对应来源条目",
+      "本题工作目录，以及赛题来源保护措施在本题运行中的配置位置（见 `solution.md`）",
+      "脱敏范围（无则填“无”）",
+      "记录缺失及原因（无则填“无”）"
+    ]
+  },
+  "user_pending": {
+    "count": 13,
+    "fields": [
+      "submit-input.human_edits",
+      "submit-input.known_issues",
+      "submit-input.extra_sources",
+      "submit-input.md_export_dir",
+      "team.version",
+      "team.contact",
+      "team.freeze_time",
+      "team.members[0].name",
+      "team.members[0].work",
+      "team.source_guard",
+      "team.submitted_tasks",
+      "team.attempted_not_submitted",
+      "team.zip_out"
+    ],
+    "input_sha256": [
+      "37037bcd09c82cae1c83b8e3cca224f0927ef3b05a9f3b537c2f4053d5ece471",
+      "2d426ad41bf48e9ee36a2b69b93e41fcec6c2d5c0cd1ccfe8e7be1264710da39"
+    ],
+    "all_explicitly_pending": true
+  },
+  "submission_fragment": {
+    "task_id": "cml-spec28",
+    "status": "not_completed",
+    "project_path": "tasks/cml-spec28/project",
+    "build_instructions": "tasks/cml-spec28/build.md",
+    "trace_index": "tasks/cml-spec28/trace-index.md"
+  },
+  "status_candidate_only": true,
+  "no_team_zip_or_submission_created": true,
+  "links": [
+    {
+      "document": "README.md",
+      "link": "build.md",
+      "resolved_path": ".comate/submission-draft/build.md",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "trace-index.md",
+      "resolved_path": ".comate/submission-draft/trace-index.md",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "solution.fragment.md",
+      "resolved_path": ".comate/submission-draft/solution.fragment.md",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "sources.fragment.md",
+      "resolved_path": ".comate/submission-draft/sources.fragment.md",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "submission.json.fragment",
+      "resolved_path": ".comate/submission-draft/submission.json.fragment",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "pending-fields.md",
+      "resolved_path": ".comate/submission-draft/pending-fields.md",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "facts-and-sources.md",
+      "resolved_path": ".comate/submission-draft/facts-and-sources.md",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "changes/project-scope.md",
+      "resolved_path": ".comate/submission-draft/changes/project-scope.md",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "changes/project-files.json",
+      "resolved_path": ".comate/submission-draft/changes/project-files.json",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "changes/final.diff",
+      "resolved_path": ".comate/submission-draft/changes/final.diff",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "changes/binary-manifest.json",
+      "resolved_path": ".comate/submission-draft/changes/binary-manifest.json",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "logs/manifest.json",
+      "resolved_path": ".comate/submission-draft/logs/manifest.json",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "traces/manifest.json",
+      "resolved_path": ".comate/submission-draft/traces/manifest.json",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "validation/",
+      "resolved_path": ".comate/submission-draft/validation",
+      "exists": true
+    },
+    {
+      "document": "README.md",
+      "link": "materials-layout.json",
+      "resolved_path": ".comate/submission-draft/materials-layout.json",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "project/logs/prepare-baseline.log",
+      "resolved_path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/reconstructed-project/logs/prepare-baseline.log",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "project/workflow/setup-result.json",
+      "resolved_path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/reconstructed-project/workflow/setup-result.json",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "project/workflow/baseline-provenance.json",
+      "resolved_path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/reconstructed-project/workflow/baseline-provenance.json",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "project/workflow/submit-app-thread-proof.json",
+      "resolved_path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/reconstructed-project/workflow/submit-app-thread-proof.json",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/manifest.json",
+      "resolved_path": ".comate/submission-draft/traces/manifest.json",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "project/workflow/implementation/development-frozen-fingerprint-10.json",
+      "resolved_path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/reconstructed-project/workflow/implementation/development-frozen-fingerprint-10.json",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "project/workflow/boundary-completion-final.json",
+      "resolved_path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/reconstructed-project/workflow/boundary-completion-final.json",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "project/workflow/design/development-sources.json",
+      "resolved_path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/reconstructed-project/workflow/design/development-sources.json",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "project/AGENTS.md",
+      "resolved_path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/reconstructed-project/AGENTS.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T19-24-52-01a14ec1-e3a8-7183-892e-5c5ac3cab727.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T19-24-52-01a14ec1-e3a8-7183-892e-5c5ac3cab727.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14ec1-e3a8-7183-892e-5c5ac3cab727.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14ec1-e3a8-7183-892e-5c5ac3cab727.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T19-25-58-01a14ec2-e729-7262-92a5-99ae0252db40.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T19-25-58-01a14ec2-e729-7262-92a5-99ae0252db40.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14ec2-e729-7262-92a5-99ae0252db40.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14ec2-e729-7262-92a5-99ae0252db40.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T19-26-11-01a14ec3-18d4-7310-9f0e-28bd504cf73e.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T19-26-11-01a14ec3-18d4-7310-9f0e-28bd504cf73e.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14ec3-18d4-7310-9f0e-28bd504cf73e.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14ec3-18d4-7310-9f0e-28bd504cf73e.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T19-26-24-01a14ec3-4d6a-7040-abb7-2613d343e7f1.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T19-26-24-01a14ec3-4d6a-7040-abb7-2613d343e7f1.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14ec3-4d6a-7040-abb7-2613d343e7f1.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14ec3-4d6a-7040-abb7-2613d343e7f1.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T19-35-34-01a14ecb-afbe-7ef3-99d5-79087c8e5dbb.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T19-35-34-01a14ecb-afbe-7ef3-99d5-79087c8e5dbb.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14ecb-afbe-7ef3-99d5-79087c8e5dbb.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14ecb-afbe-7ef3-99d5-79087c8e5dbb.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T19-47-52-01a14ed6-ebac-7950-be16-b6d4297adb41.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T19-47-52-01a14ed6-ebac-7950-be16-b6d4297adb41.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14ed6-ebac-7950-be16-b6d4297adb41.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14ed6-ebac-7950-be16-b6d4297adb41.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T19-51-23-01a14eda-2a6f-7900-8593-f96cac44de1b.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T19-51-23-01a14eda-2a6f-7900-8593-f96cac44de1b.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14eda-2a6f-7900-8593-f96cac44de1b.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14eda-2a6f-7900-8593-f96cac44de1b.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T19-49-15-01a14ed8-3726-70e2-ac31-135779f2341c.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T19-49-15-01a14ed8-3726-70e2-ac31-135779f2341c.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14ed8-3726-70e2-ac31-135779f2341c.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14ed8-3726-70e2-ac31-135779f2341c.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T19-53-56-01a14edc-838b-71a2-9851-9e3b7840a63b.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T19-53-56-01a14edc-838b-71a2-9851-9e3b7840a63b.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14edc-838b-71a2-9851-9e3b7840a63b.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14edc-838b-71a2-9851-9e3b7840a63b.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T19-56-17-01a14ede-a8fa-7e80-b89a-59f96f52dda0.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T19-56-17-01a14ede-a8fa-7e80-b89a-59f96f52dda0.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14ede-a8fa-7e80-b89a-59f96f52dda0.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14ede-a8fa-7e80-b89a-59f96f52dda0.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T20-41-45-01a14f08-476a-7560-9e18-aa4321c0b14b.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T20-41-45-01a14f08-476a-7560-9e18-aa4321c0b14b.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14f08-476a-7560-9e18-aa4321c0b14b.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14f08-476a-7560-9e18-aa4321c0b14b.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T22-03-30-01a14f53-1fa0-72d2-b947-fa27e7fb37c7.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T22-03-30-01a14f53-1fa0-72d2-b947-fa27e7fb37c7.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14f53-1fa0-72d2-b947-fa27e7fb37c7.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14f53-1fa0-72d2-b947-fa27e7fb37c7.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T22-05-49-01a14f55-3f56-7841-af11-d4ab55b3ba1a.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T22-05-49-01a14f55-3f56-7841-af11-d4ab55b3ba1a.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14f55-3f56-7841-af11-d4ab55b3ba1a.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14f55-3f56-7841-af11-d4ab55b3ba1a.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T22-05-39-01a14f55-1969-7703-8fb7-ef6f5619d6da.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T22-05-39-01a14f55-1969-7703-8fb7-ef6f5619d6da.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14f55-1969-7703-8fb7-ef6f5619d6da.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14f55-1969-7703-8fb7-ef6f5619d6da.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T22-05-57-01a14f55-5f14-7860-976f-10407965f444.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T22-05-57-01a14f55-5f14-7860-976f-10407965f444.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14f55-5f14-7860-976f-10407965f444.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14f55-5f14-7860-976f-10407965f444.md",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/native/rollout-2026-10-18T22-09-46-01a14f58-dd63-7fb1-8463-04c83e0cf7e4.jsonl",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/native/rollout-2026-10-18T22-09-46-01a14f58-dd63-7fb1-8463-04c83e0cf7e4.jsonl",
+      "exists": true
+    },
+    {
+      "document": "trace-index.md",
+      "link": "../../traces/cml-spec28/20261019T021256Z/markdown/01a14f58-dd63-7fb1-8463-04c83e0cf7e4.md",
+      "resolved_path": ".comate/submission-draft/traces/20261019T021256Z/markdown/01a14f58-dd63-7fb1-8463-04c83e0cf7e4.md",
+      "exists": true
+    },
+    {
+      "document": "sources.fragment.md",
+      "link": "https://ohpm.openharmony.cn/ohpm/@ibestservices/area-data",
+      "type": "external reference, not fetched"
+    },
+    {
+      "document": "sources.fragment.md",
+      "link": "https://ohpm.openharmony.cn/ohpm/@ibestservices/area-data/-/area-data-0.0.6.har",
+      "type": "external reference, not fetched"
+    },
+    {
+      "document": "sources.fragment.md",
+      "link": "https://raw.githubusercontent.com/openharmony/docs/master/zh-cn/application-dev/ui/rendering-control/arkts-rendering-control-foreach.md",
+      "type": "external reference, not fetched"
+    },
+    {
+      "document": "sources.fragment.md",
+      "link": "https://raw.githubusercontent.com/openharmony/docs/master/zh-cn/application-dev/reference/apis-arkui/arkui-ts/ts-basic-components-textinput.md",
+      "type": "external reference, not fetched"
+    }
+  ],
+  "trace_index_links": 41,
+  "build_private_absolute_paths": [],
+  "helper_static_review": {
+    "sha256": "725b71539d41b9713bf1626481bcec496e0c65edd11b1b88cbf855258188d67a",
+    "AST_parse": "pass",
+    "device_guard_before_install": true,
+    "original_test_six_sha_guard": true,
+    "output_only_EVIDENCE_configuration": true,
+    "old_evidence_fingerprints_preserved": true,
+    "skip_exit2": true,
+    "executed_in_this_audit": false,
+    "new_machine_device_build_acceptance": "not_run"
+  },
+  "version_AUTH_prose_review": "08/15 + 09/6 + 10/10 main31; extra3 separate; formal10 1pass5AUTHskip; not_completed; no official score or one-do pass claim",
+  "staged_frozen_prose": "Generation-before-validation wording intentionally retained; actual completion is in external derived validation reports",
+  "post_review_five_material_sessions_export": "not_run yet; Root will export after this audit stops writing",
+  "template_hashes": {
+    "submission-checklist.md": "e724ddbe018f4d5c84946418e9cb365b9e9f99543a179c4a1e04b2e290d6b858",
+    "trace-index.md": "d6936aef4500d6a19e4289de8e1455b53200f3113d6445f7e80ccb3c42a4c191",
+    "submission.json": "6d101815a88f6d68c3282f833f72d208f0084341c4af8faee9a54994c92c5efd"
+  }
+}

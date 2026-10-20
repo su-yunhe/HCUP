@@ -1,0 +1,22 @@
+usage: freeze-and-verify.py [-h] [--root ROOT] [--execute] [--run-id RUN_ID]
+                            [--formal-manifest FORMAL_MANIFEST]
+                            [--formal-hap FORMAL_HAP]
+                            [--expected-hap-sha256 EXPECTED_HAP_SHA256]
+
+Freeze this task's material scope and prove its binary patch reconstructs it.
+
+No build/device/network commands. The real repository index/HEAD are read-only.
+Run --help freely. --execute is intended only after the orchestrator's explicit GO.
+Clones use bounded local file transport (--no-local, one branch, depth 2),
+verified to contain only the published base and the approved prepared HEAD.
+
+options:
+  -h, --help            show this help message and exit
+  --root ROOT           This task root only (default: D:/HCUP/cml-spec28)
+  --execute             Freeze and verify; use only after Root explicitly
+                        sends GO. Without this flag no files are changed.
+  --run-id RUN_ID       New safe validation run directory name; existing
+                        directories are rejected
+  --formal-manifest FORMAL_MANIFEST
+  --formal-hap FORMAL_HAP
+  --expected-hap-sha256 EXPECTED_HAP_SHA256

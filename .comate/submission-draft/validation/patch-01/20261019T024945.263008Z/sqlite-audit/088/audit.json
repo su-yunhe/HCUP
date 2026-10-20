@@ -1,0 +1,32 @@
+{
+  "source_db": "traces/fixture-ui/verification/r3-core01/cases/test_03_name_only_edit_both_default_states_pending_and_persistence/sqlite-before-service-restart.sqlite",
+  "source_wal": null,
+  "audit_directory": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/sqlite-audit/088",
+  "started_at_utc": "2026-10-19T02:50:40.923037+00:00",
+  "SQLite_version": "3.45.1",
+  "operation": "Open disposable audit DB+WAL copy; PRAGMA integrity_check; close. No original DB/engineering-copy checkpoint or connection.",
+  "copied_files": [
+    {
+      "path": "traces/fixture-ui/verification/r3-core01/cases/test_03_name_only_edit_both_default_states_pending_and_persistence/sqlite-before-service-restart.sqlite",
+      "audit_copy": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/sqlite-audit/088/sqlite-before-service-restart.sqlite",
+      "expected_sha256": "8cb2b984115cb54f48b3be1e56c36591602f137b40ac6da9a612063d208c2e45",
+      "copy_sha256": "8cb2b984115cb54f48b3be1e56c36591602f137b40ac6da9a612063d208c2e45",
+      "original_postcopy_sha256": "8cb2b984115cb54f48b3be1e56c36591602f137b40ac6da9a612063d208c2e45",
+      "original_mtime_ns_before": 1792330516618040000,
+      "original_mtime_ns_after": 1792330516618040000,
+      "stable_and_equal": true
+    }
+  ],
+  "journal_mode_on_audit_copy": [
+    [
+      "wal"
+    ]
+  ],
+  "integrity_check_rows": [
+    [
+      "ok"
+    ]
+  ],
+  "integrity_ok": true,
+  "finished_at_utc": "2026-10-19T02:50:40.930203+00:00"
+}

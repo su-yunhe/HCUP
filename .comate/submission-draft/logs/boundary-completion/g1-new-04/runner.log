@@ -1,0 +1,94 @@
+COMMAND build
+EXIT build 0
+COMMAND install
+EXIT install 0
+COMMAND bundle-after-install
+EXIT bundle-after-install 0
+[2026-10-18 23:07:24,072] [268] [Analysis] [WARNING] [tracker dependency is not ok]
+[2026-10-18 23:07:24,074] [268] [EnvPool] [INFO] [Report path: D:\HCUP\cml-spec28\traces\boundary-completion\verification\runs\g1-new-04\logs\reports\2026-10-18-23-07-24]
+[2026-10-18 23:07:24,074] [268] [EnvPool] [INFO] [Load Managers ...]
+[2026-10-18 23:07:24,075] [268] [EnvPool] [INFO] [Env pool running in cache mode.]
+[2026-10-18 23:07:24,075] [268] [EnvPool] [INFO] [Prepare to init pool]
+[2026-10-18 23:07:24,077] [268] [EnvPool] [INFO] [Pool is prepared]
+[2026-10-18 23:07:24,077] [268] [EnvPool] [INFO] [Get device by selector]
+[2026-10-18 23:07:24,077] [268] [EnvPool] [INFO] [Apply device in pool]
+[2026-10-18 23:07:24,615] [52368] [Hdc] [INFO] [127.0.0.1:11235		TCP	Offline	localhost
+127.0.0.1:11237		TCP	Connected	localhost
+127.0.0.1:11239		TCP	Connected	localhost
+COM3		UART	Ready	unknown...
+COM4		UART	Ready	unknown...
+]
+[2026-10-18 23:07:25,085] [268] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11237, label:phone], selection option:[device sn:['127.0.0.1:11239'], label:phone]]
+[2026-10-18 23:07:25,085] [268] [EnvPool] [INFO] [Do matches, device:[state:Available, sn:127.0.0.1:11239, label:phone], selection option:[device sn:['127.0.0.1:11239'], label:phone]]
+[2026-10-18 23:07:25,085] [268] [EnvPool] [INFO] [Device 127.0.0.1:11239: extend value: {}]
+[2026-10-18 23:07:25,378] [268] [Device] [INFO] [6.0.2.3]
+[2026-10-18 23:07:25,578] [268] [Device] [INFO] [Init ui proxy by default socket.]
+[2026-10-18 23:07:25,578] [268] [DeviceUIProxy] [INFO] [Check uitest running status.]
+[2026-10-18 23:07:25,640] [268] [DeviceUIProxy] [INFO] [Finish check uitest running status. Uitest pid: 23144]
+[2026-10-18 23:07:25,640] [268] [Device] [INFO] [uitest version: 6.0.2.3. Using 1.1.9 agent version]
+[2026-10-18 23:07:25,734] [268] [Device] [INFO] [UITEST_AGENT_LIBRARY@v1.1.9
+]
+[2026-10-18 23:07:25,734] [268] [Device] [INFO] [local agent version 1.1.9, device agent version 1.1.9]
+[2026-10-18 23:07:25,796] [268] [Device] [INFO] [Device agent is up to date!]
+[2026-10-18 23:07:25,850] [268] [DeviceUIProxy] [INFO] [Harmony ui rpc already start!!!!]
+[2026-10-18 23:07:28,011] [268] [DeviceUIProxy] [INFO] [tcp forward port: 9965 for 127.0.0.1:11239]
+[2026-10-18 23:07:28,185] [268] [Device] [INFO] [hypium base version: 6.1.0.210]
+test_BC03_navigation_triple_new (hypium_tests.boundary_cases.BoundaryTests.test_BC03_navigation_triple_new) ... [2026-10-18 23:07:28,475] [268] [DeviceTest] [INFO] [init DeccVariable cur case object]
+[2026-10-18 23:07:28,475] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:11239, com.joker.coolmall.fixture28)</div>]
+[2026-10-18 23:07:29,081] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.stop_app(127.0.0.1:11239, com.joker.coolmall.fixture28) cost: 0.605s</div>]
+[2026-10-18 23:07:29,081] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:11239, com.joker.coolmall.fixture28, page_name=EntryAbility, wait_time=2)</div>]
+[2026-10-18 23:07:31,210] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.start_app(127.0.0.1:11239, com.joker.coolmall.fixture28, page_name=EntryAbility, wait_time=2) cost: 2.128s</div>]
+[2026-10-18 23:07:31,405] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('main_me_tab'))</div>]
+[2026-10-18 23:07:31,465] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('main_me_tab')) cost: 0.06s</div>]
+[2026-10-18 23:07:31,512] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239)</div>]
+[2026-10-18 23:07:31,544] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239) cost: 0.032s</div>]
+[2026-10-18 23:07:31,728] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('me_address_entry'))</div>]
+[2026-10-18 23:07:31,983] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('me_address_entry')) cost: 0.255s</div>]
+[2026-10-18 23:07:32,255] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239)</div>]
+[2026-10-18 23:07:32,286] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239) cost: 0.031s</div>]
+[2026-10-18 23:07:32,473] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_list_page'))</div>]
+[2026-10-18 23:07:34,117] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_list_page')) cost: 1.644s</div>]
+[2026-10-18 23:07:34,117] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_add_button'))</div>]
+[2026-10-18 23:07:34,176] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_add_button')) cost: 0.059s</div>]
+[2026-10-18 23:07:34,609] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_add_button'))</div>]
+[2026-10-18 23:07:34,674] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_add_button')) cost: 0.065s</div>]
+[2026-10-18 23:07:34,720] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239)</div>]
+[2026-10-18 23:07:34,752] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239) cost: 0.031s</div>]
+[2026-10-18 23:07:35,218] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_page'))</div>]
+[2026-10-18 23:07:35,295] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_page')) cost: 0.077s</div>]
+[2026-10-18 23:07:36,131] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_back'))</div>]
+[2026-10-18 23:07:36,584] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_back')) cost: 0.453s</div>]
+[2026-10-18 23:07:36,615] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239)</div>]
+[2026-10-18 23:07:36,646] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239) cost: 0.031s</div>]
+[2026-10-18 23:07:36,831] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_page'))</div>]
+[2026-10-18 23:07:36,954] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_page')) cost: 0.123s</div>]
+[2026-10-18 23:07:36,954] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_list_page'))</div>]
+[2026-10-18 23:07:37,031] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_list_page')) cost: 0.077s</div>]
+[2026-10-18 23:07:37,132] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_page'))</div>]
+[2026-10-18 23:07:37,201] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_page')) cost: 0.069s</div>]
+[2026-10-18 23:07:37,201] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_list_page'))</div>]
+[2026-10-18 23:07:37,292] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_list_page')) cost: 0.091s</div>]
+[2026-10-18 23:07:37,393] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_page'))</div>]
+[2026-10-18 23:07:37,476] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_page')) cost: 0.083s</div>]
+[2026-10-18 23:07:37,476] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_list_page'))</div>]
+[2026-10-18 23:07:38,502] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_list_page')) cost: 1.025s</div>]
+[2026-10-18 23:07:38,634] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_page'))</div>]
+[2026-10-18 23:07:38,750] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_form_page')) cost: 0.116s</div>]
+[2026-10-18 23:07:38,750] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11239, 0.5)</div>]
+[2026-10-18 23:07:39,251] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.wait(127.0.0.1:11239, 0.5) cost: 0.501s</div>]
+[2026-10-18 23:07:39,251] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_list_page'))</div>]
+[2026-10-18 23:07:39,309] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.find_component(127.0.0.1:11239, BY.key('address_list_page')) cost: 0.058s</div>]
+[2026-10-18 23:07:39,355] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239)</div>]
+[2026-10-18 23:07:39,385] [268] [DeviceTest] [INFO] [<div class='aw'>uidriver.get_display_size(127.0.0.1:11239) cost: 0.03s</div>]
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 17.467s
+
+OK
+
+项目: D:\HCUP\cml-spec28\traces\boundary-completion\runner
+设备: 127.0.0.1:11239
+
+测试用例: 1  通过: 1  失败: 0  跳过(未验证): 0
+  ✓ test_BC03_navigation_triple_new (hypium_tests.boundary_cases.BoundaryTests.test_BC03_navigation_triple_new)

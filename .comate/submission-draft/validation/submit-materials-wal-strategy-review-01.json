@@ -1,0 +1,55 @@
+{
+  "task": "cml-spec28",
+  "thread_id": "01a14f55-5f14-7860-976f-10407965f444",
+  "captured_utc": "2026-10-19T02:27:52.448035+00:00",
+  "stage": "WAL strategy independent static review",
+  "decision": "accept strategy subject to explicit copy-stability and audit-copy validation; not final material approval",
+  "observed_inventory": {
+    "pairs": 5,
+    "wal_bytes": 16595520,
+    "two_read_snapshots_equal": true,
+    "evidence": ".comate/submission-draft/validation/submit-materials-wal-inventory-01.json",
+    "method": "Raw stat/hash only; no sqlite3 connection or source/canonical writes"
+  },
+  "rationale": [
+    "A nonempty WAL can hold pages not present in main DB; blindly excluding it risks losing original committed evidence. Preserve main+nonempty WAL under original matching names/relative directory.",
+    "Official template bars still-being-written DB temporary files; previous service cleanup plus no further writers and stable finite capture must be evidenced. Nonempty is not by itself proof of live writing or logical correctness.",
+    "SHM/empty WAL/journal exclusions and five nonempty-WAL inclusion exceptions must be explicit in frozen scope; keep early review unchanged and record this revision."
+  ],
+  "mandatory_checks": [
+    "Before copying capture DB and WAL path/size/mtime_ns/SHA for the complete pair; after both copies rehash/re-stat both original files. Every copied file must equal recorded original bytes/hash, all source before/after facts unchanged.",
+    "Preserve main DB and WAL matching file names and directory association in canonical snapshot; no SQLite open/checkpoint/repair on originals or canonical copy. Inclusion exception must take precedence over generic sidecar/runtime exclusions.",
+    "Duplicate only the canonical pair to a separate validation audit directory. Run PRAGMA integrity_check on this audit logical DB+WAL view; capture connection parameters, exit/errors, SQLite version and result. Do not claim main-only integrity as DB+WAL audit.",
+    "Record audit table names/counts or relevant logical state where feasible to show readable evidence; integrity_ok is not a functional acceptance pass. Audit may create/change SHM/WAL/checkpoint pages only in this disposable audit copy.",
+    "After audit verify canonical DB/WAL SHA/size/mtime remain exactly unchanged; audit artifacts stay excluded validation outputs.",
+    "Missing partner, changed source/canonical facts, copying mismatch, SQLite errors or non-ok integrity must fail/stop rather than omit the WAL or silently repair canonical evidence."
+  ],
+  "checks": [
+    {
+      "id": "W01",
+      "status": "pass",
+      "scope": "strategy is suitable conditional on required evidence"
+    },
+    {
+      "id": "W02",
+      "status": "pass",
+      "scope": "independent current5-pair read-only inventory/two snapshots"
+    },
+    {
+      "id": "W03",
+      "status": "not_run",
+      "scope": "worker full copy-window and canonical stability results pending"
+    },
+    {
+      "id": "W04",
+      "status": "not_run",
+      "scope": "worker audit-copy integrity/logical view results pending"
+    },
+    {
+      "id": "W05",
+      "status": "not_run",
+      "scope": "final frozen manifest includes five DB+WAL pairs and records precise exclusions pending"
+    }
+  ],
+  "limitations": "Current two read snapshots are not the worker copy interval and do not prove logical integrity. No source DB was opened. No build/device/service action occurred. Final.diff/apply/clone check still awaits Root GO and results."
+}

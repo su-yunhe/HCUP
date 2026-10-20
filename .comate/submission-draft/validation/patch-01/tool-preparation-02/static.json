@@ -1,0 +1,14 @@
+{
+  "at_utc": "2026-10-19T02:46:50.868363+00:00",
+  "script": "D:\\HCUP\\cml-spec28\\.comate\\submission-draft\\tools\\freeze-and-verify.py",
+  "sha256": "16c3d1b6c8b8bf2c6d6308448b084b7bfc846659cd9c75b1f559ed481f599647",
+  "AST": "pass",
+  "help_only": true,
+  "no_new_freeze_run": true,
+  "changes": [
+    "Real Git ls-files --stage -z raw-byte SHA plus HEAD/branch before/after, not physical shared index SHA",
+    "Restricted clone --no-local --single-branch --branch cml-spec28 --depth 2 --no-tags --no-checkout --no-hardlinks",
+    "Verify clone reachable commit set exactly known base and prepared HEAD; reject extra refs/targets",
+    "Retain prior 603e script and first failed run"
+  ]
+}

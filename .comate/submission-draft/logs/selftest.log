@@ -1,0 +1,32 @@
+test_00_cold_start_natural_unauthenticated_entries (hypium_tests.test_address_workflow.AddressWorkflowTests.test_00_cold_start_natural_unauthenticated_entries)
+Entry diagnostic only: both real home paths reach legal login. ... ok
+test_01_new_form_and_empty_validation (hypium_tests.test_address_workflow.AddressWorkflowTests.test_01_new_form_and_empty_validation)
+A01,A16,A17,B01-B06,B16,E01: visible controls and blank rejection. ... skipped 'AUTH: natural entry opened login chooser/title: 账号密码登录; legal session required'
+test_02_region_confirm_cancel_and_draft (hypium_tests.test_address_workflow.AddressWorkflowTests.test_02_region_confirm_cancel_and_draft)
+B07-B11,E03,E05: complete region confirmation and cancel isolation. ... skipped 'AUTH: natural entry opened login chooser/title: 账号密码登录; legal session required'
+test_03_invalid_phone_preserves_draft (hypium_tests.test_address_workflow.AddressWorkflowTests.test_03_invalid_phone_preserves_draft)
+B12-B14,B17-B18,E02: complete draft with explicitly invalid phone. ... skipped 'AUTH: natural entry opened login chooser/title: 账号密码登录; legal session required'
+test_04_order_selection_cancel (hypium_tests.test_address_workflow.AddressWorkflowTests.test_04_order_selection_cancel)
+A02,C01,E22: real cart entry and cancelling selection preserves card. ... skipped 'AUTH: natural order route opened login chooser/title: 账号密码登录; legal session required'
+test_05_create_name_only_edit_reopen_select_delete (hypium_tests.test_address_workflow.AddressWorkflowTests.test_05_create_name_only_edit_reopen_select_delete)
+Core real-service lifecycle; delete only id created by this exact test. ... skipped 'AUTH: natural entry opened login chooser/title: 账号密码登录; legal session required'
+
+----------------------------------------------------------------------
+Ran 6 tests in 69.546s
+
+OK (skipped=5)
+
+项目: D:\HCUP\cml-spec28
+设备: 127.0.0.1:11239
+
+测试用例: 6  通过: 1  失败: 0  跳过(未验证): 5
+  ✓ test_00_cold_start_natural_unauthenticated_entries (hypium_tests.test_address_workflow.AddressWorkflowTests.test_00_cold_start_natural_unauthenticated_entries)
+  - test_01_new_form_and_empty_validation (hypium_tests.test_address_workflow.AddressWorkflowTests.test_01_new_form_and_empty_validation) — AUTH: natural entry opened login chooser/title: 账号密码登录; legal session required
+  - test_02_region_confirm_cancel_and_draft (hypium_tests.test_address_workflow.AddressWorkflowTests.test_02_region_confirm_cancel_and_draft) — AUTH: natural entry opened login chooser/title: 账号密码登录; legal session required
+  - test_03_invalid_phone_preserves_draft (hypium_tests.test_address_workflow.AddressWorkflowTests.test_03_invalid_phone_preserves_draft) — AUTH: natural entry opened login chooser/title: 账号密码登录; legal session required
+  - test_04_order_selection_cancel (hypium_tests.test_address_workflow.AddressWorkflowTests.test_04_order_selection_cancel) — AUTH: natural order route opened login chooser/title: 账号密码登录; legal session required
+  - test_05_create_name_only_edit_reopen_select_delete (hypium_tests.test_address_workflow.AddressWorkflowTests.test_05_create_name_only_edit_reopen_select_delete) — AUTH: natural entry opened login chooser/title: 账号密码登录; legal session required
+
+注意: 有 5 个用例被跳过，这些行为没有被验证，不能视为通过。
+
+报告已保存: D:\HCUP\cml-spec28\logs\boundary-completion\formal10-final-02\selftest.json

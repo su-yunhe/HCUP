@@ -1,0 +1,17 @@
+{
+  "profile": "harmony-cup-build-v1",
+  "task_id": "cml-spec28",
+  "base_commit": "9a1d608dc89acfc301657c33ce5dd6089cbf9572",
+  "project_root": "D:\\HCUP\\cml-spec28",
+  "dry_run": false,
+  "changes": [
+    {
+      "path": "core/ibestui/oh-package.json5",
+      "reason": "固定 ibest-ui-v2 为 1.1.3"
+    },
+    {
+      "path": "core/ibestui/oh-package-lock.json5",
+      "reason": "移除失效的 1.1.0 锁文件，由 ohpm install 重建"
+    }
+  ]
+}

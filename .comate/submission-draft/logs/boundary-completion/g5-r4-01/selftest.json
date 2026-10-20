@@ -1,0 +1,62 @@
+{
+  "project": "D:\\HCUP\\cml-spec28\\traces\\boundary-completion\\runner",
+  "device_sn": "127.0.0.1:11239",
+  "env_warnings": [],
+  "cases": [
+    {
+      "name": "test_BC08_historical_values_name_only (hypium_tests.boundary_cases.BoundaryTests.test_BC08_historical_values_name_only)",
+      "outcome": "fail",
+      "message": " : phone"
+    },
+    {
+      "name": "test_BC09_validation_alpha (hypium_tests.boundary_cases.BoundaryTests.test_BC09_validation_alpha)",
+      "outcome": "skip",
+      "message": "NATIVE_FILTER: PhoneNumber did not accept alphabetic sample; actual=1328; numeric/restore parameter runs separately"
+    },
+    {
+      "name": "test_BC09_validation_empty_contact (hypium_tests.boundary_cases.BoundaryTests.test_BC09_validation_empty_contact)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_BC09_validation_short_numeric (hypium_tests.boundary_cases.BoundaryTests.test_BC09_validation_short_numeric)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_BC10_missing_code_add (hypium_tests.boundary_cases.BoundaryTests.test_BC10_missing_code_add)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_BC10_missing_code_default (hypium_tests.boundary_cases.BoundaryTests.test_BC10_missing_code_default)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_BC10_missing_code_delete (hypium_tests.boundary_cases.BoundaryTests.test_BC10_missing_code_delete)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_BC10_missing_code_info (hypium_tests.boundary_cases.BoundaryTests.test_BC10_missing_code_info)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_BC10_missing_code_list (hypium_tests.boundary_cases.BoundaryTests.test_BC10_missing_code_list)",
+      "outcome": "fail",
+      "message": "AssertionError: 2 != 1"
+    },
+    {
+      "name": "test_BC10_missing_code_update (hypium_tests.boundary_cases.BoundaryTests.test_BC10_missing_code_update)",
+      "outcome": "pass",
+      "message": ""
+    },
+    {
+      "name": "test_RG09_explicit_code1001_update_failure_then_success (hypium_tests.boundary_cases.BoundaryTests.test_RG09_explicit_code1001_update_failure_then_success)",
+      "outcome": "pass",
+      "message": ""
+    }
+  ]
+}

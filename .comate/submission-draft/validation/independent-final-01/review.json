@@ -1,0 +1,226 @@
+{
+  "task_id": "cml-spec28",
+  "stage": "2-submit independent final material review",
+  "captured_utc": "2026-10-19T03:07:44.322056+00:00",
+  "actual_CODEX_THREAD_ID": "01a14f55-5f14-7860-976f-10407965f444",
+  "decision": "pass_frozen_candidate_technical_material_audit_with_explicit_pending_items",
+  "not_an_unconditional_official_material_or_functional_acceptance": true,
+  "business_changes_allowed": false,
+  "business_changes_found": false,
+  "AUTH": "blocked",
+  "one_do_complete": false,
+  "existing_formal10_result": {
+    "pass": 1,
+    "AUTH_skip": 5,
+    "fail_error": 0
+  },
+  "user_override_scope": "Material preparation only; does not change 1-do pass standard, AUTH or submission status",
+  "canonical": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/reconstructed-project",
+  "project_source_for_3_package": "Canonical minus .git, exactly project-files manifest; never growing workspace",
+  "technical_summary": {
+    "captured_utc": "2026-10-19T03:03:16.946054+00:00",
+    "thread_id": "01a14f55-5f14-7860-976f-10407965f444",
+    "manifest_count": 10029,
+    "manifest_sha256": "5ae3a07bf9a438352996379e8e84ff0375bad7186673059d1daa6d08f85d7405",
+    "patch_sha256": "37e5b0a0bdf8e4885cd93f5ddeffd89ea220ab2f911b34057273d5bd1be0955f",
+    "patch_bytes": 767891670,
+    "all_source_canonical_hashes_match": true,
+    "command_logs_verified": 30,
+    "clones_only_approved_two_commits": true,
+    "binary_count": 669,
+    "SQLite_independent_integrity_ok": 91,
+    "stable_nonempty_WAL_pairs": 5,
+    "filename_only_init_raw_excluded": 2,
+    "business827_HAP_original_test_protected": true,
+    "HEAD_staged_logical_unchanged": true,
+    "remaining": "Final prose/pending-fields/links/native exports check plus Root post-review5 session export still pending."
+  },
+  "binary_disposition": "669 conservative binary inventory entries verified, not actual Git binary-block count; broad prefix heuristic may include valid text",
+  "checks": [
+    {
+      "id": "SM01",
+      "name": "formal827/HAP/original6/HEAD/staged logical protection",
+      "status": "pass"
+    },
+    {
+      "id": "SM02",
+      "name": "scope,10029 source+canonical byte hashes,no extras",
+      "status": "pass"
+    },
+    {
+      "id": "SM03",
+      "name": "30 real command exits/stdout/stderr; two known-commit clone refs",
+      "status": "pass",
+      "complete_apply_repeated_in_this_audit": false
+    },
+    {
+      "id": "SM04",
+      "name": "669 binary inventory entries",
+      "status": "pass"
+    },
+    {
+      "id": "SM05",
+      "name": "91 independent SQLite audit copies/5 stable nonempty WAL pairs",
+      "status": "pass",
+      "original_or_canonical_SQLite_connections": 0
+    },
+    {
+      "id": "SM06",
+      "name": "106 log copies/16 bounded raw+MD exports",
+      "status": "pass"
+    },
+    {
+      "id": "SM07",
+      "name": "24 official fields/13 explicit missing fields/60 links(41 trace-index)",
+      "status": "pass"
+    },
+    {
+      "id": "SM08",
+      "name": "portable helper guard/output/module identity/skip exit2",
+      "status": "pass",
+      "type": "static only"
+    },
+    {
+      "id": "SM09",
+      "name": "post-review last5 material sessions export and supplemental audit",
+      "status": "not_run",
+      "owner": "Root after this role stops writing"
+    },
+    {
+      "id": "SM10",
+      "name": "real formal authenticated acceptance",
+      "status": "blocked"
+    },
+    {
+      "id": "SM11",
+      "name": "new-machine build/device execution,3-package ZIP/upload",
+      "status": "not_run"
+    }
+  ],
+  "user_pending_fields": [
+    "submit-input.human_edits",
+    "submit-input.known_issues",
+    "submit-input.extra_sources",
+    "submit-input.md_export_dir",
+    "team.version",
+    "team.contact",
+    "team.freeze_time",
+    "team.members[0].name",
+    "team.members[0].work",
+    "team.source_guard",
+    "team.submitted_tasks",
+    "team.attempted_not_submitted",
+    "team.zip_out"
+  ],
+  "scope_exceptions": [
+    ".git,dependency/build/cache/virtualenv/generated noise",
+    "live emulator images",
+    "empty SQLite WAL/SHM/temporary journals; retain five stopped nonempty WAL+DB pairs",
+    "two initialization raw files by UUID filename only, bodies not opened",
+    "self-referential final.diff/project-files/excluded-files",
+    "validation derived tools/results/temporary clones and audits",
+    "post-freeze traces/materials-final copied separately outside project"
+  ],
+  "scope_exceptions_explicit_not_hidden": true,
+  "remaining_record_gaps": [
+    "official same-task baseline log unavailable",
+    "first failed build precise pre-source fingerprint unavailable",
+    "independent complete old fixture-result JSON unavailable",
+    "historical IDE sidebar/client mapping incomplete",
+    "Comate index absent; actual Codex product disclosed",
+    "opaque encrypted fields not decrypted",
+    "external packaging privacy/human/source/freeze/team declarations pending"
+  ],
+  "version_rule": "main31 = 08/15 + 09/6 + 10/10; extra3 separate; repeated same11 source scenarios not22; fixture/state not formal AUTH or official score",
+  "history_preserved": {
+    "failed_patch_run": "20261019T023714.993699Z",
+    "old_fixture_fail_skip_retry": "preserved, never rewritten as pass"
+  },
+  "audit_tool_history": [
+    {
+      "script": "audit.py",
+      "exit_code": 1,
+      "cause": "review script assumed binary files/entries but actual schema items; previous byte/Git results preserved"
+    },
+    {
+      "script": "audit-resume.py",
+      "exit_code": 0,
+      "scope": "remaining binary/SQLite/protection checks without repeating full-byte pass"
+    },
+    {
+      "script": "materials-audit.py",
+      "exit_code": 0,
+      "scope": "logs/native/templates/pending/links/helper static"
+    },
+    {
+      "command": "supplemental print-only WAL total",
+      "exit_code": 1,
+      "cause": "copied_files row bytes field assumption; no material mutation or acceptance criterion affected"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "technical-summary.json",
+      "bytes": 833,
+      "sha256": "5b23b49ae0d85054e17c61eddf36dae97cec7e525f12eca59fc44789c4c669fc"
+    },
+    {
+      "path": "byte-parity.json",
+      "bytes": 5448548,
+      "sha256": "ed4bd06bb4a080490bc81a5dd6bad4d2328ae73eb2d0308af5eb5e4c88bbdf07"
+    },
+    {
+      "path": "git-command-evidence.json",
+      "bytes": 26849,
+      "sha256": "c14940945f1efd7b87e8ce64757dffaf7b77e55c2bb476b06f2a5f822d173dc6"
+    },
+    {
+      "path": "repository-guards.json",
+      "bytes": 1518,
+      "sha256": "981d3eb0891c56fc17bab906bffd0befa30822ba54c2e3643368ea73520e6aa1"
+    },
+    {
+      "path": "binary-summary.json",
+      "bytes": 146,
+      "sha256": "5ed84d1f0e231ebd1635b7bff7882982240dd276a805d431a7094f0036489b68"
+    },
+    {
+      "path": "sqlite-independent.json",
+      "bytes": 57576,
+      "sha256": "bc9c9c613f788f0400e9b3c10d20403aa056b111b4559ea147dd910b1f28c107"
+    },
+    {
+      "path": "logs-native-parity.json",
+      "bytes": 37722,
+      "sha256": "585f8640a46de332ed4b41c967c86eea51e67db4b76ff7d191c0ba3a7a851342"
+    },
+    {
+      "path": "materials-fields-links.json",
+      "bytes": 21211,
+      "sha256": "d4ecb820a3fd4b501cbf6b281fe0b22de39ed90816419bb610f1360e5c810cfc"
+    },
+    {
+      "path": "audit.py",
+      "bytes": 9913,
+      "sha256": "719b82c06899803c987ed1fb785286f7c6a35388f25b75887ff2351cd9add432"
+    },
+    {
+      "path": "audit-resume.py",
+      "bytes": 5502,
+      "sha256": "a90dc05c1c34465f93d3649f749968f88fbab0fa6457409f641b08d9be824d23"
+    },
+    {
+      "path": "materials-audit.py",
+      "bytes": 8159,
+      "sha256": "93d1edb908638c919e165040e3c10a37609b4977133f7b10665e50d2d40b6acf"
+    },
+    {
+      "path": "review.md",
+      "bytes": 8060,
+      "sha256": "16d177777db29d4302c54a2207f56bad6c96512a8a9d8b27817e98ff5b0995f6"
+    }
+  ],
+  "writes_scope": ".comate/submission-draft/validation/independent-final-01",
+  "source_canonical_original_DB_or_test_writes": false,
+  "root_next_step": "Export last five exact task sessions, validate derived raw/MD boundary and hashes, consolidate external materials-final-report; keep frozen project unchanged"
+}

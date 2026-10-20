@@ -1,0 +1,42 @@
+{
+  "source_db": "traces/boundary-completion/verification/runtime/fixture.sqlite",
+  "source_wal": "traces/boundary-completion/verification/runtime/fixture.sqlite-wal",
+  "audit_directory": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/sqlite-audit/073",
+  "started_at_utc": "2026-10-19T02:50:40.722421+00:00",
+  "SQLite_version": "3.45.1",
+  "operation": "Open disposable audit DB+WAL copy; PRAGMA integrity_check; close. No original DB/engineering-copy checkpoint or connection.",
+  "copied_files": [
+    {
+      "path": "traces/boundary-completion/verification/runtime/fixture.sqlite",
+      "audit_copy": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/sqlite-audit/073/fixture.sqlite",
+      "expected_sha256": "a98dd7255d5d005a94adee9d110095d242e0411955394362246e060a78daa66a",
+      "copy_sha256": "a98dd7255d5d005a94adee9d110095d242e0411955394362246e060a78daa66a",
+      "original_postcopy_sha256": "a98dd7255d5d005a94adee9d110095d242e0411955394362246e060a78daa66a",
+      "original_mtime_ns_before": 1792339823277783900,
+      "original_mtime_ns_after": 1792339823277783900,
+      "stable_and_equal": true
+    },
+    {
+      "path": "traces/boundary-completion/verification/runtime/fixture.sqlite-wal",
+      "audit_copy": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/sqlite-audit/073/fixture.sqlite-wal",
+      "expected_sha256": "eaa0589805b3607285efb93552085bc9be8f10c37d983a87665af33edf114694",
+      "copy_sha256": "eaa0589805b3607285efb93552085bc9be8f10c37d983a87665af33edf114694",
+      "original_postcopy_sha256": "eaa0589805b3607285efb93552085bc9be8f10c37d983a87665af33edf114694",
+      "original_mtime_ns_before": 1792340049631686200,
+      "original_mtime_ns_after": 1792340049631686200,
+      "stable_and_equal": true
+    }
+  ],
+  "journal_mode_on_audit_copy": [
+    [
+      "wal"
+    ]
+  ],
+  "integrity_check_rows": [
+    [
+      "ok"
+    ]
+  ],
+  "integrity_ok": true,
+  "finished_at_utc": "2026-10-19T02:50:40.769741+00:00"
+}

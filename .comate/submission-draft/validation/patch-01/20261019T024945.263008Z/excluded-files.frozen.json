@@ -1,0 +1,4527 @@
+{
+  "schema_version": 1,
+  "task_id": "cml-spec28",
+  "run_id": "20261019T024945.263008Z",
+  "candidate_exclusions": [
+    {
+      "path": ".comate/submission-draft/validation/business-frozen-before.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T023714.993699Z/commands.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T023714.993699Z/commands/001.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T023714.993699Z/commands/001.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T023714.993699Z/commands/001.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T023714.993699Z/commands/002.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T023714.993699Z/commands/002.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T023714.993699Z/commands/002.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T023714.993699Z/exception.txt",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T023714.993699Z/result.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/001.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/001.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/001.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/002.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/002.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/002.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/003.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/003.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/003.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/004.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/004.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/004.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/005.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/005.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/005.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/006.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/006.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/006.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/007.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/007.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/007.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/008.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/008.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/008.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/009.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/009.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/009.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/010.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/010.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/010.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/011.stderr",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/20261019T024945.263008Z/commands/011.stdout",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/execution-01.console.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/execution-01.exit.txt",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/result.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/tool-preparation-01/help.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/tool-preparation-01/static.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/tool-preparation-02/help.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/tool-preparation-02/prior-script-603e1514.py",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/patch-01/tool-preparation-02/static.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/submit-materials-wal-inventory-01.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/submit-materials-wal-strategy-review-01.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/submit-materials-wal-strategy-review-01.md",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": ".comate/submission-draft/validation/trace-link-layout-adaptation.json",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "explicit derived validation or post-freeze material traces"
+    },
+    {
+      "path": "hypium_tests/__pycache__/__init__.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "hypium_tests/__pycache__/test_address_workflow.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "test-harness/harness/__pycache__/__init__.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "test-harness/harness/__pycache__/device.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "test-harness/harness/__pycache__/env_check.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline.ini",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/Emulator.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/crash_server.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/faultlogger/sysfreeze-render_service-1003-20261018230407588.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.134.20261019-044204.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.135.20261019-044932.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.136.20261019-045659.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.137.20261019-050427.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.138.20261019-051157.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.139.20261019-051923.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.140.20261019-052648.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.141.20261019-053414.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.142.20261019-054144.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.143.20261019-054914.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.144.20261019-055629.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.145.20261019-060357.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.146.20261019-061121.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.147.20261019-061844.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.148.20261019-062618.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.149.20261019-063342.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.150.20261019-064113.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.151.20261019-064844.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.152.20261019-065613.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.153.20261019-070347.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.154.20261019-071114.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.155.20261019-071842.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.156.20261019-072605.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.157.20261019-073313.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.158.20261019-074024.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.159.20261019-074723.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.160.20261019-075451.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.161.20261019-080159.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.162.20261019-080925.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.163.20261019-081648.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.164.20261019-082400.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.165.20261019-083118.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.166.20261019-083849.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.167.20261019-084609.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.168.20261019-085338.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.169.20261019-090100.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.170.20261019-090830.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.171.20261019-091558.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.172.20261019-092323.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.173.20261019-093048.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.174.20261019-093812.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.175.20261019-094544.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.176.20261019-095311.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.177.20261019-100037.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.178.20261019-100754.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.179.20261019-101524.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.180.20261019-102253.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.181.20261019-103019.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.182.20261019-103741.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/hilog_tmp_2026-10-18T192945/hilog.183.20261019-104506.gz",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/kernel.1.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/kernel.2.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/kernel.3.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/kernel.4.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/kernel.5.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/kernel.6.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/kernel.7.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/kernel.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/memInfo.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/Log/qemu.log",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/cache.img",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/cache.img.qcow2",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/config.ini",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/hardware-qemu.ini",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/huawei-settings.cfg",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/sys_prod.img.qcow2",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/system.img.qcow2",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/userdata.img.qcow2",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/analysis/baseline-runtime/emulator-instances/CmlSpec28Baseline/vendor.img.qcow2",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "active emulator instance/live disk scope excluded without reading contents"
+    },
+    {
+      "path": "traces/boundary-completion/runner/hypium_tests/__pycache__/__init__.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "traces/boundary-completion/runner/hypium_tests/__pycache__/boundary_cases.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "traces/boundary-completion/runner/hypium_tests/__pycache__/boundary_support.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "traces/boundary-completion/server/host-protocol-20261018T142917068063Z/fixture.sqlite-shm",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "SQLite SHM/temporary journal sidecar; nonempty stopped WAL is handled separately with its main DB"
+    },
+    {
+      "path": "traces/boundary-completion/server/host-protocol-20261018T143018161367Z/fixture.sqlite-shm",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "SQLite SHM/temporary journal sidecar; nonempty stopped WAL is handled separately with its main DB"
+    },
+    {
+      "path": "traces/boundary-completion/server/host-protocol-20261018T143252356738Z/fixture.sqlite-shm",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "SQLite SHM/temporary journal sidecar; nonempty stopped WAL is handled separately with its main DB"
+    },
+    {
+      "path": "traces/boundary-completion/verification/final-cleanup-01/fixture-final.sqlite-shm",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "SQLite SHM/temporary journal sidecar; nonempty stopped WAL is handled separately with its main DB"
+    },
+    {
+      "path": "traces/boundary-completion/verification/final-cleanup-01/fixture-final.sqlite-wal",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "empty stopped SQLite WAL"
+    },
+    {
+      "path": "traces/boundary-completion/verification/runtime/fixture.sqlite-shm",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "SQLite SHM/temporary journal sidecar; nonempty stopped WAL is handled separately with its main DB"
+    },
+    {
+      "path": "traces/fixture-ui/evidence/fixture.sqlite-shm",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "SQLite SHM/temporary journal sidecar; nonempty stopped WAL is handled separately with its main DB"
+    },
+    {
+      "path": "traces/fixture-ui/runner/hypium_tests/__pycache__/__init__.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "traces/fixture-ui/runner/hypium_tests/__pycache__/fixture_support.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "traces/fixture-ui/runner/hypium_tests/__pycache__/test_fixture_integration.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "traces/fixture-ui/server/__pycache__/fixture_server.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "traces/native/20261018T112355Z-d688df6d/2026/10/15/rollout-2026-10-15T21-33-01-01a13fc4-2611-7761-a580-1283e0c70541.jsonl",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "shared initialization overview native raw: filename-only exclusion; body never read"
+    },
+    {
+      "path": "traces/native/20261018T114301Z-02ec28a1/2026/10/15/rollout-2026-10-15T21-33-01-01a13fc4-2611-7761-a580-1283e0c70541.jsonl",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "shared initialization overview native raw: filename-only exclusion; body never read"
+    },
+    {
+      "path": "workflow/verification/__pycache__/boundary-formal.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "workflow/verification/__pycache__/boundary-preflight.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "workflow/verification/__pycache__/boundary-report.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "workflow/verification/__pycache__/boundary-run.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": "workflow/verification/__pycache__/fixture-preflight.cpython-312.pyc",
+      "origins": [
+        "normal-untracked"
+      ],
+      "reason": "dependency/build/runtime cache or Git metadata component"
+    },
+    {
+      "path": ".hvigor",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/base/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/base/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/base/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/data/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/data/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/data/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/database/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/database/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/database/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/datastore/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/datastore/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/datastore/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/designsystem/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/designsystem/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/ibestui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/ibestui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/ibestui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/model/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/model/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/navigation/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/navigation/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/navigation/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/network/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/network/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/network/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/result/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/result/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/result/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/state/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/state/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/state/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/ui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/ui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/ui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/util/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "core/util/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "core/util/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "entry/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "entry/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/auth/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "feature/auth/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/auth/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/common/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "feature/common/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/common/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/cs/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "feature/cs/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/cs/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/feedback/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "feature/feedback/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/feedback/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/goods/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "feature/goods/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/goods/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/launch/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "feature/launch/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/launch/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/main/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "feature/main/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/main/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/market/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "feature/market/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/market/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/order/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "feature/order/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/order/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/user/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "feature/user/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "feature/user/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/.hvigor",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/base/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/base/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/base/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/data/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/data/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/data/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/database/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/database/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/database/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/datastore/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/datastore/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/datastore/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/designsystem/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/designsystem/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/ibestui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/ibestui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/ibestui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/model/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/model/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/navigation/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/navigation/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/navigation/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/network/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/network/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/network/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/result/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/result/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/result/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/state/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/state/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/state/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/ui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/ui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/ui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/util/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/util/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/core/util/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/entry/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/entry/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/auth/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/auth/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/auth/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/common/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/common/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/common/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/cs/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/cs/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/cs/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/feedback/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/feedback/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/feedback/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/goods/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/goods/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/goods/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/launch/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/launch/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/launch/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/main/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/main/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/main/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/market/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/market/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/market/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/order/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/order/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/order/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/user/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/user/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/feature/user/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r2/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/.hvigor",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/base/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/base/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/base/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/data/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/data/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/data/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/database/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/database/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/database/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/datastore/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/datastore/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/datastore/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/designsystem/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/designsystem/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/ibestui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/ibestui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/ibestui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/model/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/model/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/navigation/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/navigation/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/navigation/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/network/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/network/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/network/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/result/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/result/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/result/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/state/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/state/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/state/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/ui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/ui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/ui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/util/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/util/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/core/util/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/entry/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/entry/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/auth/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/auth/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/auth/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/common/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/common/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/common/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/cs/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/cs/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/cs/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/feedback/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/feedback/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/feedback/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/goods/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/goods/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/goods/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/launch/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/launch/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/launch/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/main/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/main/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/main/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/market/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/market/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/market/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/order/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/order/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/order/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/user/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/user/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/feature/user/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r3/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/.hvigor",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/base/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/base/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/base/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/data/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/data/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/data/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/database/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/database/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/database/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/datastore/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/datastore/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/datastore/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/designsystem/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/designsystem/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/ibestui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/ibestui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/ibestui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/model/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/model/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/navigation/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/navigation/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/navigation/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/network/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/network/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/network/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/result/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/result/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/result/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/state/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/state/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/state/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/ui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/ui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/ui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/util/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/util/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/core/util/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/entry/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/entry/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/auth/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/auth/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/auth/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/common/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/common/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/common/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/cs/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/cs/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/cs/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/feedback/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/feedback/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/feedback/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/goods/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/goods/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/goods/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/launch/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/launch/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/launch/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/main/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/main/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/main/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/market/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/market/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/market/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/order/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/order/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/order/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/user/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/user/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/feature/user/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r4/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/.hvigor",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/base/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/base/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/base/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/data/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/data/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/data/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/database/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/database/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/database/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/datastore/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/datastore/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/datastore/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/designsystem/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/designsystem/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/ibestui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/ibestui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/ibestui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/model/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/model/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/navigation/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/navigation/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/navigation/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/network/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/network/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/network/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/result/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/result/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/result/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/state/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/state/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/state/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/ui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/ui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/ui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/util/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/util/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/core/util/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/entry/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/entry/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/auth/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/auth/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/auth/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/common/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/common/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/common/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/cs/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/cs/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/cs/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/feedback/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/feedback/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/feedback/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/goods/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/goods/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/goods/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/launch/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/launch/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/launch/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/main/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/main/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/main/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/market/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/market/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/market/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/order/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/order/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/order/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/user/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/user/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/feature/user/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app-r5/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/.hvigor",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/base/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/base/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/base/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/data/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/data/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/data/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/database/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/database/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/database/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/datastore/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/datastore/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/datastore/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/designsystem/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/designsystem/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/ibestui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/ibestui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/ibestui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/model/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/model/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/navigation/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/navigation/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/navigation/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/network/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/network/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/network/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/result/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/result/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/result/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/state/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/state/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/state/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/ui/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/ui/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/ui/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/util/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/core/util/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/core/util/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/entry/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/entry/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/auth/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/auth/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/auth/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/common/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/common/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/common/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/cs/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/cs/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/cs/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/feedback/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/feedback/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/feedback/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/goods/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/goods/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/goods/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/launch/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/launch/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/launch/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/main/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/main/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/main/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/market/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/market/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/market/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/order/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/order/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/order/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/user/BuildProfile.ets",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; Git ignore rule",
+      "directory_prefix": false
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/user/build",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/feature/user/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    },
+    {
+      "path": "traces/fixture-ui/app/oh_modules",
+      "origins": [
+        "git-ignored-not-candidate"
+      ],
+      "reason": "not in normal-untracked candidate set; dependency/build/runtime cache or Git metadata component",
+      "directory_prefix": true
+    }
+  ],
+  "excluded_list_count": 580,
+  "filename_only_initialization_raw_count": 2,
+  "explicit_derived_files": [
+    ".comate/submission-draft/changes/excluded-files.json",
+    ".comate/submission-draft/changes/final.diff",
+    ".comate/submission-draft/changes/project-files.json"
+  ],
+  "explicit_derived_prefixes": [
+    ".comate/submission-draft/validation/",
+    ".comate/submission-draft/traces/materials-final/"
+  ],
+  "live_instance_prefix": "traces/analysis/baseline-runtime/emulator-instances/",
+  "cache_components": [
+    ".appanalyzer",
+    ".cache",
+    ".cxx",
+    ".git",
+    ".hvigor",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".test",
+    ".venv",
+    "__pycache__",
+    "build",
+    "caches",
+    "node_modules",
+    "oh_modules",
+    "venv"
+  ],
+  "ignored_scope_note": "Git-ignored directory prefixes are listed without reading/enumerating their contents; .git internal files are never project candidates.",
+  "preserved_scope_note": "Other included task logs, screenshots, archived HAPs, SQLite main DBs paired with nonempty stopped WAL evidence, specs/tests/workflow/traces and materials are frozen without pass/fail filtering. WAL stability is checked by pre/post hashes and mtime; temporary audit copies alone are opened by SQLite.",
+  "binary_manifest_disposition": "Generated before freeze and included as a normal text file; does not list itself as binary.",
+  "no_no-exceptions_claim": true
+}
