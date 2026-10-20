@@ -6,6 +6,8 @@ import { CommonIcon } from "../icon/CommonIcon";
  */
 @ComponentV2
 export struct AddressActionButton {
+  @Param actionId: string = "";
+  @Param actionLabel: string = "";
   /**
    * 点击回调
    */
@@ -57,6 +59,9 @@ export struct AddressActionButton {
     .borderRadius(this.buttonSize / 2)
     .justifyContent(FlexAlign.Center)
     .alignItems(VerticalAlign.Center)
+    .id(this.actionId)
+    .accessibilityText(this.actionLabel)
+    .hitTestBehavior(HitTestMode.Block)
     .onClick((): void => this.onTap());
   }
 }

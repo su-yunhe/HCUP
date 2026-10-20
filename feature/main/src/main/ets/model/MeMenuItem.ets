@@ -3,6 +3,7 @@
  * @author Joker.X
  */
 export interface MeMenuItem {
+  automationId?: string;
   /**
    * 菜单标题
    */

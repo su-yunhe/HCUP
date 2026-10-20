@@ -103,8 +103,7 @@ function logResponse(response: AxiosResponse): void {
 function logResponseError(error: AxiosError): void {
   const config: InternalAxiosRequestConfig | undefined = error.config as InternalAxiosRequestConfig | undefined;
   const response: AxiosResponse | undefined = error.response as AxiosResponse | undefined;
-  const url: string = response ? buildRequestUrl(response.config as InternalAxiosRequestConfig)
-    : (config ? buildRequestUrl(config) : "unknown");
+  const url: string = buildRequestUrl(response?.config ?? config);
   const status: string = response?.status !== undefined ? String(response.status) : "UNKNOWN";
   const data: string = response ? safeStringify(response.data as Unknown, true) : "";
   const message: string = error.message || "unknown";
@@ -131,7 +130,10 @@ function normalizeMethod(method?: string): string {
  * @param {InternalAxiosRequestConfig} config - 请求配置
  * @returns {string} 拼接后的请求地址
  */
-function buildRequestUrl(config: InternalAxiosRequestConfig): string {
+function buildRequestUrl(config?: InternalAxiosRequestConfig | null): string {
+  if (!config) {
+    return "unknown";
+  }
   const baseUrl: string = config.baseURL ?? "";
   const url: string = config.url ?? "";
   if (url.startsWith("http://") || url.startsWith("https://")) {

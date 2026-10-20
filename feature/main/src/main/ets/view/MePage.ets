@@ -467,6 +467,14 @@ export struct MePage {
       outerMargin: 0
     }) {
       ForEach(menus, (item: MeMenuItem): void => {
+        if (item.automationId) {
+          Row({ space: 12 }) {
+            CommonIcon({ icon: item.icon, tintColor: item.iconColor, iconSize: 24 });
+            Text(item.title).fontSize(16).fontColor($r("app.color.text_primary")).layoutWeight(1);
+            ArrowRightIcon();
+          }.width("100%").padding($r("app.float.space_padding_large"))
+            .id(item.automationId).onClick((): void => item.onClick());
+        } else {
         IBestCell({
           leftIcon: item.icon,
           leftIconColor: item.iconColor,
@@ -477,6 +485,7 @@ export struct MePage {
           cellPadding: $r("app.float.space_padding_large"),
           onCellClick: (): void => item.onClick()
         });
+        }
       }, (_: MeMenuItem, index: number): string => `${index}`);
     }
   }

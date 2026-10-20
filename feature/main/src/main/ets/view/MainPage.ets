@@ -95,7 +95,7 @@ export struct MainPage {
    */
   @Builder
   private tabBarItem(index: number) {
-    ColumnCenter() {
+    Column() {
       Lottie({
         loop: false,
         autoPlay: this.vm.currentPageIndex === index,
@@ -121,6 +121,7 @@ export struct MainPage {
           $r("app.color.primary") :
           $r("app.color.text_subtitle"))
         .textAlign(TextAlign.Center);
-    };
+    }.alignItems(HorizontalAlign.Center).justifyContent(FlexAlign.Center)
+      .id(index === 3 ? "main_me_tab" : index === 2 ? "main_cart_tab" : `main_tab_${index}`);
   }
 }

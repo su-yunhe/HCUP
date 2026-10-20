@@ -38,6 +38,7 @@ export {
 } from "./src/main/ets/order/OrderParam";
 
 export { UserAddressDetailParam, UserAddressListParam } from "./src/main/ets/user/UserParam";
+export { AddressSaveOperation, UserAddressSaveResult, UserAddressSelectionResult } from "./src/main/ets/user/UserParam";
 
 export { LaunchGuideParam } from "./src/main/ets/launch/LaunchParam";
 

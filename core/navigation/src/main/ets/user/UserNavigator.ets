@@ -1,12 +1,28 @@
-import { navigateTo } from "../NavigationService";
+import { navigateTo, navigateToForResult } from "../NavigationService";
 import { UserRoutes } from "./UserRoutes";
-import { UserAddressDetailParam, UserAddressListParam } from "./UserParam";
+import { UserAddressDetailParam, UserAddressListParam, UserAddressSaveResult, UserAddressSelectionResult } from "./UserParam";
 
 /**
  * @file 用户模块导航封装
  * @author Joker.X
  */
 export class UserNavigator {
+  static selectAddress(): Promise<UserAddressSelectionResult | undefined> {
+    const params: UserAddressListParam = { isSelectMode: true };
+    return navigateToForResult<UserAddressSelectionResult>(UserRoutes.AddressList, params);
+  }
+
+  static editAddress(id: number): Promise<UserAddressSaveResult | undefined> {
+    const params: UserAddressDetailParam = { isEditMode: true, addressId: id };
+    return navigateToForResult<UserAddressSaveResult>(UserRoutes.AddressDetail, params);
+  }
+
+  static addAddress(knownAddressIds: number[], hasCompleteAddressSnapshot: boolean): Promise<UserAddressSaveResult | undefined> {
+    const params: UserAddressDetailParam = {
+      isEditMode: false, addressId: 0, knownAddressIds, hasCompleteAddressSnapshot
+    };
+    return navigateToForResult<UserAddressSaveResult>(UserRoutes.AddressDetail, params);
+  }
   /**
    * 跳转到个人中心
    * @returns {void} 无返回值

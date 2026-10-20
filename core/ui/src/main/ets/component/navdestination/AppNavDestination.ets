@@ -7,6 +7,8 @@ import { getWindowSafeAreaState, WindowSafeAreaState } from "state";
  */
 @ComponentV2
 export struct AppNavDestination {
+  @Param
+  onBackPressed: () => boolean = (): boolean => false;
   /**
    * 传入的视图模型实例（必传）
    */
@@ -126,6 +128,7 @@ export struct AppNavDestination {
       }
     }
     .title(this.title, this.titleOptions)
+    .onBackPressed((): boolean => this.onBackPressed())
     .hideTitleBar(this.hideTitleBar)
     .menus(this.menus, this.menuOptions)
     .onShown((reason: VisibilityChangeReason) => {

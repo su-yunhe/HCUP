@@ -8,6 +8,7 @@ import {
   CsNavigator,
   FeedbackNavigator,
   MarketNavigator,
+  getNavPathStack,
   UserNavigator
 } from "navigation";
 import { MeMenuItem } from "../model/MeMenuItem";
@@ -18,6 +19,7 @@ import { MeMenuItem } from "../model/MeMenuItem";
  */
 @ObservedV2
 export default class MeViewModel extends BaseViewModel {
+  private addressNavigationBusy: boolean = false;
   /**
    * 全局用户状态
    */
@@ -49,9 +51,10 @@ export default class MeViewModel extends BaseViewModel {
     },
     {
       title: $r("app.string.shipping_address"),
+      automationId: "me_address_entry",
       icon: $r("app.media.ic_location_fill"),
       iconColor: $r("app.color.main_address_icon"),
-      onClick: (): void => UserNavigator.toAddressList(),
+      onClick: (): void => this.openAddresses(),
       showDivider: true
     },
     {
@@ -95,6 +98,26 @@ export default class MeViewModel extends BaseViewModel {
    */
   aboutToAppear(): void {
     this.userState.refreshUserInfo();
+  }
+
+  private openAddresses(): void {
+    if (this.addressNavigationBusy) {
+      return;
+    }
+    const names: string[] = getNavPathStack()?.getAllPathName() ?? [];
+    const current: string = names[names.length - 1] ?? "";
+    if (names.length > 0 && current !== "main/main" && current !== "main/me") {
+      return;
+    }
+    this.addressNavigationBusy = true;
+    UserNavigator.toAddressList();
+    setTimeout((): void => {
+      this.addressNavigationBusy = false;
+    }, 0);
+  }
+
+  onShown(reason: VisibilityChangeReason): void {
+    this.addressNavigationBusy = false;
   }
 
   /**
